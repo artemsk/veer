@@ -26,6 +26,6 @@ return array(
 	|
 	*/
 
-	'email' => 'artemskiy@gmail.com',
+	'email' => 'garcia82@yandex.ru',
 
 );

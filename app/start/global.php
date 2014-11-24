@@ -16,8 +16,9 @@ ClassLoader::addDirectories(array(
 	app_path().'/commands',
 	app_path().'/controllers',
 	app_path().'/models',
-	app_path().'/database/seeds',
-
+	app_path().'/database',
+        app_path().'/lib',
+    
 ));
 
 /*
@@ -31,7 +32,8 @@ ClassLoader::addDirectories(array(
 |
 */
 
-Log::useFiles(storage_path().'/logs/laravel.log');
+//Log::useFiles(storage_path().'/logs/veer.log');
+Log::useDailyFiles(storage_path().'/logs/veer.log');
 
 /*
 |--------------------------------------------------------------------------

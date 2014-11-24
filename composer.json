@@ -4,7 +4,7 @@
     },
 	"autoload": {
 		"classmap": [
-			"app/db",
+			"app/database",
 			"app/controllers",
 			"app/models",
 			"app/lib"
