@@ -1,7 +1,6 @@
 compiled.php
 /vendor/*
 !vendor/laravel
-/old_e/upload
 composer.phar
 composer.lock
 .env.local.php
