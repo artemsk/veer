@@ -1,0 +1,8 @@
+AddDefaultCharset utf-8
+Options +FollowSymLinks
+
+RewriteEngine On
+# Redirect requests to index.php
+RewriteCond %{REQUEST_URI} !=/index.php
+RewriteCond %{REQUEST_URI} !(assets|app|vendor) [NC]
+RewriteRule .* index.php
