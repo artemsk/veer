@@ -1,0 +1,4 @@
+<body>
+    {CONTAINER}
+</body>
+</html>
