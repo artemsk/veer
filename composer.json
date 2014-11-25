@@ -8,6 +8,9 @@
 			"app/controllers",
 			"app/models",
 			"app/lib"
-		]
+		],
+		"files": [
+            "app/lib/helpers.php"
+        ]
 	}
 }
