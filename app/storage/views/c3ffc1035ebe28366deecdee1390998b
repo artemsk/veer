@@ -44,8 +44,7 @@
                       <span class="footer-block">Еще какой-то текст</span>
                       <br/><br/>
 
-                      <span class="footer-block">Veer <?php echo $app['veer']->version; ?> (q. <?php echo $app['veer']->queries; ?> l. <?php echo $app['veer']->loading; ?> m. 
-                          <?php echo $app['veer']->memory; ?>)</span>
+                      <span class="footer-block">Veer <?php echo $app['veer']->statistics['version']; ?> (q. <?php echo $app['veer']->statistics['queries']; ?> l. <?php echo $app['veer']->statistics['loading']; ?> m. <?php echo $app['veer']->statistics['memory']; ?>)</span>
   
                   </div>
                   <div class="col-sm-4">

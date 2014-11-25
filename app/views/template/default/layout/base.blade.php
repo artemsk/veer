@@ -44,8 +44,7 @@
                       <span class="footer-block">Еще какой-то текст</span>
                       <br/><br/>
 
-                      <span class="footer-block">Veer {{ $app['veer']->version }} (q. {{ $app['veer']->queries }} l. {{ $app['veer']->loading }} m. 
-                          {{ $app['veer']->memory }})</span>
+                      <span class="footer-block">Veer {{ $app['veer']->statistics['version'] }} (q. {{ $app['veer']->statistics['queries'] }} l. {{ $app['veer']->statistics['loading'] }} m. {{ $app['veer']->statistics['memory'] }})</span>
   
                   </div>
                   <div class="col-sm-4">
