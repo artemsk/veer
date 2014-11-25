@@ -1,24 +1,19 @@
 <?php
 
-//$app['router']->get('/', function() {
-    // Because 'Hello, World!' is too mainstream
-//    return 'Are you looking for me ?';
-//});
-/*
-Illuminate\Support\Facades\Route::get('/', function() {
-    // Because 'Hello, World!' is too mainstream
-    return 'Are you looking for me ?';
-});
-
-$app['router']->get('/catalog/1', function() {
-    // Because 'Hello, World!' is too mainstream
-    return 'Are you looking for me 2 ?';
-});
- * "/page/","/catalog/","/client/","/order/","/attr/","/keyword/","/search/","/product/","/user/","/code/ext/","/adm/","/filter/"
+/* "/code/ext/",
  * + sort, sort_directons, + more_pages
  */
 
-Route::any('{all}', function($uri)
-{
-  return 'Are you looking for me ?';
-})->where('all', '.*');
+Route::get('/404',array('uses' => 'IndexController@show404', 'as' => '404'));
+Route::resource('/', 'IndexController', array('only' => array('index')));
+Route::resource('category', 'CategoryController');
+Route::resource('tag', 'TagController');
+Route::resource('attribute', 'AttributeController');
+Route::resource('image', 'ImageController');
+Route::resource('product', 'ProductController');
+Route::resource('page', 'PageController');
+Route::resource('search', 'SearchController');
+Route::resource('filter', 'FilterController');
+Route::resource('user', 'UserController');
+Route::resource('order', 'OrderController');
+Route::resource('admin', 'AdminController');

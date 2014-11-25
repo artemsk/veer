@@ -80,7 +80,12 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
     
     return Response::make('Error: URL Not Found', 404);
 });
-    
+
+App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception)
+{    
+    return Redirect::route('404');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler
@@ -109,8 +114,13 @@ App::down(function()
 |
 */
 
-$veerSite = new \Veer\Lib\VeerApp;
-     
+    if ($app->runningInConsole()) {
+
+    } else 
+    {
+        $veerSite = new \Veer\Lib\VeerApp;
+    }
+
 /*
 |--------------------------------------------------------------------------
 | Require The Filters File

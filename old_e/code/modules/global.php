@@ -34,29 +34,6 @@ function callme($fn="",$ln="",$ph="",$ret="str") { Debug::log();
     }
 ///////////////
 
-function navigation ($url_detect) { Debug::log(); 
-    switch($url_detect) {
-        case "/page/": return (MAINURL_5."/code/pages_/prepare_page.php"); break; //+
-        case "/pageall/": return (MAINURL_5."/code/pages_/prepare_page_all.php"); break; // +
-        case "/catalog/": return (MAINURL_5."/code/pages_/prepare_cats.php"); break; // +
-        case "/attr/": return (MAINURL_5."/code/pages_/prepare_attrs.php"); break; // +
-        case "/keyword/": return (MAINURL_5."/code/pages_/prepare_keywords.php"); break; //+
-        case "/search/": return (MAINURL_5."/code/pages_/prepare_srch.php"); break; //+
-        case "/product/": return (MAINURL_5."/code/pages_/prepare_product.php"); break; //+
-        case "/user/": return(MAINURL_5."/code/pages_/prepare_user.php"); break; //+
-        case "/code/ext/": return(MAINURL_5."/code/pages_/prepare_ajax.php"); break; //+
-        case "/adm/": return(MAINURL_5."/code/pages_/prepare_adm.php"); break; //+
-        case "/filter/": return(MAINURL_5."/code/pages_/prepare_filter.php"); break; //+
-
-        case "head_prepare": return(MAINURL_5."/code/duck_head.php"); break; //+
-        case "body_prepare": return(MAINURL_5."/code/some_body.php"); break; //+
-    }
-    return(MAINURL_5."/code/pages_/".substr($url_detect,1,-1).".php");
-    }
-///////////////////////////////////////////////
-    ///////////////////////////////////////////
-    ///////////////////////////////////////////
-
 function cats_up($shop_cat=SHOP_NNN) { // ������ �� ��������
     Debug::log(); 
     $temp_nnn=$shop_cat;

@@ -1,5 +1,7 @@
 <?php
-
+            $body_filename=MAINURL_5."/template/".TEMPLATE."/body_all.php";
+            $body_filename=MAINURL_5."/template/".TEMPLATE."/body_index.php";
+            
  $basket_l="<a href=\"".MAINURL."/user/basket\">"; $basket_l2="</a>";
  if(@$_SESSION['customers_basket_num']<=0) { @$_SESSION['customers_basket_num']=0; $basket_l=""; $basket_l2=""; }
 
