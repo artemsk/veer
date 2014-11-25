@@ -13,19 +13,34 @@
 
 App::before(function($request)
 {
-
+        //
 });
 
 
 App::after(function($request, $response)
 {
-	//
+        //
 });
 
 
 App::shutdown(function($request) 
 {
-     
+        // TODO: temporary logs
+        $queries = DB::getQueryLog();
+        echo "<br/>".number_format(memory_get_usage())."<br>";
+        echo "<pre>";
+        print_r($queries);
+        echo "</pre>";
+        $veerTimer = round(microtime(true)-LARAVEL_START,4);
+        echo $veerTimer."<br>";
+        if($veerTimer > Config::get('veer.loadingtime')) { // max loading time notify
+            echo "?<br>";
+        }
+        // TODO: notify on slowness
+        // TODO: save cache html
+        // TODO: clear unused old cache (queue?) - thumbs, stats, htmls, ips
+        // TODO: save referals
+
 });
     
 
