@@ -22,10 +22,10 @@ if($url_val == SHOP_NNN && $url == "") { $chosen_filters['cat'] = ""; } else {
     
 } 
 
-if(!is_array($filt)) { $filt = new filters(); }
+if(!is_array(@$filt)) { $filt = new filters(); }
 $filt2 = $filt->gather($used_filters['catalog'], @$used_filters['attrs']);
 
-if(!is_array($cats)) { $cats=new categories(); }
+if(!is_array(@$cats)) { $cats=new categories(); }
 $look=$cats->gather(SHOP_NNN, 'full'); // $look['podrazdel']['nnn']
 
     $url_parse2 = $url_parse;
@@ -47,7 +47,7 @@ foreach($look2[1] as $k => $v) {
     if($key == $used_filters['catalog']) { $out['{FILTER_CATS_FIRST}'] = "<span class=\"filtered-menu-element\">".$v."</span>"; }
     }}}
     
-if(count($used_filters['attrs']) == 1) {
+if(count(@$used_filters['attrs']) == 1) {
     foreach($used_filters['attrs'] as $k => $v) { $only_attrib = $v; break; }
 }
     
@@ -58,7 +58,7 @@ $attrs_manuf = $attrs->gather("производитель");
     $url_parse2 = $url_parse;
     unset($url_parse2[1], $url_parse2[0]);
     
-    if($url_parse[0] == "") { $url_parse[0] = 0; }
+    if(@$url_parse[0] == "") { @$url_parse[0] = 0; }
     
 $out['{FILTER_MANUF}'] = "<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"".MAINURL."/filter/".$url_parse[0]."_all_".@implode("_",$url_parse2)."\" class=\"drdw-lnk\">".$out['{FILTER_MANUF_FIRST}']."</a></li>";
 
@@ -90,7 +90,7 @@ foreach($attrs_tree['all'] as $k => $v) {
          unset($url_parse2[1], $url_parse2[0]);
          //unset($url_parse2[$additional_attrs]);         
         if($url_parse[0] == "") { $url_parse[0] = 0; }
-        if($url_parse[1] == "") { $url_parse[1] = "all"; }
+        if(@$url_parse[1] == "") { @$url_parse[1] = "all"; }
         
         $out['{FILTER_ATTR_'.$additional_attrs.'}'] = "<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"".MAINURL."/filter/".$url_parse[0]."_".$url_parse[1]."_";
         $str = ""; $str_before = ""; $str_after = "";
@@ -160,7 +160,7 @@ if(is_array($filt2['products'])) {
     
 } else {   
     
-    if($used_filters['catalog'] == SHOP_NNN && !is_array($used_filters['attrs'])) {
+    if(@$used_filters['catalog'] == SHOP_NNN && !is_array(@$used_filters['attrs'])) {
         if (file_exists(MAINURL_5 . "/code/bloki/_cs_chosenproducts.php")) {
                     require(MAINURL_5 . "/code/bloki/_cs_chosenproducts.php");
         }

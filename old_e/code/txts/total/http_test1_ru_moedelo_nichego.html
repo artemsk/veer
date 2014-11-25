@@ -1,0 +1,294 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<title>Ничего лишнего - Ничего лишнего - только самое важное в самом доступном виде</title>
+<meta name="keywords" content="барахолка, магазин, интернет-магазин, йога, аюрведа, соковыжималка, аквадиск" />
+<meta name="description" content="Ничего лишнего - только самое важное в самом доступном виде" />
+<link rel='stylesheet' type='text/css' href='http://test1.ru/moedelo/nichego/template/1i4/css.css' />
+<!--[if IE]>
+<link rel='stylesheet' type='text/css' href='http://test1.ru/moedelo/nichego/template/1i4/css_ie.css' />
+<![endif]-->
+<!--<link rel="search" href="" title="" type="application/opensearchdescription+xml" />-->
+<link rel="shortcut icon" href="http://test1.ru/moedelo/nichego/template/1i4/images/favicon.ico" />
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+	!window.jQuery && document.write('<script src="http://test1.ru/moedelo/nichego/code/ext/fancybox/jquery-1.4.3.min.js"><\/script>');
+</script>
+<script type="text/javascript">
+        function show(elementname)
+        {
+            document.getElementById(elementname).style.display='block';
+        }
+
+        function hide(elementname)
+        {
+            document.getElementById(elementname).style.display='none';
+        }
+
+        function clearText(thefield){
+            if (thefield.defaultValue==thefield.value)
+                thefield.value = ""
+        }
+
+    function jumpToAnchor() {
+   window.location = String(window.location).replace(/\#.*$/, "") + "#catlist";
+}
+
+    $.ajaxSetup ({ cache: false });
+    $("#catcontent").ready(function() {
+        $('.nav').click(function(){
+            var base = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+            var base2=$(this).attr('href');
+            base2=base2.replace(base,'');
+            var toLoad = 'http://test1.ru/moedelo/nichego/code/ext/htmlload/10000_'+base2;
+            //window.location.hash = 'c'+$(this).attr('href').substr(0,$(this).attr('href').length-5);
+             window.location.hash = '#catlist';   
+            $("#catcontent").hide('fast', function() {
+            $("#catcontent").html('<img src="http://test1.ru/moedelo/nichego/template/1i4/images/loader.gif" />');
+            $('#catcontent').show();
+            $("#catcontent").load(toLoad,'', function() {
+                $('#catcontent').show('fast');
+            });
+            });
+            return false;
+        });
+    });
+    $(".callme_nav").ready(function() {
+        $('.callme_nav').click(function(){
+            var base = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+            var base2=$(this).attr('href');
+            base2=base2.replace(base,'');
+            var toLoad = 'http://test1.ru/moedelo/nichego/code/ext/callme/'+base2;
+            $("#callme_content").load(toLoad,'', function() {
+                $('#callme_content').show('fast');
+            });
+            return false;
+        });
+    });
+
+        $(document).ready(function resizewin() {
+            var	QtySize = 145;
+            var	QtyrMarg = 444;
+
+            var QtyrMarg2 = $(window).width();
+            if(QtyrMarg2>'1024') { var QtyrMarg2='1024'; }
+
+            var	Qtyrwidth = Math.floor(QtyrMarg2- QtyrMarg);
+
+            var Qty2NewSize = ((parseInt(Qtyrwidth / 4))-35);
+            var imageWidth=$(".products_in_list").width();
+            var NewSize=Qty2NewSize;
+            if(Qty2NewSize>=imageWidth) { var NewSize = imageWidth; }
+            if(Qty2NewSize<90) { var NewSize = 90; }
+            $(".products_in_list").width(NewSize);
+            $(".groups_in_list_one").width(NewSize);
+            if(Qty2NewSize<110) { $(".groups_in_list").width(245); }
+            var Qty2New=parseInt(Qtyrwidth / (NewSize+35));
+            for(I=5;I>Qty2New;I--) {
+                $(".pinline"+I).hide();
+                }
+            if(QtyrMarg2<=910) {
+                $("#login_top").width(QtyrMarg2/15);
+                $("#pssw_top").width(QtyrMarg2/15);
+                }
+        });
+
+    $(function() {
+        $('.show_more_lnk').live("click",function() {
+            var ID = $(this).attr("id").substr(2);
+            if(ID) { 
+                $("#show_more_next_"+ID).html('<img src="http://test1.ru/moedelo/nichego/template/1i4/images/loader.gif" />');
+                $.ajax({
+                    type: "POST",
+                    url: "http://test1.ru/moedelo/nichego/sort///more/"+ID,
+                    success: function(html){
+                        $("#show_more_prds_content").append(html);
+                        $("#show_more_next_"+ID).remove(); // removing old more button
+                    }
+                });
+            } else {
+
+            }
+
+            return false;
+        });
+    });
+
+    $(document).ready(function () {
+           var blokheight = $('#bigpic_nazv').height();
+           var blok2height = $('.big_price').height(); var changeflag=0; var blokheight_diff=0;
+           var blok2height_diff=0;
+           if(blokheight>66) { blokheight_diff=blokheight-66; changeflag=1; }
+           if(blok2height>22) { blok2height_diff=blok2height-22; changeflag=1; }
+           if(changeflag>0) { var heightsumm=220+blokheight_diff+blok2height_diff;
+                  $('#bigpic_img').css('height',(100-(heightsumm-220)));
+                }
+        });
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-44996274-1']);
+  _gaq.push(['_setDomainName', 'koalalab.ru']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head><body><div class="body_div" style="margin: 0px auto; width:100%; max-width:1024px; width:expression(document.body.clientWidth > 1024? '1024px': '100%' );">
+
+<!-- top blok -->
+<div class="top_blok" style="width:100%; max-width:1024px; width:expression(document.body.clientWidth > 1024? '1024px': '100%' );">
+<div class="up_notify_blank"></div>
+</div>
+
+<div class="everything_else">
+
+<!-- left column -->
+<div class="header_logo" style="clear:left;float:left;"><a href="http://test1.ru/moedelo/nichego">Ничего лишнего</a>
+    <div style="margin-top:30px;text-align:center;"><form action="/moedelo/nichego/user/done/" method="post"><input type='text' name='search_q' style='width:150px;padding:2px 2px 2px 2px;' id='searchf' onClick='clearText(searchf)'  value='аквадиск'> <input type='hidden' name='referer_url'  value='/moedelo/nichego/'> <input type='hidden' name='referer_host'  value='test1.ru'> <input type='submit' name='search_send'  value='&nbsp;&rarr;&nbsp;'> </form></div>
+    <span id="catlist"> </span>
+    <div class="cat_list"><div id="catcontent"><div class="div_cat_level_2"><div class='cat_level_yes'><div class='cat_level' style='float:left;'>&rarr;</div><a href="http://test1.ru/moedelo/nichego/catalog/10013">test</a><br></div><div class='cat_level_yes'><div class='cat_level' style='float:left;'>&rarr;</div><a href="http://test1.ru/moedelo/nichego/catalog/10009">Свалка</a><br></div></div></div></div>
+    <div class="keyword_list"><span class="keyword_title">Тэги</span>
+                <p style="margin:5px 0 0 0;padding:0;"></p> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/11><span style='font-size:1em;'>йога</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/2><span style='font-size:0.81em;'>аюрведа</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/880><span style='font-size:0.74em;'>коврик для йоги</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/15><span style='font-size:0.6em;'>медитация</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/188><span style='font-size:0.6em;'>натуральная косметика</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/2246><span style='font-size:0.6em;'>проростки</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/4422><span style='font-size:0.6em;'>ОШО</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/4424><span style='font-size:0.6em;'>учителя</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/899><span style='font-size:0.6em;'>йога мат</span></a> &nbsp;<a href=http://test1.ru/moedelo/nichego/keyword/7559><span style='font-size:0.6em;'>КФС Кольцова</span></a>
+                <span class="keyword_title">&rarr; <a href="http://test1.ru/moedelo/nichego/keyword/all">все тэги</a></span></div>
+    <div class="attr_list"></div>
+    <div class="attr_list"></div>
+    <div class="last_articles"></div>
+    <div class="popular_cats"></div>
+    
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- тестовый блок -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-5386723531023856"
+     data-ad-slot="4786179373"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<!-- container -->
+<div class="container">
+
+<!-- main -->
+<span id="container_site"><div style="clear:right;"></div>
+
+<div style="width:173px; float:right; margin-left:0px; overflow:hidden; margin:0; padding-top:15px;">
+    
+    <div class="googlenews"></div>
+    </div>
+
+<div class="chosen_products"></div>
+
+<div class="recomendations_products"><div class="recomendations_name">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</div>
+<div class="products_in_list"><div class="pinline1"><div class="special_img" style="background-image:url(http://test1.ru/moedelo/nichego/template/1i4/images/special.png);">лучшее</div>
+<div class="products_in_list_img" style="border-left:2px #ffff00 solid; padding-left:5px;"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/158><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/158_0.jpg&h=100'></a></div><p></p>
+<a title='Аквадиск бытовой с кувшином' href='http://test1.ru/moedelo/nichego/product/158'>Аквадиск бытовой с кувшином</a><p></p>
+<span class="products_in_list_price">3,700&nbsp;<span class="rur">p.</span></span><p></p>
+<form action="/moedelo/nichego/user/done/" method="post"><input type='hidden' name='prd_id'  value='158'><input type='hidden' name='referer_url'  value='/moedelo/nichego/'><input type='hidden' name='referer_host'  value='test1.ru'><input type='hidden' name='attrs_descr'  value='N;'><input type="image" title='в корзину' name=add2cart value='в корзину' src='http://test1.ru/moedelo/nichego/template/1i4/images/basket.png'></form>
+</div></div>
+<div class="products_in_list"><div class="pinline2">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/27><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/27_0.jpg&h=100'></a></div><p></p>
+<a title='Хна индийская для волос, ААША Хербалс (AASHA), 80 г' href='http://test1.ru/moedelo/nichego/product/27'>Хна индийская для волос, ААША Хербалс (AASHA), 80 г</a><p></p>
+<span class="products_in_list_price"></span><p></p>
+
+</div></div>
+<div class="products_in_list"><div class="pinline3">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/26><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/26_0.jpg&h=100'></a></div><p></p>
+<a title='Аюрведическая лечебная краска для волос, Цвет - Горький шоколад, ААША Хербалс, 100 г ' href='http://test1.ru/moedelo/nichego/product/26'>Аюрведическая лечебная краска для волос, Цвет - Горький...</a><p></p>
+<span class="products_in_list_price"></span><p></p>
+
+</div></div>
+<div class="products_in_list"><div class="pinline4">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/29><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/29_0.jpg&h=100'></a></div><p></p>
+<a title='Травяная краска для волос на основе индийской хны, Цвет - каштан, ААША Хербалс, 60 г' href='http://test1.ru/moedelo/nichego/product/29'>Травяная краска для волос на основе индийской хны, Цвет...</a><p></p>
+<span class="products_in_list_price"></span><p></p>
+
+</div></div>
+<div class='products_line'></div><div class="products_in_list"><div class="pinline1">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/90><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/90_0.gif&h=100'></a></div><p></p>
+<a title='Бальзам "СТРОНГ х 2" успокаивающий и расслабляющий, VEDA Vedica, 10 г' href='http://test1.ru/moedelo/nichego/product/90'>Бальзам "СТРОНГ х 2" успокаивающий и расслабляющий, VED...</a><p></p>
+<span class="products_in_list_price"></span><p></p>
+
+</div></div>
+<div class="products_in_list"><div class="pinline2">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/430><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/430_0.jpg&h=100'></a></div><p></p>
+<a title='Аюрведический ингалятор "Nirdosh" (Нирдош) в виде сигарет' href='http://test1.ru/moedelo/nichego/product/430'>Аюрведический ингалятор "Nirdosh" (Нирдош) в виде сигар...</a><p></p>
+<span class="products_in_list_price"></span><p></p>
+
+</div></div>
+
+<div class="products_in_list"><div class="pinline3"><div class="special_img" style="background-image:url(http://test1.ru/moedelo/nichego/template/1i4/images/special.png);">лучшее</div>
+<div class="products_in_list_img" style="border-left:2px #ffff00 solid; padding-left:5px;"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/670><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/670_0.jpg&h=100'></a></div><p></p>
+<a title='Электроактиватор Воды АП-1 (исполнение 2 с индикатором)' href='http://test1.ru/moedelo/nichego/product/670'>Электроактиватор Воды АП-1 (...</a><p></p>
+<span class="products_in_list_price">2,699&nbsp;<span class="rur">p.</span></span><p></p>
+<form action="/moedelo/nichego/user/done/" method="post"><input type='hidden' name='prd_id'  value='670'><input type='hidden' name='referer_url'  value='/moedelo/nichego/'><input type='hidden' name='referer_host'  value='test1.ru'><input type='hidden' name='attrs_descr'  value='N;'><input type="image" title='в корзину' name=add2cart value='в корзину' src='http://test1.ru/moedelo/nichego/template/1i4/images/basket.png'></form>
+</div></div>
+<div class="products_in_list"><div class="pinline4">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/95><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/95_0.jpg&h=100'></a></div><p></p>
+<a title='Масло для ухода за кожей и красивого загара Кокосовое (Coconut Oil) (virgin), Амрита, 200 мл ' href='http://test1.ru/moedelo/nichego/product/95'>Масло для ухода за кожей и красивого загара Кокосовое (...</a><p></p>
+<span class="products_in_list_price"></span><p></p>
+
+</div></div>
+<div class='products_line'></div><div class="products_in_list"><div class="pinline1">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/843><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/843_0.jpg&h=100'></a></div><p></p>
+<a title='Шунгит премиум класса, 500 г' href='http://test1.ru/moedelo/nichego/product/843'>Шунгит премиум класса, 500 г</a><p></p>
+<span class="products_in_list_price">70&nbsp;<span class="rur">p.</span></span><p></p>
+<form action="/moedelo/nichego/user/done/" method="post"><input type='hidden' name='prd_id'  value='843'><input type='hidden' name='referer_url'  value='/moedelo/nichego/'><input type='hidden' name='referer_host'  value='test1.ru'><input type='hidden' name='attrs_descr'  value='N;'><input type="image" title='в корзину' name=add2cart value='в корзину' src='http://test1.ru/moedelo/nichego/template/1i4/images/basket.png'></form>
+</div></div>
+<div class="products_in_list"><div class="pinline2">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/14><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/14_0.jpg&h=100'></a></div><p></p>
+<a title='Порошок аюрведический для мытья волос, сухой шампунь "Тали Поди" (Thali Podi), Амрита, 50 г' href='http://test1.ru/moedelo/nichego/product/14'>Порошок аюрведический для мытья волос, сухой шампунь "Т...</a><p></p>
+<span class="products_in_list_price">57&nbsp;<span class="rur">p.</span></span><p></p>
+<form action="/moedelo/nichego/user/done/" method="post"><input type='hidden' name='prd_id'  value='14'><input type='hidden' name='referer_url'  value='/moedelo/nichego/'><input type='hidden' name='referer_host'  value='test1.ru'><input type='hidden' name='attrs_descr'  value='N;'><input type="image" title='в корзину' name=add2cart value='в корзину' src='http://test1.ru/moedelo/nichego/template/1i4/images/basket.png'></form>
+</div></div>
+<div class="products_in_list"><div class="pinline3">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/28><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/28_0.jpg&h=100'></a></div><p></p>
+<a title='Маска для укрепления волос на основе индийской хны, ААША Хербалс, 80 г' href='http://test1.ru/moedelo/nichego/product/28'>Маска для укрепления волос на основе индийской хны, ААШ...</a><p></p>
+<span class="products_in_list_price"></span><p></p>
+
+</div></div>
+<div class="products_in_list"><div class="pinline4">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/465><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/465_0.jpg&h=100'></a></div><p></p>
+<a title='Одеяло для йоги байковое' href='http://test1.ru/moedelo/nichego/product/465'>Одеяло для йоги байковое</a><p></p>
+<span class="products_in_list_price">575&nbsp;<span class="rur">p.</span></span><p></p>
+<form action="/moedelo/nichego/user/done/" method="post"><input type='hidden' name='prd_id'  value='465'><input type='hidden' name='referer_url'  value='/moedelo/nichego/'><input type='hidden' name='referer_host'  value='test1.ru'><input type='hidden' name='attrs_descr'  value='N;'><input type="image" title='в корзину' name=add2cart value='в корзину' src='http://test1.ru/moedelo/nichego/template/1i4/images/basket.png'></form>
+</div></div>
+<div class='products_line'></div>
+<div class="products_in_list"><div class="pinline1"><div class="special_img" style="background-image:url(http://test1.ru/moedelo/nichego/template/1i4/images/special.png);">лучшее</div>
+<div class="products_in_list_img" style="border-left:2px #ffff00 solid; padding-left:5px;"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/106><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/106_0.jpg&h=100'></a></div><p></p>
+<a title='Коврик для йоги "Асана"' href='http://test1.ru/moedelo/nichego/product/106'>Коврик для йоги "Асана"</a><p></p>
+<span class="products_in_list_price">899&nbsp;<span class="rur">p.</span></span><p></p>
+<form action="/moedelo/nichego/user/done/" method="post"><input type='hidden' name='prd_id'  value='106'><input type='hidden' name='referer_url'  value='/moedelo/nichego/'><input type='hidden' name='referer_host'  value='test1.ru'><input type='hidden' name='attrs_descr'  value='N;'><input type="image" title='в корзину' name=add2cart value='в корзину' src='http://test1.ru/moedelo/nichego/template/1i4/images/basket.png'></form>
+</div></div>
+<div class="products_in_list"><div class="pinline2">
+<div class="products_in_list_img"><a class='imghref' href=http://test1.ru/moedelo/nichego/product/563><img border=0 src='http://test1.ru/moedelo/nichego/code/thumbimg.php?img=http://test1.ru/moedelo/nichego/upload/563_0.jpg&h=100'></a></div><p></p>
+<a title='Блок для йоги (сосна), 23 х 11,5 х 8' href='http://test1.ru/moedelo/nichego/product/563'>Блок для йоги (сосна), 23 х 11,5 х 8</a><p></p>
+<span class="products_in_list_price">350&nbsp;<span class="rur">p.</span></span><p></p>
+<form action="/moedelo/nichego/user/done/" method="post"><input type='hidden' name='prd_id'  value='563'><input type='hidden' name='referer_url'  value='/moedelo/nichego/'><input type='hidden' name='referer_host'  value='test1.ru'><input type='hidden' name='attrs_descr'  value='N;'><input type="image" title='в корзину' name=add2cart value='в корзину' src='http://test1.ru/moedelo/nichego/template/1i4/images/basket.png'></form>
+</div></div>
+</div>
+
+<table class="randoms_tbl"><tr><td valign="top"></td><td valign="top"></td><td valign="top">
+</td></tr></table></span>
+
+</div>
+
+
+</div></div>
+
+
+    <div class="footer" style="">
+        <div style="margin: 0px auto; overflow:auto; width:100%; max-width:1024px; width:expression(document.body.clientWidth > 1024? '1024px': '100%' );">
+            <div style="text-align:left;margin-left:10px;">
+                <div style="clear:left;font-size:0.65em;margin-top:10px;color:#999999;">(бд. 33 вер. 0.89 стр. 34328 ск. 0.9646 пам. 10,061,408)</div>
+            </div>
+        </div>
+    </div>
+</body>

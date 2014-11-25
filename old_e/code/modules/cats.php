@@ -2,9 +2,9 @@
 
 class categories {
 
-    function show_tree($i = SHOP_NNN, $curr = "", $search = "") { // дерево для левой колонки; $ret=full, simple
+    function show_tree($i = SHOP_NNN, $curr = "", $search = "") { // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ; $ret=full, simple
         Debug::log();
-        // используем кэш, если не прошло заданного времени
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if ((time() - (60 * CACHE_TIMEOUT)) <
                 @$_SESSION['cache']['c_tree'][SHOP_NNN][@$curr['nnn']]['time']) {
             return $this->generate_ajax(@$_SESSION['cache']['c_tree'][SHOP_NNN][@$curr['nnn']]['html'], @$curr['nnn'], $search);
@@ -54,15 +54,15 @@ class categories {
                     $sty = "cat_level";
                 }
                 $tree_plus[$k] = "<div class='" . $sty . "' style='float:left;'>&rarr;</div>";
-                $tree_k_dva[$backup_curr_level2[$v['level']]] = @$tree_k_dva[$backup_curr_level2[$v['level']]] . "{" . $k . "}";
-                $connections[$k] = $backup_curr_level2[$v['level']];
-                $js_arr_0[$backup_curr_level2[$v['level']]] = "hide('sublevel_" . $backup_curr_level2[$v['level']] . "');";
+                $tree_k_dva[@$backup_curr_level2[$v['level']]] = @$tree_k_dva[@$backup_curr_level2[$v['level']]] . "{" . $k . "}";
+                $connections[$k] = @$backup_curr_level2[$v['level']];
+                $js_arr_0[@$backup_curr_level2[$v['level']]] = "hide('sublevel_" . @$backup_curr_level2[$v['level']] . "');";
                 $level_remember[$k] = $v['level'];
             }
         }
         $js_arr = implode("", $js_arr_0);
         foreach ($tree_plus as $k => $v) {
-            $tree_k_alt["{" . $k . "}"] = "<div class='cat_level_yes'>" . $tree_plus_alt[$k] . $tree_k["{" . $k . "}"] . "</div>";
+            $tree_k_alt["{" . $k . "}"] = "<div class='cat_level_yes'>" . @$tree_plus_alt[$k] . $tree_k["{" . $k . "}"] . "</div>";
             $tree_k["{" . $k . "}"] = "<div class='cat_level_yes'>" . $v . $tree_k["{" . $k . "}"] . "</div>";
         }
 
@@ -83,7 +83,7 @@ class categories {
                 }
             }
             $tree_k_dva[$k] = "<div id=\"sublevel_" . $k . "\" style=\"display:" . $openit . ";\">" .
-                    $tree_k_alt["{" . $connections[$k] . "}"] . $tree_k_alt["{" . $k . "}"] . "<div class=\"div_cat_level_2\">" .
+                    @$tree_k_alt["{" . @$connections[$k] . "}"] .@$tree_k_alt["{" . @$k . "}"] . "<div class=\"div_cat_level_2\">" .
                     strtr($v, $tree_k) . "</div></div>";
             if ($openit != "none") {
                 $smart[$k] = $tree_k_dva[$k];
@@ -120,7 +120,7 @@ class categories {
         } return $str;
     }
 
-    function gather($i = SHOP_NNN, $gather_type = "brief") { // gather_type - brief(все только для над разделов), full(все дерево)
+    function gather($i = SHOP_NNN, $gather_type = "brief") { // gather_type - brief(пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ), full(пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
         Debug::log();
         if (isset($_SESSION['cache']['cats_full_tree'][$gather_type][SHOP_NNN][$i])) {
             return $_SESSION['cache']['cats_full_tree'][$gather_type][SHOP_NNN][$i];
@@ -180,7 +180,7 @@ class categories {
                 $cats4 = @$gcl[$ii];
 
                 if (count($cats4) > 0) {
-                    if ($ii != $i) { // тек раздел не записываем
+                    if ($ii != $i) { // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                         $nadrazdel[$ii]['nazv'] = $cats4['nazv'];
                         $nadrazdel[$ii]['remote_addr'] = $cats4['remote_addr'];
                         $nadrazdel[$ii]['remote_always'] = $cats4['remote_always'];
@@ -189,7 +189,7 @@ class categories {
                     $jj[] = $cats4['parent'];
                     if ($ii == SHOP_NNN) {
                         $flag_br = 1;
-                    }  // доходим только до тек. магазина
+                    }  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 } else {
                     if ($j == (count($jj) - 1)) {
                         break;
@@ -287,8 +287,8 @@ class categories {
 // attributes
 class attribs {
 
-    // TODO: при выборе свойства показывать сколько товаров у каждого из значений
-    function gather($what = "all", $shop_cat = SHOP_NNN, $limit = "") { // all - все существующие свойства или все значения указанного свойства
+    // TODO: пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    function gather($what = "all", $shop_cat = SHOP_NNN, $limit = "") { // all - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Debug::log();
         $what2 = strtr($what, array("\"" => "", "/" => "_", "'" => "", "." => "", "," => "", "?" => "", "!" => "", "^" => "", "`" => "", "*" => "", ";" => "", ":" => "", " " => ""));
         if ($limit == "") {
@@ -299,12 +299,12 @@ class attribs {
         $add_sql = cats("sql", $shop_cat);
         if ($what == "all") {
             $excl = "";
-            if (EXCLUDE_ATTRS != "") {
-                $excl = explode(",", EXCLUDE_ATTRS);
+            if (@EXCLUDE_ATTRS != "") {
+                $excl = explode(",", @EXCLUDE_ATTRS);
                 array_walk($excl, 'trim_blank');
                 $excl = implode("' AND attr_name!='", $excl);
             }
-            $sel_sql = mysql_kall("SELECT attr_name, " . DB_PREFIX . "products_attr.nnn FROM " . DB_PREFIX . "products_attr, " . DB_PREFIX . "products_2_cats WHERE attr_name!='" . $excl . "' AND attr_val!='' AND " . DB_PREFIX . "products_attr.products_nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " GROUP BY attr_name ORDER BY attr_name ASC " . $limit2 . "") or die(mysql_error()); // тормозная или нет?
+            $sel_sql = mysql_kall("SELECT attr_name, " . DB_PREFIX . "products_attr.nnn FROM " . DB_PREFIX . "products_attr, " . DB_PREFIX . "products_2_cats WHERE attr_name!='" . $excl . "' AND attr_val!='' AND " . DB_PREFIX . "products_attr.products_nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " GROUP BY attr_name ORDER BY attr_name ASC " . $limit2 . "") or die(mysql_error()); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ?
             $sel_var = "attr_name";
         } else {
             $sel_sql = mysql_kall("SELECT attr_val, " . DB_PREFIX . "products_attr.nnn FROM " . DB_PREFIX . "products_attr, " . DB_PREFIX . "products_2_cats WHERE attr_name='" . $what . "' AND attr_val!='' AND " . DB_PREFIX . "products_attr.products_nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " GROUP BY attr_val ORDER BY attr_val ASC " . $limit2 . "") or die(mysql_error());
@@ -324,7 +324,7 @@ class attribs {
 // keyws
 class keyws {
 
-    function gather($shop_cat = SHOP_NNN, $limit = "10") { // all - все существующие ключ слова
+    function gather($shop_cat = SHOP_NNN, $limit = "10") { // all - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         Debug::log();
         $add_sql = cats("sql", $shop_cat);
         $limit_s = $limit;
@@ -336,7 +336,7 @@ class keyws {
         $sel_sql = mysql_kall("SELECT " . DB_PREFIX . "products_keywords.nnn, keyword, SUM(4sum) FROM " . DB_PREFIX . "products_keywords,
             " . DB_PREFIX . "products_2_cats WHERE keyword!='' AND " . DB_PREFIX . "products_keywords.products_nnn=" .
                 DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " GROUP BY keyword ORDER BY " . $order_type . "") or die(mysql_error());
-        // TODO: очень тормозная
+        // TODO: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         $sel = mysql_fetch_assoc($sel_sql);
         $str = "";
         if (mysql_num_rows($sel_sql) > 0) {
@@ -361,7 +361,7 @@ class keyws {
                     if ($limit_s <= 0) {
                         break;
                     }
-                } // если limit=0 то все
+                } // пїЅпїЅпїЅпїЅ limit=0 пїЅпїЅ пїЅпїЅпїЅ
             } while ($sel = mysql_fetch_assoc($sel_sql));
 
             if ($limit <= 0) {
@@ -391,16 +391,16 @@ class keyws {
 class ratings {
 
     function recomend($c_id = "0", $type = "visits", $limit = "10", $prd_one_flag = "") { // visits!, keywords! orders, search, random?
-        //// рекомендуемые товары, type-> visits, orders, search (все скомбинировано должно быть или нет?)
-        //// если с_id=0 то "сейчас смотрят на сайте")
+        //// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, type-> visits, orders, search (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ?)
+        //// пїЅпїЅпїЅпїЅ пїЅ_id=0 пїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")
         Debug::log();
         $limit = LIMIT_PRD_RECOMENDATIONS + $limit;
         if ($c_id <= 0) {
             $c_id = "0";
         }
 
-        // РЕКОМЕНДАЦИИ: VISITS
-        if ($prd_one_flag == "" && $type == "visits") { // TODO: делаем !visits чтобы не было лишнего запроса к бд
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: VISITS
+        if ($prd_one_flag == "" && $type == "visits") { // TODO: пїЅпїЅпїЅпїЅпїЅпїЅ !visits пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
             if (@$_SESSION['cache']['recomend']['visits'][SHOP_NNN][$c_id] != "") {
                 return array("lst" => unserialize($_SESSION['cache']['recomend']['visits'][SHOP_NNN][$c_id]),
                     "zag" => RECOMEND_NAME_SIMILAR_VISITS);
@@ -410,7 +410,7 @@ class ratings {
 
         $add_sql = cats();
 
-        // ИСТОЧНИКИ ТОВАРОВ ///////////////////////////////////////////////////
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ///////////////////////////////////////////////////
         if ($prd_one_flag == "" && $type != "visits") {
             // ORDER BY SUM(nums) DESC / by lastmodified DESC
             $sql_whr = "SELECT " . DB_PREFIX . "customers_lastvisits.* FROM " . DB_PREFIX . "customers_lastvisits, " . DB_PREFIX . "products_2_cats
@@ -427,19 +427,19 @@ class ratings {
             if ($c_id <= 0) {
                 return array("lst" => $s3['/product/'], "zag" => RECOMEND_NAME_LAST_VISITS);
                 //break;
-            } // если нет клиента, то просто показываем последние посещения
+            } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         } else {
             $s3['/product/'][$prd_one_flag] = $prd_one_flag;
         }
 
-        // TODO: рекомендации по orders, search
+        // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ orders, search
         ////////////////////////////////////////////////////////
 
         $s4 = DB_PREFIX . "customers_lastvisits.catshop_prd_id IN ('" . @implode("', '", $s3['/product/']) . "')";
         $s4_not = "AND " . DB_PREFIX . "customers_lastvisits.catshop_prd_id NOT IN ('" . @implode("', '", $s3['/product/']) . "')";
 
-        // РЕКОМЕНДАЦИИ: КЛЮЧЕВЫЕ СЛОВА /KEYWORDS
-        if ($type == "keywords") { // рекомендации по ключ словам
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ /KEYWORDS
+        if ($type == "keywords") { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             $s4 = strtr($s4, array("customers_lastvisits.catshop_prd_id" => "products_keywords.products_nnn"));
             $s4_not = strtr($s4_not, array("customers_lastvisits.catshop_prd_id" => "products_keywords.products_nnn"));
             $sql_whr2 = "SELECT keyword FROM " . DB_PREFIX . "products_keywords WHERE " . $s4 . " GROUP BY keyword ORDER BY SUM(4sum) DESC LIMIT " . $limit . "";
@@ -477,10 +477,10 @@ class ratings {
             }
         }
         /////////////////////////////////////////
-        // РЕКОМЕНДАЦИИ: VISITS
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: VISITS
         if ($type == "visits") {
 
-            // TODO: полный перегруз БАЗЫ ДАННЫХ, поэтому отрубаем до лучших времен
+            // TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             $sql_whr2 = "SELECT catshop_prd_id, SUM(nums), customers_id FROM " . DB_PREFIX . "customers_lastvisits WHERE type='/product/'
                     " . @$s4_not . " AND customers_id IN (SELECT customers_id FROM " . DB_PREFIX . "customers_lastvisits WHERE customers_id!='" . $c_id . "' AND customers_id!='0' AND " . $s4 . " GROUP BY customers_id) GROUP BY catshop_prd_id ORDER BY SUM(nums) DESC LIMIT " . $limit . "";
             $s5 = mysql_kall($sql_whr2) or die(mysql_error());
@@ -493,7 +493,7 @@ class ratings {
                 if (count($s7) < $limit) {
                     $s7 = @array_merge(@$s7, @$s3['/product/']);
                     $s7 = @array_combine(@$s7, @$s7);
-                } // добиваем посещенными
+                } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
                 if ($prd_one_flag == "") {
                    // $_SESSION['cache']['recomend']['visits'][SHOP_NNN][$c_id] = serialize($s7);
@@ -508,14 +508,14 @@ class ratings {
 
     function pop($type = "views", $sort = "month", $limit = "10") {
         Debug::log();
-        //// популярные товары: просмотры views, заказы orders, обсуждения reviews или наугад random
+        //// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ views, пїЅпїЅпїЅпїЅпїЅпїЅ orders, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ reviews пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ random
         // sort - month, day
         $limit = LIMIT_PRD_POP + $limit;
-        $months = array("01" => "января", "02" => "февраля", "03" => "марта", "04" => "апреля", "05" => "мая", "06" => "июня", "07" => "июля", "08" => "августа",
-            "09" => "сентября", "10" => "октября", "11" => "ноября", "12" => "декабря");
+        $months = array("01" => "пїЅпїЅпїЅпїЅпїЅпїЅ", "02" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "03" => "пїЅпїЅпїЅпїЅпїЅ", "04" => "пїЅпїЅпїЅпїЅпїЅпїЅ", "05" => "пїЅпїЅпїЅ", "06" => "пїЅпїЅпїЅпїЅ", "07" => "пїЅпїЅпїЅпїЅ", "08" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
+            "09" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "10" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "11" => "пїЅпїЅпїЅпїЅпїЅпїЅ", "12" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
-        $txt = array("viewed_month" => "Популярные товары месяца", "viewed_day" => "Популярные товары сегодня",
-            "ordered_month" => "Бестселлеры", "ordered_day" => "Бестселлеры сегодня");
+        $txt = array("viewed_month" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ", "viewed_day" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
+            "ordered_month" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "ordered_day" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
         $sort_arr2 = array("views" => "viewed", "orders" => "ordered");
 
@@ -536,7 +536,7 @@ class ratings {
             $prds = $viewed->collect_products($limit, "pop_ord", "1");
             $sort2 = "ordered_" . $sort;
         }
-        // TODO: самые обсуждаемые товары
+        // TODO: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         $prds = $viewed->sort_products($prds, $sort2, 'desc');
         return array("prds" => $prds, "zag" => $txt[$sort2]);
@@ -587,9 +587,11 @@ class ratings {
         }
     }
 
-    function random($type = "random", $limit = "1", $nnn = "") { // товары наугад
+    function random($type = "random", $limit = "1", $nnn = "") { // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         // attr, keyword, manuf, random
         Debug::log();
+       
+        
         $type_arr = array("attr", "keyword", "manuf");
 
         $add_sql = cats();
@@ -602,13 +604,13 @@ class ratings {
             $excl = "";
             $manuf = "";
             if ($nnn == "") {
-                if (EXCLUDE_ATTRS != "" && $type != "manuf") {
-                    $excl = explode(",", EXCLUDE_ATTRS);
+                if (@EXCLUDE_ATTRS != "" && $type != "manuf") {
+                    $excl = explode(",", @EXCLUDE_ATTRS);
                     array_walk($excl, 'trim_blank');
                     $excl = implode("' AND attr_name!='", $excl);
                 }
                 if ($type == "manuf") {
-                    $manuf = "AND attr_name='производитель'";
+                    $manuf = "AND attr_name='пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'";
                 }
                 $attrs4 = mysql_kall("SELECT " . DB_PREFIX . "products_attr.products_nnn, attr_name, attr_val FROM " . DB_PREFIX . "products_attr,
                                     " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products_attr.products_nnn=" . DB_PREFIX . "products_2_cats.products_nnn
@@ -664,7 +666,7 @@ class ratings {
                 $keyws4_nnn = mysql_result($keyws1, $keyws3, 'products_nnn');
             }
             if ($keyws4_kwrd != "") {
-                $zag = "ключевое слово &rarr; <strong>" . $keyws4_kwrd . "</strong>";
+                $zag = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ &rarr; <strong>" . $keyws4_kwrd . "</strong>";
                 if ($limit <= 1 && $keyws4_nnn != "") {
                     $main[$keyws4_nnn] = $keyws4_nnn;
                 } else {
@@ -685,11 +687,11 @@ class ratings {
         return array("prds" => @$main, "zag" => @$zag);
     }
 
-    function recomend_cats($c_id = "0", $limit = LIMIT_POP_CAT, $every_customer = "") { // everycustomer - популярные разделы у клиентов
+    function recomend_cats($c_id = "0", $limit = LIMIT_POP_CAT, $every_customer = "") { // everycustomer - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Debug::log();
-        // TODO: полный перегруз БАЗЫ ДАННЫХ
+        // TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         /*
-          //// рекомендуемые или популярные разделы
+          //// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
           if($every_customer!="1") {
           $recs=readfromfile(SHOP_NNN."_cid".$c_id."_recomend_cats","3"); if($recs!="") { return array("lst"=>unserialize($recs),"zag"=>RECOMEND_CATS_NAME); break; } }
@@ -717,16 +719,16 @@ class ratings {
 
           } while($s2=mysql_fetch_assoc($s1));
 
-          if($c_id<=0) { return array("lst"=>$s3['/catalog/'],"zag"=>POPULAR_CATS_NAME); break; } // если нет клиента, то просто показываем популярные разделы
+          if($c_id<=0) { return array("lst"=>$s3['/catalog/'],"zag"=>POPULAR_CATS_NAME); break; } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
           $s4=DB_PREFIX."customers_lastvisits.catshop_prd_id IN ('".@implode("', '",$s3['/catalog/'])."')";
           $s4_not=DB_PREFIX."customers_lastvisits.catshop_prd_id NOT IN ('".@implode("', '",$s3['/catalog/'])."')";
 
-          // TODO: полный перегруз БАЗЫ ДАННЫХ
+          // TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
           $sql_whr2="SELECT catshop_prd_id, SUM(nums), customers_id FROM ".DB_PREFIX."customers_lastvisits WHERE type='/catalog/'
           AND ".$s4_not." AND catshop_prd_id!='0' AND customers_id IN (SELECT customers_id FROM ".DB_PREFIX."customers_lastvisits WHERE customers_id!='".$c_id."' AND customers_id!='0' AND ".$s4." GROUP BY customers_id) GROUP BY catshop_prd_id ORDER BY SUM(nums) DESC LIMIT ".$limit."";
           $s5=mysql_kall($sql_whr2); if(mysql_num_rows($s5)>0) { $s6=mysql_fetch_assoc($s5);
           do { $s7[$s6['catshop_prd_id']]=$s6['catshop_prd_id']; } while ($s6=mysql_fetch_assoc($s5));
-          if(count($s7)<$limit) { $s7=@array_merge(@$s7,@$s3['/catalog/']); $s7=@array_combine(@$s7, @$s7); } // добиваем посещенными
+          if(count($s7)<$limit) { $s7=@array_merge(@$s7,@$s3['/catalog/']); $s7=@array_combine(@$s7, @$s7); } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
           if($every_customer!="1") { write2file(serialize($s7),SHOP_NNN."_cid".$c_id."_recomend_cats"); }
           return array("lst"=>$s7,"zag"=>RECOMEND_CATS_NAME); break;
@@ -738,7 +740,7 @@ class ratings {
 
     function cats2cats($catshop, $limit = LIMIT_POP_CAT) {
         Debug::log();
-        //// рекомендуемые или популярные разделы
+        //// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         /*
           $recs=readfromfile(SHOP_NNN."_".$catshop."_cats2cats"); if($recs!="") { return unserialize($recs); break; }
 
@@ -747,7 +749,7 @@ class ratings {
           $s4=DB_PREFIX."customers_lastvisits.catshop_prd_id IN ('".@$catshop."')";
           $s4_not=DB_PREFIX."customers_lastvisits.catshop_prd_id NOT IN ('".@$catshop."')";
 
-          // TODO: полный перегруз БАЗЫ ДАННЫХ
+          // TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
           $sql_whr2="SELECT catshop_prd_id, SUM(nums), customers_id FROM ".DB_PREFIX."customers_lastvisits WHERE type='/catalog/'
           AND ".$s4_not." AND catshop_prd_id!='0' AND customers_id IN (SELECT customers_id FROM ".DB_PREFIX."customers_lastvisits
           WHERE ".$s4." GROUP BY customers_id) GROUP BY catshop_prd_id ORDER BY SUM(nums) DESC LIMIT ".$limit."";
@@ -789,7 +791,7 @@ class filters {
         }}
         
         $what3 = explode(",", FILTER_ATTRS);
-        $what3[] = "производитель";
+        $what3[] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
         $what4 = implode("' OR attr_name='",$what3);
         $sel_sql = "SELECT attr_name, attr_val, ".DB_PREFIX."products_attr.nnn, ".DB_PREFIX."products_attr.products_nnn FROM " . DB_PREFIX . "products_attr, " . DB_PREFIX . "products_2_cats WHERE ". $what2 . " (attr_name = '".$what4."') AND attr_val!='' AND " . DB_PREFIX . "products_attr.products_nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY attr_val ASC";
         

@@ -1,4 +1,5 @@
-<?
+<?php
+
 if(@$flag_no_repeat_lastnews!="1") { 
 //$out["{NEWS_IMPORTANT}"]="";
 //$out["{NEWS}"]="";
@@ -14,7 +15,7 @@ if(@$flag_no_repeat_lastnews!="1") {
     foreach($newslast2 as $k=>$v) { $out[$k]=$v; }
     $flag_got_news_from_file=1;
     }
-    } // новости для всех кроме главной
+    } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     if($url_val==""||$url_val=="all"||$url_val=="new"||$url_val=="ratings"||$url_val=="comments") { $url_val_tmp=SHOP_NNN; } 
         else { $url_val_tmp=$url_val; }
@@ -29,22 +30,22 @@ if(@$flag_no_repeat_lastnews!="1") {
 
   if(@$flag_got_last_articles_from_file=="1"&&@$flag_got_news_from_file=="1") {} else {
 
-        if(!is_object($ppp)) { $ppp=new pages; }
+        if(!is_object(@$ppp)) { @$ppp=new pages; }
 
         if($url=="") {
            $news_list=$ppp->show_pages(SHOP_NNN, "main"); } else {
               if(@$flag_got_last_articles_from_file!="1") { 
                   if($url_val==""||$url_val=="all"||$url_val=="new"||$url_val=="ratings"||$url_val=="comments") { 
                   $url_val_tmp=SHOP_NNN; } else { $url_val_tmp=$url_val; }
-           $news_list=$ppp->show_pages($url_val_tmp, "last",CATPAGE_ARTICLES_LIMIT); } // для неглавной страницы только последние статьи
+           $news_list=$ppp->show_pages($url_val_tmp, "last",CATPAGE_ARTICLES_LIMIT); } // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         }
 
         $n4=0;
 
-        if($url==""&&@$flag_got_news_from_file!="1") { $news_arr=$ppp->prepare_news($news_list[1]); } // только на главной
+        if($url==""&&@$flag_got_news_from_file!="1") { $news_arr=$ppp->prepare_news($news_list[1]); } // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         if(count($news_list[0])>0&&@$flag_got_last_articles_from_file!="1") { $n5="";
-         foreach($news_list[0] as $n1=>$n2) { // список статей
+         foreach($news_list[0] as $n1=>$n2) { // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
              $n5=$n5."<a href=".MAINURL."/page/".$n1.">".$news_list[0][$n1]['nazv']."</a><p></p>"; }
              
              $n5=LAST_ARTICLES_TXT_1."<p></p>".$n5.

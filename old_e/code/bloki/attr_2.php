@@ -1,6 +1,7 @@
 <?php
 $out["{ATTR_2}"]="";
-if(!is_object(@$attrs)) { $attrs=new attribs; } // если класс еще не объявлен
+/*
+if(!is_object(@$attrs)) { $attrs=new attribs; } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 if($url!="/catalog/") { $between="<p class='commonp'></p>";
     $manuf_cloud=$attrs->gather(mb_strtolower(ATTR_2_NAME),SHOP_NNN,"10"); $manuf_str="{ATTR_2}"; $attrs_str2="attr_title"; $attrs_str3="<p style=\"margin:5px 0 0 0;padding:0;\"></p>";
@@ -16,4 +17,4 @@ if(count(@$manuf_cloud)>0) { $v2="";
 
             $out[$manuf_str]="<span class=\"".$attrs_str2."\">".ATTR_2_TXT_1."</span>".$attrs_str3.$v2."
                 <span class=\"attr_title\">&rarr; <a href=\"".MAINURL."/attr/".$k."___all\">".ATTR_2_TXT_2."</a></span>";
-}?>
+}*/

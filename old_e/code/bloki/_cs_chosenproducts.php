@@ -1,6 +1,6 @@
 <?php
 
-if(!is_array($prd)) { // передали из bigpic
+if(!is_array(@$prd)) { // передали из bigpic
 $showprd=new products();
 $prd=$showprd->collect_products(SHOP_NNN,'main'); 
 }

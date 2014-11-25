@@ -1,6 +1,7 @@
 <?php
 $out["{POPULARATTRS}"]="";
-if(!is_object($attrs)) { $attrs=new attribs; } // если класс еще не объявлен
+/*
+if(!is_object($attrs)) { $attrs=new attribs; } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 if($url!="/catalog/") {
     $attrs_cloud=$attrs->gather(); $attrs_str="{POPULARATTRS}"; $attrs_str2="attr_title"; $attrs_str3="<p style=\"margin:5px 0 0 0;padding:0;\"></p>";
     } else { if($url_val!="new"&&$url_val!="all"&&$url_val!="comments"&&$url_val!="ratings") {
@@ -14,4 +15,6 @@ if(count(@$attrs_cloud)>0) { $v2="";
 
             $out[$attrs_str]="<span class=\"".$attrs_str2."\">".ATTR_TXT_1."</span>".$attrs_str3.$v2."
                 <span class=\"attr_title\">&rarr; <a href=\"".MAINURL."/attr/all\">".ATTR_TXT_2."</a></span>";
-}?>
+}
+ * 
+ */

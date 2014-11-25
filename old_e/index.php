@@ -1,15 +1,14 @@
-<?
-require_once("define_names.php");
-$_SESSION['timer_global']=timer_begin();
+<?php
 
+require_once(MAINURL_5."/code/modules/global.php"); 
+cats_tree();
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-    $detected=url_detect($_SERVER['REQUEST_URI']); // url_detect
     follow(@$detected, @$_SESSION['customers_id']); // follow visits
 
     /////////////////////////////////////////////
-    // собираем данные по текущей странице     //   только product отдельно
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ     //   пїЅпїЅпїЅпїЅпїЅпїЅ product пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     /////////////////////////////////////////////
 
         if(@$detected[0]!=""&&@$detected[1]!="") {
@@ -21,18 +20,9 @@ $_SESSION['timer_global']=timer_begin();
             }       
             
     /////////////////////////////////
-    // обрабатываем и выводим      //
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ      //
     /////////////////////////////////
          
-        require(navigation("head_prepare")); // <head></head>  TODO: добавить название страницы в титл
-        require(navigation("body_prepare")); // основная часть
+        require(navigation("head_prepare")); // <head></head>  TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
+        require(navigation("body_prepare")); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
- 
-//clearfile("", "auto"); //2
-clearfile("", "3720", "thumbs", "0", "744"); // 3
-clearfile("", "5", "stats", "0", "5"); 
-clearfile("", "72", "htmls", "0", "120"); // 1
-clearfile("", "72", "ips", "0", "120"); // 4
-savereferals(@$detected[0], @$detected[1]); 
-if(DEBUG_MODE=="1") { debugfunc(); }
-?>

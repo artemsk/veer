@@ -10,19 +10,19 @@ class products {
     function product_prices($prices, $priors, $attrs = "0", $client = "0", $type = "prd", $grp_all_nnn = '0', 
             $order_discount = "0", $admin_customers = "") { 
  Debug::log();
-        // prices - массив цен, priors - массив приоритетов, attrs - attr_id /для цен выбранного свойства/, client - id клиента, type - prd, grp
-        // grp_alll_nnn - только для групп - nnn для проверки свойства, ?order_discount - появл. только из админки для скидки на заказ в целом
-        // ?admin_customers - массив customers_type, customers_discount, 
-        // ?customers_discount_expire -- только из админки для оформл. заказа от имени клиента
+        // prices - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, priors - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, attrs - attr_id /пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/, client - id пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, type - prd, grp
+        // grp_alll_nnn - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ - nnn пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, ?order_discount - пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+        // ?admin_customers - пїЅпїЅпїЅпїЅпїЅпїЅ customers_type, customers_discount, 
+        // ?customers_discount_expire -- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         
         $client_status = "user";
-        $current_discount = 0; // умолчания
-        if ($client > 0) { // статус клиента: дистр (distr), гость (guest), оптовик (opt), индивидуальная скидка ()
+        $current_discount = 0; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        if ($client > 0) { // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ (distr), пїЅпїЅпїЅпїЅпїЅ (guest), пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (opt), пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ()
             $client_status = $_SESSION['customers_type']; // client_status
             if (time() < $_SESSION['customers_discount_expire']) {
                 $current_discount = $_SESSION['customers_discount'];
             }
-            // сделать определение типа и скидки со стороны админки, если есть
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             if (isset($admin_customers) && @$admin_customers != "") {
                 if (@$admin_customers['customers_type'] != "") {
                     $client_status = $admin_customers['customers_type'];
@@ -43,7 +43,7 @@ class products {
             $add2sql = "AND change_price_grp='1' AND products_nnn='" . $grp_all_nnn . "'";
         }
 
-        if ($attrs > 0) { // если рассчитывается цена товара с конкретным выбранным свойством
+        if ($attrs > 0) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             $attrs2 = explode(",", $attrs);
             foreach ($attrs2 as $k => $v) {
                 $v = trim($v);
@@ -56,13 +56,13 @@ class products {
                     }
                 }
             }
-        } // изм. цены из-за свойства, замена всего массива
+        } // пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         
-        // PRICE_0 - начальная цена
+        // PRICE_0 - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         $result_price[0] = $prices['price'];
-        $result_price[1] = "0"; // очередность: 0
+        $result_price[1] = "0"; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 0
         
-        // PRICE_1 - измененная цена: указана цена со скидкой
+        // PRICE_1 - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if ($priors['prior_sales'] == "1" && $prices['price_sales'] > 0) {
             if ($prices['price_sales'] != $prices['price']) {
                 $result_price[1] = "1";
@@ -70,48 +70,48 @@ class products {
             $result_price[0] = $prices['price_sales'];
         } // 1
         
-        // фиксируем price_0 или price_1 - как первую ступень, на случай отмены
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ price_0 пїЅпїЅпїЅ price_1 - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         $temp_result_price = $result_price[0]; 
         
-        // фиксируем неизмененную цену
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         $temp_result_price_nosales = $prices['price']; 
         
         // customers_type
         if ($client_status == "guest" && $priors['prior_guest'] == "1" && $prices['price_guest'] > 0) {
             $result_price[1] = "2";
             $result_price[0] = $prices['price_guest'];
-        } // гость, 2
+        } // пїЅпїЅпїЅпїЅпїЅ, 2
         if ($client_status == "distr" && $priors['prior_distr'] == "1" && $prices['price_distr'] > 0) {
             $result_price[1] = "3";
             $result_price[0] = $prices['price_distr'];
-        } // дистрибьютор, 3
+        } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3
         if ($client_status == "opt" && $priors['prior_opt'] == "1" && $prices['price_opt'] > 0) {
             $result_price[1] = "4";
             $result_price[0] = $prices['price_opt'];
-        } // оптовик, 4
+        } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 4
         
-        // PRICE_2 - скидки, индивидуальные или купон, если есть
+        // PRICE_2 - пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         if ($client_status != "user" && CUSTOMERS_TYPE_OVERCOME_PRD_DISCOUNT == "1") {
 
-        } else { // опр. сохраняется ли статус клиента
-            if ($current_discount > 0) { // если есть скидка клиента или купон
+        } else { // пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            if ($current_discount > 0) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 if ($temp_result_price != $prices['price']) {
 
-                } else { // если нет скидочной цены
+                } else { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                     $result_price[1] = "5";
                     $result_price[0] = ((100 - $current_discount) * $prices['price']) / 100;
                 }
             }
         } // 5
         
-        // PRICE_3 - скидки на заказ (из админки)
+        // PRICE_3 - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         if ($client_status != "user" && CUSTOMERS_TYPE_OVERCOME_ORDER_DISCOUNT == "1") {
 
-        } else { // опр. сохраняется ли статус клиента
-            if ($order_discount > 0) { // если есть скидка на заказ
+        } else { // пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            if ($order_discount > 0) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 if ($temp_result_price != $prices['price']) {
 
-                } else { // если нет скидочной цены
+                } else { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                     $result_price[1] = "6";
                     $result_price[0] = ((100 - $order_discount) * $prices['price']) / 100;
                 }
@@ -123,10 +123,10 @@ class products {
         if ($result_price[1] == "1") {
             $result_price[2] = $temp_result_price_nosales;
         } else {
-            //// хитрый момент: если никаких изм цены не было, то показываем разницу с первоначальной ценой, иначе разницу со скидочной ценой
+            //// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             $result_price[2] = $temp_result_price;
         }
-        return $result_price; // out: 0 - цена, 1 - статус (0-6), 2 - первоначальная цена
+        return $result_price; // out: 0 - пїЅпїЅпїЅпїЅ, 1 - пїЅпїЅпїЅпїЅпїЅпїЅ (0-6), 2 - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     }
 
     //
@@ -137,11 +137,11 @@ class products {
     
     function product_group($grp_nnn, $grp_price = '0', $attrs = '0', $client = '0') {
 Debug::log();
-        // определяем картинки и цены, названия и вес для группы товаров
-        // grp_nnn - id товаров в группе, grp_price - принудительно указанная цена уже выбранная с помощью product_prices, 
-        // attrs - выбранные свойства, client - id
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // grp_nnn - id пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, grp_price - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ product_prices, 
+        // attrs - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, client - id
         
-        // используем кэш, если не прошло заданного времени
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if ((time() - (60 * CACHE_TIMEOUT)) < @$_SESSION['cache']['groups'][$grp_nnn][$grp_price][$attrs][$client]['time']) {
             return unserialize($_SESSION['cache']['groups'][$grp_nnn][$grp_price][$attrs][$client]['sql']);
          }
@@ -166,13 +166,13 @@ Debug::log();
         $summ_grp_price = 0;
         $summ_grp_price_starter = 0;
         $summ_grp_price_currency = 0;
-        $summ_grp_price_currency_starter = 0; // starter - начальная цена
+        $summ_grp_price_currency_starter = 0; // starter - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         
         if (mysql_num_rows($v4) > 0) {
             $v5 = mysql_fetch_assoc($v4);
             $flag_prior_currency = 0;
             do {
-                $v3 = $v5['nnn']; // $v2_flip[$v3] - порядковый номер в группе
+                $v3 = $v5['nnn']; // $v2_flip[$v3] - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 if (count($v2_flip[$v3]) <= 0) {
                     continue;
                 }
@@ -181,7 +181,7 @@ Debug::log();
                     if ($flag_prior_currency <= 0) {
                         $catshop_currency_fin = $currencycheck[$v5['shop_cat']]['currency'];;
                         $flag_prior_currency = 1;
-                    } // только у самого первого
+                    } // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     
                     // $v3." ---> prior ".$v5['catshop_prior']." - - - $catshop_currency_fin - ".$v2_flip_v."<br>";
                     array_shift($v2_flip[$v3]);
@@ -216,13 +216,13 @@ Debug::log();
                     $return_price = $this->product_prices($prices, $priors, $attrs_send, $client, 'grp', trim($v3)); // --> LEVEL 2->LEVEL 1
                     // out -> return_price[0], return_price[1], return_price[2]
 
-                    $summ_grp_price = $summ_grp_price + $return_price[0]; // общая стоимость группы
+                    $summ_grp_price = $summ_grp_price + $return_price[0]; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     
-                    $summ_grp_price_starter = $summ_grp_price_starter + $return_price[2]; // первоначальная стоимость
+                    $summ_grp_price_starter = $summ_grp_price_starter + $return_price[2]; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     
-                    $return_arr['priors'][trim($v3)] = $priors; // массив с проиоритетами, а он нужен?
+                    $return_arr['priors'][trim($v3)] = $priors; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ?
                     
-                    // общая и первоначальные стоимость группы, конвертированные согласно инд. или общему коэффициенту (u.e) валюте
+                    // пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (u.e) пїЅпїЅпїЅпїЅпїЅпїЅ
                     $summ_grp_price_currency = $summ_grp_price_currency + 
                             currency_converter($return_price[0], $catshop_currency_fin, $v5['currency']);
                     
@@ -231,14 +231,14 @@ Debug::log();
 
                     if ($return_price[1] > @$return_arr['price_star']) {
                         $return_arr['price_star'] = $return_price[1];
-                    } // @reviewlate: тип цены, выбирается наибольший (выделять цену?)
+                    } // @reviewlate: пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ?)
                 }
                 
             } while ($v5 = mysql_fetch_assoc($v4));
         }       
         // "<pre>"; print_r($return_arr); "</pre>";
         ///////////////////////////////////////////////////////////////////////
-        // если у группы фиксированная цена, то вывод только прайс без первоначальной цены и без конвертации (будет сделано в show_product)
+        // пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ show_product)
         if ($grp_price <= 0) {
             $return_arr['price'] = $summ_grp_price;
             $return_arr['price_grp_currency'] = $summ_grp_price_currency;
@@ -249,7 +249,7 @@ Debug::log();
             unset($return_arr['price_star']);
         }
 
-        // собираем все картинки группы через ;
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ;
         $img_v = "AND (products_nnn IN ('" . implode("', '", $v2) . "'))";
         $img_sql = mysql_kall("SELECT img FROM " . DB_PREFIX . "products_image WHERE sort='0' " . @$img_v . "");
         $img_sql2 = mysql_fetch_assoc($img_sql);
@@ -270,7 +270,7 @@ Debug::log();
     //
     //
 
-    function product_attrs($nnn, $type, $priors="") { // nnn, type=grp,prd, priors[prd_id] - приоритеты
+    function product_attrs($nnn, $type, $priors="") { // nnn, type=grp,prd, priors[prd_id] - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
    Debug::log();     
         $nnn_arr=explode(" ",$nnn); $nnn=implode("",$nnn_arr); $nnn_arr=explode(",",$nnn);
         if(count($nnn_arr)>1) { $nnn2="products_nnn='".implode("' OR products_nnn='",$nnn_arr)."'";  } else { $nnn2="products_nnn='".$nnn."'"; }
@@ -281,25 +281,25 @@ Debug::log();
                  $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['attr_type']=$attrs2['attr_type'];
                  $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['attr_descr']=$attrs2['attr_descr'];
 
-                 if($type=="prd") { // менять ли цену, определяем где это работает, а где нет. это не касается групп с фиксированной ценой
+                 if($type=="prd") { // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                  $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['change']=$attrs2['change_price'];
                  } else { $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['change']=$attrs2['change_price_grp']; }
 
                  if((isset($flag_4_dominant_pnnn[$attrs2['products_nnn']])&&isset($flag_4_dominant_already)&&!isset($flag_4_dominant[$attrs2['attr_name']]))&&$attrs2['attr_dominant']=="1") {
                      $attrs2['attr_dominant']="0"; $flag_4_dominant_already=1;
-                     } // если доминантное свойство уже выбрано, то больше доминантных быть не может (фикс. nnn, prd_id, attr_name, attr_dominant)
+                     } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ. nnn, prd_id, attr_name, attr_dominant)
 
-                 // если доминантное свойства еще не выбрано, выбираем его
+                 // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
                  if($attrs2['attr_dominant']=="1") { $flag_4_dominant[$attrs2['attr_name']]=1; $flag_4_dominant_already=1; $flag_4_dominant_pnnn[$attrs2['products_nnn']]=1; }
 
-                 // фиксируем доминантные и недоминантные свойства
+                 // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                  $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['attr_dominant']=$attrs2['attr_dominant'];
 
-                 // определяем стоимость товара с текущим свойством, учитывая так же статус клиента и его скидки
+                 // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                  $return_price=$this->product_prices(array('price'=>$attrs2['price'],'price_sales'=>$attrs2['price_sales'],'price_distr'=>$attrs2['price_distr'],'price_guest'=>$attrs2['price_guest'],'price_opt'=>$attrs2['price_opt']),$priors[$attrs2['products_nnn']],0,@$_SESSION['customers_id'],'prd');
                  // LEVEL 2->LEVEL 1 / out -> return_price[0], return_price[1], return_price[2]
 
-                 $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['price']=@$return_price[0]; // сохраняем стоимость товара со свойствами
+                 $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['price']=@$return_price[0]; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                  $main['attrs'][$attrs2['products_nnn']][$attrs2['attr_name']][$attrs2['attr_val']]['price_starter']=@$return_price[2];
 
             } while($attrs2=mysql_fetch_assoc($attrs)); }
@@ -318,9 +318,9 @@ Debug::log();
 
     function collect_products($i, $type = "cat", $group_img_flag = "0", $onlynums_flag = "0", $startfrom=0, $sorttype="dat", $sortdirection="DESC") {
         Debug::log();
-        // кратко: type=nnn / cat / srch / main / new / attr / keyw / nnn_connects / nnn_array
-        // отображение в разделах, поиске, главной, спец страницы: новинки, производители, по ключ словам, по любым аттрибутам
-        // nnn_connects - взаимосвязанные товары могут быть из любых магазинов!
+        // пїЅпїЅпїЅпїЅпїЅпїЅ: type=nnn / cat / srch / main / new / attr / keyw / nnn_connects / nnn_array
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // nnn_connects - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
 
         if (is_array($i)) {
             $ii = implode("_", $i);
@@ -328,7 +328,7 @@ Debug::log();
             $ii = $i;
         }
 
-        // используем кэш, если не прошло заданного времени
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if ((time() - (60 * CACHE_TIMEOUT)) < 
                 @$_SESSION['cache']['products'][SHOP_NNN][$ii][$type][$group_img_flag][$startfrom][$_SESSION['customers_id']]['time']) {  
             return unserialize($_SESSION['cache']['products'][SHOP_NNN][$ii][$type][$group_img_flag][$startfrom][$_SESSION['customers_id']]['sql']);
@@ -353,32 +353,32 @@ Debug::log();
             " . DB_PREFIX . "products.price_distr, " . DB_PREFIX . "products.price_guest, " . DB_PREFIX . "products.price_opt, 
                 prior_sales, prior_distr, prior_guest, prior_opt, star, ordered, viewed, " . DB_PREFIX . "products.nnn";
         
-        //////////////// nnn - конкретный товар:
+        //////////////// nnn - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ:
         
         if ($type == "nnn") {
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn='" . $i . "') AND status!='hid' " . @$add_sql . " ORDER BY dat DESC";
         }
         
-        //////////////// nnn_array - массив товаров
+        //////////////// nnn_array - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         
         if ($type == "nnn_array") {
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn IN ('" . implode("', '", $i) . "')) AND status!='hid' " . @$add_sql . " ORDER BY dat DESC";
         }
         
-        //////////////// nnn_connects - связанные товары из разных магазинов (кроме старого движка):
+        //////////////// nnn_connects - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ):
              
         if ($type == "nnn_connects") {
             $add_sql = "";
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn IN ('" . $i . "')) AND status!='hid' ORDER BY dat DESC";
         }
         
-        //////////////// cat - товары выбранной категории + подкатегории
+        //////////////// cat - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
              
         if ($type == "cat") {
             $sql = "SELECT " . $vars . ", " . DB_PREFIX . "products_2_cats.shop_cat FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND " . DB_PREFIX . "products.status!='hid' " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE); 
         }
         
-        //////////////// srch - поиск по названию
+        //////////////// srch - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
              
         if ($type == "srch") {
             $i2 = explode(" ", $i);
@@ -393,37 +393,37 @@ Debug::log();
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE (" . substr($i5, 0, -4) . ") AND status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE);
         }
         
-        //////////////// main - товары на главной
+        //////////////// main - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
              
         if ($type == "main") { 
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE products_2_cats.on_main='1' AND status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY products_2_cats.on_main_ord DESC, dat DESC";
-        } // TODO: on_main_ord ASC -> DESC временно 
+        } // TODO: on_main_ord ASC -> DESC пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
         
-        //////////////// new - указанное количество новых товаров
+        //////////////// new - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
              
         if ($type == "new") {
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY dat DESC LIMIT " . $i . "";
         }
         
-        //////////////// attr - товары с определенными свойствами (+ производитель)
+        //////////////// attr - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (+ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
              
         if ($type == "attr") {
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_attr, " . DB_PREFIX . "products_2_cats WHERE attr_name='" . trim($i[0]) . "' AND attr_val='" . trim($i[1]) . "' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_attr.products_nnn AND " . DB_PREFIX . "products.status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE);
         }
         
-        //////////////// keyws - товары с определенными ключевыми словами
+        //////////////// keyws - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
              
         if ($type == "keyw") {
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_keywords, " . DB_PREFIX . "products_2_cats WHERE keyword='" . $i . "' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_keywords.products_nnn AND " . DB_PREFIX . "products.status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE);
         }
         
-        //////////////// pop_ord - самые заказываемые товары
+        //////////////// pop_ord - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      
         if ($type == "pop_ord") {
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ordered DESC LIMIT " . $i . "";
         }
         
-        //////////////// pop_vwd - самые просматриваемые товары
+        //////////////// pop_vwd - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
              
         if ($type == "pop_vwd") {
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY viewed DESC LIMIT " . $i . "";
@@ -435,7 +435,7 @@ Debug::log();
 
         if (@$onlynums_flag == "1") {
             return mysql_num_rows($sel_sql);
-        } // только количество!
+        } // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
 
         if (mysql_num_rows($sel_sql) > 0) {
 
@@ -446,7 +446,7 @@ Debug::log();
                     if ($sel['shop_cat'] == $i) {
                         $main[$sel['nnn']]['smart_sort'] = "0";
                     } else {
-                        if (!isset($main[$sel['nnn']]['smart_sort'])) { // поменяв однажды не будем менять!
+                        if (!isset($main[$sel['nnn']]['smart_sort'])) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!
                             $main[$sel['nnn']]['smart_sort'] = "1";
                         }
                     }
@@ -456,7 +456,7 @@ Debug::log();
                     continue;
                 }
 
-                foreach ($sel as $k => $v) { // весь массив
+                foreach ($sel as $k => $v) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     if ($k == "nnn") {
                         continue;
                     }
@@ -473,7 +473,7 @@ Debug::log();
                 $main[$sel['nnn']]['viewed_day'] = ceil($sel['viewed'] / ((time() - $sel['dat']) / 60 / 60 / 24));
 
                 //if($main[$sel['nnn']]['ordered_month']>$sel['ordered']) { $main[$sel['nnn']]['ordered_month']=$sel['ordered']; } 
-                // если товар еще не продается месяц, то оставляем гипотетический результат
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 if ($main[$sel['nnn']]['ordered_day'] > $sel['ordered']) {
                     $main[$sel['nnn']]['ordered_day'] = $sel['ordered'];
                 }
@@ -482,7 +482,7 @@ Debug::log();
                     $main[$sel['nnn']]['viewed_day'] = $sel['viewed'];
                 }
 
-                // даже для групп определяем цену сначала как для обычного товара !
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ !
                 $return_price = $this->product_prices(
                         array('price' => $sel['price'],
                     'price_sales' => $sel['price_sales'],
@@ -503,7 +503,7 @@ Debug::log();
                         $main[$sel['nnn']]['img'] = $sql_img2['img'] . ";" . $main[$sel['nnn']]['img'];
                     } else {
                         $main[$sel['nnn']]['img'] = $sql_img2['img'];
-                    } // если есть офиц. картинка для группы, то она заменяется
+                    } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 }
 
                 // cats          
@@ -511,7 +511,7 @@ Debug::log();
                 FROM " . DB_PREFIX . "products_2_cats WHERE products_nnn='" . $sel['nnn'] . "'");
                 $sql_cats2 = mysql_fetch_assoc($sql_cats);
                 do {                    
-                    if ($type == "cat" & count($arr_status_i[$sql_cats2['shop_cat']]) > 0) { // для категорий убираем лишние разделы
+                    if ($type == "cat" & count(@$arr_status_i[$sql_cats2['shop_cat']]) > 0) { // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                         if ($sql_cats2['shop_cat'] == $i) {
                             $main[$sql_cats2['products_nnn']]['smart_sort'] = "0";
                         } else {
@@ -528,7 +528,7 @@ Debug::log();
                         $main[$sql_cats2['products_nnn']]['shop_cat_priority'] = $sql_cats2['shop_cat'];
                     } else {
                         if (!isset($main[$sql_cats2['products_nnn']]['shop_cat_priority'])&&
-                                $arr_status[$sql_cats2['shop_cat']]['hostshop']==SHOP_NNN) { // @reviewlate: обрубаем все приоритеты не тек магазина
+                                $arr_status[$sql_cats2['shop_cat']]['hostshop']==SHOP_NNN) { // @reviewlate: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                             $main[$sql_cats2['products_nnn']]['shop_cat_priority'] = $sql_cats2['shop_cat'];
                         }
                     }
@@ -545,36 +545,36 @@ Debug::log();
                         if (!isset($main[$sql_cats2['products_nnn']]['shop_cat_onlyshop'])) {
                             $main[$sql_cats2['products_nnn']]['shop_cat_onlyshop'] = $catsup;
                         }
-                    } // @reviewlate: тут вместо кэтсапа можно использовать $arr_status[shopcat][hostshop]
+                    } // @reviewlate: пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ $arr_status[shopcat][hostshop]
                     
-                    if ($type == "main" || $type == "cat" || $type == "keyw" || $type == "attr" || $type == "srch") { // сбор group_by
+                    if ($type == "main" || $type == "cat" || $type == "keyw" || $type == "attr" || $type == "srch") { // пїЅпїЅпїЅпїЅ group_by
                         $main['group_by_cat'][$sql_cats2['shop_cat']][$sql_cats2['products_nnn']] = $sql_cats2['products_nnn'];
                         $main['group_by_shop'][$main[$sql_cats2['products_nnn']]['shop_cat_onlyshop']['nnn']][$sql_cats2['products_nnn']] = 
                                 $sql_cats2['products_nnn'];
                     }
                 } while ($sql_cats2 = mysql_fetch_assoc($sql_cats));
 
-                // лишнее
+                // пїЅпїЅпїЅпїЅпїЅпїЅ
                 unset($main[$sel['nnn']]['price_sales'], $main[$sel['nnn']]['price_guest'], 
                         $main[$sel['nnn']]['price_distr'], $main[$sel['nnn']]['price_opt'], 
                         $main[$sel['nnn']]['prior_sales'], $main[$sel['nnn']]['prior_distr'], 
                         $main[$sel['nnn']]['prior_guest'], $main[$sel['nnn']]['prior_opt']);
 
-                // есть цена
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 if (@$return_price[0] > 0) {
                     $main[$sel['nnn']]['price'] = $return_price[0];
                     $main[$sel['nnn']]['price_star'] = @$return_price[1];
                     $main[$sel['nnn']]['price_starter'] = $return_price[2];
-                } // цена после выбора
+                } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 
-                // prd_in_grps но только если type=keyw, attr (т.к. будем искать группы, внутри кот. есть товары с искомым запросом)
+                // prd_in_grps пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ type=keyw, attr (пїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
                 if ($sel['type'] != "grp" && ($type == "attr" || $type == "keyw")) {
                     $grp_check_in[$sel['nnn']] = $sel['nnn'];
                 }
             } while ($sel = mysql_fetch_assoc($sel_sql));
 
 
-            ///////// PRD_IN_GRPS - ищем группы
+            ///////// PRD_IN_GRPS - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             if (count(@$grp_check_in) > 0) {
                 $grp_check = mysql_kall("SELECT products.nnn, grp_nnn FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats
                   WHERE " . DB_PREFIX . "products.status!='hid' AND grp_nnn!='' AND 
@@ -596,11 +596,11 @@ Debug::log();
                 unset($main[$sel['nnn']]['prd_in_grps']['']);
             }
 
-            // ГРУППЫ
+            // пїЅпїЅпїЅпїЅпїЅпїЅ
             if (count(@$grp_collect) > 0) {
                 foreach ($grp_collect as $k => $v) {
                     $v = trim($v);
-                    // меняем цену, если она не фиксирована
+                    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     $return_arr = $this->product_group($v, $main[$k]['price'], 0, @$_SESSION['customers_id']); // LEVEL 3->LEVEL 2
                     // out -> grp_nazv, grp_weight, {grp_weight_flag}, priors[], price_star, price, 
                     // {price_grp_currency, price_starter, price_grp_currency_starter}, img
@@ -611,19 +611,19 @@ Debug::log();
                     
                     if (@$return_arr['price_grp_currency'] > 0) {
                         $main[$k]['price_grp_currency'] = $return_arr['price_grp_currency'];
-                    } // false - если фикс. цена
+                    } // false - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ
                     
                     if (@$return_arr['price_starter'] > 0) {
                         $main[$k]['price_starter'] = $return_arr['price_starter'];
-                    } // false - если фикс. цена
+                    } // false - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ
                     
                     if (@$return_arr['price_grp_currency_starter'] > 0) {
                         $main[$k]['price_grp_currency_starter'] = $return_arr['price_grp_currency_starter'];
-                    } // false - если фикс. цена
+                    } // false - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ
                     
                     if (@$return_arr['img'] != "") {
                         $main[$k]['img'] = $return_arr['img'];
-                    } // если есть, показываем официальную картинку вместо нескольких
+                    } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     
                     if (isset($return_arr['price_star'])) {
                         $main[$k]['price_star'] = $return_arr['price_star'];
@@ -652,7 +652,7 @@ Debug::log();
     //
     //
 
-    function collect_products_full($i) { // собираем все возможные данные по товару
+    function collect_products_full($i) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         Debug::log();
         $add_sql=cats(); $arr_status=cats('arr');
         $sql="SELECT ".DB_PREFIX."products.*  FROM ".DB_PREFIX."products, ".DB_PREFIX."products_2_cats WHERE ".DB_PREFIX."products.nnn=".DB_PREFIX."products_2_cats.products_nnn AND ".DB_PREFIX."products.nnn='".$i."' AND status!='hid' ".@$add_sql;
@@ -673,25 +673,25 @@ Debug::log();
         if($main['viewed_month']>$sel['viewed']) { $main['viewed_month']=$sel['viewed']; }
         if($main['viewed_day']>$sel['viewed']) { $main['viewed_day']=$sel['viewed']; }
 
-        // даже для групп определяем цену сначала как для обычного товара !
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ !
         $return_price=$this->product_prices(array('price'=>$sel['price'],'price_sales'=>$sel['price_sales'],'price_distr'=>$sel['price_distr'],'price_guest'=>$sel['price_guest'],'price_opt'=>$sel['price_opt']),array('prior_distr'=>$sel['prior_distr'],'prior_guest'=>$sel['prior_guest'],'prior_sales'=>$sel['prior_sales'],'prior_opt'=>$sel['prior_opt']),0,@$_SESSION['customers_id'],'prd');
         // LEVEL 3 -> LEVEL 1 // out -> return_price[0], return_price[1], return_price[2]
 
         unset($main['price_sales'],$main['price_guest'],$main['price_distr'],$main['price_opt'],$main['prior_sales'],$main['prior_distr'],$main['prior_guest'],$main['prior_opt']);
 
-        if(@$return_price[0]>0) { $main['price']=$return_price[0]; $main['price_star']=@$return_price[1]; $main['price_starter']=@$return_price[2]; } // цена после выбора
+        if(@$return_price[0]>0) { $main['price']=$return_price[0]; $main['price_star']=@$return_price[1]; $main['price_starter']=@$return_price[2]; } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         // grp_nnn
-        if($sel['grp_nnn']!="") { // собираем данные по группе
+        if($sel['grp_nnn']!="") { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         
-        // находим новую цену группы, если только она не фиксирована
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         $return_arr=$this->product_group($sel['grp_nnn'],$main['price'],0,@$_SESSION['customers_id']); // LEVEL 3 -> LEVEL 2
         // out -> grp_nazv, grp_weight, {grp_weight_flag}, priors[], price_star, price, {price_grp_currency, price_starter, price_grp_currency_starter}, img
 
         if(@$return_arr['price']>0) { $main['price']=$return_arr['price']; }
-        if(@$return_arr['price_grp_currency']>0) { $main['price_grp_currency']=$return_arr['price_grp_currency']; } // false - если фикс. цена
-        if(@$return_arr['price_starter']>0) { $main['price_starter']=$return_arr['price_starter']; } // false - если фикс. цена
-        if(@$return_arr['price_grp_currency_starter']>0) { $main['price_grp_currency_starter']=$return_arr['price_grp_currency_starter']; } // false - если фикс. цена
+        if(@$return_arr['price_grp_currency']>0) { $main['price_grp_currency']=$return_arr['price_grp_currency']; } // false - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ
+        if(@$return_arr['price_starter']>0) { $main['price_starter']=$return_arr['price_starter']; } // false - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ
+        if(@$return_arr['price_grp_currency_starter']>0) { $main['price_grp_currency_starter']=$return_arr['price_grp_currency_starter']; } // false - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ
         if(@$return_arr['img']!="") { $main['img'][]=$return_arr['img']; }
         if(isset($return_arr['price_star'])) { $main['price_star']=$return_arr['price_star']; }
         if(@$return_arr['grp_weight']>0) { $main['grp_weight']=$return_arr['grp_weight']; }
@@ -726,12 +726,12 @@ Debug::log();
                                 if(!isset($main['shop_cat_onlyshop'])) {
                                 $main['shop_cat_onlyshop']=$catsup; }  }
 
-        // shop_cat_priority - определяет откуда брать параметры для валюты и разделения по корзинам (доставка) если товар расположен в нескольких разделах
-        // shop_cat_onlyshop - определяет откуда брать статусы магазина для разделения по корзинам (магазины)
+        // shop_cat_priority - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // shop_cat_onlyshop - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         } while($sql_cats2=mysql_fetch_assoc($sql_cats));
 
         foreach($main['shop_cat_onlyshop_arr'] as $o1=>$o2) {
-        if(!isset($main['shop_cat'][$o2['nnn']])) { // добавим в массив магазин товара
+        if(!isset($main['shop_cat'][$o2['nnn']])) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             $main['shop_cat'][$o2['nnn']]=@$arr_status[$o2['nnn']]['status'];
             $main['shop_cat_currency'][$o2['nnn']]=@$arr_status[$o2['nnn']]['currency'];
             $main['shop_cat_nazv'][$o2['nnn']]=$o2['nazv'];
@@ -753,12 +753,12 @@ Debug::log();
 
         // attrs
         if($sel['type']=="prd") { $ii=$i; $priors[$ii]=array('prior_distr'=>$sel['prior_distr'],'prior_guest'=>$sel['prior_guest'],'prior_sales'=>$sel['prior_sales'],'prior_opt'=>$sel['prior_opt']);
-        } else { $ii=$sel['grp_nnn']; $priors=@$return_arr['priors']; } // $return_arr['priors'][] - остался после функции product_group
+        } else { $ii=$sel['grp_nnn']; $priors=@$return_arr['priors']; } // $return_arr['priors'][] - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ product_group
         
         $return_attr=$this->product_attrs($ii,$sel['type'],$priors); // LEVEL 3->LEVEL 2
         // out -> [prd_id][attr_name][attr_val] attr_nnn, attr_type, attr_descr, change, attr_dominant, price, price_starter
 
-        if(count(@$return_attr)>0) { $main=$main+$return_attr; } // объединяем массив со свойствами с остальными
+        if(count(@$return_attr)>0) { $main=$main+$return_attr; } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         // reviews & rates
          $reviews=mysql_kall("SELECT * FROM ".DB_PREFIX."products_reviews WHERE products_nnn='".$i."'");
@@ -804,8 +804,8 @@ Debug::log();
     function collect_attrs($attrs,$prd_type,$grp_nnn="",$currency,$catshop_currency,$currency_price,$skip_flag="0") {
         Debug::log();
         // in -> [prd_id][attr_name][attr_val] attr_nnn, attr_type, attr_descr, change, attr_dominant, price, price_starter
-        //// attrs- array, prd_type - prd,grp, grp_nnn - для группы, currency - коэф товара, catshop_currency - коэф магазина
-        // currency_price - переведенный по коэф цена товара, skip_flag - для группы, если 1 - значит фиксированная цена и свойства ничего не меняют
+        //// attrs- array, prd_type - prd,grp, grp_nnn - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, currency - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, catshop_currency - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // currency_price - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, skip_flag - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ 1 - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         // out - attr_choose, attr_descr
 
         $arr['attrs']=$attrs;
@@ -821,14 +821,14 @@ Debug::log();
             foreach($vvv as $kkkk=>$vvvv) { if($vvvv['attr_dominant']== "1") { $dominant_name = $kkk; break; } } 
             ksort($vvv);
             foreach($vvv as $kkkk=>$vvvv) { 
-                                if(count($vvv)>1) { // если нет выбора, то цена не может меняться и в корзине не показывать
+                                if(count($vvv)>1) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                                     $price_attr=""; 
-                                    // $kkkk - значение: attr_nnn! attr_type!, attr_descr-, change!, attr_dominant!, price!
+                                    // $kkkk - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: attr_nnn! attr_type!, attr_descr-, change!, attr_dominant!, price!
                                     if(trim($kkkk)=="") { continue; }
                                     if($kkk == $dominant_name) { $vvvv['attr_dominant'] = 1; } 
                                     if($vvvv['attr_type']=="choose") {
 
-                                             // обр. цену, если это группа и цена не фиксированная
+                                             // пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                                             if($arr['type']=="grp"&&$vvvv['price']>0&&$skip_flag!="1") {                                                
                                                 $price_attr=$this->product_group($arr['grp_nnn'], 0, 
                                                         array($k=>$vvvv['attr_nnn']), @$_SESSION['customers_id']); // LEVEL 4 -> LEVEL 2
@@ -838,28 +838,28 @@ Debug::log();
 
                                             if($arr['type']=="prd"&&$vvvv['price']>0) { $price_attr=$vvvv['price']; }
 
-                                            // опр. что вообще делать дальше                                            
+                                            // пїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ                                            
                                             if($vvvv['change']=="1"&&$vvvv['attr_dominant']=="1"&&@$price_attr>0) {
 
                                             $price_attr_format="";
                                             if($arr['type']!="grp") { 
                                                 $price_attr=currency_converter($price_attr, $catshop_currency, $arr['currency']); } else {
-                                                // если группа, то высчитываем разницу между новой ценой группы (price_attr_currency) 
-                                                // и изначальной (currency_price)
-                                                if(@$price_attr_currency>0) { // если новой цены нет, то значение передаем 0 (вообще, это ошибка)
-                                                $price_attr=$price_attr_currency-$arr['currency_price']; // разница
-                                                if($price_attr>=0) { $price_attr_format="+"; } // добавляем + для формы
-                                                                            } else { $price_attr=0; } // ошибка
+                                                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (price_attr_currency) 
+                                                // пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (currency_price)
+                                                if(@$price_attr_currency>0) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 0 (пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
+                                                $price_attr=$price_attr_currency-$arr['currency_price']; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                                                if($price_attr>=0) { $price_attr_format="+"; } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+                                                                            } else { $price_attr=0; } // пїЅпїЅпїЅпїЅпїЅпїЅ
                                                 unset($price_attr_currency);
-                                                } // для группы
+                                                } // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
                                             if($price_attr<0||$price_attr>0) {
                                                         $price_attr_format=$price_attr_format.number_format($price_attr,2);
                                                         $str_opt=$kkkk."___".$price_attr."_";
                                                         $str_opt2=$kkkk." / ".$price_attr_format;
-                                                } else { $price_attr=0; $str_opt2=$kkkk; $str_opt=$str_opt2; } // если 0, то ничего не меняем
+                                                } else { $price_attr=0; $str_opt2=$kkkk; $str_opt=$str_opt2; } // пїЅпїЅпїЅпїЅ 0, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                                             } else { $price_attr=0; $str_opt2=$kkkk; $str_opt=$str_opt2; } 
-                                            // чтобы изм. цену должны быть соблюдены 3 условия: доминант-1, change-1, цена>0
+                                            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ-1, change-1, пїЅпїЅпїЅпїЅ>0
 
                                             // $kk." ".$arr['type']." / ".$arr['currency_price']."
                                             //    / skip? ".$skip_flag." }{ ".$kkk." ".$kkkk." }{ change? <b>".$vvvv['change']."</b> dominant?
@@ -869,9 +869,9 @@ Debug::log();
                                                 $arr['attr_choose'][$k][$kk][$kkk]=@$arr['attr_choose'][$k][$kk][$kkk].
                                                         "<option value='".$str_opt."'>".$str_opt2."</option>";
                                             } // choose
-                                } // если нет выбора, то это не choose, а descr
+                                } // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ choose, пїЅ descr
                                 
-                                      if($vvvv['attr_type']=="descr"||$vvvv['attr_type']=="choose") { // собираем просто для описания и attr_id
+                                      if($vvvv['attr_type']=="descr"||$vvvv['attr_type']=="choose") { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ attr_id
                                           $arr['attr_descr'][$kkk][$kkkk]=$vvvv['attr_nnn'];
                                           }
                                     }
@@ -888,8 +888,8 @@ Debug::log();
     //
 
     function collect_pig($prds) { // Products In Groups (PIG)
-        // (костыль) спец функция для страниц товаров сгруп. по свойствам, ключ словам или результатам поиска. - для того, чтобы в результатах
-        // также отображались группы, где есть встр. свойства, ключ слова или поисковый запрос
+        // (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         Debug::log();
         if(count($prds)>0) { 
         $v4=array(); $v5=array();
@@ -921,16 +921,16 @@ Debug::log();
     function show_product($arr, $key_arr, $showtype="brief") { // arr - product array // $showtype=brief, full, tiny, tiny_bsk, compare
         // $arr['status'](buy predzakaz temp hid free), $arr['shop_cat'], $arr['shop_cat_currency'], 
         // $arr['currency'], $arr['img'], $arr['price_star'](0-5)
-        // глобальный обработчки товара, корректирует вывод. вспомогательная функция
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Debug::log();
-        // kogda - показывает сообщение, если указана дата будущего появления товара
+        // kogda - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if(isset($arr['kogda'])) { 
         $kogda2=ceil(($arr['kogda']-time())/60/60/24);
-        if($kogda2>0) { $arr['kogda']="Товар появится через ".$kogda2." дн. (".date("d.m.Y",$arr['kogda']).")"; } else {
+        if($kogda2>0) { $arr['kogda']="пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ".$kogda2." пїЅпїЅ. (".date("d.m.Y",$arr['kogda']).")"; } else {
         $arr['kogda']=""; }}
 
         // img
-        // убираем массив, если это корзина или страница товара, и группа        
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ        
         
         if(($showtype=="full"&&$arr['type']=="grp")||$showtype=="tiny_bsk"||$showtype=="compare") {
             if($arr['type']=="grp") { if($showtype=="compare") { $arr['img']=array_reverse($arr['img']); $arr_img=explode(";",$arr['img'][0]); $arr['img']=trim($arr_img[0]); } else { $arr['img']=@implode(";",array_reverse(@$arr['img'])); }
@@ -939,11 +939,11 @@ Debug::log();
 
             $arr['img_full'] = $arr['img'];
             
-        if($arr['type']=="grp") { $arr['img']=img_mini(@$arr['img'],$showtype, $key_arr); } else { // если группа
-        // если обычный товар
-        if($showtype=="brief"||$showtype=="tiny"||$showtype=="tiny_bsk"||$showtype=="compare") { // по одной картинке
+        if($arr['type']=="grp") { $arr['img']=img_mini(@$arr['img'],$showtype, $key_arr); } else { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        if($showtype=="brief"||$showtype=="tiny"||$showtype=="tiny_bsk"||$showtype=="compare") { // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             $arr['img']=img_mini(@$arr['img'],$showtype,$key_arr);
-            } else { // несколько картинок с возм. открытяи в отдельном окне
+            } else { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             $arr['img']=img_full(@$arr['img']);
             }}
 
@@ -970,21 +970,21 @@ Debug::log();
                 }
             }
 
-       // КОЭФФИЦИЕНТ, ВАЛЮТА И Т.П,
+       // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ.пїЅ,
        // price_currency
-       if(isset($arr['shop_cat_priority'])) { $catshop_currency=$arr['shop_cat_currency'][$arr['shop_cat_priority']]; } else { // опр по приоритету, а если нет то по старинке
+       if(isset($arr['shop_cat_priority'])) { $catshop_currency=$arr['shop_cat_currency'][$arr['shop_cat_priority']]; } else { // пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
        if(isset($arr['shop_cat_currency'])) { arsort($arr['shop_cat_currency']); foreach($arr['shop_cat_currency'] as $k=>$v) { $catshop_currency=$v; break; }}
        }
        // $arr['type']." -> ".@$arr['price_grp_currency']."/".@$arr['price_grp_currency_starter']."
        //<-> ".@$arr['currency_price']."/".@$arr['currency_price_starter']." <-> ".@$arr['price']."/".@$arr['price_starter']." <br>"; // debug
        
-       if($arr['type']!="grp"||($arr['type']=="grp"&&!isset($arr['price_grp_currency']))) { // для товаров или групп с фиксированной ценой
+       if($arr['type']!="grp"||($arr['type']=="grp"&&!isset($arr['price_grp_currency']))) { // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
        $arr['currency_price']=currency_converter($arr['price'],$catshop_currency,$arr['currency']);
        $arr['currency_price_starter']=currency_converter($arr['price_starter'],$catshop_currency,$arr['currency']);
-       } else { $arr['currency_price']=$arr['price_grp_currency']; $arr['currency_price_starter']=$arr['price_grp_currency_starter']; } // в группе мы все сделали заранее
+       } else { $arr['currency_price']=$arr['price_grp_currency']; $arr['currency_price_starter']=$arr['price_grp_currency_starter']; } // пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
        if($arr['type']=="grp"&&!isset($arr['price_grp_currency'])) { $arr['grp_attr_skip_flag']="1"; }
-       // если у группы цена фиксированная, то аттрибуты не могут менять цены, т.к. аттрибуты принадлежать к товарам и их ценам => ставим флажок
+       // пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ => пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
        // $arr['type']." -> ".@$arr['price_grp_currency']."/".@$arr['price_grp_currency_starter']."
        //<-> ".@$arr['currency_price']."/".@$arr['currency_price_starter']." <-> ".@$arr['price']."/".@$arr['price_starter']." <br>"; // debug
@@ -996,41 +996,41 @@ Debug::log();
 
        // status
        $baskettxt=BASKET_TXT; $arr['basket_link']="";
-       if($arr['status']=="predzakaz") { $baskettxt=BASKET_PREDZAKAZ_TXT; } // в зависимости от статуса меняем текст корзины
+       if($arr['status']=="predzakaz") { $baskettxt=BASKET_PREDZAKAZ_TXT; } // пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         // shop_cat, status
-        // shop_cat -> статусы, shop_cat_priority -> приоритетный раздел, shop_cat_onlyshop -> приоритетный магазин
-        // shop_cat_onlyshop_arr -> все магазины + connected_2_current - какова связь с текущим
+        // shop_cat -> пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, shop_cat_priority -> пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, shop_cat_onlyshop -> пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // shop_cat_onlyshop_arr -> пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ + connected_2_current - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-        // TODO: проверить как это работает с подч. магазинами теперь; сделать более адекватную систему, 
-        // так как иначе любой товар разм в разных магазинах перенаправляется в тот, кот. был создан первым
+        // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 
+        // пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if(isset($arr['shop_cat_priority'])) { $cat_status_k=$arr['shop_cat_priority']; $cat_status=$arr['shop_cat'][$arr['shop_cat_priority']]; } else {
         if(isset($arr['shop_cat'])) { asort($arr['shop_cat']);
         foreach($arr['shop_cat'] as $k=>$v) { $cat_status_k=$k; $cat_status=$v; break; }}}
 
-        // сверяем статус товара в разделе со статусом магазина, к которому этот раздел принадлежит и заменяем, если тот меньше
-        // но пропускаем если текущий магазин совпадает с магазином товара
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         //$arr['shop_cat_onlyshop_arr'][$cat_status_k]['nnn']    
         
-        if(@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['nnn']!=SHOP_NNN) { // товар не относится к тек магазину
+        if(@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['nnn']!=SHOP_NNN) { // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-             if(@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['connected_2_current']==""&&array_key_exists('connected_2_current',@$arr['shop_cat_onlyshop_arr'][$cat_status_k])) { // магазин товара не подчинен
-                $cat_status=1; } else {  // магазин товара подчинен
+             if(@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['connected_2_current']==""&&array_key_exists('connected_2_current',@$arr['shop_cat_onlyshop_arr'][$cat_status_k])) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                $cat_status=1; } else {  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if(@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['status']!=""&&@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['status']>0&&@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['status']<$cat_status) {
-            // статус магазина товара перекрывает статус раздела
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             $cat_status=@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['status']; 
             }}}
 
-        // определяем локальный это магазин или нет, если нет, то перенаправляем
-        // TODO: именно здесь должна происходить основная доработка по статусам магазина (1-2-3-4) + отобр. разделов?
-        if((@$cat_status=="1"||@$cat_status=="2")&&@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['remote_addr']!="") { // локальной ссылки нет
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (1-2-3-4) + пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
+        if((@$cat_status=="1"||@$cat_status=="2")&&@$arr['shop_cat_onlyshop_arr'][$cat_status_k]['remote_addr']!="") { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
         if(substr($arr['shop_cat_onlyshop_arr'][$cat_status_k]['remote_addr'],-1)!="/") { $arr['shop_cat_onlyshop_arr'][$cat_status_k]['remote_addr'].="/"; }
         $arr['nazv_link']=$arr['shop_cat_onlyshop_arr'][$cat_status_k]['remote_addr']."product/".$key_arr;
-        // TODO: если данные о товаре из xml, то nnn из массива должно быть?! позже
+        // TODO: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ xml, пїЅпїЅ nnn пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ?! пїЅпїЅпїЅпїЅпїЅ
         if($cat_status=="2"&&($arr['status']=="buy"||$arr['status']=="predzakaz"||$arr['status']=="free")) {
-        $arr['basket_link']="<a href=".$arr['shop_cat_onlyshop_arr'][$cat_status_k]['remote_addr']."product/".$key_arr."/add2cart>".$baskettxt."</a>"; } // TODO: доработать
+        $arr['basket_link']="<a href=".$arr['shop_cat_onlyshop_arr'][$cat_status_k]['remote_addr']."product/".$key_arr."/add2cart>".$baskettxt."</a>"; } // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-        } else { // локальная ссылка есть
+        } else { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         $arr['nazv_link']=MAINURL."/product/".$key_arr;
         if($arr['status']=="buy"||$arr['status']=="predzakaz"||$arr['status']=="free") { // TODO: predzakaz, free
         //if($showtype=="full") {
@@ -1042,7 +1042,7 @@ Debug::log();
 
         }}
 
-        if($cat_status!="1"&&$arr['status']=="temp") { $arr['basket_link']=BASKET_NO_ORDER; $arr['price_formated']=""; } // TODO: доработать temp, predzakaz, free
+        if($cat_status!="1"&&$arr['status']=="temp") { $arr['basket_link']=BASKET_NO_ORDER; $arr['price_formated']=""; } // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ temp, predzakaz, free
         if($arr['status']=="predzakaz") { $arr['basket_link']=$arr['basket_link']; $arr['price_formated']=""; }
         if($arr['status']=="free") { $arr['price_formated']=BASKET_FREE; }
 
@@ -1053,7 +1053,7 @@ Debug::log();
 
         if($showtype=="brief"||$showtype=="tiny") { if(strlen($arr['nazv'])>NAZV_TINY_LEN) { $arr['nazv_tiny']=substr($arr['nazv'],0,NAZV_TINY_LEN)."..."; } else { $arr['nazv_tiny']=$arr['nazv']; } }
         
-        // PRICE ARRAY - засовываем все цены в один ключ
+        // PRICE ARRAY - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         $arr['all_prices']['price']=@$arr['price'];
         $arr['all_prices']['price_starter']=@$arr['price_starter'];
         $arr['all_prices']['currency_price']=@$arr['currency_price'];
@@ -1065,7 +1065,7 @@ Debug::log();
         // attrs ///////////////////////////////////////////////////////////////////////////////
         if($showtype=="full"||$showtype=="compare"||$showtype=="tiny_bsk") { // k - num, kk- nnn, kkk - name
 
-        // спец функция, которая оформляет уже существующий массив attrs в форму для корзины
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ attrs пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         $return_attr=$this->collect_attrs($arr['attrs'], $arr['type'], @$arr['grp_nnn'], @$arr['currency'], @$catshop_currency, @$arr['currency_price'], @$arr['grp_attr_skip_flag']);
         // LEVEL 5 -> LEVEL 4 / out -> attr_choose, attr_descr
 
@@ -1075,15 +1075,15 @@ Debug::log();
         unset($arr['attrs']);
         ////////////////////////////////////////////////////////////////////////////////////
 
-        // полная форма добавления в корзину
-        if(@$arr['basket_link']!="") { // TODO: не показывать корзину в опр. случая, бесплатные товары?
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        if(@$arr['basket_link']!="") { // TODO: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ?
         $everybody_forms=new forms;
         $add2bsk=$everybody_forms->add2basket_form($key_arr,@$arr['basket_link'],@$arr['attr_choose'],@$arr['attr_descr'],@$arr['grp_nazv'],@$showtype,@$arr['status']);
         $arr['full_basket_form']=$add2bsk; }
         //
 
         // OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT OUT
-        if($showtype=="tiny"||$showtype=="tiny_bsk") { // удаляем почти все значения
+        if($showtype=="tiny"||$showtype=="tiny_bsk") { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         $tiny_arr['nazv']=@$arr['nazv'];
         $tiny_arr['grp_nazv']=@$arr['grp_nazv'];
@@ -1101,9 +1101,9 @@ Debug::log();
             $tiny_arr['type']=@$arr['type'];
             $tiny_arr['template_type']=$arr['template_type'];
             $tiny_arr['nazv_tiny']=$arr['nazv_tiny'];
-            } else { // все для корзины
+            } else { // пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-			// разделение корзины
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 			//
 			
@@ -1115,20 +1115,20 @@ Debug::log();
                 $tiny_arr['status']=@$arr['status'];
                 $tiny_arr['currency_price']=@$arr['currency_price'];
 
-                $tiny_arr['shop_cat_status']=@$arr['shop_cat'][@$arr['shop_cat_onlyshop']['nnn']]; // к какому магазину относится товар
-                $tiny_arr['shop_cat_nazv']=@$arr['shop_cat_nazv'][@$arr['shop_cat_onlyshop']['nnn']]; // назв. магаза, а не раздела
+                $tiny_arr['shop_cat_status']=@$arr['shop_cat'][@$arr['shop_cat_onlyshop']['nnn']]; // пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+                $tiny_arr['shop_cat_nazv']=@$arr['shop_cat_nazv'][@$arr['shop_cat_onlyshop']['nnn']]; // пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 $tiny_arr['shop_cat_basketsep']=@$arr['shop_cat_basketsep'][@$arr['shop_cat_priority']];
                 $tiny_arr['shop_cat_onlyshop']=@$arr['shop_cat_onlyshop']['nnn'];
 
                     if(@$arr['type']=="grp") {
-                    if(@$arr['grp_weight_flag']=="1") { // у одного из товаров группы не указан вес, ставим всей группе 0
+                    if(@$arr['grp_weight_flag']=="1") { // пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 0
                 $tiny_arr['weight']="0";
-                    } else { // веc группы
+                    } else { // пїЅпїЅc пїЅпїЅпїЅпїЅпїЅпїЅ
                 $tiny_arr['weight']=@$arr['grp_weight'];
-                    }} else { // вес товара
+                    }} else { // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 $tiny_arr['weight']=@$arr['weight']; }
 
-            } // tiny_bsk - данные для корзины
+            } // tiny_bsk - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         unset($arr); $arr=$tiny_arr;
         } // tiny, tiny_bsk
         /////////////////////////////////////////////////// tiny, tiny_bsk ////////////////////////////////////////
@@ -1154,11 +1154,11 @@ Debug::log();
                 AND ".DB_PREFIX."customers_basket_lists.prd_id=".DB_PREFIX."products_2_cats.products_nnn ".$add_sql." 
                     GROUP BY ".DB_PREFIX."customers_basket_lists.nnn ORDER BY date_added ASC";
         }}
-        if(@$sql=="") { $bask_out="{###}Ошибка сессии. ".BASKET_EMPTY."."; } else {
+        if(@$sql=="") { $bask_out="{###}пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. ".BASKET_EMPTY."."; } else {
         $bsk_prd=mysql_call($sql) or die(mysql_error());
         if(mysql_num_rows($bsk_prd)<=0) { $bask_out="{###}".BASKET_EMPTY."."; } else {
 
-            ///// ЧАСТЬ 1
+            ///// пїЅпїЅпїЅпїЅпїЅ 1
             ////////////////////////////////////////////
             //////////////////////////
 
@@ -1166,30 +1166,30 @@ Debug::log();
             unset($bsk, $b_out, $norepeat);
 
             do {
-            // количество
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             $bsk[$bp['prd_id']][$bp['nnn']]['quantity']=$bp['quantity'];
 
-            // собираем данные для товара и группы товара (делаем это 1 раз, потом используем собранную инфу
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ 1 пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             if(isset($norepeat[$bp['prd_id']])) { $b_out=$b_out_backup[$bp['prd_id']]; } else { // COLLECT DATA
             $norepeat[$bp['prd_id']]=$bp['prd_id'];
             $b_out=$this->show_basket_collect_info($bp['prd_id']);
             $b_out_backup[$bp['prd_id']]=$b_out; } // COLLECT DATA
-            if(@$b_out=="") { continue; } // данные по товару не получены (его нет в продаже, например)
+            if(@$b_out=="") { continue; } // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
             $bsk[$bp['prd_id']][$bp['nnn']]['data']=$b_out[$bp['prd_id']]['data'];
             
-            // проверяем выбранные ранее свойства:
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
              $sql2=mysql_kall("SELECT ".DB_PREFIX."customers_basket_attr.nnn as nnn, attr_id,prd_id,grp_sub_id, attr_name, attr_val FROM ".DB_PREFIX."customers_basket_attr, ".DB_PREFIX."products_attr WHERE basket_id='".$bp['nnn']."' AND customers_id='".$bp['customers_id']."' AND ".DB_PREFIX."products_attr.nnn=".DB_PREFIX."customers_basket_attr.attr_id");
             if(mysql_num_rows($sql2)>0) { 
             $sql3=mysql_fetch_assoc($sql2);
             do {
-            // подставляем ранее выбранные свойства в форму
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
             $form_change=$this->show_basket_attrs($bp['prd_id'], $bp['nnn'], $sql3, $b_out[$bp['prd_id']]['attr_form'], $b_out[$bp['prd_id']]['attr_form_shifr'], $b_out[$bp['prd_id']]['data']['type']);
             // out -> $form_change[bp[nnn]] attr_sel_name/attr_sel_val/attr_diff [$sql3['nnn']]
             $bsk[$bp['prd_id']][$bp['nnn']]['attr_diff_price']=@$bsk[$bp['prd_id']][$bp['nnn']]['attr_diff_price']+$form_change[$bp['nnn']][$sql3['nnn']]['attr_diff'];
             $form_change_save[$bp['nnn']][$sql3['nnn']]=$form_change[$bp['nnn']][$sql3['nnn']];
             } while($sql3=mysql_fetch_assoc($sql2)); }
 
-            // меняем в текущей форме свойств те поля, где был сделан выбор
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             if($b_out[$bp['prd_id']]['attr_form']!="") { $bsk[$bp['prd_id']][$bp['nnn']]['attr_form']=$b_out[$bp['prd_id']]['attr_form'];
             if(isset($form_change_save[$bp['nnn']])) { $temp_bsk=$b_out[$bp['prd_id']]['attr_form']; 
              foreach($form_change_save[$bp['nnn']] as $k=>$v) { $temp_bsk = strtr($temp_bsk, $v['attr_sel_change']); }
@@ -1202,10 +1202,10 @@ Debug::log();
             } while($bp=mysql_fetch_assoc($bsk_prd));
 
             ///////////////////////////////////////
-            ///// ЧАСТЬ 2
+            ///// пїЅпїЅпїЅпїЅпїЅ 2
             ////////////////////////
 
-        // сведение, группировка
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if(count($bsk)>0) {
         $bsk_all=$this->show_basket_mix($bsk);
         }
@@ -1220,18 +1220,18 @@ Debug::log();
     //
     //
     // LEVEL 0
-    //          остальное
+    //          пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     //
 
-    // костыли для корзины [1]
-    function show_basket_collect_info($p_id) { // собираем данные по p_id из корзины // <-> collect_products_full!
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ [1]
+    function show_basket_collect_info($p_id) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ p_id пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ // <-> collect_products_full!
 Debug::log();
                     $v2=$this->collect_products_full($p_id); if($v2['type']=="") { return false; }
                     $v2=$this->show_product($v2, $p_id, 'tiny_bsk');
 
-                    if($v2['status']!="buy") { unset($v2, $bsk[$p_id], $b_out[$p_id]); $form_out=""; } else { // оформляем заказ, толькое если статус buy
+                    if($v2['status']!="buy") { unset($v2, $bsk[$p_id], $b_out[$p_id]); $form_out=""; } else { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ buy
 
-                    $form_out=""; if($v2['type']=="grp") { // группа
+                    $form_out=""; if($v2['type']=="grp") { // пїЅпїЅпїЅпїЅпїЅпїЅ
                          
                     $form_out_tmp="<table>"; foreach($v2['grp_nazv'] as $k=>$v) { if(isset($v2['attr_choose'][$k])) { if(is_array(@$v)) { foreach($v as $kk=>$vv) {
                     $form_out_tmp.="<tr><td colspan=3><strong>".$vv."</strong></td></tr>";  foreach($v2['attr_choose'][$k][$kk] as $kkk=>$vvv) {
@@ -1242,7 +1242,7 @@ Debug::log();
                     }}}}}
                     $form_out_tmp.="</table>"; 
                     if($form_out_tmp!="<table></table>") { $form_out.=$form_out_tmp; }
-                    } else { if(count($v2['attr_choose'])>0) { // одиночный товар:
+                    } else { if(count($v2['attr_choose'])>0) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ:
                     $form_out.="<table>";  if(is_array(@$v2['attr_choose'][0][$p_id])) { foreach($v2['attr_choose'][0][$p_id] as $k=>$v) {
                     $form_out.="<tr><td valign=top>".$k."</td><td style='padding-left:5px;' valing=top>{#0_".$p_id."_".$k."#}</td></tr>";
                     $b_out[$p_id]['attr_form_shifr']["0_".$p_id."_".$k]=$v;
@@ -1261,12 +1261,12 @@ Debug::log();
     //
     //
 
-    // костыли для корзины [2]
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ [2]
     function show_basket_attrs($p_id, $n, $sql3, $attr_form, $attr_form_shifr, $type="prd") {
         Debug::log();
                         $select_f="";
                         $shifr=$sql3['grp_sub_id']."_".$sql3['prd_id']."_".$sql3['attr_name'];
-                        $select_f=$attr_form_shifr[$shifr]; // строчка, которую надо заменить
+                        $select_f=$attr_form_shifr[$shifr]; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
                         if(@$select_f!="") {
                             $select_f2=explode("<option value='".$sql3['attr_val']."",$select_f);
@@ -1289,7 +1289,7 @@ Debug::log();
     //
     //
 
-    // костыли для корзины [3] сведение
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ [3] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     function show_basket_mix($bsk) {
         Debug::log();
 
@@ -1310,22 +1310,22 @@ Debug::log();
 
                         $bsk_all[$k]['total_quantity']=$bsk_all[$k]['total_quantity']+$bsk[$k][$kk]['quantity'];
 
-                        //if($bsk[$k][$kk]['data']['price_star']=="1") { // <s>если обычная скидочная цена, то считаем как pure</s>
+                        //if($bsk[$k][$kk]['data']['price_star']=="1") { // <s>пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ pure</s>
                         //$bsk_all[$k]['total_pure_price']=$bsk_all[$k]['total_pure_price']+$bsk[$k][$kk]['data']['currency_price'];
                         //} else {
                           $bsk_all[$k]['total_pure_price']=$bsk_all[$k]['total_pure_price']+$bsk[$k][$kk]['data']['currency_price_starter'];
-                        //} // отключаем т.к. лучше, когда всегда отображается скидка
+                        //} // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
                         $bsk_all[$k]['current_price_no_attr']=$bsk_all[$k]['current_price_no_attr']+$bsk[$k][$kk]['data']['currency_price'];
                         $bsk_all[$k]['price_by_prd']=$bsk_all[$k]['price_by_prd'].$bsk[$k][$kk]['data']['price_formated']."+";
                         $bsk_all[$k]['total_weight']=$bsk_all[$k]['total_weight']+$bsk[$k][$kk]['data']['weight'];
 
                                             if(@$bsk[$k][$kk]['attr_diff_price']<0||@$bsk[$k][$kk]['attr_diff_price']>0) {
-                                            if($bsk[$k][$kk]['data']['type']=="grp") { // если группа, то производит сложение или вычитание; если товар, то просто заменяем
+                                            if($bsk[$k][$kk]['data']['type']=="grp") { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                         $add_prc=$bsk[$k][$kk]['data']['currency_price']+$bsk[$k][$kk]['attr_diff_price'];
                                             } else {
                         $add_prc=$bsk[$k][$kk]['attr_diff_price'];
-                                            }} else { // diff_price=0 а следовательно используем нормальную текущую цену
+                                            }} else { // diff_price=0 пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                         $add_prc=$bsk[$k][$kk]['data']['currency_price'];
                                             }
 
@@ -1348,11 +1348,11 @@ Debug::log();
                     $bsk_all['grp_by_shop'][$bsk[$k][$kk]['data']['shop_cat_status']][$bsk[$k][$kk]['data']['shop_cat_onlyshop']][$bsk[$k][$kk]['data']['shop_cat_basketsep']][$k]=$k;
                     $bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['nazv']=$bsk[$k][$kk]['data']['shop_cat_nazv'];
 
-                    // суммируем по корзинам и магазинам
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     $bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['shop_price']=@$bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['shop_price']+$bsk_all[$k]['current_price'];
                     $bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['shop_quant']=@$bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['shop_quant']+$bsk_all[$k]['total_quantity'];
                     $bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['shop_weight']=@$bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['shop_weight']+$bsk_all[$k]['total_weight'];
-                    // суммируме по доставке (если есть разделение)
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
                     $bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['totalbask'][$bsk[$k][$kk]['data']['shop_cat_basketsep']]['bask_price']=@$bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['totalbask'][$bsk[$k][$kk]['data']['shop_cat_basketsep']]['bask_price']+$bsk_all[$k]['current_price'];
                     $bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['totalbask'][$bsk[$k][$kk]['data']['shop_cat_basketsep']]['bask_quant']=@$bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['totalbask'][$bsk[$k][$kk]['data']['shop_cat_basketsep']]['bask_quant']+$bsk_all[$k]['total_quantity'];
                     $bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['totalbask'][$bsk[$k][$kk]['data']['shop_cat_basketsep']]['bask_weight']=@$bsk_all['shops'][$bsk[$k][$kk]['data']['shop_cat_onlyshop']]['totalbask'][$bsk[$k][$kk]['data']['shop_cat_basketsep']]['bask_weight']+$bsk_all[$k]['total_weight'];
@@ -1360,7 +1360,7 @@ Debug::log();
                     $bsk_all[$k]['price_by_prd']=substr($bsk_all[$k]['price_by_prd'],0,-1);
                     $bsk_all[$k]['price_by_prd_attr']=substr($bsk_all[$k]['price_by_prd_attr'],0,-1);
 
-                // суммируем всю корзину
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 $bsk_all['total']['quantity']=$bsk_all['total']['quantity']+$bsk_all[$k]['total_quantity'];
                 $bsk_all['total']['pure_price']=$bsk_all['total']['pure_price']+$bsk_all[$k]['total_pure_price'];
                 $bsk_all['total']['current_price_no_attr']=$bsk_all['total']['current_price_no_attr']+$bsk_all[$k]['current_price_no_attr'];
@@ -1388,7 +1388,7 @@ Debug::log();
     function sort_products($resort, $type="dat", $direction="desc", $limityes="0", $sortarr=array()) {
         Debug::log();
         //// type=dat, price,star,ordered(3),viewed(3),status,type, group-shopcat
-        // shopcat_limit - только товары группы, по остальным лимит (smart sort)
+        // shopcat_limit - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (smart sort)
 
         if(isset($resort)&&@$resort!=""&&count($resort)>0&&is_array($resort)&&$type!="as_array") { $kaunt_limit=0;
         foreach($resort as $k=>$v) { 
@@ -1405,7 +1405,7 @@ Debug::log();
            if($type=="type") { $resort2[$resort[$k]['type']][$k]=$k; }
            if($type=="shopcat") { if($k=="group_by_cat"||$k=="group_by_shop") { $resort2[999999][$k]=$k;} else { foreach($v['shop_cat'] as $kk=>$vv) { $resort2[$kk][$k]=$k; } }}
 
-           if($type=="shopcat_limit") { $resort2[$resort[$k]['smart_sort']][$k]=$k; } else { $kaunt_limit++; } // для shopcat_limit лимиты считаются только в непринадл разделу товарах
+           if($type=="shopcat_limit") { $resort2[$resort[$k]['smart_sort']][$k]=$k; } else { $kaunt_limit++; } // пїЅпїЅпїЅ shopcat_limit пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
            if($limityes>0) { if($kaunt_limit>=$limityes) { break; }}
            }}
 
@@ -1423,7 +1423,7 @@ Debug::log();
     //
     //
 
-    function show_comments($i=SHOP_NNN, $limit="50") { // комменты где?
+    function show_comments($i=SHOP_NNN, $limit="50") { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ?
         Debug::log();
         $add_sql=cats('sql',$i); $arr_status=cats('arr',$i);
         $sql="SELECT ".DB_PREFIX."products_reviews.nnn, ".DB_PREFIX."products_reviews.products_nnn, ".DB_PREFIX."products_reviews.dat, avtor, customers_id, txt, rate, ".DB_PREFIX."products.nazv, ".DB_PREFIX."catshop_config.nazv AS catnazv, ".DB_PREFIX."catshop_config.status, ".DB_PREFIX."catshop_config.nnn AS catshop_nnn, ".DB_PREFIX."catshop_config.remote_addr, ".DB_PREFIX."catshop_config.remote_always
@@ -1444,7 +1444,7 @@ Debug::log();
     //
     //
 
-    function add2list($post) { // list_name, prd_id - добавление в листы, но не в корзину. 
+    function add2list($post) { // list_name, prd_id - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. 
         Debug::log();
         if ($post['new_list_name'] != "") {
             $post['list_name'] = $post['new_list_name'];
@@ -1463,24 +1463,24 @@ Debug::log();
                 VALUES ('" . $cid . "','" . trim($post['list_name']) . "','" . $post['prd_id'] . "','1','" . time() . "', '".$temp_session."')");
             }
             unset($_SESSION['customers_lists']);
-             $_SESSION['send_login_message'] = "Товар добавлен в список \"" . $post['list_name'] . "\"";
+             $_SESSION['send_login_message'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ \"" . $post['list_name'] . "\"";
         }
     }
 
     //
     //
 
-    function add2basket($post="",$from="indoor") { // prd_id, attr_NNN_NNN_NNN=VALUE___NNN_ - добавление в корзину, для незарегеных и для зарег в бд
+    function add2basket($post="",$from="indoor") { // prd_id, attr_NNN_NNN_NNN=VALUE___NNN_ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
   Debug::log();
         if($from=="outdoor") { 
              if(isset($_COOKIE[SHOP_NNN.'_timeout_add2cart'])&&(time()<@$_COOKIE[SHOP_NNN.'_timeout_add2cart'])) {
-                 $_SESSION['send_login_message']="Пожалуйста, подождите немного. Попробуйте еще раз."; return; } else {
+                 $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ."; return; } else {
                     setcookie(SHOP_NNN."_timeout_add2cart",(time()+5),"0","/",MAINURL_4); }}
 
          if(isset($post['attrs_descr'])) { $post['attrs_descr_uns']=@unserialize(stripslashes($post['attrs_descr'])); }
          if(!isset($_SESSION['customers_id'])) { $c_id="0"; $temp_session=session_id(); } else { $c_id=$_SESSION['customers_id']; $temp_session=""; }
          if(!isset($post['quantity'])) { $post['quantity']="1"; }
-         // TODO: quantity сделать при добавлении более 1 товара!!! как-то по хитрому
+         // TODO: quantity пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅ!!! пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
          mysql_call("INSERT INTO ".DB_PREFIX."customers_basket_lists (customers_id, list_name, prd_id, quantity, date_added, temp_session)
                 VALUES ('".$c_id."','[basket]','".$post['prd_id']."','".$post['quantity']."','".time()."','".$temp_session."')");
          $basket_id=mysql_insert_id();
@@ -1498,7 +1498,7 @@ Debug::log();
                  }
                  }
              }}
-             $_SESSION['send_login_message']="Товар добавлен в корзину.";
+             $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
              $_SESSION['customers_basket_num']=$_SESSION['customers_basket_num']+$post['quantity'];
         }
 
@@ -1527,8 +1527,8 @@ Debug::log();
              $rearr[$kk][$kkk][$k2[1]."/".$k2[2]][trim($k23)]=trim($vvv);
              }}}}
 
-        // автоудаление старых неавторизованных корзин            
-        if(@filemtime(MAINURL_5."/temp/delete_all_temporary_baskets.txt")<(time()-(60*60*24*3))) { // 3 дня
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ            
+        if(@filemtime(MAINURL_5."/temp/delete_all_temporary_baskets.txt")<(time()-(60*60*24*3))) { // 3 пїЅпїЅпїЅ
             mysql_kall("DELETE FROM ".DB_PREFIX."customers_basket_lists WHERE customers_id='0' AND temp_session!='' AND date_added<='".(time()-(60*60*24*3))."'");
             mysql_kall("DELETE FROM ".DB_PREFIX."customers_basket_attr WHERE customers_id='0' AND temp_session!='' AND date_added<='".(time()-(60*60*24*3))."'");
             $f=fopen(MAINURL_5."/temp/delete_all_temporary_baskets.txt","w"); fwrite($f,"1"); fclose($f);
@@ -1548,16 +1548,16 @@ Debug::log();
             $vall=$vall+$v;
             // $k."=> q:".$v."<br>"; // debug
             if(isset($rearr[$k])) {
-            foreach($rearr[$k] as $kk=>$vv) { $v=$v-1; // добавляем товары со свойствами
+            foreach($rearr[$k] as $kk=>$vv) { $v=$v-1; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
             mysql_call("INSERT INTO ".DB_PREFIX."customers_basket_lists (customers_id, list_name, prd_id, quantity, date_added, temp_session)
                 VALUES ('".$c_id."','[basket]','".$k."','1','".$tm."','".$temp_session."')");
                 $basket_id=mysql_insert_id();
                 $tm++;
 
-                foreach($vv as $kkk=>$vvv) { foreach($vvv as $kkkk=>$vvvv) { // добавляем свойства
+                foreach($vv as $kkk=>$vvv) { foreach($vvv as $kkkk=>$vvvv) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 $kkk2=explode("/",$kkk); 
-                if(trim($vvvv)!=""&&@$unser[$kkkk][$vvvv]>0) { // свойство выбрано!
+                if(trim($vvvv)!=""&&@$unser[$kkkk][$vvvv]>0) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
                 // $kk.": ".$kkk2[0]." ".$kkk2[1]." =>".$kkkk."=>".$vvvv." => ".$unser[$kkkk][$vvvv]."<br>"; // debug
                        $vall_attr++;
                        mysql_call("INSERT INTO ".DB_PREFIX."customers_basket_attr (customers_id, temp_session, basket_id, grp_sub_id, prd_id, attr_id, date_added)
@@ -1566,7 +1566,7 @@ Debug::log();
                 if($v<=0) { break; } 
                 }}
                 
-                if($v>0) { // добавляем в корзину товары без свойств или те, которых стало больше
+                if($v>0) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 for($j=0;$j<$v;$j++) { 
                 mysql_call("INSERT INTO ".DB_PREFIX."customers_basket_lists (customers_id, list_name, prd_id, quantity, date_added, temp_session)
                 VALUES ('".$c_id."','[basket]','".$k."','1','".time()."','".$temp_session."')");
@@ -1578,7 +1578,7 @@ Debug::log();
 
              if($old_quantity_basket_list!=$vall) { $_SESSION['basket_log_changed_q']=1; }
              if($old_quantity_basket_attr!=$vall_attr) { $_SESSION['basket_log_changed_a']=1; }
-             $_SESSION['send_login_message']="Корзина обновлена.";
+             $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
              $_SESSION['customers_basket_num']=$vall;
         }}
 
@@ -1587,7 +1587,7 @@ Debug::log();
 
     function compare() { // COMPARE
         Debug::log();
-            lists2session(); $compare_out=""; // проверим наличие товаров для сравнения
+            lists2session(); $compare_out=""; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if(!isset($_SESSION['customers_id'])) { $cid="0"; $temp_session=session_id(); } else { $cid=$_SESSION['customers_id']; $temp_session=""; }
             $c_lists4=@unserialize(@$_SESSION['customers_lists']);
                 if(isset($c_lists4[COMPARE_LIST_NAME])&&@$c_lists4[COMPARE_LIST_NAME]>=1) {
@@ -1597,18 +1597,18 @@ Debug::log();
                         do {
                         $compare_pre_out[$prds2['prd_id']]=$this->collect_products_full($prds2['prd_id']);
                         $compare_pre_out[$prds2['prd_id']]=$this->show_product($compare_pre_out[$prds2['prd_id']], $prds2['prd_id'], 'compare');
-                        // какие поля для сравнения?
+                        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
                             foreach($fields as $k=>$v) {
                                if(trim($v)=="prd_in_grps") { $compare_out[trim($v)][$prds2['prd_id']]=count($compare_pre_out[$prds2['prd_id']][trim($v)]); continue; }                             
                                $compare_out[trim($v)][$prds2['prd_id']]=$compare_pre_out[$prds2['prd_id']][trim($v)];
                             }
-                            $compare_out['out_of_list'][$prds2['prd_id']]="<form method='post' action='".MAINURL_2."/user/done/'><input type=hidden name='prdid' value='".$prds2['prd_id']."'><input type=submit name='outoflist' value='убрать'></form>";
-                            // TODO: перенести форму согласно шаблону в forms
+                            $compare_out['out_of_list'][$prds2['prd_id']]="<form method='post' action='".MAINURL_2."/user/done/'><input type=hidden name='prdid' value='".$prds2['prd_id']."'><input type=submit name='outoflist' value='пїЅпїЅпїЅпїЅпїЅпїЅ'></form>";
+                            // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ forms
                             unset($compare_pre_out[$prds2['prd_id']]);
                         } while($prds2=mysql_fetch_assoc($prds));
 
 
-                    }} else { $compare_out="";  $_SESSION['send_login_message']="Нет товаров в списке для сравнения"; }
+                    }} else { $compare_out="";  $_SESSION['send_login_message']="пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"; }
 
                 return $compare_out;
         } // compare
@@ -1621,7 +1621,7 @@ Debug::log();
         if(!isset($_SESSION['customers_id'])) { $cid="0"; $temp_session=session_id(); } else { $cid=$_SESSION['customers_id']; $temp_session=""; }
         if($post['prdid']>0) {
             mysql_call("DELETE FROM ".DB_PREFIX."customers_basket_lists WHERE list_name='".COMPARE_LIST_NAME."' AND customers_id='".$cid."' AND temp_session='".$temp_session."' AND prd_id='".$post['prdid']."'");
-            $_SESSION['send_login_message']="Товар удален из списка для сравнения";
+            $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
             unset($_SESSION['customers_lists']); 
             }
         }
@@ -1635,7 +1635,7 @@ Debug::log();
            if($_SESSION['number1']==mb_strtolower($post['vercode'])) {
            if($post['txt']!=""||$post['rate_star']>0) {
            if(isset($_COOKIE[SHOP_NNN.'_timeout_review'])&&(time()<@$_COOKIE[SHOP_NNN.'_timeout_review'])) {
-           $_SESSION['send_login_message']="Перед написанием следующего отзыва, подождите, пожалуйста еще <b>".($_COOKIE[SHOP_NNN.'_timeout_review']-time())."</b> сек.";  } else {
+           $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ <b>".($_COOKIE[SHOP_NNN.'_timeout_review']-time())."</b> пїЅпїЅпїЅ.";  } else {
            $timeout0=time()+(60*COMMENTS_TIMEBREAK);
            setcookie(SHOP_NNN."_timeout_review",$timeout0,"0","/",MAINURL_4);
 
@@ -1644,10 +1644,10 @@ Debug::log();
          if(!isset($post['rate_yn'])) { $post['rate_yn']="vote_y"; } 
            mysql_call("INSERT INTO ".DB_PREFIX."products_reviews (products_nnn, dat, avtor, customers_id, txt, rate, ".$post['rate_yn'].")
                          VALUES ('".$post['prdid']."','".time()."','".textprocess($post['avtor'],'sql')."','".$c_id."','".textprocess($post['txt'],'sql')."','".$post['rate_star']."','1')");
-           $_SESSION['send_login_message']="Отзыв добавлен.";         
-               }} else { $_SESSION['send_login_message']="Комментарий не добавлен, т.к. его нет."; }
-                } else { $_SESSION['send_login_message']="Неверный проверочный код."; }
-                } else { $_SESSION['send_login_message']="Проверочный код не указан."; }
+           $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";         
+               }} else { $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ.пїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅ."; }
+                } else { $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ."; }
+                } else { $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ."; }
         } // review rate
  
     //
@@ -1657,11 +1657,11 @@ Debug::log();
         Debug::log();
         if($post['prdid']!="") {
         if(isset($_COOKIE[SHOP_NNN.'_timeout_rate_yn'])&&(time()<@$_COOKIE[SHOP_NNN.'_timeout_rate_yn'])) {
-        $_SESSION['send_login_message']="Пожалуйста, подождите еще <b>".($_COOKIE[SHOP_NNN.'_timeout_rate_yn']-time())."</b> сек.";  } else {
+        $_SESSION['send_login_message']="пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ <b>".($_COOKIE[SHOP_NNN.'_timeout_rate_yn']-time())."</b> пїЅпїЅпїЅ.";  } else {
            $timeout0=time()+(60*COMMENTS_TIMEBREAK);
            setcookie(SHOP_NNN."_timeout_rate_yn",$timeout0,"0","/",MAINURL_4);
          if(isset($_SESSION['customers_id'])) { $c_id=$_SESSION['customers_id']; } else { $c_id=0; }
-         if(isset($post['vote_y_x'])) { $post['rate_yn']="vote_y"; $msg="Вам понравился товар."; } else { $post['rate_yn']="vote_n"; $msg="Вам не понравился товар."; }
+         if(isset($post['vote_y_x'])) { $post['rate_yn']="vote_y"; $msg="пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ."; } else { $post['rate_yn']="vote_n"; $msg="пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ."; }
            mysql_call("INSERT INTO ".DB_PREFIX."products_reviews (products_nnn, dat, avtor, customers_id, txt, rate, ".$post['rate_yn'].")
                          VALUES ('".$post['prdid']."','".time()."','','".$c_id."','','','1')");
            $_SESSION['send_login_message']=$msg;
@@ -1671,20 +1671,20 @@ Debug::log();
     //
     //
         
-    // подготовка списков товаров, @reviewlate: жесткая привязка к опредленному выводу (флоат лефт, строка и тд) - не оч хорошо
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, @reviewlate: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ) - пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     function product_listing($prd, $look = "", $group_flag = "0", $used_income = "", $inline = LIMIT_PRD_IN_LINE, 
             $maxprd = LIMIT_TOP_PRODUCTS, $group_by = "", $skip_show_product = "0", $start_from = "0", 
             $main_page_flag = "0", $arrflag = "0") {
         Debug::log();
-        //// prd - массив с товарами, inline - кол-во товаров в линии, $maxprd - максимальное количество
-        //// group_flag - группировка, $look - список всех сущ. разделов
-        //// used_income - использованные прд, убираем повторы, group_by - вывод по разделам,
-        //// skip_show_product - не обрабатываем функцией show_product,
-        //// start_from - ?, main_page_flag = вывод для главной, другой темплейт; arrflag - отдаем необработанный массив!
+        //// prd - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, inline - пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ, $maxprd - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        //// group_flag - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, $look - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        //// used_income - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, group_by - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+        //// skip_show_product - пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ show_product,
+        //// start_from - ?, main_page_flag = пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ; arrflag - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!
 
         $prd_filename = MAINURL_5 . "/template/" . TEMPLATE . "/product_list.php";
-        $templ_prd = get_include_contents($prd_filename); // ###шаблон_ввод
-        $templ_prd_types = explode("[####]", $templ_prd); //  0, 1, 2, 3, 4; 5 -> назв раздела, если сгрупп.
+        $templ_prd = get_include_contents($prd_filename); // ###пїЅпїЅпїЅпїЅпїЅпїЅ_пїЅпїЅпїЅпїЅ
+        $templ_prd_types = explode("[####]", $templ_prd); //  0, 1, 2, 3, 4; 5 -> пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
         $templ_prd3 = "";
 
         $limit = 0;
@@ -1693,7 +1693,7 @@ Debug::log();
             $prd = array_slice($prd, $start_from, NULL, true);
 
             foreach ($prd as $k => $v) {
-                if ($v['type'] == "") {
+                if (@$v['type'] == "") {
                     continue;
                 }
                 if (isset($used_income[$k])) {
@@ -1737,7 +1737,7 @@ Debug::log();
                     $kaunt = 0;
                     $templ_prd3 = $templ_prd3 . "<div class='products_line'></div>";
                 }
-                // линия завершена
+                // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
                 if ($prd[$k]['type'] == "grp") {
                     $kaunt100 = 2;
@@ -1757,12 +1757,12 @@ Debug::log();
                     "{NAME_LINK}" => $prd2['nazv_link'],
                     "{PRICE}" => $prd2['all_prices']['price_formated'],
                     "{IMG_PATH}" => MAINURL . "/template/" . TEMPLATE . "/images",
-                    "{GROUP_PRD_NAME}" => GROUP_PRD_NAME,
-                    "{STAR_PRD_NAME}" => STAR_PRD_NAME,
+                    "{GROUP_PRD_NAME}" => "",
+                    "{STAR_PRD_NAME}" => "",
                     "{INLINE}" => $narrow_ajax,
                 ));
 
-                $prd2['template_type_remember'] = $templ_prd_types[$template_type];
+                $prd2['template_type_remember'] = @$templ_prd_types[@$template_type];
 
                 if ($v['type'] == "prd" || $img_check <= 1) {
                     $limit++;
@@ -1770,7 +1770,7 @@ Debug::log();
                 } else {
                     $limit++;
                     $kaunt = $kaunt + 2;
-                } // limit всегда +1
+                } // limit пїЅпїЅпїЅпїЅпїЅпїЅ +1
 
                 $templ_arr[$k] = $prd2;
                 if ($group_flag == "1") {
@@ -1788,7 +1788,7 @@ Debug::log();
             }
         }
         
-        // группировка:
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
         if ($group_flag == "1") {
             $templ_prd3 = $this->product_listing_group($prd, $templ_prd4, $templ_prd4_type, $templ_prd4_countimg, $templ_prd_types[5], $look, $inline, $maxprd, $group_by);
             $used = @array_merge(@$used, @$templ_prd3['used']);
@@ -1802,7 +1802,7 @@ Debug::log();
 
         if ($arrflag == "1") {
             $templ_prd3 = $templ_arr;
-        } // возвращаем массив а не форматированный список
+        } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         return array("templ_prd" => $templ_prd3, "used" => @$used);
     }
@@ -1814,8 +1814,8 @@ Debug::log();
         Debug::log();
             if(count($templ_prd4)>0) {
 
-            if((count($prd['group_by_shop'])>1&&$grp_by!="cat")||$grp_by=="shop") { // группируем по магазинам
-            $k3="group_by_shop";  } else { // по разделам
+            if((count($prd['group_by_shop'])>1&&$grp_by!="cat")||$grp_by=="shop") { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            $k3="group_by_shop";  } else { // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             $k3="group_by_cat"; }
             if(isset($prd[$k3])) {
             $templ_prd5=""; if(isset($_SESSION['check_used'])) { $used[$_SESSION['check_used']]=$_SESSION['check_used']; }

@@ -16,7 +16,7 @@ class pages {
                 if ($filevars[$k]['error'] <> 0) {
                     
                 } else {
-                    $str_upl = file_upload($filevars[$k], MAINURL_5 . "/upload/", "jpg"); // глобальная функция upload
+                    $str_upl = file_upload($filevars[$k], MAINURL_5 . "/upload/", "jpg"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ upload
                     $postvars['pic'] = @$str_upl;
                 }
             }
@@ -59,7 +59,7 @@ class pages {
                 if ($filevars[$k]['error'] <> 0) {
                     
                 } else {
-                    $str_upl = file_upload($filevars[$k], MAINURL_5 . "/upload/", "jpg"); // глобальная функция upload
+                    $str_upl = file_upload($filevars[$k], MAINURL_5 . "/upload/", "jpg"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ upload
                     $postvars['pic'] = @$str_upl;
                 }
             }
@@ -93,7 +93,7 @@ class pages {
     
     //////////////////////////////////
     
-    // страница: отображается только для сайта или для подрубрик/зависимых сайтов с разрешением
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     function show_page($nnn, $shop_cat = SHOP_NNN) { Debug::log();
 
         $sql_whr = "AND (shop_cat='" . $shop_cat . "'";
@@ -134,7 +134,7 @@ class pages {
         }
     }
 
-    // СПИСОК СТРАНИЦ: типы: list, last, news. limit только для last. main - смесь last и news для главной страницы!
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅ: list, last, news. limit пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ last. main - пїЅпїЅпїЅпїЅпїЅ last пїЅ news пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
     function show_pages($shop_cat = SHOP_NNN, $type = "list", $limit = "10") { Debug::log();
 
         $sql_whr = "AND (shop_cat='" . $shop_cat . "'";
@@ -145,7 +145,7 @@ class pages {
         }
         $sql_whr .=")";
 
-        // список страниц
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if ($type == "list") {
             $sql_whr = "SELECT " . DB_PREFIX . "pages.nnn,shop_cat," . DB_PREFIX . "pages.dat,nazv,pic,show_in_news,show_nazv, COUNT(c.nnn) as num_comms
             FROM " . DB_PREFIX . "pages LEFT OUTER JOIN " . DB_PREFIX . "pages_comments as c ON " . DB_PREFIX . "pages.nnn=" . DB_PREFIX . "c.pages_nnn
@@ -153,13 +153,13 @@ class pages {
                      ORDER BY " . DB_PREFIX . "pages.dat DESC LIMIT 100";
         }
 
-        // список новостей
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if ($type == "news") {
             $sql_whr = "SELECT nnn,shop_cat,dat,nazv,txt,pic,show_in_news FROM " . DB_PREFIX . "pages
             WHERE show_in_news='1' AND hid!='1' " . $sql_whr . " ORDER BY sort_order ASC, dat DESC";
         }
 
-        // список последних
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if ($type == "last") {
             $sql_whr = "SELECT nnn,shop_cat,dat,nazv,pic,show_in_news FROM " . DB_PREFIX . "pages
             WHERE show_nazv='1' AND show_in_last='1' AND hid!='1' " . $sql_whr . " ORDER BY dat DESC LIMIT " . $limit . "";
@@ -197,11 +197,11 @@ class pages {
                     }
                 } while ($showpages2 = mysql_fetch_assoc($showpages));
             }
-            return $pages_content;
+            return @$pages_content;
         }
     }
 
-    // комментарии
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     function comments($nnn = "all", $allow = "1") { Debug::log();
         if ($allow == "1") {
             if ($nnn == "all") {
@@ -219,14 +219,14 @@ class pages {
         }
     }
 
-    // добавление комментария
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     function add_comment($post) { // pages_nnn, avtor, registered, txt, dat,
         Debug::log();
         if (trim($_SESSION['number1']) != "" && trim($post['vercode']) != "") {
             if ($_SESSION['number1'] == mb_strtolower($post['vercode'])) {
                 if ($post['txt'] != "") {
                     if (isset($_COOKIE[SHOP_NNN . '_timeout']) && (time() < @$_COOKIE[SHOP_NNN . '_timeout'])) {
-                        $_SESSION['send_login_message'] = "Перед написанием следующего комментария, подождите, пожалуйста еще <b>" . ($_COOKIE[SHOP_NNN . '_timeout'] - time()) . "</b> сек.";
+                        $_SESSION['send_login_message'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ <b>" . ($_COOKIE[SHOP_NNN . '_timeout'] - time()) . "</b> пїЅпїЅпїЅ.";
                     } else {
                         $timeout0 = time() + (60 * COMMENTS_TIMEBREAK);
                         setcookie(SHOP_NNN . "_timeout", $timeout0, "0", "/", MAINURL_4);
@@ -248,20 +248,20 @@ class pages {
 
                         mysql_call("INSERT INTO " . DB_PREFIX . "pages_comments (pages_nnn, avtor, registered, txt, dat, hid, customers_id)
                          VALUES ('" . $post['pages_nnn'] . "','" . textprocess($post_avtor, 'sql') . "','" . @$post['registered'] . "','" . textprocess($post['txt'], 'sql') . "','" . $post['dat'] . "','" . COMMENT_APPEAR_DEF . "','" . @$_SESSION['customers_id'] . "')");
-                        $_SESSION['send_login_message'] = "Комментарий добавлен.";
+                        $_SESSION['send_login_message'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
                     }
                 } else {
-                    $_SESSION['send_login_message'] = "Комментарий не добавлен, т.к. его нет.";
+                    $_SESSION['send_login_message'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ.пїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅ.";
                 }
             } else {
-                $_SESSION['send_login_message'] = "Неверный проверочный код.";
+                $_SESSION['send_login_message'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.";
             }
         } else {
-            $_SESSION['send_login_message'] = "Проверочный код не указан.";
+            $_SESSION['send_login_message'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
         }
     }
 
-    function prepare_news($news_list, $autocollapse = NEWS_AUTOCOLLAPSE, $newsimp = NEWS_IMPORTANT, 
+    function prepare_news($news_list, $autocollapse = 15, $newsimp = 3, 
             $css_arr = array("news_dat", "news_pic", "news_txt", "news", "news_imp")) {
         Debug::log();
         $n4 = 0;
@@ -288,7 +288,7 @@ class pages {
 
             $n3.="<span class=\"" . $css_arr[2] . "\"><p></p>" . $news_list[$n1]['txt'] . "</span>";
             if (trim($news_list[$n1]['txt_full']) != "" && $n4 <= $autocollapse) {
-                $n3.="<span class=\"" . $css_arr[2] . "\"><a href=" . MAINURL . "/page/" . $n1 . ">подробнее</a></span>";
+                $n3.="<span class=\"" . $css_arr[2] . "\"><a href=" . MAINURL . "/page/" . $n1 . ">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</a></span>";
             }
             if ($n4 > $newsimp) {
                 $news_arr['all'] = @$news_arr['all'] . "<div class=\"" . $css_arr[3] . "\">" . $n3 . "</div>";
@@ -296,7 +296,6 @@ class pages {
                 $news_arr['imp'] = @$news_arr['imp'] . "<div class=\"" . $css_arr[4] . "\">" . $n3 . "</div>";
             }
         }}
-        return $news_arr;
+        return @$news_arr;
     }
 }
-?>

@@ -52,7 +52,35 @@ App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
 });
-     
+ 
+
+App::error(function(PDOException $exception)
+{
+    Log::error("Error connecting to database: ".$exception->getMessage());
+
+    $cache_url = Config::get('veer.htmlcache') . strtr( URL::full(), 
+                array( "/" => "_",
+                       "http://" => "http_",
+                       "." => "_"
+                    )); 
+
+    if(Cache::has($cache_url)) {
+        
+        $cachedPage = Cache::get($cache_url);
+        return  View::make('dummy', array('cachedPage' => $cachedPage));
+        
+    } else {
+        return "Error connecting to database";        
+    }
+});
+
+App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception)
+{
+    Log::error("Unable to find site: ".$exception->getMessage());
+    
+    return Response::make('Error: URL Not Found', 404);
+});
+    
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler
@@ -69,6 +97,20 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 
+/*
+|--------------------------------------------------------------------------
+| Veer Site Loader & Specific Site Configurations
+|--------------------------------------------------------------------------
+|
+| Veer's engine main starting point. Here we're connecting to database
+| and trying to detect Site Id for current URL. You can have as many sites on one
+| instance of Veer engine as your server allows. Afterwards, we gather configuration
+| data & template.
+|
+*/
+
+$veerSite = new \Veer\Lib\VeerApp;
+     
 /*
 |--------------------------------------------------------------------------
 | Require The Filters File
