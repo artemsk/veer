@@ -13,7 +13,7 @@ class IndexController extends \BaseController {
                         
             $view = \View::make('template.'.$this->veer->template.'.home', $data); 
             
-            $this->view = $view;
+            $this->view = $view; // to cache
             
             return $view;
 	}

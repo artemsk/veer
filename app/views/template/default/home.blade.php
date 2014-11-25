@@ -77,161 +77,102 @@
      <div class="row">
          <div class="col-sm-6">
              
-             <div class="block-big">
-                 <div class="big-img"><a href="{{ array_get($output,'products.0.link') }}"><img src="{{ array_get($output,'products.0.img') }}" class="img-responsive img-center"></a></div> 
-                 <div class="block-stndrt-footer"><a href="{{ array_get($output,'products.0.category_link') }}">{{ array_get($output,'products.0.category') }}</a></div>
-                 <h3><a href="{{ array_get($output,'products.0.link') }}">{{ array_get($output,'products.0.title') }}</a></h3>
-                 <h5>{{ array_get($output,'products.0.price') }}</h5>
-                 <div class="basket">{{ array_get($output,'products.0.basket') }}</div>              
-             </div>
+             @if (isset($output['products'][0]))
+             @include('template.default.elements.productSmallCardOne', array('product'=>$output['products'][0]))
              
              <div class="rowdelimiter-small"></div>
+             @endif
              
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{{ array_get($output,'products.0.link') }}"><img src="{{ array_get($output,'products.0.img') }}" class="img-responsive img-responsive-custom" ></a></div>
-                 <div class="block-stndrt-footer"><a href="{{ array_get($output,'products.0.category_link') }}">{{ array_get($output,'products.0.category') }}</a></div>
-                 <h4><a href="{{ array_get($output,'products.0.link') }}">{{ array_get($output,'products.0.title') }}</a></h4>
-                 <h5>{{ array_get($output,'products.0.price') }}</h5>
-                 <div class="basket">{{ array_get($output,'products.0.basket') }}</div>                 
-             </div>
-
+             @if (isset($output['products'][4]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][4]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_7_NAZVLNK}"><img src="{MP_7_IMG}" class="img-responsive img-responsive-custom" ></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_7_CATLNK}">{MP_7_CAT}</a></div>
-                 <h4><a href="{MP_7_NAZVLNK}">{MP_7_NAZV}</a></h4>
-                 <h5>{MP_7_PRICE}</h5>
-                 <div class="basket">{MP_7_BASKET}</div>                 
-             </div>
-
+             @if (isset($output['products'][8]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][8]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_11_NAZVLNK}"><img src="{MP_11_IMG}" class="img-responsive img-responsive-custom" ></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_11_CATLNK}">{MP_11_CAT}</a></div>
-                 <h4><a href="{MP_11_NAZVLNK}">{MP_11_NAZV}</a></h4>
-                 <h5>{MP_11_PRICE}</h5>
-                 <div class="basket">{MP_11_BASKET}</div>                 
-             </div>
+             @if (isset($output['products'][12]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][12]))
+             @endif 
          </div>
 
          <div class="rowdelimiter-small visible-xs-block"></div>
 
          <div class="col-sm-6">
              
-             <div class="block-big">
-                 <div class="big-img"><a href="{MP_1_NAZVLNK}"><img src="{MP_1_IMG}"  class="img-responsive img-center"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_1_CATLNK}">{MP_1_CAT}</a></div>
-                 <h3><a href="{MP_1_NAZVLNK}">{MP_1_NAZV}</a></h3>
-                 <h5>{MP_1_PRICE}</h5>
-                 <div class="basket">{MP_1_BASKET}</div>                 
-             </div>
+             @if (isset($output['products'][1]))
+             @include('template.default.elements.productSmallCardOne', array('product'=>$output['products'][1]))
              
              <div class="rowdelimiter-small"></div>
+             @endif
              
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_4_NAZVLNK}"><img src="{MP_4_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_4_CATLNK}">{MP_4_CAT}</a></div>
-                 <h4><a href="{MP_4_NAZVLNK}">{MP_4_NAZV}</a></h4>
-                 <h5>{MP_4_PRICE}</h5>
-                 <div class="basket">{MP_4_BASKET}</div>                 
-             </div>
-
+             @if (isset($output['products'][5]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][5]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_8_NAZVLNK}"><img src="{MP_8_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_8_CATLNK}">{MP_8_CAT}</a></div>
-                 <h4><a href="{MP_8_NAZVLNK}">{MP_8_NAZV}</a></h4>
-                 <h5>{MP_8_PRICE}</h5>
-                 <div class="basket">{MP_8_BASKET}</div>                 
-             </div>
-
+             @if (isset($output['products'][9]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][9]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_12_NAZVLNK}"><img src="{MP_12_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_12_CATLNK}">{MP_12_CAT}</a></div>
-                 <h4><a href="{MP_12_NAZVLNK}">{MP_12_NAZV}</a></h4>
-                 <h5>{MP_12_PRICE}</h5>
-                 <div class="basket">{MP_12_BASKET}</div>                 
-             </div>
+             @if (isset($output['products'][13]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][13]))
+             @endif 
          </div>   
 
          <div class="rowdelimiter-small visible-xs-block"></div>
 
          <div class="col-sm-6">
              
-             <div class="block-big">
-                 <div class="big-img"><a href="{MP_2_NAZVLNK}"><img src="{MP_2_IMG}"  class="img-responsive img-center"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_2_CATLNK}">{MP_2_CAT}</a></div>
-                 <h3><a href="{MP_2_NAZVLNK}">{MP_2_NAZV}</a></h3>
-                 <h5>{MP_2_PRICE}</h5>
-                 <div class="basket">{MP_2_BASKET}</div>                 
-             </div>
+             @if (isset($output['products'][2]))
+             @include('template.default.elements.productSmallCardOne', array('product'=>$output['products'][2]))
              
              <div class="rowdelimiter-small"></div>
+             @endif
              
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_5_NAZVLNK}"><img src="{MP_5_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_5_CATLNK}">{MP_5_CAT}</a></div>
-                 <h4><a href="{MP_5_NAZVLNK}">{MP_5_NAZV}</a></h4>
-                 <h5>{MP_5_PRICE}</h5>
-                 <div class="basket">{MP_5_BASKET}</div>                 
-             </div>
-
+             @if (isset($output['products'][6]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][6]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_9_NAZVLNK}"><img src="{MP_9_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_9_CATLNK}">{MP_9_CAT}</a></div>
-                 <h4><a href="{MP_9_NAZVLNK}">{MP_9_NAZV}</a></h4>
-                 <h5>{MP_9_PRICE}</h5>
-                 <div class="basket">{MP_9_BASKET}</div>                 
-             </div>
-
+             @if (isset($output['products'][10]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][10]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_5_NAZVLNK}"><img src="{MP_5_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_5_CATLNK}">{MP_5_CAT}</a></div>
-                 <h4><a href="{MP_5_NAZVLNK}">{MP_5_NAZV}</a></h4>
-                 <h5>{MP_5_PRICE}</h5>
-                 <div class="basket">{MP_5_BASKET}</div>                 
-             </div>
+             @if (isset($output['products'][14]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][14]))
+             @endif 
          </div>
 
          <div class="rowdelimiter-small visible-xs-block"></div>
 
          <div class="col-sm-6">
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_6_NAZVLNK}"><img src="{MP_6_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_6_CATLNK}">{MP_6_CAT}</a></div>
-                 <h4><a href="{MP_6_NAZVLNK}">{MP_6_NAZV}</a></h4>
-                 <h5>{MP_6_PRICE}</h5>
-                 <div class="basket">{MP_6_BASKET}</div>                 
-             </div>
-
+             
+             @if (isset($output['products'][3]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][3]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_10_NAZVLNK}"><img src="{MP_10_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_10_CATLNK}">{MP_10_CAT}</a></div>
-                 <h4><a href="{MP_10_NAZVLNK}">{MP_10_NAZV}</a></h4>
-                 <h5>{MP_10_PRICE}</h5>
-                 <div class="basket">{MP_10_BASKET}</div>                 
-             </div>             
-
+             @if (isset($output['products'][7]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][7]))
+             
              <div class="rowdelimiter-small"></div>
+             @endif
 
-             <div class="block-stndrt">
-                 <div class="cs-thumbnail-img"><a href="{MP_5_NAZVLNK}"><img src="{MP_5_IMG}"  class="img-responsive img-responsive-custom"></a></div>
-                 <div class="block-stndrt-footer"><a href="{MP_5_CATLNK}">{MP_5_CAT}</a></div>
-                 <h4><a href="{MP_5_NAZVLNK}">{MP_5_NAZV}</a></h4>
-                 <h5>{MP_5_PRICE}</h5>
-                 <div class="basket">{MP_5_BASKET}</div>                 
-             </div>             
+             @if (isset($output['products'][11]))
+             @include('template.default.elements.productSmallCardTwo', array('product'=>$output['products'][11]))
+             @endif          
          </div>
      </div>
 
