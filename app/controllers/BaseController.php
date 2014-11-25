@@ -17,7 +17,7 @@ class BaseController extends Controller {
                 $this->veer->loadedComponents['template']= $this->veer->template = 
                         array_get($this->veer->siteConfig, 'TEMPLATE', Config::get('veer.template'));
 
-                $this->setupVariables();
+                $this->veer->statistics();
         }
 
         

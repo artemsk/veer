@@ -15,6 +15,7 @@ class VeerApp {
     
     public $siteConfig = array();    
     
+    public $statistics;
     
     /**
      * Construct VeerApp.
@@ -139,5 +140,23 @@ class VeerApp {
         if(class_exists($classFullName)) { return new $classFullName; }        
     }
     
+    /**
+     * Collection statistics
+     *
+     * @return void
+     */ 
+    public function statistics()
+	{
+		$this->statistics['queries'] = count(\Illuminate\Support\Facades\DB::getQueryLog());
+                
+                $this->statistics['loading'] = round(microtime(true)-LARAVEL_START,4);
+                
+                $this->statistics['memory'] = number_format(memory_get_usage());
+                
+                $this->statistics['version'] = VeerApp::VEERVERSION;
+                
+                return $this->statistics;
+	}    
+        
     
 }

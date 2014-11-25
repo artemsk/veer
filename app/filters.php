@@ -24,16 +24,16 @@ App::after(function($request, $response)
 
 App::shutdown(function($request) 
 {
-        //if(App::make('veer')->loading > Config::get('veer.loadingtime')) { // max loading time notify
-        //    echo "?<br>";
-        //}   
-
-        echo memory_get_usage()."<br>";
+        $timeToLoad = App::make('veer')->statistics['loading'];
         
-        // TODO: notify on slowness
-        // TODO: clear unused old cache (queue?) - thumbs, stats, htmls, ips
+        if($timeToLoad > Config::get('veer.loadingtime')) {
+            
+            $recollect = App::make('veer')->statistics();
+            Log::alert('Slowness detected: ' . $timeToLoad . ': ', $recollect);
+            Log::info('Queries: ', DB::getQueryLog());
+        }
+
         // TODO: save referals
-        // TODO: showing full queries?
         // TODO: runing in console too - attention!
 });
     
