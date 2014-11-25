@@ -7,7 +7,8 @@ class Product extends \Eloquent {
     protected $table = "products";
     protected $softDelete = true;
     
-    public function scopeSiteValidation($query, $site_id) {
+    public function scopeSiteValidation($query, $site_id) 
+    {
         return $query->whereHas('categories', function($q) use ($site_id) {
                 $q->where('sites_id','=',$site_id)->remember(3);
             });
@@ -20,6 +21,11 @@ class Product extends \Eloquent {
     public function scopeExcludeFuturProducts($query) {
         return $query->where('to_show','<', \Carbon\Carbon::now());
     }
+    
+    /* check hidden & future at once */
+    public function scopeChecked($query) {
+        return $query->where('status','!=','hide')->where('to_show','<', \Carbon\Carbon::now());
+    }  
     
     // Many Products <-> Many
     
@@ -74,10 +80,11 @@ class Product extends \Eloquent {
     }       
     
    // products on home
-   public function scopeHomePages($query, $site_id, $home_id) {
+   public function scopeHomePages($query, $site_id, $home_id) 
+   {
         return $query->whereHas('categories', function($q) use ($site_id, $home_id) {
                 $q->where('sites_id','=',$site_id)->where('categories.id','=',$home_id);
             });
-    }
+   }
     
 }

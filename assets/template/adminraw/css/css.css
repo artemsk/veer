@@ -1,0 +1,24 @@
+
+html, body 
+{ 
+    padding-top: 15px;
+    /*font-family: "Times New Roman", serif;*/
+    background-color: #fff;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;  
+
+}
+
+.rowdelimiter {
+    margin: 50px 0 0 0;
+}
+
+.xs-rowdelimiter {
+    margin: 5px 0 0 0;
+}
+.logo-site {
+    font-weight: bold;
+    color: #222222;
+    text-decoration: none;
+    letter-spacing: 5px;
+}
