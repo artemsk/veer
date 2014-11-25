@@ -16,4 +16,5 @@ Route::resource('search', 'SearchController');
 Route::resource('filter', 'FilterController');
 Route::resource('user', 'UserController');
 Route::resource('order', 'OrderController');
+
 Route::resource('admin', 'AdminController');

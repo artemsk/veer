@@ -9,29 +9,13 @@ class IndexController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
-            return "1";
-                /*$site_id = Config::get('veer.site_id');
-        
-                $template = array_get(Config::get('veer.site_config'),'TEMPLATE');
-
-                $data['template']=$template;
-
-                $c = new VeerComponents();
-                $c_result = $c->_detect($site_id, Route::currentRouteName()); 
-
-                $data['products'] = $c_result['home_products'];
-
-                //$lists = \Veer\Models\UserList::find(1);
-                //$lists->load('site','user','elements');
-
-                //\Auth::loginUsingId(1);
-
-                //echo "<pre>";
-                //print_r($lists);
-                //echo "</pre>";
-
-                return \View::make('template.'.$template.'.home', $data); */
+            $data = $this->veer->loadedComponents;
+                        
+            $view = \View::make('template.'.$this->veer->template.'.home', $data); 
+            
+            $this->view = $view;
+            
+            return $view;
 	}
 
 

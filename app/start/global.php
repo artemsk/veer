@@ -58,11 +58,7 @@ App::error(function(PDOException $exception)
 {
     Log::error("Error connecting to database: ".$exception->getMessage());
 
-    $cache_url = Config::get('veer.htmlcache') . strtr( URL::full(), 
-                array( "/" => "_",
-                       "http://" => "http_",
-                       "." => "_"
-                    )); 
+    $cache_url = cache_current_url_value(); 
 
     if(Cache::has($cache_url)) {
         
@@ -110,7 +106,8 @@ App::down(function()
 | Veer's engine main starting point. Here we're connecting to database
 | and trying to detect Site Id for current URL. You can have as many sites on one
 | instance of Veer engine as your server allows. Afterwards, we gather configuration
-| data & template.
+| data & template. If laravel framework is running in console then we won't
+| start app.
 |
 */
 
@@ -118,7 +115,7 @@ App::down(function()
 
     } else 
     {
-        $veerSite = new \Veer\Lib\VeerApp;
+        $app->instance('veer', new \Veer\Lib\VeerApp);
     }
 
 /*

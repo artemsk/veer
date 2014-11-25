@@ -14,7 +14,7 @@ class Component extends \Eloquent {
     public function scopeValidComponents($q, $site_id, $route_name) {
         return $q->where('sites_id','=',$site_id)->where(function($query) use ($route_name) {
             $query->where('route_name','=',$route_name)
-                  ->orWhere('route_name','=','COMMON');
+                  ->orWhere('route_name','=','GLOBAL');
         });                        
     }
     
