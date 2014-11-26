@@ -34,6 +34,30 @@ class SearchController extends \BaseController {
             echo "<pre>";
             print_r(\Illuminate\Support\Facades\Input::all());
             echo "</pre>";
+            
+            if(Input::has('q')) 
+            {                
+                $q = trim(Input::get('q'));  
+                if( $q != '') 
+                {
+                    $search = \Veer\Models\Search::firstOrCreate(array("q" => $q));
+                    $search->increment('times');                  
+                    $search->save();
+                    
+                    // $search->users()->attach(1); // TODO: if user exists attach him to search result
+                    
+                    $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                    'method' => Route::currentRouteName(),
+                    'id' => $search->id,
+                    'params' => array(
+                                    'q' => $q
+                                )
+                    ));
+                    
+                }
+            }
+           
+            // return default
 	}
 
 
@@ -45,11 +69,18 @@ class SearchController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\globalGetModelsData(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $id,
-                    'params' => array()
-                ));
+                $search = \Veer\Models\Search::find($id);
+                
+                if($search) {
+                    
+                    $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                        'method' => 'search.store',
+                        'id' => $id,
+                        'params' => array(
+                            'q' => $search->q
+                        )
+                    ));
+                }
 	}
 
 
