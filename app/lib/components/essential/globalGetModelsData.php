@@ -26,13 +26,11 @@ use Veer\Models\User;
 
 class globalGetModelsData {   
     
-    protected $v;
+    public $data;
     
     function __construct($params = null) {
 
-        $this->v = \App::make('veer');
-        
-        $siteId = $this->v->siteId;
+        $siteId = \App::make('veer')->siteId;
         $queryParams = $this->paramsDefault($params['params']);
         
         $p = null;
@@ -112,7 +110,7 @@ class globalGetModelsData {
                 break;      
         }
         
-        return $p;   
+        $this->data = $p;
     }
     
     /**
@@ -142,7 +140,7 @@ class globalGetModelsData {
     /**
      * Query Builder: Category
      * 
-     * @not: images, tags, attributes, comments
+     * @not: images, tags, attributes, comments; lazy load: subcategories, parentcategories
      */
     protected function categoryQuery($siteId, $id, $queryParams)
     {

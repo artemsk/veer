@@ -24,3 +24,9 @@ $manual_change_arr=array(
              "{TITLE}"   => SHOP_NAME." - ".@$title_head,
              "{TRACKING}" => TRACKING_CODE,
 );
+
+// TODO: callme
+// TODO: dynamic order form: change deliver addr, type, payment type -> redraw form
+
+    $prd_views=$showprd->update_views($detected[1]);
+     $showpage->update_views(@$detected[1]);

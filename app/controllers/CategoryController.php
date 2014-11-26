@@ -42,14 +42,13 @@ class CategoryController extends \BaseController {
 	 * @return Response
 	 */
 	public function show($id)
-	{
-		
+	{	
                 $getData = new Veer\Lib\Components\globalGetModelsData(array(
                     'method' => Route::currentRouteName(),
                     'id' => $id,
-                    'params' => array()
-                ));
-                     
+                    'params' => get_paginator_and_sorting()
+                ));   
+                
 	}
 
 

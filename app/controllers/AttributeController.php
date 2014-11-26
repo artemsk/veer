@@ -48,6 +48,9 @@ class AttributeController extends \BaseController {
                     'id' => $id,
                     'params' => array()
                 ));
+                echo "<pre>";
+                print_r($getData);
+                echo "</pre>";
 	}
 
 
