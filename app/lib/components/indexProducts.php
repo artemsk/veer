@@ -4,16 +4,29 @@ namespace Veer\Lib\Components;
 use Veer\Models\Product;
 use Illuminate\Support\Facades\Config;
 
+/**
+ * 
+ * Veer.Components @indexProducts
+ * 
+ * - collect product for specific category; 
+ *   should be used for index page.
+ * 
+ * @params db: CATEGORY_HOME
+ * @params $siteId
+ * 
+ * @return $out[]
+ */
+
 class indexProducts {   
     
     public $data;
     
-    function __construct() {
+    function __construct($params = null) {
         
         $v = \App::make('veer');
         
         $siteId = $v->siteId;
-        $homeId = $v->siteConfig['CATEGORY_HOME'];
+        $homeId = $v->siteConfig['CATEGORY_HOME'] ? $v->siteConfig['CATEGORY_HOME'] : 0;
                
         $p = Product::homepages($siteId, $homeId)->checked()->with(
                     array( 'categories' => function($query) use ($siteId, $homeId) {

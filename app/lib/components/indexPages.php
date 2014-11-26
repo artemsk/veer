@@ -3,7 +3,7 @@ namespace Veer\Lib\Components;
 
 class indexPages {   
     
-    function __construct() {
+    function __construct($params = null) {
         
     }    
     

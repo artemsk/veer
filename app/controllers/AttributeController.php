@@ -43,7 +43,11 @@ class AttributeController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+                $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                    'method' => Route::currentRouteName(),
+                    'id' => $id,
+                    'params' => array()
+                ));
 	}
 
 

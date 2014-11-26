@@ -31,7 +31,9 @@ class SearchController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+            echo "<pre>";
+            print_r(\Illuminate\Support\Facades\Input::all());
+            echo "</pre>";
 	}
 
 
@@ -43,7 +45,11 @@ class SearchController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+                $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                    'method' => Route::currentRouteName(),
+                    'id' => $id,
+                    'params' => array()
+                ));
 	}
 
 
