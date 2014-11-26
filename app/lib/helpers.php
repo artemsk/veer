@@ -41,4 +41,25 @@ if ( ! function_exists('include_content_to_variable'))
 
 
 
+if ( ! function_exists('get_paginator_and_sorting'))
+{
+	/**
+	 * Get paginator & sorting.
+	 *
+	 * @return string
+	 */
+	function get_paginator_and_sorting()
+	{
+              $g = Input::all();
+              return array(
+                  'sort' => @$g['sort'] ? $g['sort'] : 'created_at',
+                  'direction' => @$g['direction'] ? $g['direction'] : 'desc',
+                  'skip' => @$g['skip'] ? $g['skip'] : 0,
+                  'take' => @$g['take'] ? $g['take'] : 25,
+                  'skip_pages' => @$g['skip_pages'] ? $g['skip_pages'] : 0,
+                  'take_pages' => @$g['take_pages'] ? $g['take_pages'] : 25                 
+              );
+	}
+}
+
     

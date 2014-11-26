@@ -46,7 +46,7 @@ class UserController extends \BaseController {
                 $getData = new Veer\Lib\Components\globalGetModelsData(array(
                     'method' => Route::currentRouteName(),
                     'id' => $id,
-                    'params' => array()
+                    'params' => get_paginator_and_sorting()
                 ));
 	}
 
