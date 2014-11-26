@@ -49,7 +49,7 @@
                   </div>
                   <div class="col-sm-4">
                       <p class="footer-block">Сделано в Большой Мастерской</p><br/><br/>
-                      <p class="footer-block">Движок Ориентир</p>
+                      <p class="footer-block">VEER Engine</p>
                   </div>
               </div>
           </div>

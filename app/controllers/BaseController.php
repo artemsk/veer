@@ -25,6 +25,7 @@ class BaseController extends Controller {
         {
             /**
              *  Caching Html Pages
+             *  TODO: do not cache if user exists
              */
             if(is_object($this->view) && Config::get('veer.htmlcache_enable') == true) {
                 

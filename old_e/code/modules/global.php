@@ -76,18 +76,6 @@ function cats_tree() { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï
     
     } /////
 
-function get_include_contents($filename) { // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    Debug::log(); 
-    if (is_file($filename)) {
-        ob_start();
-        include $filename;
-        $contents = ob_get_contents();
-        ob_end_clean();
-        return $contents;
-    }
-    return false;
-}
-
 function cats($returntype="sql", $shop_cat=SHOP_NNN) { // sql, arr / ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½.ï¿½.
 Debug::log(); 
         if(isset($_SESSION['cache']['cats'][$returntype][$shop_cat])) { return $_SESSION['cache']['cats'][$returntype][$shop_cat]; }
@@ -323,169 +311,6 @@ function login_header($force="") {
         return $iwant2see;
      }
 
-
-
-function write2file($what, $where, $ext = "txt", $time2write = "") { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½; ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-Debug::log(); 
-    if (CACHE_SAVE_TYPE == "nocache") {
-        return;
-    }
-    
-    if (CACHE_SAVE_TYPE == "txt" || $ext == "html" || CACHE_SAVE_TYPE == "" || CACHE_SAVE_TYPE == "CACHE_SAVE_TYPE") { // html ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ txt
-        if (($time2write == "" && @filemtime(MAINURL_5 . "/code/txts/" . $where . "." . $ext) < (time() - 1)) || 
-                ($time2write != "" && @filemtime(MAINURL_5 . "/code/txts/" . $where . "." . $ext) < (time() - (60 * 60 * $time2write)))) {
-            $f = fopen(MAINURL_5 . "/code/txts/" . $where . "." . $ext, "w");
-            fwrite($f, $what);
-            fclose($f);
-        }
-    } // txt
-
-    if (CACHE_SAVE_TYPE == "mysql" && $ext != "html") { // html ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-        $allowwrite = 0;
-        $e = mysql_kall("SELECT dat FROM " . DB_PREFIX . "cache_here WHERE whr='" . $where . "' AND extns='" . $ext . "'");
-        $e2 = mysql_fetch_assoc($e);
-        if ($time2write == "" && @$e2['dat'] < (time() - 1)) {
-            $allowwrite = 1;
-        }
-        if ($time2write != "" && @$e2['dat'] < (time() - (60 * 60 * $time2write))) {
-            $allowwrite = 1;
-        }
-        if (mysql_num_rows($e) <= 0) {
-            $allowwrite = 2;
-        }
-        if ($allowwrite == "1") {
-            mysql_kall("UPDATE " . DB_PREFIX . "cache_here SET whr='" . $where . "', extns='" . $ext . "', wht='" . 
-                    strtr($what, array("'" => "&apos;")) . "', dat='" . time() . "'");
-        }
-        if ($allowwrite == "2") {
-            mysql_kall("INSERT INTO " . DB_PREFIX . "cache_here (whr, extns, wht, dat) VALUES ('" . $where . "','" . $ext . "','" . 
-                    strtr($what, array("'" => "&apos;")) . "','" . time() . "')");
-        }
-    } // mysql
-}
-
-function readfromfile($where, $overcook = "24", $ext = "txt") { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-Debug::log();     
-    if (CACHE_SAVE_TYPE == "nocache") {
-        return;
-    }
-
-    if (CACHE_SAVE_TYPE == "txt" || $ext == "html" || CACHE_SAVE_TYPE == "" || CACHE_SAVE_TYPE == "CACHE_SAVE_TYPE") {
-        $f3 = "";
-        $where2 = MAINURL_5 . "/code/txts/" . $where . "." . $ext;
-        if (file_exists($where2)) {
-            if (filemtime($where2) >= (time() - (60 * 60 * $overcook))) {
-                $f = file($where2);
-                $f2 = implode("", $f);
-                return $f2;
-                $f3 = $f2;
-            }
-        }
-    } // txt
-
-    if (CACHE_SAVE_TYPE == "mysql" && $ext != "html") {
-        $f3 = "";
-        $e = mysql_kall("SELECT dat, wht FROM " . DB_PREFIX . "cache_here WHERE whr='" . $where . "' AND extns='" . $ext . "'");
-        $e2 = mysql_fetch_assoc($e);
-        if (mysql_num_rows($e) > 0) {
-            if ($e2['dat'] >= (time() - (60 * 60 * $overcook))) {
-                $f3 = strtr($e2['wht'], array("&apos;" => "'"));
-            }
-        }
-    } // mysql
-
-    return $f3;
-}
-
-function clearfile($where="",$timeout="168",$what="txts",$onlycid="0",$auto_flag="0") { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-Debug::log(); 
-    $allow2clear=1;
-
-    if($auto_flag>0) {
-        $allow2clear=0; $cacheclear=readfromfile("CACHECLEAR_".$what,$auto_flag);
-        if($cacheclear=="") { $allow2clear=1; }
-    }
-    
-    if($allow2clear=="1") {
-
-    // where-array,what-txts,thumbs,page_thumbs
-    if($what=="txts") { $pth=MAINURL_5."/code/txts/"; $where2="txt"; }
-    if($what=="thumbs") { $pth=MAINURL_5."/upload/thumb/"; }
-    if($what=="page_thumbs") { $pth=MAINURL_5."/upload/pages/thumb/"; }
-    if($what=="stats") { $pth=MAINURL_5."/stat/"; $where2="txt"; }
-    if($what=="htmls") { $pth=MAINURL_5."/code/txts/total/"; $where2="html"; }
-    if($what=="ips") { $pth=MAINURL_5."/code/txts/ips/"; $where2="txt"; }
-
-    $time2clear=time()-(60*60*$timeout);
-
-    if($where!=""&&$what=="txts") { 
-        foreach($where as $k=>$v) {
-            
-        if(CACHE_SAVE_TYPE=="mysql") { 
-            mysql_kall("DELETE FROM ".DB_PREFIX."cache_here WHERE whr='".$v."' AND extns='".$where2."' AND dat<='".$time2clear."'");         
-        } else {
-           $filenm=$pth.$v.".".$where2; if(@filectime($filenm)<=$time2clear) {
-           @unlink($filenm); // TODO: ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?        
-        }}
-                  
-        }
-         return true;
-     }
-
-    if(CACHE_SAVE_TYPE=="mysql"&&$what=="txts"&&$where=="") { // 
-       
-       if($onlycid=="1") { // TODO: ï¿½ï¿½ï¿½ï¿½ cid=1 ï¿½ï¿½ï¿½ cid=10 ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-       mysql_kall("DELETE FROM ".DB_PREFIX."cache_here WHERE extns='txt' AND whr!='CACHECLEAR' 
-           AND whr!='CACHECLEAR_THUMBS' AND dat<='".$time2clear."' AND whr LIKE '%%%_cid".@$_SESSION['customers_id']."%%%'"); 
-       } else {
-       mysql_kall("DELETE FROM ".DB_PREFIX."cache_here WHERE extns='txt' AND whr!='CACHECLEAR' 
-           AND whr!='CACHECLEAR_THUMBS' AND dat<='".$time2clear."'");
-       }
-       
-    } else { // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ txts ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ cachetype ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ txts ï¿½ï¿½ï¿½ï¿½ cachetype=txt 
-     
-    if($where==""||($what!="txts")) {
-        if($where!="") { $where=array_flip($where); }
-         $folder=array($pth);
-         $path=$folder[0]; unset($folder[0]); 
-         $end=1000; $allfolders=0;
-         for($j=0;$j<=$end;$j++) {
-         $qqq = @opendir($path);
-         while ( $qqq2 = @readdir( $qqq ) ) {  if ( $qqq2 != '.' && $qqq2 != '..') {
-            $qqq3=explode(".",$qqq2); 
-            if(count($qqq3)>1) { 
-                if($qqq==$pth) { continue; } //?
-                if($onlycid=="1") { $qqq4=explode("_cid".@$_SESSION['customers_id'],$qqq3[0]); if(count($qqq4)>1) {} else { continue; }} // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½                
-                if($where!="") { $qqq4=explode("_",$qqq3[0]); unset($qqq4[0],$qqq4[1]); $qqq5=implode("_",$qqq4); if($qqq5!="") {
-                    if(isset($where[$qqq5])) {} else { continue; }}} // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                  
-                if(trim($qqq3[1])=="jpg"||trim($qqq3[1])=="JPG"||trim($qqq3[1])=="gif"||trim($qqq3[1])=="GIF"||trim($qqq3[1])==$where2) { 
-                if(filectime($path.$qqq2)<=$time2clear) { $files[]=$qqq2; $files_path[]=$path; } }
-            } else { 
-                if($qqq2=="txt"||substr($qqq2,0,6)=="thumb_") { continue; } $folder[]=$path.$qqq2."/"; $folder_double[]=$path.$qqq2."/"; $allfolders++; }
-     }}
-         $end=$j+count($folder);
-         $kk=0;
-         foreach($folder as $k=>$v) { if($kk=="0") { $path=$v; unset($folder[$k]); break; } $kk++; }
-        }
-
-        $zzz=0;
-        if(count($files)>0) {
-        foreach($files as $k=>$v) { if($v=="CACHECLEAR_THUMBS.txt"||$v=="CACHECLEAR.txt") { continue; }
-        // $zzz." => ".$k." => ".$v." ".$files_path[$k]."<br>";
-         @unlink($files_path[$k].$v);
-         if($what!="txt") { @unlink($files_path[$k]."txt/".substr($v,0,-4).".txt"); }
-         $zzz++;
-        }
-        }
-
-        }
-
-    } // cachetype=mysql&what=txts
-    
-        if($auto_flag>0) { write2file("1","CACHECLEAR_".$what); }        
-        } // allow2clear
-}
-
 // follow customer
 function follow($detected="", $c_id="") { // detected, customers_id
 Debug::log();     
@@ -578,9 +403,6 @@ function srch_history($q) {
           } $return_str=mysql_insert_id(); }
           return $return_str;
       }
-
-// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ value
-function trim_blank(&$item, &$key) { Debug::log(); $item=trim($item); }
 
 function search() { Debug::log();  $r=explode(",",SEARCH_DEFAULTS); $r2=trim($r[array_rand($r)]);
         $user_forms=new forms; 
@@ -697,28 +519,3 @@ function txt_cut($txt, $limit=100, $type="more", $type2="<br>-") { // type= more
                 }                
                } else { return $txt; } 
                }
-      
-// simplify array     
-function simplifyarr($arr, $prevkey = "", $delim = "#") {
-    $arr_new = array();
-    $arr2 = array();
-    if(is_array($arr)) {
-    foreach ($arr as $k => $v) {
-
-        $k2 = $prevkey . $delim . $k;
-
-        if (is_array($v)) {
-            $v2 = simplifyarr($v, $k2, $delim);
-            $v = $v2[0];
-            if (is_array($v2[1])) {
-                $arr2 = $arr2 + $v2[1];
-            }
-        } else {
-            $arr2[$k2] = $v;
-        }
-
-        $arr_new[$k2] = $v;
-    }}
-    return array($arr_new, $arr2); // 0 -> multidimension, 1 -> onedimension
-}    
-  

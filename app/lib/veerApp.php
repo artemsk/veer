@@ -94,16 +94,16 @@ class VeerApp {
      * @param $routeName
      * @return $data
      */     
-    public function registerComponents($routeName) 
+    public function registerComponents($routeName, $params = null) 
     {       
         $c = Component::validComponents($this->siteId, $routeName)->remember(1)->get();
         $data = array();
         
-        foreach($c as $component) {    
+        foreach($c as $component) { 
             switch($component->components_type) {
                 
                 case "functions":
-                        $data[$component->components_src] = $this->loadComponentClass($component->components_src); 
+                        $data[$component->components_src] = $this->loadComponentClass($component->components_src, $params); 
                         $data['output'] = object_get($data[$component->components_src],'data');
                     break;
                     
@@ -124,9 +124,10 @@ class VeerApp {
      * Loading custom classes for components
      *
      * @param $className
+     * @param $params - if needed
      * @return object $className
      */ 
-    protected function loadComponentClass($className) 
+    protected function loadComponentClass($className, $params = null) 
     {        
         $classFullName = "\Veer\Lib\Components\\" . $className;
         
@@ -137,7 +138,7 @@ class VeerApp {
             if(file_exists($pathComponent)) { require $pathComponent; }
         }  
         
-        if(class_exists($classFullName)) { return new $classFullName; }        
+        if(class_exists($classFullName)) { return new $classFullName($params); }        
     }
     
     /**

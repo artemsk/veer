@@ -15,3 +15,28 @@ if ( ! function_exists('cache_current_url_value'))
                     ));
 	}
 }
+
+
+
+if ( ! function_exists('include_content_to_variable'))
+{
+	/**
+	 * Include content to variable .
+	 *
+	 * @return string
+	 */
+	function include_content_to_variable($filename)
+	{
+                if (is_file($filename)) {
+                    ob_start();
+                    include $filename;
+                    $contents = ob_get_contents();
+                    ob_end_clean();
+                    return $contents;
+                }
+	}
+}
+
+
+
+    

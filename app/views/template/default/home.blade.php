@@ -50,12 +50,12 @@
                <div class="tags-lnks hidden-xs"><a href="?6">доставка</a></div>
                <div class="tags-lnks"><a href="tel:+79035019959">+7 (903) 501-99-59</a></div>
                <div class="tags-lnks-last">
-                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='<div class="input-group">
-                   <input type="text" class="form-control">
+                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='{{ Form::open(array('route' => 'search.store')) }}<div class="input-group">
+                   <input type="text" class="form-control" name="q">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
+        <button class="btn btn-default" type="submit">Go!</button>
       </span>
-               </div>' data-html="true" data-title="Поиск по товарам">
+               </div>{{ Form::close() }}' data-html="true" data-title="Поиск по товарам">
                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                    </button>
                 </div>

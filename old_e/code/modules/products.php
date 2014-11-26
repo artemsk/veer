@@ -328,12 +328,6 @@ Debug::log();
             $ii = $i;
         }
 
-        // ���������� ���, ���� �� ������ ��������� �������
-        if ((time() - (60 * CACHE_TIMEOUT)) < 
-                @$_SESSION['cache']['products'][SHOP_NNN][$ii][$type][$group_img_flag][$startfrom][$_SESSION['customers_id']]['time']) {  
-            return unserialize($_SESSION['cache']['products'][SHOP_NNN][$ii][$type][$group_img_flag][$startfrom][$_SESSION['customers_id']]['sql']);
-        }
-
             if($startfrom<1) { $startfrom=1; }
             $startfrom=($startfrom-1)*PRDS_PER_PAGE;
 
@@ -348,17 +342,7 @@ Debug::log();
             $add_sql = cats();
         }
         $arr_status = cats('arr');
-        
-        $vars = "type, status, dat, kogda, nazv, grp_nnn, currency, " . DB_PREFIX . "products.price, " . DB_PREFIX . "products.price_sales, 
-            " . DB_PREFIX . "products.price_distr, " . DB_PREFIX . "products.price_guest, " . DB_PREFIX . "products.price_opt, 
-                prior_sales, prior_distr, prior_guest, prior_opt, star, ordered, viewed, " . DB_PREFIX . "products.nnn";
-        
-        //////////////// nnn - ���������� �����:
-        
-        if ($type == "nnn") {
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn='" . $i . "') AND status!='hid' " . @$add_sql . " ORDER BY dat DESC";
-        }
-        
+               
         //////////////// nnn_array - ������ �������
         
         if ($type == "nnn_array") {
@@ -370,12 +354,6 @@ Debug::log();
         if ($type == "nnn_connects") {
             $add_sql = "";
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn IN ('" . $i . "')) AND status!='hid' ORDER BY dat DESC";
-        }
-        
-        //////////////// cat - ������ ��������� ��������� + ������������
-             
-        if ($type == "cat") {
-            $sql = "SELECT " . $vars . ", " . DB_PREFIX . "products_2_cats.shop_cat FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND " . DB_PREFIX . "products.status!='hid' " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE); 
         }
         
         //////////////// srch - ����� �� ��������
@@ -405,17 +383,6 @@ Debug::log();
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY dat DESC LIMIT " . $i . "";
         }
         
-        //////////////// attr - ������ � ������������� ���������� (+ �������������)
-             
-        if ($type == "attr") {
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_attr, " . DB_PREFIX . "products_2_cats WHERE attr_name='" . trim($i[0]) . "' AND attr_val='" . trim($i[1]) . "' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_attr.products_nnn AND " . DB_PREFIX . "products.status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE);
-        }
-        
-        //////////////// keyws - ������ � ������������� ��������� �������
-             
-        if ($type == "keyw") {
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_keywords, " . DB_PREFIX . "products_2_cats WHERE keyword='" . $i . "' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_keywords.products_nnn AND " . DB_PREFIX . "products.status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE);
-        }
         
         //////////////// pop_ord - ����� ������������ ������
      
@@ -429,39 +396,11 @@ Debug::log();
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY viewed DESC LIMIT " . $i . "";
         }
         
-        ////////////////            
-
-        $sel_sql = mysql_kall($sql) or die(mysql_error());
-
         if (@$onlynums_flag == "1") {
             return mysql_num_rows($sel_sql);
         } // ������ ����������!
 
         if (mysql_num_rows($sel_sql) > 0) {
-
-            $sel = mysql_fetch_assoc($sel_sql);
-            do {
-
-                if ($type == "cat") {
-                    if ($sel['shop_cat'] == $i) {
-                        $main[$sel['nnn']]['smart_sort'] = "0";
-                    } else {
-                        if (!isset($main[$sel['nnn']]['smart_sort'])) { // ������� ������� �� ����� ������!
-                            $main[$sel['nnn']]['smart_sort'] = "1";
-                        }
-                    }
-                }
-
-                if (isset($main[$sel['nnn']]['nazv'])) {
-                    continue;
-                }
-
-                foreach ($sel as $k => $v) { // ���� ������
-                    if ($k == "nnn") {
-                        continue;
-                    }
-                    $main[$sel['nnn']][$k] = $v;
-                }
 
                 if ($sel['type'] == "grp") {
                     $grp_collect[$sel['nnn']] = $sel['grp_nnn'];
@@ -471,16 +410,6 @@ Debug::log();
                 $main[$sel['nnn']]['ordered_day'] = ceil($sel['ordered'] / ((time() - $sel['dat']) / 60 / 60 / 24));
                 $main[$sel['nnn']]['viewed_month'] = ceil($sel['viewed'] / ((time() - $sel['dat']) / 60 / 60 / 24 / 31));
                 $main[$sel['nnn']]['viewed_day'] = ceil($sel['viewed'] / ((time() - $sel['dat']) / 60 / 60 / 24));
-
-                //if($main[$sel['nnn']]['ordered_month']>$sel['ordered']) { $main[$sel['nnn']]['ordered_month']=$sel['ordered']; } 
-                // ���� ����� ��� �� ��������� �����, �� ��������� �������������� ���������
-                if ($main[$sel['nnn']]['ordered_day'] > $sel['ordered']) {
-                    $main[$sel['nnn']]['ordered_day'] = $sel['ordered'];
-                }
-                //if($main[$sel['nnn']]['viewed_month']>$sel['viewed']) { $main[$sel['nnn']]['viewed_month']=$sel['viewed']; }
-                if ($main[$sel['nnn']]['viewed_day'] > $sel['viewed']) {
-                    $main[$sel['nnn']]['viewed_day'] = $sel['viewed'];
-                }
 
                 // ���� ��� ����� ���������� ���� ������� ��� ��� �������� ������ !
                 $return_price = $this->product_prices(
@@ -510,49 +439,6 @@ Debug::log();
                 $sql_cats = mysql_kall("SELECT shop_cat, products_nnn, basket_separate, prior, prior_bask 
                 FROM " . DB_PREFIX . "products_2_cats WHERE products_nnn='" . $sel['nnn'] . "'");
                 $sql_cats2 = mysql_fetch_assoc($sql_cats);
-                do {                    
-                    if ($type == "cat" & count(@$arr_status_i[$sql_cats2['shop_cat']]) > 0) { // ��� ��������� ������� ������ �������
-                        if ($sql_cats2['shop_cat'] == $i) {
-                            $main[$sql_cats2['products_nnn']]['smart_sort'] = "0";
-                        } else {
-                            if (!isset($main[$sql_cats2['products_nnn']]['smart_sort'])) {
-                                $main[$sql_cats2['products_nnn']]['smart_sort'] = "1";
-                            }
-                        } unset($sel['shop_cat']);
-                    }
-
-                    $main[$sql_cats2['products_nnn']]['shop_cat'][$sql_cats2['shop_cat']] = @$arr_status[$sql_cats2['shop_cat']]['status'];
-                    $main[$sql_cats2['products_nnn']]['shop_cat_currency'][$sql_cats2['shop_cat']] = @$arr_status[$sql_cats2['shop_cat']]['currency'];
-
-                    if ($sql_cats2['prior'] == "1") {
-                        $main[$sql_cats2['products_nnn']]['shop_cat_priority'] = $sql_cats2['shop_cat'];
-                    } else {
-                        if (!isset($main[$sql_cats2['products_nnn']]['shop_cat_priority'])&&
-                                $arr_status[$sql_cats2['shop_cat']]['hostshop']==SHOP_NNN) { // @reviewlate: �������� ��� ���������� �� ��� ��������
-                            $main[$sql_cats2['products_nnn']]['shop_cat_priority'] = $sql_cats2['shop_cat'];
-                        }
-                    }
-
-                    if ($sql_cats2['prior_bask'] == "1") {
-                        $catsup = cats_up($sql_cats2['shop_cat']);
-                        $catsup['connected_2_current'] = $arr_status[$catsup['nnn']]['status'];
-                        $main[$sql_cats2['products_nnn']]['shop_cat_onlyshop_arr'][$sql_cats2['shop_cat']] = $catsup;
-                        $main[$sql_cats2['products_nnn']]['shop_cat_onlyshop'] = $catsup;
-                    } else {
-                        $catsup = cats_up($sql_cats2['shop_cat']);
-                        $catsup['connected_2_current'] = $arr_status[$catsup['nnn']]['status'];
-                        $main[$sql_cats2['products_nnn']]['shop_cat_onlyshop_arr'][$sql_cats2['shop_cat']] = $catsup;
-                        if (!isset($main[$sql_cats2['products_nnn']]['shop_cat_onlyshop'])) {
-                            $main[$sql_cats2['products_nnn']]['shop_cat_onlyshop'] = $catsup;
-                        }
-                    } // @reviewlate: ��� ������ ������� ����� ������������ $arr_status[shopcat][hostshop]
-                    
-                    if ($type == "main" || $type == "cat" || $type == "keyw" || $type == "attr" || $type == "srch") { // ���� group_by
-                        $main['group_by_cat'][$sql_cats2['shop_cat']][$sql_cats2['products_nnn']] = $sql_cats2['products_nnn'];
-                        $main['group_by_shop'][$main[$sql_cats2['products_nnn']]['shop_cat_onlyshop']['nnn']][$sql_cats2['products_nnn']] = 
-                                $sql_cats2['products_nnn'];
-                    }
-                } while ($sql_cats2 = mysql_fetch_assoc($sql_cats));
 
                 // ������
                 unset($main[$sel['nnn']]['price_sales'], $main[$sel['nnn']]['price_guest'], 
@@ -571,7 +457,6 @@ Debug::log();
                 if ($sel['type'] != "grp" && ($type == "attr" || $type == "keyw")) {
                     $grp_check_in[$sel['nnn']] = $sel['nnn'];
                 }
-            } while ($sel = mysql_fetch_assoc($sel_sql));
 
 
             ///////// PRD_IN_GRPS - ���� ������
@@ -641,10 +526,6 @@ Debug::log();
             }
 
             unset($main['']);
-
-           // $_SESSION['cache']['products'][SHOP_NNN][$ii][$type][$group_img_flag][$startfrom][$_SESSION['customers_id']]['sql'] = serialize($main);
-           // $_SESSION['cache']['products'][SHOP_NNN][$ii][$type][$group_img_flag][$startfrom][$_SESSION['customers_id']]['time'] = time();
-
             return $main;
         } // sel_sql>0
     }
@@ -653,25 +534,16 @@ Debug::log();
     //
 
     function collect_products_full($i) { // �������� ��� ��������� ������ �� ������
-        Debug::log();
-        $add_sql=cats(); $arr_status=cats('arr');
+
         $sql="SELECT ".DB_PREFIX."products.*  FROM ".DB_PREFIX."products, ".DB_PREFIX."products_2_cats WHERE ".DB_PREFIX."products.nnn=".DB_PREFIX."products_2_cats.products_nnn AND ".DB_PREFIX."products.nnn='".$i."' AND status!='hid' ".@$add_sql;
 
          $sel_sql=mysql_kall($sql) or die(mysql_error());
         if(mysql_num_rows($sel_sql)>0) {
 
-        $sel=mysql_fetch_assoc($sel_sql);
-
-        foreach($sel as $k=>$v) { $main[$k]=$v; }
-
         $main['ordered_month']=ceil($sel['ordered']/((time()-$sel['dat'])/60/60/24/31));
         $main['ordered_day']=ceil($sel['ordered']/((time()-$sel['dat'])/60/60/24));
         $main['viewed_month']=ceil($sel['viewed']/((time()-$sel['dat'])/60/60/24/31));
         $main['viewed_day']=ceil($sel['viewed']/((time()-$sel['dat'])/60/60/24));
-        if($main['ordered_month']>$sel['ordered']) { $main['ordered_month']=$sel['ordered']; }
-        if($main['ordered_day']>$sel['ordered']) { $main['ordered_day']=$sel['ordered']; }
-        if($main['viewed_month']>$sel['viewed']) { $main['viewed_month']=$sel['viewed']; }
-        if($main['viewed_day']>$sel['viewed']) { $main['viewed_day']=$sel['viewed']; }
 
         // ���� ��� ����� ���������� ���� ������� ��� ��� �������� ������ !
         $return_price=$this->product_prices(array('price'=>$sel['price'],'price_sales'=>$sel['price_sales'],'price_distr'=>$sel['price_distr'],'price_guest'=>$sel['price_guest'],'price_opt'=>$sel['price_opt']),array('prior_distr'=>$sel['prior_distr'],'prior_guest'=>$sel['prior_guest'],'prior_sales'=>$sel['prior_sales'],'prior_opt'=>$sel['prior_opt']),0,@$_SESSION['customers_id'],'prd');
@@ -1838,4 +1710,3 @@ Debug::log();
             }
 
 }
-?>
