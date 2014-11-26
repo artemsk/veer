@@ -49,7 +49,7 @@ class CategoryController extends \BaseController {
                     'id' => $id,
                     'params' => array()
                 ));
-                
+                     
 	}
 
 

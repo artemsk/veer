@@ -30,11 +30,7 @@ class SearchController extends \BaseController {
 	 * @return Response
 	 */
 	public function store()
-	{
-            echo "<pre>";
-            print_r(\Illuminate\Support\Facades\Input::all());
-            echo "</pre>";
-            
+	{            
             if(Input::has('q')) 
             {                
                 $q = trim(Input::get('q'));  
