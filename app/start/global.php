@@ -79,6 +79,8 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
 
 App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception)
 {    
+    Log::error("URL Not found ".$exception->getMessage());
+    
     return Redirect::route('404');
 });
 

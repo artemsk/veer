@@ -7,8 +7,8 @@ use Veer\Models\Attribute;
 use Veer\Models\Image;
 use Veer\Models\Product;
 use Veer\Models\Page;
-use Veer\Models\Search;
-use Illuminate\Support\Facades\Config;
+use Veer\Models\Order;
+use Veer\Models\User;
 
 /**
  * 
@@ -16,11 +16,10 @@ use Illuminate\Support\Facades\Config;
  * 
  * - collect product & pages for category/tag/attribute/search etc. 
  *   is used everywhere: tag, category, attribute, image, index?, product,
- *   page, search
+ *   page, search, filter, order, user, array(id), (all)array(id)
  * 
  * @params $group_img_flag = "0", $onlynums_flag = "0"
- * @params $method by route: filter?, user?, order?
- * @params $method other: id, array(id), (all)array(id), new, popular order, popular viewed
+ * @params $method other: new, popular order, popular viewed
  * 
  * @return 
  */
@@ -35,6 +34,8 @@ class globalGetModelsData {
         
         $siteId = $this->v->siteId;
         $queryParams = $this->paramsDefault($params['params']);
+        
+        $p = null;
         
         switch($params['method']) {
             
@@ -83,34 +84,35 @@ class globalGetModelsData {
                 break;       
             
             case "connected":  
+                $queryParams['connectedQuery'] = 'connected';
                 $p = $this->connectedQuery($siteId, $params['id'], $queryParams);
                 break;  
             
             case "connectedEverywhere":  
+                $queryParams['connectedQuery'] = 'connectedEverywhere';
                 $p = $this->connectedQuery($siteId, $params['id'], $queryParams);
                 break;          
             
             case "new":  
-                $p = $this->sortingQuery($siteId, $params['id'], $queryParams);
+                $queryParams['sortingQuery'] = 'new';
+                $p = $this->sortingQuery($siteId, $queryParams);
                 break;     
 
-            case "popularByOrder":  
-                $p = $this->sortingQuery($siteId, $params['id'], $queryParams);
+            case "popularByOrder": 
+                $queryParams['sortingQuery'] = 'popular_ordered';
+                $p = $this->sortingQuery($siteId, $queryParams);
                 break;  
 
-            case "popularByView":  
-                $p = $this->sortingQuery($siteId, $params['id'], $queryParams);
+            case "popularByView": 
+                $queryParams['sortingQuery'] = 'popular_viewed';
+                $p = $this->sortingQuery($siteId, $queryParams);
                 break;         
             
             default:
                 break;      
         }
         
-             echo "<pre>";
-          print_r(\Illuminate\Support\Facades\DB::getQueryLog());
-          echo "</pre>";
-        
-        
+        return $p;   
     }
     
     /**
@@ -215,7 +217,6 @@ class globalGetModelsData {
        return $p;       
     }
     
-    
     /**
      * Query Builder: Image
      * 
@@ -297,8 +298,7 @@ class globalGetModelsData {
                         }
                     ))->first();
     }    
- 
-    
+  
     /**
      * Query Builder: Search
      * 
@@ -337,8 +337,7 @@ class globalGetModelsData {
         
         return $p;
     } 
-    
-    
+       
     /**
      * Query Builder: Filter
      * 
@@ -389,7 +388,6 @@ class globalGetModelsData {
         return $p;
     }
     
- 
     /**
      * @parseFilterStr - parse configuration[FILTER_ATTRS]
      * 
@@ -409,25 +407,39 @@ class globalGetModelsData {
         }       
     }
     
-    
     /**
      * Query Builder: Order
      * 
-     * @not: products, pages, category, tags, attributes, images, comments
+     * @not: images, user; tags; products -> withTrashed! 
+     * @not: orderproducts:(longtext)attributes?comments?downloads  
      */
     protected function orderQuery($siteId, $id, $queryParams)
     {
-        
+        // TODO: show orders only for its user or administrator
+        $userId = 2;
+        $o = Order::where('id','=',$id)->where('users_id','=',$userId)
+                ->where('hidden','!=',1)->first();
+        if(is_object($o)) {
+            $o->load('userbook','userdiscount','status','delivery','payment','status_history','bills');
+        }
+        return $o;
     } 
     
     /**
      * Query Builder: User
      * 
-     * @not: products, pages, category, tags, attributes, images, comments
+     * @not: -
      */
     protected function userQuery($siteId, $id, $queryParams)
     {
-        
+        // TODO: show user only for himself or administrator
+        $u = User::where('id','=',$id)->where('sites_id','=',$siteId)
+                ->where('banned','!=','1')->first();
+        if(is_object($u)) {
+            $u->load('role', 'comments', 'books', 'discounts', 'userlists', 'orders', 'bills', 'communications', 'administrator', 'searches');
+        }
+        // TODO: load info depending on page url
+        return $u;
     }     
     
     /**
@@ -437,7 +449,15 @@ class globalGetModelsData {
      */
     protected function connectedQuery($siteId, $id, $queryParams)
     {
+        if($queryParams['connectedQuery'] == 'connected') 
+        {
+                return Product::sitevalidation($siteId)->whereIn('id',$id)->checked()->get();
+        }
         
+        if($queryParams['connectedQuery'] == 'connectedEverywhere')  
+        {
+                return Product::whereIn('id',$id)->checked()->get();
+        }
     } 
     
     /**
@@ -445,9 +465,27 @@ class globalGetModelsData {
      * 
      * @not: products, pages, category, tags, attributes, images, comments
      */
-    protected function sortingQuery($siteId, $id, $queryParams)
+    protected function sortingQuery($siteId, $queryParams)
     {
+        if($queryParams['sortingQuery'] == 'new') 
+        {
+                $p = Product::sitevalidation($siteId)->checked()->orderBy('created_at', 'desc')
+                ->take($queryParams['take'])->skip($queryParams['skip'])->get();
+        }
         
+        if($queryParams['sortingQuery'] == 'popular_ordered') 
+        {
+                $p = Product::sitevalidation($siteId)->checked()->orderBy('ordered','desc')
+                ->take($queryParams['take'])->skip($queryParams['skip'])->get();
+        }
+
+        if($queryParams['sortingQuery'] == 'popular_viewed') 
+        {
+                $p = Product::sitevalidation($siteId)->checked()->orderBy('viewed','desc')
+                ->take($queryParams['take'])->skip($queryParams['skip'])->get();
+        }
+                
+        return $p;
     }     
     
 }

@@ -334,39 +334,7 @@ Debug::log();
            if($sorttype=="ordered_month" ) { $sorttype="ordered"; }
            if($sorttype=="viewed_month" ) { $sorttype="viewed";  }
            if($sorttype=="") { $sorttype="dat"; $sortdirection="desc"; }         
-                      
-        //////////////// nnn_array - ������ �������
-        
-        if ($type == "nnn_array") {
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn IN ('" . implode("', '", $i) . "')) AND status!='hid' " . @$add_sql . " ORDER BY dat DESC";
-        }
-        
-        //////////////// nnn_connects - ��������� ������ �� ������ ��������� (����� ������� ������):
-             
-        if ($type == "nnn_connects") {
-            $add_sql = "";
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn IN ('" . $i . "')) AND status!='hid' ORDER BY dat DESC";
-        }
-       
-        //////////////// new - ��������� ���������� ����� �������
-             
-        if ($type == "new") {
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY dat DESC LIMIT " . $i . "";
-        }
-        
-        
-        //////////////// pop_ord - ����� ������������ ������
-     
-        if ($type == "pop_ord") {
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ordered DESC LIMIT " . $i . "";
-        }
-        
-        //////////////// pop_vwd - ����� ��������������� ������
-             
-        if ($type == "pop_vwd") {
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY viewed DESC LIMIT " . $i . "";
-        }
-        
+                           
         if (@$onlynums_flag == "1") {
             return mysql_num_rows($sel_sql);
         } // ������ ����������!
