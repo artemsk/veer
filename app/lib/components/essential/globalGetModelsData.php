@@ -7,18 +7,19 @@ use Veer\Models\Attribute;
 use Veer\Models\Image;
 use Veer\Models\Product;
 use Veer\Models\Page;
+use Veer\Models\Search;
 use Illuminate\Support\Facades\Config;
 
 /**
  * 
  * Veer.Components @globalGetModelsData !essential
  * 
- * - collect product for category/tag/attribute/search etc. 
+ * - collect product & pages for category/tag/attribute/search etc. 
  *   is used everywhere: tag, category, attribute, image, index?, product,
- *   page
+ *   page, search
  * 
  * @params $group_img_flag = "0", $onlynums_flag = "0"
- * @params $method by route: search!, filter?, user?, order?
+ * @params $method by route: filter?, user?, order?
  * @params $method other: id, array(id), (all)array(id), new, popular order, popular viewed
  * 
  * @return 
@@ -65,12 +66,12 @@ class globalGetModelsData {
                 $p = $this->pageQuery($siteId, $params['id'], $queryParams);
                 break;
             
-            case "search.show":  
+            case "search.store":  
                 $p = $this->searchQuery($siteId, $params['id'], $queryParams);
-                break;              
+                break;                
             
             case "filter.show":  
-                $p = $this->filterQuery($siteId, $params['id'], $queryParams);
+                $p = $this->filterQuery($siteId, explode('.',$params['id']), $queryParams);
                 break;    
             
             case "order.show":  
@@ -112,7 +113,7 @@ class globalGetModelsData {
         
     }
     
-    /*
+    /**
      * Default Params
      * 
      */
@@ -124,7 +125,9 @@ class globalGetModelsData {
             "skip" => 0,
             "take" => 999,
             "skip_pages" => 0,
-            "take_pages" => 15
+            "take_pages" => 15,
+            "search_field_product" => "title",
+            "search_field_page" => "title"
         );
                 
         foreach($defaultParams as $k => $v) {
@@ -134,9 +137,10 @@ class globalGetModelsData {
         return $params;
     }    
     
-    /*
+    /**
      * Query Builder: Category
      * 
+     * @not: images, tags, attributes, comments
      */
     protected function categoryQuery($siteId, $id, $queryParams)
     {
@@ -160,9 +164,10 @@ class globalGetModelsData {
                   ))->first();         
     }    
     
-    /*
+    /**
      * Query Builder: Tag
      * 
+     * @not: images, comments
      */
     protected function tagQuery($siteId, $id, $queryParams)
     {
@@ -179,9 +184,10 @@ class globalGetModelsData {
                 ))->first();
     }
  
-    /*
+    /**
      * Query Builder: Attribute
      * 
+     * @not: images, comments
      */
     protected function attributeQuery($siteId, $id, $queryParams)
     {
@@ -210,9 +216,10 @@ class globalGetModelsData {
     }
     
     
-    /*
+    /**
      * Query Builder: Image
      * 
+     * @not: comments
      */
     protected function imageQuery($siteId, $id, $queryParams)
     {
@@ -232,7 +239,7 @@ class globalGetModelsData {
                     ))->first();
     }
     
-    /*
+    /**
      * Query Builder: Index Page
      * 
      */
@@ -241,9 +248,10 @@ class globalGetModelsData {
         // 
     }    
     
-    /*
+    /**
      * Query Builder: Product
      * 
+     * @not: tags, attributes, images, comments, downloads, userlists
      */
     protected function productQuery($siteId, $id, $queryParams = null)
     {
@@ -265,9 +273,10 @@ class globalGetModelsData {
                     ))->first();
     }    
     
-    /*
+    /**
      * Query Builder: Page
      * 
+     * @not: tags, attributes, images, comments
      */
     protected function pageQuery($siteId, $id, $queryParams = null)
     {
@@ -289,54 +298,152 @@ class globalGetModelsData {
                     ))->first();
     }    
  
-    /*
+    
+    /**
      * Query Builder: Search
      * 
+     * 
+     * 
+     * 
+     * @not: tags?, attributes?, images, comments
      */
     protected function searchQuery($siteId, $id, $queryParams)
     {
+        $q = explode(' ', $queryParams['q']);
+
+        $field = $queryParams['search_field_product'];
         
+        $p['products'] = Product::siteValidation($siteId)->whereNested(function($query) use ($q, $field) {
+                foreach($q as $word) {
+                    $query->where(function($queryNested) use ($word, $field) { 
+                        $queryNested->where($field,'=',$word)->orWhere($field,'like',$word.'%%%')->orWhere($field,'like','%%%'.$word)
+                            ->orWhere($field,'like','%%%'.$word.'%%%');                        
+                    });
+                }           
+        })->checked()->orderBy($queryParams['sort'], $queryParams['direction'])
+                ->take($queryParams['take'])->skip($queryParams['skip'])->get();
+        
+        $field = $queryParams['search_field_page'];
+        
+        $p['pages'] = Page::siteValidation($siteId)->whereNested(function($query) use ($q, $field) {
+                foreach($q as $word) {
+                    $query->where(function($queryNested) use ($word, $field) { 
+                        $queryNested->where($field,'=',$word)->orWhere($field,'like',$word.'%%%')->orWhere($field,'like','%%%'.$word)
+                            ->orWhere($field,'like','%%%'.$word.'%%%');                        
+                    });
+                }           
+        })->excludeHidden()->orderBy('created_at','desc')->take($queryParams['take_pages'])
+                ->skip($queryParams['skip_pages'])->get();
+        
+        return $p;
     } 
     
-    /*
+    
+    /**
      * Query Builder: Filter
      * 
+     * 
+     * 
+     * 
+     * @params: siteconfig[] FILTER_ATTRS key|value if!exists=only_category 
+     * @not: tags, attributes, images, comments
      */
     protected function filterQuery($siteId, $id, $queryParams)
     {
+        $category_id = $id[0] ? $id[0] : 0;        
         
-    } 
+        // if category = 0, we will collect all categories 
+        $c = "=";         
+        if($category_id <= 0) { $c = ">"; }      
+        
+        $p['products'] = Product::whereHas('categories', function($q) use ($category_id, $siteId, $c) { 
+            $q->where('categories_id', $c, $category_id)->where('sites_id','=',$siteId);
+        })->where(function($q) use ($id) {
+            if(count($id)>1) { 
+                foreach($id as $k => $filter) { if($k <= 0 || $filter <= 0) { continue; }
+                    $a = Attribute::find($filter)->toArray();
+     
+                    $q->whereHas('attributes', function($query) use ($a) {
+                        $query->where('name','=',$a['name'])->where('val','=',$a['val']);
+                    });
+                }
+            }            
+        })->checked()->orderBy($queryParams['sort'], $queryParams['direction'])
+                ->take($queryParams['take'])->skip($queryParams['skip'])->get();
+        
+        $p['pages'] = Page::whereHas('categories', function($q) use ($category_id, $siteId, $c) { 
+            $q->where('categories_id', $c, $category_id)->where('sites_id','=',$siteId);
+        })->where(function($q) use ($id) {
+            if(count($id)>1) { 
+                foreach($id as $k => $filter) { if($k <= 0 || $filter <= 0) { continue; }
+                    $a = Attribute::find($filter)->toArray();
+     
+                    $q->whereHas('attributes', function($query) use ($a) {
+                        $query->where('name','=',$a['name'])->where('val','=',$a['val']);
+                    });
+                }
+            }            
+        })->excludeHidden()->orderBy('created_at','desc')->take($queryParams['take_pages'])
+                ->skip($queryParams['skip_pages'])->get();
+        
+        return $p;
+    }
+    
  
-    /*
+    /**
+     * @parseFilterStr - parse configuration[FILTER_ATTRS]
+     * 
+     * @params $parseStr  key|value\n
+     * @return $preloaded
+     */
+    protected function parseFilterStr($parseStr) 
+    {
+        if($parseStr != "") 
+        { 
+            $preloaded = explode('\n',$parseStr);
+            foreach($preloaded as $v) {
+                $filterPair = explode('|',$v);
+                $filterPair[2] = Attribute::where('name','=',trim($filterPair[0]))->select('id')->first();                
+            }     
+            return $filterPair;
+        }       
+    }
+    
+    
+    /**
      * Query Builder: Order
      * 
+     * @not: products, pages, category, tags, attributes, images, comments
      */
     protected function orderQuery($siteId, $id, $queryParams)
     {
         
     } 
     
-    /*
+    /**
      * Query Builder: User
      * 
+     * @not: products, pages, category, tags, attributes, images, comments
      */
     protected function userQuery($siteId, $id, $queryParams)
     {
         
     }     
     
-    /*
+    /**
      * Query Builder: Connected, ConnectedEverywhere
      * 
+     * @not: products, pages, category, tags, attributes, images, comments
      */
     protected function connectedQuery($siteId, $id, $queryParams)
     {
         
     } 
     
-    /*
+    /**
      * Query Builder: New, PopularByOrder, PopularByView
      * 
+     * @not: products, pages, category, tags, attributes, images, comments
      */
     protected function sortingQuery($siteId, $id, $queryParams)
     {
@@ -344,5 +451,3 @@ class globalGetModelsData {
     }     
     
 }
-
-// TODO: cache?

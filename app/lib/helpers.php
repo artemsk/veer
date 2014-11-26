@@ -28,10 +28,12 @@ if ( ! function_exists('include_content_to_variable'))
 	function include_content_to_variable($filename)
 	{
                 if (is_file($filename)) {
+                    
                     ob_start();
-                    include $filename;
+                        include $filename;
                     $contents = ob_get_contents();
                     ob_end_clean();
+                    
                     return $contents;
                 }
 	}

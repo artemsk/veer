@@ -380,34 +380,8 @@ Debug::log();
        return $_SESSION['customers_lists'];
       }
 
-// ������� ������
-function srch_history($q) { 
-      Debug::log(); 
-      $q=strip_tags($q);
-      $q=strtr($q,array("/"=>"",".php"=>"",".htm"=>"",".html"=>"",".php"=>"",".js"=>"","javascript"=>"","java"=>"","http"=>"",
-          '"'=>"","'"=>"","*"=>"","("=>"",")"=>"",";"=>"",":"=>"",","=>"","."=>"","INSERT"=>"","SELECT"=>"","DELETE"=>"","UPDATE"=>""));
-      $i=mysql_call("SELECT customers_id, nnn FROM ".DB_PREFIX."search_history WHERE q='".trim(mb_strtolower($q))."'");
-      if(mysql_num_rows($i)>0) {
-          $i2=mysql_fetch_assoc($i); $i4="";
-          if(isset($_SESSION['customers_id'])) { // ��������� customers_id
-          $i3=explode("{".@$_SESSION['customers_id']."}",$i2['customers_id']);
-          if(count($i3)>1) { $i4=""; } else { $i4=", customers_id='".$i2['customers_id']."{".$_SESSION['customers_id']."}'"; }}
+function search() { $r=explode(",",SEARCH_DEFAULTS); $r2=trim($r[array_rand($r)]);
 
-          mysql_call("UPDATE ".DB_PREFIX."search_history SET nums=nums+1, dat='".time()."'".$i4." WHERE q='".trim(mb_strtolower($q))."'");
-          $return_str=$i2['nnn'];
-
-      } else { if(isset($_SESSION['customers_id'])) {
-            mysql_call("INSERT INTO ".DB_PREFIX."search_history (q, nums, dat, customers_id) VALUES ('".trim(mb_strtolower($q))."','1','".time()."','{".$_SESSION['customers_id']."}')");
-           } else {
-            mysql_call("INSERT INTO ".DB_PREFIX."search_history (q, nums, dat) VALUES ('".trim(mb_strtolower($q))."','1','".time()."')");
-          } $return_str=mysql_insert_id(); }
-          return $return_str;
-      }
-
-function search() { Debug::log();  $r=explode(",",SEARCH_DEFAULTS); $r2=trim($r[array_rand($r)]);
-        $user_forms=new forms; 
-        $showform=$user_forms->search_form($r2);
-        return $showform;
        }
 
 function notifyadmin($type="0",$str="") { Debug::log(); 

@@ -334,15 +334,7 @@ Debug::log();
            if($sorttype=="ordered_month" ) { $sorttype="ordered"; }
            if($sorttype=="viewed_month" ) { $sorttype="viewed";  }
            if($sorttype=="") { $sorttype="dat"; $sortdirection="desc"; }         
-        
-        if ($type == "cat") {
-            $add_sql = cats('sql', $i); 
-            $arr_status_i = cats('arr', $i);          
-        } else {
-            $add_sql = cats();
-        }
-        $arr_status = cats('arr');
-               
+                      
         //////////////// nnn_array - ������ �������
         
         if ($type == "nnn_array") {
@@ -355,28 +347,7 @@ Debug::log();
             $add_sql = "";
             $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn AND (" . DB_PREFIX . "products.nnn IN ('" . $i . "')) AND status!='hid' ORDER BY dat DESC";
         }
-        
-        //////////////// srch - ����� �� ��������
-             
-        if ($type == "srch") {
-            $i2 = explode(" ", $i);
-            $i5 = "";
-            if (count($i2) > 1) {
-                foreach ($i2 as $i3 => $i4) {
-                    $i5.="(nazv='" . trim($i4) . "' OR nazv LIKE '" . trim($i4) . "%%%' OR nazv LIKE '%%%" . trim($i4) . "' OR nazv LIKE '%%%" . trim($i4) . "%%%') AND ";
-                }
-            } else {
-                $i5.="nazv='" . trim($i) . "' OR nazv LIKE '" . trim($i) . "%%%' OR nazv LIKE '%%%" . trim($i) . "' OR nazv LIKE '%%%" . trim($i) . "%%%' OR ";
-            }
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE (" . substr($i5, 0, -4) . ") AND status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY ".$sorttype." ".$sortdirection." LIMIT ".$startfrom.", ".(PRDS_PER_PAGE);
-        }
-        
-        //////////////// main - ������ �� �������
-             
-        if ($type == "main") { 
-            $sql = "SELECT " . $vars . " FROM " . DB_PREFIX . "products, " . DB_PREFIX . "products_2_cats WHERE products_2_cats.on_main='1' AND status!='hid' AND " . DB_PREFIX . "products.nnn=" . DB_PREFIX . "products_2_cats.products_nnn " . @$add_sql . " ORDER BY products_2_cats.on_main_ord DESC, dat DESC";
-        } // TODO: on_main_ord ASC -> DESC �������� 
-        
+       
         //////////////// new - ��������� ���������� ����� �������
              
         if ($type == "new") {

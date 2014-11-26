@@ -6,8 +6,8 @@ require_once("../../define_names.php");
     $newcustomer=new customers;
     $customer_id=$newcustomer->add_customer($_POST);
     if($customer_id>0) {
-    $refer=$newcustomer->login(array("login"=>$_POST['email'],"passwrd"=>$_POST['pssw'],"remember_me"=>"0","referer_url"=>"", "referer_host"=>"", "logdone"=>"войти"));
-     header("Location: ".MAINURL.""); // протестировать
+    $refer=$newcustomer->login(array("login"=>$_POST['email'],"passwrd"=>$_POST['pssw'],"remember_me"=>"0","referer_url"=>"", "referer_host"=>"", "logdone"=>"пїЅпїЅпїЅпїЅпїЅ"));
+     header("Location: ".MAINURL.""); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
      } else { header("Location: ".MAINURL."/user/register");  }
      exit;
     }
@@ -40,7 +40,7 @@ require_once("../../define_names.php");
    // ADD2LISTS
    if(isset($_POST['add2list'])) {
      $product_action=new products;
-     $product_action->add2list($_POST); // добавляем в список
+     $product_action->add2list($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      header("Location: http://".$_POST['referer_host'].$_POST['referer_url']."");
      exit;
      } // add2lists
@@ -48,7 +48,7 @@ require_once("../../define_names.php");
    // ADD2CART
    if(isset($_POST['add2cart_x'])||isset($_POST['add2cart'])) {
      $product_action=new products;
-     $product_action->add2basket($_POST); // добавляем в список
+     $product_action->add2basket($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      header("Location: http://".$_POST['referer_host'].$_POST['referer_url']."");
      exit;
      } // add2cart
@@ -59,18 +59,18 @@ require_once("../../define_names.php");
      $prepare_ord->save_basket_selects($_POST);
 
          if(isset($_POST['update_cart_fin'])||isset($_POST['update_cart_fin_quick'])) {
-         $errors=$prepare_ord->check_basket_selects($_POST); // проверка перед подтверждением
+         $errors=$prepare_ord->check_basket_selects($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
              if(@$errors['total']=="1") {
              header("Location: http://".$_POST['referer_host'].$_POST['referer_url']."");
              exit; }
          }
      
      $product_action=new products;
-     $product_action->update_basket($_POST); // добавляем в список
+     $product_action->update_basket($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         if(!isset($_POST['update_cart_error_fix'])&&(@$_SESSION['basket_log_changed_a']=="1"||@$_SESSION['basket_log_changed_q']=="1")) {} else {
-            //// пропускаем если корзина не изменилась! TODO: тестируем!
-        if(isset($_POST['update_cart_fin'])||isset($_POST['update_cart_fin_quick'])||isset($_POST['update_cart_error_fix'])) { // обычный, быстрый, не_получается
+            //// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
+        if(isset($_POST['update_cart_fin'])||isset($_POST['update_cart_fin_quick'])||isset($_POST['update_cart_error_fix'])) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ_пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
          $neword=new order;
          $success_info=$neword->make($_POST);
          $_SESSION['success_info_order']=$success_info;
@@ -85,7 +85,7 @@ require_once("../../define_names.php");
    // REVIEW SEND
    if(isset($_POST['review_send'])) {
         $product_action=new products;
-        $product_action->add_review($_POST); // добавляем в список
+        $product_action->add_review($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         header("Location: http://".$_POST['referer_host'].$_POST['referer_url']."");
         exit;
        }
@@ -93,7 +93,7 @@ require_once("../../define_names.php");
    // DELETE FROM COMPARE LIST
    if(isset($_POST['outoflist'])) { 
         $product_action=new products;
-        $product_action->compare_del($_POST); // добавляем в список
+        $product_action->compare_del($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         header("Location: ".MAINURL."/user/compare");
         exit;
        }
@@ -101,21 +101,15 @@ require_once("../../define_names.php");
    // COMMENT 2 PAGE SEND
    if(isset($_POST['comment_send'])) {
         $product_action=new pages;
-        $product_action->add_comment($_POST); // добавляем в список
+        $product_action->add_comment($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         header("Location: http://".$_POST['referer_host'].$_POST['referer_url']."");
         exit;
        }
 
-   // SEARCH
-   if(isset($_POST['search_q'])&&isset($_POST['search_send'])) { if(@$_POST['search_q']!=""&&$_POST['search_q']!="Поиск") {
-        header("Location: ".MAINURL."/search/".srch_history(@$_POST['search_q'])."");
-        exit;
-       }}
-
    // RATE_PRODUCT
    if(isset($_POST['vote_y_x'])||isset($_POST['vote_n_x'])) {
         $product_action=new products;
-        $product_action->add_review_only_rate($_POST); // добавляем в список
+        $product_action->add_review_only_rate($_POST); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         header("Location: http://".$_POST['referer_host'].$_POST['referer_url']."");
         exit;
        }
@@ -123,7 +117,7 @@ require_once("../../define_names.php");
    // CALLME
    if(isset($_POST['callme_send'])&&@$_POST['phone_to']!="") {
         $guestbook=new customers;
-        $guestbook->guestbook($_POST,$_SERVER['HTTP_REFERER'],'callme'); // добавляем в список
+        $guestbook->guestbook($_POST,$_SERVER['HTTP_REFERER'],'callme'); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         header("Location: ".$_SERVER['HTTP_REFERER']."");
         exit;
        }
@@ -131,7 +125,7 @@ require_once("../../define_names.php");
     // CONTACT
     if(isset($_POST['guestbook_send'])&&@$_POST['msg']!="") {
         $guestbook=new customers;
-        $guestbook->guestbook($_POST,$_SERVER['HTTP_REFERER'],'contact'); // добавляем в список
+        $guestbook->guestbook($_POST,$_SERVER['HTTP_REFERER'],'contact'); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         header("Location: ".$_SERVER['HTTP_REFERER']."");
         exit;
        }
@@ -171,7 +165,7 @@ require_once("../../define_names.php");
       $newadm=new adm;
       $refer=$newadm->adm_editshop_post_conf($_POST);
       // header("Location: ".MAINURL."/code/ext/adm/edit/4/".$_POST['shop2edit']."/".$_POST['a_editshop_conf_hid']);
-      // TODO: разобраться почему не работает обновление без перезагрузки, а пока заглушка:
+      // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
       header("Location: ".MAINURL."/adm/shops/edit".$_POST['shop2edit']."#conf_".$_POST['a_editshop_conf_hid_key']);
       exit;
       }

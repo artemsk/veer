@@ -120,5 +120,9 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
         public function administrator() {
             return $this->hasOne('\Veer\Models\UserAdmin', 'users_id');
         }
+
+        public function searches() {
+            return $this->belongsToMany('\Veer\Models\Search','searches_connect', 'users_id', 'searches_id');  
+        }        
         
 }
