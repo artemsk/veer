@@ -1,5 +1,4 @@
 <?php
-use Veer\Lib\Components\veerDb as veerDb;
 
 class AttributeController extends \BaseController {
 
@@ -12,6 +11,12 @@ class AttributeController extends \BaseController {
 	{
                 $veerDb = new veerDb(Route::currentRouteName());   
                 
+                echo "<pre>";
+                print_r($veerDb);
+                echo "</pre>";
+                foreach($veerDb->data as $d) {
+                    echo $d->id." ".$d->name."<br>";
+                }
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());
                 echo "</pre>";

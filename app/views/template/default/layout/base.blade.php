@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="{{{ @$app['veer']->siteConfig['SITE_KEYWORDS'] }}}" />
-    <meta name="description" content="{{{ @$app['veer']->siteConfig['SITE_DESCR'] }}}" />
+    <meta name="keywords" content="{{{ db_parameter('SITE_KEYWORDS') }}}" />
+    <meta name="description" content="{{{ db_parameter('SITE_DESCR') }}}" />
     <title>НАЗВАНИЕ САЙТА И СТРАНИЦЫ</title>
 
     <!-- Bootstrap -->

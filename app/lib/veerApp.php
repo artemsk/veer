@@ -7,7 +7,7 @@ use Veer\Models\Component;
 
 class VeerApp {
     
-    const VEERVERSION = '0.0.2';
+    const VEERVERSION = '0.2.0';
     
     public $siteId;
     
@@ -50,6 +50,7 @@ class VeerApp {
         
     /**
      * Check if this site's url exists in database & return its id
+     * Because of caching turning on/off comes to effect after 10 minutes
      *
      * @param $siteUrl
      * @return $siteDb
@@ -128,15 +129,23 @@ class VeerApp {
      * @return object $className
      */ 
     protected function loadComponentClass($className, $params = null) 
-    {        
-        $classFullName = "\Veer\Lib\Components\\" . $className;
-        
-        if(!class_exists($classFullName)) {  
+    {       
+        /* Another vendor's component */
+        if(starts_with($className, '\\')) {
             
-            $pathComponent = app_path()."/lib/components/".$className.".php";
-                           
-            if(file_exists($pathComponent)) { require $pathComponent; }
-        }  
+            $classFullName = $className;
+            
+        } else 
+        {            
+            $classFullName = "\Veer\Lib\Components\\" . $className;
+
+            if(!class_exists($classFullName)) {  
+
+                $pathComponent = app_path()."/lib/components/".$className.".php";
+
+                if(file_exists($pathComponent)) { require $pathComponent; }
+            }        
+        }
         
         if(class_exists($classFullName)) { return new $classFullName($params); }        
     }
@@ -154,7 +163,7 @@ class VeerApp {
                 
                 $this->statistics['memory'] = number_format(memory_get_usage());
                 
-                $this->statistics['version'] = VeerApp::VEERVERSION;
+                $this->statistics['version'] = self::VEERVERSION;
                 
                 return $this->statistics;
 	}    

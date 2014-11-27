@@ -25,10 +25,9 @@ class BaseController extends Controller {
         {
             /**
              *  Caching Html Pages
-             *  TODO: do not cache if user exists
              */
-            if(is_object($this->view) && Config::get('veer.htmlcache_enable') == true) {
-                
+            if(is_object($this->view) && Config::get('veer.htmlcache_enable') == true && !Auth::check()) {
+
                 $cache_url = cache_current_url_value();
     
                 $expiresAt = Carbon\Carbon::now()->addHours(24);
@@ -49,22 +48,6 @@ class BaseController extends Controller {
 		{
 			$this->layout = View::make($this->layout);
 		}
-	}
-        
-        /**
-	 * Setup common template variables
-	 *
-	 * @return void
-	 */
-	protected function setupVariables()
-	{
-		$this->veer->queries = count(DB::getQueryLog());
-                
-                $this->veer->loading = round(microtime(true)-LARAVEL_START,4);
-                
-                $this->veer->memory = number_format(memory_get_usage());
-                
-                $this->veer->version = \Veer\Lib\VeerApp::VEERVERSION;
-	}        
+	}      
 
 }

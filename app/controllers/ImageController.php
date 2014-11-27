@@ -1,5 +1,4 @@
 <?php
-use Veer\Lib\Components\veerDb as veerDb;
 
 class ImageController extends \BaseController {
 
@@ -10,7 +9,7 @@ class ImageController extends \BaseController {
 	 */
 	public function index()
 	{
-		App::abort(404);
+            return Redirect::route('index');
 	}
 
 
@@ -49,6 +48,8 @@ class ImageController extends \BaseController {
                 $products = $veerDb->imageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
                 $pages = $veerDb->imageOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $categories = $veerDb->imageOnlyCategoriesQuery($this->veer->siteId, $id);
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());

@@ -16,7 +16,8 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
     
-        'htmlcache_enable' => true,    
+        'htmlcache_enable' => true,   
+    
         'htmlcache' => '_htmlcache_',    
     
     	/*
@@ -25,8 +26,10 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
     
-        'htmlpagespath' => "pages",     
-        'images_path' => "images",     
+        'htmlpagespath' => "pages",  
+    
+        'images_path' => "images", 
+    
         'downloads_path' => "downloads",  
     
         /*

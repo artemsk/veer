@@ -9,7 +9,7 @@ class OrderController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Redirect::route('index'); // TODO: страница где можно было бы ввести секретный код, чтобы гость увидел свой заказ.
 	}
 
 
@@ -43,11 +43,14 @@ class OrderController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\veerDb(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $id,
-                    'params' => array()
-                ));
+                // TODO: show orders only for its user or administrator
+                // TODO: для гостей и незарег. форма с кодом
+                
+                $getData = new veerDb(Route::currentRouteName(), $id, array('userId' => Auth::id()));
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 

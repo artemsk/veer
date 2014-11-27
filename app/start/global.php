@@ -32,7 +32,6 @@ ClassLoader::addDirectories(array(
 |
 */
 
-//Log::useFiles(storage_path().'/logs/veer.log');
 Log::useDailyFiles(storage_path().'/logs/veer.log');
 
 /*
@@ -72,14 +71,14 @@ App::error(function(PDOException $exception)
 
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception)
 {
-    Log::error("Unable to find site: ".$exception->getMessage());
+    Log::error("Unable to find site: ".URL::full()." ".$exception->getMessage());
     
     return Response::make('Error: URL Not Found', 404);
 });
 
 App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception)
 {    
-    Log::error("URL Not found ".$exception->getMessage());
+    Log::error("URL Not found ". URL::full());
     
     return Redirect::route('404');
 });

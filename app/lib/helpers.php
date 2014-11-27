@@ -71,4 +71,42 @@ if ( ! function_exists('get_paginator_and_sorting'))
 	}
 }
 
+
+
+
+if ( ! function_exists('db_parameter'))
+{
+	/**
+	 * Trying to get paramter from Veer instance
+	 *
+         * @param parameter name
+	 * @return result
+	 */
+	function db_parameter($param = null)
+	{
+                if(!empty($param)) 
+                {
+                    $v = App::make('veer')->siteConfig;                   
+                    return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param);
+                }
+	}
+}
+
+
+
+
+if ( ! function_exists('db_parameter_not_found'))
+{
+	/**
+	 * Log::error if db parameter not found
+	 *
+         * @param parameter name
+	 * @return null
+	 */
+	function db_parameter_not_found($param = null)
+	{
+                Log::error('Veer Component Error: Necessary parameter not found' . ((empty($param)) ? 0 : ': ' . $param));
+                return null;
+	}
+}
     
