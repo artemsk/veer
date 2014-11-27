@@ -1,6 +1,0 @@
-{PAGE_NAZV}
-
-{PAGE_TXT}
-
-{PAGE_ALL}
-
