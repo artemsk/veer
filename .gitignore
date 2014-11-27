@@ -1,5 +1,5 @@
 compiled.php
-/vendor/*
+/vendor
 composer.phar
 composer.lock
 .env.local.php

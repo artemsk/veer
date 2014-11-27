@@ -52,7 +52,7 @@ App::shutdown(function($request)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Redirect::guest('user/login');
 });
 
 

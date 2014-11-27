@@ -9,7 +9,12 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
-		return Redirect::route('user.login'); 
+		//return Redirect::route('user.login'); 
+                
+                echo "<pre>";
+                print_r(Auth::id());
+                print_r(Auth::getName());
+                echo "</pre>";
 	}
 
 
@@ -94,9 +99,22 @@ class UserController extends \BaseController {
 	 */
 	public function login()
 	{
+                if(Auth::check()) { echo "Logged.<br>"; }
+                
+ echo "<pre>";
+ print_r(Auth::getName());
+ echo "<br>";
+ print_r(Session::all());
+ echo "</pre>";
 		$data = $this->veer->loadedComponents;
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
                         
                 return \View::make('template.'.$this->veer->template.'.login', $data); 
+                
+                
 	}
 
 
