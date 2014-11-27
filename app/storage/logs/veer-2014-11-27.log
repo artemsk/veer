@@ -737,3 +737,83 @@ Stack trace:
 Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []
+[2014-11-27 17:55:30] local.ERROR: exception 'ErrorException' with message 'Undefined variable: id' in Z:\home\test1.ru\www\veer\app\controllers\BaseController.php:22
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\app\controllers\BaseController.php(22): Illuminate\Exception\Handler->handleError(8, 'Undefined varia...', 'Z:\home\test1.r...', 22, Array)
+#1 [internal function]: BaseController->__construct()
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Container\Container.php(536): ReflectionClass->newInstanceArgs(Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Container\Container.php(425): Illuminate\Container\Container->build('CategoryControl...', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(463): Illuminate\Container\Container->make('CategoryControl...', Array)
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(78): Illuminate\Foundation\Application->make('CategoryControl...')
+#6 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(51): Illuminate\Routing\ControllerDispatcher->makeController('CategoryControl...')
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'CategoryControl...', 'show')
+#8 [internal function]: Illuminate\Routing\{closure}('1')
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#18 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#20 Z:\home\test1.ru\www\veer\index.php(21): Illuminate\Foundation\Application->run()
+#21 {main} [] []
+[2014-11-27 18:01:24] local.ERROR: exception 'ErrorException' with message 'Undefined property: CategoryController::$veerDb' in Z:\home\test1.ru\www\veer\app\controllers\BaseController.php:23
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\app\controllers\BaseController.php(23): Illuminate\Exception\Handler->handleError(8, 'Undefined prope...', 'Z:\home\test1.r...', 23, Array)
+#1 [internal function]: BaseController->__construct()
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Container\Container.php(536): ReflectionClass->newInstanceArgs(Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Container\Container.php(425): Illuminate\Container\Container->build('CategoryControl...', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(463): Illuminate\Container\Container->make('CategoryControl...', Array)
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(78): Illuminate\Foundation\Application->make('CategoryControl...')
+#6 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(51): Illuminate\Routing\ControllerDispatcher->makeController('CategoryControl...')
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'CategoryControl...', 'show')
+#8 [internal function]: Illuminate\Routing\{closure}('1')
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#18 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#20 Z:\home\test1.ru\www\veer\index.php(21): Illuminate\Foundation\Application->run()
+#21 {main} [] []
+[2014-11-27 18:01:51] local.ERROR: exception 'ErrorException' with message 'Undefined property: CategoryController::$veerDb' in Z:\home\test1.ru\www\veer\app\controllers\BaseController.php:23
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\app\controllers\BaseController.php(23): Illuminate\Exception\Handler->handleError(8, 'Undefined prope...', 'Z:\home\test1.r...', 23, Array)
+#1 [internal function]: BaseController->__construct()
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Container\Container.php(536): ReflectionClass->newInstanceArgs(Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Container\Container.php(425): Illuminate\Container\Container->build('CategoryControl...', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(463): Illuminate\Container\Container->make('CategoryControl...', Array)
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(78): Illuminate\Foundation\Application->make('CategoryControl...')
+#6 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(51): Illuminate\Routing\ControllerDispatcher->makeController('CategoryControl...')
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'CategoryControl...', 'show')
+#8 [internal function]: Illuminate\Routing\{closure}('1')
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#18 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#20 Z:\home\test1.ru\www\veer\index.php(21): Illuminate\Foundation\Application->run()
+#21 {main} [] []
+[2014-11-27 18:02:57] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Function name must be a string' in Z:\home\test1.ru\www\veer\app\controllers\CategoryController.php:52
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-27 18:06:00] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected T_ECHO, expecting T_FUNCTION' in Z:\home\test1.ru\www\veer\app\lib\veerDb.php:42
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

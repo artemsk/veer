@@ -48,27 +48,9 @@ class veerDb {
 
                     $this->data = $this->make($method, $id, $params);
                 }
-
-                /*
-                      case "user.show":  
-                        $p = $this->userQuery($siteId, $params['id'], $queryParams);
-                        break;       
-
-                    case "connected":  
-                        $queryParams['connectedQuery'] = 'connected';
-                        $p = $this->connectedQuery($siteId, $params['id'], $queryParams);
-                        break;  
-
-                    case "connectedEverywhere":  
-                        $queryParams['connectedQuery'] = 'connectedEverywhere';
-                        $p = $this->connectedQuery($siteId, $params['id'], $queryParams);
-                        break;               
-
-                 * 
-                 */
-
         }
 
+        
         /**
          * 
          * make
