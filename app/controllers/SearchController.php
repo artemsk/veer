@@ -42,7 +42,7 @@ class SearchController extends \BaseController {
                     
                     // $search->users()->attach(1); // TODO: if user exists attach him to search result
                     
-                    $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                    $getData = new Veer\Lib\Components\veerDb(array(
                     'method' => Route::currentRouteName(),
                     'id' => $search->id,
                     'params' => array(
@@ -69,7 +69,7 @@ class SearchController extends \BaseController {
                 
                 if($search) {
                     
-                    $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                    $getData = new Veer\Lib\Components\veerDb(array(
                         'method' => 'search.store',
                         'id' => $id,
                         'params' => array(

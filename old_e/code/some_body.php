@@ -2,8 +2,6 @@
 
 require_once(MAINURL_5."/code/modules/global.php"); 
 
-cats_tree();
-
 follow(@$detected, @$_SESSION['customers_id']); // follow visits
 
 $body_filename=MAINURL_5."/template/".TEMPLATE."/body_all.php";

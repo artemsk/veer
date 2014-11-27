@@ -14,6 +14,9 @@ Route::resource('product', 'ProductController');
 Route::resource('page', 'PageController');
 Route::resource('search', 'SearchController');
 Route::resource('filter', 'FilterController');
+
+Route::get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
+Route::post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
 Route::resource('user', 'UserController');
 Route::resource('order', 'OrderController');
 

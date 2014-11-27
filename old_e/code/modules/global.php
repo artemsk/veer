@@ -34,113 +34,6 @@ function callme($fn="",$ln="",$ph="",$ret="str") { Debug::log();
     }
 ///////////////
 
-function cats_up($shop_cat=SHOP_NNN) { // ������ �� ��������
-    Debug::log(); 
-    $temp_nnn=$shop_cat;
-    $gcl=cats_tree();
-
-    // oldmethod
-    // for($j=0;$j<=1000;$j++) { if($gcl[$temp_nnn]['type']=="shop") { break; } else { $temp_nnn=$gcl[$temp_nnn]['parent']; }}
-    
-    // alternative simplify 
-    $up2shop=$gcl[$temp_nnn]['hostshop'];
-    $temp_nnn=$up2shop;
-    
-    // $shop_cat / $temp_nnn /$up2shop
-    
-    $shoparr['nnn']=$temp_nnn;
-    $shoparr['nazv']=$gcl[$temp_nnn]['nazv'];
-    $shoparr['status']=$gcl[$temp_nnn]['status'];
-    $shoparr['remote_addr']=$gcl[$temp_nnn]['remote_addr'];
-    $shoparr['remote_always']=$gcl[$temp_nnn]['remote_always'];
-    $shoparr['admin_email']=@$gcl[$temp_nnn]['admin_email'];
-    return $shoparr;
-    }
-
-function cats_tree() { // ������� ������ ������ �� 1 mysql ������, ��������� ��� � ����, � ������!
-    Debug::log(); 
-    // 1
-    
-    if(@$_SESSION['cache']['global_cats_lst']!="") { return $_SESSION['cache']['global_cats_lst']; }
-       
-    // 2
-    
-    $z=mysql_kall("SELECT * FROM ".DB_PREFIX."catshop_config") or die(mysql_error());
-    $x=mysql_fetch_assoc($z); if(mysql_num_rows($z)>0) {
-        do { 
-            foreach($x as $k=>$v) { if($k=="nnn") { continue; } if($k=="parent") { $x2['parent'][$v][$x['nnn']]=$x['nnn']; } $x2[$x['nnn']][$k]=$v; }
-            } while($x=mysql_fetch_assoc($z));            
-            $_SESSION['cache']['global_cats_lst']=$x2;
-            return @$x2;
-       }
-    
-    } /////
-
-function cats($returntype="sql", $shop_cat=SHOP_NNN) { // sql, arr / ���� ���� �����������/������������ � �.�.
-Debug::log(); 
-        if(isset($_SESSION['cache']['cats'][$returntype][$shop_cat])) { return $_SESSION['cache']['cats'][$returntype][$shop_cat]; }
-        
-        $gcl=cats_tree();
-        $temp_lst[0]=$shop_cat;
-        $cats_lst[$shop_cat]['status']=$gcl[$shop_cat]['status'];
-        $cats_lst[$shop_cat]['currency']=$gcl[$shop_cat]['currency'];
-        $cats_lst[$shop_cat]['type']=$gcl[$shop_cat]['type'];
-        $cats_lst[$shop_cat]['hostshop']=$gcl[$shop_cat]['hostshop'];
-        $sql_whr="'".$shop_cat."'";
-
-        for($j=0;$j<=1000;$j++) { // @reviewlate: ������ ����������� ������
-            if(!isset($temp_lst[$j])) { break; }
-            $shop_cat_parent=@$gcl['parent'][@$temp_lst[@$j]];
-            if(count($shop_cat_parent)>0) {
-                foreach($shop_cat_parent as $k=>$v) {
-                    $temp_lst[]=$k;
-                    if(!isset($cats_lst[$k])) { $sql_whr=$sql_whr.", '".$k."'"; }
-                    $cats_lst[$k]['status']=$gcl[$k]['status'];
-                    $cats_lst[$k]['currency']=$gcl[$k]['currency'];
-                    $cats_lst[$k]['type']=$gcl[$k]['type'];
-                    $cats_lst[$k]['hostshop']=$gcl[$k]['hostshop'];                    
-                    }
-
-            } else { if($j==(count($temp_lst)-1)) { break; } }
-        }
-
-
-       $sql_whr="AND (".DB_PREFIX."products_2_cats.shop_cat IN (".$sql_whr."))";
-       if($sql_whr=="AND ()"||$sql_whr=="AND (".DB_PREFIX."products_2_cats.shop_cat IN ())") { $sql_whr=""; }
-
-       $_SESSION['cache']['cats']['sql'][$shop_cat]=$sql_whr;
-       $_SESSION['cache']['cats']['arr'][$shop_cat]=$cats_lst;
-       
-       if($returntype=="sql") { return @$sql_whr;  }
-       if($returntype=="arr") { return @$cats_lst; }
-    }
-
-function imgprocess($img,$w="0",$h="0",$reprocess_flag="1", $thumb_path="upload/thumb/", $ret="str") { 
- Debug::log();    
-    $repocess_flag = 0;
-    
-    if($img=="") { return false; }
-    if($w>0) { $w2="&w=".$w; } else { $w2=""; }
-    if($h>0) { $h2="&h=".$h; } else { $h2=""; }
-    
-    if(timer_stop($_SESSION['timer_global'])>0.5) { $reprocess_flag=0; } // stop img processing if too slow!
-    
-    if($reprocess_flag=="1") { $img2=imgprocess_copy($img, $w, $h, $thumb_path); }
-    
-    if($reprocess_flag=="1"&&@$img2['fotoname']!=""&&@$img2['endwidth']>0&&@$img2['endheight']>0) { 
-        if($ret=="str") { return @$img2['fotoname']; }
-        if($ret=="arr") { return $img2; }
-        } else {
-         $img2=MAINURL."/code/thumbimg.php?img=".$img.$w2.$h2.""; 
-         
-    if($ret=="str") { return $img2; }
-    if($ret=="arr") { return array("fotoname"=>$img2,"endwidth"=>$w,"endheight"=>$h); }
-    }}
-
-function imgprocess_copy($fotoname,$endwidth="0",$endheight="0",$thumb_path="upload/thumb/") { //  fotoname, endwidth, endheight
-    Debug::log(); 
-    }
-
 function currency_converter($price, $catshop_currency="0", $prd_currency="0") {
     Debug::log(); 
      $currency_price=$price;
@@ -176,54 +69,6 @@ function sort_links($detected, $type="cat") {
          return $sort_arr;
     }
 
-function formcreate($arr, $arrtype, $arrvalue, $arrattrs="") {
-    Debug::log(); 
-    // TODO: ���������� � ���������� ����������� ����� ������ �����
-
-       foreach($arr as $k=>$v) {
-        $str=""; $str_end="";
-
-        if($arrtype[$k]=="text") { $str=$str."<input type='text' name='".$v."' ".@$arrattrs[$k]." value='"; $str_end="'>"; }
-        if($arrtype[$k]=="text off") { $str=$str."<input type='text' name='".$v."' disabled  ".@$arrattrs[$k]." value='"; $str_end="'>"; }
-        if($arrtype[$k]=="select") { $str=$str."<select name='".$v."' ".@$arrattrs[$k].">"; $str_end="</select>"; }
-        if($arrtype[$k]=="password") { $str=$str."<input type='password' name='".$v."' ".@$arrattrs[$k]." value='"; $str_end="'>"; }
-        if($arrtype[$k]=="textarea") { $str=$str."<textarea name='".$v."' ".@$arrattrs[$k].">"; $str_end="</textarea>"; }
-        if($arrtype[$k]=="checkbox") { $str=$str."<input type='checkbox' name='".$v."' ".@$arrattrs[$k].""; if($arrvalue[$k]=="1") { $str=$str." checked"; } $str=$str.">"; $arrvalue[$k]=""; $str_end=""; }
-        if($arrtype[$k]=="hidden") { $str=$str."<input type='hidden' name='".$v."' ".@$arrattrs[$k]." value='"; $str_end="'>"; }
-        if($arrtype[$k]=="submit") { $str=$str."<input type='submit' name='".$v."' ".@$arrattrs[$k]." value='"; $str_end="'>"; }
-        if($arrtype[$k]=="submit_img") { $str=$str."<input type='image' name='".$v."' ".@$arrattrs[$k]." src='"; $str_end="'>"; }
-        if($arrtype[$k]=="radio") { $str=$str."<input type='radio' name='".$v."' ".@$arrattrs[$k]." value='"; $str_end="'>"; }
-
-        if(count($arrvalue[$k])>1) { foreach($arrvalue[$k] as $kk=>$vv) {
-
-            if($arrtype[$k]=="select") { $str=$str."<option value='".$kk."'>".$vv."</option>"; }
-
-        } $str=$str.$str_end; } else { $str=$str.$arrvalue[$k].$str_end; }
-
-        $str_return[$k]=$str;
-
-
-        }
-
-        return $str_return;
-    } // form create
-
-// login_check
-function login_check() { // 0 - �� ��������, 1 - ��������, 2 - �� ������� ������, ����������� ������
-    Debug::log(); 
-    if((isset($_COOKIE['email'])&&isset($_COOKIE['lastlogon']))) {
-    if(isset($_COOKIE['gender'])
-            &&isset($_SESSION['customers_type'])&&isset($_SESSION['yur_status'])&&isset($_SESSION['customers_id'])
-            &&isset($_SESSION['allow_orders'])&&isset($_SESSION['allow_everywhere'])&&isset($_SESSION['orig_catshop'])&&isset($_SESSION['customers_discount'])
-            &&isset($_SESSION['customers_discount_expire'])&&isset($_SESSION['customers_basket_num'])&&$_SESSION['shop_logged']==SHOP_NNN) { $login_status=1; } else { $login_status=2; }
-            //if(isset($_SESSION['lastlogon'])) { $ll_check=$_SESSION['lastlogon']; } else {
-                $ll_check=$_COOKIE['lastlogon']; 
-              //  }
-     $last_check=mysql_call("SELECT lastlogon FROM ".DB_PREFIX."customers WHERE email='".$_COOKIE['email']."' AND lastlogon='".$ll_check."' AND hid!='1'");
-     if(mysql_num_rows($last_check)<=0) { $login_status=0; }
-        } else { $login_status=0; } // �����������       
-    return $login_status;
-    }
 
 function show_customers_lists() {
     Debug::log(); 
@@ -432,30 +277,6 @@ function price_format($price, $price_starter = "", $star = "0") { Debug::log();
             }
            
        }
-
-function prds_show_more($nums,$curr,$max=PRDS_PER_PAGE) { Debug::log(); 
-                $how_many_pages=ceil($nums/$max); 
-                //$start_from=($curr-1)*$max;
-                $start_from=0;
-                $start_from_next=$curr+1;
-                $o['start_from']=$start_from;
-                //if(($nums-2)>($start_from+$max)) { // -2: sory by shop, sort by cat!
-                $o['4out']['{SHOW_MORE}']=
-                "<div id=\"show_more_prds_content\"></div>
-                 <div class=\"show_more_1\" id=\"show_more_next_".$start_from_next."\"><div class=\"show_more_2\"><a id=\"sm".$start_from_next."\" class=\"show_more_lnk\" href=\"#\">�������� ������</a></div></div>"; 
-                
-                //}
-                if($curr>1) {
-                     $o['4bloks']['BREAK_OUTPUT_FLAG']="1";
-                     $o['4bloks']['BREAK_OUTPUT_FILE_BODY']=MAINURL_5."/template/".TEMPLATE."/break_output_only_products.php";
-                } // ���� ������ ��� �� ���������� ������ ������ (��� ���������)
-                return $o;
-           }
-
-function __unserialize($sObject) { Debug::log(); 
-               $__ret =preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $sObject );
-               return unserialize($__ret);
-           }
 
 function txt_cut($txt, $limit=100, $type="more", $type2="<br>-") { // type= more, abbr, justcut, wrap, zoom
     Debug::log(); 
