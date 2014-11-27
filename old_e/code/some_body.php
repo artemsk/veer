@@ -1,5 +1,15 @@
 <?php
 
+// on every request:
+// 1) follow visits
+// 2) get basket products from session
+// 3) get session messages
+// 4) get title page? get tracking code
+// 5) login/logout form
+// 6) callme component
+// 7) update views
+// 8) save refs
+
 require_once(MAINURL_5."/code/modules/global.php"); 
 
 follow(@$detected, @$_SESSION['customers_id']); // follow visits

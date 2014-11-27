@@ -322,25 +322,10 @@ Debug::log();
         // ����������� � ��������, ������, �������, ���� ��������: �������, �������������, �� ���� ������, �� ����� ����������
         // nnn_connects - ��������������� ������ ����� ���� �� ����� ���������!
 
-        if (is_array($i)) {
-            $ii = implode("_", $i);
-        } else {
-            $ii = $i;
-        }
-
-            if($startfrom<1) { $startfrom=1; }
-            $startfrom=($startfrom-1)*PRDS_PER_PAGE;
-
            if($sorttype=="ordered_month" ) { $sorttype="ordered"; }
            if($sorttype=="viewed_month" ) { $sorttype="viewed";  }
            if($sorttype=="") { $sorttype="dat"; $sortdirection="desc"; }         
                            
-        if (@$onlynums_flag == "1") {
-            return mysql_num_rows($sel_sql);
-        } // ������ ����������!
-
-        if (mysql_num_rows($sel_sql) > 0) {
-
                 if ($sel['type'] == "grp") {
                     $grp_collect[$sel['nnn']] = $sel['grp_nnn'];
                 }
@@ -464,9 +449,7 @@ Debug::log();
                 }
             }
 
-            unset($main['']);
-            return $main;
-        } // sel_sql>0
+
     }
 
     //

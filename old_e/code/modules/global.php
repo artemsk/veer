@@ -171,47 +171,6 @@ Debug::log();
          }
 ////////////////////////////////////
 
-function img_mini($img="",$src="brief",$key_img="") { // ������ ����������� ������: ��� ������ ��������� ��������, ��� ��������� - ����
-      //return $img; // list, prd
-Debug::log();     
-        if(@$img!="") {
-                        if(substr($img,-1,1)==";") { $img=substr($img,0,-1); } // ������� ; � ����� ������
-                        $img2=explode(";",$img);
-                            if(count($img2)>1) { // � ������ ���� ��������� ��������
-                                $v3=""; $v3_kaunt=ceil(GROUP_BLOK_WIDTH/IMG_HEIGHT_LIST_MAX)+1; 
-                                if($v3_kaunt<=count($img2)) { $v3_h_overflow=(IMG_HEIGHT_LIST_MAX/2)-5; $v3_kaunt_w=ceil(GROUP_BLOK_WIDTH/$v3_kaunt)-10;
-                                if(count($img2)==$v3_kaunt) { $v3_kaunt_w=$v3_kaunt_w+10; }} else { 
-                                    $v3_h_overflow=IMG_HEIGHT_LIST_MAX-5; $v3_kaunt_w=ceil(GROUP_BLOK_WIDTH/count($img2))-10; }
-                                foreach($img2 as $k=>$v) { if(trim($v)=="") { continue; } 
-                                $v2="<div class='moreimg' style='width:".$v3_kaunt_w.";overflow:hidden;'>";
-                                if($src=="full") { $v2.="<a rel=\"example_group\" title='���������' href=".MAINURL."/upload/".trim($v).">"; } else {
-                                    if($key_img!="") { $v2.="<a class='imghref' href=".MAINURL."/product/".$key_img.">"; }}
-                                $v2.="<img src='".imgprocess(MAINURL."/upload/".trim($v),"0",$v3_h_overflow)."' border=0 style='position:relative;left:0%;'>";
-                                if($src=="full") { $v2.="</a>"; } else {if($key_img!="") { $v2.="</a>"; }}
-                                $v2.="</div>";
-                                $v3=$v3.$v2; } $img=$v3."<div style='clear:left;'></div>";
-                                } else { 
-                                    $img="<img border=0 src='".imgprocess(MAINURL."/upload/".$img,"0",IMG_HEIGHT_LIST_MAX)."'>";
-                                    if($key_img!=""&&$src!="full") { $img="<a class='imghref' href=".MAINURL."/product/".$key_img.">".$img."</a>"; }
-                                } // ���� ��������
-            } else { $img="<img src='".imgprocess(MAINURL."/template/".TEMPLATE."/images/".BLANK_IMG)."'>"; } // ��������
-        return $img;
-      }
-
-function img_full($img="") { // ��������� �������� � ����. �������� � ��������� ����
-      //return $img;
- Debug::log();     
-     if(isset($img)&&@$img!=""&&count($img)>0&&is_array($img)) { $v3=""; $v4=""; $kk=0;
-      foreach($img as $k=>$v) { if($v!="") {
-      if($kk=="0") { $v5=imgprocess(MAINURL."/upload/".$v,300,0,1,"upload/thumb/","arr");
-      $v4="<a rel=\"example_group\" title='���������' href=".MAINURL."/upload/".$v."><img src=\"".$v5['fotoname']."\" border=0></a>"; } else {
-      $v3=$v3."<div class='moreimg' style='float:left;'><a rel=\"example_group\" title='���������' href=\"".MAINURL."/upload/".$v."\"><img src='".imgprocess(MAINURL."/upload/".$v,0,50)."' border=0></a></div>"; }
-      $kk++;
-      }} $img['big']=@$v4; $img['all']=@$v3;
-      }
-      return $img;
-      }
-
 function lists2session() { // ���������� ������� � ���. ������
 Debug::log();     
       if(!isset($_SESSION['customers_id'])) { $cid="0"; $temp_session=session_id(); } else { $cid=$_SESSION['customers_id']; $temp_session=""; }
