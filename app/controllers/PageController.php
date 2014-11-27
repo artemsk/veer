@@ -9,7 +9,11 @@ class PageController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+                $veerDb = new veerDb(Route::currentRouteName());   
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 
@@ -43,11 +47,21 @@ class PageController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\veerDb(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $id,
-                    'params' => array()
-                ));
+                $method = Route::currentRouteName();
+                                
+                $veerDb = new veerDb($method, $id);                 
+                
+                $subpages = $veerDb->pageOnlySubPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $parentpages = $veerDb->pageOnlyParentPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $categories = $veerDb->pageOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $products= $veerDb->pageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 

@@ -1,4 +1,4 @@
 Veer
 ====
 
-Developing Laravel based experiment. v.0.1.3
+Developing Laravel based experiment.

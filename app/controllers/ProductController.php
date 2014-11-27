@@ -9,7 +9,7 @@ class ProductController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Redirect::route('product.show', array('new'));
 	}
 
 
@@ -38,16 +38,31 @@ class ProductController extends \BaseController {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int|string  $id
 	 * @return Response
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\veerDb(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $id,
-                    'params' => array()
-                ));
+                $method = Route::currentRouteName();
+                
+                if(in_array($id, array('new', 'ordered', 'viewed'))) {
+                    
+                    $method = "sortingProducts";                  
+                } 
+                
+                $veerDb = new veerDb($method, $id);                 
+                
+                $subproducts = $veerDb->productOnlySubProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $parentproducts = $veerDb->productOnlyParentProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $categories = $veerDb->productOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $pages = $veerDb->productOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 

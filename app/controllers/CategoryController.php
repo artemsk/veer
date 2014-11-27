@@ -1,5 +1,4 @@
 <?php
-use Veer\Lib\Components\veerDb as veerDb;
 
 class CategoryController extends \BaseController {
 

@@ -9,7 +9,7 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Redirect::route('user.login'); 
 	}
 
 
@@ -43,11 +43,11 @@ class UserController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\veerDb(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $id,
-                    'params' => get_paginator_and_sorting()
-                ));
+                $getData = new veerDb(Route::currentRouteName(), $id);
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 

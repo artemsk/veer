@@ -26,8 +26,8 @@ class indexProducts {
         $v = \App::make('veer');
         
         $siteId = $v->siteId;
-        $homeId = $v->siteConfig['CATEGORY_HOME'] ? $v->siteConfig['CATEGORY_HOME'] : 0;
-               
+        $homeId = db_parameter('CATEGORY_HOME');     
+        
         $p = Product::homepages($siteId, $homeId)->checked()->with(
                     array( 'categories' => function($query) use ($siteId, $homeId) {
                             $query->where('sites_id','=',$siteId)->where('categories.id','!=',$homeId);

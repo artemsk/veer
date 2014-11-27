@@ -9,7 +9,7 @@ class SearchController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Redirect::route('index');
 	}
 
 
@@ -40,19 +40,16 @@ class SearchController extends \BaseController {
                     $search->increment('times');                  
                     $search->save();
                     
-                    // $search->users()->attach(1); // TODO: if user exists attach him to search result
+                    if(Auth::check()) { $search->users()->attach(Auth::id()); } 
                     
-                    $getData = new Veer\Lib\Components\veerDb(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $search->id,
-                    'params' => array(
-                                    'q' => $q
-                                )
-                    ));
+                    $getData = new veerDb(Route::currentRouteName(), $search->id, array( 'q' => $q ));
                     
                 }
             }
            
+            echo "<pre>";
+            print_r(Illuminate\Support\Facades\DB::getQueryLog());
+            echo "</pre>";
             // return default
 	}
 
@@ -69,14 +66,12 @@ class SearchController extends \BaseController {
                 
                 if($search) {
                     
-                    $getData = new Veer\Lib\Components\veerDb(array(
-                        'method' => 'search.store',
-                        'id' => $id,
-                        'params' => array(
-                            'q' => $search->q
-                        )
-                    ));
+                    $getData = new veerDb('search.store', $id, array( 'q' => $search->q ));
+                    
                 }
+            echo "<pre>";
+            print_r(Illuminate\Support\Facades\DB::getQueryLog());
+            echo "</pre>";                
 	}
 
 
