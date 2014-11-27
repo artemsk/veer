@@ -10,6 +10,7 @@
 // 7) update views
 // 8) save refs
 
+
 require_once(MAINURL_5."/code/modules/global.php"); 
 
 follow(@$detected, @$_SESSION['customers_id']); // follow visits
