@@ -3,11 +3,6 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/vendor/autoload.php';
 
-if (file_exists($compiled = __DIR__.'/compiled.php'))
-{
-	require $compiled;
-}
-
 Patchwork\Utf8\Bootup::initMbstring();
 Illuminate\Support\ClassLoader::register();
 

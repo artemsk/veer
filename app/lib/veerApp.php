@@ -7,7 +7,7 @@ use Veer\Models\Component;
 
 class VeerApp {
     
-    const VEERVERSION = '0.2.0';
+    const VEERVERSION = '0.1.0';
     
     public $siteId;
     
