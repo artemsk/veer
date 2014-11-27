@@ -5,7 +5,7 @@ class BaseController extends Controller {
         protected $veer;
         
         protected $view;
-        
+
         public function __construct() 
         {
                 $this->veer = App::make('veer');

@@ -1,4 +1,5 @@
 <?php
+use Veer\Lib\Components\veerDb as veerDb;
 
 class CategoryController extends \BaseController {
 
@@ -9,7 +10,11 @@ class CategoryController extends \BaseController {
 	 */
 	public function index()
 	{
-                //
+                $veerDb = new veerDb(Route::currentRouteName());   
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 
@@ -43,12 +48,15 @@ class CategoryController extends \BaseController {
 	 */
 	public function show($id)
 	{	
-                $getData = new Veer\Lib\Components\globalGetModelsData(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $id,
-                    'params' => get_paginator_and_sorting()
-                ));   
+                $veerDb = new veerDb(Route::currentRouteName(), $id);                 
                 
+                $products = $veerDb->categoryOnlyProductsQuery($id, get_paginator_and_sorting());
+                
+                $pages = $veerDb->categoryOnlyPagesQuery($id, get_paginator_and_sorting());
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 

@@ -43,7 +43,7 @@ class UserController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                $getData = new Veer\Lib\Components\veerDb(array(
                     'method' => Route::currentRouteName(),
                     'id' => $id,
                     'params' => get_paginator_and_sorting()
@@ -87,4 +87,41 @@ class UserController extends \BaseController {
 	}
 
 
+	/**
+	 * Login Form
+	 *
+	 * @return Response
+	 */
+	public function login()
+	{
+		$data = $this->veer->loadedComponents;
+                        
+                return \View::make('template.'.$this->veer->template.'.login', $data); 
+	}
+
+
+	/**
+	 * Login Post
+	 *
+	 * @return Response
+	 */
+	public function loginPost()
+	{
+		$data = $this->veer->loadedComponents;
+                if (Auth::check())
+                {
+                    return "Logged<br>";
+                     
+                } 
+                    
+                
+                if (Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 'banned' => 0)))
+                {
+                    return Redirect::intended();
+                }
+
+                return \View::make('template.'.$this->veer->template.'.login', $data); 
+	}        
+        
+        
 }

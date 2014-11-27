@@ -1,4 +1,5 @@
 <?php
+use Veer\Lib\Components\veerDb as veerDb;
 
 class AttributeController extends \BaseController {
 
@@ -9,7 +10,11 @@ class AttributeController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+                $veerDb = new veerDb(Route::currentRouteName());   
+                
+                echo "<pre>";
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
+                echo "</pre>";
 	}
 
 
@@ -43,13 +48,17 @@ class AttributeController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\globalGetModelsData(array(
-                    'method' => Route::currentRouteName(),
-                    'id' => $id,
-                    'params' => array()
-                ));
+                $veerDb = new veerDb(Route::currentRouteName(), $id);                 
+                
+                if($veerDb->data['parent_flag'] != 1) {
+                    
+                $products = $veerDb->attributeOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                $pages = $veerDb->attributeOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                
+                }
                 echo "<pre>";
-                print_r($getData);
+                print_r(Illuminate\Support\Facades\DB::getQueryLog());
                 echo "</pre>";
 	}
 

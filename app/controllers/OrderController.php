@@ -43,7 +43,7 @@ class OrderController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new Veer\Lib\Components\globalGetModelsData(array(
+                $getData = new Veer\Lib\Components\veerDb(array(
                     'method' => Route::currentRouteName(),
                     'id' => $id,
                     'params' => array()

@@ -50,15 +50,24 @@ if ( ! function_exists('get_paginator_and_sorting'))
 	 */
 	function get_paginator_and_sorting()
 	{
-              $g = Input::all();
-              return array(
-                  'sort' => @$g['sort'] ? $g['sort'] : 'created_at',
-                  'direction' => @$g['direction'] ? $g['direction'] : 'desc',
-                  'skip' => @$g['skip'] ? $g['skip'] : 0,
-                  'take' => @$g['take'] ? $g['take'] : 25,
-                  'skip_pages' => @$g['skip_pages'] ? $g['skip_pages'] : 0,
-                  'take_pages' => @$g['take_pages'] ? $g['take_pages'] : 25                 
-              );
+                $defaultParams = array(
+                "sort" => "created_at",
+                "direction" => "desc",
+                "skip" => 0,
+                "take" => 25,
+                "skip_pages" => 0,
+                "take_pages" => 25,
+                "search_field_product" => "title",
+                "search_field_page" => "title"
+                );
+                
+                $g = Input::all();
+
+                foreach($defaultParams as $k => $v) {
+                    if( !isset($g[$k]) ) { $g[$k] = $v; }
+                }
+                
+                return $g;
 	}
 }
 

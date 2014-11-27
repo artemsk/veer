@@ -46,5 +46,5 @@ class Category extends \Eloquent {
     public function communications() {
         return $this->morphMany('\Veer\Models\Communication', 'elements');
     }   
-        
+               
 }
