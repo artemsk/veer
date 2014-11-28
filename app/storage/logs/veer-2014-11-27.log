@@ -872,3 +872,14 @@ Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []
 [2014-11-27 19:51:32] local.ERROR: URL Not found http://test1.ru/veer/login [] []
+[2014-11-27 21:25:40] local.ERROR: exception 'RuntimeException' with message 'Too many arguments.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:181
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(90): Symfony\Component\Console\Input\ArgvInput->parseArgument('userid')
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\Migrations\MigrateMakeCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#8 {main} [] []

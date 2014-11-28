@@ -5,8 +5,10 @@ use Veer\Models\Category;
 use Veer\Models\Tag;
 use Veer\Models\Attribute;
 use Veer\Models\Image;
+
 use Veer\Models\Product;
 use Veer\Models\Page;
+
 use Veer\Models\Order;
 use Veer\Models\User;
 
@@ -21,9 +23,9 @@ use Veer\Models\User;
  *   no-conditions [ tags, attributes, comments*, downloads, searches 
  *                   [[ users_**, communications* ]], [[ orders_** ]] ]  
  *  
- *   conditions [ products|sub|parent ~ categories|sites|hide|to_show ] {pages_products}
- *              [ pages|sub|parent ~ categories|sites|hidden ] {pages_products}
- *              [ categories|sub|parent ~ sites ]
+ *   conditions [ products|sub|parent ~ categories|sites|hide|to_show ] {pages_products} [1]
+ *              [ pages|sub|parent ~ categories|sites|hidden ] {pages_products} [2]
+ *              [ categories|sub|parent ~ sites ] [3]
  *             *[ orders ~ users|sites|hidden ]
  *         auth*[ users ~ sites|banned ] [ users_admin ~ users|banned ]
  *             *[ users_discounts ~ users|sites|status ]
@@ -961,7 +963,7 @@ class veerDb {
          * - to whom: make() | user/{id}
          * 
          * @later: 'role', 'comments', 'books', 'discounts', 'userlists', 'orders', 'bills', 
-         * 'communications', 'administrator', 'searches'
+         * 'communications', 'administrator', 'searches', 'pages'*
          */
         protected function userShowQuery($siteId, $id, $queryParams)
         {

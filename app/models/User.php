@@ -123,6 +123,10 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
 
         public function searches() {
             return $this->belongsToMany('\Veer\Models\Search','searches_connect', 'users_id', 'searches_id');  
+        }    
+ 
+        public function pages() {
+            return $this->hasMany('\Veer\Models\Page', 'users_id');
         }        
         
 }

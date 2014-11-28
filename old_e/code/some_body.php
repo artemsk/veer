@@ -1,14 +1,14 @@
 <?php
 
 // on every request:
-// 1) follow visits
-// 2) get basket products from session
-// 3) get session messages
-// 4) get title page? get tracking code
-// 5) login/logout form
-// 6) callme component
-// 7) update views
-// 8) save refs
+// 1) [component]- follow visits - 
+// 2) [?] get basket products from session
+// 3) [component]- get session messages
+// 4) [?] get title page? get tracking code
+// 5) [t] login/logout form
+// 6) [component]- callme component
+// 7) [?] update views
+// 8) [component]- save refs
 
 
 require_once(MAINURL_5."/code/modules/global.php"); 
