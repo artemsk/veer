@@ -17,6 +17,12 @@ class Page extends \Eloquent {
         return $query->where('hidden','!=',1);
     }
     
+    // Many Pages <- One
+     
+    public function user() {
+        return $this->belongsTo('\Veer\Models\User','users_id','id');
+    }
+    
     // Many Pages <-> Many
     
     public function subpages() {
