@@ -1,10 +1,4 @@
-x 'Events' type to Components table + Events handlers.
-x VeerApp transform to ServiceProvider etc.
-x When checking for Cache do not use Auth::check
-x Save referals ?
-x Follow visits
-x Saving Ips
-VeerDb transform
+My own Queue engine
 Get basket products from session
 Get session messages
 Get title page, tracking code
@@ -61,3 +55,5 @@ Plugins: numbers in russian
 comments
 
 Initial memory usage: 6,237,040 ~ 7,820,848 | 7,817,704 | 7,125,344
+Current: 9,691,208
+* Is it necessary to split veerdb class?

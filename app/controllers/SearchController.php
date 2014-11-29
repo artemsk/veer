@@ -65,13 +65,17 @@ class SearchController extends \BaseController {
                 $search = \Veer\Models\Search::find($id);
                 
                 if($search) {
-                    
-                    $getData = new VeerDb('search.store', $id, array( 'q' => $search->q ));
-                    
+
+                    $getData = VeerQ::make('search.store', $id, array( 'q' => $search->q ));					
+					
+					echo "<pre>";
+					print_r($getData);
+					echo "</pre>";
                 }
             echo "<pre>";
-            print_r(Illuminate\Support\Facades\DB::getQueryLog());
-            echo "</pre>";                
+            print_r(DB::getQueryLog());
+            echo "</pre>";             
+
 	}
 
 

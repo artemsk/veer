@@ -173,7 +173,7 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		'VeerApp'         => 'Veer\Lib\VeerApp',
-		'VeerDb'          => 'Veer\Lib\VeerDb'
+		'VeerQ'           => 'Veer\Lib\VeerQ',
 
 	),
 
