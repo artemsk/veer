@@ -51,12 +51,12 @@ class VeerDb {
 	}
 
 	/**
-	 * 
 	 * make
+	 * 
 	 */
 	public function make($method, $id = null, $params = null)
 	{
-		$siteId = \App::make('veer')->siteId;
+		$siteId = app('veer')->siteId;
 
 		$queryParams = $this->paramsDefault($params);
 
@@ -65,6 +65,17 @@ class VeerDb {
 		return $this->$functionName($siteId, $id, $queryParams);
 	}
 
+	/**
+	 * route
+	 *
+	 * @params $id, $params
+	 * @return 
+	 */
+	public function route($id = null, $params = null)
+	{
+		return $this->make(\Illuminate\Support\Facades\Route::currentRouteName(), $id, $params);
+	}
+	
 	/**
 	 * Default Params
 	 * 
@@ -345,7 +356,7 @@ class VeerDb {
 	 * priority over "AND". Methods checked() & excludehidden() ignored. Cached for 5 minutes.
 	 */
 	public function attributeIndexQuery($siteId, $id = null, $queryParams = array())
-	{
+	{		
 		return Attribute::withTrashed()->whereHas('products', function($q) use($siteId) {
 					$q->sitevalidation($siteId);
 				})

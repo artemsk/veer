@@ -9,10 +9,11 @@ class AttributeController extends \BaseController {
 	 */
 	public function index()
 	{
-                $VeerDb = VeerQ::make(Route::currentRouteName());   
+                $VeerDb = VeerQ::route();   
                 
+				echo "after<br>";
                 echo "<pre>";
-                print_r($VeerDb);
+                print_r(app('veerdb'));
                 echo "</pre>";
                 foreach($VeerDb as $d) {
                     echo $d->id." ".$d->name."<br>";

@@ -74,7 +74,7 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
 {
     Log::error("Unable to find site: ".URL::full()." ".$exception->getMessage());
 
-    return Response::make('[Error] Website does not exist.', 404);
+    return Response::make('[Error] Website does not exist. ', 404);
 });
 
 
