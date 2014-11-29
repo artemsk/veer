@@ -11,16 +11,18 @@ class AttributeController extends \BaseController {
 	{
                 $VeerDb = VeerQ::route();   
                 
-				echo "after<br>";
-                echo "<pre>";
-                print_r(app('veerdb'));
-                echo "</pre>";
+				Queue::push(function($job) 
+				{
+					
+					File::append( storage_path() . "/queue.txt", '1\r\n');
+
+					//$job->delete();
+				});
+
                 foreach($VeerDb as $d) {
                     echo $d->id." ".$d->name."<br>";
                 }
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+
 	}
 
 

@@ -134,3 +134,569 @@ Stack trace:
 Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []
+[2014-11-29 10:09:10] local.ERROR: exception 'InvalidArgumentException' with message 'Command "migrate:create" is not defined.
+
+Did you mean one of these?
+    migrate:reset
+    migrate:make
+    migrate:refresh
+    migrate:rollback
+    migrate:install
+    migrate
+    migrate:publish' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php:562
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(188): Symfony\Component\Console\Application->find('migrate:create')
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#3 {main} [] []
+[2014-11-29 11:32:21] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Cannot redeclare class CreateQueueTable' in C:\A\webd\server\home\test1.ru\www\veer\app\database\migrations\2014_11_29_101112_create_jobs_tabe.php:35
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 11:32:58] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'CreateJobsTabe' not found' in C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Database\Migrations\Migrator.php:297
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 12:36:13] local.ERROR: Error connecting to database: SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'delay' (SQL: alter table `laq_async_queue` add `delay` timestamp default 0 not null after `retries`) [] []
+[2014-11-29 12:52:01] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Barryvdh\Queue\Jobs' not found' in Z:\home\test1.ru\www\veer\app\lib\VeerApp.php:306
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 12:52:38] local.ERROR: exception 'ErrorException' with message 'Argument 1 passed to Illuminate\Queue\Jobs\Job::resolveAndFire() must be an array, null given, called in Z:\home\test1.ru\www\veer\vendor\barryvdh\laravel-async-queue\src\Jobs\AsyncJob.php on line 55 and defined' in Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\Jobs\Job.php:90
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\Jobs\Job.php(90): Illuminate\Exception\Handler->handleError(4096, 'Argument 1 pass...', 'Z:\home\test1.r...', 90, Array)
+#1 Z:\home\test1.ru\www\veer\vendor\barryvdh\laravel-async-queue\src\Jobs\AsyncJob.php(55): Illuminate\Queue\Jobs\Job->resolveAndFire(NULL)
+#2 Z:\home\test1.ru\www\veer\app\lib\VeerApp.php(310): Barryvdh\Queue\Jobs\AsyncJob->fire()
+#3 Z:\home\test1.ru\www\veer\app\filters.php(40): Veer\Lib\VeerApp->queues()
+#4 [internal function]: {closure}(Object(Illuminate\Foundation\Application))
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(792): call_user_func(Object(Closure), Object(Illuminate\Foundation\Application))
+#6 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(509): Illuminate\Foundation\Application->fireAppCallbacks(Array)
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(752): Illuminate\Foundation\Application->shutdown()
+#8 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(32): Illuminate\Foundation\Application->terminate(Object(Illuminate\Http\Request), Object(Illuminate\Http\Response))
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(610): Stack\StackedHttpKernel->terminate(Object(Illuminate\Http\Request), Object(Illuminate\Http\Response))
+#10 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#11 {main} [] []
+[2014-11-29 13:04:36] local.ERROR: exception 'RuntimeException' with message 'Not enough arguments.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php:77
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(236): Symfony\Component\Console\Input\Input->validate()
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Barryvdh\Queue\Console\AsyncCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#6 {main} [] []
+[2014-11-29 13:06:29] local.ERROR: exception 'RuntimeException' with message 'Too many arguments.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:181
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(90): Symfony\Component\Console\Input\ArgvInput->parseArgument('16')
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Barryvdh\Queue\Console\AsyncCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#8 {main} [] []
+[2014-11-29 13:06:35] local.ERROR: Unable to find site: http://test1.ru/veer No query results for model [Barryvdh\Queue\Models\Job]. [] []
+[2014-11-29 13:11:00] local.ERROR: exception 'ErrorException' with message 'Argument 2 passed to Barryvdh\Queue\Jobs\AsyncJob::__construct() must be an instance of Barryvdh\Queue\Models\Job, instance of Illuminate\Database\Eloquent\Collection given, called in C:\A\webd\server\home\test1.ru\www\veer\vendor\barryvdh\laravel-async-queue\src\Console\AsyncCommand.php on line 38 and defined' in C:\A\webd\server\home\test1.ru\www\veer\vendor\barryvdh\laravel-async-queue\src\Jobs\AsyncJob.php:26
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\barryvdh\laravel-async-queue\src\Jobs\AsyncJob.php(26): Illuminate\Exception\Handler->handleError(4096, 'Argument 2 pass...', 'C:\A\webd\serve...', 26, Array)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\barryvdh\laravel-async-queue\src\Console\AsyncCommand.php(38): Barryvdh\Queue\Jobs\AsyncJob->__construct(Object(Illuminate\Foundation\Application), Object(Illuminate\Database\Eloquent\Collection))
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(108): Barryvdh\Queue\Console\AsyncCommand->fire()
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(241): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Barryvdh\Queue\Console\AsyncCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#9 {main} [] []
+[2014-11-29 13:28:24] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Undefined class constant 'STATUS_WAITING'' in Z:\home\test1.ru\www\veer\vendor\barryvdh\laravel-async-queue\src\Jobs\AsyncJob.php:85
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 14:52:07] local.ERROR: exception 'InvalidArgumentException' with message 'No connector for [async]' in Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php:105
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(87): Illuminate\Queue\QueueManager->getConnector('async')
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(69): Illuminate\Queue\QueueManager->resolve('async')
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(184): Illuminate\Queue\QueueManager->connection()
+#3 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->__call('later', Array)
+#4 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->later(Object(Carbon\Carbon), Object(Closure))
+#5 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('later', Array)
+#6 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::later(Object(Carbon\Carbon), Object(Closure))
+#7 [internal function]: AttributeController->index()
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#12 [internal function]: Illuminate\Routing\{closure}()
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#23 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#24 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#25 {main} [] []
+[2014-11-29 14:58:29] local.ERROR: exception 'InvalidArgumentException' with message 'No connector for [async]' in Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php:105
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(87): Illuminate\Queue\QueueManager->getConnector('async')
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(69): Illuminate\Queue\QueueManager->resolve('async')
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(184): Illuminate\Queue\QueueManager->connection()
+#3 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->__call('later', Array)
+#4 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->later(Object(Carbon\Carbon), Object(Closure))
+#5 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('later', Array)
+#6 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::later(Object(Carbon\Carbon), Object(Closure))
+#7 [internal function]: AttributeController->index()
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#12 [internal function]: Illuminate\Routing\{closure}()
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#23 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#24 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#25 {main} [] []
+[2014-11-29 14:58:30] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Barryvdh\Queue\Models\Job' not found' in Z:\home\test1.ru\www\veer\app\lib\VeerApp.php:306
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 17:23:46] local.ERROR: exception 'ErrorException' with message 'Object of class Carbon\Carbon could not be converted to int' in Z:\home\test1.ru\www\veer\vendor\nesbot\carbon\src\Carbon\Carbon.php:1541
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\nesbot\carbon\src\Carbon\Carbon.php(1541): Illuminate\Exception\Handler->handleError(8, 'Object of class...', 'Z:\home\test1.r...', 1541, Array)
+#1 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbQueue.php(52): Carbon\Carbon->addMinutes(Object(Carbon\Carbon))
+#2 [internal function]: Artemsk\Queuedb\QdbQueue->later(Object(Carbon\Carbon), Object(Closure))
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(186): call_user_func_array(Array, Array)
+#4 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->__call('later', Array)
+#5 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->later(Object(Carbon\Carbon), Object(Closure))
+#6 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('later', Array)
+#7 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::later(Object(Carbon\Carbon), Object(Closure))
+#8 [internal function]: AttributeController->index()
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#13 [internal function]: Illuminate\Routing\{closure}()
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#23 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#24 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#25 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#26 {main} [] []
+[2014-11-29 17:23:46] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Barryvdh\Queue\Models\Job' not found' in Z:\home\test1.ru\www\veer\app\lib\VeerApp.php:306
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 17:26:11] local.ERROR: exception 'ErrorException' with message 'Object of class Carbon\Carbon could not be converted to int' in Z:\home\test1.ru\www\veer\vendor\nesbot\carbon\src\Carbon\Carbon.php:1541
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\nesbot\carbon\src\Carbon\Carbon.php(1541): Illuminate\Exception\Handler->handleError(8, 'Object of class...', 'Z:\home\test1.r...', 1541, Array)
+#1 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbQueue.php(52): Carbon\Carbon->addMinutes(Object(Carbon\Carbon))
+#2 [internal function]: Artemsk\Queuedb\QdbQueue->later(Object(Carbon\Carbon), Object(Closure))
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(186): call_user_func_array(Array, Array)
+#4 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->__call('later', Array)
+#5 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->later(Object(Carbon\Carbon), Object(Closure))
+#6 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('later', Array)
+#7 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::later(Object(Carbon\Carbon), Object(Closure))
+#8 [internal function]: AttributeController->index()
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#13 [internal function]: Illuminate\Routing\{closure}()
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#23 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#24 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#25 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#26 {main} [] []
+[2014-11-29 17:26:11] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:27:10] local.ERROR: exception 'ErrorException' with message 'Object of class Carbon\Carbon could not be converted to int' in Z:\home\test1.ru\www\veer\vendor\nesbot\carbon\src\Carbon\Carbon.php:1541
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\nesbot\carbon\src\Carbon\Carbon.php(1541): Illuminate\Exception\Handler->handleError(8, 'Object of class...', 'Z:\home\test1.r...', 1541, Array)
+#1 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbQueue.php(52): Carbon\Carbon->addMinutes(Object(Carbon\Carbon))
+#2 [internal function]: Artemsk\Queuedb\QdbQueue->later(Object(Carbon\Carbon), Object(Closure), NULL, 'timestamp')
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(186): call_user_func_array(Array, Array)
+#4 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(217): Illuminate\Queue\QueueManager->__call('later', Array)
+#5 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(217): Illuminate\Queue\QueueManager->later(Object(Carbon\Carbon), Object(Closure), NULL, 'timestamp')
+#6 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('later', Array)
+#7 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::later(Object(Carbon\Carbon), Object(Closure), NULL, 'timestamp')
+#8 [internal function]: AttributeController->index()
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#13 [internal function]: Illuminate\Routing\{closure}()
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#23 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#24 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#25 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#26 {main} [] []
+[2014-11-29 17:27:10] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:28:46] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'field list' (SQL: insert into `jobs` (`status`, `delay`, `payload`, `updated_at`, `created_at`) values (0, 2014-11-29 17:28:46, {"job":"IlluminateQueueClosure","data":{"closure":"C:38:\"Illuminate\Support\SerializableClosure\":131:{a:2:{i:0;s:102:\"function ($job) {\n    \File::append(storage_path() . '\/queue.txt', '1\\r\\n');\n    $job->release();\n};\";i:1;a:0:{}}}"}}, 2014-11-29 17:28:46, 2014-11-29 17:28:46)) [] []
+[2014-11-29 17:28:46] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:29:55] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'field list' (SQL: insert into `jobs` (`status`, `delay`, `payload`, `updated_at`, `created_at`) values (0, , {"job":"IlluminateQueueClosure","data":{"closure":"C:38:\"Illuminate\Support\SerializableClosure\":131:{a:2:{i:0;s:102:\"function ($job) {\n    \File::append(storage_path() . '\/queue.txt', '1\\r\\n');\n    $job->release();\n};\";i:1;a:0:{}}}"}}, 2014-11-29 17:29:55, 2014-11-29 17:29:55)) [] []
+[2014-11-29 17:29:55] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:30:39] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'field list' (SQL: insert into `jobs` (`status`, `delay`, `payload`, `updated_at`, `created_at`) values (0, , {"job":"IlluminateQueueClosure","data":{"closure":"C:38:\"Illuminate\Support\SerializableClosure\":131:{a:2:{i:0;s:102:\"function ($job) {\n    \File::append(storage_path() . '\/queue.txt', '1\\r\\n');\n    $job->release();\n};\";i:1;a:0:{}}}"}}, 2014-11-29 17:30:39, 2014-11-29 17:30:39)) [] []
+[2014-11-29 17:30:39] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:30:51] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'field list' (SQL: insert into `jobs` (`status`, `delay`, `payload`, `updated_at`, `created_at`) values (0, , {"job":"IlluminateQueueClosure","data":{"closure":"C:38:\"Illuminate\Support\SerializableClosure\":131:{a:2:{i:0;s:102:\"function ($job) {\n    \File::append(storage_path() . '\/queue.txt', '1\\r\\n');\n    $job->release();\n};\";i:1;a:0:{}}}"}}, 2014-11-29 17:30:51, 2014-11-29 17:30:51)) [] []
+[2014-11-29 17:30:51] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:30:58] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'field list' (SQL: insert into `jobs` (`status`, `delay`, `payload`, `updated_at`, `created_at`) values (0, , {"job":"IlluminateQueueClosure","data":{"closure":"C:38:\"Illuminate\Support\SerializableClosure\":131:{a:2:{i:0;s:102:\"function ($job) {\n    \File::append(storage_path() . '\/queue.txt', '1\\r\\n');\n    $job->release();\n};\";i:1;a:0:{}}}"}}, 2014-11-29 17:30:58, 2014-11-29 17:30:58)) [] []
+[2014-11-29 17:30:58] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:31:42] local.ERROR: Error connecting to database: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'delay' in 'order clause' (SQL: select * from `jobs` where `status` != 3 order by `delay` asc limit 1) [] []
+[2014-11-29 17:38:33] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Veer\Lib\QdbJob' not found' in Z:\home\test1.ru\www\veer\app\lib\VeerApp.php:309
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 17:53:58] local.ALERT: Slowness detected: 1.0557:  {"queries":5,"loading":1.1831,"memory":"12,105,632","mem.veer":"4,980,288","version":"0.1.4-alpha"} []
+[2014-11-29 17:53:58] local.INFO: Queries:  [{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":1.5},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"index","GLOBAL"],"time":1.34},{"query":"select `id`, `url`, `grp`, `status`, `title`, `grp_ids`, `currency`, `price`, `price_sales`, `price_sales_on`, `price_sales_off`, `star`, `download`, `created_at` from `products` where `products`.`deleted_at` is null and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `products`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`id` = ? and `categories`.`deleted_at` is null) >= 1 and `status` != ? and `to_show` < ? limit 1","bindings":["Veer\\Models\\Product",1,"5","hide","2014-11-29 17:53:57"],"time":2.04},{"query":"select `categories`.*, `categories_connect`.`elements_id` as `pivot_elements_id`, `categories_connect`.`categories_id` as `pivot_categories_id` from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` in (?) and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`id` != ?","bindings":[1,"Veer\\Models\\Product",1,"5"],"time":2.52},{"query":"select `images`.*, `images_connect`.`elements_id` as `pivot_elements_id`, `images_connect`.`images_id` as `pivot_images_id` from `images` inner join `images_connect` on `images`.`id` = `images_connect`.`images_id` where `images`.`deleted_at` is null and `images_connect`.`elements_id` in (?) and `images_connect`.`elements_type` = ? order by `id` asc limit 1","bindings":[1,"Veer\\Models\\Product"],"time":1.92}] []
+[2014-11-29 18:13:40] local.ALERT: Slowness detected: 1.0953:  {"queries":5,"loading":1.6229,"memory":"14,634,192","mem.veer":"7,508,848","version":"0.1.4-alpha"} []
+[2014-11-29 18:13:40] local.INFO: Queries:  [{"query":"select * from `sites` where `sites`.`deleted_at` is null and `url` = ? and `on_off` = ? limit 1","bindings":["http://test1.ru/veer","1"],"time":1.76},{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":1.3},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":1.71},{"query":"select `name`, `id` from `attributes` where (select count(*) from `products` inner join `attributes_connect` on `products`.`id` = `attributes_connect`.`elements_id` where `products`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `products`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `products`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null or (select count(*) from `pages` inner join `attributes_connect` on `pages`.`id` = `attributes_connect`.`elements_id` where `pages`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `pages`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `pages`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null group by `name`","bindings":["Veer\\Models\\Product","Veer\\Models\\Product",1,"Veer\\Models\\Page","Veer\\Models\\Page",1],"time":20.81},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,null,"{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":131:{a:2:{i:0;s:102:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release();\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:13:40","2014-11-29 18:13:40"],"time":1.63}] []
+[2014-11-29 18:19:58] local.ALERT: Slowness detected: 1.1323:  {"queries":1,"loading":1.7084,"memory":"14,631,736","mem.veer":"7,506,392","version":"0.1.4-alpha"} []
+[2014-11-29 18:19:58] local.INFO: Queries:  [{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:19:58","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":131:{a:2:{i:0;s:102:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release();\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:19:58","2014-11-29 18:19:58"],"time":1.77}] []
+[2014-11-29 18:23:05] local.ALERT: Slowness detected: 1.0011:  {"queries":3,"loading":1.5981,"memory":"14,635,056","mem.veer":"7,509,712","version":"0.1.4-alpha"} []
+[2014-11-29 18:23:05] local.INFO: Queries:  [{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":1.97},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":1.35},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:23:05","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:23:05","2014-11-29 18:23:05"],"time":1.82}] []
+[2014-11-29 18:23:40] local.ALERT: Slowness detected: 1.0355:  {"queries":1,"loading":1.6404,"memory":"14,633,488","mem.veer":"7,508,144","version":"0.1.4-alpha"} []
+[2014-11-29 18:23:40] local.INFO: Queries:  [{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:23:39","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:23:39","2014-11-29 18:23:39"],"time":32.39}] []
+[2014-11-29 18:29:33] local.ALERT: Slowness detected: 1.6989:  {"queries":4,"loading":2.5732,"memory":"14,637,264","mem.veer":"7,511,920","version":"0.1.4-alpha"} []
+[2014-11-29 18:29:33] local.INFO: Queries:  [{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":1.64},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":1.54},{"query":"select `name`, `id` from `attributes` where (select count(*) from `products` inner join `attributes_connect` on `products`.`id` = `attributes_connect`.`elements_id` where `products`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `products`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `products`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null or (select count(*) from `pages` inner join `attributes_connect` on `pages`.`id` = `attributes_connect`.`elements_id` where `pages`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `pages`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `pages`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null group by `name`","bindings":["Veer\\Models\\Product","Veer\\Models\\Product",1,"Veer\\Models\\Page","Veer\\Models\\Page",1],"time":22.45},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:29:33","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:29:33","2014-11-29 18:29:33"],"time":4.89}] []
+[2014-11-29 18:30:23] local.ALERT: Slowness detected: 1.0245:  {"queries":1,"loading":2.0154,"memory":"14,633,488","mem.veer":"7,508,144","version":"0.1.4-alpha"} []
+[2014-11-29 18:30:23] local.INFO: Queries:  [{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:30:23","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:30:23","2014-11-29 18:30:23"],"time":1.86}] []
+[2014-11-29 18:35:39] local.ALERT: Slowness detected: 1.9628:  {"queries":5,"loading":4.182,"memory":"14,638,104","mem.veer":"7,512,760","version":"0.1.4-alpha"} []
+[2014-11-29 18:35:39] local.INFO: Queries:  [{"query":"select * from `sites` where `sites`.`deleted_at` is null and `url` = ? and `on_off` = ? limit 1","bindings":["http://test1.ru/veer","1"],"time":2.55},{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":1.66},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":1.89},{"query":"select `name`, `id` from `attributes` where (select count(*) from `products` inner join `attributes_connect` on `products`.`id` = `attributes_connect`.`elements_id` where `products`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `products`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `products`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null or (select count(*) from `pages` inner join `attributes_connect` on `pages`.`id` = `attributes_connect`.`elements_id` where `pages`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `pages`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `pages`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null group by `name`","bindings":["Veer\\Models\\Product","Veer\\Models\\Product",1,"Veer\\Models\\Page","Veer\\Models\\Page",1],"time":20.56},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:35:39","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:35:39","2014-11-29 18:35:39"],"time":71.21}] []
+[2014-11-29 18:38:50] local.ALERT: Slowness detected: 1.0602:  {"queries":3,"loading":2.7168,"memory":"14,635,056","mem.veer":"7,509,712","version":"0.1.4-alpha"} []
+[2014-11-29 18:38:50] local.INFO: Queries:  [{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":1.84},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":1.35},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:38:49","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:38:49","2014-11-29 18:38:49"],"time":62.74}] []
+[2014-11-29 18:41:22] local.ALERT: Slowness detected: 2.3686:  {"queries":4,"loading":3.533,"memory":"14,637,264","mem.veer":"7,511,920","version":"0.1.4-alpha"} []
+[2014-11-29 18:41:22] local.INFO: Queries:  [{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":4.51},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":1.37},{"query":"select `name`, `id` from `attributes` where (select count(*) from `products` inner join `attributes_connect` on `products`.`id` = `attributes_connect`.`elements_id` where `products`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `products`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `products`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null or (select count(*) from `pages` inner join `attributes_connect` on `pages`.`id` = `attributes_connect`.`elements_id` where `pages`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `pages`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `pages`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null group by `name`","bindings":["Veer\\Models\\Product","Veer\\Models\\Product",1,"Veer\\Models\\Page","Veer\\Models\\Page",1],"time":19.14},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:41:22","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:41:22","2014-11-29 18:41:22"],"time":82.2}] []
+[2014-11-29 18:43:58] local.ALERT: Slowness detected: 1.17:  {"queries":3,"loading":1.912,"memory":"14,635,056","mem.veer":"7,509,712","version":"0.1.4-alpha"} []
+[2014-11-29 18:43:58] local.INFO: Queries:  [{"query":"select `conf_val`, `conf_key` from `configuration` where `configuration`.`deleted_at` is null and `sites_id` = ?","bindings":[1],"time":1.78},{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":1.68},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,"2014-11-29 18:43:58","{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":132:{a:2:{i:0;s:103:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n    $job->release(5);\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 18:43:58","2014-11-29 18:43:58"],"time":62.57}] []
+[2014-11-29 19:01:07] local.ERROR: exception 'ErrorException' with message 'call_user_func_array() expects parameter 1 to be a valid callback, class 'Artemsk\Queuedb\QdbQueue' does not have a method 'late'' in Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php:186
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleError(2, 'call_user_func_...', 'Z:\home\test1.r...', 186, Array)
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(186): call_user_func_array(Array, Array)
+#2 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->__call('late', Array)
+#3 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->late(10, Object(Closure))
+#4 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('late', Array)
+#5 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::late(10, Object(Closure))
+#6 [internal function]: AttributeController->index()
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#11 [internal function]: Illuminate\Routing\{closure}()
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#23 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#24 {main} [] []
+[2014-11-29 19:01:07] local.ERROR: exception 'ErrorException' with message 'Argument 2 passed to Artemsk\Queuedb\QdbJob::__construct() must be an instance of Artemsk\Queuedb\Job, null given, called in Z:\home\test1.ru\www\veer\app\lib\VeerApp.php on line 311 and defined' in Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbJob.php:18
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbJob.php(18): Illuminate\Exception\Handler->handleError(4096, 'Argument 2 pass...', 'Z:\home\test1.r...', 18, Array)
+#1 Z:\home\test1.ru\www\veer\app\lib\VeerApp.php(311): Artemsk\Queuedb\QdbJob->__construct(Object(Illuminate\Foundation\Application), NULL)
+#2 Z:\home\test1.ru\www\veer\app\filters.php(40): Veer\Lib\VeerApp->queues()
+#3 [internal function]: {closure}(Object(Illuminate\Foundation\Application))
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(792): call_user_func(Object(Closure), Object(Illuminate\Foundation\Application))
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(509): Illuminate\Foundation\Application->fireAppCallbacks(Array)
+#6 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(752): Illuminate\Foundation\Application->shutdown()
+#7 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(32): Illuminate\Foundation\Application->terminate(Object(Illuminate\Http\Request), Object(Symfony\Component\HttpFoundation\Response))
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(610): Stack\StackedHttpKernel->terminate(Object(Illuminate\Http\Request), Object(Symfony\Component\HttpFoundation\Response))
+#9 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#10 {main} [] []
+[2014-11-29 19:10:29] local.ERROR: exception 'BadMethodCallException' with message 'Call to undefined method Illuminate\Database\Query\Builder::isEmpty()' in C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:1993
+Stack trace:
+#0 [internal function]: Illuminate\Database\Query\Builder->__call('isEmpty', Array)
+#1 [internal function]: Illuminate\Database\Query\Builder->isEmpty()
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(919): call_user_func_array(Array, Array)
+#3 [internal function]: Illuminate\Database\Eloquent\Builder->__call('isEmpty', Array)
+#4 [internal function]: Illuminate\Database\Eloquent\Builder->isEmpty()
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(3001): call_user_func_array(Array, Array)
+#6 C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php(32): Illuminate\Database\Eloquent\Model->__call('isEmpty', Array)
+#7 C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php(32): Artemsk\Queuedb\Job->isEmpty()
+#8 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(108): Artemsk\Queuedb\QdbCommand->fire()
+#9 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(241): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#14 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#15 {main} [] []
+[2014-11-29 19:13:13] local.ERROR: Unable to find site: http://test1.ru/veer No query results for model [Artemsk\Queuedb\Job]. [] []
+[2014-11-29 19:13:45] local.ERROR: Unable to find site: http://test1.ru/veer No query results for model [Artemsk\Queuedb\Job]. [] []
+[2014-11-29 19:13:50] local.ERROR: exception 'RuntimeException' with message 'The "--stats" option does not exist.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:213
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(154): Symfony\Component\Console\Input\ArgvInput->addLongOption('stats', NULL)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(86): Symfony\Component\Console\Input\ArgvInput->parseLongOption('--stats')
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#9 {main} [] []
+[2014-11-29 19:14:06] local.ERROR: exception 'RuntimeException' with message 'The "--stats" option does not exist.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:213
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(154): Symfony\Component\Console\Input\ArgvInput->addLongOption('stats', NULL)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(86): Symfony\Component\Console\Input\ArgvInput->parseLongOption('--stats')
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#9 {main} [] []
+[2014-11-29 19:14:31] local.ERROR: exception 'RuntimeException' with message 'The "--stats" option does not exist.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:213
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(154): Symfony\Component\Console\Input\ArgvInput->addLongOption('stats', NULL)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(86): Symfony\Component\Console\Input\ArgvInput->parseLongOption('--stats')
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#9 {main} [] []
+[2014-11-29 19:14:49] local.ERROR: exception 'RuntimeException' with message 'The "--stats" option does not exist.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:213
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(154): Symfony\Component\Console\Input\ArgvInput->addLongOption('stats', NULL)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(86): Symfony\Component\Console\Input\ArgvInput->parseLongOption('--stats')
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#9 {main} [] []
+[2014-11-29 19:14:56] local.ERROR: exception 'RuntimeException' with message 'The "--stats" option does not exist.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:213
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(154): Symfony\Component\Console\Input\ArgvInput->addLongOption('stats', NULL)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(86): Symfony\Component\Console\Input\ArgvInput->parseLongOption('--stats')
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#9 {main} [] []
+[2014-11-29 19:15:01] local.ERROR: Unable to find site: http://test1.ru/veer No query results for model [Artemsk\Queuedb\Job]. [] []
+[2014-11-29 19:15:04] local.ERROR: exception 'RuntimeException' with message 'Too many arguments.' in C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php:181
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\ArgvInput.php(90): Symfony\Component\Console\Input\ArgvInput->parseArgument('2')
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Input\Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(223): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#8 {main} [] []
+[2014-11-29 19:16:50] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Artemsk\Queuedb\InputOption' not found' in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php:66
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 19:19:40] local.ERROR: exception 'ErrorException' with message 'Argument 2 passed to Artemsk\Queuedb\QdbJob::__construct() must be an instance of Artemsk\Queuedb\Job, null given, called in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php on line 38 and defined' in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbJob.php:18
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbJob.php(18): Illuminate\Exception\Handler->handleError(4096, 'Argument 2 pass...', 'C:\A\webd\serve...', 18, Array)
+#1 C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php(38): Artemsk\Queuedb\QdbJob->__construct(Object(Illuminate\Foundation\Application), NULL)
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(108): Artemsk\Queuedb\QdbCommand->fire()
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(241): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#9 {main} [] []
+[2014-11-29 19:22:27] local.ERROR: exception 'ErrorException' with message 'Undefined property: Artemsk\Queuedb\QdbCommand::$option' in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php:47
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php(47): Illuminate\Exception\Handler->handleError(8, 'Undefined prope...', 'C:\A\webd\serve...', 47, Array)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(108): Artemsk\Queuedb\QdbCommand->fire()
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(241): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#8 {main} [] []
+[2014-11-29 19:24:50] local.ERROR: exception 'ErrorException' with message 'Undefined property: Artemsk\Queuedb\QdbCommand::$option' in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php:47
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php(47): Illuminate\Exception\Handler->handleError(8, 'Undefined prope...', 'C:\A\webd\serve...', 47, Array)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(108): Artemsk\Queuedb\QdbCommand->fire()
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(241): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#8 {main} [] []
+[2014-11-29 19:25:22] local.ERROR: exception 'ErrorException' with message 'Undefined property: Artemsk\Queuedb\QdbCommand::$argument' in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php:47
+Stack trace:
+#0 C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php(47): Illuminate\Exception\Handler->handleError(8, 'Undefined prope...', 'C:\A\webd\serve...', 47, Array)
+#1 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(108): Artemsk\Queuedb\QdbCommand->fire()
+#2 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(241): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 C:\A\webd\server\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Artemsk\Queuedb\QdbCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\A\webd\server\home\test1.ru\www\veer\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\A\webd\server\home\test1.ru\www\veer\artisan(23): Symfony\Component\Console\Application->run()
+#8 {main} [] []
+[2014-11-29 19:25:32] local.ERROR: Unable to find site: http://test1.ru/veer No query results for model [Artemsk\Queuedb\Job]. [] []
+[2014-11-29 19:25:53] local.ERROR: Unable to find site: http://test1.ru/veer No query results for model [Artemsk\Queuedb\Job]. [] []
+[2014-11-29 19:26:17] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Artemsk\Queuedb\DB' not found' in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php:82
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 19:27:03] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Artemsk\Queuedb\DB' not found' in C:\A\webd\server\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbCommand.php:82
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 19:27:37] local.ERROR: exception 'ErrorException' with message 'Argument 2 passed to Artemsk\Queuedb\QdbJob::__construct() must be an instance of Artemsk\Queuedb\Job, null given, called in Z:\home\test1.ru\www\veer\app\lib\VeerApp.php on line 310 and defined' in Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbJob.php:18
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\src\Artemsk\Queuedb\QdbJob.php(18): Illuminate\Exception\Handler->handleError(4096, 'Argument 2 pass...', 'Z:\home\test1.r...', 18, Array)
+#1 Z:\home\test1.ru\www\veer\app\lib\VeerApp.php(310): Artemsk\Queuedb\QdbJob->__construct(Object(Illuminate\Foundation\Application), NULL)
+#2 Z:\home\test1.ru\www\veer\app\filters.php(40): Veer\Lib\VeerApp->queues()
+#3 [internal function]: {closure}(Object(Illuminate\Foundation\Application))
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(792): call_user_func(Object(Closure), Object(Illuminate\Foundation\Application))
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(509): Illuminate\Foundation\Application->fireAppCallbacks(Array)
+#6 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(752): Illuminate\Foundation\Application->shutdown()
+#7 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(32): Illuminate\Foundation\Application->terminate(Object(Illuminate\Http\Request), Object(Illuminate\Http\Response))
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(610): Stack\StackedHttpKernel->terminate(Object(Illuminate\Http\Request), Object(Illuminate\Http\Response))
+#9 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#10 {main} [] []
+[2014-11-29 19:29:22] local.ERROR: exception 'ErrorException' with message 'call_user_func_array() expects parameter 1 to be a valid callback, class 'Artemsk\Queuedb\QdbQueue' does not have a method 'late'' in Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php:186
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleError(2, 'call_user_func_...', 'Z:\home\test1.r...', 186, Array)
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(186): call_user_func_array(Array, Array)
+#2 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->__call('late', Array)
+#3 Z:\home\test1.ru\www\veer\workbench\artemsk\queuedb\vendor\illuminate\support\Illuminate\Support\Facades\Facade.php(211): Illuminate\Queue\QueueManager->late(10, Object(Closure))
+#4 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('late', Array)
+#5 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::late(10, Object(Closure))
+#6 [internal function]: AttributeController->index()
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#11 [internal function]: Illuminate\Routing\{closure}()
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#23 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#24 {main} [] []
+[2014-11-29 19:36:30] local.ERROR: exception 'InvalidArgumentException' with message 'No connector for [qdb]' in Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php:105
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(87): Illuminate\Queue\QueueManager->getConnector('qdb')
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(69): Illuminate\Queue\QueueManager->resolve('qdb')
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(184): Illuminate\Queue\QueueManager->connection()
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(208): Illuminate\Queue\QueueManager->__call('push', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(208): Illuminate\Queue\QueueManager->push(Object(Closure))
+#5 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('push', Array)
+#6 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::push(Object(Closure))
+#7 [internal function]: AttributeController->index()
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#12 [internal function]: Illuminate\Routing\{closure}()
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#23 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#24 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#25 {main} [] []
+[2014-11-29 19:36:31] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Artemsk\Queuedb\Job' not found' in Z:\home\test1.ru\www\veer\app\lib\VeerApp.php:308
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 19:36:42] local.ERROR: exception 'InvalidArgumentException' with message 'No connector for [qdb]' in Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php:105
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(87): Illuminate\Queue\QueueManager->getConnector('qdb')
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(69): Illuminate\Queue\QueueManager->resolve('qdb')
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Queue\QueueManager.php(184): Illuminate\Queue\QueueManager->connection()
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(208): Illuminate\Queue\QueueManager->__call('push', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(208): Illuminate\Queue\QueueManager->push(Object(Closure))
+#5 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Facade::__callStatic('push', Array)
+#6 Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php(20): Illuminate\Support\Facades\Queue::push(Object(Closure))
+#7 [internal function]: AttributeController->index()
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(AttributeController), Object(Illuminate\Routing\Route), 'index')
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AttributeContro...', 'index')
+#12 [internal function]: Illuminate\Routing\{closure}()
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#19 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#20 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#21 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#22 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#23 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#24 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#25 {main} [] []
+[2014-11-29 19:40:20] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'VeerDb' not found' in Z:\home\test1.ru\www\veer\app\controllers\SearchController.php:45
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 19:44:41] local.ALERT: Slowness detected: 1.9275:  {"queries":3,"loading":2.2624,"memory":"14,622,640","mem.veer":"7,497,296","version":"0.1.4-alpha"} []
+[2014-11-29 19:44:41] local.INFO: Queries:  [{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"attribute.index","GLOBAL"],"time":0.94},{"query":"select `name`, `id` from `attributes` where (select count(*) from `products` inner join `attributes_connect` on `products`.`id` = `attributes_connect`.`elements_id` where `products`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `products`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `products`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null or (select count(*) from `pages` inner join `attributes_connect` on `pages`.`id` = `attributes_connect`.`elements_id` where `pages`.`deleted_at` is null and `attributes_connect`.`attributes_id` = `attributes`.`id` and `attributes_connect`.`elements_type` = ? and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `pages`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`deleted_at` is null) >= 1 and `pages`.`deleted_at` is null) >= 1 and `attributes`.`deleted_at` is null group by `name`","bindings":["Veer\\Models\\Product","Veer\\Models\\Product",1,"Veer\\Models\\Page","Veer\\Models\\Page",1],"time":9.85},{"query":"insert into `jobs` (`status`, `scheduled_at`, `payload`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?)","bindings":[0,0,"{\"job\":\"IlluminateQueueClosure\",\"data\":{\"closure\":\"C:38:\\\"Illuminate\\\\Support\\\\SerializableClosure\\\":109:{a:2:{i:0;s:81:\\\"function ($job) {\\n    \\\\File::append(storage_path() . '\\/queue.txt', '1\\\\\\\\r\\\\\\\\n');\\n};\\\";i:1;a:0:{}}}\"}}","2014-11-29 19:44:40","2014-11-29 19:44:40"],"time":1.13}] []

@@ -13,8 +13,6 @@
 
 require_once(MAINURL_5."/code/modules/global.php"); 
 
-follow(@$detected, @$_SESSION['customers_id']); // follow visits
-
 $body_filename=MAINURL_5."/template/".TEMPLATE."/body_all.php";
 $body_filename=MAINURL_5."/template/".TEMPLATE."/body_index.php";
             
