@@ -26,16 +26,16 @@ App::shutdown(function($request)
 {
     if (!App::runningInConsole() && App::bound('veer')) {
         
-        $timeToLoad = App::make('veer')->statistics['loading'];
+        $timeToLoad = empty(app('veer')->statistics['loading']) ?: app('veer')->statistics['loading'];
         
         if($timeToLoad > Config::get('veer.loadingtime')) {
             
-            $recollect = App::make('veer')->statistics();
+            $recollect = app('veer')->statistics();
             Log::alert('Slowness detected: ' . $timeToLoad . ': ', $recollect);
             Log::info('Queries: ', DB::getQueryLog());
         }
 		
-		App::make('veer')->tracking();
+		app('veer')->tracking();
     } 
 });
     

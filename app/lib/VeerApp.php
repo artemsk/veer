@@ -1,6 +1,7 @@
 <?php namespace Veer\Lib;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Veer\Models\Component;
 
 class VeerApp {
@@ -9,7 +10,7 @@ class VeerApp {
 	 *  The Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = '0.1.3-alpha';
+	const VEERVERSION = '0.1.4-alpha';
 
 	/**
 	 *  Booted?
@@ -259,7 +260,7 @@ class VeerApp {
 		
 		if(!str_contains($past, url())) { 			
 			$f = date('Y.W', time());
-			\Illuminate\Support\Facades\File::append(Config::get('veer.history.path') . 
+			File::append(Config::get('veer.history.path') . 
 				'/referrals.' . $f . '.txt', $past . "\r\n" );
 		}
 	}
@@ -275,7 +276,7 @@ class VeerApp {
 		if(!auth_check_session()) { return; }
 		
 		$f = date('Y.W', time());
-		\Illuminate\Support\Facades\File::append(Config::get('veer.history.path') . '/urls.' . $f . '.txt', 
+		File::append(Config::get('veer.history.path') . '/urls.' . $f . '.txt', 
 			\Illuminate\Support\Facades\Auth::id(). '|' . url() . '|' .
 			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
 	}
@@ -289,7 +290,7 @@ class VeerApp {
 	protected function trackingIps()
 	{
 		$f = date('Y.W', time());
-		\Illuminate\Support\Facades\File::append(Config::get('veer.history.path') . '/ips.' . $f . '.txt', 
+		File::append(Config::get('veer.history.path') . '/ips.' . $f . '.txt', 
 		\Illuminate\Support\Facades\Request::getClientIp(). '|' . url() . '|' .
 			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
 	}	

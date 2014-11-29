@@ -63,7 +63,7 @@ if ( ! function_exists('db_parameter'))
 	{
                 if(!empty($param)) 
                 {
-                    $v = App::make('veer')->siteConfig;                   
+                    $v = app('veer')->siteConfig;                   
                     return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param, $default);
                 }
 	}

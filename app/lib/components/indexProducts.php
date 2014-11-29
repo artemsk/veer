@@ -23,7 +23,7 @@ class indexProducts {
     
     function __construct($params = null) {
         
-        $v = \App::make('veer');
+        $v = app('veer');
         
         $siteId = $v->siteId;
         $homeId = db_parameter('CATEGORY_HOME');     
