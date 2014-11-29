@@ -18,7 +18,30 @@ class VeerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->registerVeerApp();
+		
+		$this->registerVeerQueryBuilder();
+	}
+	
+	/**
+	 * Register the Veer Initialization.
+	 *
+	 * @return void
+	 */
+	
+	public function registerVeerApp()
+	{
 		$this->app->bindShared('veer', function() { return new VeerApp; });
+	}
+	
+	/**
+	 * Register the Veer Query Builder
+	 *
+	 * @return void
+	 */	
+	public function registerVeerQueryBuilder()
+	{
+		$this->app->bindShared('veerdb', function() { return new VeerDb; });
 	}
 	
 	/**
@@ -28,7 +51,7 @@ class VeerServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('veer');
+		return array('veer', 'veerdb');
 	}	
 	
 }
