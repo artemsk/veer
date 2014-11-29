@@ -156,21 +156,6 @@ function login_header($force="") {
         return $iwant2see;
      }
 
-// follow customer
-function follow($detected="", $c_id="") { // detected, customers_id
-Debug::log();     
-         if((@$detected[0]=="/catalog/"||@$detected[0]=="/product/")&&@$detected[1]!=""&&@$detected[1]!="all"&&@$detected[1]!="new"&&@$detected[1]!="comments"&&@$detected[1]!="ratings") {  // catalog, product
-                  if($c_id!="") {} else { $c_id="0"; }
-         $sql_whr="WHERE type='".@$detected[0]."' AND catshop_prd_id='".@$detected[1]."' AND customers_id='".$c_id."'";
-         $sql="SELECT * FROM ".DB_PREFIX."customers_lastvisits ".$sql_whr;
-         if(mysql_num_rows(mysql_kall($sql))>0) { mysql_kall("UPDATE ".DB_PREFIX."customers_lastvisits SET nums=nums+1, lastmodified=CURRENT_TIMESTAMP ".$sql_whr); } else {
-              mysql_kall("INSERT INTO ".DB_PREFIX."customers_lastvisits (customers_id, type, catshop_prd_id, nums, lastmodified)
-                                                         VALUES ('".$c_id."','".@$detected[0]."','".@$detected[1]."','1',CURRENT_TIMESTAMP)");
-                 }
-             }
-         }
-////////////////////////////////////
-
 function lists2session() { // ���������� ������� � ���. ������
 Debug::log();     
       if(!isset($_SESSION['customers_id'])) { $cid="0"; $temp_session=session_id(); } else { $cid=$_SESSION['customers_id']; $temp_session=""; }
@@ -195,19 +180,6 @@ function notifyadmin($type="0",$str="") { Debug::log();
      mail(TECH_EMAIL, "[ORIENTIR] ���������, ��������� #".$type, $auto_str.$str."\n--------\n".$d, 
              "From: Orientir Notification Center <no-reply@".substr(MAINURL_4,1).">");
    }   
-   
-function savereferals($url="", $url2="") { Debug::log(); 
-           if($url!="/code/ext/") {
-           $zzz=strtr($_SERVER['HTTP_HOST']."_".$_SERVER['REQUEST_URI'],array("."=>"_","/"=>"_",":"=>"_","?"=>"_","="=>"_"," "=>"","+"=>""));
-           if($_SERVER['HTTP_REFERER']!="") {
-           $f=fopen(MAINURL_5."/stat/refers_".$zzz.".txt","a+");
-           fwrite($f,"[s]".date("Y.m.d. H:i:s",time())."[l]".time()." <- [r]".$_SERVER['HTTP_REFERER']."[e]\n"); fclose($f);
-           }
-           if(DEBUG_MODE=="1") {
-           $f=fopen(MAINURL_5."/code/txts/ips/".date("YmdH",time()).".txt","a+"); 
-           fwrite($f,time()."[#]".$_SERVER["REMOTE_ADDR"]."[#]".$_SERVER['HTTP_REFERER']."[#]".$url."[#]".$url2."[#]".
-           number_format(memory_get_usage())."\n"); fclose($f); } 
-           }}
 
 function price_format($price, $price_starter = "", $star = "0") { Debug::log(); 
             if (@$star <= 0 || $price == $price_starter || $price_starter == "") {

@@ -43,7 +43,7 @@ class FilterController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new veerDb(Route::currentRouteName(), $id);
+                $getData = new VeerDb(Route::currentRouteName(), $id);
                 
                 echo "<pre>";
                 print_r($getData->data['products']);

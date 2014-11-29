@@ -9,7 +9,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function index()
 	{
-                $veerDb = new veerDb(Route::currentRouteName());   
+                $VeerDb = new VeerDb(Route::currentRouteName());   
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());
@@ -47,11 +47,11 @@ class CategoryController extends \BaseController {
 	 */
 	public function show($id)
 	{	
-                $veerDb = new veerDb(Route::currentRouteName(), $id);                 
+                $VeerDb = new VeerDb(Route::currentRouteName(), $id);                 
                 
-                $products = $veerDb->categoryOnlyProductsQuery($id, get_paginator_and_sorting());
+                $products = $VeerDb->categoryOnlyProductsQuery($id, get_paginator_and_sorting());
                 
-                $pages = $veerDb->categoryOnlyPagesQuery($id, get_paginator_and_sorting());
+                $pages = $VeerDb->categoryOnlyPagesQuery($id, get_paginator_and_sorting());
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());

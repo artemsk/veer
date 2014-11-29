@@ -106,6 +106,7 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		'Veer\Lib\VeerServiceProvider',
 	),
 
 	/*
@@ -171,8 +172,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-                'VeerApp'         => 'Veer\Lib\VeerApp',
-                'veerDb'          => 'Veer\Lib\veerDb'
+		'VeerApp'         => 'Veer\Lib\VeerApp',
+		'VeerDb'          => 'Veer\Lib\VeerDb'
 
 	),
 

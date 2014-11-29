@@ -17,7 +17,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database',
-        app_path().'/lib',
+    app_path().'/lib',
     
 ));
 
@@ -65,18 +65,20 @@ App::error(function(PDOException $exception)
         return  View::make('dummy', array('cachedPage' => $cachedPage));
         
     } else {
-        return "Error connecting to database";        
+        return Response::make("Error connecting to database. Please come back later. ", 503);        
     }
 });
+
 
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception)
 {
     Log::error("Unable to find site: ".URL::full()." ".$exception->getMessage());
-    
-    return Response::make('Error: URL Not Found', 404);
+
+    return Response::make('[Error] Website does not exist.', 404);
 });
 
-App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception)
+
+App::missing(function($exception)
 {    
     Log::error("URL Not found ". URL::full());
     
@@ -101,26 +103,6 @@ App::down(function()
 
 /*
 |--------------------------------------------------------------------------
-| Veer Site Loader & Specific Site Configurations
-|--------------------------------------------------------------------------
-|
-| Veer's engine main starting point. Here we're connecting to database
-| and trying to detect Site Id for current URL. You can have as many sites on one
-| instance of Veer engine as your server allows. Afterwards, we gather configuration
-| data & template. If laravel framework is running in console then we won't
-| start app.
-|
-*/
-
-    if ($app->runningInConsole()) {
-
-    } else 
-    {
-        $app->instance('veer', new \Veer\Lib\VeerApp);
-    }
-
-/*
-|--------------------------------------------------------------------------
 | Require The Filters File
 |--------------------------------------------------------------------------
 |
@@ -131,3 +113,31 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require The Events File
+|--------------------------------------------------------------------------
+|
+| Next we will load the events file for the application. 
+|
+*/
+
+//require app_path().'/events.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run.
+|--------------------------------------------------------------------------
+|
+| Veer's main starting point. Here we're connecting to database
+| and trying to detect Site Id for current URL. You can have as many sites on one
+| instance of Veer engine as your server allows. Afterwards, we gather configuration
+| data & template. If laravel framework is running in console then we won't
+| start app. 
+|
+| [Update] Registering was moved to Service Providers - see config/app.php
+|
+*/
+
+if ( !($app->runningInConsole()) ) { $app->veer->run(); }

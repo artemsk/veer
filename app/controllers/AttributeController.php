@@ -9,12 +9,12 @@ class AttributeController extends \BaseController {
 	 */
 	public function index()
 	{
-                $veerDb = new veerDb(Route::currentRouteName());   
+                $VeerDb = new VeerDb(Route::currentRouteName());   
                 
                 echo "<pre>";
-                print_r($veerDb);
+                print_r($VeerDb);
                 echo "</pre>";
-                foreach($veerDb->data as $d) {
+                foreach($VeerDb->data as $d) {
                     echo $d->id." ".$d->name."<br>";
                 }
                 echo "<pre>";
@@ -53,13 +53,13 @@ class AttributeController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $veerDb = new veerDb(Route::currentRouteName(), $id);                 
+                $VeerDb = new VeerDb(Route::currentRouteName(), $id);                 
                 
-                if($veerDb->data['parent_flag'] != 1) {
+                if($VeerDb->data['parent_flag'] != 1) {
                     
-                $products = $veerDb->attributeOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $products = $VeerDb->attributeOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $pages = $veerDb->attributeOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $pages = $VeerDb->attributeOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
                 }
                 echo "<pre>";

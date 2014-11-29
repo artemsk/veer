@@ -43,13 +43,13 @@ class ImageController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $veerDb = new veerDb(Route::currentRouteName(), $id);                 
+                $VeerDb = new VeerDb(Route::currentRouteName(), $id);                 
                 
-                $products = $veerDb->imageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $products = $VeerDb->imageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $pages = $veerDb->imageOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $pages = $VeerDb->imageOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $categories = $veerDb->imageOnlyCategoriesQuery($this->veer->siteId, $id);
+                $categories = $VeerDb->imageOnlyCategoriesQuery($this->veer->siteId, $id);
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());

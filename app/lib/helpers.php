@@ -18,29 +18,6 @@ if ( ! function_exists('cache_current_url_value'))
 
 
 
-if ( ! function_exists('include_content_to_variable'))
-{
-	/**
-	 * Include content to variable .
-	 *
-	 * @return string
-	 */
-	function include_content_to_variable($filename)
-	{
-                if (is_file($filename)) {
-                    
-                    ob_start();
-                        include $filename;
-                    $contents = ob_get_contents();
-                    ob_end_clean();
-                    
-                    return $contents;
-                }
-	}
-}
-
-
-
 if ( ! function_exists('get_paginator_and_sorting'))
 {
 	/**
@@ -82,12 +59,12 @@ if ( ! function_exists('db_parameter'))
          * @param parameter name
 	 * @return result
 	 */
-	function db_parameter($param = null)
+	function db_parameter($param = null, $default = null)
 	{
                 if(!empty($param)) 
                 {
                     $v = App::make('veer')->siteConfig;                   
-                    return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param);
+                    return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param, $default);
                 }
 	}
 }
@@ -103,10 +80,25 @@ if ( ! function_exists('db_parameter_not_found'))
          * @param parameter name
 	 * @return null
 	 */
-	function db_parameter_not_found($param = null)
+	function db_parameter_not_found($param = null, $default = null)
 	{
                 Log::error('Veer Component Error: Necessary parameter not found' . ((empty($param)) ? 0 : ': ' . $param));
-                return null;
+                return $default;
 	}
 }
     
+
+
+
+if ( ! function_exists('auth_check_session'))
+{
+	/**
+	 * Auth::check without connecting to database @testing
+	 *
+	 * @return true of false
+	 */
+	function auth_check_session()
+	{
+        return Session::has(Auth::getName());		
+	}
+}

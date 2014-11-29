@@ -42,7 +42,7 @@ class SearchController extends \BaseController {
                     
                     if(Auth::check()) { $search->users()->attach(Auth::id()); } 
                     
-                    $getData = new veerDb(Route::currentRouteName(), $search->id, array( 'q' => $q ));
+                    $getData = new VeerDb(Route::currentRouteName(), $search->id, array( 'q' => $q ));
                     
                 }
             }
@@ -66,7 +66,7 @@ class SearchController extends \BaseController {
                 
                 if($search) {
                     
-                    $getData = new veerDb('search.store', $id, array( 'q' => $search->q ));
+                    $getData = new VeerDb('search.store', $id, array( 'q' => $search->q ));
                     
                 }
             echo "<pre>";
