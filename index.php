@@ -13,4 +13,4 @@ if (is_dir($workbench = __DIR__.'/workbench'))
 
 $app = require_once __DIR__.'/start.php';
 
-$app->run(); 
+$app->run();
