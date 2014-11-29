@@ -24,7 +24,7 @@ App::after(function($request, $response)
 
 App::shutdown(function($request) 
 {
-    if (!App::runningInConsole()) {
+    if (!App::runningInConsole() && App::bound('veer')) {
         
         $timeToLoad = App::make('veer')->statistics['loading'];
         
@@ -34,8 +34,9 @@ App::shutdown(function($request)
             Log::alert('Slowness detected: ' . $timeToLoad . ': ', $recollect);
             Log::info('Queries: ', DB::getQueryLog());
         }
-    }
-        // TODO: save referals?
+		
+		App::make('veer')->tracking();
+    } 
 });
     
 

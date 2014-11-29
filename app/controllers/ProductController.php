@@ -50,15 +50,15 @@ class ProductController extends \BaseController {
                     $method = "sortingProducts";                  
                 } 
                 
-                $veerDb = new veerDb($method, $id);                 
+                $VeerDb = new VeerDb($method, $id);                 
                 
-                $subproducts = $veerDb->productOnlySubProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $subproducts = $VeerDb->productOnlySubProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $parentproducts = $veerDb->productOnlyParentProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $parentproducts = $VeerDb->productOnlyParentProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $categories = $veerDb->productOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $categories = $VeerDb->productOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $pages = $veerDb->productOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $pages = $VeerDb->productOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());

@@ -46,7 +46,7 @@ class OrderController extends \BaseController {
                 // TODO: show orders only for its user or administrator
                 // TODO: для гостей и незарег. форма с кодом
                 
-                $getData = new veerDb(Route::currentRouteName(), $id, array('userId' => Auth::id()));
+                $getData = new VeerDb(Route::currentRouteName(), $id, array('userId' => Auth::id()));
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());

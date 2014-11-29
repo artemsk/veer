@@ -9,7 +9,7 @@ class PageController extends \BaseController {
 	 */
 	public function index()
 	{
-                $veerDb = new veerDb(Route::currentRouteName());   
+                $VeerDb = new VeerDb(Route::currentRouteName());   
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());
@@ -49,15 +49,15 @@ class PageController extends \BaseController {
 	{
                 $method = Route::currentRouteName();
                                 
-                $veerDb = new veerDb($method, $id);                 
+                $VeerDb = new VeerDb($method, $id);                 
                 
-                $subpages = $veerDb->pageOnlySubPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $subpages = $VeerDb->pageOnlySubPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $parentpages = $veerDb->pageOnlyParentPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $parentpages = $VeerDb->pageOnlyParentPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $categories = $veerDb->pageOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $categories = $VeerDb->pageOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $products= $veerDb->pageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $products= $VeerDb->pageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());

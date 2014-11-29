@@ -1,3 +1,4 @@
-<p>Attention! We have some difficults regarding our site's database. We're working to resolve these issues as soon as possible. Meanwhile here we have displayed lightweight cached version of this url. Thank you for your patience.</p>
+<p></p>
+<p>Attention! We have some difficults regarding our site's database. We're working to resolve these issues as soon as possible. <br/>Meanwhile here we have displayed lightweight cached version of this url. Thank you for your patience.</p>
 <?php echo @$cachedPage; 
 // TODO: check grammar

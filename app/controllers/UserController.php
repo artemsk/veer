@@ -48,7 +48,7 @@ class UserController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new veerDb(Route::currentRouteName(), $id);
+                $getData = new VeerDb(Route::currentRouteName(), $id);
                 
                 echo "<pre>";
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());
@@ -135,7 +135,7 @@ class UserController extends \BaseController {
                 
                 if (Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 'banned' => 0)))
                 {
-                    return Redirect::intended();
+                    return Redirect::intended('user/login');
                 }
 
                 return \View::make('template.'.$this->veer->template.'.login', $data); 

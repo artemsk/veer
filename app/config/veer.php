@@ -40,5 +40,19 @@ return array(
     
         'loadingtime' => '1',
            
-
+        /*
+	|--------------------------------------------------------------------------
+	| User history: referrals, urls, ips - to 
+	|--------------------------------------------------------------------------
+	*/    
+    
+        'history.refs' => true,
+        
+        'history.urls' => true,
+        
+        'history.ips' => false,   
+	
+		'history.path' => storage_path()."/history",
+        
+        
 );

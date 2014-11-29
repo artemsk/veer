@@ -1,4 +1,4 @@
 ======
 Classnames 'output' & 'template' should not be used.
 
-There are some essential components in folder 'essential'.
+There are some essential & example components in this folder.
