@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Artemsk\Queuedb\Job;
+use Artemsk\Queuedb\QdbJob;
 use Veer\Models\Component;
 
 class VeerApp {
@@ -294,5 +296,23 @@ class VeerApp {
 		\Illuminate\Support\Facades\Request::getClientIp(). '|' . url() . '|' .
 			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
 	}	
+
+	/**
+	 * Running Queues: one job per request.
+	 * Only for 'qdb' driver as default
+	 *
+	 * @params
+	 * @return void
+	 */
+	public function queues() 	
+	{	
+		$item = Job::where('status','<=','1')->orderBy('scheduled_at', 'asc')->first();
+		if(is_object($item)) {		
+		
+			$job = new QdbJob(app(), $item);
+
+			$job->fire();
+		}
+	}
 
 }

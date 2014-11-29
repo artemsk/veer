@@ -36,6 +36,8 @@ App::shutdown(function($request)
         }
 		
 		app('veer')->tracking();
+		
+		if(Config::get('queue.default') == 'qdb') { app('veer')->queues(); }
     } 
 });
     

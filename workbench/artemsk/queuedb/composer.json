@@ -1,0 +1,20 @@
+{
+    "name": "artemsk/queuedb",
+    "description": "Simple Sync Queue driver for Database and delaying",
+    "authors": [
+        {
+            "name": "Artyom Troshin",
+            "email": "garcia82@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Artemsk\\Queuedb": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

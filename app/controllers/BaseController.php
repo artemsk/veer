@@ -32,7 +32,7 @@ class BaseController extends Controller {
 
 			$cache_url = cache_current_url_value();
 
-			$expiresAt = Carbon\Carbon::now()->addHours(24);
+			$expiresAt = \Carbon\Carbon::now()->addHours(24);
 			Cache::has($cache_url) ?: Cache::add($cache_url, $this->view->__toString(), $expiresAt);
 		}
 	}
