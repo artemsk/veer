@@ -30,21 +30,21 @@ App::finish(function()
 
 
 App::shutdown(function($request) 
-{
+{ 
     if (!App::runningInConsole() && App::bound('veer')) {
-        
+
         $timeToLoad = empty(app('veer')->statistics['loading']) ?: app('veer')->statistics['loading'];
-        
-        if($timeToLoad > Config::get('veer.loadingtime')) {
+       
+        if($timeToLoad > config('veer.loadingtime')) {
             
             $recollect = app('veer')->statistics();
             Log::alert('Slowness detected: ' . $timeToLoad . ': ', $recollect);
-            Log::info('Queries: ', DB::getQueryLog());
+            info('Queries: ', DB::getQueryLog());
         }
 		
 		app('veer')->tracking();
 		
-		if(Config::get('queue.default') == 'qdb') { app('veer')->queues(); }
+		if(config('queue.default') == 'qdb') { app('veer')->queues(); }
     } 
 });
 

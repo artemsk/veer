@@ -1,4 +1,4 @@
-1417455070s:9429:"<!DOCTYPE html>
+1417472690s:9429:"<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -71,7 +71,7 @@
                <div class="tags-lnks hidden-xs"><a href="?6">доставка</a></div>
                <div class="tags-lnks"><a href="tel:+79035019959">+7 (903) 501-99-59</a></div>
                <div class="tags-lnks-last">
-                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='<form method="POST" action="http://test1.ru/veer/search" accept-charset="UTF-8"><input name="_token" type="hidden" value="ssnfXofCJllgbtXKOgapBqpsU5oTfkXMIRliHPFt"><div class="input-group">
+                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='<form method="POST" action="http://test1.ru/veer/search" accept-charset="UTF-8"><input name="_token" type="hidden" value="xKYJVu6Ld1bkQfjkTXTVki4a9YeC5FtwgZJsv7Fm"><div class="input-group">
                    <input type="text" class="form-control" name="q">
       <span class="input-group-btn">
         <button class="btn btn-default" type="submit">Go!</button>
@@ -174,7 +174,7 @@
                       <span class="footer-block">Еще какой-то текст</span>
                       <br/><br/>
 
-                      <span class="footer-block">Veer 0.1.5-alpha (q. 6 l. 0.5755 m. 10,857,872)</span>
+                      <span class="footer-block">Veer 0.1.5-alpha (q. 6 l. 0.6029 m. 10,903,920)</span>
   
                   </div>
                   <div class="col-sm-4">

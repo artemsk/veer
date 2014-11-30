@@ -119,3 +119,21 @@ if ( ! function_exists('auth_check_session'))
         return Session::has(Auth::getName());		
 	}
 }
+
+
+
+
+if ( ! function_exists('now'))
+{
+	/**
+	 * now with add
+	 *
+	 * @return now
+	 */
+	function now($add = null, $markHours = null)
+	{
+		if( empty($add) ) { return \Carbon\Carbon::now(); }
+		
+		return !empty($markHours) ? \Carbon\Carbon::now()->addHours($add) : \Carbon\Carbon::now()->addMinutes($add);
+	}
+}

@@ -53,7 +53,7 @@ class indexProducts {
         {
             $img = $product->images->toArray();
             $cats = $product->categories->toArray();            
-            $out[$key]['img'] = asset("assets/" . Config::get('veer.images_path') . "/" . $img[0]['img']);
+            $out[$key]['img'] = asset("assets/" . config('veer.images_path') . "/" . $img[0]['img']);
             $out[$key]['title'] = $product->title; 
             $out[$key]['link'] =  route('product.show', $product->id);
             $out[$key]['category'] = $cats[0]['title'];

@@ -30,7 +30,7 @@ if ( ! function_exists('bcrypt'))
 	 */
 	function bcrypt($value, $options = array())
 	{
-		//return app('hash')->make($value, $options);
+		return app('hash')->make($value, $options);
 	}
 }
 
@@ -72,7 +72,7 @@ if ( ! function_exists('cookie'))
 			return $cookie;
 		}
 
-		//return $cookie->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly);
+		return $cookie->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly);
 	}
 }
 
@@ -232,7 +232,27 @@ if ( ! function_exists('response'))
 	 */
 	function response($content = '', $status = 200, array $headers = array())
 	{	
-		//return \Illuminate\Support\Facades\Response::make($content, $status, $headers);
+		return \Illuminate\Support\Facades\Response::make($content, $status, $headers);
 	}
 }
 
+if (!function_exists('view')) 
+{
+	/**
+	 * Get the evaluated view contents for the given view.
+	 *
+	 * @param string $view
+	 * @param array $data
+	 * @param array $mergeData
+	 * @return \Illuminate\View\View
+	 */
+	function view($view = null, $data = array(), $mergeData = array())
+	{
+		$factory = app('view');
+		
+		if (func_num_args() === 0) {
+			return $factory;
+		}
+		return $factory->make($view, $data, $mergeData);
+	}
+}

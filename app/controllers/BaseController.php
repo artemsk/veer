@@ -4,9 +4,13 @@ class BaseController extends Controller {
 
 	/* get instance of veer app */
 	protected $veer;
+	
+	/* global template var */
+	protected $template;
 
 	/* save view for caching */
-	protected $view;
+	protected $view;	
+	
 
 	public function __construct()
 	{
@@ -16,8 +20,8 @@ class BaseController extends Controller {
 
 		$this->veer->loadedComponents = $data;
 
-		$this->veer->loadedComponents['template'] = $this->veer->template = 
-			array_get($this->veer->siteConfig, 'TEMPLATE', Config::get('veer.template'));
+		$this->veer->loadedComponents['template'] = $this->template = 
+			array_get($this->veer->siteConfig, 'TEMPLATE', config('veer.template'));
 
 		$this->veer->statistics();		
 	}
@@ -28,11 +32,11 @@ class BaseController extends Controller {
 		 *  Caching Html Pages
 		 *  tweak with Auth::getName() instead of Auth::check() @testing
 		 */
-		if (is_object($this->view) && Config::get('veer.htmlcache_enable') == true && !auth_check_session()) { 
+		if (is_object($this->view) && config('veer.htmlcache_enable') == true && !auth_check_session()) { 
 
 			$cache_url = cache_current_url_value();
 
-			$expiresAt = \Carbon\Carbon::now()->addHours(24);
+			$expiresAt = now(24, 'hours'); 
 			Cache::has($cache_url) ?: Cache::add($cache_url, $this->view->__toString(), $expiresAt);
 		}
 	}
