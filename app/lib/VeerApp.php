@@ -12,7 +12,7 @@ class VeerApp {
 	 *  The Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = '0.1.5-alpha';
+	const VEERVERSION = '0.1.6-alpha';
 
 	/**
 	 *  Booted?
@@ -241,11 +241,11 @@ class VeerApp {
 	 */
 	public function tracking()
 	{ 
-		!(Config::get('veer.history.refs')) ? : $this->trackingReferrals();
+		!(config('veer.history.refs')) ? : $this->trackingReferrals();
 
-		!(Config::get('veer.history.urls')) ? : $this->trackingUrls();
+		!(config('veer.history.urls')) ? : $this->trackingUrls();
 
-		!(Config::get('veer.history.ips')) ? : $this->trackingIps();		
+		!(config('veer.history.ips')) ? : $this->trackingIps();		
 	}
 	
 	/**
@@ -260,7 +260,7 @@ class VeerApp {
 		
 		if(!str_contains($past, url())) { 			
 			$f = date('Y.W', time());
-			File::append(Config::get('veer.history.path') . 
+			File::append(config('veer.history.path') . 
 				'/referrals.' . $f . '.txt', $past . "\r\n" );
 		}
 	}
@@ -276,7 +276,7 @@ class VeerApp {
 		if(!auth_check_session()) { return; }
 		
 		$f = date('Y.W', time());
-		File::append(Config::get('veer.history.path') . '/urls.' . $f . '.txt', 
+		File::append(config('veer.history.path') . '/urls.' . $f . '.txt', 
 			\Illuminate\Support\Facades\Auth::id(). '|' . app('url')->current() . '|' .
 			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
 	}
@@ -290,7 +290,7 @@ class VeerApp {
 	protected function trackingIps()
 	{
 		$f = date('Y.W', time());
-		File::append(Config::get('veer.history.path') . '/ips.' . $f . '.txt', 
+		File::append(config('veer.history.path') . '/ips.' . $f . '.txt', 
 		\Illuminate\Support\Facades\Request::getClientIp(). '|' . url() . '|' .
 			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
 	}	

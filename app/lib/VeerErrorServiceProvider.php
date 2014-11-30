@@ -81,9 +81,9 @@ class VeerErrorServiceProvider extends ServiceProvider {
 			if (Cache::has($cache_url)) {
 
 				$cachedPage = Cache::get($cache_url);
-				return View::make('dummy', array('cachedPage' => $cachedPage));
+				return view('dummy', array('cachedPage' => $cachedPage));
 			} else {
-				return Response::make("Error connecting to database. Please come back later. ", 503);
+				return response("Error connecting to database. Please come back later. ", 503);
 			}
 		});
 	}
@@ -100,7 +100,7 @@ class VeerErrorServiceProvider extends ServiceProvider {
 			
 			Log::error("Unable to find site: " . app('url')->full() . " " . $exception->getMessage());
 
-			return Response::make('[Error] Website does not exist. ', 404);
+			return response('[Error] Website does not exist. ', 404);
 		});
 	}
 

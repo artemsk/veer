@@ -1,6 +1,7 @@
 x QueueDb: echo -> $this->info
 x ErrorHandlers -> Service providers from globals.php
 x Veer->run() to boot() in service providers
+x helpers5.php from Laravel 5
 Re-write BaseController construct
 Re-write BaseController destruct
 Get basket products from session

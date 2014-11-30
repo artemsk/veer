@@ -2575,3 +2575,49 @@ Stack trace:
 #18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #19 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
 #20 {main} [] []
+[2014-11-30 18:51:50] local.INFO: test [] []
+[2014-11-30 18:53:35] local.ERROR: URL Not found http://test1.ru/veer/ssds [] []
+[2014-11-30 19:04:02] local.ERROR: exception 'ErrorException' with message 'Undefined variable: view' in Z:\home\test1.ru\www\veer\app\controllers\IndexController.php:16
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\app\controllers\IndexController.php(16): Illuminate\Exception\Handler->handleError(8, 'Undefined varia...', 'Z:\home\test1.r...', 16, Array)
+#1 [internal function]: IndexController->index()
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(IndexController), Object(Illuminate\Routing\Route), 'index')
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'IndexController', 'index')
+#6 [internal function]: Illuminate\Routing\{closure}()
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#19 {main} [] []
+[2014-11-30 19:23:40] local.ERROR: exception 'ErrorException' with message 'Undefined property: Veer\Lib\VeerApp::$template' in Z:\home\test1.ru\www\veer\app\controllers\IndexController.php:14
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\app\controllers\IndexController.php(14): Illuminate\Exception\Handler->handleError(8, 'Undefined prope...', 'Z:\home\test1.r...', 14, Array)
+#1 [internal function]: IndexController->index()
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(IndexController), Object(Illuminate\Routing\Route), 'index')
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'IndexController', 'index')
+#6 [internal function]: Illuminate\Routing\{closure}()
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#19 {main} [] []
