@@ -16,7 +16,7 @@ class AttributeController extends \BaseController {
 					
 					File::append( storage_path() . "/queue.txt", \Carbon\Carbon::now(). "\r\n");
 
-					//$job->delete();
+					$job->delete();
 				});
 
                 foreach($VeerDb as $d) {
