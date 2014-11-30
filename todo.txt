@@ -1,4 +1,3 @@
-x My own Queue engine
 Get basket products from session
 Get session messages
 Get title page, tracking code

@@ -9,7 +9,7 @@ class VeerServiceProvider extends ServiceProvider {
 	 *
 	 * @var bool
 	 */
-	protected $defer = true;
+	protected $defer = false;
 	
 	/**
 	 * Register the service provider.
@@ -21,6 +21,19 @@ class VeerServiceProvider extends ServiceProvider {
 		$this->registerVeerApp();
 		
 		$this->registerVeerQueryBuilder();
+	}
+	
+	/**
+	 * Boot the service provider.
+	 * We don't need it now if we're gonna run some tasks in console.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		if ( !($this->app->runningInConsole()) ) {
+			$this->app['veer']->run();	
+		}
 	}
 	
 	/**

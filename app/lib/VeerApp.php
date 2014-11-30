@@ -12,7 +12,7 @@ class VeerApp {
 	 *  The Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = '0.1.4-alpha';
+	const VEERVERSION = '0.1.5-alpha';
 
 	/**
 	 *  Booted?
@@ -76,7 +76,7 @@ class VeerApp {
 
 		$this->saveConfiguration($siteDb);		
 	}
-	
+		
 	
 	/**
 	 * Get Site Url and do some cleaning
@@ -102,7 +102,8 @@ class VeerApp {
 
 	/**
 	 * Check if this site's url exists in database & return its id
-	 * Because of caching turning on/off comes to effect after 10 minutes
+	 * Because of caching turning on/off and other changes
+	 * come to effect after cleaning cache only.
 	 *
 	 * @param $siteUrl
 	 * @return $siteDb
@@ -110,11 +111,11 @@ class VeerApp {
 	protected function isSiteAvailable($siteUrl)
 	{
 		$siteDb = \Veer\Models\Site::where('url', '=', $siteUrl)
-				->where('on_off', '=', '1')->remember(10)->firstOrFail();
+				->where('on_off', '=', '1')->rememberForever()->firstOrFail();
 
 		if ($siteDb->redirect_on == 1 && $siteDb->redirect_url != "") {
 			$siteDb = \Veer\Models\Site::where('url', '=', $siteDb->redirect_url)
-					->where('on_off', '=', '1')->remember(10)->firstOrFail();  // TODO: test     
+					->where('on_off', '=', '1')->rememberForever()->firstOrFail();  // TODO: test     
 		}
 
 		return $siteDb;
@@ -133,10 +134,7 @@ class VeerApp {
 
 		$this->siteId = $siteDb->id;
 
-		//if(Cache::has('site_categories')) {} else {
-		//Cache::add('site_categories', $siteDb->categories->lists('id','id'), 1); } 
-
-		$siteConfig = \Veer\Models\Configuration::where('sites_id', '=', $siteDb->id)->remember(1)->lists('conf_val', 'conf_key');
+		$siteConfig = \Veer\Models\Configuration::where('sites_id', '=', $siteDb->id)->remember(1440)->lists('conf_val', 'conf_key');
 
 		$this->siteConfig = $siteConfig;
 	}
@@ -279,7 +277,7 @@ class VeerApp {
 		
 		$f = date('Y.W', time());
 		File::append(Config::get('veer.history.path') . '/urls.' . $f . '.txt', 
-			\Illuminate\Support\Facades\Auth::id(). '|' . url() . '|' .
+			\Illuminate\Support\Facades\Auth::id(). '|' . app('url')->current() . '|' .
 			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
 	}
 	
