@@ -1,3 +1,8 @@
+QueueDb: echo -> $this->info
+ErrorHandlers -> Service providers from globals.php
+Veer->run() to boot() in service providers
+Re-write BaseController construct
+Re-write BaseController destruct
 Get basket products from session
 Get session messages
 Get title page, tracking code
@@ -55,4 +60,4 @@ comments
 
 Initial memory usage: 6,237,040 ~ 7,820,848 | 7,817,704 | 7,125,344
 Current: 9,691,208
-* Is it necessary to split veerdb class?
+* Is it necessary to split veerdb class?***END OF FILE***vvv

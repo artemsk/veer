@@ -174,3 +174,8 @@
 2|http://test1.ru/veer/sdds|
 2|http://test1.ru/veer/404|404
 2|http://test1.ru/veer|index
+2|http://test1.ru/veer|index
+2|http://test1.ru/veer|index
+2|http://test1.ru/veer/attribute|attribute.index
+2|http://test1.ru/veer/attribute|attribute.index
+2|http://test1.ru/veer/attribute|attribute.index
