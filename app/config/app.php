@@ -107,6 +107,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Artemsk\Queuedb\QueuedbServiceProvider',
+		'Veer\Lib\VeerErrorServiceProvider',		
 		'Veer\Lib\VeerServiceProvider',
 	),
 

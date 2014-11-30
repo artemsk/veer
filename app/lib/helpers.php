@@ -8,13 +8,30 @@ if ( ! function_exists('cache_current_url_value'))
 	 */
 	function cache_current_url_value()
 	{
-                return Config::get('veer.htmlcache') . strtr( URL::full(), 
-                array( "http://" => "http_",
+                return Config::get('veer.htmlcache') . sanitize_url(URL::full());
+	}
+}
+
+
+
+if ( ! function_exists('sanitize_url'))
+{
+	/**
+	 * Generate correct URL for caching .
+	 *
+	 * @return string
+	 */
+	function sanitize_url($url = '', $more = false)
+	{
+                return strtr( $url, 
+                array( "http://" => "",
+					   ":" => "_",
                        "/" => "_",
                        "." => "_"
                     ));
 	}
 }
+
 
 
 

@@ -47,43 +47,7 @@ Log::useDailyFiles(storage_path().'/logs/veer.log');
 |
 */
 
-App::error(function(Exception $exception, $code)
-{
-	Log::error($exception);
-});
- 
-
-App::error(function(PDOException $exception)
-{
-    Log::error("Error connecting to database: ".$exception->getMessage());
-
-    $cache_url = cache_current_url_value(); 
-
-    if(Cache::has($cache_url)) {
-        
-        $cachedPage = Cache::get($cache_url);
-        return  View::make('dummy', array('cachedPage' => $cachedPage));
-        
-    } else {
-        return Response::make("Error connecting to database. Please come back later. ", 503);        
-    }
-});
-
-
-App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception)
-{
-    Log::error("Unable to find site: ".URL::full()." ".$exception->getMessage());
-
-    return Response::make('[Error] Website does not exist. ', 404);
-});
-
-
-App::missing(function($exception)
-{    
-    Log::error("URL Not found ". URL::full());
-    
-    return Redirect::route('404');
-});
+	// Error Handlers now are registered in VeerErrorServiceProvider
 
 /*
 |--------------------------------------------------------------------------
@@ -103,10 +67,10 @@ App::down(function()
 
 /*
 |--------------------------------------------------------------------------
-| Require The Filters File
+| Require The Filters & The Events Files
 |--------------------------------------------------------------------------
 |
-| Next we will load the filters file for the application. This gives us
+| Next we will load the filters & events file for the application. This gives us
 | a nice separate location to store our route and application filter
 | definitions instead of putting them all in the main routes file.
 |
@@ -114,16 +78,7 @@ App::down(function()
 
 require app_path().'/filters.php';
 
-/*
-|--------------------------------------------------------------------------
-| Require The Events File
-|--------------------------------------------------------------------------
-|
-| Next we will load the events file for the application. 
-|
-*/
-
-//require app_path().'/events.php';
+require app_path().'/events.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -140,4 +95,4 @@ require app_path().'/filters.php';
 |
 */
 
-if ( !($app->runningInConsole()) ) { $app->veer->run(); }
+//if ( !($app->runningInConsole()) ) { $app->veer->run(); }

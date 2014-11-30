@@ -13,14 +13,21 @@
 
 App::before(function($request)
 {
-    //
+	//
 });
 
 
 App::after(function($request, $response)
 {
-    //
+	//
 });
+
+
+App::finish(function() 
+{
+	//
+});
+
 
 App::shutdown(function($request) 
 {
@@ -40,7 +47,9 @@ App::shutdown(function($request)
 		if(Config::get('queue.default') == 'qdb') { app('veer')->queues(); }
     } 
 });
-    
+
+
+
 
 /*
 |--------------------------------------------------------------------------

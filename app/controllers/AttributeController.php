@@ -11,10 +11,10 @@ class AttributeController extends \BaseController {
 	{
                 $VeerDb = VeerQ::route();   
                 
-				Queue::push(function($job) 
+				Queue::later(5, function($job) 
 				{
 					
-					File::append( storage_path() . "/queue.txt", '1\r\n');
+					File::append( storage_path() . "/queue.txt", \Carbon\Carbon::now(). "\r\n");
 
 					//$job->delete();
 				});
