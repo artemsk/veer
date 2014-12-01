@@ -18,9 +18,13 @@ class BaseController extends Controller {
 
 		$data = $this->veer->registerComponents(Route::currentRouteName());
 
-		$this->veer->loadedComponents = $data;
-
-		$this->veer->loadedComponents['template'] = $this->template = 
+		if($this->veer->loadedComponents) {
+			$this->veer->loadedComponents = array_merge($this->veer->loadedComponents, $data);
+		} else {
+			$this->veer->loadedComponents = $data;
+		}
+			
+		$this->veer->loadedComponents['template'] = $this->template =  
 			array_get($this->veer->siteConfig, 'TEMPLATE', config('veer.template'));
 
 		$this->veer->statistics();		

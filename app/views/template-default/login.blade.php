@@ -1,4 +1,4 @@
-@extends('template.'.$template.'.layout.base')
+@extends($template.'.layout.base')
 
 @section('body')
 <br/><br/>
