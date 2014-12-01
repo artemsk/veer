@@ -57,7 +57,7 @@
       
     <!-- basket -->
     <div id="to-top">
-      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>{BASKET}
+      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>{{{ stored() }}}
     </div>
       
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
