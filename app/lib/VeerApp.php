@@ -201,7 +201,7 @@ class VeerApp {
 
 			if (!class_exists($classFullName)) { 
 
-				$pathComponent = app_path() . ( empty($type) ? "/lib/components/": "/lib/events/") . $className . ".php";
+				$pathComponent = app_path() . ( empty($type) ? "/lib/Components/": "/lib/Events/") . $className . ".php";
 
 				if (file_exists($pathComponent)) {
 					require $pathComponent;
@@ -296,7 +296,7 @@ class VeerApp {
 	}	
 
 	/**
-	 * Running Queues: one job per request.
+	 * Running Queues: one job per request per minute.
 	 * Only for 'qdb' driver as default
 	 *
 	 * @params
@@ -304,7 +304,7 @@ class VeerApp {
 	 */
 	public function queues() 	
 	{	
-		$item = Job::where('status','<=','1')->orderBy('scheduled_at', 'asc')->first();
+		$item = Job::where('status','<=','1')->orderBy('scheduled_at', 'asc')->remember(1)->first();
 		if(is_object($item)) {		
 		
 			$job = new QdbJob(app(), $item);

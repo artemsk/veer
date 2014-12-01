@@ -34,21 +34,6 @@ if ( ! function_exists('bcrypt'))
 	}
 }
 
-if ( ! function_exists('config'))
-{
-	/**
-	 * Get the specified configuration value.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return mixed
-	 */
-	function config($key, $default = null)
-	{
-		return app('config')->get($key, $default);
-	}
-}
-
 if ( ! function_exists('cookie'))
 {
 	/**
@@ -88,36 +73,6 @@ if ( ! function_exists('delete'))
 	function delete($uri, $action)
 	{
 		return app('router')->delete($uri, $action);
-	}
-}
-
-if ( ! function_exists('get'))
-{
-	/**
-	 * Register a new GET route with the router.
-	 *
-	 * @param  string  $uri
-	 * @param  \Closure|array|string  $action
-	 * @return \Illuminate\Routing\Route
-	 */
-	function get($uri, $action)
-	{
-		return app('router')->get($uri, $action);
-	}
-}
-
-if ( ! function_exists('info'))
-{
-	/**
-	 * Write some information to the log.
-	 *
-	 * @param  string  $message
-	 * @param  array   $context
-	 * @return void
-	 */
-	function info($message, $context = array())
-	{
-		return app('log')->info($message, $context);
 	}
 }
 
@@ -166,21 +121,6 @@ if ( ! function_exists('patch'))
 	}
 }
 
-if ( ! function_exists('post'))
-{
-	/**
-	 * Register a new POST route with the router.
-	 *
-	 * @param  string  $uri
-	 * @param  \Closure|array|string  $action
-	 * @return \Illuminate\Routing\Route
-	 */
-	function post($uri, $action)
-	{
-		return app('router')->post($uri, $action);
-	}
-}
-
 if ( ! function_exists('put'))
 {
 	/**
@@ -217,42 +157,5 @@ if ( ! function_exists('redirect'))
 		{
 			return app('redirect');
 		}
-	}
-}
-
-if ( ! function_exists('response'))
-{
-	/**
-	 * Return a new response from the application.
-	 *
-	 * @param  string  $content
-	 * @param  int     $status
-	 * @param  array   $headers
-	 * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
-	 */
-	function response($content = '', $status = 200, array $headers = array())
-	{	
-		return \Illuminate\Support\Facades\Response::make($content, $status, $headers);
-	}
-}
-
-if (!function_exists('view')) 
-{
-	/**
-	 * Get the evaluated view contents for the given view.
-	 *
-	 * @param string $view
-	 * @param array $data
-	 * @param array $mergeData
-	 * @return \Illuminate\View\View
-	 */
-	function view($view = null, $data = array(), $mergeData = array())
-	{
-		$factory = app('view');
-		
-		if (func_num_args() === 0) {
-			return $factory;
-		}
-		return $factory->make($view, $data, $mergeData);
 	}
 }

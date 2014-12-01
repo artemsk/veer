@@ -26,7 +26,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
     
-        'htmlpagespath' => "pages",  
+        'htmlpages_path' => "pages",  
     
         'images_path' => "images", 
     
