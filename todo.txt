@@ -2,9 +2,9 @@ x QueueDb: echo -> $this->info
 x ErrorHandlers -> Service providers from globals.php
 x Veer->run() to boot() in service providers
 x helpers5.php from Laravel 5
-Re-write BaseController construct
-Re-write BaseController destruct
-Get basket products from session
+x Re-write BaseController construct
+x Re-write BaseController destruct
+x Get basket products from session
 Get session messages
 Get title page, tracking code
 Login/logout/register form
@@ -29,6 +29,7 @@ Components: categories ?
 Components: random product(s) ?
 Filter - combinations
 Template: news, login, register, sort, footer
+Convert old products table to new
 -----------------------------------------------------------------------------
 Component: chosen attribute
 Component: list of popular tags
