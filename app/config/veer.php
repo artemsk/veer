@@ -22,15 +22,19 @@ return array(
     
     	/*
 	|--------------------------------------------------------------------------
-	| Paths to Public Html Pagges Folder(_path_/*.html), Storage, Downloads
+	| Paths to public html pages (_path_/*.html), images, 
+	| downloads, templates - starting from root (even if in public/)
+	| 
 	|--------------------------------------------------------------------------
 	*/
     
-        'htmlpages_path' => "pages",  
+        'htmlpages_path' => "assets/pages",  
     
-        'images_path' => "images", 
+        'images_path' => "assets/images", 
     
-        'downloads_path' => "downloads",  
+        'downloads_path' => "assets/downloads",  
+	
+		'template_path' => "assets/template",
     
         /*
 	|--------------------------------------------------------------------------
@@ -52,7 +56,7 @@ return array(
         
         'history.ips' => false,   
 	
-		'history.path' => storage_path()."/history",
+		'history.path' => storage_path() . "/history",
         
         
 );

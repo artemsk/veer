@@ -55,6 +55,8 @@ Actions: contact/communications
 Url: order bills
 Basket: Ajax -> redraw
 Plugins: numbers in russian
+--------------------------------------
+Loading more products on request with ajax
 
 
 ----------------------------------

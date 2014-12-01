@@ -71,7 +71,7 @@ class VeerApp {
 		$this->booted = true;
 
 		$this->siteUrl = $this->siteUrl();
-
+		
 		$siteDb = $this->isSiteAvailable($this->siteUrl);
 
 		$this->saveConfiguration($siteDb);		
@@ -79,14 +79,23 @@ class VeerApp {
 		
 	
 	/**
-	 * Get Site Url and do some cleaning
+	 * Get Site Url with some cleaning. 
+	 * Mirrors/sites should be on the same level as Veer directory.
 	 *
 	 * @return $url
 	 */
 	protected function siteUrl()
 	{ 
-		// Preserve old method for history: 
-		// "http://" . strtr(Request::header('host') . Request::server('PHP_SELF')
+		/* Preserve old method for history: 
+		[1] "http://" . strtr(Request::header('host') . Request::server('PHP_SELF')
+		
+		[2] $segments = explode('/', Request::server('REQUEST_URI'));		
+		$segments = array_values(array_filter($segments, function($v) { return $v != ''; }));		
+		$url = Request::getSchemeAndHttpHost() . 
+			(empty($segments[0]) ? null : "/" . $segments[0]). 
+			(empty($segments[1]) ? null : "/" . $segments[1]);
+		*/
+		
 		$url = strtr(url(), array(
 				"www." => "",
 				"index.php/" => "",
@@ -96,7 +105,7 @@ class VeerApp {
 		if (ends_with($url, "/")) {
 			$url = substr($url, 0, -1);
 		}
-
+		
 		return $url;
 	}
 
