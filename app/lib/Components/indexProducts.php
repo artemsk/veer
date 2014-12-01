@@ -46,13 +46,14 @@ class indexProducts {
     protected function prepareOutput($p) 
     {       
         $key = 0; 
-        $out = array();
-        
+        $out = array();        
+		$images_path = config('veer.images_path');
+
         foreach($p as $product)
         {
             $img = $product->images->toArray();
             $cats = $product->categories->toArray();            
-            $out[$key]['img'] = asset("assets/" . config('veer.images_path') . "/" . $img[0]['img']);
+            $out[$key]['img'] = asset($images_path . "/" . $img[0]['img']);
             $out[$key]['title'] = $product->title; 
             $out[$key]['link'] =  route('product.show', $product->id);
             $out[$key]['category'] = $cats[0]['title'];
@@ -60,7 +61,7 @@ class indexProducts {
             $out[$key]['price'] = $product->price;
             $out[$key]['basket'] = "to basket";      
             $key++;
-        };
+        }
         
         return array('products' => $out);         
     }
