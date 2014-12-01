@@ -7,7 +7,7 @@ x Re-write BaseController destruct
 x Get basket products from session
 x Get session messages [events]
 x Output session messages: component view, css, js
-Get title page, tracking code
+x Get title page, tracking code
 Login/logout/register form
 Callme components
 Update views
