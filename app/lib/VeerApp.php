@@ -165,13 +165,13 @@ class VeerApp {
 			switch ($component->components_type) {
 
 				case "functions":
-					$data[$component->components_src] = $this->loadComponentClass($component->components_src, $params);
-					$data['output'] = object_get($data[$component->components_src], 'data');
+					$data['function_'.$component->components_src] = $this->loadComponentClass($component->components_src, $params);
+					$data['output'] = object_get($data['function_'.$component->components_src], 'data');
 					// now you have outputed data for templates.
 					break;
 
 				case "events":
-					$data[$component->components_src] = $this->loadComponentClass($component->components_src, $params, 'event');
+					$data['event_'.$component->components_src] = $this->loadComponentClass($component->components_src, $params, 'event');
 					if(class_exists("\Veer\Lib\Events\\" . $component->components_src, false)) { 
 						\Illuminate\Support\Facades\Event::subscribe("\Veer\Lib\Events\\" . $component->components_src); 
 						// now you can fire these events in templates etc.
@@ -179,7 +179,7 @@ class VeerApp {
 					break;
 				
 				case "pages";
-					$data['#page_' . $component->components_src] = \Veer\Models\Page::find($component->components_src); 
+					$data['page_' . $component->components_src] = \Veer\Models\Page::find($component->components_src); 
 					// do not perfom sitevalidation as a rule exception (?)
 					break;
 

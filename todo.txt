@@ -5,7 +5,8 @@ x helpers5.php from Laravel 5
 x Re-write BaseController construct
 x Re-write BaseController destruct
 x Get basket products from session
-Get session messages
+x Get session messages [events]
+x Output session messages: component view, css, js
 Get title page, tracking code
 Login/logout/register form
 Callme components

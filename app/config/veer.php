@@ -2,13 +2,13 @@
 
 return array(
 
-        /*
+    /*
 	|--------------------------------------------------------------------------
-	| Template by default
+	| Template by default. Best practice is to use prefix "template-"
 	|--------------------------------------------------------------------------
 	*/
     
-        'template' => "default",   
+        'template' => "template-default",   
     
     	/*
 	|--------------------------------------------------------------------------
@@ -33,8 +33,6 @@ return array(
         'images_path' => "assets/images", 
     
         'downloads_path' => "assets/downloads",  
-	
-		'template_path' => "assets/template",
     
         /*
 	|--------------------------------------------------------------------------

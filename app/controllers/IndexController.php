@@ -9,12 +9,14 @@ class IndexController extends \BaseController {
 	 */
 	public function index()
 	{
-            $data = $this->veer->loadedComponents;
-                        
-            $view = view('template.'.$this->template.'.home', $data); 
-            
+			Event::fire('veer.message.center', 'Hello!');
+		
+            $data = $this->veer->loadedComponents;            
+			
+            $view = view($this->template.'.home', $data); 
+         			
             $this->view = $view; // to cache
-            
+            	
             return $view;
 	}
 

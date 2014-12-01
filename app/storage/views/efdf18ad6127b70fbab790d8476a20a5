@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="{{{ db_parameter('SITE_KEYWORDS') }}}" />
-    <meta name="description" content="{{{ db_parameter('SITE_DESCR') }}}" />
+    <meta name="keywords" content="<?php echo e(db_parameter('SITE_KEYWORDS')); ?>" />
+    <meta name="description" content="<?php echo e(db_parameter('SITE_DESCR')); ?>" />
     <title>НАЗВАНИЕ САЙТА И СТРАНИЦЫ</title>
 
     <!-- Bootstrap -->
-    <link href="{{ URL::asset('assets/template/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/template/'.$template.'/css/css.css') }}" rel="stylesheet">
+    <link href="<?php echo URL::asset('assets/'.$template.'/css/bootstrap.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo URL::asset('assets/'.$template.'/css/css.css'); ?>" rel="stylesheet">
     
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -22,7 +22,7 @@
   </head>
   <body>
       
-    @yield('body')
+    <?php echo $__env->yieldContent('body'); ?>
       
     <footer>
           <div class="container-fluid footer">
@@ -44,7 +44,7 @@
                       <span class="footer-block">Еще какой-то текст</span>
                       <br/><br/>
 
-                      <span class="footer-block">Veer {{ $app['veer']->statistics['version'] }} (q. {{ $app['veer']->statistics['queries'] }} l. {{ $app['veer']->statistics['loading'] }} m. {{ $app['veer']->statistics['memory'] }})</span>
+                      <span class="footer-block">Veer <?php echo $app['veer']->statistics['version']; ?> (q. <?php echo $app['veer']->statistics['queries']; ?> l. <?php echo $app['veer']->statistics['loading']; ?> m. <?php echo $app['veer']->statistics['memory']; ?>)</span>
   
                   </div>
                   <div class="col-sm-4">
@@ -57,14 +57,15 @@
       
     <!-- basket -->
     <div id="to-top">
-      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>{{{ stored() }}}
+      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><?php echo e(stored()); ?>
     </div>
       
+	<?php echo empty($veer_message_center) ?: $veer_message_center; ?>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ URL::asset('assets/template/'.$template.'/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/template/'.$template.'/js/holder.js') }}"></script>
-    <script src="{{ URL::asset('assets/template/'.$template.'/js/shop.js') }}"></script>
+    <script src="<?php echo URL::asset('assets/'.$template.'/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo URL::asset('assets/'.$template.'/js/holder.js'); ?>"></script>
+    <script src="<?php echo URL::asset('assets/'.$template.'/js/shop.js'); ?>"></script>
   </body>
 </html>

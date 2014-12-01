@@ -38,3 +38,11 @@
     }, function() {
         $(this).removeClass('block-hover');
     });
+    
+    $(document).ready(function() {
+        if ($(".events-veer-message-center").length > 0) {
+            $(".events-veer-message-center").animate({height:"100px"},500).
+                    delay(1500).animate({height:"-50px"},500);
+        }   
+    });
+    
