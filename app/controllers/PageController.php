@@ -48,20 +48,20 @@ class PageController extends \BaseController {
 	public function show($id)
 	{
                 $method = Route::currentRouteName();
+				
+				$vdb = app('veerdb');
                                 
-                $VeerDb = new VeerDb($method, $id);                 
+                $page = $vdb->make($method, $id);                 
                 
-                $subpages = $VeerDb->pageOnlySubPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $sub = $vdb->pageOnlySubPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $parentpages = $VeerDb->pageOnlyParentPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $parent = $vdb->pageOnlyParentPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $categories = $VeerDb->pageOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $categories = $vdb->pageOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $products= $VeerDb->pageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $products= $vdb->pageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+                $page->increment('views');	
 	}
 
 

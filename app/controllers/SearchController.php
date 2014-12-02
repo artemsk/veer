@@ -67,6 +67,7 @@ class SearchController extends \BaseController {
                 if($search) {
 
                     $getData = VeerQ::make('search.store', $id, array( 'q' => $search->q ));					
+					$getData->increment('times');  
 					
 					echo "<pre>";
 					print_r($getData);

@@ -1,36 +1,39 @@
-x QueueDb: echo -> $this->info
-x ErrorHandlers -> Service providers from globals.php
-x Veer->run() to boot() in service providers
-x helpers5.php from Laravel 5
-x Re-write BaseController construct
-x Re-write BaseController destruct
-x Get basket products from session
-x Get session messages [events]
-x Output session messages: component view, css, js
-x Get title page, tracking code
-Login/logout/register form
-Callme components
-Update views
-Product common: price format & currency converter
-Product common: consider discounts / users
-Product common: make basket
-Product common: get groups
-Sort products: fields
-Sort products: ajax
-Default values for sorting & filtering
-Updating basket
-Order -> secret_code aka password for getting data (unreg users etc.)
-User: administrator credentials
-Filter & search: configuration templates or redirect
-Textprocesses ? text cuts
-Component: show / add to customers lists
-Search fields defaults
-Administrator notifications [email]
-Components: categories ?
-Components: random product(s) ?
-Filter - combinations
-Template: news, login, register, sort, footer
-Convert old products table to new
+x Change output style in database queues to '$this->info'
+x Move error handlers to service provider
+x Move booting from globals.php to service provider
+x Move 'helpers.php' from Laravel 5
+x Slightly rewrite base controller method 'construct'
+x Slightly rewrite base controller method 'destruct'
+x Take shopping cart items quantity from session instance
+x Receive session messages with events.php
+x Output session messages with basic template
+x Move templates files to new folders
+x Get '$title' and site variables for pages; google analytics
+-------------------------------------------------- 0.1.7-alpha
+x Update page, product, category, search, user views
+(C) Callme components
+(B) Product common: price format & currency converter
+(B) Product common: consider discounts / users
+(B) Product common: make basket
+(B) Product common: get groups
+(G) Sort products: fields
+(G) Sort products: ajax
+(C) Default values for sorting & filtering
+(G) Updating basket
+(H) Order -> secret_code aka password for getting data (unreg users etc.)
+(E) User: administrator credentials
+(C) Filter & search: configuration templates or redirect
+(A) Textprocesses ? text cuts
+(D) Component: show / add to customers lists
+(C) Search fields defaults
+(E) Administrator notifications [email]
+(C) Components: categories ?
+(C) Components: random product(s) ?
+(C) Filter - combinations
+(F) (web template) Template: news, login, register, sort, footer
+(F) (web template) Login/logout/register form
+(F) (web template) Redesign message center message style
+(A) Convert old products table to new
 -----------------------------------------------------------------------------
 Component: chosen attribute
 Component: list of popular tags
@@ -58,7 +61,16 @@ Basket: Ajax -> redraw
 Plugins: numbers in russian
 --------------------------------------
 Loading more products on request with ajax
-
+When creating product page get all attributes and detect which of them change price
+Gathering categories, attributes, tags, popular products by views, orders - check
+Gathering popular products/pages by rates
+Gathering popular tags
+Random product component
+Recomend products by user visits
+Pagination
+Download page: increment downloads etc. @increments
+Order bills page: increment views etc. @increments
+User Admin: logons_count @increments
 
 ----------------------------------
 comments

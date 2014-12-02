@@ -112,7 +112,7 @@ class UserController extends \BaseController {
                 print_r(Illuminate\Support\Facades\DB::getQueryLog());
                 echo "</pre>";
                         
-                return \View::make('template.'.$this->veer->template.'.login', $data); 
+                return \View::make($this->template.'.login', $data); 
                 
                 
 	}
@@ -135,10 +135,20 @@ class UserController extends \BaseController {
                 
                 if (Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 'banned' => 0)))
                 {
-                    return Redirect::intended('user/login');
+					//\Veer\Models\User::find(Auth::id())->increment('logons_count');
+					
+					Auth::user()->increment('logons_count');
+					
+					echo "<pre>";
+					print_r(Auth::user());
+					echo "</pre>";
+					echo "<pre>";
+					print_r(DB::getQueryLog());
+					echo "</pre>";
+                    //return Redirect::intended('user/login');
                 }
 
-                return \View::make('template.'.$this->veer->template.'.login', $data); 
+                return \View::make($this->template.'.login', $data); 
 	}        
         
         
