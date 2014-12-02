@@ -10,7 +10,7 @@ return array(
     
         'template' => "template-default",   
     
-    	/*
+    /*
 	|--------------------------------------------------------------------------
 	| Cache Enable & Prefixes for Html Pages
 	|--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ return array(
     
         'htmlcache' => '_htmlcache_',    
     
-    	/*
+    /*
 	|--------------------------------------------------------------------------
 	| Paths to public html pages (_path_/*.html), images, 
 	| downloads, templates - starting from root (even if in public/)
@@ -34,7 +34,7 @@ return array(
     
         'downloads_path' => "assets/downloads",  
     
-        /*
+    /*
 	|--------------------------------------------------------------------------
 	| Default settings - loading time
 	|--------------------------------------------------------------------------
@@ -55,6 +55,16 @@ return array(
         'history.ips' => false,   
 	
 		'history.path' => storage_path() . "/history",
-        
+	
+	
+    /*
+	|--------------------------------------------------------------------------
+	| Shop settings
+	|--------------------------------------------------------------------------
+	*/            
+	
+		'currency_symbol_place' => 'after',
+	
+		'currency_symbol' => ' р.',
         
 );

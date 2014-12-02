@@ -11,11 +11,12 @@ x Move templates files to new folders
 x Get '$title' and site variables for pages; google analytics
 -------------------------------------------------- 0.1.7-alpha
 x Update page, product, category, search, user views
+x Product price format: currency converter, sales, views templates etc.
+x Product price format: consider user discounts / user roles
 (C) Callme components
-(B) Product common: price format & currency converter
-(B) Product common: consider discounts / users
 (B) Product common: make basket
-(B) Product common: get groups
+(B) Product common: get groups and consider them in prices
+(B) Product common: get attrs and consider them in prices (? only cart?)
 (G) Sort products: fields
 (G) Sort products: ajax
 (C) Default values for sorting & filtering
@@ -71,6 +72,7 @@ Pagination
 Download page: increment downloads etc. @increments
 Order bills page: increment views etc. @increments
 User Admin: logons_count @increments
+Secret code for discounts: email + code; create new user
 
 ----------------------------------
 comments

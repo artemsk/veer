@@ -1,6 +1,7 @@
 <?php namespace Veer\Lib\Components;
 
 use Veer\Models\Product;
+use Veer\Lib\VeerShop;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -58,7 +59,7 @@ class indexProducts {
             $out[$key]['link'] =  route('product.show', $product->id);
             $out[$key]['category'] = $cats[0]['title'];
             $out[$key]['category_link'] = route('category.show', $cats[0]['id']);                  
-            $out[$key]['price'] = $product->price;
+            $out[$key]['price'] = VeerShop::getPrice($product);
             $out[$key]['basket'] = "to basket";      
             $key++;
         }
