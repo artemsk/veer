@@ -2,6 +2,12 @@
 
 class ProductController extends \BaseController {
 
+	public function __construct()
+	{
+		parent::__construct();
+
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -50,19 +56,19 @@ class ProductController extends \BaseController {
                     $method = "sortingProducts";                  
                 } 
                 
-                $VeerDb = new VeerDb($method, $id);                 
+				$vdb = app('veerdb');
+				
+                $product = $vdb->make($method, $id);                 
                 
-                $subproducts = $VeerDb->productOnlySubProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $sub = $vdb->productOnlySubProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $parentproducts = $VeerDb->productOnlyParentProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $parent = $vdb->productOnlyParentProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $categories = $VeerDb->productOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+                $categories = $vdb->productOnlyCategoriesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                $pages = $VeerDb->productOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
+				$pages = $vdb->productOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
                 
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+				$product->increment('viewed');				
 	}
 
 

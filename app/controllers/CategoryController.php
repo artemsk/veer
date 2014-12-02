@@ -47,15 +47,18 @@ class CategoryController extends \BaseController {
 	 */
 	public function show($id)
 	{	
-                $VeerDb = new VeerDb(Route::currentRouteName(), $id);                 
+				$method = Route::currentRouteName();
+				
+				$vdb = app('veerdb');
+				
+                $category = $vdb->make($method, $id);        		
+
+                $products = $vdb->categoryOnlyProductsQuery($id, get_paginator_and_sorting());
                 
-                $products = $VeerDb->categoryOnlyProductsQuery($id, get_paginator_and_sorting());
+                $pages = $vdb->categoryOnlyPagesQuery($id, get_paginator_and_sorting());
                 
-                $pages = $VeerDb->categoryOnlyPagesQuery($id, get_paginator_and_sorting());
-                
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+				$category->increment('views');	
+				
 	}
 
 
