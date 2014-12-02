@@ -26,8 +26,7 @@
 			"app/lib"
 		],
 		"files": [
-            "app/lib/helpers.php",
-			"app/lib/helpers5.php"
+            "app/lib/helpers.php"
         ]
 	},
 	"minimum-stability": "stable"

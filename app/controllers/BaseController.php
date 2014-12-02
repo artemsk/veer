@@ -16,6 +16,9 @@ class BaseController extends Controller {
 	{
 		$this->veer = app('veer');
 
+		$this->veer->loadedComponents['template'] = $this->template =  
+			array_get($this->veer->siteConfig, 'TEMPLATE', config('veer.template'));
+				
 		$data = $this->veer->registerComponents(Route::currentRouteName());
 
 		if($this->veer->loadedComponents) {
@@ -23,9 +26,6 @@ class BaseController extends Controller {
 		} else {
 			$this->veer->loadedComponents = $data;
 		}
-			
-		$this->veer->loadedComponents['template'] = $this->template =  
-			array_get($this->veer->siteConfig, 'TEMPLATE', config('veer.template'));
 
 		$this->veer->statistics();		
 	}
