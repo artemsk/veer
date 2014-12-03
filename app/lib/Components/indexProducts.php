@@ -61,7 +61,8 @@ class indexProducts {
             $out[$key]['category'] = $cats[0]['title'];
             $out[$key]['category_link'] = route('category.show', $cats[0]['id']);                  
             $out[$key]['price'] = app('veershop')->getPrice($product);
-            $out[$key]['basket'] = view(app('veer')->template . ".elements.shopping-cart-button");      
+            $out[$key]['basket'] = view(app('veer')->template . ".elements.shopping-cart-button")
+				->with('link', route('user.basket.add',array('id' => $product->id)));      
             $key++;
 		}}
         

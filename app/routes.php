@@ -18,6 +18,7 @@ Route::resource('filter', 'FilterController');
 
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
+get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.basket.add'));
 Route::resource('user', 'UserController');
 Route::resource('order', 'OrderController');
 

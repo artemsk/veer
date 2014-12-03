@@ -58,7 +58,7 @@
       
     <!-- basket -->
     <div id="to-top">
-      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>{{{ stored() }}}
+		<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><span class="basket-div">{{{ stored() }}}</span>
     </div>
       
 	{{ empty($veer_message_center) ? null : $veer_message_center }}

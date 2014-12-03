@@ -44,5 +44,11 @@
             $(".events-veer-message-center").animate({height:"100px"},500).
                     delay(1500).animate({height:"-50px"},500);
         }   
+    });    
+
+    $(".basket-link").click(function(event) {        
+        event.preventDefault();
+        $.get( $(this).attr('href'), function( data ) {
+            $( ".basket-div" ).html( data );
+        });
     });
-    

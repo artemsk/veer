@@ -8,7 +8,7 @@ if ( ! function_exists('cache_current_url_value'))
 	 */
 	function cache_current_url_value()
 	{
-                return Config::get('veer.htmlcache') . sanitize_url(URL::full());
+                return config('veer.htmlcache') . sanitize_url(URL::full());
 	}
 }
 

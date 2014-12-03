@@ -16,7 +16,7 @@ class IndexController extends \BaseController {
             $view = view($this->template.'.home', $data); 
          			
             $this->view = $view; // to cache
-            	
+            				
             return $view;
 	}
 

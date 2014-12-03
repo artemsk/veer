@@ -29,7 +29,7 @@ class VeerShop {
 	 */	
 	public function __construct() 
 	{
-		$this->currency_symbol = db_parameter('CURRENCY_SYMBOL', Config::get('veer.currency_symbol'));
+		$this->currency_symbol = db_parameter('CURRENCY_SYMBOL', config('veer.currency_symbol'));
 	}
 
 	
