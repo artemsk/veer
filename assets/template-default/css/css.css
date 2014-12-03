@@ -291,10 +291,11 @@ h4 > a, h4 > a:hover {
     border-color: #0d8fdb; //#ec407a;
 }
 
-.btn-danger:hover {
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active {
     background-color: #283593;
     border-color: #283593;
 }
+
 
 .img-responsive-custom {
     //height: 220px;

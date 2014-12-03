@@ -1,4 +1,4 @@
-1417691373s:17618:"<!DOCTYPE html>
+1417713361s:19498:"<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -11,6 +11,7 @@
     <!-- Bootstrap -->
     <link href="http://test1.ru/veer/assets/template-default/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://test1.ru/veer/assets/template-default/css/css.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://test1.ru/veer/assets/template-default/css/animate.css">
     
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -71,7 +72,7 @@
                <div class="tags-lnks hidden-xs"><a href="?6">доставка</a></div>
                <div class="tags-lnks"><a href="tel:+79035019959">+7 (903) 501-99-59</a></div>
                <div class="tags-lnks-last">
-                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='<form method="POST" action="http://test1.ru/veer/search" accept-charset="UTF-8"><input name="_token" type="hidden" value="sgQ3MiyPUhwIxQzns90uxhXGHSo59GDcOtMxQYwm"><div class="input-group">
+                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='<form method="POST" action="http://test1.ru/veer/search" accept-charset="UTF-8"><input name="_token" type="hidden" value="Y18uf1gB2bP73SOQsxgMZ28VVrL5PZHg2Jo3XHJU"><div class="input-group">
                    <input type="text" class="form-control" name="q">
       <span class="input-group-btn">
         <button class="btn btn-default" type="submit">Go!</button>
@@ -103,7 +104,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h3><a href="http://test1.ru/veer/product/1">Корм для собак</a></h3>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>              
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>              
 </div>             
              <div class="rowdelimiter-small"></div>
                           
@@ -112,7 +113,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -121,7 +122,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -130,7 +131,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>              
          </div>
 
@@ -143,7 +144,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h3><a href="http://test1.ru/veer/product/1">Корм для собак</a></h3>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>              
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>              
 </div>             
              <div class="rowdelimiter-small"></div>
                           
@@ -152,7 +153,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -161,7 +162,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -170,7 +171,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>              
          </div>   
 
@@ -183,7 +184,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h3><a href="http://test1.ru/veer/product/1">Корм для собак</a></h3>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>              
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>              
 </div>             
              <div class="rowdelimiter-small"></div>
                           
@@ -192,7 +193,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -201,7 +202,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -210,7 +211,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>              
          </div>
 
@@ -223,7 +224,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -232,7 +233,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>             
              <div class="rowdelimiter-small"></div>
              
@@ -241,7 +242,7 @@
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
     <h5><s>3,100 р.</s> 3,000 р. </h5>
-    <div class="basket">to basket</div>                 
+    <div class="basket"><a class="btn btn-danger btn-xs basket-link" href="http://test1.ru/veer/user/basket/add/1" role="button">В корзину</a></div>                 
 </div>                       
          </div>
      </div>
@@ -278,7 +279,7 @@
                       <span class="footer-block">Еще какой-то текст</span>
                       <br/><br/>
 
-                      <span class="footer-block">Veer 0.1.7-alpha (q. 3 l. 0.8229 m. 11,432,032)</span>
+                      <span class="footer-block">Veer 0.1.7-alpha (q. 6 l. 1.0812 m. 11,891,608)</span>
   
                   </div>
                   <div class="col-sm-4">
@@ -291,7 +292,8 @@
       
     <!-- basket -->
     <div id="to-top">
-      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>0    </div>
+		<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><span class="basket-div">10</span>
+    </div>
       
 	<div class="events-veer-message-center">Hello!</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
