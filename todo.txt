@@ -14,9 +14,7 @@ x Update page, product, category, search, user views
 x Product price format: currency converter, sales, views templates etc.
 x Product price format: consider user discounts / user roles
 (C) Callme components
-(B) Product common: make basket
-(B) Product common: get groups and consider them in prices
-(B) Product common: get attrs and consider them in prices (? only cart?)
+(B) Product common: make basket link
 (G) Sort products: fields
 (G) Sort products: ajax
 (C) Default values for sorting & filtering
@@ -61,7 +59,7 @@ Url: order bills
 Basket: Ajax -> redraw
 Plugins: numbers in russian
 --------------------------------------
-Loading more products on request with ajax
+(C) Loading more products on request with ajax
 When creating product page get all attributes and detect which of them change price
 Gathering categories, attributes, tags, popular products by views, orders - check
 Gathering popular products/pages by rates
@@ -73,6 +71,9 @@ Download page: increment downloads etc. @increments
 Order bills page: increment views etc. @increments
 User Admin: logons_count @increments
 Secret code for discounts: email + code; create new user
+--------------------------------------------------------
+Product page: groups only show products, but price should be set up manually
+Product page: get attrs and consider them in prices (+ in cart)
 
 ----------------------------------
 comments

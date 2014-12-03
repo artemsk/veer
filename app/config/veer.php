@@ -62,9 +62,7 @@ return array(
 	| Shop settings
 	|--------------------------------------------------------------------------
 	*/            
-	
-		'currency_symbol_place' => 'after',
-	
-		'currency_symbol' => ' р.',
+
+		'currency_symbol' => '[price] р.',
         
 );

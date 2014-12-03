@@ -1,4 +1,4 @@
-1417638817s:9466:"<!DOCTYPE html>
+1417691373s:17618:"<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -71,7 +71,7 @@
                <div class="tags-lnks hidden-xs"><a href="?6">доставка</a></div>
                <div class="tags-lnks"><a href="tel:+79035019959">+7 (903) 501-99-59</a></div>
                <div class="tags-lnks-last">
-                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='<form method="POST" action="http://test1.ru/veer/search" accept-charset="UTF-8"><input name="_token" type="hidden" value="ksP0lHA0YsBnFmY0VGnRYXG5BKdQpl3Ies6p2SqC"><div class="input-group">
+                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='<form method="POST" action="http://test1.ru/veer/search" accept-charset="UTF-8"><input name="_token" type="hidden" value="sgQ3MiyPUhwIxQzns90uxhXGHSo59GDcOtMxQYwm"><div class="input-group">
                    <input type="text" class="form-control" name="q">
       <span class="input-group-btn">
         <button class="btn btn-default" type="submit">Go!</button>
@@ -102,43 +102,147 @@
     <div class="big-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-center"></a></div> 
     <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
     <h3><a href="http://test1.ru/veer/product/1">Корм для собак</a></h3>
-    <h5>3100.00</h5>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
     <div class="basket">to basket</div>              
 </div>             
              <div class="rowdelimiter-small"></div>
                           
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
-              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>              
          </div>
 
          <div class="rowdelimiter-small visible-xs-block"></div>
 
          <div class="col-sm-6">
              
+                          <div class="block-big">
+    <div class="big-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-center"></a></div> 
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h3><a href="http://test1.ru/veer/product/1">Корм для собак</a></h3>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>              
+</div>             
+             <div class="rowdelimiter-small"></div>
                           
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
-              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>              
          </div>   
 
          <div class="rowdelimiter-small visible-xs-block"></div>
 
          <div class="col-sm-6">
              
+                          <div class="block-big">
+    <div class="big-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-center"></a></div> 
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h3><a href="http://test1.ru/veer/product/1">Корм для собак</a></h3>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>              
+</div>             
+             <div class="rowdelimiter-small"></div>
                           
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
-              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>              
          </div>
 
          <div class="rowdelimiter-small visible-xs-block"></div>
 
          <div class="col-sm-6">
              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>             
+             <div class="rowdelimiter-small"></div>
              
-                       
+                          <div class="block-stndrt">
+    <div class="cs-thumbnail-img"><a href="http://test1.ru/veer/product/1"><img src="http://test1.ru/veer/assets/images/1.jpg" class="img-responsive img-responsive-custom" ></a></div>
+    <div class="block-stndrt-footer"><a href="http://test1.ru/veer/category/1">Раздел 1</a></div>
+    <h4><a href="http://test1.ru/veer/product/1">Корм для собак</a></h4>
+    <h5><s>3,100 р.</s> 3,000 р. </h5>
+    <div class="basket">to basket</div>                 
+</div>                       
          </div>
      </div>
 
@@ -174,7 +278,7 @@
                       <span class="footer-block">Еще какой-то текст</span>
                       <br/><br/>
 
-                      <span class="footer-block">Veer 0.1.7-alpha (q. 3 l. 0.5724 m. 11,204,056)</span>
+                      <span class="footer-block">Veer 0.1.7-alpha (q. 3 l. 0.8229 m. 11,432,032)</span>
   
                   </div>
                   <div class="col-sm-4">

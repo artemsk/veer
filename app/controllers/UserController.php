@@ -139,13 +139,11 @@ class UserController extends \BaseController {
 					
 					Auth::user()->increment('logons_count');
 					
-					echo "<pre>";
-					print_r(Auth::user());
-					echo "</pre>";
-					echo "<pre>";
-					print_r(DB::getQueryLog());
-					echo "</pre>";
-                    //return Redirect::intended('user/login');
+					//echo "<pre>";
+					//print_r(Auth::user());
+					//echo "</pre>";
+
+                    return Redirect::intended('user/login');
                 }
 
                 return \View::make($this->template.'.login', $data); 

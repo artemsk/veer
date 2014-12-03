@@ -34,7 +34,7 @@ class indexProducts {
                         }))->with(array('images' => function($query) {
                             $query->orderBy('id','asc')->take(1);
                         }))->select('id','url','grp','status','title','grp_ids','currency','price','price_sales','price_sales_on',
-                                        'price_sales_off','star','download','created_at')->take(1)->get();
+                                        'price_sales_off','price_opt','price_base','star','download','created_at')->take(1)->get();
                                       
         $this->data = $this->prepareOutput($p);       
         
@@ -50,6 +50,7 @@ class indexProducts {
         $out = array();        
 		$images_path = config('veer.images_path');
 
+		for($j=0;$j<=15;$j++) {
         foreach($p as $product)
         {
             $img = $product->images->toArray();
@@ -59,10 +60,10 @@ class indexProducts {
             $out[$key]['link'] =  route('product.show', $product->id);
             $out[$key]['category'] = $cats[0]['title'];
             $out[$key]['category_link'] = route('category.show', $cats[0]['id']);                  
-            $out[$key]['price'] = VeerShop::getPrice($product);
-            $out[$key]['basket'] = "to basket";      
+            $out[$key]['price'] = app('veershop')->getPrice($product);
+            $out[$key]['basket'] = view(app('veer')->template . ".elements.shopping-cart-button");      
             $key++;
-        }
+		}}
         
         return array('products' => $out);         
     }

@@ -77,25 +77,25 @@
          <div class="col-sm-6">
              
              <?php if (isset($output['products'][0])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardOne', array('product'=>$output['products'][0]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-one', array('product'=>$output['products'][0]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
              
              <?php if (isset($output['products'][4])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][4]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][4]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][8])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][8]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][8]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][12])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][12]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][12]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              <?php endif; ?> 
          </div>
 
@@ -104,25 +104,25 @@
          <div class="col-sm-6">
              
              <?php if (isset($output['products'][1])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardOne', array('product'=>$output['products'][1]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-one', array('product'=>$output['products'][1]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
              
              <?php if (isset($output['products'][5])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][5]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][5]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][9])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][9]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][9]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][13])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][13]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][13]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              <?php endif; ?> 
          </div>   
 
@@ -131,25 +131,25 @@
          <div class="col-sm-6">
              
              <?php if (isset($output['products'][2])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardOne', array('product'=>$output['products'][2]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-one', array('product'=>$output['products'][2]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
              
              <?php if (isset($output['products'][6])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][6]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][6]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][10])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][10]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][10]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][14])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][14]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][14]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              <?php endif; ?> 
          </div>
 
@@ -158,19 +158,19 @@
          <div class="col-sm-6">
              
              <?php if (isset($output['products'][3])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][3]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][3]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][7])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][7]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][7]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              
              <div class="rowdelimiter-small"></div>
              <?php endif; ?>
 
              <?php if (isset($output['products'][11])): ?>
-             <?php echo $__env->make($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][11]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+             <?php echo $__env->make($template.'.elements.product-small-card-two', array('product'=>$output['products'][11]), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
              <?php endif; ?>          
          </div>
      </div>
