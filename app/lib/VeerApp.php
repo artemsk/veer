@@ -159,15 +159,18 @@ class VeerApp {
 	public function registerComponents($routeName, $params = null)
 	{
 		$c = Component::validComponents($this->siteId, $routeName)->remember(1)->get();
-		$data = array();
+		$data = array(); 
+		$data['output'] = array();
 
 		foreach ($c as $component) {
 			switch ($component->components_type) {
 
 				case "functions":
 					$data['function_'.$component->components_src] = $this->loadComponentClass($component->components_src, $params);
-					$data['output'] = object_get($data['function_'.$component->components_src], 'data');
-					// now you have outputed data for templates.
+					if(is_object($data['function_'.$component->components_src])) { 
+						$data['output'] = array_merge($data['output'], (array)object_get($data['function_'.$component->components_src], 'data'));
+						// now you have outputed data for templates.
+					}
 					break;
 
 				case "events":

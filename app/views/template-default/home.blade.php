@@ -48,6 +48,7 @@
                <div class="pull-right">
                <div class="tags-lnks hidden-xs"><a href="?5">о магазине</a></div>
                <div class="tags-lnks hidden-xs"><a href="?6">доставка</a></div>
+			   {{ isset($output['callme']) ? $output['callme'] : null }}
                <div class="tags-lnks"><a href="tel:+79035019959">+7 (903) 501-99-59</a></div>
                <div class="tags-lnks-last">
                    <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='{{ Form::open(array('route' => 'search.store')) }}<div class="input-group">

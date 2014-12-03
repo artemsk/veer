@@ -18,24 +18,23 @@ x Add to basket using ajax requests
 x Updating basket items quantity
 x Enhance adding to basket visually 
 x Add new field to userlists?
-Adding attributes to shopping cart
+x Adding products with attributes to shopping cart
 (C) Callme components
-(A) Convert old products table to new
 (H) Order -> secret_code aka password for getting data (unreg users etc.)
 (E) User: administrator credentials
-(C) Filter & search: configuration templates or redirect
 (D) Component: show / add to customers lists
-(C) Search fields defaults - rotating
 (E) Administrator notifications [email]
 (C) Components: categories ?
 (C) Components: random product(s) ?
+(C) Search fields defaults - rotating
+(C) Filter & search: configuration templates or redirect
 (C) Filter - combinations
+(C) Default values for sorting & filtering
+(G) Sort products: fields
+(G) Sort products: ajax
 (F) (web template) Template: news, login, register, sort, footer
 (F) (web template) Login/logout/register/remember form
 (F) (web template) Redesign message center message style
-(G) Sort products: fields
-(G) Sort products: ajax
-(C) Default values for sorting & filtering
 -----------------------------------------------------------------------------
 Component: chosen attribute
 Component: list of popular tags
@@ -78,6 +77,7 @@ Secret code for discounts: email + code; create new user
 Product page: groups only show products, but price should be set up manually
 Product page: get attrs and consider them in prices (+ in cart)
 Mixitup | Izotope для сортировки?
+(+) Convert old products table to new
 
 ----------------------------------
 comments
