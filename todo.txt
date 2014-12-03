@@ -16,8 +16,8 @@ x Product price format: consider user discounts / user roles
 x Product: create basket link
 x Add to basket using ajax requests
 x Updating basket items quantity
-(B) Add new field to userlists?
-(A) Enhance adding to basket visually 
+x Enhance adding to basket visually 
+x Add new field to userlists?
 (C) Callme components
 (G) Sort products: fields
 (G) Sort products: ajax
@@ -77,6 +77,7 @@ Secret code for discounts: email + code; create new user
 --------------------------------------------------------
 Product page: groups only show products, but price should be set up manually
 Product page: get attrs and consider them in prices (+ in cart)
+Mixitup | Izotope для сортировки?
 
 ----------------------------------
 comments
