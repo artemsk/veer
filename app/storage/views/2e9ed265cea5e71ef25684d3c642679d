@@ -1,1 +1,1 @@
-<a class="btn btn-danger btn-xs basket-link" href="<?php echo e($link); ?>" role="button">Link</a>
+<a class="btn btn-danger btn-xs basket-link" href="<?php echo e($link); ?>" role="button">В корзину</a>

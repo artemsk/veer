@@ -48,7 +48,17 @@
 
     $(".basket-link").click(function(event) {        
         event.preventDefault();
+        
+        $(this).addClass('animated').addClass('bounceIn');
+        $( "#to-top").removeClass('animated').removeClass('wobble');
         $.get( $(this).attr('href'), function( data ) {
             $( ".basket-div" ).html( data );
+            $( "#to-top").addClass('animated').addClass('wobble');
         });
-    });
+        
+        var a = $(this);
+        
+        setTimeout(function() {
+          a.removeClass('animated').removeClass('bounceIn');
+        }, 2000);
+    })
