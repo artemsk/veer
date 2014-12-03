@@ -78,25 +78,25 @@
          <div class="col-sm-6">
              
              @if (isset($output['products'][0]))
-             @include($template.'.elements.productSmallCardOne', array('product'=>$output['products'][0]))
+             @include($template.'.elements.product-small-card-one', array('product'=>$output['products'][0]))
              
              <div class="rowdelimiter-small"></div>
              @endif
              
              @if (isset($output['products'][4]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][4]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][4]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][8]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][8]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][8]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][12]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][12]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][12]))
              @endif 
          </div>
 
@@ -105,25 +105,25 @@
          <div class="col-sm-6">
              
              @if (isset($output['products'][1]))
-             @include($template.'.elements.productSmallCardOne', array('product'=>$output['products'][1]))
+             @include($template.'.elements.product-small-card-one', array('product'=>$output['products'][1]))
              
              <div class="rowdelimiter-small"></div>
              @endif
              
              @if (isset($output['products'][5]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][5]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][5]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][9]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][9]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][9]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][13]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][13]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][13]))
              @endif 
          </div>   
 
@@ -132,25 +132,25 @@
          <div class="col-sm-6">
              
              @if (isset($output['products'][2]))
-             @include($template.'.elements.productSmallCardOne', array('product'=>$output['products'][2]))
+             @include($template.'.elements.product-small-card-one', array('product'=>$output['products'][2]))
              
              <div class="rowdelimiter-small"></div>
              @endif
              
              @if (isset($output['products'][6]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][6]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][6]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][10]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][10]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][10]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][14]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][14]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][14]))
              @endif 
          </div>
 
@@ -159,19 +159,19 @@
          <div class="col-sm-6">
              
              @if (isset($output['products'][3]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][3]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][3]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][7]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][7]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][7]))
              
              <div class="rowdelimiter-small"></div>
              @endif
 
              @if (isset($output['products'][11]))
-             @include($template.'.elements.productSmallCardTwo', array('product'=>$output['products'][11]))
+             @include($template.'.elements.product-small-card-two', array('product'=>$output['products'][11]))
              @endif          
          </div>
      </div>

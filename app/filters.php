@@ -33,7 +33,7 @@ App::shutdown(function($request)
 { 
     if (!App::runningInConsole() && App::bound('veer')) {
 
-        $timeToLoad = empty(app('veer')->statistics['loading']) ?: app('veer')->statistics['loading'];
+        $timeToLoad = empty(app('veer')->statistics['loading']) ? 0 : app('veer')->statistics['loading'];
        
         if($timeToLoad > config('veer.loadingtime')) {
             

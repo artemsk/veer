@@ -16,7 +16,7 @@ class BaseController extends Controller {
 	{
 		$this->veer = app('veer');
 
-		$this->veer->loadedComponents['template'] = $this->template =  
+		$this->veer->loadedComponents['template'] = $this->template = $this->veer->template =  
 			array_get($this->veer->siteConfig, 'TEMPLATE', config('veer.template'));
 				
 		$data = $this->veer->registerComponents(Route::currentRouteName());

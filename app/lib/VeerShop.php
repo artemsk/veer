@@ -8,8 +8,17 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 
 // TODO: test if everything would be slow?
+// TODO: empty current_user_role & current_user_discount* after logging out
 
 class VeerShop {
+	
+	protected $currency_symbol;
+	
+	protected $current_user_role;
+	
+	protected $current_user_discount;
+	
+	protected $current_user_discount_by_role;
 	
 	/**
 	 * Price calculator:
@@ -17,29 +26,32 @@ class VeerShop {
 	 * 
 	 * @params (array)$prices
 	 * @return price
-	 */
-	
-	public function __construct() {
-		//
+	 */	
+	public function __construct() 
+	{
+		$this->currency_symbol = db_parameter('CURRENCY_SYMBOL', Config::get('veer.currency_symbol'));
 	}
 
-	public static function getPrice($product)
+	
+	
+	
+	public function getPrice($product)
 	{
-		$price = self::calculator($product);
+		$price = $this->calculator($product);
 		
 		if($product['price'] != $price) {
 			return View::make(app('veer')->loadedComponents['template'] . ".elements.price-discount")
-				->with('price', self::priceFormat($price))
-				->with('regular_price', self::priceFormat($product['price']));
+				->with('price', $this->priceFormat($price))
+				->with('regular_price', $this->priceFormat($product['price']));
 		} else {
-			return View::make(app('veer')->loadedComponents['template'] . ".elements.price-regular")->with('price', self::priceFormat($price));
+			return View::make(app('veer')->loadedComponents['template'] . ".elements.price-regular")->with('price', $this->priceFormat($price));
 		}
 	}
 	
 	
 	
 	
-	public static function priceFormat($price)
+	public function priceFormat($price)
 	{		
 		if(round($price) == $price) {
 			$price = number_format($price, 0);
@@ -47,21 +59,15 @@ class VeerShop {
 			$price = number_format($price, 2);
 		}
 		
-		$currency_symbol = db_parameter('CURRENCY_SYMBOL', Config::get('veer.currency_symbol'));
-		
-		if(Config::get('veer.currency_symbol_place') == "before") {
-			$price = $currency_symbol.$price;
-		} else {
-			$price = $price.$currency_symbol;
-		}
-		
+		$price = strtr($this->currency_symbol, array("[price]" => $price));
+				
 		return $price;
 	}
 	
 	
 	
 	
-	public static function calculator($product)
+	public function calculator($product)
 	{
 		// 1
 		// First of all, we take regular price
@@ -77,47 +83,49 @@ class VeerShop {
 		// 3 
 		// We check if we have logged user & if he has active discount
 		if(Auth::id() <= 0) { 
-			return self::currency($price, $product['currency']);
+			return $this->currency($price, $product['currency']);
 		}
 		
 		// 4
 		// We check if existing user have discount
-		$discounts = self::discounts($price);
+		$discounts = $this->discounts($price);
 		
 		if($discounts['discount'] == true) {
-			return self::currency($discounts['price'], $product['currency']);
+			return $this->currency($discounts['price'], $product['currency']);
 		}
 		
 		// 5 
 		// We check if existing user have discount by his role
-		$discounts_by_role = self::discounts_by_role($product, $price);
+		$discounts_by_role = $this->discounts_by_role($product, $price);
 		
 		if($discounts_by_role['discount'] == true) {
-			return self::currency($discounts_by_role['price'], $product['currency']);
+			return $this->currency($discounts_by_role['price'], $product['currency']);
 		}		
 		
 		// if no discounts for user
-		return self::currency($price, $product['currency']);				
+		return $this->currency($price, $product['currency']);				
 	}
 	
 	
 	
 	
-	public static function discounts($price) 
+	public function discounts($price) 
 	{	
 		$discount = false;
 		
-		$d = UserDiscount::where('sites_id','=',app('veer')->siteId)
+		if(empty($this->current_user_discount)) {		
+			$this->current_user_discount = UserDiscount::where('sites_id','=',app('veer')->siteId)
 			->where('users_id','=',Auth::id())
 			->where('status','=','active')
 			->whereNested(function($query) {
 				$query->whereRaw(" ( expires = '1' and (expiration_day >= '" . date('Y-m-d H:i:00', strtotime(Carbon::now())) . 
-					"' or expiration_times > '0') ) or ( expires = '2' ) ");
+					"' or expiration_times > '0') ) or ( expires = '0' ) ");
 			})
-			->orderBy('id')->select('id','discount')->remember(1)->first();
-			
-		if(count(@get_object_vars($d)) > 0) {
-			$price = $price * ( 1 - ( $d->discount / 100));		
+			->orderBy('id')->select('discount')->remember(2)->first();			
+		} 
+		
+		if(count(@get_object_vars($this->current_user_discount)) > 0) {
+			$price = $price * ( 1 - ( $this->current_user_discount->discount / 100));		
 			$discount = true;
 		}	
 	 
@@ -127,21 +135,26 @@ class VeerShop {
 	
 	
 	
-	public static function discounts_by_role($product, $price)
+	public function discounts_by_role($product, $price)
 	{
 		$discount = false;
 
-		$d = UserRole::where('sites_id','=',app('veer')->siteId)
-			->where('id','=',Auth::user()->roles_id)
+		$this->current_user_role = empty($this->current_user_role) ? Auth::user()->roles_id : $this->current_user_role;
+		
+		if(empty($this->current_user_discount_by_role)) {	
+		$this->current_user_discount_by_role = UserRole::where('sites_id','=',app('veer')->siteId)
+			->where('id','=',$this->current_user_role)
 			->whereNested(function($query) {
 				$query->where('discount','>',0)
 				->orWhere('price_field','!=','price');
 			})
 			->select('price_field','discount')->remember(1)->first();
+		}
 			
-		if(count(@get_object_vars($d)) > 0) {
-			$price = $product[$d->price_field];
-			if($d->discount > 0) { $price = $price * ( 1 - ( $d->discount / 100)); } 	 	
+		if(count(@get_object_vars($this->current_user_discount_by_role)) > 0) {
+			$price = $product[$this->current_user_discount_by_role->price_field];
+			if($this->current_user_discount_by_role->discount > 0) { 
+				$price = $price * ( 1 - ( $this->current_user_discount_by_role->discount / 100)); } 	 	
 			$discount = true;
 		}	
 	 
@@ -154,10 +167,11 @@ class VeerShop {
 	/**
 	 * Use shop or product currencies
 	 * itemCurrency > shopCurrency > price
-	 * @params
-	 * @return void
+	 * 
+	 * @params $price, $itemCurrency
+	 * @return $price
 	 */
-	public static function currency($price, $itemCurrency)
+	public function currency($price, $itemCurrency)
 	{		
 		if($itemCurrency > 0 && $itemCurrency != 1) { return ($price * $itemCurrency);  }
 		
