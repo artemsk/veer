@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Config;
 
 class indexProducts {   
     
-    public $data;
+    public $data = array();
     
     function __construct($params = null) {
         
