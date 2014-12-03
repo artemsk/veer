@@ -19,18 +19,17 @@ x Updating basket items quantity
 x Enhance adding to basket visually 
 x Add new field to userlists?
 x Adding products with attributes to shopping cart
-(C) Callme components
+x Callme component
 (H) Order -> secret_code aka password for getting data (unreg users etc.)
 (E) User: administrator credentials
-(D) Component: show / add to customers lists
-(E) Administrator notifications [email]
+(D) Component: show / add to customers lists for logged and guest users
 (C) Components: categories ?
 (C) Components: random product(s) ?
 (C) Search fields defaults - rotating
 (C) Filter & search: configuration templates or redirect
 (C) Filter - combinations
 (C) Default values for sorting & filtering
-(G) Sort products: fields
+(G) Sort products: fields: dat, price, star, ordered, viewed, status, type, category
 (G) Sort products: ajax
 (F) (web template) Template: news, login, register, sort, footer
 (F) (web template) Login/logout/register/remember form
@@ -78,6 +77,11 @@ Product page: groups only show products, but price should be set up manually
 Product page: get attrs and consider them in prices (+ in cart)
 Mixitup | Izotope для сортировки?
 (+) Convert old products table to new
+Redesign callme component
+Model modifications on callme action
+(+) Administrator notifications [email] if something went wrong
+Routes: resourse construction: clean and remove unused methods to speed up
+One way to speed up price formatting: store role_id & auth:id in session
 
 ----------------------------------
 comments
