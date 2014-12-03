@@ -13,12 +13,15 @@ x Get '$title' and site variables for pages; google analytics
 x Update page, product, category, search, user views
 x Product price format: currency converter, sales, views templates etc.
 x Product price format: consider user discounts / user roles
+x Product: create basket link
+x Add to basket using ajax requests
+x Updating basket items quantity
+(B) Add new field to userlists?
+(A) Enhance adding to basket visually 
 (C) Callme components
-(B) Product common: make basket link
 (G) Sort products: fields
 (G) Sort products: ajax
 (C) Default values for sorting & filtering
-(G) Updating basket
 (H) Order -> secret_code aka password for getting data (unreg users etc.)
 (E) User: administrator credentials
 (C) Filter & search: configuration templates or redirect

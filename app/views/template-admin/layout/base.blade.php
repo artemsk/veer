@@ -22,7 +22,7 @@
   <div class="container">
       <div class="row">
           <div class="col-xs-12">
-              <a href="{{ route('home') }}" class="logo-site">{{  array_get(Config::get('veer.site_config'),'SITE_TITLE') }}</a>
+              <a href="{{ route('home') }}" class="logo-site">{{  array_get(config('veer.site_config'),'SITE_TITLE') }}</a>
           </div>
       </div>
   </div>

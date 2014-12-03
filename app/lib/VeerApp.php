@@ -305,7 +305,7 @@ class VeerApp {
 	}	
 
 	/**
-	 * Running Queues: one job per request per minute.
+	 * Running Queues: one job per request per minute (value from configuration).
 	 * Only for 'qdb' driver as default
 	 *
 	 * @params
@@ -313,7 +313,7 @@ class VeerApp {
 	 */
 	public function queues() 	
 	{	
-		$item = Job::where('status','<=','1')->orderBy('scheduled_at', 'asc')->remember(1)->first();
+		$item = Job::where('status','<=','1')->orderBy('scheduled_at', 'asc')->remember(config('veer.repeatjob'))->first();
 		if(is_object($item)) {		
 		
 			$job = new QdbJob(app(), $item);
