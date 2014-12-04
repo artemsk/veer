@@ -27,7 +27,7 @@ class BaseController extends Controller {
 			$this->veer->loadedComponents = $data;
 		}
 
-		$this->veer->statistics();		
+		$this->veer->statistics();	
 	}
 
 	public function __destruct()

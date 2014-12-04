@@ -50,10 +50,11 @@
         event.preventDefault();
         
         $(this).addClass('animated').addClass('bounceIn');
-        $( "#to-top").removeClass('animated').removeClass('wobble');
+        $( "#to-top").addClass('animated').addClass('wobble');
+        
         $.get( $(this).attr('href'), function( data ) {
             $( ".basket-div" ).html( data );
-            $( "#to-top").addClass('animated').addClass('wobble');
+            $( "#to-top").removeClass('animated').removeClass('wobble');
         });
         
         var a = $(this);

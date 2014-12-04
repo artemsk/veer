@@ -20,20 +20,22 @@ x Enhance adding to basket visually
 x Add new field to userlists?
 x Adding products with attributes to shopping cart
 x Callme component
-(H) Order -> secret_code aka password for getting data (unreg users etc.)
-(E) User: administrator credentials
-(D) Component: show / add to customers lists for logged and guest users
-(C) Components: categories ?
-(C) Components: random product(s) ?
-(C) Search fields defaults - rotating
-(C) Filter & search: configuration templates or redirect
-(C) Filter - combinations
-(C) Default values for sorting & filtering
-(G) Sort products: fields: dat, price, star, ordered, viewed, status, type, category
-(G) Sort products: ajax
-(F) (web template) Template: news, login, register, sort, footer
+--------------------------------------------------- 0.1.8-alpha
+x One way to speed up price formatting: store role_id & auth:id in session
+(A) Redesign footer
+(A) Preloader Image
+(B) (web template) Redesign message center message style
+(B) Search fields defaults - rotating
+(B) Filter - combinations
+(B) Redesign callme component
+(C) Sort products: fields: dat, price, star, ordered, viewed, status, type, category
+(C) Sort products: ajax
+(D) Default values for sorting & filtering
+(D) Filter & search: configuration templates or redirect
+(E) (web template) Template: news, login, register, sort, footer
 (F) (web template) Login/logout/register/remember form
-(F) (web template) Redesign message center message style
+(F) Components: categories ?
+(F) Loading more products on request with ajax
 -----------------------------------------------------------------------------
 Component: chosen attribute
 Component: list of popular tags
@@ -60,7 +62,6 @@ Url: order bills
 Basket: Ajax -> redraw
 Plugins: numbers in russian
 --------------------------------------
-(C) Loading more products on request with ajax
 When creating product page get all attributes and detect which of them change price
 Gathering categories, attributes, tags, popular products by views, orders - check
 Gathering popular products/pages by rates
@@ -77,15 +78,128 @@ Product page: groups only show products, but price should be set up manually
 Product page: get attrs and consider them in prices (+ in cart)
 Mixitup | Izotope для сортировки?
 (+) Convert old products table to new
-Redesign callme component
 Model modifications on callme action
 (+) Administrator notifications [email] if something went wrong
 Routes: resourse construction: clean and remove unused methods to speed up
-One way to speed up price formatting: store role_id & auth:id in session
+(+) Order -> secret_code aka password for getting data (unreg users etc.)
+(+) User: administrator credentials
+(+) Component: show / add to customers lists for logged and guest users
+(+) Components: random product(s) ?
 
 ----------------------------------
 comments
 
 Initial memory usage: 6,237,040 ~ 7,820,848 | 7,817,704 | 7,125,344
 Current: 9,691,208
-* Is it necessary to split veerdb class?***END OF FILE***vvv
+* Is it necessary to split veerdb class?
+
+
+[sidebar] categories
+[sidebar] popular categories
+[sidebar] popular products
+[sidebar] random products
+[sidebar] recomend products
+[index] filters
+[sidebar] one attribute with values
+[page] attributes
+[sidebar] banners
+[sidebar] basket
+[page] categories
+[category] ratings on categories page
+[category] recomends on categories page
+[element] comments
+[compare]
+[sidebar] googlenews
+[page] tags
+[sidebar] lastnews
+[page] list of all pages
+[sidebar] popular tags
+[product] product
+[product] recomend same attr
+[product] recomend same cat
+[product] recomend same manuf
+[product] recomend same tags
+[sidebar] sapelinks
+[order] delivery - ems, kuryer, pickpoint, ruspost, sam, spsr, autotr
+[order] payment - nal, predoplata, qiwi, rbkcredit, rbkeuroset, rbkpostoffice, rbkterminal
+[user] add customer (after registration)
+[user] customers page -> gather user data
+[user] guestbook - add callme, contact us etc
+[user] login
+[user] logout
+[user] remember
+forms - add 2 basket full with attrs
+forms - add 2 list full
+forms - basket form
+forms - basket form address book
+forms - basket form comments
+forms - basket form delivery
+forms - basket form patment
+forms - basket form quickie
+forms - callme form
+forms - comment form
+forms - contact us form
+forms - login form
+forms - logout form
+forms - rate form
+forms - register form
+forms - review form
+forsm - search form
+image - captcha
+actions - registering done
+actions - login done
+actions - logout done
+actions - remember password done
+actions - add2list done
+actions - add2cart
+actions - update cart
+actions - review send done
+actions - out of list done
+actions - comment send done
+actions - vote done
+actions - callme send done
+actions - guestbook send done
+order - numbers in russian
+order - addrbook
+order - check basket selects
+order - clear basket cookies
+order - delivery address
+order - delivery type
+order - mail2all
+order - make
+order - make bills
+order - payment type
+order - pvcollect
+order - read basket cookies
+order - save basket cookies
+order - show bill
+order - show order
+order - status finder
+order - ymaps
+page - add comment
+user - register
+user - basket
+user - compare
+user - contact
+user - bills
+user - order success
+user - orders
+user - customers page
+products - add 2 list
+products - add review
+products - add review only rate
+products - collect products
+products - collect product
+products - show basket
+products - show basket collect info
+products - compare
+products - compare del
+products - show basket attrs
+products - show basket mix
+products - show comments
+products - sort products
+products - update basket
+templates - basket
+templates - bill, 1,2,3
+templates - comments
+ymaps***END OF FILE***vvv
