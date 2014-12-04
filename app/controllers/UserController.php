@@ -188,6 +188,7 @@ class UserController extends \BaseController {
 					//\Veer\Models\User::find(Auth::id())->increment('logons_count');
 					
 					Auth::user()->increment('logons_count');
+					Session::put('roles_id', Auth::user()->roles_id);
 					
 					//echo "<pre>";
 					//print_r(Auth::user());

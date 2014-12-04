@@ -1,11 +1,6 @@
 <?php namespace Veer\Lib;
 
 use Carbon\Carbon;
-use Veer\Models\UserDiscount;
-use Veer\Models\UserRole;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\View;
 
 // TODO: test if everything would be slow?
 // TODO: empty current_user_role & current_user_discount* after logging out
@@ -19,6 +14,10 @@ class VeerShop {
 	protected $current_user_discount;
 	
 	protected $current_user_discount_by_role;
+	
+	protected $discount_checked = false;
+	
+	protected $discount_by_role_checked = false;
 	
 	/**
 	 * Price calculator:
@@ -40,11 +39,11 @@ class VeerShop {
 		$price = $this->calculator($product);
 		
 		if($product['price'] != $price) {
-			return View::make(app('veer')->loadedComponents['template'] . ".elements.price-discount")
+			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-discount")
 				->with('price', $this->priceFormat($price))
 				->with('regular_price', $this->priceFormat($product['price']));
 		} else {
-			return View::make(app('veer')->loadedComponents['template'] . ".elements.price-regular")->with('price', $this->priceFormat($price));
+			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-regular")->with('price', $this->priceFormat($price));
 		}
 	}
 	
@@ -82,7 +81,7 @@ class VeerShop {
                         
 		// 3 
 		// We check if we have logged user & if he has active discount
-		if(Auth::id() <= 0) { 
+		if(app('auth')->id() <= 0) { 
 			return $this->currency($price, $product['currency']);
 		}
 		
@@ -113,15 +112,22 @@ class VeerShop {
 	{	
 		$discount = false;
 		
-		if(empty($this->current_user_discount)) {		
-			$this->current_user_discount = UserDiscount::where('sites_id','=',app('veer')->siteId)
-			->where('users_id','=',Auth::id())
-			->where('status','=','active')
-			->whereNested(function($query) {
-				$query->whereRaw(" ( expires = '1' and (expiration_day >= '" . date('Y-m-d H:i:00', strtotime(Carbon::now())) . 
-					"' or expiration_times > '0') ) or ( expires = '0' ) ");
-			})
-			->orderBy('id')->select('discount')->remember(2)->first();			
+		if($this->discount_checked == false) {
+			if(!app('session')->has('discounts_checked')) {
+				$this->current_user_discount = \Veer\Models\UserDiscount::where('sites_id','=',app('veer')->siteId)
+				->where('users_id','=',app('auth')->id())
+				->where('status','=','active')
+				->whereNested(function($query) {
+					$query->whereRaw(" ( expires = '1' and (expiration_day >= '" . date('Y-m-d H:i:00', strtotime(Carbon::now())) . 
+						"' or expiration_times > '0') ) or ( expires = '0' ) ");
+				})
+				->orderBy('id')->select('discount')->remember(2)->first();	
+				app('session')->put('discounts',$this->current_user_discount);
+				app('session')->put('discounts_checked', true);				
+			} else {
+				$this->current_user_discount = app('session')->get('discounts');
+			}
+			$this->discount_checked = true;	
 		} 
 		
 		if(count(@get_object_vars($this->current_user_discount)) > 0) {
@@ -139,16 +145,30 @@ class VeerShop {
 	{
 		$discount = false;
 
-		$this->current_user_role = empty($this->current_user_role) ? Auth::user()->roles_id : $this->current_user_role;
+		if(empty($this->current_user_role)) {
+			if(!app('session')->has('roles_id')) {
+				$this->current_user_role = app('auth')->user()->roles_id;
+				app('session')->put('roles_id', $this->current_user_role);
+			} else {
+				$this->current_user_role = app('session')->get('roles_id');
+			}	
+		}
 		
-		if(empty($this->current_user_discount_by_role)) {	
-		$this->current_user_discount_by_role = UserRole::where('sites_id','=',app('veer')->siteId)
-			->where('id','=',$this->current_user_role)
-			->whereNested(function($query) {
-				$query->where('discount','>',0)
-				->orWhere('price_field','!=','price');
-			})
-			->select('price_field','discount')->remember(1)->first();
+		if($this->discount_by_role_checked == false) {
+			if(!app('session')->has('discounts_by_role_checked')) {	
+				$this->current_user_discount_by_role = \Veer\Models\UserRole::where('sites_id','=',app('veer')->siteId)
+				->where('id','=',$this->current_user_role)
+				->whereNested(function($query) {
+					$query->where('discount','>',0)
+					->orWhere('price_field','!=','price');
+				})
+				->select('price_field','discount')->remember(1)->first();
+				app('session')->put('discounts_by_role',$this->current_user_discount_by_role);
+				app('session')->put('discounts_by_role_checked', true);
+			} else {
+				$this->current_user_discount_by_role = app('session')->get('discounts_by_role');
+			} 	
+			$this->discount_by_role_checked = true;	
 		}
 			
 		if(count(@get_object_vars($this->current_user_discount_by_role)) > 0) {
