@@ -22,9 +22,9 @@ x Adding products with attributes to shopping cart
 x Callme component
 --------------------------------------------------- 0.1.8-alpha
 x One way to speed up price formatting: store role_id & auth:id in session
-(A) Redesign footer
+x Redesign footer @html
+x (web template) Redesign message center message style @html
 (A) Preloader Image
-(B) (web template) Redesign message center message style
 (B) Search fields defaults - rotating
 (B) Filter - combinations
 (B) Redesign callme component
