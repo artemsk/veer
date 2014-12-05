@@ -342,3 +342,8 @@
 2|http://test1.ru/veer|index
 2|http://test1.ru/veer|index
 2|http://test1.ru/veer|index
+2|http://test1.ru/veer|index
+2|http://test1.ru/veer/user/basket/add/1|user.basket.add
+2|http://test1.ru/veer/user/basket/add/1|user.basket.add
+2|http://test1.ru/veer/user/basket/add/1|user.basket.add
+2|http://test1.ru/veer|index

@@ -7,7 +7,7 @@
 
 get('/404',array('uses' => 'IndexController@show404', 'as' => '404'));
 Route::resource('/', 'IndexController', array('only' => array('index')));
-Route::resource('category', 'CategoryController');
+Route::resource('category', 'CategoryController', array('only' => array('index', 'show')));
 Route::resource('tag', 'TagController');
 Route::resource('attribute', 'AttributeController');
 Route::resource('image', 'ImageController');

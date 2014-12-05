@@ -5,65 +5,65 @@
 
      <!--<div class="rowdelimiter-small"></div>-->
 
-      <div class="container-fluid" id="headeraffix">
+	 <div class="container-fluid" id="headeraffix">
          <div class="row">
-         <div class="col-xs-24">
-               <div class="tags">кэнди шоп:</div>
-               <div class="tags-lnks dropdown" id="dropdown-cats">
-                       <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                           {FILTER_CATS_FIRST}
-                           <span class="caret"></span>
-                       </button>
-                       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">                           
-                           {FILTER_CATS}
-                       </ul>
-               </div>
-               <div class="tags-lnks dropdown" id="dropdown-fabric">
-                 <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
-                     {FILTER_MANUF_FIRST}
-                     <span class="caret"></span>
-                 </button>
-                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-                     {FILTER_MANUF}
-                 </ul>
-               </div>
-               <div class="tags-lnks dropdown" id="dropdown-types">
-                 <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-expanded="true">
-                     {FILTER_ATTR_2_FIRST}
-                     <span class="caret"></span>
-                 </button>
-                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
-                     {FILTER_ATTR_2}
-                 </ul>
-               </div>
-               <div class="tags-lnks dropdown" id="dropdown-types2">
-                 <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-expanded="true">
-                     {FILTER_ATTR_3_FIRST}
-                     <span class="caret"></span>
-                 </button>
-                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
-                     {FILTER_ATTR_3}
-                 </ul>
-               </div>
-               <div class="pull-right">
-               <div class="tags-lnks hidden-xs"><a href="?5">о магазине</a></div>
-               <div class="tags-lnks hidden-xs"><a href="?6">доставка</a></div>
-			   {{ isset($output['callme']) ? $output['callme'] : null }}
-               <div class="tags-lnks"><a href="tel:+79035019959">+7 (903) 501-99-59</a></div>
-               <div class="tags-lnks-last">
-                   <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='{{ Form::open(array('route' => 'search.store')) }}<div class="input-group">
-                   <input type="text" class="form-control" name="q">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="submit">Go!</button>
-      </span>
-               </div>{{ Form::close() }}' data-html="true" data-title="Поиск по товарам">
-                       <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                   </button>
-                </div>
-               </div>
-         </div>
-     </div>
- </div>
+			 <div class="col-xs-24">
+				 <div class="tags">кэнди шоп:</div>
+				 <div class="tags-lnks dropdown" id="dropdown-cats">
+					 <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						 {FILTER_CATS_FIRST}
+						 <span class="caret"></span>
+					 </button>
+					 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">                           
+						 {FILTER_CATS}
+					 </ul>
+				 </div>
+				 <div class="tags-lnks dropdown" id="dropdown-fabric">
+					 <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+						 {FILTER_MANUF_FIRST}
+						 <span class="caret"></span>
+					 </button>
+					 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+						 {FILTER_MANUF}
+					 </ul>
+				 </div>
+				 <div class="tags-lnks dropdown" id="dropdown-types">
+					 <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-expanded="true">
+						 {FILTER_ATTR_2_FIRST}
+						 <span class="caret"></span>
+					 </button>
+					 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+						 {FILTER_ATTR_2}
+					 </ul>
+				 </div>
+				 <div class="tags-lnks dropdown" id="dropdown-types2">
+					 <button class="btn btn-default dropdown-toggle dropdown-toggle-menu" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-expanded="true">
+						 {FILTER_ATTR_3_FIRST}
+						 <span class="caret"></span>
+					 </button>
+					 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+						 {FILTER_ATTR_3}
+					 </ul>
+				 </div>
+				 <div class="pull-right">
+					 <div class="tags-lnks hidden-xs"><a href="?5">о магазине</a></div>
+					 <div class="tags-lnks hidden-xs"><a href="?6">доставка</a></div>
+					 {{ isset($output['callme']) ? $output['callme'] : null }}
+					 <div class="tags-lnks"><a href="tel:+79035019959">+7 (903) 501-99-59</a></div>
+					 <div class="tags-lnks-last">
+						 <button type="button" class="btn btn-default dropdown-toggle-menu" data-container="body" data-toggle="popover" data-placement="left" data-content='{{ Form::open(array('route' => 'search.store')) }}<div class="input-group">
+								 <input type="text" class="form-control" name="q">
+								 <span class="input-group-btn">
+								 <button class="btn btn-default" type="submit">Go!</button>
+								 </span>
+								 </div>{{ Form::close() }}' data-html="true" data-title="Поиск по товарам">
+							 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						 </button>
+					 </div>
+				 </div>
+			 </div>
+		 </div>
+	 </div>
 
      <div class="rowdelimiter-small"></div>
      
