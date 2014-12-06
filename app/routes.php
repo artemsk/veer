@@ -11,6 +11,8 @@ Route::resource('category', 'CategoryController', array('only' => array('index',
 Route::resource('attribute', 'AttributeController', array('only' => array('index', 'show')));
 Route::resource('filter', 'FilterController', array('only' => array('index', 'show')));
 Route::resource('image', 'ImageController', array('only' => array('show')));
+//
+Route::resource('order', 'OrderController', array('only' => array('index', 'show')));
 
 Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
 
@@ -24,6 +26,6 @@ get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'))
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
 get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.basket.add'));
 Route::resource('user', 'UserController');
-Route::resource('order', 'OrderController');
+
 
 //Route::resource('admin', 'AdminController');

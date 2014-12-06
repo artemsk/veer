@@ -37,6 +37,7 @@ Exclude 'Main' category from results for attributes/tags pages etc.
 (F) (web template) Login/logout/register/remember form
 (F) Components: categories ?
 (F) Loading more products on request with ajax
+Communications model inject
 -----------------------------------------------------------------------------
 Component: chosen attribute
 Component: list of popular tags
@@ -56,9 +57,14 @@ Component: sapelinks
 Plugin: images extender thumbnails? slides full screen etx. fancybox
 Plugins: shipping - types
 Plugins: payments
-Actions: basket
-Actions: compare
-Actions: contact/communications
+(+) Actions: basket
+(+) Actions: compare
+(+) Actions: contact/communications
+(+) Actions: login
+(+) Actions: logout
+(+) Actions: register
+(+) Actions: remember
+(+) Actions: secret code
 Url: order bills
 Basket: Ajax -> redraw
 Plugins: numbers in russian
@@ -71,7 +77,8 @@ Random product component
 Recomend products by user visits
 Pagination
 Download page: increment downloads etc. @increments
-Order bills page: increment views etc. @increments
+(+) Order bills page: increment views etc. @increments
+(+) Order Edit: communications, cancel, change (if changeable)
 User Admin: logons_count @increments
 Secret code for discounts: email + code; create new user
 --------------------------------------------------------
@@ -203,4 +210,6 @@ products - update basket
 templates - basket
 templates - bill, 1,2,3
 templates - comments
-ymaps***END OF FILE***vvv
+ymaps
+-----------------------------------
+Component: Lock access to some pages - depending on payment [payment wall]***END OF FILE***vvv

@@ -9,7 +9,8 @@ class OrderController extends \BaseController {
 	 */
 	public function index()
 	{
-		return Redirect::route('index'); // TODO: страница где можно было бы ввести секретный код, чтобы гость увидел свой заказ.
+		return Redirect::route('index'); 
+		// TODO: страница где можно было бы ввести секретный код, чтобы гость увидел свой заказ.
 	}
 
 
@@ -43,14 +44,42 @@ class OrderController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                // TODO: show orders only for its user or administrator
                 // TODO: для гостей и незарег. форма с кодом
                 
-                $getData = new VeerDb(Route::currentRouteName(), $id, array('userId' => Auth::id()));
+		$administrator = false;
+		
+		if(Auth::check()) {
+			$v = Auth::user()->load('administrator');
+			if(isset($v->administrator->banned) && (bool)($v->administrator->banned) == false) { $administrator = true; }
+		}
+		
+		if(Auth::check() || $administrator == true) {
+			
+			$orders = app('veerdb')->route($id, array('userId' => Auth::id(), 'administrator' => $administrator));
+			
+		} else {
+			
+			return Redirect::route('order.index'); 
+		}
                 
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+        if(!is_object($orders)) { return Redirect::route('index'); }
+		 
+		$orders->load('user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'status_history', 'products', 'bills');
+		
+		// TODO: разбить на отдельные страницы
+		// TODO: вместе с products загружать images & downloads		
+		
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.order', array(
+			"order" => $orders,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
+
+		$this->view = $view; 
+
+		return $view;
 	}
 
 
