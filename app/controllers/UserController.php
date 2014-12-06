@@ -4,6 +4,14 @@ use Veer\Models\UserList;
 
 class UserController extends \BaseController {
 
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->beforeFilter('auth', array('only' => array('index', 'show')));
+	}
+	
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -11,12 +19,11 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
-		//return Redirect::route('user.login'); 
-                
-                echo "<pre>";
-                print_r(Auth::id());
-                print_r(Auth::getName());
-                echo "</pre>";
+		$user = app('veerdb')->route(Auth::id());
+		
+		if(!is_object($user)) { return Redirect::route('index'); }
+		
+		return $this->showUser($user);
 	}
 
 
@@ -50,14 +57,46 @@ class UserController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new VeerDb(Route::currentRouteName(), $id);
-                
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+		$administrator = administrator();
+		
+		if($administrator == false) { return $this->index(); }
+		
+		$user = app('veerdb')->make('user.index', $id);
+		
+		if(!is_object($user)) { return Redirect::route('index'); }
+		
+		return $this->showUser($user);	
 	}
 
+	
+	/**
+	 * Display User page
+	 *
+	 * @param  int  $iuser
+	 * @return Response
+	 */
+	protected function showUser($user) {
+		
+		$user->load("role", "comments", "books", "discounts", "userlists", "orders", 
+			"bills", "communications", "administrator", "searches", "pages");
 
+		// TODO: разбить на отдельные страницы
+		
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.user', array(
+			"user" => $user,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
+
+		$this->view = $view; 
+
+		return $view;		
+	}	
+
+	// TODO: делать для пользователя статистику на основе заказов/комментариев/лайков/посещений? - свойства, слова, товары, разделы и тд
+	
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -120,18 +159,7 @@ class UserController extends \BaseController {
 				$cart->save();
 				$product->userlists()->save($cart);  
 				
-				$items = UserList::where('sites_id','=',app('veer')->siteId)
-					->where(function($query) use ($userid) {
-						if($userid > 0) {
-						$query->where('users_id','=', empty($userid) ? 0 : $userid)
-							->orWhere('session_id','=',Session::getId());	
-						} else {
-						$query->where('users_id','=', empty($userid) ? 0 : $userid)
-							->where('session_id','=',Session::getId());							
-						}
-					})->where('name','=','[basket]')
-					->where('elements_type','=','Veer\Models\Product')
-					->sum('quantity');
+				$items = app('veerdb')->userShoppingCart(app('veer')->siteId, $userid);
 				
 				Session::put('shopping_cart_items',$items);
 				
@@ -149,22 +177,13 @@ class UserController extends \BaseController {
 	 */
 	public function login()
 	{
-                if(Auth::check()) { echo "Logged.<br>"; }
-                
- echo "<pre>";
- print_r(Auth::getName());
- echo "<br>";
- print_r(Session::all());
- echo "</pre>";
 		$data = $this->veer->loadedComponents;
                 
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
-                        
-                return \View::make($this->template.'.login', $data); 
-                
-                
+		$view = view($this->template.'.login', $data); 
+
+		//$this->view = $view; // do not cache
+
+		return $view;  
 	}
 
 
@@ -175,30 +194,27 @@ class UserController extends \BaseController {
 	 */
 	public function loginPost()
 	{
-		$data = $this->veer->loadedComponents;
-                if (Auth::check())
-                {
-                    return "Logged<br>";
-                     
-                } 
-                    
-                
-                if (Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 'banned' => 0)))
-                {
-					//\Veer\Models\User::find(Auth::id())->increment('logons_count');
+		$save_old_session_id = Session::getId();
+			
+        if (Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 'banned' => 0)))
+        {
+			Auth::user()->increment('logons_count');
+			
+			Session::put('roles_id', Auth::user()->roles_id);
+			
+			UserList::where('session_id','=',$save_old_session_id)->update(array('users_id' => Auth::id()));
+			
+			Session::put('shopping_cart_items', 
+				app('veerdb')->userShoppingCart(app('veer')->siteId, Auth::id()));
 					
-					Auth::user()->increment('logons_count');
-					Session::put('roles_id', Auth::user()->roles_id);
-					
-					//echo "<pre>";
-					//print_r(Auth::user());
-					//echo "</pre>";
-
-                    return Redirect::intended('user/login');
-                }
-
-                return \View::make($this->template.'.login', $data); 
+			return Redirect::intended();
+        } 
+		
+		return $this->login();
 	}        
         
         
 }
+
+// TODO: Validator: показывать ошибки
+// TODO: регистрация пользователя по секретному коду без какой-либо формы (быстрая регистрация)

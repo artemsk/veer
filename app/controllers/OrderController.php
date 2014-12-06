@@ -2,6 +2,15 @@
 
 class OrderController extends \BaseController {
 
+	
+	public function __construct()
+	{
+		parent::__construct();
+		
+		//$this->beforeFilter('auth', array('only' => array('index', 'show')));
+		// TODO: возможность увидеть заказ без логина, но по секретному коду
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -45,12 +54,7 @@ class OrderController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$administrator = false;
-		
-		if(Auth::check()) {
-			$v = Auth::user()->load('administrator');
-			if(isset($v->administrator->banned) && (bool)($v->administrator->banned) == false) { $administrator = true; }
-		}
+		$administrator = administrator();
 		
 		if(Auth::check() || $administrator == true) {
 			
@@ -58,7 +62,7 @@ class OrderController extends \BaseController {
 			
 		} else {
 			
-			return Redirect::route('order.index'); 
+			return $this->index(); 
 		}
                 
         if(!is_object($orders)) { return Redirect::route('index'); }

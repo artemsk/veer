@@ -893,12 +893,34 @@ class VeerDb {
 	 * @later: 'role', 'comments', 'books', 'discounts', 'userlists', 'orders', 'bills', 
 	 * 'communications', 'administrator', 'searches', 'pages'*
 	 */
-	protected function userShowQuery($siteId, $id, $queryParams)
+	protected function userIndexQuery($siteId, $id, $queryParams)
 	{
 		return User::where('id', '=', $id)->where('sites_id', '=', $siteId)
 				->where('banned', '!=', '1')->first();
 	}
-
+	
+	/**
+	 * Query Builder: 
+	 * 
+	 * - who: Items Quantity
+	 * - with: 
+	 * - to whom: add2cart(), user.login | user/basket/add
+	 */
+	public function userShoppingCart($siteId, $userid) {
+		return \Veer\Models\UserList::where('sites_id','=', $siteId)
+					->where(function($query) use ($userid) {
+						if($userid > 0) {
+						$query->where('users_id','=', empty($userid) ? 0 : $userid)
+							->orWhere('session_id','=', app('session')->getId());	
+						} else {
+						$query->where('users_id','=', empty($userid) ? 0 : $userid)
+							->where('session_id','=', app('session')->getId());							
+						}
+					})->where('name','=','[basket]')
+					->where('elements_type','=','Veer\Models\Product')
+					->sum('quantity');
+	}
+	
 	/**
 	 * Query Builder: 
 	 * 

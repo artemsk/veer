@@ -123,6 +123,29 @@ if ( ! function_exists('auth_check_session'))
 
 
 
+if ( ! function_exists('administrator'))
+{
+	/**
+	 * Check if user is administrator
+	 *
+	 * @return true of false
+	 */
+	function administrator()
+	{
+        $administrator = false;
+		
+		if(Auth::check()) {
+			$v = Auth::user()->load('administrator');
+			if(isset($v->administrator->banned) && (bool)($v->administrator->banned) == false) { $administrator = true; }
+		}
+		
+		return $administrator;
+	}
+}
+
+
+
+
 if ( ! function_exists('now'))
 {
 	/**
