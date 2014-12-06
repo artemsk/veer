@@ -9,11 +9,21 @@ class TagController extends \BaseController {
 	 */
 	public function index()
 	{
-                $VeerDb = new VeerDb(Route::currentRouteName());   
-                
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+		$tags= app('veerdb')->route();   
+				
+		if(!is_object($tags)) { return Redirect::route('index'); }
+		
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.tags', array(
+			"tags" => $tags,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
+
+		$this->view = $view; 
+
+		return $view;
 	}
 
 
@@ -47,15 +57,55 @@ class TagController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $VeerDb = new VeerDb(Route::currentRouteName(), $id);                 
-                
-                $products = $VeerDb->tagOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
-                
-                $pages = $VeerDb->tagOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
-                
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+		$vdb = app('veerdb');
+
+		$tag = $vdb->route($id);   
+		
+		if(!is_object($tag)) { return Redirect::route('index'); }
+		
+		$data = $this->veer->loadedComponents;     
+			
+		$paginator_and_sorting = get_paginator_and_sorting();
+
+		$products = $vdb->tagOnlyProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
+
+		$pages = $vdb->tagOnlyPagesQuery($this->veer->siteId, $id, $paginator_and_sorting);
+				
+		$siteId = $this->veer->siteId;
+			
+		$attributes = \Veer\Models\Attribute::whereHas('products', function($query) use($id, $siteId) {
+				$query->siteValidation($siteId)->checked()->whereHas('tags', function($q) use ($id) {
+						$q->where('tags_id','=',$id);
+				});
+			})->orWhereHas('pages', function($query) use($id, $siteId) {
+				$query->siteValidation($siteId)->excludeHidden()->whereHas('tags', function($q) use ($id) {
+						$q->where('tags_id','=',$id);
+				});
+			})->remember(5)->get();		
+				
+		$categories = \Veer\Models\Category::whereHas('products', function($query) use($id, $siteId) {
+				$query->siteValidation($siteId)->checked()->whereHas('tags', function($q) use ($id) {
+						$q->where('tags_id','=',$id);
+				});
+			})->orWhereHas('pages', function($query) use($id, $siteId) {
+				$query->siteValidation($siteId)->excludeHidden()->whereHas('tags', function($q) use ($id) {
+						$q->where('tags_id','=',$id);
+				});
+			})->remember(5)->get();	
+				
+		$view = view($this->template.'.tag', array(
+			"tag" => $tag,
+			"products" => $products,
+			"pages" => $pages,
+			"attributes" => $attributes,
+			"categories" => $categories,
+			"data" => $data,
+			"template" => $data['template']
+		));
+			
+		$this->view = $view; 
+				
+		return $view;
 	}
 
 

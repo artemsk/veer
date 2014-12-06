@@ -15,7 +15,7 @@ class ProductController extends \BaseController {
 	 */
 	public function index()
 	{
-		return Redirect::route('product.show', array('new'));
+		return $this->show('new');
 	}
 
 
@@ -62,7 +62,7 @@ class ProductController extends \BaseController {
 
 		$product = $vdb->make($method, $id);                 
 
-		if(!is_object($product)) { return Redirect::route('product.show', array('new')); }
+		if(!is_object($product)) { return $this->show('new'); }
 		
 		$paginator_and_sorting = get_paginator_and_sorting();
 		
