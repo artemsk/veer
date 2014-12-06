@@ -43,9 +43,7 @@ class FilterController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$vdb = app('veerdb');
-
-		$filtered = $vdb->route($id);        		
+		$filtered = app('veerdb')->route($id);        		
 
 		if(!is_array($filtered)) { return Redirect::route('index'); }
 		
