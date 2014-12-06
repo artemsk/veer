@@ -49,9 +49,9 @@ class FilterController extends \BaseController {
 
 		if(!is_array($filtered)) { return Redirect::route('index'); }
 		
-		$paginator_and_sorting = get_paginator_and_sorting();
+		$paginator_and_sorting = get_paginator_and_sorting(); //?
 		     
-		$items = array("products" => array(), "pages" => array());
+		$items = array("products" => array(0 => 0), "pages" => array(0 => 0));
 		
 		if(count($filtered['products'])) {
 			foreach($filtered['products'] as $p) {

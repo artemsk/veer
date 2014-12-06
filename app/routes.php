@@ -17,19 +17,12 @@ Route::resource('order', 'OrderController', array('only' => array('index', 'show
 Route::resource('page', 'PageController', array('only' => array('index', 'show')));
 //
 Route::resource('product', 'ProductController', array('only' => array('index', 'show')));
-
+Route::resource('search', 'SearchController', array('only' => array('index', 'show', 'store')));
 Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
-
-
-
-
-Route::resource('search', 'SearchController');
-
 
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
 get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.basket.add'));
 Route::resource('user', 'UserController');
-
 
 //Route::resource('admin', 'AdminController');

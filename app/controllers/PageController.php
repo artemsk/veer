@@ -15,7 +15,7 @@ class PageController extends \BaseController {
 				
 		if(!is_object($pages)) { return Redirect::route('index'); }
 		
-		$pages->load('categories');
+		$pages->load('categories', 'user');
 		
 		$data = $this->veer->loadedComponents;            
 
@@ -92,7 +92,7 @@ class PageController extends \BaseController {
 
 		$page->increment('views');	
 
-		$page->load('images', 'tags', 'attributes', 'downloads', 'userlists');
+		$page->load('images', 'tags', 'attributes', 'downloads', 'userlists', 'user');
 		
 		// 3 blade
 		$blade_path = app_path() . '/views/template/' . $this->template. '/pages/' . $id . '.blade.php';
