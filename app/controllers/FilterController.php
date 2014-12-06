@@ -43,6 +43,8 @@ class FilterController extends \BaseController {
 	 */
 	public function show($id)
 	{
+		// TODO: queryParams -> sort, filter
+		
 		$filtered = app('veerdb')->route($id);        		
 
 		if(!is_array($filtered)) { return Redirect::route('index'); }
