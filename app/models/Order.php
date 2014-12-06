@@ -54,4 +54,8 @@ class Order extends \Eloquent {
        return $this->hasMany('\Veer\Models\OrderBill', 'orders_id', 'id'); 
     }
     
+	public function secrets() {
+        return $this->morphMany('\Veer\Models\Secret', 'elements');
+    }   
+	
 }

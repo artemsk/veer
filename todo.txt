@@ -24,20 +24,22 @@ x Callme component
 x One way to speed up price formatting: store role_id & auth:id in session
 x Redesign footer @html
 x (web template) Redesign message center message style @html
-Exclude 'Main' category from results for attributes/tags pages etc.
-(A) Preloader Image
-(B) Search fields defaults - rotating
-(B) Filter - combinations
-(B) Redesign callme component
+x Redesign callme component @html
+x Prepare all controllers with basic actions
+(web template) product page
+(web template) page
+(web template) login page
+Sort - default
+Loading more products on request with ajax
+Filter - choices + db; default
+Filter - action
+Search - defaults
+Convert old products table to new
+Simple website example 1
+Simple website for bolshaya.net
+Initial admin touch
 (C) Sort products: fields: dat, price, star, ordered, viewed, status, type, category
 (C) Sort products: ajax
-(D) Default values for sorting & filtering
-(D) Filter & search: configuration templates or redirect
-(E) (web template) Template: news, login, register, sort, footer
-(F) (web template) Login/logout/register/remember form
-(F) Components: categories ?
-(F) Loading more products on request with ajax
-Communications model inject
 -----------------------------------------------------------------------------
 Component: chosen attribute
 Component: list of popular tags
@@ -85,7 +87,7 @@ Secret code for discounts: email + code; create new user
 Product page: groups only show products, but price should be set up manually
 Product page: get attrs and consider them in prices (+ in cart)
 Mixitup | Izotope для сортировки?
-(+) Convert old products table to new
+
 Model modifications on callme action
 (+) Administrator notifications [email] if something went wrong
 Routes: resourse construction: clean and remove unused methods to speed up
@@ -93,6 +95,12 @@ Routes: resourse construction: clean and remove unused methods to speed up
 (+) User: administrator credentials
 (+) Component: show / add to customers lists for logged and guest users
 (+) Components: random product(s) ?
+Exclude 'Main' category from results for attributes/tags pages etc.
+(F) (web template) Login/logout/register/remember form
+(F) Components: categories ?
+Communications model inject
+(A) Preloader Image
+(D) Filter & search: configuration templates or redirect
 
 ----------------------------------
 comments
@@ -212,4 +220,28 @@ templates - bill, 1,2,3
 templates - comments
 ymaps
 -----------------------------------
-Component: Lock access to some pages - depending on payment [payment wall]***END OF FILE***vvv
+Component: Lock access to some pages - depending on payment [payment wall]
+
+
+category, attribute, filter, image, order, page, product, search, tag, user:
+c a f i o p p s t u 
++ - - - - + + - - - sub/parent
++ + + - - + + + + - attribute
+- - - - - - - - - + comment
+- - - - - - - - - + communications ?
++ + + + + + + + + + component
+- - - - - + + - - ? download
++ - - - - + + - - - image
++ + + + - + + + + - page
++ + + + + + + + + - product
++ + + + + + + + + + <site
++ + + - - + + + + - tag
++ + + + - + + + + - category
+- - - - + - - - - + orders
+
+
+!order - site, user, userbook, userdiscount, status, delivery, payment, status_history, products, bills
+page -  comments, communications
+product - !orders, comments, communications
+!search
+!user - site, role, comments, books, discounts, userlists, orders, bills, communications, administrator, searches, pages***END OF FILE***vvv
