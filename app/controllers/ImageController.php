@@ -43,17 +43,34 @@ class ImageController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $VeerDb = new VeerDb(Route::currentRouteName(), $id);                 
-                
-                $products = $VeerDb->imageOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
-                
-                $pages = $VeerDb->imageOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
-                
-                $categories = $VeerDb->imageOnlyCategoriesQuery($this->veer->siteId, $id);
-                
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+		$vdb = app('veerdb');    
+		
+		$image = $vdb->route($id); 
+			
+		if(!is_object($image)) { return Redirect::route('index'); }
+		
+		$paginator_and_sorting = get_paginator_and_sorting();
+
+		$products = $vdb->imageOnlyProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
+
+		$pages = $vdb->imageOnlyPagesQuery($this->veer->siteId, $id, $paginator_and_sorting);
+
+		$categories = $vdb->imageOnlyCategoriesQuery($this->veer->siteId, $id);
+		
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.category', array(
+			"image" => $image,
+			"products" => $products,
+			"pages" => $pages,
+			"categories" => $categories,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
+
+		$this->view = $view; 
+
+		return $view;
 	}
 
 

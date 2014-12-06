@@ -9,13 +9,16 @@ get('/404',array('uses' => 'IndexController@show404', 'as' => '404'));
 Route::resource('/', 'IndexController', array('only' => array('index')));
 Route::resource('category', 'CategoryController', array('only' => array('index', 'show')));
 Route::resource('attribute', 'AttributeController', array('only' => array('index', 'show')));
+Route::resource('filter', 'FilterController', array('only' => array('index', 'show')));
+Route::resource('image', 'ImageController', array('only' => array('show')));
+
 Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
 
-Route::resource('image', 'ImageController');
+
 Route::resource('product', 'ProductController');
 Route::resource('page', 'PageController');
 Route::resource('search', 'SearchController');
-Route::resource('filter', 'FilterController');
+
 
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
