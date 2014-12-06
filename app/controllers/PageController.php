@@ -9,6 +9,8 @@ class PageController extends \BaseController {
 	 */
 	public function index()
 	{
+		// TODO: queryParams -> sort, filter
+		
 		$pages= app('veerdb')->route();   
 				
 		if(!is_object($pages)) { return Redirect::route('index'); }
