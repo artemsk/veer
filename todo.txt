@@ -24,6 +24,7 @@ x Callme component
 x One way to speed up price formatting: store role_id & auth:id in session
 x Redesign footer @html
 x (web template) Redesign message center message style @html
+Exclude 'Main' category from results for attributes/tags pages etc.
 (A) Preloader Image
 (B) Search fields defaults - rotating
 (B) Filter - combinations
