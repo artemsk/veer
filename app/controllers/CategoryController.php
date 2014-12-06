@@ -9,11 +9,19 @@ class CategoryController extends \BaseController {
 	 */
 	public function index()
 	{
-                $VeerDb = new VeerDb(Route::currentRouteName());   
-                
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+		$categories= app('veerdb')->make(Route::currentRouteName());   
+				
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.categories', array(
+			"categories" => $categories,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
+
+		$this->view = $view; 
+
+		return $view;
 	}
 
 
@@ -47,18 +55,57 @@ class CategoryController extends \BaseController {
 	 */
 	public function show($id)
 	{	
-				$method = Route::currentRouteName();
-				
-				$vdb = app('veerdb');
-				
-                $category = $vdb->make($method, $id);        		
+		$method = Route::currentRouteName();
 
-                $products = $vdb->categoryOnlyProductsQuery($id, get_paginator_and_sorting());
-                
-                $pages = $vdb->categoryOnlyPagesQuery($id, get_paginator_and_sorting());
-                
-				$category->increment('views');	
+		$vdb = app('veerdb');
+
+		$category = $vdb->make($method, $id);        		
+
+		$paginator_and_sorting = get_paginator_and_sorting();
+		
+		$products = $vdb->categoryOnlyProductsQuery($id, $paginator_and_sorting);
+
+		$pages = $vdb->categoryOnlyPagesQuery($id, $paginator_and_sorting);
+
+		$category->increment('views');	
+
+        $category->load('images');
+        
+        $tags = \Veer\Models\Tag::whereHas('products', function($query) use($id) {
+                    $query->checked()->whereHas('categories', function($q) use ($id) {
+							$q->where('categories_id','=',$id);
+					});
+                })->orWhereHas('pages', function($query) use($id) {
+                    $query->excludeHidden()->whereHas('categories', function($q) use ($id) {
+							$q->where('categories_id','=',$id);
+					});
+                })->remember(5)->get();
+				 
+        $attributes = \Veer\Models\Attribute::whereHas('pages', function($query) use($id) {
+                    $query->excludeHidden()->whereHas('categories', function($q) use ($id) {
+							$q->where('categories_id','=',$id);
+					});
+				})->orWhereHas('products', function($query) use($id) {
+                    $query->checked()->whereHas('categories', function($q) use ($id) {
+							$q->where('categories_id','=',$id);
+					});
+                })->get(); 		
 				
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.category', array(
+			"category" => $category,
+			"products" => $products,
+			"pages" => $pages,
+			"tags" => $tags,
+			"attributes" => $attributes,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
+
+		$this->view = $view; 
+
+		return $view;
 	}
 
 

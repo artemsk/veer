@@ -1,0 +1,81 @@
+[2014-12-06 05:41:09] local.ERROR: Veer Component Error: Necessary parameter not found: CURRENCY_SYMBOL [] []
+[2014-12-06 05:41:10] local.ALERT: Slowness detected: 3.058:  {"queries":4,"loading":3.4451,"memory":"12,641,712","mem.veer":"5,516,368","version":"0.1.8-alpha"} []
+[2014-12-06 05:41:10] local.INFO: Queries:  [{"query":"select * from `components` where `components`.`deleted_at` is null and `sites_id` = ? and (`route_name` = ? or `route_name` = ?)","bindings":[1,"index","GLOBAL"],"time":1.46},{"query":"select `id`, `url`, `grp`, `status`, `title`, `grp_ids`, `currency`, `price`, `price_sales`, `price_sales_on`, `price_sales_off`, `price_opt`, `price_base`, `star`, `download`, `created_at` from `products` where `products`.`deleted_at` is null and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `products`.`id` and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`id` = ? and `categories`.`deleted_at` is null) >= 1 and `status` != ? and `to_show` < ? limit 1","bindings":["Veer\\Models\\Product",1,"5","hide","2014-12-06 05:41:09"],"time":1.46},{"query":"select `categories`.*, `categories_connect`.`elements_id` as `pivot_elements_id`, `categories_connect`.`categories_id` as `pivot_categories_id` from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` in (?) and `categories_connect`.`elements_type` = ? and `sites_id` = ? and `categories`.`id` != ?","bindings":[1,"Veer\\Models\\Product",1,"5"],"time":1.15},{"query":"select `images`.*, `images_connect`.`elements_id` as `pivot_elements_id`, `images_connect`.`images_id` as `pivot_images_id` from `images` inner join `images_connect` on `images`.`id` = `images_connect`.`images_id` where `images`.`deleted_at` is null and `images_connect`.`elements_id` in (?) and `images_connect`.`elements_type` = ? order by `id` asc limit 1","bindings":[1,"Veer\\Models\\Product"],"time":1.53}] []
+[2014-12-06 08:04:40] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Tag' not found' in Z:\home\test1.ru\www\veer\app\controllers\CategoryController.php:66
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-12-06 08:04:50] local.ERROR: exception 'ErrorException' with message 'Undefined variable: site_id' in Z:\home\test1.ru\www\veer\app\controllers\CategoryController.php:66
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\app\controllers\CategoryController.php(66): Illuminate\Exception\Handler->handleError(8, 'Undefined varia...', 'Z:\home\test1.r...', 66, Array)
+#1 [internal function]: CategoryController->show('1')
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('show', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(CategoryController), Object(Illuminate\Routing\Route), 'show')
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'CategoryControl...', 'show')
+#6 [internal function]: Illuminate\Routing\{closure}('1')
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Route.php(104): call_user_func_array(Object(Closure), Array)
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#19 {main} [] []
+[2014-12-06 08:09:31] local.ERROR: Error connecting to database: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'id' in where clause is ambiguous (SQL: select * from `tags` where `tags`.`deleted_at` is null and (select count(*) from `pages` inner join `tags_connect` on `pages`.`id` = `tags_connect`.`elements_id` where `pages`.`deleted_at` is null and `tags_connect`.`tags_id` = `tags`.`id` and `tags_connect`.`elements_type` = Veer\Models\Page and `hidden` != 1 and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `pages`.`id` and `categories_connect`.`elements_type` = Veer\Models\Page and `id` = 1 and `categories`.`deleted_at` is null) >= 1 and `pages`.`deleted_at` is null) >= 1) [] []
+[2014-12-06 08:09:41] local.ERROR: Error connecting to database: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'id' in where clause is ambiguous (SQL: select * from `tags` where `tags`.`deleted_at` is null and (select count(*) from `pages` inner join `tags_connect` on `pages`.`id` = `tags_connect`.`elements_id` where `pages`.`deleted_at` is null and `tags_connect`.`tags_id` = `tags`.`id` and `tags_connect`.`elements_type` = Veer\Models\Page and (select count(*) from `categories` inner join `categories_connect` on `categories`.`id` = `categories_connect`.`categories_id` where `categories`.`deleted_at` is null and `categories_connect`.`elements_id` = `pages`.`id` and `categories_connect`.`elements_type` = Veer\Models\Page and `id` = 1 and `categories`.`deleted_at` is null) >= 1 and `pages`.`deleted_at` is null) >= 1) [] []
+[2014-12-06 08:20:47] local.ERROR: exception 'ErrorException' with message 'Undefined variable: template' in Z:\home\test1.ru\www\veer\app\storage\views\bea8fba9eec2687a52b973639243acbd:3
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\app\storage\views\bea8fba9eec2687a52b973639243acbd(3): Illuminate\Exception\Handler->handleError(8, 'Undefined varia...', 'Z:\home\test1.r...', 3, Array)
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(37): include('Z:\home\test1.r...')
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(56): Illuminate\View\Engines\PhpEngine->evaluatePath('Z:\home\test1.r...', Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\View.php(134): Illuminate\View\Engines\CompilerEngine->get('Z:\home\test1.r...', Array)
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\View.php(102): Illuminate\View\View->getContents()
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\View.php(76): Illuminate\View\View->renderContents()
+#6 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\Response.php(70): Illuminate\View\View->render()
+#7 Z:\home\test1.ru\www\veer\vendor\symfony\http-foundation\Symfony\Component\HttpFoundation\Response.php(202): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1427): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1003): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#18 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#19 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#20 {main}
+
+Next exception 'ErrorException' with message 'Undefined variable: template (View: Z:\home\test1.ru\www\veer\app\views\template-default\home.blade.php)' in Z:\home\test1.ru\www\veer\app\storage\views\bea8fba9eec2687a52b973639243acbd:3
+Stack trace:
+#0 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(41): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException))
+#1 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(56): Illuminate\View\Engines\PhpEngine->evaluatePath('Z:\home\test1.r...', Array)
+#2 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\View.php(134): Illuminate\View\Engines\CompilerEngine->get('Z:\home\test1.r...', Array)
+#3 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\View.php(102): Illuminate\View\View->getContents()
+#4 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\View\View.php(76): Illuminate\View\View->renderContents()
+#5 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\Response.php(70): Illuminate\View\View->render()
+#6 Z:\home\test1.ru\www\veer\vendor\symfony\http-foundation\Symfony\Component\HttpFoundation\Response.php(202): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
+#7 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1427): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
+#8 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1003): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
+#9 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#15 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#16 Z:\home\test1.ru\www\veer\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#17 Z:\home\test1.ru\www\veer\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#18 Z:\home\test1.ru\www\veer\index.php(16): Illuminate\Foundation\Application->run()
+#19 {main} [] []
+[2014-12-06 08:44:52] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'VeerQ' not found' in Z:\home\test1.ru\www\veer\app\controllers\AttributeController.php:12
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
