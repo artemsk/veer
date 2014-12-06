@@ -9,20 +9,19 @@ class AttributeController extends \BaseController {
 	 */
 	public function index()
 	{
-                $VeerDb = VeerQ::route();   
+        $attributes = app('veerdb')->route();   
                 
-				Queue::later(5, function($job) 
-				{
-					
-					File::append( storage_path() . "/queue.txt", \Carbon\Carbon::now(). "\r\n");
+		$data = $this->veer->loadedComponents;            
 
-					$job->delete();
-				});
+		$view = view($this->template.'.attributes', array(
+			"attributes" => $attributes,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
 
-                foreach($VeerDb as $d) {
-                    echo $d->id." ".$d->name."<br>";
-                }
+		$this->view = $view; 
 
+		return $view;
 	}
 
 
@@ -56,18 +55,64 @@ class AttributeController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $VeerDb = new VeerDb(Route::currentRouteName(), $id);                 
-                
-                if($VeerDb->data['parent_flag'] != 1) {
-                    
-                $products = $VeerDb->attributeOnlyProductsQuery($this->veer->siteId, $id, get_paginator_and_sorting());
-                
-                $pages = $VeerDb->attributeOnlyPagesQuery($this->veer->siteId, $id, get_paginator_and_sorting());
-                
-                }
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+		$vdb = app('veerdb');
+
+		$attribute = $vdb->route($id);   
+		
+		$data = $this->veer->loadedComponents;     
+
+		if($vdb->data['parent_flag'] != 1) {
+			
+			$paginator_and_sorting = get_paginator_and_sorting();
+
+			$products = $vdb->attributeOnlyProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
+
+			$pages = $vdb->attributeOnlyPagesQuery($this->veer->siteId, $id, $paginator_and_sorting);
+			
+			$siteId = $this->veer->siteId;
+			
+			$tags = \Veer\Models\Tag::whereHas('products', function($query) use($id, $siteId, $attribute) {
+                    $query->siteValidation($siteId)->checked()->whereHas('attributes', function($q) use ($id, $attribute) {
+							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
+					});
+                })->orWhereHas('pages', function($query) use($id, $siteId, $attribute) {
+                    $query->siteValidation($siteId)->excludeHidden()->whereHas('attributes', function($q) use ($id, $attribute) {
+							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
+					});
+                })->remember(5)->get();		
+				
+			$categories = \Veer\Models\Category::whereHas('products', function($query) use($id, $siteId, $attribute) {
+                    $query->siteValidation($siteId)->checked()->whereHas('attributes', function($q) use ($id, $attribute) {
+							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
+					});
+                })->orWhereHas('pages', function($query) use($id, $siteId, $attribute) {
+                    $query->siteValidation($siteId)->excludeHidden()->whereHas('attributes', function($q) use ($id, $attribute) {
+							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
+					});
+                })->remember(5)->get();	
+				
+			$view = view($this->template.'.attribute', array(
+				"attribute" => $attribute,
+				"products" => $products,
+				"pages" => $pages,
+				"tags" => $tags,
+				"categories" => $categories,
+				"data" => $data,
+				"template" => $data['template']
+			));
+		
+		} else {
+			
+			$view = view($this->template.'.attribute', array(
+				"attribute" => $attribute,
+				"data" => $data,
+				"template" => $data['template']
+			));
+		}
+				
+		$this->view = $view; 
+
+		return $view;
 	}
 
 

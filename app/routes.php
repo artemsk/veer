@@ -8,8 +8,9 @@
 get('/404',array('uses' => 'IndexController@show404', 'as' => '404'));
 Route::resource('/', 'IndexController', array('only' => array('index')));
 Route::resource('category', 'CategoryController', array('only' => array('index', 'show')));
-Route::resource('tag', 'TagController');
-Route::resource('attribute', 'AttributeController');
+Route::resource('attribute', 'AttributeController', array('only' => array('index', 'show')));
+Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
+
 Route::resource('image', 'ImageController');
 Route::resource('product', 'ProductController');
 Route::resource('page', 'PageController');
@@ -22,4 +23,4 @@ get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' =>
 Route::resource('user', 'UserController');
 Route::resource('order', 'OrderController');
 
-Route::resource('admin', 'AdminController');
+//Route::resource('admin', 'AdminController');

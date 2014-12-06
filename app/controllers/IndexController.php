@@ -60,11 +60,9 @@ class IndexController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-        public function show404()
+    public function show404()
 	{
-            echo "<pre>";
-            print_r($this->veer->statistics());
-            echo "</pre>";
+            // TODO: 404 page
 	}
         
 	/**

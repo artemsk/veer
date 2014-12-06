@@ -9,7 +9,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function index()
 	{
-		$categories= app('veerdb')->make(Route::currentRouteName());   
+		$categories= app('veerdb')->route();   
 				
 		$data = $this->veer->loadedComponents;            
 
@@ -55,11 +55,9 @@ class CategoryController extends \BaseController {
 	 */
 	public function show($id)
 	{	
-		$method = Route::currentRouteName();
-
 		$vdb = app('veerdb');
 
-		$category = $vdb->make($method, $id);        		
+		$category = $vdb->route($id);        		
 
 		$paginator_and_sorting = get_paginator_and_sorting();
 		
