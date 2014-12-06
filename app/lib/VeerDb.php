@@ -868,12 +868,19 @@ class VeerDb {
 	protected function orderShowQuery($siteId, $id, $queryParams)
 	{
 		$userId = $queryParams['userId']; // @testing security
-
-		return Order::where('id', '=', $id)
+		
+		if((bool)$queryParams['administrator'] == true) {
+			return Order::where('id', '=', $id)
+				->where('hidden', '!=', 1)
+				->where('sites_id', '=', $siteId)
+				->first();			
+		} else {		
+			return Order::where('id', '=', $id)
 				->where('users_id', '=', $userId)
 				->where('hidden', '!=', 1)
 				->where('sites_id', '=', $siteId)
 				->first();
+		}
 	}
 
 	/**

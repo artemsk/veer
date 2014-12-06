@@ -148,3 +148,8 @@ class CategoryController extends \BaseController {
 
 
 }
+
+
+// TODO: products & pages должны подгружать комментарии
+// TODO: all, new, comments, ratings?
+// TODO: сортировка товаров в зависимости от route
