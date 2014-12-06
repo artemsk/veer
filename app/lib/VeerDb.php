@@ -708,7 +708,7 @@ class VeerDb {
 				->with(array('images' => function($query) {
 					$query->orderBy('id', 'desc')->take(1);
 				}
-				))->get();
+				), 'categories')->get();
 	}
 
 	/**

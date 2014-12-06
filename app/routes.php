@@ -13,12 +13,15 @@ Route::resource('filter', 'FilterController', array('only' => array('index', 'sh
 Route::resource('image', 'ImageController', array('only' => array('show')));
 //
 Route::resource('order', 'OrderController', array('only' => array('index', 'show')));
+//
+Route::resource('page', 'PageController', array('only' => array('index', 'show')));
+
 
 Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
 
 
 Route::resource('product', 'ProductController');
-Route::resource('page', 'PageController');
+
 Route::resource('search', 'SearchController');
 
 

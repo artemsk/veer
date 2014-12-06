@@ -4,9 +4,8 @@
     </head>
     <body>
         
-        {{{ $id }}} {{{ $title }}}
+        {{{ $page->id }}} {{{ $page->title }}}
         
         <p></p>
-        <?php echo $comments_section; ?>
     </body>
 </html>

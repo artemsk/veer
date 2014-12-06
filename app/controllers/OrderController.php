@@ -11,6 +11,7 @@ class OrderController extends \BaseController {
 	{
 		return Redirect::route('index'); 
 		// TODO: страница где можно было бы ввести секретный код, чтобы гость увидел свой заказ.
+        // TODO: для гостей и незарег. форма с кодом            		
 	}
 
 
@@ -44,8 +45,6 @@ class OrderController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                // TODO: для гостей и незарег. форма с кодом
-                
 		$administrator = false;
 		
 		if(Auth::check()) {
@@ -67,7 +66,7 @@ class OrderController extends \BaseController {
 		$orders->load('user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'status_history', 'products', 'bills');
 		
 		// TODO: разбить на отдельные страницы
-		// TODO: вместе с products загружать images & downloads		
+		// TODO: вместе с products загружать images & downloads	[доступно после оплаты]	
 		
 		$data = $this->veer->loadedComponents;            
 
