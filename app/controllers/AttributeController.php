@@ -10,6 +10,8 @@ class AttributeController extends \BaseController {
 	public function index()
 	{
         $attributes = app('veerdb')->route();   
+		
+		if(!is_object($attributes)) { return Redirect::route('index'); }
                 
 		$data = $this->veer->loadedComponents;            
 
@@ -58,6 +60,8 @@ class AttributeController extends \BaseController {
 		$vdb = app('veerdb');
 
 		$attribute = $vdb->route($id);   
+		
+		if(!is_object($attribute)) { return Redirect::route('index'); }
 		
 		$data = $this->veer->loadedComponents;     
 

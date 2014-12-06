@@ -11,6 +11,8 @@ class CategoryController extends \BaseController {
 	{
 		$categories= app('veerdb')->route();   
 				
+		if(!is_object($categories)) { return Redirect::route('index'); }
+		
 		$data = $this->veer->loadedComponents;            
 
 		$view = view($this->template.'.categories', array(
@@ -59,6 +61,8 @@ class CategoryController extends \BaseController {
 
 		$category = $vdb->route($id);        		
 
+		if(!is_object($category)) { return Redirect::route('index'); }
+		
 		$paginator_and_sorting = get_paginator_and_sorting();
 		
 		$products = $vdb->categoryOnlyProductsQuery($id, $paginator_and_sorting);
