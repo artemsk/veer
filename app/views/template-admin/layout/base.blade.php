@@ -37,4 +37,3 @@
     <script src="{{ URL::asset('veer/template/'.$template.'/js/bootstrap.min.js') }}"></script>
   </body>
 </html>
-<? echo number_format(memory_get_usage()); ?>

@@ -18,9 +18,13 @@ class OrderController extends \BaseController {
 	 */
 	public function index()
 	{
-		return Redirect::route('index'); 
-		// TODO: страница где можно было бы ввести секретный код, чтобы гость увидел свой заказ.
-        // TODO: для гостей и незарег. форма с кодом            		
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.secret-order', $data); 
+
+		$this->view = $view; // to cache
+
+		return $view;		
 	}
 
 
@@ -42,17 +46,41 @@ class OrderController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		if(Input::has('password')) 
+		{                
+			$p = trim(Input::get('password'));  
+			if( $p != '' ) 
+			{
+				$check = \Veer\Models\Order::whereHas('secrets', function($query) use ($p) {
+					$query->where('secret','=',$p);
+				})->pluck('id');
+				
+				if($check) {
+					$orders = app('veerdb')->make('order.show', $check, array('userId' => 0, 'administrator' => true));
+				
+					return $this->showOrder($orders);
+				}
+			}
+		}
+           
+		return $this->index(); 	
 	}
 
-
+	
+	/**
+	 * Show order by secret code.
+	 *
+	 * @param  int  
+	 * @return Response
+	 */
+	
 	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($id, $force = false)
 	{
 		$administrator = administrator();
 		
@@ -65,12 +93,25 @@ class OrderController extends \BaseController {
 			return $this->index(); 
 		}
                 
-        if(!is_object($orders)) { return Redirect::route('index'); }
+		return $this->showOrder($orders);        
+	}
+
+	
+	/**
+	 * Display result.
+	 *
+	 * @param  int  $orders
+	 * @return Response
+	 */
+	protected function showOrder($orders) 
+	{		
+		if(!is_object($orders)) { return Redirect::route('index'); }
 		 
-		$orders->load('user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'status_history', 'products', 'bills');
-		
+		$orders->load('user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'status_history', 'products', 'bills', 'secrets');
+				
 		// TODO: разбить на отдельные страницы
 		// TODO: вместе с products загружать images & downloads	[доступно после оплаты]	
+		// TODO: если просмотр по коду, то ничего делать нельзя без логина
 		
 		$data = $this->veer->loadedComponents;            
 
@@ -84,8 +125,8 @@ class OrderController extends \BaseController {
 
 		return $view;
 	}
-
-
+	
+	
 	/**
 	 * Show the form for editing the specified resource.
 	 *

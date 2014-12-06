@@ -85,8 +85,8 @@ class SearchController extends \BaseController {
 	 * @param type $searched
 	 * @return type
 	 */
-	protected function results($searched) {
-	
+	protected function results($searched) 
+	{	
 		$items = array("products" => array(0 => 0), "pages" => array(0 => 0));
 		
 		if(count($searched['products'])) {
