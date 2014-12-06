@@ -9,15 +9,15 @@ class IndexController extends \BaseController {
 	 */
 	public function index()
 	{
-			Event::fire('veer.message.center', 'Hello!');
-		
-            $data = $this->veer->loadedComponents;            
-			
-            $view = view($this->template.'.home', $data); 
-         			
-            $this->view = $view; // to cache
-            				
-            return $view;
+		Event::fire('veer.message.center', 'Hello!');
+
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.home', $data); 
+
+		$this->view = $view; // to cache
+
+		return $view;
 	}
 
 
