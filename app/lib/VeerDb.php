@@ -279,8 +279,11 @@ class VeerDb {
 		if (!isset($id[1]) || @$id[1] == "") {
 
 			$parent_attribute = Attribute::where('id', '=', $id[0])->select('name')->first();
-
-			$p = Attribute::where('name', 'like', $parent_attribute->name)->get();
+			
+			if(is_object($parent_attribute)) {
+				$p = Attribute::where('name', 'like', $parent_attribute->name)->get();
+			}
+			
 			$this->data['parent_flag'] = 1;
 		} else {
 

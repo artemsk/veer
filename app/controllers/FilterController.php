@@ -43,14 +43,61 @@ class FilterController extends \BaseController {
 	 */
 	public function show($id)
 	{
-                $getData = new VeerDb(Route::currentRouteName(), $id);
-                
-                echo "<pre>";
-                print_r($getData->data['products']);
-                echo "</pre>";
-                echo "<pre>";
-                print_r(Illuminate\Support\Facades\DB::getQueryLog());
-                echo "</pre>";
+		$vdb = app('veerdb');
+
+		$filtered = $vdb->route($id);        		
+
+		if(!is_array($filtered)) { return Redirect::route('index'); }
+		
+		$paginator_and_sorting = get_paginator_and_sorting();
+		     
+		$items = array("products" => array(), "pages" => array());
+		
+		if(count($filtered['products'])) {
+			foreach($filtered['products'] as $p) {
+				$items['products'][$p->id] = $p->id;
+			}
+		}
+
+		if(count($filtered['pages'])) {
+			foreach($filtered['pages'] as $p) {
+				$items['pages'][$p->id] = $p->id;
+			}
+		}
+		
+        $tags = \Veer\Models\Tag::whereHas('products', function($query) use($items) {
+                    $query->checked()->whereIn('products.id', $items['products']);
+                })->orWhereHas('pages', function($query) use($items) {
+                    $query->excludeHidden()->whereIn('pages.id', $items['pages']);
+                })->remember(5)->get();
+				 
+        $attributes = \Veer\Models\Attribute::whereHas('products', function($query) use($items) {
+                    $query->checked()->whereIn('products.id', $items['products']);
+                })->orWhereHas('pages', function($query) use($items) {
+                    $query->excludeHidden()->whereIn('pages.id', $items['pages']);
+                })->remember(5)->get();
+				
+		$categories = \Veer\Models\Category::whereHas('products', function($query) use($items) {
+                    $query->checked()->whereIn('products.id', $items['products']);
+                })->orWhereHas('pages', function($query) use($items) {
+                    $query->excludeHidden()->whereIn('pages.id', $items['pages']);
+                })->remember(5)->get();		
+					
+		$data = $this->veer->loadedComponents;            
+
+		$view = view($this->template.'.filter', array(
+			"categories" => $categories,
+			"products" => @$filtered['products'],
+			"pages" => @$filtered['pages'],
+			"tags" => $tags,
+			"attributes" => $attributes,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
+
+		$this->view = $view; 
+			
+		return $view;
 	}
 
 
