@@ -80,27 +80,16 @@ class ProductController extends \BaseController {
 
 			$product->load('images', 'tags', 'attributes', 'downloads', 'userlists');
 
-			// TODO: comments system
-
 			// TODO: connected?=sub/parent new? ordered? viewed?
 
 			// TODO: groups
 
-			/*if($page->show_comments == 1) { 
-				if($comments_system == "disqus") { 
-
-					$data_comments['disqus_shortname'] = array_get(Config::get('veer.site_config'),'COMMENTS_DISQUS_ID'); 
-					$data_comments['disqus_identifier'] = '_page_' . $pid;
-					$data_comments['disqus_title'] = $p->title;
-					$data_comments['disqus_url'] = URL::full();                    
-					$path_to_comments_template = 'disqus';
-				} else {
-
-					$p->load('comments');
-
-					$data_comments = $p->comments->toArray();
-				}
-			}*/	
+			if(db_parameter('COMMENTS_SYSTEM') == "disqus") { 
+				$this->veer->loadedComponents['comments_disqus'] = view('components.disqus', array("identifier" => "product".$product->id));
+			} else {
+				$page->load('comments');
+				$this->veer->loadedComponents['comments_own'] = $page->comments->toArray();
+			}
 
 			$data = array(
 				"product" => $product,
