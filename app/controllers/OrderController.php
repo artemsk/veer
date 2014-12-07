@@ -11,6 +11,7 @@ class OrderController extends \BaseController {
 		// TODO: возможность увидеть заказ без логина, но по секретному коду
 	}
 	
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -40,7 +41,7 @@ class OrderController extends \BaseController {
 
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Check secret code for order and get object if it exists.
 	 *
 	 * @return Response
 	 */
@@ -61,18 +62,10 @@ class OrderController extends \BaseController {
 					return $this->showOrder($orders);
 				}
 			}
-		}
-           
+		}           
 		return $this->index(); 	
 	}
 
-	
-	/**
-	 * Show order by secret code.
-	 *
-	 * @param  int  
-	 * @return Response
-	 */
 	
 	/**
 	 * Display the specified resource.
@@ -88,8 +81,7 @@ class OrderController extends \BaseController {
 			
 			$orders = app('veerdb')->route($id, array('userId' => Auth::id(), 'administrator' => $administrator));
 			
-		} else {
-			
+		} else {			
 			return $this->index(); 
 		}
                 

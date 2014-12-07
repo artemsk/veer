@@ -95,26 +95,17 @@ class PageController extends \BaseController {
 		$page->load('images', 'tags', 'attributes', 'downloads', 'userlists', 'user');
 		
 		// 3 blade
-		$blade_path = app_path() . '/views/template/' . $this->template. '/pages/' . $id . '.blade.php';
+		$blade_path = app_path() . '/views/' . $this->template. '/pages/' . $id . '.blade.php';
 		
-		// TODO: comments system
-		
-		/*if($page->show_comments == 1) { 
-			if($comments_system == "disqus") { 
-
-				$data_comments['disqus_shortname'] = array_get(Config::get('veer.site_config'),'COMMENTS_DISQUS_ID'); 
-				$data_comments['disqus_identifier'] = '_page_' . $pid;
-				$data_comments['disqus_title'] = $p->title;
-				$data_comments['disqus_url'] = URL::full();                    
-				$path_to_comments_template = 'disqus';
+		if($page->show_comments == 1) { 
+			if(db_parameter('COMMENTS_SYSTEM') == "disqus") { 
+				$this->veer->loadedComponents['comments_disqus'] = view('components.disqus', array("identifier" => "page".$page->id));
 			} else {
-
-				$p->load('comments');
-
-				$data_comments = $p->comments->toArray();
+				$page->load('comments');
+				$this->veer->loadedComponents['comments_own'] = $page->comments->toArray();
 			}
-		}*/	
-		
+		}	
+
 		$data = array(
 			"page" => $page,
 			"subpages" => $sub,
