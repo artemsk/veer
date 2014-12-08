@@ -207,6 +207,16 @@ class UserController extends \BaseController {
 			Session::put('shopping_cart_items', 
 				app('veerdb')->userShoppingCart(app('veer')->siteId, Auth::id()));
 					
+			if(administrator() == true) {
+				\Veer\Models\UserAdmin::where('id','=',app('veer')->administrator_credentials['id'])->
+					update(array(
+						"sess_id" => Session::getId(),
+						"last_logon" => now(),
+						"ips" => \Illuminate\Support\Facades\Request::getClientIp(),
+						"logons_count" => app('veer')->administrator_credentials['logons_count'] + 1
+					));
+			}
+			
 			return Redirect::intended();
         } 
 		

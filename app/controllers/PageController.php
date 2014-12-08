@@ -64,7 +64,7 @@ class PageController extends \BaseController {
 	public function show($id)
 	{		
 		// 1 file check   
-        $p_html = config('veer.htmlpagespath') . '/' . $id . '.html';
+        $p_html = config('veer.htmlpages_path') . '/' . $id . '.html';
         if (File::exists( $p_html )) {
             
             $contents = File::get( $p_html );

@@ -27,11 +27,14 @@ x (web template) Redesign message center message style @html
 x Redesign callme component @html
 x Prepare all controllers with basic actions
 x Secret codes (passwords) for getting orders data (unreg users etc.)
+x Disqus comments
+--------------------------------------------------- 0.1.9-alpha
+
 (web template) product page
 (web template) page
-(web template) login page
+(web template) login/secretcode page
 Sort - default
-Loading more products on request with ajax
+Loading more products on request with ajax [pagination]
 Filter - choices + db; default
 Filter - action
 Search - defaults
@@ -42,7 +45,6 @@ Initial admin touch
 (C) Sort products: fields: dat, price, star, ordered, viewed, status, type, category
 (C) Sort products: ajax
 -----------------------------------------------------------------------------
-x Actions: secret code
 Component: chosen attribute
 Component: list of popular tags
 Component: list of attributes
@@ -50,7 +52,7 @@ Component: list of categories
 Component: popular products
 Component: banners
 Component: basket ?
-Component: comments form
+Component: comments form ***
 Component: comments output
 Component: compare
 Component: google news
@@ -71,6 +73,7 @@ Plugins: payments
 Url: order bills
 Basket: Ajax -> redraw
 Plugins: numbers in russian
+x Actions: secret codes
 --------------------------------------
 When creating product page get all attributes and detect which of them change price
 Gathering categories, attributes, tags, popular products by views, orders - check

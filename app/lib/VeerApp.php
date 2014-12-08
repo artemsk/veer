@@ -74,7 +74,7 @@ class VeerApp {
 		
 		$siteDb = $this->isSiteAvailable($this->siteUrl);
 
-		$this->saveConfiguration($siteDb);		
+		$this->saveConfiguration($siteDb);	
 	}
 		
 	

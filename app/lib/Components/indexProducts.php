@@ -75,5 +75,4 @@ class indexProducts {
 
 // TODO: star
 // TODO: group
-// TODO: price format
-// TODO: basket make
+// TODO: basket make - depending on avail.

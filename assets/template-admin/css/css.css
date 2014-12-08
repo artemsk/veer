@@ -1,11 +1,11 @@
 
 html, body 
-{ 
-    padding-top: 15px;
+{   padding: 15px;
     /*font-family: "Times New Roman", serif;*/
     background-color: #fff;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;  
+    font-family: "Roboto";
 
 }
 
@@ -21,4 +21,42 @@ html, body
     color: #222222;
     text-decoration: none;
     letter-spacing: 5px;
+}
+
+.events-veer-message-center {
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: auto;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(65, 95, 118, 0.8);
+    background-image: none;
+    background-origin: padding-box;
+    background-size: auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 30px;
+    box-sizing: border-box;
+    color: rgba(250, 251, 255, 0.952941);
+    display: block;
+    height: 80px;
+    left: 30px;
+    line-height: 20.1599998474121px;
+    max-width: 300px;
+    padding: 22px 22px 22px 22px;
+    pointer-events: auto;
+    position: fixed;
+    top: auto;
+    width: 75%;
+    z-index: 1000;
+}
+
+.attribute-form {
+    background-color: #f5f5f5; //#f5f5f5;
+    padding: 20px 20px 20px 20px;    
+    border-radius: 5px;
+    box-shadow: 0 1px 1px 0 #999;
+    margin-bottom: 50px;
 }
