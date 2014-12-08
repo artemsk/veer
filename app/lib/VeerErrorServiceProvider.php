@@ -100,7 +100,7 @@ class VeerErrorServiceProvider extends ServiceProvider {
 			
 			Log::error("Unable to find site: " . app('url')->full() . " " . $exception->getMessage());
 
-			return response('[Error] Website does not exist. ', 404);
+			return response("Be right back!", 503);
 		});
 	}
 

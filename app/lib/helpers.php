@@ -136,7 +136,11 @@ if ( ! function_exists('administrator'))
 		
 		if(Auth::check()) {
 			$v = Auth::user()->load('administrator');
-			if(isset($v->administrator->banned) && (bool)($v->administrator->banned) == false) { $administrator = true; }
+			if(isset($v->administrator->banned) && (bool)($v->administrator->banned) == false) { 
+				$administrator = true; 
+				app('veer')->administrator_credentials = $v->administrator;
+				$v->administrator()->update(array());
+			}
 		}
 		
 		return $administrator;
@@ -153,7 +157,7 @@ if ( ! function_exists('now'))
 	 *
 	 * @return now
 	 */
-	function now($add = null, $markHours = null)
+	function now($add = null, $markHours = false)
 	{
 		if( empty($add) ) { return \Carbon\Carbon::now(); }
 		

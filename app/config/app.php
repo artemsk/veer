@@ -80,12 +80,12 @@ return array(
 
 	'providers' => array(
 
-		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
+		'Illuminate\Foundation\Providers\ArtisanServiceProvider', //1
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
-		'Illuminate\Session\CommandsServiceProvider',
-		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
-		'Illuminate\Routing\ControllerServiceProvider',
+		'Illuminate\Session\CommandsServiceProvider', //2
+		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider', //3
+		'Illuminate\Routing\ControllerServiceProvider', //4
 		'Illuminate\Cookie\CookieServiceProvider',
 		'Illuminate\Database\DatabaseServiceProvider',
 		'Illuminate\Encryption\EncryptionServiceProvider',
@@ -93,19 +93,19 @@ return array(
 		'Illuminate\Hashing\HashServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
 		'Illuminate\Log\LogServiceProvider',
-		'Illuminate\Mail\MailServiceProvider',
-		'Illuminate\Database\MigrationServiceProvider',
-		'Illuminate\Pagination\PaginationServiceProvider',
+		'Illuminate\Mail\MailServiceProvider', //5
+		'Illuminate\Database\MigrationServiceProvider', //6
+		'Illuminate\Pagination\PaginationServiceProvider', //7
 		'Illuminate\Queue\QueueServiceProvider',
-		'Illuminate\Redis\RedisServiceProvider',
-		'Illuminate\Remote\RemoteServiceProvider',
-		'Illuminate\Auth\Reminders\ReminderServiceProvider',
-		'Illuminate\Database\SeedServiceProvider',
+		'Illuminate\Redis\RedisServiceProvider', //8
+		'Illuminate\Remote\RemoteServiceProvider', //9
+		'Illuminate\Auth\Reminders\ReminderServiceProvider', //10
+		'Illuminate\Database\SeedServiceProvider', //11
 		'Illuminate\Session\SessionServiceProvider',
-		'Illuminate\Translation\TranslationServiceProvider',
-		'Illuminate\Validation\ValidationServiceProvider',
+		'Illuminate\Translation\TranslationServiceProvider', //12
+		'Illuminate\Validation\ValidationServiceProvider', //13
 		'Illuminate\View\ViewServiceProvider',
-		'Illuminate\Workbench\WorkbenchServiceProvider',
+		'Illuminate\Workbench\WorkbenchServiceProvider', //14
 		'Artemsk\Queuedb\QueuedbServiceProvider',
 		'Veer\Lib\VeerErrorServiceProvider',		
 		'Veer\Lib\VeerServiceProvider',

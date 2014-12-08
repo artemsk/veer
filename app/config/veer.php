@@ -9,6 +9,8 @@ return array(
 	*/
     
         'template' => "template-default",   
+	
+		'template-admin' => "template-admin",
     
     /*
 	|--------------------------------------------------------------------------

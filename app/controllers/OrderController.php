@@ -5,10 +5,8 @@ class OrderController extends \BaseController {
 	
 	public function __construct()
 	{
-		parent::__construct();
-		
+		parent::__construct();		
 		//$this->beforeFilter('auth', array('only' => array('index', 'show')));
-		// TODO: возможность увидеть заказ без логина, но по секретному коду
 	}
 	
 	
