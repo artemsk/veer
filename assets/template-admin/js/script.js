@@ -3,3 +3,7 @@
             $(".events-veer-message-center").addClass('animated').addClass('flipInX');
         }
     });
+    
+    $(function() {
+        $('[data-toggle="popover"]').popover()
+    })

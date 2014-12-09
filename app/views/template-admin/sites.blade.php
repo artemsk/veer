@@ -1,6 +1,13 @@
 @extends($template.'.layout.base')
 
 @section('body')
+<ol class="breadcrumb">
+		<li><strong>Structure</strong></li>
+		<li class="active">Sites</li>
+		<li><a href="{{ route("admin.show", "categories") }}">Categories</a></li>
+		<li><a href="{{ route("admin.show", "pages") }}">Pages</a></li>
+		<li><a href="{{ route("admin.show", "products") }}">Products</a></li>
+</ol>
 <h1>Sites</h1>
 <div class="table-responsive">
     <table class="table table-hover">

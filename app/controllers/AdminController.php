@@ -79,38 +79,25 @@ class AdminController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	// TODO: too heavy?
 	public function show($id)
 	{
 		switch ($id) {
-			case "sites":
-				
-				$items = Veer\Models\Site::all()->load('subsites', 'categories', 'components', 'configuration', 
-					'users', 'discounts', 'userlists', 'orders', 'delivery', 'payment', 'communications', 
-					'roles', 'parentsite'); // elements separately				
-				
+			case "sites":				
+				$items = $this->showSites();					
 				$view = "sites";
 				break;
 			
 			case "attributes":
-				$items = Veer\Models\Attribute::all()->sortBy('name')->load('pages', 'products');
-				
-				foreach($items as $key => $item) {
-					$items_grouped[$item->name][$key] = $key;
-					$items_counted[$item->name]['prd'] = (isset($items_counted[$item->name]['prd']) ? 
-						$items_counted[$item->name]['prd'] : 0) + ($item->products->count()); 
-					$items_counted[$item->name]['pg'] = (isset($items_counted[$item->name]['pg']) ? 
-						$items_counted[$item->name]['pg'] : 0) + ($item->pages->count()); 
-				}
-				
-				if($items_grouped) {
-					$items->put('grouped', $items_grouped);
-					$items->put('counted', $items_counted);				
-				}
-				
+				$items = $this->showAttributes();				
 				$view = "attributes";
 				break;
 
+			case "categories":		
+				$category = Input::get('category', null);
+				$items = $this->showCategories($category);
+				$view = empty($category) ? "categories" : "category";
+				break;
+			
 			default:
 				break;
 		}
@@ -125,7 +112,73 @@ class AdminController extends \BaseController {
 		
 	}
 
+	/**
+	 * Show Sites
+	 * @return type
+	 */
+	protected function showSites() 
+	{	
+		return Veer\Models\Site::all()->load('subsites', 'categories', 'components', 'configuration', 
+					'users', 'discounts', 'userlists', 'orders', 'delivery', 'payment', 'communications', 
+					'roles', 'parentsite'); // elements separately		
+	}
+	
+	/**
+	 * Show Attributes
+	 * @return type
+	 */
+	protected function showAttributes() 
+	{	
+		$items = Veer\Models\Attribute::all()->sortBy('name')->load('pages', 'products');
+				
+		foreach($items as $key => $item) {
+			$items_grouped[$item->name][$key] = $key;
+			$items_counted[$item->name]['prd'] = (isset($items_counted[$item->name]['prd']) ? 
+				$items_counted[$item->name]['prd'] : 0) + ($item->products->count()); 
+			$items_counted[$item->name]['pg'] = (isset($items_counted[$item->name]['pg']) ? 
+				$items_counted[$item->name]['pg'] : 0) + ($item->pages->count()); 
+		}
 
+		if($items_grouped) {
+			
+			$items->put('grouped', $items_grouped);
+			$items->put('counted', $items_counted);				
+		}
+		
+		return $items;
+	}
+	
+	/**
+	 * Show Categories
+	 * @return type
+	 */
+	protected function showCategories($category = null) 
+	{	
+		if($category == null) {
+			
+			$items = Veer\Models\Site::with(array('categories' => function($query) {
+				$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc');
+			}))->orderBy('manual_sort','asc')->get();
+			
+		} else {
+		 
+			$items = Veer\Models\Category::where('id','=',$category)->with(array(
+				'parentcategories' => function ($query) { $query->orderBy('manual_sort','asc'); },
+				'subcategories' => function ($query) { $query->orderBy('manual_sort','asc'); }
+			))->first();
+			
+			$items->load('products', 'pages', 'images', 'communications');
+			
+			$site = \Veer\Models\Configuration::where('sites_id','=', $items->sites_id)
+				->where('conf_key','=','SITE_TITLE')->pluck('conf_val');
+			$items['site_title'] = $site;
+		}
+		
+		return $items;
+	}	
+	
+	
+	
 	/**
 	 * Show the form for editing the specified resource.
 	 *
