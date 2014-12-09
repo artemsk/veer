@@ -31,13 +31,16 @@ x Disqus comments
 --------------------------------------------------- 0.1.9-alpha
 x Administration: sites & attributes templates
 x Administration: all categories templates
+x Administration: tags
+x Administration: images
 
 Administration: add & update sites
 Administration: add, update & delete attributes
 Administration: separate page for single attribute (update, add, delete)
 Administration: cross links to communications, comments
 Administration: sort categories click-and-drag (manual_sort field) with ajax
-Administration: 
+Administration: show products, pages, images, comms for category
+Administration: connect existing images to other elements
 
 (web template) product page
 (web template) page
@@ -257,4 +260,27 @@ c a f i o p p s t u
 page -  comments, communications
 product - !orders, comments, communications
 !search
-!user - site, role, comments, books, discounts, userlists, orders, bills, communications, administrator, searches, pages***END OF FILE***vvv
+!user - site, role, comments, books, discounts, userlists, orders, bills, communications, administrator, searches, pages
+
+-----
+
+SHOP: orders_status, shipping, payment, discounts
+ user roles*
+      orders > orders bills, orders history*, orders products*
+
+USERS: users, user admins* > user books, user lists, searches > user discounts*, user roles
+			 > pages*, orders*
+			 > comments, communications
+
+STRUCTURE: 	   page(-s), product(-s) >	   
+			download(-s)
+			comments
+	   			  					
+SETTINGS: sites > configuration, components, secrets
+	  jobs, failed jobs*, cache, migrations
+	  password_reminders
+
+TODO: yandex.market, 1s, xls (import/export)
+
+Single pages: order, user, category, page, product
+? attribute***END OF FILE***vvv

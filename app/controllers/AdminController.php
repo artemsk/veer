@@ -97,6 +97,16 @@ class AdminController extends \BaseController {
 				$items = $this->showCategories($category);
 				$view = empty($category) ? "categories" : "category";
 				break;
+
+			case "tags":		
+				$items = $this->showTags();
+				$view = "tags";
+				break;			
+			
+			case "images":		
+				$items = $this->showImages();
+				$view = "images";
+				break;
 			
 			default:
 				break;
@@ -118,7 +128,7 @@ class AdminController extends \BaseController {
 	 */
 	protected function showSites() 
 	{	
-		return Veer\Models\Site::all()->load('subsites', 'categories', 'components', 'configuration', 
+		return \Veer\Models\Site::all()->load('subsites', 'categories', 'components', 'configuration', 
 					'users', 'discounts', 'userlists', 'orders', 'delivery', 'payment', 'communications', 
 					'roles', 'parentsite'); // elements separately		
 	}
@@ -129,7 +139,7 @@ class AdminController extends \BaseController {
 	 */
 	protected function showAttributes() 
 	{	
-		$items = Veer\Models\Attribute::all()->sortBy('name')->load('pages', 'products');
+		$items = \Veer\Models\Attribute::all()->sortBy('name')->load('pages', 'products');
 				
 		foreach($items as $key => $item) {
 			$items_grouped[$item->name][$key] = $key;
@@ -156,13 +166,13 @@ class AdminController extends \BaseController {
 	{	
 		if($category == null) {
 			
-			$items = Veer\Models\Site::with(array('categories' => function($query) {
+			$items = \Veer\Models\Site::with(array('categories' => function($query) {
 				$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc');
 			}))->orderBy('manual_sort','asc')->get();
 			
 		} else {
 		 
-			$items = Veer\Models\Category::where('id','=',$category)->with(array(
+			$items = \Veer\Models\Category::where('id','=',$category)->with(array(
 				'parentcategories' => function ($query) { $query->orderBy('manual_sort','asc'); },
 				'subcategories' => function ($query) { $query->orderBy('manual_sort','asc'); }
 			))->first();
@@ -177,7 +187,31 @@ class AdminController extends \BaseController {
 		return $items;
 	}	
 	
+	/**
+	 * Show Tags
+	 * @return type
+	 */
+	protected function showTags() 
+	{	
+		$items = \Veer\Models\Tag::orderBy('name', 'asc')->with('pages', 'products')->paginate(50);	
+		
+		$items['counted'] = \Veer\Models\Tag::count();
+
+		return $items;
+	}	
 	
+	/**
+	 * Show Images
+	 * @return type
+	 */
+	protected function showImages() 
+	{	
+		$items = \Veer\Models\Image::orderBy('id', 'desc')->with('pages', 'products', 'categories')->paginate(25);	
+		
+		$items['counted'] = \Veer\Models\Image::count();
+
+		return $items;
+	}		
 	
 	/**
 	 * Show the form for editing the specified resource.
