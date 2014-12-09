@@ -33,6 +33,7 @@ x Administration: sites & attributes templates
 x Administration: all categories templates
 x Administration: tags
 x Administration: images
+x Administration: downloads templates
 
 Administration: add & update sites
 Administration: add, update & delete attributes
@@ -41,6 +42,8 @@ Administration: cross links to communications, comments
 Administration: sort categories click-and-drag (manual_sort field) with ajax
 Administration: show products, pages, images, comms for category
 Administration: connect existing images to other elements
+Administration: when making download links expiration date or times should be set
+
 
 (web template) product page
 (web template) page
@@ -117,6 +120,7 @@ Communications model inject
 (D) Filter & search: configuration templates or redirect
 Secret codes for pages & products ?
 Categories' remote urls
+When user press download on his order with digital downloads create temporary duplicate file in downloads table just for the session!
 
 ----------------------------------
 comments

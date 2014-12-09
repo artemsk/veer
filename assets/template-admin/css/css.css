@@ -97,3 +97,16 @@ html, body
 .round-element-primary:hover {
     //background-color: #286090;
 }
+
+.faded {
+    color: #999;
+}
+
+.badge > a { 
+    color: #fff;
+    text-decoration: underline;
+}
+
+.active-download {
+    border-left: 2px #777 solid;
+}

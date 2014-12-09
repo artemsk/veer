@@ -50,7 +50,6 @@
 	</div>
 	{{ Form::close() }}
 	
-
 	<div class="row">
 		<div class="text-center">
 			{{ $items->links() }}
