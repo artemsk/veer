@@ -67,3 +67,33 @@ html, body
     font-size: inherit;
     height: inherit;
 }
+
+.round-element {
+    background-color: #FFF;
+    border-radius: 15px;
+    border: 1px #ddd solid;
+    box-sizing: border-box;
+    color: #337AB7;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 5px 14px 14px 14px;
+    text-align: center;
+    text-decoration: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    -moz-text-decoration-color: #337AB7;
+    -moz-text-decoration-line: none;
+    -moz-text-decoration-style: solid;
+    margin: 10px;
+}
+
+.round-element-primary {
+    background-color: #337ab7;
+}
+
+.round-element-primary:hover {
+    //background-color: #286090;
+}

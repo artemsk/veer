@@ -30,7 +30,7 @@
 
 	<div class="col-sm-3 attribute-form">		
 		<p><strong><input type="text" class="form-control" placeholder="New attribute name" value=""></strong></p>
-		<p><textarea class="form-control" rows="10" placeholder="Values" name=""></textarea></p>	
+		<p><textarea class="form-control" rows="10" placeholder="Values [:id:id]" name=""></textarea></p>	
 		<button type="button" class="btn btn-default">Add</button>
 	</div>
 	<div class="col-sm-1"></div>

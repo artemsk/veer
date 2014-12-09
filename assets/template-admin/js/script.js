@@ -7,3 +7,9 @@
     $(function() {
         $('[data-toggle="popover"]').popover()
     })
+    
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    
+    $(".input-files-enhance").fileinput({'showUpload':false, 'previewFileType':'any'});

@@ -12,7 +12,8 @@
     <link href="{{ URL::asset('assets/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/'.$template.'/css/css.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ URL::asset('assets/'.$template.'/css/animate.css') }}">
-    
+	<link href="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet"/>
+
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -133,35 +134,30 @@
 	
     @yield('body')
 
-	<br/><br/><br/>
+	<div class="rowdelimiter"></div>
+	<hr>
 	<footer>
 		<div class="container-fluid footer">
 			<div class="row">
-				<div class="col-sm-1 text-center">
-				<p><a href="http://yandex.ru/cy?base=0&amp;host=koalalab.ru"><img src="http://www.yandex.ru/cycounter?koalalab.ru" width="88" height="31" alt="Индекс цитирования" border="0" /></a>
-				</p>
-				</div>
-				<div class="col-sm-2">
-					<p class="footer-block">&copy; 2014 Москва <br/>
-						<strong>Кондитерский магазин<br/>«Кэндишоп»</strong></p>
-
-				</div>
-				 <div class="col-sm-7">
-					 <div class="tags-lnks"><a href="?6">Все тэги</a></div>
-					 <div class="tags-lnks"><a href="?7">Все свойства</a></div>
-					 <div class="tags-lnks"><a href="?8">Все фабрики</a></div>
-					 <div class="tags-lnks"><a href="?9">Все товары</a></div>
-					 <div class="clearfix"></div>
-					 <p></p>
-					 <p>Veer {{ $app['veer']->statistics['version'] }} (q. {{ $app['veer']->statistics['queries'] }} l. {{ $app['veer']->statistics['loading'] }} m. {{ $app['veer']->statistics['memory'] }})</p>
+				 <div class="col-sm-6">					 
+					 <?php app('veer')->statistics(); ?>
+					 <p>The Veer :: version <strong>{{ $app['veer']->statistics['version'] }}</strong> <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> loading time <strong>{{ $app['veer']->statistics['loading'] }}</strong> memory usage <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
 				 </div>
-				 <div class="col-sm-2">
-					 <p class="footer-block">Сделано в <br/><strong><a href="bolshay.net">Большой Мастерской</a></strong></p>
-					 <p class="footer-block">powered by <br/><strong>The Veer Layer.</strong></p>
+				 <div class="col-sm-3 text-center">
+					 <p class="footer-block">Сделано в <strong><a href="http://bolshay.net">Большой Мастерской</a></strong></p>
+				 </div>
+				 <div class="col-sm-3 text-right">	 
+					 <p class="footer-block">powered by <strong>The Veer Layer.</strong></p>
 				 </div>
 				 </div>
 			 </div>
 	</footer>
+
+	<div id="qlog" class="collapse out">
+		<pre>
+		<?php print_r(DB::getQueryLog()) ?>
+		</pre>
+	</div>
 
 	{{ empty($data['veer_message_center']) ? null : $data['veer_message_center'] }}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -169,9 +165,8 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ URL::asset('assets/'.$template.'/js/bootstrap.min.js') }}"></script>
     <script src="{{ URL::asset('assets/'.$template.'/js/holder.js') }}"></script>
+	<script src="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/'.$template.'/js/script.js') }}"></script>
+
   </body>
 </html>
-<?php echo "<pre>";
-print_r(DB::getQueryLog());
-echo "</pre>"; ?>
