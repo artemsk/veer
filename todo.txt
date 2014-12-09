@@ -29,6 +29,15 @@ x Prepare all controllers with basic actions
 x Secret codes (passwords) for getting orders data (unreg users etc.)
 x Disqus comments
 --------------------------------------------------- 0.1.9-alpha
+x Administration: sites & attributes templates
+x Administration: all categories templates
+
+Administration: add & update sites
+Administration: add, update & delete attributes
+Administration: separate page for single attribute (update, add, delete)
+Administration: cross links to communications, comments
+Administration: sort categories click-and-drag (manual_sort field) with ajax
+Administration: 
 
 (web template) product page
 (web template) page
@@ -104,6 +113,7 @@ Communications model inject
 (A) Preloader Image
 (D) Filter & search: configuration templates or redirect
 Secret codes for pages & products ?
+Categories' remote urls
 
 ----------------------------------
 comments
