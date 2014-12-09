@@ -107,6 +107,11 @@ class AdminController extends \BaseController {
 				$items = $this->showImages();
 				$view = "images";
 				break;
+
+			case "downloads":		
+				$items = $this->showDownloads();
+				$view = "downloads";
+				break;
 			
 			default:
 				break;
@@ -212,6 +217,24 @@ class AdminController extends \BaseController {
 
 		return $items;
 	}		
+	
+	/**
+	 * Show Downloads
+	 * @return type
+	 */
+	protected function showDownloads() 
+	{	
+		$items = \Veer\Models\Download::orderBy('fname','desc')->orderBy('id', 'desc')->with('elements')->paginate(50);	
+		$items_temporary = \Veer\Models\Download::where('original','=',0)->count();
+		
+		foreach($items as $key => $item) {
+			$items_regrouped[$item->fname][$item->original][$key]=$key;
+		}
+		
+		$items['temporary'] = $items_temporary;
+		$items['regrouped'] = $items_regrouped;
+		return $items;
+	}
 	
 	/**
 	 * Show the form for editing the specified resource.
