@@ -280,8 +280,7 @@ USERS: users, user admins* > user books, user lists, searches > user discounts*,
 			 > pages*, orders*
 			 > comments, communications
 		  					
-SETTINGS: sites > components, secrets
-	  jobs, failed jobs*, cache, migrations
+SETTINGS: cache, migrations
 	  password_reminders
 
 TODO: yandex.market, 1s, xls (import/export)
