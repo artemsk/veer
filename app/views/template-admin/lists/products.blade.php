@@ -10,7 +10,7 @@
 				 image-faded
 				 @endif
 						 "></a>
-				<div class="caption"><small>#{{$item->id}}
+				<div class="caption @if($item->hidden == true) image-faded @endif"><small>#{{$item->id}}
 					</small>
 					<a href="{{ route('admin.show', array("products", "id" => $item->id)) }}">{{ $item->title }}</a>
 					<p><strong>{{ app('veershop')->getPrice($item, true) }}</strong><Br/>

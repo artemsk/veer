@@ -46,6 +46,7 @@
 		</div>
 	</li>
 	</ul>
+	<div class="rowdelimiter"></div>
 	
 	@endforeach
 	

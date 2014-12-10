@@ -12,7 +12,7 @@
 <br/>
 <div class="container">
 	<div class="row">
-	<div class="col-md-8">
+	<div class="col-md-12">
 		<ol class="breadcrumb">
 			<li>{{ link_to_route("admin.show", empty($items->site_title) ? "Categories" : $items->site_title, array("categories","#site".$items->sites_id)) }}</li>
 			@if (count($items->parentcategories)<=0) 
@@ -110,7 +110,7 @@
 	<h3>Pages</h3>
 	<div class="row">
 		<div class="col-md-12">
-			@include($template.'.lists.pages', array('pages' => $items->pages))
+			@include($template.'.lists.pages', array('items' => $items->pages))
 		</div>
 	</div>
 	@endif
@@ -120,7 +120,7 @@
 	<h3>Communications</h3>
 	<div class="row">
 		<div class="col-md-12">
-			@include($template.'.lists.communications', array('communications' => $items->communications))
+			@include($template.'.lists.communications', array('items' => $items->communications))
 		</div>
 	</div>
 	@endif

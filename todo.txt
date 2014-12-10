@@ -279,14 +279,14 @@ SHOP: orders_status, shipping, payment, discounts
 USERS: users, user admins* > user books, user lists, searches > user discounts*, user roles
 			 > pages*, orders*
 			 > comments, communications
-
-STRUCTURE: 	   page(-s), 	   
-	   			  					
-SETTINGS: sites > configuration, components, secrets
+		  					
+SETTINGS: sites > components, secrets
 	  jobs, failed jobs*, cache, migrations
 	  password_reminders
 
 TODO: yandex.market, 1s, xls (import/export)
 
 Single pages: order, user, category, page, product!
-? attribute***END OF FILE***vvv
+? attribute
+
+search!***END OF FILE***vvv
