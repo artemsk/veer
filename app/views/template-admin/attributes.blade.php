@@ -39,7 +39,7 @@
 		@foreach ($items['grouped'] as $name => $item)	 
 		<p>{{ $name }} —  
 			@foreach ($item as $val)
-			<a href="{{ app('url')->current() }}?one={{ $items[$val]->id }}">{{ $items[$val]->val  }}</a> 
+			<a href="{{ app('url')->current() }}?id={{ $items[$val]->id }}">{{ $items[$val]->val  }}</a> 
 			@endforeach
 		</p>
 		@endforeach

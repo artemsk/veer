@@ -482,3 +482,20 @@ if ( ! function_exists('redirect'))
 		}
 	}
 }
+
+
+
+
+if ( ! function_exists('odd'))
+{
+	/**
+	 * Check if num is odd or not
+	 *
+	 * @param  int|float $num
+	 * @return bool
+	 */
+	function odd($num)
+	{
+		 return ($num % 2) ? TRUE : FALSE;
+	}
+}

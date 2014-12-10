@@ -68,7 +68,10 @@
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>&nbsp;
 		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 		<a href="{{ app('url')->current() }}?category={{ $category->id }}">{{ $category->title }}</a> 
-		<small>{{ $category->remote_url }}</small></li>	
+		<small>{{ $category->remote_url }}
+			<span class="additional-info">{{ $category->products()->count() }} <i class="fa fa-gift"></i>, {{ $category->pages()->count() }} <span class="glyphicon glyphicon-file" aria-hidden="true"></span></span> 
+		</small>
+		</li>	
 	@endforeach
 	<li class="list-group-item">
 		<div class="input-group">
@@ -82,29 +85,45 @@
 	</div>
 	</div>
 
+	@if(count($items->images)>0)
+	<div class="rowdelimiter"></div>
+	<h3>Images</h3>
 	<div class="row">
-		<div class="col-md-8">
-			@include($template.'.lists.images', array('images' => $items->images))
+		<div class="col-md-12">
+			@include($template.'.lists.images', array('items' => $items->images))
 		</div>
 	</div>	
+	@endif
 	
+	@if(count($items->products)>0)
+	<div class="rowdelimiter"></div>
+	<h3>Products</h3>
 	<div class="row">
-		<div class="col-md-8">
-			@include($template.'.lists.products', array('products' => $items->products))
+		<div class="col-md-12">
+			@include($template.'.lists.products', array('items' => $items->products))
 		</div>
 	</div>
+	@endif
 	
+	@if(count($items->pages)>0)
+	<div class="rowdelimiter"></div>
+	<h3>Pages</h3>
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			@include($template.'.lists.pages', array('pages' => $items->pages))
 		</div>
 	</div>
+	@endif
 	
+	@if(count($items->communications)>0)
+	<div class="rowdelimiter"></div>
+	<h3>Communications</h3>
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			@include($template.'.lists.communications', array('communications' => $items->communications))
 		</div>
 	</div>
+	@endif
 	
 </div>
 

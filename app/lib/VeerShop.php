@@ -34,9 +34,9 @@ class VeerShop {
 	
 	
 	
-	public function getPrice($product)
+	public function getPrice($product, $bypassUser = false)
 	{
-		$price = $this->calculator($product);
+		$price = $this->calculator($product, $bypassUser);
 		
 		if($product['price'] != $price) {
 			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-discount")
@@ -66,7 +66,15 @@ class VeerShop {
 	
 	
 	
-	public function calculator($product)
+	public function priceCurrencyFormat($price, $itemCurrency)
+	{
+		return $this->priceFormat($this->currency($price, $itemCurrency));
+	}
+	
+	
+	
+	
+	public function calculator($product, $bypassUser = false)
 	{
 		// 1
 		// First of all, we take regular price
@@ -81,7 +89,7 @@ class VeerShop {
                         
 		// 3 
 		// We check if we have logged user & if he has active discount
-		if(app('auth')->id() <= 0) { 
+		if(app('auth')->id() <= 0 || $bypassUser == true) { 
 			return $this->currency($price, $product['currency']);
 		}
 		

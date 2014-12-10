@@ -17,8 +17,8 @@
 	@foreach($items as $item)	
 	<div class="col-lg-2 round-element">		
 		<input type="text" class="form-control admin-form text-center" value="{{ $item->name }}">
-		<span class="label label-info">{{ $item->products->count() }}</span>
-		<span class="label label-success">{{ $item->pages->count() }}</span>
+		<span class="label label-info"><a href="{{ route('admin.show', array('products', 'tag' => $item->id)) }}">{{ $item->products->count() }}</a></span>
+		<span class="label label-success"><a href="{{ route('admin.show', array('pages', 'tag' => $item->id)) }}">{{ $item->pages->count() }}</a></span>
 		</div>
 	@endforeach
 	
