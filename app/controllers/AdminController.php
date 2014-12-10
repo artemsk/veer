@@ -134,6 +134,36 @@ class AdminController extends \BaseController {
 				$view = "pages";
 				break;				
 			
+			case "configuration":	
+				$siteId = Input::get('site', null);
+				$items = $this->showConfiguration($siteId);
+				$view = "configuration";
+				break;				
+			
+			case "components":	
+				$siteId = Input::get('site', null);
+				$items = $this->showComponents($siteId);
+				$view = "components";
+				break;	
+			
+			case "secrets":	
+				$siteId = Input::get('site', null);
+				$items = $this->showConfiguration($siteId);
+				$view = "configuration";
+				break;	
+			
+			case "jobs":	
+				$siteId = Input::get('site', null);
+				$items = $this->showConfiguration($siteId);
+				$view = "configuration";
+				break;	
+			
+			case "etc":	
+				$siteId = Input::get('site', null);
+				$items = $this->showConfiguration($siteId);
+				$view = "configuration";
+				break;	
+			
 			default:
 				break;
 		}
@@ -218,6 +248,8 @@ class AdminController extends \BaseController {
 				
 				if(is_object($items)) {
 					$items->load('products', 'pages', 'images', 'communications');
+					
+					$items->pages->sortBy('manual_order');
 
 					$site = \Veer\Models\Configuration::where('sites_id','=', $items->sites_id)
 						->where('conf_key','=','SITE_TITLE')->pluck('conf_val');
@@ -317,15 +349,15 @@ class AdminController extends \BaseController {
 	}	
 	
 /**
-	 * Show Products
+	 * Show Pages
 	 * @return type
 	 */
 	protected function showPages($image = null, $tag = null) 
 	{	
 		if(!empty($image)) {
-			$items = \Veer\Models\Product::whereHas('images', function($query) use ($image) {
+			$items = \Veer\Models\Page::whereHas('images', function($query) use ($image) {
 				$query->where('images_id','=',$image);
-			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+			})->orderBy('id','desc')->with('images', 'categories', 'user', 'subpages', 'comments')->paginate(25); 
 			
 			$items['filtered'] = "images";
 			$items['filtered_id'] = $image;
@@ -333,18 +365,56 @@ class AdminController extends \BaseController {
 		}
 		
 		if(!empty($tag)) {
-			$items = \Veer\Models\Product::whereHas('tags', function($query) use ($tag) {
+			$items = \Veer\Models\Page::whereHas('tags', function($query) use ($tag) {
 				$query->where('tags_id','=',$tag);
-			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+			})->orderBy('id','desc')->with('images', 'categories', 'user', 'subpages', 'comments')->paginate(25); 
 			
 			$items['filtered'] = "tags";
 			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
 			return $items;
 		}
 		
-		$items = \Veer\Models\Product::orderBy('id','desc')->with('images', 'categories')->paginate(25); 
-		$items['counted'] = \Veer\Models\Product::count();
+		$items = \Veer\Models\Page::orderBy('id','desc')->with('images', 'categories', 'user', 'subpages', 'comments')->paginate(25); 
+		$items['counted'] = \Veer\Models\Page::count();
 		return $items;
+	}
+	
+	/**
+	 * Show Configurations
+	 * @return type
+	 */
+	protected function showConfiguration($siteId = null) 
+	{	
+		if($siteId == null) {
+			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) {
+				$query->orderBy('conf_key');
+			}))->get();
+		}
+		
+		$items = \Veer\Models\Site::with(array('configuration' => function($query) {
+				$query->orderBy('conf_key');
+			}))->find($siteId); 
+			
+		return array($items);
+	}
+	
+	/**
+	 * Show Components
+	 * @return type
+	 */
+	protected function showComponents($siteId = null) 
+	{	
+		if($siteId == null) {
+			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) {
+				$query->orderBy('conf_key');
+			}))->get();
+		}
+		
+		$items = \Veer\Models\Site::with(array('configuration' => function($query) {
+				$query->orderBy('conf_key');
+			}))->find($siteId); 
+			
+		return array($items);
 	}
 	
 	/**

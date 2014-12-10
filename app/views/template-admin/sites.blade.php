@@ -47,8 +47,11 @@
 		  <td>{{ $item['created_at'] }}</td>
 		</tr>
 		<tr class="active">
-			<td colspan="9"><small><a href="{{ route("admin.show", array("categories", "#site".$item->id)) }}">{{ $item->categories->count() }} categories</a>, {{ $item->components->count() }} components, 
-				{{ $item->configuration->count() }} confs, {{ $item->users->count() }} users, {{ $item->discounts->count() }} discounts, 
+			<td colspan="9"><small>
+					<a href="{{ route("admin.show", array("categories", "#site".$item->id)) }}">{{ $item->categories->count() }} categories</a>, 
+					{{ $item->components->count() }} components, 
+					<a href="{{ route("admin.show", array("configuration", "site" => $item->id)) }}">{{ $item->configuration->count() }} confs</a>, 
+					{{ $item->users->count() }} users, {{ $item->discounts->count() }} discounts, 
 				{{ $item->userlists->count() }} lists, {{ $item->orders->count() }} orders, {{ $item->delivery->count() }} delivery, 
 				{{ $item->payment->count() }} payment, {{ $item->communications->count() }} messages, {{ $item->roles->count() }} roles, 
 				{{ $item->elements()->count() }} products & pages, {{ $item->subsites->count() }} sub-sites</small></td>

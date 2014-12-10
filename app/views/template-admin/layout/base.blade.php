@@ -130,14 +130,6 @@
 		<li><a href="#">Payment methods</a></li>	
 		<li><a href="#">Statuses</a></li>
 	</ol> 	
-	<ol class="breadcrumb">
-		<li><strong>Settings</strong></li>
-		<li><a href="#">Configuration</a></li>
-		<li><a href="#">Components</a></li>
-		<li><a href="#">Secrets</a></li>
-		<li><a href="#">Jobs</a></li>		
-		<li><a href="#">etc.</a></li>	
-	</ol>
 	-->
 	
     @yield('body')
