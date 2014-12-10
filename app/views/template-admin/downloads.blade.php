@@ -9,7 +9,7 @@
 	<li class="active">Downloads</li>		
 	<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 </ol>
-<h1>Downloads: {{ count($items['regrouped']) }} files, {{ $items['temporary'] }} active downloads</h1>
+<h1>Downloads: {{ $items['counted'] }} files, {{ $items['temporary'] }} active downloads</h1>
 <br/>
 <div class="container">
 
@@ -24,18 +24,18 @@
 			<strong>{{ count($group[1]) }}</strong> elements, <strong>{{ count(@$group[0]) }}</strong> active
 			</div>
 			</div>			
-			@foreach ($group as $group_one)
+			@foreach ($group as $key => $group_one)
 			<ul class="list-group">
-			@foreach ($group_one as $key => $item)
-			<li class="list-group-item {{ empty($key) ? 'active-download' : null }}">
+			@foreach ($group_one as $item)
+			<li class="list-group-item {{ empty($key) ? 'active-download' : '' }}">
 			@if($items[$item]->elements_type == "Veer\Models\Product")
 				#{{ $items[$item]->id }} 
-				<a href="{{ route("admin.show", array("products", "id" => $items[$item]->id)) }}">{{ $items[$item]->elements['title'] }}</a>
+				<a href="{{ route("admin.show", array("products", "id" => $items[$item]->elements['id'])) }}">{{ $items[$item]->elements['title'] }}</a>
 			@elseif($items[$item]->elements_type == "Veer\Models\Page")
 				#{{ $items[$item]->id }} 
-				<a href="{{ route("admin.show", array("pages", "id" => $items[$item]->id)) }}">{{ $items[$item]->elements['title'] }}</a>
+				<a href="{{ route("admin.show", array("pages", "id" => $items[$item]->elements['id'])) }}">{{ $items[$item]->elements['title'] }}</a>
 			@else
-				<span class="faded">#{{ $items[$item]->id }} Unused</span>
+				<span class="text-muted">#{{ $items[$item]->id }} Unused</span>
 			@endif			
 			<small>
 				<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>{{ $items[$item]->downloads }}
@@ -43,25 +43,34 @@
 			</small>
 			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 			@if($key > 0)
-			<button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> secret</button>
+			<button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> make link</button>
 			@else
 			@if(empty($items[$item]->secret))
 			<span class="badge">bad copy</span>
 			@else
-			<span class="badge"><a href="{{ asset('/download/'.$items[$item]->secret) }}">secret</a></span>
+			<span class="badge"><a href="{{ asset('/download/'.$items[$item]->secret) }}">download link</a></span>
 			@endif
 			@endif
 			</li>
 			@endforeach
 			</ul>
 			@endforeach	
-			<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> copy</button>
+			<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> product | page</button>
 		</div>		
 		@endforeach
 
 	</div>
 	
 	<div class="rowdelimiter"></div>
+	
+	<div class="row">
+		<div class="text-center">
+			{{ $items->links() }}
+		</div>
+	</div>
+	
+	<hr>
+		
 	{{ Form::open(array('method' => 'put', 'files' => true)); }}
 	<div class="row">
 		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="InFile1" multiple=false></p></div>
@@ -74,11 +83,5 @@
 		</div>
 	</div>
 	{{ Form::close() }}
-	
-	<div class="row">
-		<div class="text-center">
-			{{ $items->links() }}
-		</div>
-	</div>
 </div>
 @stop

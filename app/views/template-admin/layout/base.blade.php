@@ -13,6 +13,7 @@
     <link href="{{ URL::asset('assets/'.$template.'/css/css.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ URL::asset('assets/'.$template.'/css/animate.css') }}">
 	<link href="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet"/>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -96,6 +97,13 @@
 						  </ul>
 					  </li>					  
 				  </ul>
+				  <form class="navbar-form navbar-left" role="search">
+					  <div class="form-group">
+						  <input type="text" class="form-control" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom" 
+								 data-html="true" title="Searching current element">
+					  </div>
+					  <button type="submit" class="btn btn-default">Search</button>
+				  </form>
 			  </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 	  </nav>

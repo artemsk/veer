@@ -35,6 +35,8 @@ x Administration: tags
 x Administration: images
 x Administration: downloads templates
 
+
+Administration: links to products & pages from elements
 Administration: add & update sites
 Administration: add, update & delete attributes
 Administration: separate page for single attribute (update, add, delete)
@@ -121,6 +123,8 @@ Communications model inject
 Secret codes for pages & products ?
 Categories' remote urls
 When user press download on his order with digital downloads create temporary duplicate file in downloads table just for the session!
+Out of stock products automatically change status to 'sold' or alert admin
+Test if products with no categories are not showing!
 
 ----------------------------------
 comments
@@ -276,9 +280,7 @@ USERS: users, user admins* > user books, user lists, searches > user discounts*,
 			 > pages*, orders*
 			 > comments, communications
 
-STRUCTURE: 	   page(-s), product(-s) >	   
-			download(-s)
-			comments
+STRUCTURE: 	   page(-s), 	   
 	   			  					
 SETTINGS: sites > configuration, components, secrets
 	  jobs, failed jobs*, cache, migrations
@@ -286,5 +288,5 @@ SETTINGS: sites > configuration, components, secrets
 
 TODO: yandex.market, 1s, xls (import/export)
 
-Single pages: order, user, category, page, product
+Single pages: order, user, category, page, product!
 ? attribute***END OF FILE***vvv

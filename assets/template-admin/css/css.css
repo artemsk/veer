@@ -98,10 +98,6 @@ html, body
     //background-color: #286090;
 }
 
-.faded {
-    color: #999;
-}
-
 .badge > a { 
     color: #fff;
     text-decoration: underline;
@@ -109,4 +105,59 @@ html, body
 
 .active-download {
     border-left: 2px #777 solid;
+}
+
+.bg-muted {
+    background-color: #efefef;
+}
+
+.image-faded {
+    opacity: 0.5;
+}
+
+.bordered-row {
+    border-top: 1px #dedede solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.bordered-row:hover {
+    background-color: #efefef;
+}
+
+.label > a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.top-panel {
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    font-size: 1.3em;
+    padding: 4px 10px 0px 15px;
+    background-color: rgba(71, 186, 195, 0.9);
+    color: #fff;
+}
+
+.top-panel-right {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 1em;
+    padding: 5px 10px 4px 10px;
+    background-color: rgba(200, 200, 200, 0.8);
+}
+
+.danger-icon {
+    color: #FF4136;
+}
+
+.warning-icon {
+    color: #ffcc66;
+}
+
+.additional-info {
+    margin-left:20px;
+    color: #999;
 }

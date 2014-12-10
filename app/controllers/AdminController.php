@@ -23,9 +23,10 @@ class AdminController extends \BaseController {
 			app('veer')->administrator_credentials['sites_encoded'] = $a['sites_encoded'];
 			app('veer')->administrator_credentials['access_encoded'] = json_decode(app('veer')->administrator_credentials['access_parameters']);
 			
-			app('veer')->loadedComponents['template'] = app('veer')->template = config('veer.template-admin');
+			app('veer')->loadedComponents['template'] = app('veer')->template = config('veer.template-admin');			
         });
 		
+		$this->template = config('veer.template-admin');
 	}
 	
 
@@ -94,7 +95,8 @@ class AdminController extends \BaseController {
 
 			case "categories":		
 				$category = Input::get('category', null);
-				$items = $this->showCategories($category);
+				$image = Input::get('image', null);
+				$items = $this->showCategories($category, $image);
 				$view = empty($category) ? "categories" : "category";
 				break;
 
@@ -112,6 +114,25 @@ class AdminController extends \BaseController {
 				$items = $this->showDownloads();
 				$view = "downloads";
 				break;
+			
+			case "comments":		
+				$items = $this->showComments();
+				$view = "comments";
+				break;		
+			
+			case "products":		
+				$image = Input::get('image', null);
+				$tag = Input::get('tag', null);
+				$items = $this->showProducts($image, $tag);
+				$view = "products";
+				break;		
+
+			case "pages":		
+				$image = Input::get('image', null);
+				$tag = Input::get('tag', null);
+				$items = $this->showPages($image, $tag);
+				$view = "pages";
+				break;				
 			
 			default:
 				break;
@@ -167,26 +188,41 @@ class AdminController extends \BaseController {
 	 * Show Categories
 	 * @return type
 	 */
-	protected function showCategories($category = null) 
+	protected function showCategories($category = null, $image = null) 
 	{	
-		if($category == null) {
+		if($category == null || $image != null) {
 			
-			$items = \Veer\Models\Site::with(array('categories' => function($query) {
-				$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc');
-			}))->orderBy('manual_sort','asc')->get();
+			if(!empty($image)) {
+				$items = \Veer\Models\Site::with(array('categories' => function($query) use ($image) {
+					$query->whereHas('images',function($q) use ($image) {
+						$q->where('images_id','=',$image);					
+					});
+				}))->orderBy('manual_sort','asc')->get();	
+				
+				$items['filtered'] = "images";
+				$items['filtered_id'] = $image;
+				
+				return $items;
+			} 
 			
-		} else {
-		 
-			$items = \Veer\Models\Category::where('id','=',$category)->with(array(
-				'parentcategories' => function ($query) { $query->orderBy('manual_sort','asc'); },
-				'subcategories' => function ($query) { $query->orderBy('manual_sort','asc'); }
-			))->first();
+				$items = \Veer\Models\Site::with(array('categories' => function($query) {
+					$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc');
+				}))->orderBy('manual_sort','asc')->get();
 			
-			$items->load('products', 'pages', 'images', 'communications');
 			
-			$site = \Veer\Models\Configuration::where('sites_id','=', $items->sites_id)
-				->where('conf_key','=','SITE_TITLE')->pluck('conf_val');
-			$items['site_title'] = $site;
+		} else {			
+				$items = \Veer\Models\Category::where('id','=',$category)->with(array(
+					'parentcategories' => function ($query) { $query->orderBy('manual_sort','asc'); },
+					'subcategories' => function ($query) { $query->orderBy('manual_sort','asc'); }
+				))->first();
+				
+				if(is_object($items)) {
+					$items->load('products', 'pages', 'images', 'communications');
+
+					$site = \Veer\Models\Configuration::where('sites_id','=', $items->sites_id)
+						->where('conf_key','=','SITE_TITLE')->pluck('conf_val');
+					$items['site_title'] = $site;
+				}			
 		}
 		
 		return $items;
@@ -226,13 +262,88 @@ class AdminController extends \BaseController {
 	{	
 		$items = \Veer\Models\Download::orderBy('fname','desc')->orderBy('id', 'desc')->with('elements')->paginate(50);	
 		$items_temporary = \Veer\Models\Download::where('original','=',0)->count();
+		$items_counted = \Veer\Models\Download::count(DB::raw('DISTINCT fname'));
 		
 		foreach($items as $key => $item) {
 			$items_regrouped[$item->fname][$item->original][$key]=$key;
 		}
 		
 		$items['temporary'] = $items_temporary;
+		$items['counted'] = $items_counted;
 		$items['regrouped'] = $items_regrouped;
+		return $items;
+	}
+	
+	/**
+	 * Show Comments
+	 * @return type
+	 */
+	protected function showComments() 
+	{	
+		$items = \Veer\Models\Comment::orderBy('id','desc')->with('elements')->paginate(50); // users -> only for user's page
+		$items['counted'] = \Veer\Models\Comment::count();
+		return $items;
+	}
+	
+	/**
+	 * Show Products
+	 * @return type
+	 */
+	protected function showProducts($image = null, $tag = null) 
+	{	
+		if(!empty($image)) {
+			$items = \Veer\Models\Product::whereHas('images', function($query) use ($image) {
+				$query->where('images_id','=',$image);
+			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+			
+			$items['filtered'] = "images";
+			$items['filtered_id'] = $image;
+			return $items;
+		}
+		
+		if(!empty($tag)) {
+			$items = \Veer\Models\Product::whereHas('tags', function($query) use ($tag) {
+				$query->where('tags_id','=',$tag);
+			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+			
+			$items['filtered'] = "tags";
+			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
+			return $items;
+		}
+		
+		$items = \Veer\Models\Product::orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+		$items['counted'] = \Veer\Models\Product::count();
+		return $items;
+	}	
+	
+/**
+	 * Show Products
+	 * @return type
+	 */
+	protected function showPages($image = null, $tag = null) 
+	{	
+		if(!empty($image)) {
+			$items = \Veer\Models\Product::whereHas('images', function($query) use ($image) {
+				$query->where('images_id','=',$image);
+			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+			
+			$items['filtered'] = "images";
+			$items['filtered_id'] = $image;
+			return $items;
+		}
+		
+		if(!empty($tag)) {
+			$items = \Veer\Models\Product::whereHas('tags', function($query) use ($tag) {
+				$query->where('tags_id','=',$tag);
+			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+			
+			$items['filtered'] = "tags";
+			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
+			return $items;
+		}
+		
+		$items = \Veer\Models\Product::orderBy('id','desc')->with('images', 'categories')->paginate(25); 
+		$items['counted'] = \Veer\Models\Product::count();
 		return $items;
 	}
 	

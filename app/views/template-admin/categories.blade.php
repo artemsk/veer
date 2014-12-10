@@ -4,11 +4,20 @@
 <ol class="breadcrumb">
 		<li><strong>Structure</strong></li>
 		<li><a href="{{ route("admin.show", "sites") }}">Sites</a></li>
+		@if(!empty($items['filtered'])) 
+		<li><a href="{{ route("admin.show", "categories") }}"><strong>Categories</strong></a></li>
+		@else
 		<li class="active">Categories</li>
+		@endif
 		<li><a href="{{ route("admin.show", "pages") }}">Pages</a></li>
 		<li><a href="{{ route("admin.show", "products") }}">Products</a></li>
 </ol>
-<h1>Categories</h1>
+<h1>Categories 
+@if(!empty($items['filtered'])) 
+: filtered by {{ $items['filtered'] }} <a href="{{ route("admin.show", array(array_pull($items, 'filtered'))) }}">
+	#{{ array_pull($items, 'filtered_id') }}</a>
+@endif
+</h1>
 <br/>
 <div class="container">
 	<div class="col-md-8">
@@ -23,7 +32,10 @@
 		<span class="badge">{{ $category->views }}</span>
 		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 		<a href="{{ app('url')->current() }}?category={{ $category->id }}">{{ $category->title }}</a> 
-		<small>{{ $category->remote_url }}</small></li>	
+		<small>{{ $category->remote_url }}
+			<span class="additional-info">{{ $category->products()->count() }} <i class="fa fa-gift"></i>, {{ $category->pages()->count() }} <span class="glyphicon glyphicon-file" aria-hidden="true"></span></span> 
+		</small>
+	</li>	
 	@endforeach
 	<li class="list-group-item">
 		<div class="input-group">
