@@ -123,8 +123,9 @@ class AdminController extends \BaseController {
 			case "products":		
 				$image = Input::get('image', null);
 				$tag = Input::get('tag', null);
-				$items = $this->showProducts($image, $tag);
-				$view = "products";
+				$product = Input::get('id', null);
+				$items = $this->showProducts($image, $tag, $product);
+				$view = empty($product) ? "products" : "product";
 				break;		
 
 			case "pages":		
@@ -318,7 +319,7 @@ class AdminController extends \BaseController {
 	 * Show Products
 	 * @return type
 	 */
-	protected function showProducts($image = null, $tag = null) 
+	protected function showProducts($image = null, $tag = null, $product = null) 
 	{	
 		if(!empty($image)) {
 			$items = \Veer\Models\Product::whereHas('images', function($query) use ($image) {
@@ -338,6 +339,19 @@ class AdminController extends \BaseController {
 			$items['filtered'] = "tags";
 			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
 			return $items;
+		}
+		
+		if(!empty($product)) {
+			
+			$items = Veer\Models\Product::find($product);
+			
+			if(is_object($items)) {
+				$items->load('subproducts', 'parentproducts', 'pages', 'categories', 'tags',
+					'attributes', 'images', 'orders', 'comments', 'downloads', 
+					'userlists', 'communications');				
+			}
+			return $items;
+			
 		}
 		
 		$items = \Veer\Models\Product::orderBy('id','desc')->with('images', 'categories')->paginate(25); 
@@ -447,12 +461,16 @@ class AdminController extends \BaseController {
 	}
 	
 	/**
-	 * Show Jobs
+	 * Show Etc.
 	 * @return type
 	 */
 	protected function showEtc() 
 	{		
-		return array();
+		$cache = DB::table("cache")->get();
+		$migrations = DB::table("migrations")->get();
+		$reminders = DB::table("password_reminders")->get();
+		
+		return array('cache' => $cache, 'migrations' => $migrations, 'reminders' => $reminders);
 	}
 	
 	/**

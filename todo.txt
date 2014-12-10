@@ -34,8 +34,10 @@ x Administration: all categories templates
 x Administration: tags
 x Administration: images
 x Administration: downloads templates
+x Administration: pages, products, settings & filters templates
 
-
+Administration: category page: add/remove images, products, pages, sorting
+Administration: search
 Administration: links to products & pages from elements
 Administration: add & update sites
 Administration: add, update & delete attributes
@@ -45,6 +47,7 @@ Administration: sort categories click-and-drag (manual_sort field) with ajax
 Administration: show products, pages, images, comms for category
 Administration: connect existing images to other elements
 Administration: when making download links expiration date or times should be set
+Administration: clear cache, show migrations, show password reminders
 
 
 (web template) product page
