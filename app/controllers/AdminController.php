@@ -147,21 +147,18 @@ class AdminController extends \BaseController {
 				break;	
 			
 			case "secrets":	
-				$siteId = Input::get('site', null);
-				$items = $this->showConfiguration($siteId);
-				$view = "configuration";
+				$items = $this->showSecrets();
+				$view = "secrets";
 				break;	
 			
 			case "jobs":	
-				$siteId = Input::get('site', null);
-				$items = $this->showConfiguration($siteId);
-				$view = "configuration";
+				$items = $this->showJobs();
+				$view = "jobs";
 				break;	
 			
 			case "etc":	
-				$siteId = Input::get('site', null);
-				$items = $this->showConfiguration($siteId);
-				$view = "configuration";
+				$items = $this->showEtc();
+				$view = "etc";
 				break;	
 			
 			default:
@@ -405,16 +402,57 @@ class AdminController extends \BaseController {
 	protected function showComponents($siteId = null) 
 	{	
 		if($siteId == null) {
-			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) {
-				$query->orderBy('conf_key');
+			return \Veer\Models\Site::where('id','>',0)->with(array('components' => function($query) {
+				$query->orderBy('sites_id')->orderBy('route_name');
 			}))->get();
 		}
 		
-		$items = \Veer\Models\Site::with(array('configuration' => function($query) {
-				$query->orderBy('conf_key');
+		$items = \Veer\Models\Site::with(array('components' => function($query) {
+				$query->orderBy('sites_id')->orderBy('route_name');
 			}))->find($siteId); 
 			
 		return array($items);
+	}
+	
+	/**
+	 * Show Secrets
+	 * @return type
+	 */
+	protected function showSecrets() 
+	{		
+		$items = \Veer\Models\Secret::all();
+		$items->sortByDesc('created_at');
+			
+		return $items;
+	}
+	
+	/**
+	 * Show Jobs
+	 * @return type
+	 */
+	protected function showJobs() 
+	{		
+		$items = \Artemsk\Queuedb\Job::all();
+		$items->sortBy('scheduled_at');
+		
+		$items_failed = DB::table("failed_jobs")->get();
+		
+		$statuses = array(\Artemsk\Queuedb\Job::STATUS_OPEN => "Open",
+						  \Artemsk\Queuedb\Job::STATUS_WAITING => "Waiting",
+					\Artemsk\Queuedb\Job::STATUS_STARTED => "Started",
+					\Artemsk\Queuedb\Job::STATUS_FINISHED => "Finished",
+					\Artemsk\Queuedb\Job::STATUS_FAILED => "Failed");
+			
+		return array('jobs' => $items, 'failed' => $items_failed, 'statuses' => $statuses);
+	}
+	
+	/**
+	 * Show Jobs
+	 * @return type
+	 */
+	protected function showEtc() 
+	{		
+		return array();
 	}
 	
 	/**
