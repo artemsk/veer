@@ -4,7 +4,7 @@
 <ol class="breadcrumb">
 		<li><strong>Structure</strong></li>
 		<li><a href="{{ route("admin.show", "sites") }}">Sites</a></li>
-		<li><a href="{{ route("admin.show", "categories") }}">Categories</a></li>
+		<li><a href="{{ route("admin.show", "categories") }}"><strong>Categories</strong></a></li>
 		<li><a href="{{ route("admin.show", "pages") }}">Pages</a></li>
 		<li><a href="{{ route("admin.show", "products") }}">Products</a></li>
 </ol>
