@@ -50,7 +50,8 @@ class Product extends \Eloquent {
     }    
  
     public function attributes() {
-        return $this->morphToMany('\Veer\Models\Attribute', 'elements', 'attributes_connect', 'elements_id', 'attributes_id');
+        return $this->morphToMany('\Veer\Models\Attribute', 'elements', 'attributes_connect', 'elements_id', 'attributes_id')
+				->withPivot('product_new_price');
     } 
     
     public function images() {
