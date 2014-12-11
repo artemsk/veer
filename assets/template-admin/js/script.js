@@ -13,3 +13,8 @@
     })
     
     $(".input-files-enhance").fileinput({'showUpload':false, 'previewFileType':'any'});
+    
+    $('.input-daterange, .date-container').datepicker({
+    weekStart: 1,
+    todayBtn: "linked"
+    });

@@ -161,3 +161,7 @@ html, body
     margin-left:20px;
     color: #999;
 }
+
+.narrower {
+   padding-left: 0px;
+}

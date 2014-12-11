@@ -48,7 +48,8 @@ Administration: show products, pages, images, comms for category
 Administration: connect existing images to other elements
 Administration: when making download links expiration date or times should be set
 Administration: clear cache, show migrations, show password reminders
-
+Administration: test showing parent & subproducts
+Administration: deprecate groups for subproducts?
 
 (web template) product page
 (web template) page

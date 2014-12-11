@@ -347,9 +347,12 @@ class AdminController extends \BaseController {
 			
 			if(is_object($items)) {
 				$items->load('subproducts', 'parentproducts', 'pages', 'categories', 'tags',
-					'attributes', 'images', 'orders', 'comments', 'downloads', 
-					'userlists', 'communications');				
-			}
+					'attributes', 'images', 'downloads');		
+				
+				$items['basket'] = $items->userlists()->where('name','=','[basket]')->get();
+				$items['lists'] = $items->userlists()->where('name','!=','[basket]')->get();	
+			}	
+			
 			return $items;
 			
 		}

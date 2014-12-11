@@ -12,8 +12,9 @@
     <link href="{{ URL::asset('assets/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/'.$template.'/css/css.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ URL::asset('assets/'.$template.'/css/animate.css') }}">
-	<link href="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet"/>
+	<link href="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{{ asset('assets/packages/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -166,6 +167,7 @@
     <script src="{{ URL::asset('assets/'.$template.'/js/bootstrap.min.js') }}"></script>
     <script src="{{ URL::asset('assets/'.$template.'/js/holder.js') }}"></script>
 	<script src="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+	<script src="{{ asset('assets/packages/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
 	<script src="{{ URL::asset('assets/'.$template.'/js/script.js') }}"></script>
 
   </body>
