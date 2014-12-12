@@ -18,8 +18,8 @@ class AdminUsersTable extends Migration {
                     $table->string('sess_id',128)->index()->default('');
                     $table->string('description',255)->default('');
                     $table->bigInteger('logons_count')->default(0);
-                    $table->timestamp('last_logon')->default(false);
-                    $table->timestamp('last_active')->default(false);
+                    $table->timestamp('last_logon')->nullable();
+                    $table->timestamp('last_active')->nullable();
                     $table->longText('ips')->default('');
                     $table->longText('access_parameters')->default('');
                     $table->longText('sites_watch')->default('');
