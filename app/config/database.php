@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => $_ENV['DBDRVR'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return array(
 
 		'sqlite' => array(
 			'driver'   => 'sqlite',
-			'database' => __DIR__.'/../database/production.sqlite',
+			'database' => __DIR__.'/../database/' . $_ENV['DBNAME'], //
 			'prefix'   => '',
 		),
 
