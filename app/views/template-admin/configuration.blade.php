@@ -12,36 +12,34 @@
 <h1>Configuration cards</h1>
 <br/>
 <div class="container">
-
 	@foreach($items as $site)
 	<h2 id="site{{ $site->id }}">{{ $site->url }}</h2>
 	<div class="row">
-		@foreach($site->configuration as $item)	
+		<div id="configurationsite{{ $site->id }}">
+		@foreach($site->configuration as $item)
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			<div class="thumbnail">
-				<div class="caption"><small>#{{$item->id}}</small>
-					<p><strong><input type="text" class="form-control admin-form text-center" 
-									  placeholder="Key" value="{{ $item->conf_key }}"></strong></p>
-									  <p><textarea class="form-control" placeholder="Value">{{ $item->conf_val }}</textarea></p>
-					<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-					&nbsp;<button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
-					&nbsp;<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-				</div>
+			<div class="thumbnail" id="card{{$item->id}}">
+				@include($template.'.lists.configuration-cards', array('item' => $item, 'siteid' => $site->id))	
 			</div>
 		</div>
 		@endforeach	
-		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			<div class="thumbnail">
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-6 text-center">			
+			{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}
+			<div class="thumbnail" id="cardnew{{ $site->id }}" >
 				<div class="caption"><small>NEW CARD</small>
-					<p><strong><input type="text" class="form-control admin-form text-center" 
+					<p><strong><input type="text" name="new[{{ $site->id}}][key]" class="form-control admin-form text-center" 
 									  placeholder="Key" value=""></strong></p>
-									  <p><textarea class="form-control" placeholder="Value"></textarea></p>
-					<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+									  <p><textarea name="new[{{ $site->id}}][value]" class="form-control" placeholder="Value"></textarea></p>
+					<button type="submit" data-siteid="{{ $site->id }}" name="save[new]" class="btn btn-success btn-xs">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>
 			</div>
+			{{ Form::close() }}
 		</div>
 	</div>
 	<div class="rowdelimiter"></div>
 	@endforeach
+
 </div>
 @stop
