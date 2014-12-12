@@ -593,7 +593,7 @@ class AdminController extends \BaseController {
 			$confs = $new;
 		}
 		
-		if(empty($confs[$cardid]['key'])) { return "Error. Reload page"; }
+		if(empty($confs[$cardid]['key']) || empty($siteid)) { return "Error. Reload page"; }
 		
 		$save = Input::get('save', null);
 		$copy = Input::get('copy', null);
@@ -609,6 +609,8 @@ class AdminController extends \BaseController {
 			$cardid = $newc->id;
 		}
 		
+		Artisan::call('cache:clear');
+		
 		if(!empty($delete)) {
 			\Veer\Models\Configuration::destroy($cardid);
 			
@@ -622,6 +624,9 @@ class AdminController extends \BaseController {
 		{
 			if($value->id == $cardid) { return true; }
 		}));
+		
+		
+		Event::fire('veer.message.center', "Updated.");
 		
 		return view(app('veer')->template.'.lists.configuration-cards', array(
 			"item" => $card,

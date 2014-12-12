@@ -34,6 +34,7 @@
 					<button type="submit" data-siteid="{{ $site->id }}" name="save[new]" class="btn btn-success btn-xs">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>
+				<input type="hidden" name="siteid" value="{{ $site->id }}">
 			</div>
 			{{ Form::close() }}
 		</div>
