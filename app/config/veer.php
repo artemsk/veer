@@ -8,7 +8,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
     
-        'template' => "template-default",   
+        'template' => "template-blank",   
 	
 		'template-admin' => "template-admin",
     

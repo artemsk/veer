@@ -85,9 +85,18 @@
 	</div>
 	</div>
 
-	@if(count($items->images)>0)
 	<div class="rowdelimiter"></div>
 	<h3>Images</h3>
+	<div class="row">
+		<div class="col-md-6">
+			<input class="input-files-enhance" type="file" id="InFile1" name="InFile1" multiple=false>
+		</div>
+		<div class="col-md-6">
+			<input class="form-control" placeholder=":Existing Images IDs[,]">
+		</div>				
+	</div>	
+	<p></p>
+	@if(count($items->images)>0)	
 	<div class="row">
 		<div class="col-md-12">
 			@include($template.'.lists.images', array('items' => $items->images))
@@ -95,9 +104,24 @@
 	</div>	
 	@endif
 	
-	@if(count($items->products)>0)
 	<div class="rowdelimiter"></div>
 	<h3>Products</h3>
+	<div class="row">
+		<div class="col-sm-3 col-md-2">
+			<a class="btn btn-default btn-block" href="{{ route("admin.show", array("products", 
+						"id" => "new", "category" => $items->id)) }}" role="button">New product</a>
+		</div>
+		<div class="col-sm-9 col-md-10">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder=":Existing IDs">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button">Add</button>
+				</span>
+			</div>			
+		</div>		
+	</div>
+	<p></p>
+	@if(count($items->products)>0)	
 	<div class="row">
 		<div class="col-md-12">
 			@include($template.'.lists.products', array('items' => $items->products))
@@ -105,9 +129,24 @@
 	</div>
 	@endif
 	
-	@if(count($items->pages)>0)
 	<div class="rowdelimiter"></div>
 	<h3>Pages</h3>
+	<div class="row">
+		<div class="col-sm-3 col-md-2">
+			<a class="btn btn-default btn-block" href="{{ route("admin.show", array("pages", 
+				"id" => "new", "category" => $items->id)) }}" role="button">New page</a>
+		</div>
+		<div class="col-sm-9 col-md-10">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder=":Existing IDs">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button">Add</button>
+				</span>
+			</div>			
+		</div>		
+	</div>
+	<p></p>	
+	@if(count($items->pages)>0)	
 	<div class="row">
 		<div class="col-md-12">
 			@include($template.'.lists.pages', array('items' => $items->pages))

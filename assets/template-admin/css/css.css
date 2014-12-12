@@ -165,3 +165,43 @@ html, body
 .narrower {
    padding-left: 0px;
 }
+
+.page-checkboxes-box {
+    padding-bottom: 10px;
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.page-checkboxes-box-last {
+    margin-right: 0px;
+}
+
+.action-hover-box {
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: auto;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(79, 78, 74, 0.2);;
+    background-image: none;
+    background-origin: padding-box;
+    background-size: auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 0px;
+    top: 30px;
+    box-sizing: border-box;
+    color: rgba(250, 251, 255, 0.952941);
+    display: none;
+    height: 75px;
+    right: 0px;
+    line-height: 20.1599998474121px;
+    max-width: 175px;
+    padding: 15px 22px 22px 22px;
+    pointer-events: auto;
+    position: fixed;
+    bottom: auto;
+    width: 75%;
+    z-index: 9000;
+}

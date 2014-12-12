@@ -15,6 +15,7 @@
 	<link href="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="{{ asset('assets/packages/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/packages/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -55,6 +56,9 @@
 							  <li><a href="{{ route("admin.show", "tags") }}">Tags</a></li>
 							  <li><a href="{{ route("admin.show", "downloads") }}">Downloads</a></li>
 							  <li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>
+							  <li class="divider"></li>
+							  <li><a href="{{ route("admin.show", array("pages", "id" => "new")) }}">New page</a></li>
+							  <li><a href="{{ route("admin.show", array("products", "id" => "new")) }}">New product</a></li>
 						  </ul>
 					  </li>
 					  <li class="dropdown">
@@ -101,7 +105,7 @@
 				  <form class="navbar-form navbar-left" role="search">
 					  <div class="form-group">
 						  <input type="text" class="form-control" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom" 
-								 data-html="true" title="Searching current element">
+								 data-html="true" title="Searching current element" id="SearchField">
 					  </div>
 					  <button type="submit" class="btn btn-default">Search</button>
 				  </form>
@@ -168,7 +172,7 @@
     <script src="{{ URL::asset('assets/'.$template.'/js/holder.js') }}"></script>
 	<script src="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 	<script src="{{ asset('assets/packages/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+	<script src="{{ asset('assets/packages/bootstrap-switch-master/dist/js/bootstrap-switch.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/'.$template.'/js/script.js') }}"></script>
-
   </body>
 </html>

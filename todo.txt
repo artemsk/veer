@@ -35,6 +35,8 @@ x Administration: tags
 x Administration: images
 x Administration: downloads templates
 x Administration: pages, products, settings & filters templates
+x Administration: page & product template
+x Installation Artisan Command (without configuration)
 
 Administration: category page: add/remove images, products, pages, sorting
 Administration: search
@@ -50,6 +52,9 @@ Administration: when making download links expiration date or times should be se
 Administration: clear cache, show migrations, show password reminders
 Administration: test showing parent & subproducts
 Administration: deprecate groups for subproducts?
+Administration: markdown syntax for text editor
+Administration: deprecate in_last & in_news fields for pages
+
 
 (web template) product page
 (web template) page
