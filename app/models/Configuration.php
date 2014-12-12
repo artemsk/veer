@@ -5,6 +5,7 @@ class Configuration extends \Eloquent {
     
     protected $table = "configuration";
     protected $softDelete = true;
+	protected $fillable = array("sites_id", "conf_key");
     
     // Many Configuration Values <- One
     

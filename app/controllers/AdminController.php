@@ -523,11 +523,12 @@ class AdminController extends \BaseController {
 	{
 		$f = "update".strtoupper($id[0]).substr($id,1);
 		
-		$this->$f();
+		$data = $this->$f();
 		
 		if(!app('request')->ajax()) {
-		
 			return $this->show($id);
+		} else {
+			return $data;
 		}
 	}
 
@@ -549,15 +550,17 @@ class AdminController extends \BaseController {
 			
 			$site = \Veer\Models\Site::firstOrNew(array("id" => trim($key)));
         
-			$site->url = $values['url'];
+			if(app('veer')->siteId != $key) { $site->url = $values['url']; }
 			$site->parent_id = empty($values['parent_id']) ? 0 : $values['parent_id'];
 			$site->manual_sort = empty($values['manual_sort']) ? 0 : $values['manual_sort'];
-			$site->redirect_on = empty($values['redirect_on']) ? false : true;
-			$site->redirect_url = empty($values['redirect_url']) ? '' : $values['redirect_url'];
+			if(app('veer')->siteId != $key) { 
+				$site->redirect_on = empty($values['redirect_on']) ? false : true;
+				$site->redirect_url = empty($values['redirect_url']) ? '' : $values['redirect_url'];
+			}
 			
 			$site->on_off = isset($site->on_off) ? $site->on_off : false;
-			if($key == $turnoff && app('veer')->siteId != $key) { $site->on_off = false; $message = "Site #".$site->id." is down."; }
-			if($key == $turnon) { $site->on_off = true; $message = "Site #".$site->id." is up."; }
+			if($key == $turnoff && app('veer')->siteId != $key) { $site->on_off = false; $message.= " Site #".$site->id." is down."; }
+			if($key == $turnon) { $site->on_off = true; $message.= " Site #".$site->id." is up."; }
 			
 			if(!isset($site->id)) { $message.=" Adding a new site."; }
 			
@@ -571,6 +574,61 @@ class AdminController extends \BaseController {
 		Event::fire('veer.message.center', $message);
 	}
 	
+	/**
+	 * Update Sites
+	 */
+	protected function updateConfiguration() 
+	{
+		$siteid = Input::get('siteid');
+		$confs = Input::get('configuration', null);
+		
+		$new = Input::get('new', null);
+		
+		if(!empty($confs)) {
+			$cardid = head(array_keys($confs));
+		}
+		
+		if(!empty($new)) {
+			$cardid = $siteid;
+			$confs = $new;
+		}
+		
+		if(empty($confs[$cardid]['key'])) { return "Error. Reload page"; }
+		
+		$save = Input::get('save', null);
+		$copy = Input::get('copy', null);
+		$delete = Input::get('dele', null);
+		
+		if(!empty($save)) {
+			$newc = \Veer\Models\Configuration::firstOrNew(array("conf_key" => $confs[$cardid]['key'], "sites_id" => $siteid));
+			$newc->sites_id = $siteid;
+			$newc->conf_key = $confs[$cardid]['key'];
+			$newc->conf_val = $confs[$cardid]['value'];
+			$newc->save();
+
+			$cardid = $newc->id;
+		}
+		
+		if(!empty($delete)) {
+			\Veer\Models\Configuration::destroy($cardid);
+			
+			return null;
+		}
+		
+		
+		$items = $this->showConfiguration($siteid);
+
+		$card = head(array_where($items[0]->configuration, function($key, $value) use ($cardid)
+		{
+			if($value->id == $cardid) { return true; }
+		}));
+		
+		return view(app('veer')->template.'.lists.configuration-cards', array(
+			"item" => $card,
+			"siteid" => $siteid,
+		));		
+
+	}	
 	/**
 	 * Remove the specified resource from storage.
 	 *
