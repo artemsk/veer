@@ -196,7 +196,8 @@ class UserController extends \BaseController {
 	{
 		$save_old_session_id = Session::getId();
 			
-        if (Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 'banned' => 0)))
+        if (Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 
+			'banned' => 0, 'sites_id' => app('veer')->siteId)))
         {
 			Auth::user()->increment('logons_count');
 			
