@@ -1,1 +1,0 @@
-<s><?php echo e($regular_price); ?></s> <?php echo e($price); ?> 

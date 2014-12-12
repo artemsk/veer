@@ -65,22 +65,22 @@ return array(
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
-			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
-			'charset'  => 'utf8',
-			'prefix'   => '',
+			'host'     => $_ENV['DBHOST'],
+			'database' => $_ENV['DBNAME'],
+			'username' => $_ENV['DBUSER'],
+			'password' => $_ENV['DBPSSW'],
+			'charset'  => $_ENV['DBCHAR'],
+			'prefix'   => $_ENV['DBPRFX'],
 			'schema'   => 'public',
 		),
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
-			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
-			'prefix'   => '',
+			'host'     => $_ENV['DBHOST'],
+			'database' => $_ENV['DBNAME'],
+			'username' => $_ENV['DBUSER'],
+			'password' => $_ENV['DBPSSW'],
+			'prefix'   => $_ENV['DBPRFX'],
 		),
 
 	),

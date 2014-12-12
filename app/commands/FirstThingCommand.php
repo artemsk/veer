@@ -77,6 +77,8 @@ class FirstThingCommand extends Command {
         $admin->save();
         $user->administrator()->save($admin); 
 		
+		$this->call('cache:clear');
+		
 		$this->info('Congratulations. Everything is done.');
 		$this->info('Continue here: ');
 		$this->info('');
