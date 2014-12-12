@@ -7,10 +7,10 @@
 {{ Form::open(array('route' => 'user.login.post')) }}
     
 {{ Form::label('email', 'E-Mail Address'); }}<br/>
-{{ Form::email('email', '', array('class' => 'form-control')); }}<br/><br/>
+{{ Form::email('email', '', array('class' => 'form-control veer-form')); }}<br/><br/>
 
 {{ Form::label('password', 'Password'); }}<br/>
-{{ Form::password('password', array('class' => 'form-control')); }}<br/><br/>
+{{ Form::password('password', array('class' => 'form-control veer-form')); }}<br/><br/>
 
 {{ Form::submit('Login', array('class' => 'btn btn-default btn-lg')); }}
 {{ Form::close() }}
