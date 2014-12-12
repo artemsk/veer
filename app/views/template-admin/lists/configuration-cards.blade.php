@@ -1,4 +1,6 @@
-			
+@foreach($configuration as $item)
+		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
+			<div class="thumbnail" id="card{{$item->id}}">		
 		{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}
 				<div class="caption"><small>#{{$item->id}}</small>
 					<p><strong><input name="configuration[{{$item->id}}][key]" type="text" class="form-control admin-form text-center" 
@@ -14,4 +16,7 @@
 					<input type="hidden" name="siteid" value="{{ $siteid }}">
 				</div>
 		{{ Form::close() }}
+			</div>
+		</div>
+@endforeach			
 		

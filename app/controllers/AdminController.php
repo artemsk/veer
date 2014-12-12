@@ -422,16 +422,16 @@ class AdminController extends \BaseController {
 	 * Show Configurations
 	 * @return type
 	 */
-	protected function showConfiguration($siteId = null) 
+	protected function showConfiguration($siteId = null, $orderBy = array('conf_key', 'asc')) 
 	{	
 		if($siteId == null) {
-			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) {
-				$query->orderBy('conf_key');
+			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) use ($orderBy) {
+				$query->orderBy($orderBy[0], $orderBy[1]);
 			}))->get();
 		}
 		
-		$items = \Veer\Models\Site::with(array('configuration' => function($query) {
-				$query->orderBy('conf_key');
+		$items = \Veer\Models\Site::with(array('configuration' => function($query) use ($orderBy) {
+				$query->orderBy($orderBy[0], $orderBy[1]);
 			}))->find($siteId); 
 			
 		return array($items);
@@ -593,13 +593,13 @@ class AdminController extends \BaseController {
 			$confs = $new;
 		}
 		
-		if(empty($confs[$cardid]['key']) || empty($siteid)) { return "Error. Reload page"; }
+		if(!empty($siteid)) { 
 		
 		$save = Input::get('save', null);
 		$copy = Input::get('copy', null);
 		$delete = Input::get('dele', null);
 		
-		if(!empty($save)) {
+		if(!empty($save) && !empty($confs[$cardid]['key'])) {
 			$newc = \Veer\Models\Configuration::firstOrNew(array("conf_key" => $confs[$cardid]['key'], "sites_id" => $siteid));
 			$newc->sites_id = $siteid;
 			$newc->conf_key = $confs[$cardid]['key'];
@@ -608,31 +608,27 @@ class AdminController extends \BaseController {
 
 			$cardid = $newc->id;
 		}
-		
-		Artisan::call('cache:clear');
-		
+				
 		if(!empty($delete)) {
 			\Veer\Models\Configuration::destroy($cardid);
-			
-			return null;
 		}
 		
-		
-		$items = $this->showConfiguration($siteid);
+		Artisan::call('cache:clear');
+						
+		$items = $this->showConfiguration($siteid, array('id','desc'));
 
-		$card = head(array_where($items[0]->configuration, function($key, $value) use ($cardid)
-		{
-			if($value->id == $cardid) { return true; }
-		}));
-		
-		
-		Event::fire('veer.message.center', "Updated.");
-		
+		//$card = head(array_where($items[0]->configuration, function($key, $value) use ($cardid)
+		//{
+		//	if($value->id == $cardid) { return true; }
+		//}));
+				
 		return view(app('veer')->template.'.lists.configuration-cards', array(
-			"item" => $card,
+			"configuration" => $items[0]->configuration,
 			"siteid" => $siteid,
 		));		
 
+		} else { return 'Error. Reload page.'; }
+		
 	}	
 	/**
 	 * Remove the specified resource from storage.
