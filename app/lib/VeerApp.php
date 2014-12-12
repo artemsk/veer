@@ -9,10 +9,10 @@ use Veer\Models\Component;
 class VeerApp {
 
 	/**
-	 *  The Veer Layer.
+	 *  Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = '0.1.9-alpha';
+	const VEERVERSION = '0.2.0-alpha';
 
 	/**
 	 *  Booted?

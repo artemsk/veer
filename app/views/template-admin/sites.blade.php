@@ -9,6 +9,7 @@
 		<li><a href="{{ route("admin.show", "products") }}">Products</a></li>
 </ol>
 <h1>Sites</h1>
+{{ Form::open(array('method' => 'put', 'files' => false)); }}
 <div class="table-responsive">
     <table class="table table-hover">
       <thead>
@@ -28,21 +29,23 @@
 	@foreach ($items as $item)	  
         <tr>
           <td>@if ((bool)$item['on_off'] == true)
-			  <button type="button" class="btn btn-success">Live</button>
+			  <button type="submit" name="turnoff" class="btn btn-success" value="{{$item->id}}">Live</button>
 			  @else
-			  <button type="button" class="btn btn-danger">OnHold</button>
+			  <button type="submit" name="turnon" class="btn btn-danger" value="{{$item->id}}">OnHold</button>
 			  @endif
 			</td>
           <td>{{ $item['id'] }}</td>
-          <td><input type="url" class="form-control" placeholder="Site Url" value="{{ $item['url'] }}"></td>
-          <td><input type="text" class="form-control" placeholder="Parent Id" size="3" value="{{ $item['parent_id'] }}"></td>
-          <td><input type="text" class="form-control" placeholder="Sort" size="3" value="{{ $item['manual_sort'] }}"></td>
+          <td><input type="url" class="form-control" name="url[{{ $item->id }}]" placeholder="Site Url" value="{{ $item['url'] }}"></td>
+          <td><input type="text" class="form-control" name="parent[{{ $item->id }}]" placeholder="Parent Id" 
+					 size="3" value="{{ $item['parent_id'] }}"></td>
+          <td><input type="text" class="form-control" name="sort[{{ $item->id }}]" placeholder="Sort" size="3" value="{{ $item['manual_sort'] }}"></td>
           <td>@if ((bool)$item['redirect_on'] == true)
-			  <input type="checkbox" checked>
+			  <input type="checkbox" name="redirect_on[{{ $item->id }}]" checked>
 			  @else
 			  <input type="checkbox">
 			  @endif</td>
-          <td><input type="url" class="form-control" placeholder="Redirect Url" value="{{ $item['redirect_url'] }}"></td>	
+          <td><input type="url" class="form-control" name="redirect_url[{{ $item->id }}]" 
+					 placeholder="Redirect Url" value="{{ $item['redirect_url'] }}"></td>	
 		  <td>{{ $item['updated_at'] }}</td>	
 		  <td>{{ $item['created_at'] }}</td>
 		</tr>
@@ -60,16 +63,17 @@
 		<tr>
           <td>New</td>
           <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></td>
-          <td><input type="url" class="form-control" placeholder="Site Url" value=""></td>
-          <td><input type="text" class="form-control" placeholder="Parent Id" size="3"></td>
-          <td><input type="text" class="form-control" placeholder="Sort" size="3"></td>
-          <td><input type="checkbox"></td>
-          <td><input type="url" class="form-control" placeholder="Redirect Url" value=""></td>	
+          <td><input type="url" class="form-control" name="url[new]" placeholder="Site Url" value=""></td>
+          <td><input type="text" class="form-control" name="parent[new]" placeholder="Parent Id" size="3"></td>
+          <td><input type="text" class="form-control" name="sort[new]" placeholder="Sort" size="3"></td>
+          <td><input type="checkbox" name="redirect_on[new]"></td>
+          <td><input type="url" class="form-control" name="redirect_url[new]" placeholder="Redirect Url" value=""></td>	
 		  <td></td>	
 		  <td></td>
         </tr>
       </tbody>
     </table>
-	<button type="button" class="btn btn-default">Update</button>
+	<button type="submit" name="update" class="btn btn-default">Update</button>
 </div>
+{{ Form::close() }}
 @stop

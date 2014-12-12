@@ -38,7 +38,7 @@ class FirstThingCommand extends Command {
 	public function fire()
 	{
 		$this->info('');
-		$this->info('The Veer is starting up...');
+		$this->info('Veer is starting up...');
 		$this->info('');
 		
 		// Run migrations
