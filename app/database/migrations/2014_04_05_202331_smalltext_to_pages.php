@@ -13,7 +13,7 @@ class SmalltextToPages extends Migration {
 	public function up()
 	{
 		Schema::table('pages', function($table) {
-                    $table->longText('small_txt')->after('title');
+                    $table->longText('small_txt')->after('title')->default('');
                     $table->tinyInteger('show_small')->after('small_txt')->default(1);
                 });
 	}

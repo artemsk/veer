@@ -18,11 +18,11 @@ class CustomersTable extends Migration {
                     $table->string('email',255)->index();
                     $table->string('password',128);
                     $table->string('type',15)->index();
-                    $table->string('gender',1)->index();
-                    $table->string('firstname',128);
-                    $table->string('lastname',128);
-                    $table->timestamp('birth');
-                    $table->string('phone',128)->index();
+                    $table->string('gender',1)->index()->default('');
+                    $table->string('firstname',128)->default('');
+                    $table->string('lastname',128)->default('');
+                    $table->timestamp('birth')->default(false);
+                    $table->string('phone',128)->index()->default(false);
                     $table->bigInteger('logons_count')->default(0);
                     $table->bigInteger('orders_count')->default(0);
                     $table->tinyInteger('newsletter')->default(0);

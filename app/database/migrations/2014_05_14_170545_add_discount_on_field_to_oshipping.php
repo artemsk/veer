@@ -14,7 +14,7 @@ class AddDiscountOnFieldToOshipping extends Migration {
 	{
 		Schema::table('orders_shipping', function ($table) {
                    $table->boolean('discount_enable')->after('price')->default(false)->index();
-                   $table->bigInteger('sites_id')->after('id')->index();
+                   $table->bigInteger('sites_id')->after('id')->default(0)->index();
                 });
 	}
 

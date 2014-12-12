@@ -15,7 +15,7 @@ class ShippingTable extends Migration {
 		Schema::create("orders_shipping",function($table) {
                     $table->bigIncrements('id')->index();
                     $table->string('name',96)->index();
-                    $table->boolean('enable')->defaul(true)->index();
+                    $table->boolean('enable')->default(true)->index();
                     $table->string('delivery_type',24)->index();
                     $table->string('payment_type',24)->index();
                     $table->decimal('price',12,2);

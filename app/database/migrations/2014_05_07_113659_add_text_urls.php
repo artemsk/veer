@@ -13,11 +13,11 @@ class AddTextUrls extends Migration {
 	public function up()
 	{
 		Schema::table('products', function ($table) {
-                   $table->string('url',255)->after('id')->index();
+                   $table->string('url',255)->after('id')->default('')->index();
                 });
                 
 		Schema::table('pages', function ($table) {
-                   $table->string('url',255)->after('id')->index();
+                   $table->string('url',255)->after('id')->default('')->index();
                 });                
 	}
 

@@ -14,15 +14,15 @@ class AdminUsersTable extends Migration {
 	{
 		Schema::create('users_admin', function($table) {
                     $table->bigIncrements('id')->index();
-                    $table->bigInteger('users_id')->index();
-                    $table->string('sess_id',128)->index();
-                    $table->string('description',255);
+                    $table->bigInteger('users_id')->index()->default(false);
+                    $table->string('sess_id',128)->index()->default('');
+                    $table->string('description',255)->default('');
                     $table->bigInteger('logons_count')->default(0);
-                    $table->timestamp('last_logon');
-                    $table->timestamp('last_active');
-                    $table->longText('ips');
-                    $table->longText('access_parameters');
-                    $table->longText('sites_watch');
+                    $table->timestamp('last_logon')->default(false);
+                    $table->timestamp('last_active')->default(false);
+                    $table->longText('ips')->default('');
+                    $table->longText('access_parameters')->default('');
+                    $table->longText('sites_watch')->default('');
                     $table->boolean('banned')->default(false)->index();
                     $table->timestamps();  
                     $table->softDeletes(); 
