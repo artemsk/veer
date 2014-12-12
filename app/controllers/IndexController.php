@@ -9,7 +9,7 @@ class IndexController extends \BaseController {
 	 */
 	public function index()
 	{
-		Event::fire('veer.message.center', 'Hello!');
+		//Event::fire('veer.message.center', 'Hello!');
 
 		$data = $this->veer->loadedComponents;            
 

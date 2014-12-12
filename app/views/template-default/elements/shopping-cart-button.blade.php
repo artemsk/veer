@@ -1,1 +1,0 @@
-<a class="btn btn-danger btn-xs basket-link" href="{{{ $link }}}" role="button">В корзину</a>

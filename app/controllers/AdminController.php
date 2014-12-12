@@ -522,6 +522,9 @@ class AdminController extends \BaseController {
 	public function update($id)
 	{
 		//
+		echo "<pre>";
+		print_r(Input::all());
+		echo "</pre>";
 	}
 
 

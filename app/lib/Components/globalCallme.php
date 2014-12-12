@@ -22,7 +22,7 @@ class globalCallme {
     
     function __construct($params = null) {
 		
-		$this->data['callme'] = view(app('veer')->template . ".elements.call-me-modal-component");
+		$this->data['callme'] = view("components.call-me-modal-component");
 		
 	}
 	

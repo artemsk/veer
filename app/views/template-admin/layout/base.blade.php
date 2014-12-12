@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <title>The Veer Layer - Administrating Route</title>
+    <title>Veer Layer - Administrating Route</title>
 
     <!-- Bootstrap -->
     <link href="{{ URL::asset('assets/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -37,7 +37,7 @@
 					  <span class="icon-bar"></span>
 					  <span class="icon-bar"></span>
 				  </button>
-				  <a class="navbar-brand" href="#"><strong>The Veer</strong></a>
+				  <a class="navbar-brand" href="#"><strong>Veer</strong></a>
 			  </div>
 			  <!-- Collect the nav links, forms, and other content for toggling -->
 			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -102,13 +102,13 @@
 						  </ul>
 					  </li>					  
 				  </ul>
-				  <form class="navbar-form navbar-left" role="search">
+				  {{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'navbar-form navbar-left', 'role' => 'search')); }}
 					  <div class="form-group">
 						  <input type="text" class="form-control" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom" 
-								 data-html="true" title="Searching current element" id="SearchField">
+								 data-html="true" title="Searching current element" id="SearchField" name="SearchField">
 					  </div>
-					  <button type="submit" class="btn btn-default">Search</button>
-				  </form>
+					  <button type="submit" name="SearchButton" class="btn btn-default">Search</button>
+				  {{ Form::close() }}
 			  </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 	  </nav>
@@ -146,13 +146,13 @@
 			<div class="row">
 				 <div class="col-sm-6">					 
 					 <?php app('veer')->statistics(); ?>
-					 <p>The Veer :: version <strong>{{ $app['veer']->statistics['version'] }}</strong> <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> loading time <strong>{{ $app['veer']->statistics['loading'] }}</strong> memory usage <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
+					 <p>Veer :: version <strong>{{ $app['veer']->statistics['version'] }}</strong> <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> loading time <strong>{{ $app['veer']->statistics['loading'] }}</strong> memory usage <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
 				 </div>
 				 <div class="col-sm-3 text-center">
 					 <p class="footer-block">Сделано в <strong><a href="http://bolshay.net">Большой Мастерской</a></strong></p>
 				 </div>
 				 <div class="col-sm-3 text-right">	 
-					 <p class="footer-block">powered by <strong>The Veer Layer.</strong></p>
+					 <p class="footer-block">powered by <strong>Veer.</strong></p>
 				 </div>
 				 </div>
 			 </div>
