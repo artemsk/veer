@@ -1,7 +1,0 @@
-<div class="block-big">
-    <div class="big-img"><a href="<?php echo $product['link']; ?>"><img src="<?php echo $product['img']; ?>" class="img-responsive img-center"></a></div> 
-    <div class="block-stndrt-footer"><a href="<?php echo $product['category_link']; ?>"><?php echo $product['category']; ?></a></div>
-    <h3><a href="<?php echo $product['link']; ?>"><?php echo $product['title']; ?></a></h3>
-    <h5><?php echo $product['price']; ?></h5>
-    <div class="basket"><?php echo $product['basket']; ?></div>              
-</div>

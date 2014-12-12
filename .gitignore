@@ -1,7 +1,7 @@
 compiled.php
 /vendor
 /workbench
-/app/storage
+/app/views/_temp
 composer.phar
 composer.lock
 .env.local.php
