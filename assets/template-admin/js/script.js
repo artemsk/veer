@@ -71,14 +71,14 @@
         $('#card' + id).addClass('animated').addClass('flipOutY');    
         }
         
-        $.ajax({
+        /*$.ajax({
             type: 'POST',
             url: url,
             data: data,
             success: function(results) { 
                 if(type != 'dele') { $('#card' + id).html(results); }
             },
-          });
+          }); */
           
           
     });
