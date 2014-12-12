@@ -139,7 +139,7 @@ if ( ! function_exists('administrator'))
 			if(isset($v->administrator->banned) && (bool)($v->administrator->banned) == false) { 
 				$administrator = true; 
 				app('veer')->administrator_credentials = $v->administrator;
-				$v->administrator()->update(array());
+				$v->administrator()->touch();
 			}
 		}
 		

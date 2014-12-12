@@ -189,7 +189,7 @@ class AdminController extends \BaseController {
 	 */
 	protected function showSites() 
 	{	
-		return \Veer\Models\Site::all()->load('subsites', 'categories', 'components', 'configuration', 
+		return \Veer\Models\Site::orderBy('id','asc')->get()->load('subsites', 'categories', 'components', 'configuration', 
 					'users', 'discounts', 'userlists', 'orders', 'delivery', 'payment', 'communications', 
 					'roles', 'parentsite'); // elements separately		
 	}
@@ -521,13 +521,56 @@ class AdminController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
-		echo "<pre>";
-		print_r(Input::all());
-		echo "</pre>";
+		$f = "update".strtoupper($id[0]).substr($id,1);
+		
+		$this->$f();
+		
+		if(!app('request')->ajax()) {
+		
+			return $this->show($id);
+		}
 	}
 
-
+	/**
+	 * Update Sites
+	 */
+	protected function updateSites() {
+		
+		$data = Input::get('site');
+		$turnoff = Input::get('turnoff', null);
+		$turnon = Input::get('turnon', null);
+		$message = "Sites were updated.";
+		
+		foreach($data as $key => $values) {
+			
+			$values['url'] = trim($values['url']);
+			
+			if(empty($values['url'])) { continue; }
+			
+			$site = \Veer\Models\Site::firstOrNew(array("id" => trim($key)));
+        
+			$site->url = $values['url'];
+			$site->parent_id = empty($values['parent_id']) ? 0 : $values['parent_id'];
+			$site->manual_sort = empty($values['manual_sort']) ? 0 : $values['manual_sort'];
+			$site->redirect_on = empty($values['redirect_on']) ? false : true;
+			$site->redirect_url = empty($values['redirect_url']) ? '' : $values['redirect_url'];
+			
+			$site->on_off = isset($site->on_off) ? $site->on_off : false;
+			if($key == $turnoff && app('veer')->siteId != $key) { $site->on_off = false; $message = "Site #".$site->id." is down."; }
+			if($key == $turnon) { $site->on_off = true; $message = "Site #".$site->id." is up."; }
+			
+			if(!isset($site->id)) { $message.=" Adding a new site."; }
+			
+			$site->save();
+		}	
+		
+		if(app('veer')->siteId == $turnoff) { $message.=" You cannot turn off current site!"; }
+		
+		Artisan::call('cache:clear');
+		
+		Event::fire('veer.message.center', $message);
+	}
+	
 	/**
 	 * Remove the specified resource from storage.
 	 *
