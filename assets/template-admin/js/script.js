@@ -50,15 +50,12 @@
     });
     
         
-    $(".veer-form-submit-configuration").on("click",  function(event) {
-        
-        //event.preventDefault();
+    $(".veer-form-submit-configuration").on("submit",  function(event) {
 
         var siteid = $("button[type=submit][clicked=true]").attr('data-siteid');
         var name = $("button[type=submit][clicked=true]").attr('name');
         var id = name.slice(5,-1);
-        var type = name.slice(0,4);
-        var url = $(this).attr('action');      
+        var type = name.slice(0,4);  
         var data = $(this).serialize()+ '&siteid=' + siteid + '&' + type + '=' + id;
         
         if(id == 'new') { id = id + siteid; type = 'new'; }
@@ -71,15 +68,23 @@
         $('#card' + id).addClass('animated').addClass('flipOutY');    
         }
         
-        /*$.ajax({
-            type: 'POST',
-            url: url,
-            data: data,
-            success: function(results) { 
-                if(type != 'dele') { $('#card' + id).html(results); }
-            },
-          }); */
-          
+        var url = $(this).attr('action');    
+        
+        if(type == 'new') {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                success: function(results) { 
+                    $('#configurationsite' + siteid).html(results); 
+                },
+              }); 
+              
+           setTimeout(function() {
+                $('#card' + id).removeClass('animated').removeClass('flipInY');
+            }, 1000);  
+        }
           
     });
     
