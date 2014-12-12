@@ -4,5 +4,5 @@ Options +FollowSymLinks
 RewriteEngine On
 # Redirect requests to index.php
 RewriteCond %{REQUEST_URI} !=/index.php
-RewriteCond %{REQUEST_URI} !(assets|app|vendor) [NC]
+RewriteCond %{REQUEST_URI} !(assets|app|vendor|templates) [NC]
 RewriteRule .* index.php
