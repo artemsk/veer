@@ -26,7 +26,8 @@
 						@if(count($item->categories) <= 0)
 						&nbsp;<span class="glyphicon glyphicon-warning-sign danger-icon" aria-hidden="true" title="No categories!"></span>
 						@else
-						&nbsp;<span class="glyphicon glyphicon-heart warning-icon" aria-hidden="true" title="Star"></span> {{ count($item->categories) }}
+						&nbsp;<span class="glyphicon glyphicon-heart warning-icon" aria-hidden="true" title="Categories"></span> {{ 
+							count($item->categories) }}
 						@endif
 						@if(is_object($item->user))
 						<br/><a href="{{ route('admin.show', array('users', 'id' => $item->user->id)) }}">{{ '@'.$item->user->firstname }}</a>
@@ -35,7 +36,7 @@
 					@if ($item->hidden == false)
 					<button type="button" class="btn btn-success btn-xs" title="Current: ON (SHOW)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
 					@else
-					<button type="button" class="btn btn-default btn-xs" title="Current: OFF (HIDDEN)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+					<button type="button" class="btn btn-warning btn-xs" title="Current: OFF (HIDDEN)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
 					@endif
 					&nbsp;<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 				</div>

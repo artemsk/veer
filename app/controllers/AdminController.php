@@ -38,16 +38,10 @@ class AdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
-		
-		
-				echo "<pre>";
-		print_r(app('veer')->administrator_credentials);
-		echo "</pre>";
-		
-		echo "<pre>";
-		print_r(DB::getQueryLog());
-		echo "</pre>";
+		return view(app('veer')->template.'.dashboard', array(
+			"data" => app('veer')->loadedComponents,
+			"template" => app('veer')->template
+		));	
 		
 	}
 
@@ -124,15 +118,28 @@ class AdminController extends \BaseController {
 				$image = Input::get('image', null);
 				$tag = Input::get('tag', null);
 				$product = Input::get('id', null);
+
 				$items = $this->showProducts($image, $tag, $product);
+				
+				if(is_object($items)) {
+					$items->fromCategory = Input::get('category', null); 
+				}
+				
 				$view = empty($product) ? "products" : "product";
 				break;		
 
 			case "pages":		
 				$image = Input::get('image', null);
 				$tag = Input::get('tag', null);
-				$items = $this->showPages($image, $tag);
-				$view = "pages";
+				$page = Input::get('id', null);
+				
+				$items = $this->showPages($image, $tag, $page);
+
+				if(is_object($items)) {
+					$items->fromCategory = Input::get('category', null); 
+				}
+								
+				$view = empty($page) ? "pages" : "page";
 				break;				
 			
 			case "configuration":	
@@ -343,6 +350,8 @@ class AdminController extends \BaseController {
 		
 		if(!empty($product)) {
 			
+			if($product == "new") { return new stdClass(); }
+			
 			$items = Veer\Models\Product::find($product);
 			
 			if(is_object($items)) {
@@ -366,7 +375,7 @@ class AdminController extends \BaseController {
 	 * Show Pages
 	 * @return type
 	 */
-	protected function showPages($image = null, $tag = null) 
+	protected function showPages($image = null, $tag = null, $page = null) 
 	{	
 		if(!empty($image)) {
 			$items = \Veer\Models\Page::whereHas('images', function($query) use ($image) {
@@ -386,6 +395,22 @@ class AdminController extends \BaseController {
 			$items['filtered'] = "tags";
 			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
 			return $items;
+		}
+		
+		if(!empty($page)) {
+			
+			if($page == "new") { return new stdClass(); }
+			
+			$items = Veer\Models\Page::find($page);
+			
+			if(is_object($items)) {
+				$items->load('user', 'subpages', 'parentpages', 'products', 'categories', 'tags', 'attributes',
+					'images', 'downloads');	
+				$items['lists'] = $items->userlists()->count(DB::raw('DISTINCT name'));
+			}	
+			
+			return $items;
+			
 		}
 		
 		$items = \Veer\Models\Page::orderBy('id','desc')->with('images', 'categories', 'user', 'subpages', 'comments')->paginate(25); 

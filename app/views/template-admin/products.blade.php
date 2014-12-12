@@ -17,7 +17,8 @@
  filtered by {{ $items['filtered'] }} <a href="{{ route("admin.show", array(array_pull($items, 'filtered'))) }}">
 	 #{{ array_pull($items, 'filtered_id') }}</a> 
 @endif	
-{{ array_pull($items, 'counted') }}</h1>
+{{ array_pull($items, 'counted') }} <a class="btn btn-default" 
+									   href="{{ route("admin.show", array("products", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
 
