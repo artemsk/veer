@@ -21,7 +21,7 @@ class CustomersTable extends Migration {
                     $table->string('gender',1)->index()->default('');
                     $table->string('firstname',128)->default('');
                     $table->string('lastname',128)->default('');
-                    $table->timestamp('birth')->default(false);
+                    $table->timestamp('birth')->default(0);
                     $table->string('phone',128)->index()->default(false);
                     $table->bigInteger('logons_count')->default(0);
                     $table->bigInteger('orders_count')->default(0);
