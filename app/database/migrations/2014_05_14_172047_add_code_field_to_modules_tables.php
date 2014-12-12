@@ -13,11 +13,11 @@ class AddCodeFieldToModulesTables extends Migration {
 	public function up()
 	{
 		Schema::table('orders_shipping', function ($table) {
-                   $table->string('func_name',128)->after('address');
+                   $table->string('func_name',128)->after('address')->default('');
                 });
                 
 		Schema::table('orders_payment', function ($table) {
-                   $table->string('func_name',128)->after('discount_price');
+                   $table->string('func_name',128)->after('discount_price')->default('');
                 });                
 	}
 

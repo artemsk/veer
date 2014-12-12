@@ -13,7 +13,7 @@ class AddWeightFieldToOrder extends Migration {
 	public function up()
 	{
 		Schema::table('orders', function($table) {
-                   $table->bigInteger('weight')->after('address'); 
+                   $table->bigInteger('weight')->after('address')->default(false); 
                 });
 	}
 

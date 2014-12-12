@@ -18,7 +18,7 @@ class CreateSites extends Migration {
                     $table->bigInteger('parent_id')->default('0')->index();
                     $table->integer('manual_sort')->default('0');
                     $table->tinyInteger('redirect_on')->default('0');
-                    $table->longText('redirect_url');
+                    $table->longText('redirect_url')->default('');
                     $table->timestamps();
                     $table->softDeletes();                    
                 });

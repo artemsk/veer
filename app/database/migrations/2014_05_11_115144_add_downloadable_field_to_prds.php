@@ -13,7 +13,7 @@ class AddDownloadableFieldToPrds extends Migration {
 	public function up()
 	{
                 Schema::table('products', function ($table) {
-                   $table->tinyInteger('download')->after('star')->index();
+                   $table->tinyInteger('download')->after('star')->default('')->index();
                 });                
 	}
 

@@ -14,7 +14,7 @@ class ChangeTypeFieldInUserTable extends Migration {
 	{
 		Schema::table('users', function($table) {
                     $table->dropColumn('type');
-                    $table->integer('roles_id')->after('password');                    
+                    $table->integer('roles_id')->after('password')->default(0);                    
                 });
 	}
 

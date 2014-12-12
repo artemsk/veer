@@ -13,7 +13,7 @@ class AddAttributeFieldToLists extends Migration {
 	public function up()
 	{
 		Schema::table('users_lists', function(Blueprint $table) {
-                   $table->longtext('attributes')->after('quantity');
+                   $table->longtext('attributes')->after('quantity')->default('');
                 });
 	}
 
