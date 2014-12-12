@@ -40,12 +40,12 @@ html, body
     bottom: 30px;
     box-sizing: border-box;
     color: rgba(250, 251, 255, 0.952941);
-    display: block;
+    display: none;
     height: 80px;
-    left: 30px;
+    right: 30px;
     line-height: 20.1599998474121px;
-    max-width: 300px;
-    padding: 22px 22px 22px 22px;
+    max-width: 250px;
+    padding: 10px 22px 15px 22px;
     pointer-events: auto;
     position: fixed;
     top: auto;

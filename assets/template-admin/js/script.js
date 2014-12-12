@@ -1,6 +1,10 @@
     $(document).ready(function() { 
-        if ($(".events-veer-message-center").length > 0) {
+        if ($(".events-veer-message-center").show().length > 0) {
             $(".events-veer-message-center").addClass('animated').addClass('flipInX');
+            
+            setTimeout(function() {
+             $(".events-veer-message-center").removeClass('flipInX').addClass('flipOutX');
+            }, 3000);
         }
 
     });

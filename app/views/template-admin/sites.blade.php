@@ -35,16 +35,13 @@
 			  @endif
 			</td>
           <td>{{ $item['id'] }}</td>
-          <td><input type="url" class="form-control" name="url[{{ $item->id }}]" placeholder="Site Url" value="{{ $item['url'] }}"></td>
-          <td><input type="text" class="form-control" name="parent[{{ $item->id }}]" placeholder="Parent Id" 
+          <td><input type="url" class="form-control" name="site[{{ $item->id }}][url]" placeholder="Site Url" value="{{ $item['url'] }}"></td>
+          <td><input type="text" class="form-control" name="site[{{ $item->id }}][parent_id]" placeholder="Parent Id" 
 					 size="3" value="{{ $item['parent_id'] }}"></td>
-          <td><input type="text" class="form-control" name="sort[{{ $item->id }}]" placeholder="Sort" size="3" value="{{ $item['manual_sort'] }}"></td>
-          <td>@if ((bool)$item['redirect_on'] == true)
-			  <input type="checkbox" name="redirect_on[{{ $item->id }}]" checked>
-			  @else
-			  <input type="checkbox">
-			  @endif</td>
-          <td><input type="url" class="form-control" name="redirect_url[{{ $item->id }}]" 
+          <td><input type="text" class="form-control" name="site[{{ $item->id }}][manual_sort]" placeholder="Sort" size="3" value="{{ $item['manual_sort'] }}"></td>
+          <td> <input type="checkbox" name="site[{{ $item->id }}][redirect_on]" @if((bool)$item['redirect_on'] == true) checked @endif>
+			  </td>
+          <td><input type="url" class="form-control" name="site[{{ $item->id }}][redirect_url]" 
 					 placeholder="Redirect Url" value="{{ $item['redirect_url'] }}"></td>	
 		  <td>{{ $item['updated_at'] }}</td>	
 		  <td>{{ $item['created_at'] }}</td>
@@ -63,11 +60,11 @@
 		<tr>
           <td>New</td>
           <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></td>
-          <td><input type="url" class="form-control" name="url[new]" placeholder="Site Url" value=""></td>
-          <td><input type="text" class="form-control" name="parent[new]" placeholder="Parent Id" size="3"></td>
-          <td><input type="text" class="form-control" name="sort[new]" placeholder="Sort" size="3"></td>
-          <td><input type="checkbox" name="redirect_on[new]"></td>
-          <td><input type="url" class="form-control" name="redirect_url[new]" placeholder="Redirect Url" value=""></td>	
+          <td><input type="url" class="form-control" name="site[{{ ($item->id)+1 }}][url]" placeholder="Site Url" value=""></td>
+          <td><input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][parent_id]" placeholder="Parent Id" size="3"></td>
+          <td><input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][manual_sort]" placeholder="Sort" size="3"></td>
+          <td><input type="checkbox" name="site[][redirect_on]"></td>
+          <td><input type="url" class="form-control" name="site[{{ ($item->id)+1 }}][redirect_url]" placeholder="Redirect Url" value=""></td>	
 		  <td></td>	
 		  <td></td>
         </tr>
