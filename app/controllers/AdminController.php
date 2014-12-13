@@ -513,7 +513,7 @@ class AdminController extends \BaseController {
 		if(config('database.driver') == 'mysql') {
 			$trashed = $this->trashedElements(); }
 		
-		return array('cache' => $cache, 'migrations' => $migrations, 'reminders' => $reminders, 'trashed' => $trashed);
+		return array('cache' => $cache, 'migrations' => $migrations, 'reminders' => $reminders, 'trashed' => empty($trashed)?null:$trashed);
 	}
 	
 	protected function trashedElements($action = null)
