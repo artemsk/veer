@@ -508,8 +508,10 @@ class AdminController extends \BaseController {
 	{		
 		$cache = DB::table("cache")->get();
 		$migrations = DB::table("migrations")->get();
-		$reminders = DB::table("password_reminders")->get();		
-		$trashed = $this->trashedElements();
+		$reminders = DB::table("password_reminders")->get();	
+		
+		if(config('database.driver') == 'mysql') {
+			$trashed = $this->trashedElements(); }
 		
 		return array('cache' => $cache, 'migrations' => $migrations, 'reminders' => $reminders, 'trashed' => $trashed);
 	}
