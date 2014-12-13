@@ -37,6 +37,8 @@ x Administration: downloads templates
 x Administration: pages, products, settings & filters templates
 x Administration: page & product template
 x Installation Artisan Command (without configuration)
+x Administration: Add/update sites
+x Administration: Add/update/delete configuration
 
 Administration: category page: add/remove images, products, pages, sorting
 Administration: search

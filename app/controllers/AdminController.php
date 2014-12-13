@@ -422,8 +422,11 @@ class AdminController extends \BaseController {
 	 * Show Configurations
 	 * @return type
 	 */
-	protected function showConfiguration($siteId = null, $orderBy = array('conf_key', 'asc')) 
+	protected function showConfiguration($siteId = null, $orderBy = array('id', 'desc')) 
 	{	
+		if(Input::get('sort', null)) { $orderBy[0] = Input::get('sort'); }
+		if(Input::get('direction', null)) { $orderBy[1] = Input::get('direction'); }
+		
 		if($siteId == null) {
 			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) use ($orderBy) {
 				$query->orderBy($orderBy[0], $orderBy[1]);
@@ -441,16 +444,19 @@ class AdminController extends \BaseController {
 	 * Show Components
 	 * @return type
 	 */
-	protected function showComponents($siteId = null) 
+	protected function showComponents($siteId = null, $orderBy = array('id', 'desc')) 
 	{	
+		if(Input::get('sort', null)) { $orderBy[0] = Input::get('sort'); }
+		if(Input::get('direction', null)) { $orderBy[1] = Input::get('direction'); }
+	
 		if($siteId == null) {
-			return \Veer\Models\Site::where('id','>',0)->with(array('components' => function($query) {
-				$query->orderBy('sites_id')->orderBy('route_name');
+			return \Veer\Models\Site::where('id','>',0)->with(array('components' => function($query) use ($orderBy) {
+				$query->orderBy('sites_id')->orderBy($orderBy[0], $orderBy[1]);
 			}))->get();
 		}
 		
-		$items = \Veer\Models\Site::with(array('components' => function($query) {
-				$query->orderBy('sites_id')->orderBy('route_name');
+		$items = \Veer\Models\Site::with(array('components' => function($query) use ($orderBy) {
+				$query->orderBy('sites_id')->orderBy($orderBy[0], $orderBy[1]);
 			}))->find($siteId); 
 			
 		return array($items);
@@ -575,61 +581,101 @@ class AdminController extends \BaseController {
 	}
 	
 	/**
-	 * Update Sites
+	 * Update Configuration
 	 */
 	protected function updateConfiguration() 
 	{
+		Eloquent::unguard();
 		$siteid = Input::get('siteid');
-		$confs = Input::get('configuration', null);
-		
+		$confs = Input::get('configuration', null);		
 		$new = Input::get('new', null);
 		
-		if(!empty($confs)) {
-			$cardid = head(array_keys($confs));
-		}
-		
-		if(!empty($new)) {
-			$cardid = $siteid;
-			$confs = $new;
-		}
+		if(!empty($confs)) { $cardid = head(array_keys($confs)); }
+		if(!empty($new)) { $cardid = $siteid; $confs = $new; }
 		
 		if(!empty($siteid)) { 
 		
-		$save = Input::get('save', null);
-		$copy = Input::get('copy', null);
-		$delete = Input::get('dele', null);
-		
-		if(!empty($save) && !empty($confs[$cardid]['key'])) {
-			$newc = \Veer\Models\Configuration::firstOrNew(array("conf_key" => $confs[$cardid]['key'], "sites_id" => $siteid));
-			$newc->sites_id = $siteid;
-			$newc->conf_key = $confs[$cardid]['key'];
-			$newc->conf_val = $confs[$cardid]['value'];
-			$newc->save();
+			$save = Input::get('save', null);
+			$copy = Input::get('copy', null);
+			$delete = Input::get('dele', null);
 
-			$cardid = $newc->id;
-		}
-				
-		if(!empty($delete)) {
-			\Veer\Models\Configuration::destroy($cardid);
-		}
-		
-		Artisan::call('cache:clear');
-						
-		$items = $this->showConfiguration($siteid, array('id','desc'));
+			if(!empty($save) && !empty($confs[$cardid]['key'])) {
+				$newc = \Veer\Models\Configuration::firstOrNew(array("conf_key" => $confs[$cardid]['key'], "sites_id" => $siteid));
+				$newc->sites_id = $siteid;
+				$newc->conf_key = $confs[$cardid]['key'];
+				$newc->conf_val = $confs[$cardid]['value'];
+				$newc->save();
 
-		//$card = head(array_where($items[0]->configuration, function($key, $value) use ($cardid)
-		//{
-		//	if($value->id == $cardid) { return true; }
-		//}));
-				
-		return view(app('veer')->template.'.lists.configuration-cards', array(
-			"configuration" => $items[0]->configuration,
-			"siteid" => $siteid,
-		));		
+				$cardid = $newc->id;
+			}
 
+			if(!empty($delete)) {
+				\Veer\Models\Configuration::destroy($cardid);
+			}
+
+			Artisan::call('cache:clear');
+
+			// for ajax calls
+			$items = $this->showConfiguration($siteid, array('id','desc'));
+
+			return view(app('veer')->template.'.lists.configuration-cards', array(
+				"configuration" => $items[0]->configuration,
+				"siteid" => $siteid,
+			));		
+				// for ajax calls
 		} else { return 'Error. Reload page.'; }
-		
 	}	
+	
+	/**
+	 * Update Components
+	 */
+	protected function updateComponents() 
+	{
+		Eloquent::unguard();		
+		$siteid = Input::get('siteid');
+		$confs = Input::get('components', null);
+		$new = Input::get('new', null);
+		
+		if(!empty($confs)) { $cardid = head(array_keys($confs)); }
+		if(!empty($new)) { $cardid = $siteid; $confs = $new; }
+		
+		if(!empty($siteid)) { 
+		
+			$save = Input::get('save', null);
+			$copy = Input::get('copy', null);
+			$delete = Input::get('dele', null);
+
+			// We create new insert id every time
+			if(!empty($save) && !empty($confs[$cardid]['name'])) {
+				$newc = \Veer\Models\Component::firstOrNew(array("route_name" => $confs[$cardid]['name'], 
+					"components_type" => $confs[$cardid]['type'], "components_src" => $confs[$cardid]['src'], "sites_id" => $siteid));
+				$newc->route_name = $confs[$cardid]['name'];
+				$newc->components_type = $confs[$cardid]['type'];
+				$newc->components_src = $confs[$cardid]['src'];
+				$newc->sites_id = $siteid;
+				$newc->save();
+
+				$cardid = $newc->id;
+			}
+
+			if(!empty($delete)) {
+				\Veer\Models\Component::destroy($cardid);
+			}
+
+			//Artisan::call('cache:clear');
+
+			$items = $this->showComponents($siteid, array('id','desc'));
+
+			// for ajax calls
+			return view(app('veer')->template.'.lists.components-cards', array(
+				"components" => $items[0]->components,
+				"siteid" => $siteid,
+			));		
+					// for ajax calls
+		} else { return 'Error. Reload page.'; }
+	}	
+		
+	
 	/**
 	 * Remove the specified resource from storage.
 	 *

@@ -14,45 +14,33 @@
 <div class="container">
 
 	@foreach($items as $site)
-	<h2 id="site{{ $site->id }}">{{ $site->url }}</h2>
+	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('components', "sort" => "route_name", "direction" => "asc")) }}">route name</a> | <a href="{{ route('admin.show', array('components', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>
 	<div class="row">
-		@foreach($site->components as $item)	
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			<div class="thumbnail">
-				<div class="caption"><small>#{{$item->id}}</small>
-					<p><strong><input type="text" class="form-control admin-form text-center" 
-									  placeholder="Route name" value="{{ $item->route_name }}"></strong></p>
-					<p><select name="InType" class="form-control" placeholder="Component type">
-							<option>{{ $item->components_type }}</option>
-							<option>functions</option>
-							<option>events</option>
-							<option>pages</option>
-						</select></p>				  
-					<p><input class="form-control" placeholder="Component source" value="{{ $item->components_src }}" 
-							  title="app/lib/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
-					<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-					&nbsp;<button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
-					&nbsp;<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-				</div>
-			</div>
-		</div>
-		@endforeach	
-		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			<div class="thumbnail">
+			{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}
+			<div class="thumbnail newcard" id="cardnew{{ $site->id }}">
 				<div class="caption"><small>NEW COMPONENT</small>
-					<p><strong><input type="text" class="form-control admin-form text-center" 
+					<p><strong><input type="text" name="new[{{ $site->id}}][name]" class="form-control admin-form text-center newname" 
 									  placeholder="Route name" value=""></strong></p>
-					<p><select name="InType" class="form-control" placeholder="Component type">
+					<p><select class="form-control newtype" placeholder="Component type" name="new[{{ $site->id}}][type]">
 							<option>functions</option>
 							<option>events</option>
 							<option>pages</option>
 						</select></p>				  
-					<p><input class="form-control" placeholder="Component source" 
+					<p><input class="form-control newsrc" placeholder="Component source" name="new[{{ $site->id}}][src]" 
 							  title="app/lib/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
-					<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+					<button type="submit" data-siteid="{{ $site->id }}" class="btn btn-success btn-xs" name="save[new]">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>
+				<input type="hidden" name="siteid" value="{{ $site->id }}">
+				<input type="hidden" name="sort" value="{{ Input::get('sort', null) }}">
+				<input type="hidden" name="direction" value="{{ Input::get('direction', null) }}">
 			</div>
-		</div>
+			{{ Form::close() }}
+		</div>		
+		<div id="cardstock{{ $site->id }}">
+				@include($template.'.lists.components-cards', array('components' => $site->components, 'siteid' => $site->id))	
+		</div>	
 	</div>
 	<div class="rowdelimiter"></div>
 	@endforeach
