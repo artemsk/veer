@@ -104,5 +104,22 @@
                 $('.newcard').removeClass('animated').removeClass('flipInX');
             }, 1000);  
     });
-    
-    
+           
+    $(".category-add").on("submit", function(event) {
+        event.preventDefault();
+        
+        var siteid = $(this).attr('data-siteid');
+        
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize() + '&action=add',
+            success: function(results) { 
+                $('.categories-list-' +siteid).addClass('animated').addClass('bounce').html(results);
+                setTimeout(function() {
+                $('.categories-list-' +siteid).removeClass('animated').removeClass('bounce');
+                }, 1000);                
+            },
+        });
+        
+    });

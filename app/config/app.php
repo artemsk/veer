@@ -176,7 +176,8 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'VeerApp'         => 'Veer\Lib\VeerApp',
 		'VeerDb'          => 'Veer\Lib\VeerDb',
-		'VeerShop'        => 'Veer\Lib\VeerShop'
+		'VeerShop'        => 'Veer\Lib\VeerShop',
+		'VeerAdmin'		  => 'Veer\Lib\VeerAdmin'
 
 	),
 

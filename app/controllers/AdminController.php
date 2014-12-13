@@ -4,6 +4,9 @@ class AdminController extends \BaseController {
 
 	protected $adm;
 	
+	protected $action_performed = null;
+	
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,6 +34,7 @@ class AdminController extends \BaseController {
 	
 
 	
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -45,6 +49,8 @@ class AdminController extends \BaseController {
 		
 	}
 
+	
+	
 
 	/**
 	 * Show the form for creating a new resource.
@@ -57,6 +63,8 @@ class AdminController extends \BaseController {
 	}
 
 
+	
+	
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -67,16 +75,18 @@ class AdminController extends \BaseController {
 		//
 	}
 
+	
+	
 
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int  $t
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($t)
 	{
-		switch ($id) {
+		switch ($t) {
 			case "sites":				
 				$items = $this->showSites();					
 				$view = "sites";
@@ -183,6 +193,9 @@ class AdminController extends \BaseController {
 		
 	}
 
+	
+	
+	
 	/**
 	 * Show Sites
 	 * @return type
@@ -193,6 +206,9 @@ class AdminController extends \BaseController {
 					'users', 'discounts', 'userlists', 'orders', 'delivery', 'payment', 'communications', 
 					'roles', 'parentsite'); // elements separately		
 	}
+	
+	
+	
 	
 	/**
 	 * Show Attributes
@@ -219,6 +235,9 @@ class AdminController extends \BaseController {
 		return $items;
 	}
 	
+	
+	
+	
 	/**
 	 * Show Categories
 	 * @return type
@@ -231,7 +250,7 @@ class AdminController extends \BaseController {
 				$items = \Veer\Models\Site::with(array('categories' => function($query) use ($image) {
 					$query->whereHas('images',function($q) use ($image) {
 						$q->where('images_id','=',$image);					
-					});
+					})->with('products', 'pages', 'subcategories');
 				}))->orderBy('manual_sort','asc')->get();	
 				
 				$items['filtered'] = "images";
@@ -241,14 +260,16 @@ class AdminController extends \BaseController {
 			} 
 			
 				$items = \Veer\Models\Site::with(array('categories' => function($query) {
-					$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc');
+					$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc')
+					->with('pages', 'products', 'subcategories');
 				}))->orderBy('manual_sort','asc')->get();
 			
 			
 		} else {			
 				$items = \Veer\Models\Category::where('id','=',$category)->with(array(
 					'parentcategories' => function ($query) { $query->orderBy('manual_sort','asc'); },
-					'subcategories' => function ($query) { $query->orderBy('manual_sort','asc'); }
+					'subcategories' => function ($query) { $query->orderBy('manual_sort','asc')
+						->with('pages', 'products', 'subcategories'); }
 				))->first();
 				
 				if(is_object($items)) {
@@ -265,6 +286,9 @@ class AdminController extends \BaseController {
 		return $items;
 	}	
 	
+	
+	
+	
 	/**
 	 * Show Tags
 	 * @return type
@@ -278,6 +302,9 @@ class AdminController extends \BaseController {
 		return $items;
 	}	
 	
+	
+	
+	
 	/**
 	 * Show Images
 	 * @return type
@@ -290,6 +317,9 @@ class AdminController extends \BaseController {
 
 		return $items;
 	}		
+	
+	
+	
 	
 	/**
 	 * Show Downloads
@@ -311,6 +341,9 @@ class AdminController extends \BaseController {
 		return $items;
 	}
 	
+	
+	
+	
 	/**
 	 * Show Comments
 	 * @return type
@@ -321,6 +354,9 @@ class AdminController extends \BaseController {
 		$items['counted'] = \Veer\Models\Comment::count();
 		return $items;
 	}
+	
+	
+	
 	
 	/**
 	 * Show Products
@@ -371,9 +407,12 @@ class AdminController extends \BaseController {
 		return $items;
 	}	
 	
-/**
+	
+	
+	
+	/**
 	 * Show Pages
-	 * @return type
+	 * @return
 	 */
 	protected function showPages($image = null, $tag = null, $page = null) 
 	{	
@@ -418,6 +457,9 @@ class AdminController extends \BaseController {
 		return $items;
 	}
 	
+	
+	
+	
 	/**
 	 * Show Configurations
 	 * @return type
@@ -432,19 +474,18 @@ class AdminController extends \BaseController {
 				$query->orderBy($orderBy[0], $orderBy[1]);
 			}))->get();
 			
-			//$items['trashed'] = \Veer\Models\Configuration::onlyTrashed()->count();
-			
 			return $items;
 		}
 		
 		$items[0] = \Veer\Models\Site::with(array('configuration' => function($query) use ($orderBy) {
 				$query->orderBy($orderBy[0], $orderBy[1]);
 			}))->find($siteId); 
-		
-		//$items['trashed'] = \Veer\Models\Configuration::onlyTrashed()->where('sites_id','=',$siteId)->count();
 			
 		return $items;
 	}
+	
+	
+	
 	
 	/**
 	 * Show Components
@@ -468,6 +509,9 @@ class AdminController extends \BaseController {
 		return array($items);
 	}
 	
+	
+	
+	
 	/**
 	 * Show Secrets
 	 * @return type
@@ -479,6 +523,9 @@ class AdminController extends \BaseController {
 			
 		return $items;
 	}
+	
+	
+	
 	
 	/**
 	 * Show Jobs
@@ -500,6 +547,9 @@ class AdminController extends \BaseController {
 		return array('jobs' => $items, 'failed' => $items_failed, 'statuses' => $statuses);
 	}
 	
+	
+	
+	
 	/**
 	 * Show Etc.
 	 * @return type
@@ -509,13 +559,22 @@ class AdminController extends \BaseController {
 		$cache = DB::table("cache")->get();
 		$migrations = DB::table("migrations")->get();
 		$reminders = DB::table("password_reminders")->get();	
-		
-		if(config('database.driver') == 'mysql') {
+
+		if(config('database.default') == 'mysql') {
 			$trashed = $this->trashedElements(); }
 		
-		return array('cache' => $cache, 'migrations' => $migrations, 'reminders' => $reminders, 'trashed' => empty($trashed)?null:$trashed);
+		return array('cache' => $cache, 'migrations' => $migrations, 
+			'reminders' => $reminders, 'trashed' => empty($trashed)?null:$trashed);
 	}
 	
+	
+	
+	
+	/**
+	 * Show trashedElements (only 'mysql')
+	 * @param type $action
+	 * @return type
+	 */
 	protected function trashedElements($action = null)
 	{
 		$tables = DB::select('SHOW TABLES');
@@ -534,6 +593,10 @@ class AdminController extends \BaseController {
 		}
 		return $items;
 	}
+	
+	
+	
+	
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -545,26 +608,33 @@ class AdminController extends \BaseController {
 		//
 	}
 
+	
+	
 
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  int  $t
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($t)
 	{
-		$f = "update".strtoupper($id[0]).substr($id,1);
+		$f = "update".strtoupper($t[0]).substr($t,1);
 		
 		$data = $this->$f();
 		
 		if(!app('request')->ajax()) {
-			return $this->show($id);
+			
+			return $this->show($t);
 		} else {
+			
 			return $data;
 		}
 	}
 
+	
+	
+	
 	/**
 	 * Update Sites
 	 */
@@ -598,6 +668,7 @@ class AdminController extends \BaseController {
 			if(!isset($site->id)) { $message.=" Adding a new site."; }
 			
 			$site->save();
+			$this->action_performed = "update";
 		}	
 		
 		if(app('veer')->siteId == $turnoff) { $message.=" You cannot turn off current site!"; }
@@ -607,12 +678,16 @@ class AdminController extends \BaseController {
 		Event::fire('veer.message.center', $message);
 	}
 	
+	
+	
+	
 	/**
 	 * Update Configuration
 	 */
 	protected function updateConfiguration() 
 	{
 		Eloquent::unguard();
+		
 		$siteid = Input::get('siteid');
 		$confs = Input::get('configuration', null);		
 		$new = Input::get('new', null);
@@ -623,7 +698,6 @@ class AdminController extends \BaseController {
 		if(!empty($siteid)) { 
 		
 			$save = Input::get('save', null);
-			$copy = Input::get('copy', null);
 			$delete = Input::get('dele', null);
 
 			if(!empty($save) && !empty($confs[$cardid]['key'])) {
@@ -634,24 +708,31 @@ class AdminController extends \BaseController {
 				$newc->save();
 
 				$cardid = $newc->id;
+				$this->action_performed = "update";
 			}
 
 			if(!empty($delete)) {
 				\Veer\Models\Configuration::destroy($cardid);
+				$this->action_performed = "delete";
 			}
 
 			Artisan::call('cache:clear');
 
 			// for ajax calls
-			$items = $this->showConfiguration($siteid, array('id','desc'));
+			if(app('request')->ajax()) {
+				$items = $this->showConfiguration($siteid, array('id','desc'));
 
-			return view(app('veer')->template.'.lists.configuration-cards', array(
-				"configuration" => $items[0]->configuration,
-				"siteid" => $siteid,
-			));		
-				// for ajax calls
+				return view(app('veer')->template.'.lists.configuration-cards', array(
+					"configuration" => $items[0]->configuration,
+					"siteid" => $siteid,
+				));		
+			}
+				 // for error
 		} else { Event::fire('veer.message.center', 'Error. Reload page.'); }
 	}	
+	
+	
+	
 	
 	/**
 	 * Update Components
@@ -683,24 +764,29 @@ class AdminController extends \BaseController {
 				$newc->save();
 
 				$cardid = $newc->id;
+				$this->action_performed = "update";
 			}
 
 			if(!empty($delete)) {
 				\Veer\Models\Component::destroy($cardid);
+				$this->action_performed = "delete";
 			}
 
-			//Artisan::call('cache:clear');
-
-			$items = $this->showComponents($siteid, array('id','desc'));
-
 			// for ajax calls
-			return view(app('veer')->template.'.lists.components-cards', array(
-				"components" => $items[0]->components,
-				"siteid" => $siteid,
-			));		
-					// for ajax calls
+			if(app('request')->ajax()) {
+				$items = $this->showComponents($siteid, array('id','desc'));
+				
+				return view(app('veer')->template.'.lists.components-cards', array(
+					"components" => $items[0]->components,
+					"siteid" => $siteid,
+				));		
+			}
+				 // for erro
 		} else { Event::fire('veer.message.center', 'Error. Reload page.'); }
 	}	
+	
+	
+	
 	
 	/**
 	 * Update Jobs
@@ -713,6 +799,7 @@ class AdminController extends \BaseController {
 		if(!empty($delete)) {
 			\Artemsk\Queuedb\Job::destroy(head(array_keys($delete)));
 			Event::fire('veer.message.center', 'Job deleted.');
+			$this->action_performed = "delete";
 		}
 
 		if(!empty($run)) {
@@ -730,10 +817,14 @@ class AdminController extends \BaseController {
 				$job = new Artemsk\Queuedb\QdbJob(app(), $item);
 				$job->fire();
 				Event::fire('veer.message.center', 'Job done.');
+				$this->action_performed = "update";
 			}
 		}		
 	}
 
+	
+	
+	
 	/**
 	 * Update Secrets
 	 */	
@@ -748,6 +839,7 @@ class AdminController extends \BaseController {
 		if(!empty($delete)) {
 			\Veer\Models\Secret::destroy(head(array_keys($delete)));
 			Event::fire('veer.message.center', 'Secret deleted.');
+			$this->action_performed = "delete";
 		}		
 
 		if(!empty($save)) {			
@@ -768,9 +860,190 @@ class AdminController extends \BaseController {
 				$newc->save();
 				$cardid = $newc->id;
 				Event::fire('veer.message.center', 'Secrets updated.');
+				$this->action_performed = "update";
 			}	
 			
 		}
+	}
+	
+	
+	
+	
+	/**
+	 * Update Root Categories
+	 */
+	protected function updateCategories()
+	{
+		// if we're working with one category then call another function
+		//
+		$editOneCategory = Input::get('category', null);
+		if(!empty($editOneCategory)) { return $this->updateOneCategory($editOneCategory); }
+		
+		//
+
+		$action = Input::get('action', null);
+		$cid = Input::get('deletecategoryid', null);
+		$new = Input::get('newcategory', null);
+		
+		if($action == "delete" && !empty($cid)) {
+			$this->action_performed = "delete";	
+			return $this->deleteCategory($cid);
+		}
+		
+		if($action == "add" && !empty($new)) {
+			$c = new \Veer\Models\Category;
+			$c->title = $new;
+			$c->description = '';
+			$c->remote_url = '';
+			$c->sites_id = Input::get('siteid');
+			$c->save();
+			
+			$items = \Veer\Models\Site::with(array('categories' => function($query) {
+					$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc');
+				}))->orderBy('manual_sort','asc')->where('id','=',Input::get('siteid'))->get();
+				
+			return app('view')->make(app('veer')->template.'.lists.categories-category', array(
+				"categories" => $items[0]->categories,
+				"siteid" => Input::get('siteid'),
+				"child" => view(app('veer')->template.'.elements.asset-delete-categories-script')
+			));	
+			$this->action_performed = "add";
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * delete Category
+	 * @param type $cid
+	 * @return string
+	 */
+	protected function deleteCategory($cid)
+	{
+		\Veer\Models\Category::destroy($cid);
+		\Veer\Models\CategoryConnect::where('categories_id','=',$cid)->forceDelete();
+		\Veer\Models\CategoryPivot::where('parent_id','=',$cid)->orWhere('child_id','=',$cid)->forceDelete();
+		Veer\Models\ImageConnect::where('elements_id','=',$cid)
+		->where('elements_type','=','Veer\Models\Category')->forceDelete();
+		//\Veer\Models\Communication::where('elements_id','=',$cid)
+		//->where('elements_type','=','Veer\Models\Category')->delete();	
+		$this->action_performed = "delete";
+		return 'Deleted with all connections: images, parent & child categories, products, pages';
+	}
+	
+	
+	
+	
+	/**
+	 * Update One Category
+	 */	
+	protected function updateOneCategory($cid)
+	{	
+		$all = Input::all();
+		
+		// deletecategoryid <- id of deleted category id
+		if($all['action'] == "delete") { 
+			$this->action_performed = "delete";	
+			return $this->deleteCategory($all['deletecategoryid']); 
+		}
+		
+		$category = \Veer\Models\Category::find($cid);
+		
+		// first parent of category
+		if(isset($all['parentId']) && $all['action'] == "saveParent" && $all['parentId'] > 0) {
+			$category->parentcategories()->attach($all['parentId']);
+			Event::fire('veer.message.center', 'Attach new parent category.');
+			$this->action_performed = "add";	
+		}
+		
+		// updating parents
+		if(isset($all['parentId']) && $all['action'] == "updateParent" && $all['parentId'] > 0) {			
+			if($all['lastCategoryId'] != $all['parentId']) {
+				
+			   $check = \Veer\Models\CategoryPivot::where('child_id','=',$cid)
+				->where('parent_id','=',$all['parentId'])->first();
+	
+			   if(!$check) {
+					$category->parentcategories()->attach($all['parentId']);
+					Event::fire('veer.message.center', 'Attach new parent category.');
+			   }
+			}
+			$this->action_performed = "update";
+		}
+		
+		// removing parents
+		if(isset($all['parentId']) && $all['action'] == "removeParent") {
+			
+			$category->parentcategories()->detach($all['parentId']);
+			
+			Event::fire('veer.message.center', 'Detach parent category.');
+			
+			$this->action_performed = "delete";
+		}
+		
+		// updating info
+		if($all['action'] == "updateCurrent") {
+			$category->title = $all['title'];
+			$category->remote_url = $all['remoteUrl'];
+			$category->description = $all['description'];
+			$category->save();
+			Event::fire('veer.message.center', 'Update category.');
+			$this->action_performed = "update";
+		}
+		
+		// delete current category
+		if($all['action'] == "deleteCurrent") {
+			
+			$this->deleteCategory($cid);
+			
+			Input::replace(array('category' => null));
+			
+			return $this->show('categories');
+		}
+		
+		// adding childs (new or existing)
+		if($all['action'] == "addChild" && isset($all['child'])) {
+			
+			if(starts_with($all['child'], ":")) {
+				$arr = explode(",", substr($all['child'],1));
+				foreach($arr as $child) {
+					$category->subcategories()->attach($child);
+				}
+				Event::fire('veer.message.center', 'Attach existing categories as childs.');
+			} else {				
+				$c = new \Veer\Models\Category;
+				$c->title = $all['child'];
+				$c->description = '';
+				$c->remote_url = '';
+				$c->sites_id = $category->site->id;
+				$c->save();
+			
+				$category->subcategories()->attach($c->id);
+				Event::fire('veer.message.center', 'Attach new child category.');
+			}
+		}
+		
+		// quick move child category to another parent
+		if($all['action'] == "updateInChild" && isset($all['parentId']) && $all['parentId'] > 0) {
+			if($all['lastCategoryId'] != $all['parentId']) {				
+			   $check = \Veer\Models\CategoryPivot::where('child_id','=',$all['currentChildId'])
+				->where('parent_id','=',$all['parentId'])->first();	
+			   if(!$check) {
+					$category = \Veer\Models\Category::find($all['currentChildId']);
+					$category->parentcategories()->detach($all['lastCategoryId']);
+					$category->parentcategories()->attach($all['parentId']);
+					Event::fire('veer.message.center', 'Change parent category for child category.');
+			   }
+			}
+		}
+		
+		// remove child from current
+		if($all['action'] == "removeInChild") {
+			$category->subcategories()->detach($all['currentChildId']);
+			Event::fire('veer.message.center', 'Detach parent category for child category.');
+		}
+				
 	}
 
 	/**

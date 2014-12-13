@@ -24,6 +24,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>	
   </head>
   <body>
 
@@ -149,7 +150,7 @@
 					 <p>Veer :: version <strong>{{ $app['veer']->statistics['version'] }}</strong> <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> loading time <strong>{{ $app['veer']->statistics['loading'] }}</strong> memory usage <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
 				 </div>
 				 <div class="col-sm-3 text-center">
-					 <p class="footer-block">Сделано в <strong><a href="http://bolshay.net">Большой Мастерской</a></strong></p>
+					 <p class="footer-block">сделано в <strong><a href="http://bolshay.net">Большой мастерской</a></strong></p>
 				 </div>
 				 <div class="col-sm-3 text-right">	 
 					 <p class="footer-block">powered by <strong>Veer.</strong></p>
@@ -166,7 +167,7 @@
 
 	{{ empty($data['veer_message_center']) ? null : $data['veer_message_center'] }}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ URL::asset('assets/'.$template.'/js/bootstrap.min.js') }}"></script>
     <script src="{{ URL::asset('assets/'.$template.'/js/holder.js') }}"></script>
@@ -174,5 +175,6 @@
 	<script src="{{ asset('assets/packages/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
 	<script src="{{ asset('assets/packages/bootstrap-switch-master/dist/js/bootstrap-switch.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/'.$template.'/js/script.js') }}"></script>
+	<script src="{{ URL::asset('assets/'.$template.'/js/delete-categories.js') }}"></script>
   </body>
 </html>
