@@ -23,6 +23,8 @@ class VeerServiceProvider extends ServiceProvider {
 		$this->registerVeerQueryBuilder();
 		
 		$this->registerVeerShop();
+		
+		$this->registerVeerAdmin();
 	}
 	
 	/**
@@ -60,7 +62,7 @@ class VeerServiceProvider extends ServiceProvider {
 	}
 
 	/**
-	 * Register the Veer Query Builder
+	 * Register the Veer Shop
 	 *
 	 * @return void
 	 */	
@@ -70,13 +72,23 @@ class VeerServiceProvider extends ServiceProvider {
 	}
 		
 	/**
+	 * Register the Veer Admin
+	 *
+	 * @return void
+	 */	
+	public function registerVeerAdmin()
+	{
+		$this->app->bindShared('veeradmin', function() { return new VeerAdmin; });
+	}
+	
+	/**
 	 * Get the services provided by the provider.
 	 *
 	 * @return array
 	 */
 	public function provides()
 	{
-		return array('veer', 'veerdb', 'veershop');
+		return array('veer', 'veerdb', 'veershop', 'veeradmin');
 	}	
 	
 }

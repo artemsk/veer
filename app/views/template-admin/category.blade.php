@@ -19,8 +19,10 @@
 			<li><button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Parent category" 
 						data-content='
 						<div class="form-inline">
-						<input type="text" class="form-control" placeholder="Id" size=2>
-						<button class="btn btn-info" type="button"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<input type="text" class="form-control" placeholder="Id" size=2 name="parentId">
+						<button class="btn btn-info" type="submit" name="action" value="saveParent"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+						{{ Form::close() }}
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>
 			</li>
@@ -29,9 +31,14 @@
 			<li><button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Replace parent category" 
 						data-content='
 						<div class="form-inline">
-						<input type="text" class="form-control" placeholder="Id" size=2 value="{{ $category->id }}">
-						<button class="btn btn-info" type="button"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-						<button class="btn btn-warning" type="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<input type="text" class="form-control" placeholder="Id" size=2 name="parentId" value="{{ $category->id }}">
+						<button class="btn btn-info" type="submit" name="action" value="updateParent">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+						<button class="btn btn-warning" type="submit" name="action" value="removeParent">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+						<input type="hidden" name="lastCategoryId" value="{{ $category->id }}">
+						{{ Form::close() }}
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>&nbsp;
 				{{ link_to_route("admin.show", $category->title, array("categories", "category=".$category->id)) }}
@@ -39,9 +46,10 @@
 			@endforeach
 		</ol>
 
+		{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
 		<div class="row">
 			<div class="col-sm-9">
-				<h2><input type="text" class="form-control admin-form" placeholder="Title" value="{{ $items->title }}"></h2>
+				<h2><input type="text" class="form-control admin-form" placeholder="Title" name="title" value="{{ $items->title }}"></h2>
 			</div>
 			<div class="col-sm-3 text-right">
 				<h2>
@@ -49,38 +57,50 @@
 				<span class="badge">{{ $items->views }} views</span></h2>
 			</div>	
 		</div>
-		<input type="text" class="form-control admin-form" placeholder="Remote Url if exists" value="{{ $items->remote_url }}">
-		<textarea class="form-control" placeholder="Description">{{ $items->description }}</textarea>
-		<p><div class="text-right"><button type="button" class="btn btn-default">Update</button> 
-			&nbsp;<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div></p>
+		<input type="url" class="form-control admin-form" placeholder="Remote Url if exists" name="remoteUrl" value="{{ $items->remote_url }}">
+		<textarea class="form-control" placeholder="Description" name="description">{{ $items->description }}</textarea>
+		<p><div class="text-right"><button type="submit" class="btn btn-default" name="action" value="updateCurrent">Update</button> 
+			&nbsp;<button type="submit" class="btn btn-danger" name="action" value="deleteCurrent">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div></p>
+		{{ Form::close() }}
     <br/>		
 		
 	<ul class="list-group">
 	@foreach ($items->subcategories as $category)	
-	<li class="list-group-item">
+	<li class="list-group-item category-item-{{ $category->id }}">
 		<span class="badge">{{ $category->views }}</span>
 		<button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Replace parent category" data-content='
 						<div class="form-inline">
-						<input type="text" class="form-control" placeholder="Id" size=2 value="{{ $items->id }}">
-						<button class="btn btn-info" type="button"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-						<button class="btn btn-warning" type="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<input type="text" class="form-control" placeholder="Id" size=2 name="parentId" value="{{ $items->id }}">
+						<button class="btn btn-info" type="submit" name="action" value="updateInChild">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+						<button class="btn btn-warning" type="submit" name="action" value="removeInChild">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+						<input type="hidden" name="lastCategoryId" value="{{ $items->id }}">
+						<input type="hidden" name="currentChildId" value="{{ $category->id }}">
+						{{ Form::close() }}
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>&nbsp;
-		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+		<button type="button" class="btn btn-danger btn-xs category-delete" data-categoryid="{{ $category->id }}">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 		<a href="{{ app('url')->current() }}?category={{ $category->id }}">{{ $category->title }}</a> 
 		<small>{{ $category->remote_url }}
-			<span class="additional-info">{{ $category->products()->count() }} <i class="fa fa-gift"></i>, {{ $category->pages()->count() }} <span class="glyphicon glyphicon-file" aria-hidden="true"></span></span> 
+			<span class="additional-info">{{ count($category->subcategories) }} <i class="fa fa-bookmark-o"></i>, {{ count($category->products) }} <i class="fa fa-gift"></i>, {{ count($category->pages) }} <span class="glyphicon glyphicon-file" aria-hidden="true"></span></span> 
 		</small>
 		</li>	
 	@endforeach
+	{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
 	<li class="list-group-item">
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Title or :Existing-category-ID">
+			<input type="text" class="form-control" placeholder="Title or :Existing-category-ID" name="child">
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="button">Add</button>
+				<button class="btn btn-default" type="submit" name="action" value="addChild">Add</button>
 			</span>
 		</div>
 	</li>
+	{{ Form::close() }}
+	
 	</ul>	
 	</div>
 	</div>

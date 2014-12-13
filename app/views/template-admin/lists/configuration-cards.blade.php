@@ -15,6 +15,8 @@
 					&nbsp;<button type="submit" data-siteid="{{ $siteid }}" name="dele[{{$item->id}}]" class="btn btn-danger btn-xs">
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					<input type="hidden" name="siteid" value="{{ $siteid }}">
+					<input type="hidden" name="sort" value="{{ Input::get('sort', null) }}">
+					<input type="hidden" name="direction" value="{{ Input::get('direction', null) }}">								
 				</div>
 		{{ Form::close() }}
 			</div>

@@ -27,24 +27,19 @@
 		&nbsp;:{{ count($item->categories) }}</small></h2>
 
 	<ul class="list-group">
-	@foreach ($item->categories as $category)	
-	<li class="list-group-item">
-		<span class="badge">{{ $category->views }}</span>
-		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
-		<a href="{{ app('url')->current() }}?category={{ $category->id }}">{{ $category->title }}</a> 
-		<small>{{ $category->remote_url }}
-			<span class="additional-info">{{ $category->products()->count() }} <i class="fa fa-gift"></i>, {{ $category->pages()->count() }} <span class="glyphicon glyphicon-file" aria-hidden="true"></span></span> 
-		</small>
-	</li>	
-	@endforeach
-	<li class="list-group-item">
+		<div class="categories-list-{{ $item->id}}">
+			@include($template.'.lists.categories-category', array('categories' => $item->categories, 'siteid' => $item->id))
+		</div>
+		<div class="xs-rowdelimiter"></div>
+	{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'category-add', 'data-siteid' => $item->id)); }}	
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Title">
+			<input type="text" class="form-control" placeholder="Title" name="newcategory">
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="button">Add</button>
+				<button class="btn btn-default" type="submit" name="add2site" value="{{ $item->id }}">Add</button>
 			</span>
 		</div>
-	</li>
+		<input type="hidden" name="siteid" value="{{ $item->id }}">
+	{{ Form::close() }}
 	</ul>
 	<div class="rowdelimiter"></div>
 	
