@@ -16,7 +16,7 @@
 							  title="app/lib/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
 					<button type="submit"  data-siteid="{{ $siteid }}" class="btn btn-success btn-xs" name="save[{{$item->id}}]">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-					&nbsp;<button type="button" class="btn btn-info btn-xs" data-confname="{{ $item->route_name }}" data-conftype="{{ $item->components_type }}" data-confsrc="{{ $item->components_src }}"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
+					&nbsp;<button type="button" class="btn btn-info btn-xs copybutton" data-confname="{{ $item->route_name }}" data-conftype="{{ $item->components_type }}" data-confsrc="{{ $item->components_src }}"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
 					&nbsp;<button type="submit"  data-siteid="{{ $siteid }}" class="btn btn-danger btn-xs" name="dele[{{$item->id}}]">
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					<input type="hidden" name="siteid" value="{{ $siteid }}">	

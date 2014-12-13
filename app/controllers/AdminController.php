@@ -428,16 +428,22 @@ class AdminController extends \BaseController {
 		if(Input::get('direction', null)) { $orderBy[1] = Input::get('direction'); }
 		
 		if($siteId == null) {
-			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) use ($orderBy) {
+			$items = \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) use ($orderBy) {
 				$query->orderBy($orderBy[0], $orderBy[1]);
 			}))->get();
+			
+			//$items['trashed'] = \Veer\Models\Configuration::onlyTrashed()->count();
+			
+			return $items;
 		}
 		
-		$items = \Veer\Models\Site::with(array('configuration' => function($query) use ($orderBy) {
+		$items[0] = \Veer\Models\Site::with(array('configuration' => function($query) use ($orderBy) {
 				$query->orderBy($orderBy[0], $orderBy[1]);
 			}))->find($siteId); 
+		
+		//$items['trashed'] = \Veer\Models\Configuration::onlyTrashed()->where('sites_id','=',$siteId)->count();
 			
-		return array($items);
+		return $items;
 	}
 	
 	/**
@@ -502,11 +508,30 @@ class AdminController extends \BaseController {
 	{		
 		$cache = DB::table("cache")->get();
 		$migrations = DB::table("migrations")->get();
-		$reminders = DB::table("password_reminders")->get();
+		$reminders = DB::table("password_reminders")->get();		
+		$trashed = $this->trashedElements();
 		
-		return array('cache' => $cache, 'migrations' => $migrations, 'reminders' => $reminders);
+		return array('cache' => $cache, 'migrations' => $migrations, 'reminders' => $reminders, 'trashed' => $trashed);
 	}
 	
+	protected function trashedElements($action = null)
+	{
+		$tables = DB::select('SHOW TABLES');
+		
+		foreach($tables as $table) {
+			if (Schema::hasColumn(reset($table), 'deleted_at'))
+			{
+				$check = DB::table(reset($table))->whereNotNull('deleted_at')->count();
+				if($check > 0) {
+				$items[reset($table)] = $check;				
+					if($action == "delete") {
+						DB::table(reset($table))->whereNotNull('deleted_at')->delete();
+					}				
+				}
+			}
+		}
+		return $items;
+	}
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -623,7 +648,7 @@ class AdminController extends \BaseController {
 				"siteid" => $siteid,
 			));		
 				// for ajax calls
-		} else { return 'Error. Reload page.'; }
+		} else { Event::fire('veer.message.center', 'Error. Reload page.'); }
 	}	
 	
 	/**
@@ -672,10 +697,80 @@ class AdminController extends \BaseController {
 				"siteid" => $siteid,
 			));		
 					// for ajax calls
-		} else { return 'Error. Reload page.'; }
+		} else { Event::fire('veer.message.center', 'Error. Reload page.'); }
 	}	
-		
 	
+	/**
+	 * Update Jobs
+	 */	
+	protected function updateJobs()
+	{
+		$run = Input::get('_run', null);
+		$delete = Input::get('dele', null);
+		
+		if(!empty($delete)) {
+			\Artemsk\Queuedb\Job::destroy(head(array_keys($delete)));
+			Event::fire('veer.message.center', 'Job deleted.');
+		}
+
+		if(!empty($run)) {
+			$jobid = head(array_keys($run));
+			$payload = Input::get('payload', null);
+
+			$item = \Artemsk\Queuedb\Job::where('id','=',$jobid)->first();			
+			if(is_object($item)) {		
+				
+				$item->payload = $payload;
+				$item->status = \Artemsk\Queuedb\Job::STATUS_OPEN;
+				$item->scheduled_at = now();
+				$item->save();
+
+				$job = new Artemsk\Queuedb\QdbJob(app(), $item);
+				$job->fire();
+				Event::fire('veer.message.center', 'Job done.');
+			}
+		}		
+	}
+
+	/**
+	 * Update Secrets
+	 */	
+	protected function updateSecrets() 
+	{
+		Eloquent::unguard();	
+		
+		$save = Input::get('save', null);
+		$delete = Input::get('dele', null);		
+		$cardid = Input::get('secrets', null);
+		
+		if(!empty($delete)) {
+			\Veer\Models\Secret::destroy(head(array_keys($delete)));
+			Event::fire('veer.message.center', 'Secret deleted.');
+		}		
+
+		if(!empty($save)) {			
+			$id = head(array_keys($save));
+			
+			foreach($cardid as $key => $value) 
+			{
+				if($value['elements_id'] <= 0) { Event::fire('veer.message.center', 'Elements ID should not be empty.'); continue; }
+				
+				if($key != "new") {
+					$newc = \Veer\Models\Secret::firstOrNew(array("id" => $id));
+				} else {	
+					$newc = new \Veer\Models\Secret;
+				}
+				$newc->secret = $value['pss'];
+				$newc->elements_id = $value['elements_id'];
+				$newc->elements_type = $value['elements_type'];
+				$newc->save();
+				$cardid = $newc->id;
+				Event::fire('veer.message.center', 'Secrets updated.');
+			}	
+			
+		}
+	}
+
 	/**
 	 * Remove the specified resource from storage.
 	 *

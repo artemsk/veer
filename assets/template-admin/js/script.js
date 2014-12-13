@@ -60,7 +60,7 @@
         
         if(id == 'new') { id = id + siteid; type = 'new'; }
 
-        if(type == 'save' || type == 'new') {
+        if(type == 'save' || type == 'new' || type == '_run') {
         $('#card' + id).addClass('animated').addClass('flipInY');
         }
         
@@ -91,8 +91,14 @@
     $('.copybutton').click(function() {
        var key = $(this).attr('data-confkey');
        var val = $(this).attr('data-confval');
+       var name = $(this).attr('data-confname');
+       var type = $(this).attr('data-conftype');
+       var src = $(this).attr('data-confsrc');
        $('.newkey').val(key);
        $('.newval').val(val);
+       $('.newname').val(name);
+       $('.newtype').val(type);
+       $('.newsrc').val(src);      
        $('.newcard').addClass('animated').addClass('flipInX'); 
        setTimeout(function() {
                 $('.newcard').removeClass('animated').removeClass('flipInX');

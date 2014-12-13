@@ -16,19 +16,23 @@
 	<div class="row">
 		@foreach($items['jobs'] as $item)	
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			<div class="thumbnail">
+			{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}	
+			<div class="thumbnail" id="card{{$item->id}}">
 				<div class="caption"><small>#{{$item->id}}</small>					
 					<strong><p>{{ $items['statuses'][$item->status] }} : {{ $item->times }}</p></strong>	
 					<p>scheduled at:<br/>{{ $item->scheduled_at }}</p>	
 					<p>created at:<br/>{{ $item->created_at }}</p>	
-					<p><textarea class="form-control" rows="5">{{ $item->payload }}</textarea></p>	
-					@if($items['statuses'][$item->status] != 'Started' && $items['statuses'][$item->status] != 'Finished')
-					<button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Run</button>
-					@endif
-					<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+					<p><textarea name="payload" class="form-control" rows="5">{{ $item->payload }}</textarea></p>	
+					{{-- @if($items['statuses'][$item->status] != 'Started' && $items['statuses'][$item->status] != 'Finished') --}}
+					<button type="submit" class="btn btn-info btn-xs" name="_run[{{ $item->id }}]">
+						<span class="glyphicon glyphicon-play" aria-hidden="true"></span> [Re-]Run</button>
+					{{-- @endif --}}
+					<button type="submit" class="btn btn-danger btn-xs" name="dele[{{ $item->id }}]">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					
 				</div>
 			</div>
+			{{ Form::close() }}
 		</div>
 		@endforeach	
 		@foreach($items['failed'] as $item)	
