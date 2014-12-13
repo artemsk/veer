@@ -12,7 +12,7 @@ class VeerApp {
 	 *  Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = '0.2.1-alpha';
+	const VEERVERSION = '0.2.2-alpha';
 
 	/**
 	 *  Booted?

@@ -69,7 +69,7 @@
         }
         
         var url = $(this).attr('action');    
-        
+
         if(type == 'new') {
             event.preventDefault();
             $.ajax({
@@ -77,7 +77,7 @@
                 url: url,
                 data: data,
                 success: function(results) { 
-                    $('#configurationsite' + siteid).html(results); 
+                    $('#cardstock' + siteid).html(results); 
                 },
               }); 
               
@@ -87,4 +87,16 @@
         }
           
     });
+    
+    $('.copybutton').click(function() {
+       var key = $(this).attr('data-confkey');
+       var val = $(this).attr('data-confval');
+       $('.newkey').val(key);
+       $('.newval').val(val);
+       $('.newcard').addClass('animated').addClass('flipInX'); 
+       setTimeout(function() {
+                $('.newcard').removeClass('animated').removeClass('flipInX');
+            }, 1000);  
+    });
+    
     
