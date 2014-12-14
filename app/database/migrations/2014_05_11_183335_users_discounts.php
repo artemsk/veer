@@ -34,7 +34,7 @@ class UsersDiscounts extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('users_disounts');
+		Schema::drop('users_discounts');
 	}
 
 }
