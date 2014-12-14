@@ -45,13 +45,11 @@ x Administration: connect existing images to other elements
 x Administration: secrets, jobs
 x Administration: get trashed elements
 x Administration: working with categories (sub/parent/current)
-
-Administration: ! sort categories click-and-drag (manual_sort field) with ajax
+x Administration: create jobs (as components!)
+---------------------------------------------------- 0.3.0-alpha
+x Administration: sort categories with drag & drop (manual_sort, ajax)***END OF FILE***
 Administration: ! check before delete (popup)
-Administration: category page: add/remove images, products, pages, sorting
-
-Administration: create jobs (global)
-
+Administration: category page: add/remove images, products, pages
 Administration: search
 Administration: links to products & pages from elements
 Administration: add, update & delete attributes
@@ -310,4 +308,4 @@ TODO: yandex.market, 1s, xls (import/export)
 Single pages: order, user, category, page, product!
 ? attribute
 
-search!***END OF FILE***vvv
+search!

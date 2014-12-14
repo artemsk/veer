@@ -64,8 +64,8 @@
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div></p>
 		{{ Form::close() }}
     <br/>		
-		
-	<ul class="list-group">
+	<div class="testajax"></div>	
+	<ul class="list-group sortable" data-parentid="{{ $items->id }}">
 	@foreach ($items->subcategories as $category)	
 	<li class="list-group-item category-item-{{ $category->id }}">
 		<span class="badge">{{ $category->views }}</span>

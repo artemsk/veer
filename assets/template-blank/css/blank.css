@@ -56,7 +56,7 @@
     
     section p { 
         font-family: 'ClearSans-Medium';
-        color: #222;
+        color: #7C9CE1;
         font-size: 14px;
         font-weight: normal !important; 
         -webkit-font-smoothing: antialiased !important; 
@@ -64,12 +64,12 @@
     }
 
     section p > a {
-        color: #222;
+        color: #BFCAE1;
         text-decoration: underline;
     }
     
     section p > a:hover {
-        color: #222;
+        color: #BFCAE1;
         
     }
 

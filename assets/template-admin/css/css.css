@@ -205,3 +205,19 @@ html, body
     width: 75%;
     z-index: 9000;
 }
+
+.categories-group {
+    margin-bottom: 7px;
+}
+
+.sortable-dragging {
+
+}
+
+.sortable-placeholder {
+    list-style-position: inside;
+    list-style-type: none;
+    padding:0px;
+    height: 50px;
+    background-color: #fefefe;
+}

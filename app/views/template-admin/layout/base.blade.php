@@ -174,7 +174,9 @@
 	<script src="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 	<script src="{{ asset('assets/packages/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
 	<script src="{{ asset('assets/packages/bootstrap-switch-master/dist/js/bootstrap-switch.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/packages/html5sortable/html.sortable.min.js') }}"></script>	
 	<script src="{{ URL::asset('assets/'.$template.'/js/script.js') }}"></script>
 	<script src="{{ URL::asset('assets/'.$template.'/js/delete-categories.js') }}"></script>
+
   </body>
 </html>

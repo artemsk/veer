@@ -19,3 +19,15 @@
             },
         });
     });
+    
+    $('.sortable').sortable().bind('sortupdate', function(e, ui) {
+            $.ajax({
+                type: 'POST',
+                data: { 'action': 'sort', 'oldindex' : ui.oldindex, 
+                        'newindex': ui.item.index(), 'parentid' : $(this).attr('data-parentid'),
+                        '_method' : 'PUT' },
+                success: function(results) { 
+                    $('.testajax').html(results);             
+                },
+            });
+        });

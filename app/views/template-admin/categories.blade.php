@@ -26,11 +26,9 @@
 	<h2 id="site{{ $item->id }}">{{ $item->configuration()->where('conf_key','=','SITE_TITLE')->pluck('conf_val'); }} <small>{{ $item->url }}
 		&nbsp;:{{ count($item->categories) }}</small></h2>
 
-	<ul class="list-group">
-		<div class="categories-list-{{ $item->id}}">
-			@include($template.'.lists.categories-category', array('categories' => $item->categories, 'siteid' => $item->id))
-		</div>
-		<div class="xs-rowdelimiter"></div>
+	<div class="categories-list-{{ $item->id}} ">			
+			@include($template.'.lists.categories-category', array('categories' => $item->categories, 'siteid' => $item->id))				
+	</div>
 	{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'category-add', 'data-siteid' => $item->id)); }}	
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Title" name="newcategory">
@@ -40,7 +38,7 @@
 		</div>
 		<input type="hidden" name="siteid" value="{{ $item->id }}">
 	{{ Form::close() }}
-	</ul>
+	
 	<div class="rowdelimiter"></div>
 	
 	@endforeach

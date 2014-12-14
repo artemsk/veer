@@ -13,7 +13,9 @@ class IndexController extends \BaseController {
 
 		$data = $this->veer->loadedComponents;            
 
-		$view = view($this->template.'.home', $data); 
+		$view = view($this->template.'.home', array(
+			"data" => $data
+			)); 
 
 		$this->view = $view; // to cache
 
