@@ -12,7 +12,7 @@ class VeerApp {
 	 *  Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = '0.2.3-alpha';
+	const VEERVERSION = '0.3.0-alpha';
 
 	/**
 	 *  Booted?
@@ -195,13 +195,13 @@ class VeerApp {
 	}
 
 	/**
-	 * Loading custom classes for components; event subscribers
+	 * Loading custom classes for components; event subscribers; queues
 	 *
 	 * @param $className
 	 * @param $params - if needed
 	 * @return object $className
 	 */
-	protected function loadComponentClass($className, $params = null, $type = null)
+	public function loadComponentClass($className, $params = null, $type = null)
 	{ 
 		/* Another vendor's component */
 		if (starts_with($className, '\\')) {
@@ -210,14 +210,17 @@ class VeerApp {
 		} else {
 			// detect: component or event 
 			$classFullName = empty($type) ? ("\Veer\Lib\Components\\" . $className) : ("\Veer\Lib\Events\\" . $className);
+			if($type == "queue") { $classFullName = "\Veer\Lib\Queues\\" . $className; }
 
 			if (!class_exists($classFullName)) { 
 
 				$pathComponent = app_path() . ( empty($type) ? "/lib/Components/": "/lib/Events/") . $className . ".php";
-
+				if($type == "queue") { $pathComponent = app_path() . "/lib/Queues/" . $className . ".php"; }
+				
 				if (file_exists($pathComponent)) {
 					require $pathComponent;
-				}
+				} else { 
+					return 'Class Not Found.';  }
 			}
 		}
 
