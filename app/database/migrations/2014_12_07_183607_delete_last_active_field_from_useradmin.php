@@ -25,7 +25,7 @@ class DeleteLastActiveFieldFromUseradmin extends Migration {
 	public function down()
 	{
 		Schema::table('users_admin', function($table) {
-                   $table->timestamp('last_active')->after('last_logon'); 
+                   $table->timestamp('last_active')->after('last_logon')->nullable(); 
                 });		
 	}
 
