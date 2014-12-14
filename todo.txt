@@ -50,6 +50,8 @@ Administration: ! sort categories click-and-drag (manual_sort field) with ajax
 Administration: ! check before delete (popup)
 Administration: category page: add/remove images, products, pages, sorting
 
+Administration: create jobs (global)
+
 Administration: search
 Administration: links to products & pages from elements
 Administration: add, update & delete attributes
@@ -144,6 +146,7 @@ Categories' remote urls
 When user press download on his order with digital downloads create temporary duplicate file in downloads table just for the session!
 Out of stock products automatically change status to 'sold' or alert admin
 Test if products with no categories are not showing!
+SQLite: migration error: allows only one column drop at time
 
 ----------------------------------
 comments

@@ -15,7 +15,7 @@
 					<span class="label label-warning">
 						<a href="{{ route('admin.show', array('categories', 'image' => $item->id)) }}" target="_blank">
 							{{ $item->categories->count() }}</a></span>
-					&nbsp;<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" class="btn btn-danger btn-xs" name="action" value="deleteImage[{{ $item->id }}]"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 				</div>
 			</div>
 		</div>
