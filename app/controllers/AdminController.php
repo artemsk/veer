@@ -795,6 +795,7 @@ class AdminController extends \BaseController {
 	{
 		$run = Input::get('_run', null);
 		$delete = Input::get('dele', null);
+		$save = Input::get('save', null);
 		
 		if(!empty($delete)) {
 			\Artemsk\Queuedb\Job::destroy(head(array_keys($delete)));
@@ -819,7 +820,37 @@ class AdminController extends \BaseController {
 				Event::fire('veer.message.center', 'Job done.');
 				$this->action_performed = "update";
 			}
-		}		
+		}
+		
+		if(!empty($save)) {
+	
+			$q = Input::all();
+
+			$startc = \Carbon\Carbon::parse(array_get($q, 'jobs.new.start'));
+			$repeat = array_get($q, 'jobs.new.repeat');
+			$data =  json_decode(array_get($q, 'jobs.new.data'), true);
+			$queue = array_get($q, 'jobs.new.classname');
+			
+			if($repeat > 0) {
+				$data['repeatJob'] = $repeat;
+			}
+			
+			//$checkQueueClass = app('veer')->loadComponentClass($queue, null, 'queue');
+			$classFullName = "\Veer\Lib\Queues\\" . $queue;
+			
+			if (!class_exists($classFullName)) {  Event::fire('veer.message.center', "Class not found. Run 'composer dump-autoload'."); } 
+			else {			
+				if(now() >= $startc) {
+					Queue::push( $classFullName , $data);
+				} else {
+					$wait = \Carbon\Carbon::now()->diffInMinutes($startc);
+					Queue::later($wait, $classFullName , $data);
+				}
+				Event::fire('veer.message.center', "Job added.");
+			}	
+		}
+		
+		
 	}
 
 	
