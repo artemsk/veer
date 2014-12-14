@@ -22,7 +22,7 @@ class UsersDiscounts extends Migration {
                     $table->tinyInteger('expiration_times');
                     $table->string('status',10)->index();
                     $table->bigInteger('users_id')->index();                   
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();                    
                 });
 	}

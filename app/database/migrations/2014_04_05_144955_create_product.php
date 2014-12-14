@@ -34,7 +34,7 @@ class CreateProduct extends Migration {
                    $table->tinyInteger('star')->default(0)->index();
                    $table->bigInteger('ordered');
                    $table->bigInteger('viewed');
-                   $table->timestamps();
+                   $table->nullableTimestamps();
                    $table->softDeletes();  
                 });
 	}

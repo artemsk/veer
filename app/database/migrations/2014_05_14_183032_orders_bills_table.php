@@ -26,7 +26,7 @@ class OrdersBillsTable extends Migration {
                     $table->boolean('viewed')->default(false);
                     $table->boolean('paid')->default(false);
                     $table->boolean('canceled')->default(false);
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes(); 
                 });
        	}

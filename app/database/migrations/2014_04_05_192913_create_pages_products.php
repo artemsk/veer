@@ -16,7 +16,7 @@ class CreatePagesProducts extends Migration {
                     $table->bigIncrements('id')->index();
                     $table->bigInteger('pages_id')->index();
                     $table->bigInteger('products_id')->index();
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();                    
                 });
 	}

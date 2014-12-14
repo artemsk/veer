@@ -25,7 +25,7 @@ class CreatePage extends Migration {
                    $table->tinyInteger('manual_order')->default(0);
                    $table->tinyInteger('views')->default(0);
                    $table->tinyInteger('hidden')->default(0)->index();
-                   $table->timestamps();
+                   $table->nullableTimestamps();
                    $table->softDeletes();
                 });
 	}

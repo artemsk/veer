@@ -30,7 +30,7 @@ class CommunicationTable extends Migration {
                     $table->bigInteger('views');
                     $table->boolean('intranet')->default(false);
                     $table->boolean('hidden')->default(false);
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes(); 
                 });
 	}

@@ -15,7 +15,7 @@ class CreateTags extends Migration {
 		Schema::create('tags', function($table) {
                     $table->bigIncrements('id');
                     $table->longText('name');
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();
                 });
 	}

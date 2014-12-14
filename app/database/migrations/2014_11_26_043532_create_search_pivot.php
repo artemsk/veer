@@ -16,7 +16,7 @@ class CreateSearchPivot extends Migration {
                     $table->bigIncrements('id');
                     $table->bigInteger('searches_id')->index();
                     $table->bigInteger('users_id')->index();
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();
                 });
 	}

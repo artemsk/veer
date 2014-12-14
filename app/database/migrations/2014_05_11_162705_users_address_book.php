@@ -30,7 +30,7 @@ class UsersAddressBook extends Migration {
                     $table->string('b_bik',255);
                     $table->longText('b_others');
                     $table->tinyInteger('primary')->default(0)->index();                    
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();                    
                 });
 	}

@@ -17,7 +17,7 @@ class CreateConfiguration extends Migration {
                     $table->bigInteger('sites_id')->index();
                     $table->string('conf_key',255)->index();
                     $table->longText('conf_val');
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();                    
                 });
 	}

@@ -18,7 +18,7 @@ class CreateComponents extends Migration {
                    $table->string('components_type',24)->index();
                    $table->string('components_src',255)->index();
                    $table->bigInteger('sites_id')->index();
-                   $table->timestamps();
+                   $table->nullableTimestamps();
                    $table->softDeletes();
                 });
 	}

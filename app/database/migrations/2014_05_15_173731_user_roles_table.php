@@ -18,7 +18,7 @@ class UserRolesTable extends Migration {
                     $table->string('role',128)->index();
                     $table->string('price_field',64)->index();
                     $table->decimal('discount',4,2)->default(0);
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes(); 
                 });
 	}

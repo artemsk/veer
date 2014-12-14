@@ -24,7 +24,7 @@ class AdminUsersTable extends Migration {
                     $table->longText('access_parameters')->default('');
                     $table->longText('sites_watch')->default('');
                     $table->boolean('banned')->default(false)->index();
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes(); 
                 });
 	}

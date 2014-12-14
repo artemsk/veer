@@ -23,7 +23,7 @@ class CreateComments extends Migration {
                     $table->tinyInteger('hidden')->default(0);
                     $table->bigInteger('elements_id')->index();
                     $table->string('elements_type',255)->index();
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();                            
                 });
 	}

@@ -21,7 +21,7 @@ class UsersBasketLists extends Migration {
                     $table->bigInteger('elements_id')->index();
                     $table->string('elements_type',255)->index();
                     $table->bigInteger('quantity');         
-                    $table->timestamps();           
+                    $table->nullableTimestamps();           
                 });
 	}
 

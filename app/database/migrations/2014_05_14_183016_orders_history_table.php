@@ -20,7 +20,7 @@ class OrdersHistoryTable extends Migration {
                     $table->longText('comments');   
                     $table->boolean('to_customer')->default(false);
                     $table->longText('order_cache');
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes(); 
                 });
 	}
