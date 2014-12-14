@@ -44,16 +44,17 @@ x Administration: Add/update/delete components
 x Administration: connect existing images to other elements
 x Administration: secrets, jobs
 x Administration: get trashed elements
+x Administration: working with categories (sub/parent/current)
 
-Administration: sort categories click-and-drag (manual_sort field) with ajax
-
+Administration: ! sort categories click-and-drag (manual_sort field) with ajax
+Administration: ! check before delete (popup)
 Administration: category page: add/remove images, products, pages, sorting
+
 Administration: search
 Administration: links to products & pages from elements
 Administration: add, update & delete attributes
 Administration: separate page for single attribute (update, add, delete)
 Administration: cross links to communications, comments
-
 Administration: show comms for category
 Administration: when making download links expiration date or times should be set
 Administration: clear cache, show migrations, show password reminders
