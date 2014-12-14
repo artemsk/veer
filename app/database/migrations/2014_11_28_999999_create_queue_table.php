@@ -19,7 +19,7 @@ class CreateQueueTable extends Migration
             $table->integer('times')->default(0);
             $table->longText('payload')->nullable();
 			$table->timestamp('scheduled_at');
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
     }
 

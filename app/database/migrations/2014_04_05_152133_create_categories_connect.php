@@ -17,7 +17,7 @@ class CreateCategoriesConnect extends Migration {
                     $table->bigInteger('categories_id')->index();
                     $table->bigInteger('elements_id')->index();
                     $table->string('elements_type',255)->index();
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();
                 });
 	}

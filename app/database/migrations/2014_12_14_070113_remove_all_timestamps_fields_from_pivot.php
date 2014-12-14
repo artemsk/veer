@@ -67,39 +67,39 @@ class RemoveAllTimestampsFieldsFromPivot extends Migration {
 	public function down()
 	{
 		Schema::table('attributes_connect', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });
 		Schema::table('categories_connect', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });	
 		Schema::table('categories_pivot', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });			
 		Schema::table('images_connect', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });						
 		Schema::table('pages_pivot', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });		
 		Schema::table('pages_products', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });		
 		Schema::table('products_pivot', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });	
 		Schema::table('searches_connect', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });		
 		Schema::table('tags_connect', function($table) {
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();    
                 });					
 	}

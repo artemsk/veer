@@ -24,7 +24,7 @@ class ShippingTable extends Migration {
                     $table->longText('address');
                     $table->longText('other_options');                    
                     $table->integer('manual_order')->index();
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes();                
                 });
 	}

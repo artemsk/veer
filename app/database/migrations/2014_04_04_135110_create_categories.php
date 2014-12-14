@@ -21,7 +21,7 @@ class CreateCategories extends Migration {
                    $table->bigInteger('sites_id')->index();
                    $table->integer('manual_sort')->index();
                    $table->bigInteger('views');
-                   $table->timestamps();
+                   $table->nullableTimestamps();
                    $table->softDeletes();
                 });
 	}

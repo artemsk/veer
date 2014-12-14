@@ -24,7 +24,7 @@ class OrdersProductsTable extends Migration {
                     $table->decimal('price',12,2)->nullable();
                     $table->longText('attributes');
                     $table->longText('comments');                   
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes(); 
                 });
 	}

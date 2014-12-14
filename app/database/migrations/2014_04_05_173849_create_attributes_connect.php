@@ -18,7 +18,7 @@ class CreateAttributesConnect extends Migration {
                     $table->bigInteger('elements_id')->index();
                     $table->string('elements_type',255)->index();   
                     $table->longText('product_new_price');
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();
                 });
 	}

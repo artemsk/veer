@@ -17,7 +17,7 @@ class CreateSecretLinksTable extends Migration {
             $table->string('secret',64)->index();
             $table->bigInteger('elements_id')->index();
             $table->string('elements_type',255)->index();
-            $table->timestamps();
+            $table->nullableTimestamps();
 			$table->softDeletes();
         });
 	}

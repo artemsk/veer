@@ -29,7 +29,7 @@ class CustomersTable extends Migration {
                     $table->tinyInteger('banned')->default(0);
                     $table->tinyInteger('restrict_orders')->default(0);
                     $table->string('remember_token',100)->nullable();
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();                    
                 });
                 

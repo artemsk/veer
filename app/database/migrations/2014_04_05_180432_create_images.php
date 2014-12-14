@@ -15,7 +15,7 @@ class CreateImages extends Migration {
 		Schema::create('images', function($table) {
                     $table->bigIncrements('id');
                     $table->string('img',255);
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();
                 });
 	}

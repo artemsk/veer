@@ -17,7 +17,7 @@ class CreateSearchTable extends Migration {
 			$table->bigIncrements('id');
 			$table->text('q');
 			$table->bigInteger('times');
-                        $table->timestamps();
+                        $table->nullableTimestamps();
                         $table->softDeletes(); 
 		});
 	}

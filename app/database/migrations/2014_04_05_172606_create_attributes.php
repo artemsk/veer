@@ -18,7 +18,7 @@ class CreateAttributes extends Migration {
                     $table->text('name');
                     $table->longText('val');
                     $table->longText('descr');                   
-                    $table->timestamps();
+                    $table->nullableTimestamps();
                     $table->softDeletes();
                 });
 	}

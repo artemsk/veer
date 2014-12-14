@@ -25,7 +25,7 @@ class PaymentTable extends Migration {
                     $table->decimal('discount_price',5,2);
                     $table->longText('other_options');                    
                     $table->integer('manual_order')->index();
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes();                
                 });
 	}

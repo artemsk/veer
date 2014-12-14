@@ -24,7 +24,7 @@ class StatusTables extends Migration {
                     $table->boolean('flag_delivery')->default(false)->index();
                     $table->boolean('flag_close')->default(false)->index();
                     $table->boolean('secret')->default(false)->index();
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes();                
                 });
 	}

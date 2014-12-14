@@ -51,7 +51,7 @@ class OrdersTable extends Migration {
                     $table->boolean('hidden')->default(false)->index();
                     $table->boolean('pin')->default(false)->index();
                     $table->boolean('archive')->default(false)->index();            
-                    $table->timestamps();  
+                    $table->nullableTimestamps();  
                     $table->softDeletes(); 
                 });
 	}
