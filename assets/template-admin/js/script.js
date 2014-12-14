@@ -18,6 +18,7 @@
     })
     
     $(".input-files-enhance").fileinput({'showUpload':false, 'previewFileType':'any'});
+    $(".input-files-enhance-upload").fileinput({'previewFileType':'any'});
     
     $('.input-daterange, .date-container').datepicker({
     weekStart: 1,

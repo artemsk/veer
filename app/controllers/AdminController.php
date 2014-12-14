@@ -944,6 +944,9 @@ class AdminController extends \BaseController {
 	{	
 		$all = Input::all();
 		
+		echo "<pre>";
+		print_r($all);
+		echo "</pre>";
 		// deletecategoryid <- id of deleted category id
 		if($all['action'] == "delete") { 
 			$this->action_performed = "delete";	

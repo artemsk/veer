@@ -105,15 +105,19 @@
 	</div>
 	</div>
 
+	{{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
 	<div class="rowdelimiter"></div>
 	<h3>Images</h3>
 	<div class="row">
-		<div class="col-md-6">
-			<input class="input-files-enhance" type="file" id="InFile1" name="InFile1" multiple=false>
+		<div class="col-md-5">
+			<p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage" multiple=false></p>
 		</div>
-		<div class="col-md-6">
-			<input class="form-control" placeholder=":Existing Images IDs[,]">
-		</div>				
+		<div class="col-md-5">
+			<p><input class="form-control" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
+		</div>	
+		<div class="col-md-2">
+			<p><button class="btn btn-default btn-block" type="submit" name="action" value="updateImages">Upload | Update</button></p>
+		</div>
 	</div>	
 	<p></p>
 	@if(count($items->images)>0)	
@@ -123,7 +127,9 @@
 		</div>
 	</div>	
 	@endif
+	{{ Form::close() }}
 	
+	{{ Form::open(array('url' => URL::full(), 'files' => false, 'method' => 'put')); }}	
 	<div class="rowdelimiter"></div>
 	<h3>Products</h3>
 	<div class="row">
@@ -133,9 +139,9 @@
 		</div>
 		<div class="col-sm-9 col-md-10">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder=":Existing IDs">
+				<input type="text" class="form-control" name="attachProducs" placeholder=":Existing IDs">
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">Add</button>
+					<button class="btn btn-default" type="submit" name="action" value="updateProducts">Add</button>
 				</span>
 			</div>			
 		</div>		
@@ -144,11 +150,13 @@
 	@if(count($items->products)>0)	
 	<div class="row">
 		<div class="col-md-12">
-			@include($template.'.lists.products', array('items' => $items->products))
+			@include($template.'.lists.products', array('items' => $items->products, 'denyDelete' => true))
 		</div>
 	</div>
 	@endif
+	{{ Form::close() }}
 	
+	{{ Form::open(array('url' => URL::full(), 'files' => false, 'method' => 'put')); }}	
 	<div class="rowdelimiter"></div>
 	<h3>Pages</h3>
 	<div class="row">
@@ -158,9 +166,9 @@
 		</div>
 		<div class="col-sm-9 col-md-10">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder=":Existing IDs">
+				<input type="text" class="form-control" name="attachPages" placeholder=":Existing IDs">
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">Add</button>
+					<button class="btn btn-default" type="submit" name="action" value="updatePages">Add</button>
 				</span>
 			</div>			
 		</div>		
@@ -169,10 +177,11 @@
 	@if(count($items->pages)>0)	
 	<div class="row">
 		<div class="col-md-12">
-			@include($template.'.lists.pages', array('items' => $items->pages))
+			@include($template.'.lists.pages', array('items' => $items->pages, 'denyDelete' => true))
 		</div>
 	</div>
 	@endif
+	{{ Form::close() }}
 	
 	@if(count($items->communications)>0)
 	<div class="rowdelimiter"></div>

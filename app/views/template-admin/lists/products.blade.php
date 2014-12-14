@@ -36,18 +36,22 @@
 						@endif							
 						</small></p>
 					@if (now() < $item->to_show)
-					<button type="button" class="btn btn-warning btn-xs" title="Waiting for {{ $item->to_show }}. Press to show it now" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button>&nbsp;
+					<button type="submit" name="action" value="showEarlyProduct[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Waiting for {{ $item->to_show }}. Press to show it now" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button>&nbsp;
 					@endif
 					@if ($item->status == 'buy' || $item->status == 'on')
-					<button type="button" class="btn btn-success btn-xs" title="Current: ON (BUY)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-success btn-xs" title="Current: ON (BUY)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
 					@elseif ($item->status == 'hide')
-					<button type="button" class="btn btn-default btn-xs" title="Current: OFF (HIDE)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-default btn-xs" title="Current: OFF (HIDE)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
 					@elseif ($item->status == 'sold')
-					<button type="button" class="btn btn-warning btn-xs" title="Current: SOLD OUT (SOLD)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Current: SOLD OUT (SOLD)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
 					@else
-					<button type="button" class="btn btn-danger btn-xs" title="Current: UNKNOWN ({{ $item->status }})" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-danger btn-xs" title="Current: UNKNOWN ({{ $item->status }})" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></button>
 					@endif
-					&nbsp;<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+					@if(!isset($denyDelete) || !$denyDelete)
+					&nbsp;<button type="submit" name="action" value="deleteProduct[{{ $item->id }}]" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+					@else
+					&nbsp;<button type="submit" name="action" value="removeProduct[{{ $item->id }}]" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+					@endif
 				</div>
 			</div>
 			@if($item->download == true) 
