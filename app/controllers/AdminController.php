@@ -86,6 +86,8 @@ class AdminController extends \BaseController {
 	 */
 	public function show($t)
 	{
+		$json = Input::get('json',false);
+
 		switch ($t) {
 			case "sites":				
 				$items = $this->showSites();					
@@ -184,13 +186,13 @@ class AdminController extends \BaseController {
 		}
 
 		if(isset($items) && isset($view)) {
-		return view(app('veer')->template.'.'.$view, array(
-			"items" => $items,
-			"data" => app('veer')->loadedComponents,
-			"template" => app('veer')->template
-		));		
+			return view(app('veer')->template.'.'.$view, array(
+				"items" => $items,
+				"data" => app('veer')->loadedComponents,
+				"template" => app('veer')->template
+			));
 		}
-		
+
 	}
 
 	
@@ -910,8 +912,6 @@ class AdminController extends \BaseController {
 		$editOneCategory = Input::get('category', null);
 		if(!empty($editOneCategory)) { return $this->updateOneCategory($editOneCategory); }
 		
-		//
-
 		$action = Input::get('action', null);
 		$cid = Input::get('deletecategoryid', null);
 		$new = Input::get('newcategory', null);
@@ -926,7 +926,7 @@ class AdminController extends \BaseController {
 			$c->title = $new;
 			$c->description = '';
 			$c->remote_url = '';
-			$c->manual_sort = 0;
+			$c->manual_sort = 999999;
 			$c->views = 0;
 			$c->sites_id = Input::get('siteid');
 			$c->save();
@@ -935,15 +935,58 @@ class AdminController extends \BaseController {
 					$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc');
 				}))->orderBy('manual_sort','asc')->where('id','=',Input::get('siteid'))->get();
 				
+			$this->action_performed = "add";	
 			return app('view')->make(app('veer')->template.'.lists.categories-category', array(
 				"categories" => $items[0]->categories,
 				"siteid" => Input::get('siteid'),
 				"child" => view(app('veer')->template.'.elements.asset-delete-categories-script')
 			));	
-			$this->action_performed = "add";
+			
 		}
+		
+		if($action == "sort") {
+			$sorting = Input::all();
+			$sorting['relationship'] = "categories";
+			
+			if(isset($sorting['parentid'])) {			
+				$oldsorting = $this->showCategories(null, Input::get('image',null));
+				if(is_object($oldsorting)) {					
+					foreach ($this->sortElements($oldsorting, $sorting) as $sort => $id) {
+						\Veer\Models\Category::where('id', '=', $id)->update(array('manual_sort' => $sort));
+					}					
+				}				
+			}
+		}
+		
 	}
 	
+	
+	
+	
+	/**
+	 * Sorting Elements
+	 * @param type $elements
+	 * @param type $sortingParams
+	 * @return type array
+	 */
+	protected function sortElements($elements, $sortingParams)
+	{
+		$newsort = array();
+		foreach ($elements as $s) {
+			if ($s->id == $sortingParams['parentid']) {
+				foreach ($s->{$sortingParams['relationship']} as $k => $c) {
+					if ($sortingParams['newindex'] == $k) {
+						$newsort[] = $s->{$sortingParams['relationship']}[$sortingParams['oldindex']]->id;
+					}
+					if ($c->id != $s->{$sortingParams['relationship']}[$sortingParams['oldindex']]->id) {
+						$newsort[] = $c->id;
+					}
+				}
+			}
+		}
+		return $newsort;
+	}
+
 	
 	
 	
@@ -1052,7 +1095,7 @@ class AdminController extends \BaseController {
 				$c->title = $all['child'];
 				$c->description = '';
 				$c->remote_url = '';
-				$c->manual_sort = 0;
+				$c->manual_sort = 999999;
 				$c->views = 0;
 				$c->sites_id = $category->site->id;
 				$c->save();
@@ -1081,6 +1124,19 @@ class AdminController extends \BaseController {
 			$category->subcategories()->detach($all['currentChildId']);
 			Event::fire('veer.message.center', 'Detach parent category for child category.');
 		}
+		
+		// sort
+		if($all['action'] == "sort") {
+			$all['relationship'] = "subcategories";
+			if(isset($all['parentid'])) {			
+				$oldsorting[0] = $this->showCategories($all['parentid']);
+				if(is_object($oldsorting[0])) {					
+					foreach ($this->sortElements($oldsorting, $all) as $sort => $id) {
+						\Veer\Models\Category::where('id', '=', $id)->update(array('manual_sort' => $sort));
+					}					
+				}				
+			}
+		}		
 				
 	}
 
