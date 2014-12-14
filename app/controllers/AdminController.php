@@ -895,6 +895,7 @@ class AdminController extends \BaseController {
 			$c->title = $new;
 			$c->description = '';
 			$c->remote_url = '';
+			$c->manual_sort = 0;
 			$c->sites_id = Input::get('siteid');
 			$c->save();
 			
@@ -1016,6 +1017,7 @@ class AdminController extends \BaseController {
 				$c->title = $all['child'];
 				$c->description = '';
 				$c->remote_url = '';
+				$c->manual_sort = 0;
 				$c->sites_id = $category->site->id;
 				$c->save();
 			
