@@ -2,6 +2,7 @@ compiled.php
 /vendor
 /workbench
 /app/storage
+/app/views
 /assets/images/
 /assets/downloads/
 /assets/pages/
