@@ -214,8 +214,8 @@ class VeerApp {
 
 			if (!class_exists($classFullName)) { 
 
-				$pathComponent = app_path() . ( empty($type) ? "/lib/Components/": "/lib/Events/") . $className . ".php";
-				if($type == "queue") { $pathComponent = app_path() . "/lib/Queues/" . $className . ".php"; }
+				$pathComponent = ( empty($type) ? config("veer.components_path") : config("veer.events_path")) . "/" . $className . ".php";
+				if($type == "queue") { $pathComponent = config("veer.queues_path") . $className . ".php"; }
 				
 				if (file_exists($pathComponent)) {
 					require $pathComponent;
