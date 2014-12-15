@@ -5,7 +5,10 @@ namespace Veer\Models;
 class Attribute extends \Eloquent {
     
     protected $table = "attributes";
-    protected $softDelete = true;
+	
+	use \Illuminate\Database\Eloquent\SoftDeletingTrait;
+	protected $dates = ['deleted_at'];
+
     protected $fillable = array("type", "name", "val", "descr");
     
     // Many Attributes Have Many (Pages & Products)

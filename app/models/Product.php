@@ -5,7 +5,9 @@ namespace Veer\Models;
 class Product extends \Eloquent {
     
     protected $table = "products";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
     
     public function scopeSiteValidation($query, $site_id) 
     {
@@ -50,8 +52,7 @@ class Product extends \Eloquent {
     }    
  
     public function attributes() {
-        return $this->morphToMany('\Veer\Models\Attribute', 'elements', 'attributes_connect', 'elements_id', 'attributes_id')
-				->withPivot('product_new_price');
+        return $this->morphToMany('\Veer\Models\Attribute', 'elements', 'attributes_connect', 'elements_id', 'attributes_id');
     } 
     
     public function images() {

@@ -5,7 +5,9 @@ namespace Veer\Models;
 class OrderShipping extends \Eloquent {
     
     protected $table = "orders_shipping";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
     
     // Many Shipping Methods <- One
     

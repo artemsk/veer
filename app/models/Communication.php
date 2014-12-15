@@ -5,7 +5,9 @@ namespace Veer\Models;
 class Communication extends \Eloquent {
     
     protected $table = "communications";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
         
     // Many Messages <- One
     
