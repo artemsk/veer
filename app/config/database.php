@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => $_ENV['DBDRVR'],
+	'default' => $_ENV['DBDRVR'] ? $_ENV['DBDRVR'] : 'sqlite',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -48,39 +48,39 @@ return array(
 
 		'sqlite' => array(
 			'driver'   => 'sqlite',
-			'database' => __DIR__.'/../database/' . $_ENV['DBNAME'], //
+			'database' => __DIR__.'/../database/' . $_ENV['DBNAME'] ? $_ENV['DBNAME'] : 'empty.sqlite' , //
 			'prefix'   => '',
 		),
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => $_ENV['DBHOST'],
-			'database'  => $_ENV['DBNAME'],
-			'username'  => $_ENV['DBUSER'],
-			'password'  => $_ENV['DBPSSW'],
-			'charset'   => $_ENV['DBCHAR'],
-			'collation' => $_ENV['DBCOLL'],
-			'prefix'    => $_ENV['DBPRFX'],
+			'host'      => $_ENV['DBHOST'] ? $_ENV['DBHOST'] : null ,
+			'database'  => $_ENV['DBNAME'] ? $_ENV['DBNAME'] : null ,
+			'username'  => $_ENV['DBUSER'] ? $_ENV['DBUSER'] : null ,
+			'password'  => $_ENV['DBPSSW'] ? $_ENV['DBPSSW'] : null ,
+			'charset'   => $_ENV['DBCHAR'] ? $_ENV['DBCHAR'] : null ,
+			'collation' => $_ENV['DBCOLL'] ? $_ENV['DBCOLL'] : null ,
+			'prefix'    => $_ENV['DBPRFX'] ? $_ENV['DBPRFX'] : null ,
 		),
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
-			'host'     => $_ENV['DBHOST'],
-			'database' => $_ENV['DBNAME'],
-			'username' => $_ENV['DBUSER'],
-			'password' => $_ENV['DBPSSW'],
-			'charset'  => $_ENV['DBCHAR'],
-			'prefix'   => $_ENV['DBPRFX'],
+			'host'     => $_ENV['DBHOST'] ? $_ENV['DBHOST'] : null ,
+			'database' => $_ENV['DBNAME'] ? $_ENV['DBNAME'] : null ,
+			'username' => $_ENV['DBUSER'] ? $_ENV['DBUSER'] : null ,
+			'password' => $_ENV['DBPSSW'] ? $_ENV['DBPSSW'] : null ,
+			'charset'  => $_ENV['DBCHAR'] ? $_ENV['DBCHAR'] : null ,
+			'prefix'   => $_ENV['DBPRFX'] ? $_ENV['DBPRFX'] : null ,
 			'schema'   => 'public',
 		),
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
-			'host'     => $_ENV['DBHOST'],
-			'database' => $_ENV['DBNAME'],
-			'username' => $_ENV['DBUSER'],
-			'password' => $_ENV['DBPSSW'],
-			'prefix'   => $_ENV['DBPRFX'],
+			'host'     => $_ENV['DBHOST'] ? $_ENV['DBHOST'] : null ,
+			'database' => $_ENV['DBNAME'] ? $_ENV['DBNAME'] : null ,
+			'username' => $_ENV['DBUSER'] ? $_ENV['DBUSER'] : null ,
+			'password' => $_ENV['DBPSSW'] ? $_ENV['DBPSSW'] : null ,
+			'prefix'   => $_ENV['DBPRFX'] ? $_ENV['DBPRFX'] : null ,
 		),
 
 	),
