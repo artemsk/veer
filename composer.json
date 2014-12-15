@@ -10,16 +10,16 @@
         }
     ],
     "require": {	
-		"php": ">=5.3.0",
-		"laravel/framework": "4.1.*",
-		"doctrine/dbal": "~2.3",
-		"artemsk/queuedb": "0.1.*"		
+        "php": ">=5.3.0",
+        "laravel/framework": "4.1.*",
+        "doctrine/dbal": "~2.3",
+        "artemsk/queuedb": "0.1.*"
     },
     "require-dev": {	
-		"php": ">=5.3.0",
-		"laravel/framework": "4.1.*",
-		"doctrine/dbal": "~2.3",
-		"artemsk/queuedb": "0.1.*"		
+        "php": ">=5.3.0",
+        "laravel/framework": "4.1.*",
+        "doctrine/dbal": "~2.3",
+        "artemsk/queuedb": "0.1.*"
     },	
 	"autoload": {
 		"classmap": [
@@ -28,9 +28,7 @@
 			"app/models",
 			"app/lib"
 		],
-		"files": [
-            "app/lib/helpers.php"
-        ]
+		"files": ["app/lib/helpers.php"]
 	},
 	"minimum-stability": "stable"
 }
