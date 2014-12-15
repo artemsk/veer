@@ -1,0 +1,223 @@
+
+html, body 
+{   padding: 15px;
+    /*font-family: "Times New Roman", serif;*/
+    background-color: #fff;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;  
+    font-family: "Roboto";
+
+}
+
+.rowdelimiter {
+    margin: 50px 0 0 0;
+}
+
+.xs-rowdelimiter {
+    margin: 5px 0 0 0;
+}
+.logo-site {
+    font-weight: bold;
+    color: #222222;
+    text-decoration: none;
+    letter-spacing: 5px;
+}
+
+.events-veer-message-center {
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: auto;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(65, 95, 118, 0.8);
+    background-image: none;
+    background-origin: padding-box;
+    background-size: auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 30px;
+    box-sizing: border-box;
+    color: rgba(250, 251, 255, 0.952941);
+    display: none;
+    height: 80px;
+    right: 30px;
+    line-height: 20.1599998474121px;
+    max-width: 250px;
+    padding: 10px 22px 15px 22px;
+    pointer-events: auto;
+    position: fixed;
+    top: auto;
+    width: 75%;
+    z-index: 1000;
+}
+
+.attribute-form {
+    background-color: #f5f5f5; //#f5f5f5;
+    padding: 20px 20px 20px 20px;    
+    border-radius: 5px;
+    box-shadow: 0 1px 1px 0 #999;
+    margin-bottom: 50px;
+}
+
+.admin-form {
+    border-width:0px;
+    box-shadow: 0 0 0 0 #fff;
+    font-size: inherit;
+    height: inherit;
+}
+
+.round-element {
+    background-color: #FFF;
+    border-radius: 15px;
+    border: 1px #ddd solid;
+    box-sizing: border-box;
+    color: #337AB7;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 5px 14px 14px 14px;
+    text-align: center;
+    text-decoration: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    -moz-text-decoration-color: #337AB7;
+    -moz-text-decoration-line: none;
+    -moz-text-decoration-style: solid;
+    margin: 10px;
+}
+
+.round-element-primary {
+    background-color: #337ab7;
+}
+
+.round-element-primary:hover {
+    //background-color: #286090;
+}
+
+.badge > a { 
+    color: #fff;
+    text-decoration: underline;
+}
+
+.active-download {
+    border-left: 2px #777 solid;
+}
+
+.bg-muted {
+    background-color: #efefef;
+}
+
+.image-faded {
+    opacity: 0.5;
+}
+
+.bordered-row {
+    border-top: 1px #dedede solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.bordered-row:hover {
+    background-color: #efefef;
+}
+
+.label > a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.top-panel {
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    font-size: 1.3em;
+    padding: 4px 10px 0px 15px;
+    background-color: rgba(71, 186, 195, 0.9);
+    color: #fff;
+}
+
+.top-panel-right {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 1em;
+    padding: 5px 10px 4px 10px;
+    background-color: rgba(200, 200, 200, 0.8);
+}
+
+.danger-icon {
+    color: #FF4136;
+}
+
+.warning-icon {
+    color: #ffcc66;
+}
+
+.additional-info {
+    margin-left:20px;
+    color: #999;
+}
+
+.narrower {
+   padding-left: 0px;
+}
+
+.page-checkboxes-box {
+    padding-bottom: 10px;
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.page-checkboxes-box-last {
+    margin-right: 0px;
+}
+
+.action-hover-box {
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: auto;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(79, 78, 74, 0.2);;
+    background-image: none;
+    background-origin: padding-box;
+    background-size: auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 0px;
+    top: 30px;
+    box-sizing: border-box;
+    color: rgba(250, 251, 255, 0.952941);
+    display: none;
+    height: 75px;
+    right: 0px;
+    line-height: 20.1599998474121px;
+    max-width: 175px;
+    padding: 15px 22px 22px 22px;
+    pointer-events: auto;
+    position: fixed;
+    bottom: auto;
+    width: 75%;
+    z-index: 9000;
+}
+
+.categories-group {
+    margin-bottom: 7px;
+}
+
+.sortable-dragging {
+
+}
+
+.sortable-placeholder {
+    list-style-position: inside;
+    list-style-type: none;
+    padding:0px;
+    height: 50px;
+    background-color: #fefefe;
+}

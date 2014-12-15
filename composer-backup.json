@@ -1,0 +1,31 @@
+{
+	"name": "artemsk/veer",
+	"description": "The Veer Layer.",
+	"keywords": ["cms", "veer", "laravel", "laravel-based"],
+	"license": "MIT",
+	"authors": [
+        {
+            "name": "Artyom Troshin",
+            "email": "garcia82@yandex.ru"
+        }
+    ],
+    "require": {	
+        "php": ">=5.3.0",
+        "laravel/framework": "4.1.*",
+        "doctrine/dbal": "~2.3",
+        "artemsk/queuedb": "0.1.*"
+    },
+    "require-dev": {	
+        "php": ">=5.3.0",
+        "laravel/framework": "4.1.*",
+        "doctrine/dbal": "~2.3",
+        "artemsk/queuedb": "0.1.*"
+    },	
+	"autoload": {
+        "classmap": [
+            "app/App"
+        ],
+        "files": ["app/App/helpers.php"]
+	},
+	"minimum-stability": "stable"
+}
