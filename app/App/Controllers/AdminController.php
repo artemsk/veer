@@ -86,6 +86,8 @@ class AdminController extends \BaseController {
 	 */
 	public function show($t)
 	{
+		$i = app('veeradmin');
+		
 		$json = Input::get('json',false);
 
 		switch ($t) {

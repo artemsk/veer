@@ -109,6 +109,7 @@ return array(
 		'Artemsk\Queuedb\QueuedbServiceProvider',
 		'Veer\Lib\VeerErrorServiceProvider',		
 		'Veer\Lib\VeerServiceProvider',
+		'Veer\Lib\VeerAdminServiceProvider'
 	),
 
 	/*

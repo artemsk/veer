@@ -3,4 +3,7 @@
 class VeerAdmin {
 
 	
+	public function __construct()
+	{
+	}
 }
