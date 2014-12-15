@@ -1,0 +1,85 @@
+    @font-face {
+        font-family: 'ClearSans-Medium';
+        src: url('../fonts/clearsans/medium/ClearSans-Medium.eot?#iefix') format('embedded-opentype'),  
+            url('../fonts/clearsans/medium/ClearSans-Medium.woff') format('woff'), 
+            url('../fonts/clearsans/medium/ClearSans-Medium.ttf')  format('truetype'), 
+            url('../fonts/clearsans/medium/ClearSans-Medium.svg#ClearSans-Medium') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    html, body { 
+        margin:0; 
+        padding:0; 
+        height:100%; 
+        -webkit-font-smoothing: antialiased !important; 
+        -webkit-font-smoothing: antialiased !important; 
+        -moz-osx-font-smoothing: grayscale !important; 
+        overflow:hidden;
+    }
+
+    .slide { 
+        background: #386ce0; 
+        position:relative; 
+        z-index:100; }
+
+    .slide h2 { 
+        color:#fff;  
+        margin-top:22px !important; 
+        margin-bottom: 0px;
+    }
+
+
+    section { 
+        height:100%; 
+        width: 100%; 
+        display: table; 
+        display: table; 
+        table-layout: fixed; 
+        width: 100%; 
+    }
+    
+    section .content { 
+        display:table-cell; 
+        vertical-align:middle; 
+        text-align: center; 
+    }
+    
+    section h2 { 
+        font-family: 'ClearSans-Medium'; 
+        font-size:200px;  
+        font-weight: normal !important; 
+        letter-spacing:1px; 
+        -webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important; 
+    }
+    
+    section p { 
+        font-family: 'ClearSans-Medium';
+        color: #7C9CE1;
+        font-size: 14px;
+        font-weight: normal !important; 
+        -webkit-font-smoothing: antialiased !important; 
+        -moz-osx-font-smoothing: grayscale !important; 
+    }
+
+    section p > a {
+        color: #BFCAE1;
+        text-decoration: underline;
+    }
+    
+    section p > a:hover {
+        color: #BFCAE1;
+        
+    }
+
+@media (max-width: 468px) {
+     section h2 {
+         font-size: 100px;
+     }
+}
+
+.slide-2 {
+    z-index:2;
+    position: relative;
+}
