@@ -96,7 +96,7 @@ class VeerServiceProvider extends ServiceProvider {
              return new \FirstThingCommand();
         });
         $app['command.veer.publish'] = $app->share(function ($app) {
-             return new \MoveAppCommand();
+             return new \PublishVeerCommand();
         });		
     }	
 	
