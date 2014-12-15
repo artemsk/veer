@@ -11,14 +11,14 @@ class MoveAppCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'veer:publish';
+	protected $name = 'veer:move';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Publish all necessary files.';
+	protected $description = 'Move app from vendors folder.';
 
 	
 	protected $packageName = "artemsk/veer";
@@ -41,7 +41,7 @@ class MoveAppCommand extends Command {
 	public function fire()
 	{
 		$this->info('');
-		$this->info('Publish files...');
+		$this->info('Moving...');
 		$this->info('');
 		
 		$source = base_path()."/vendor/".$this->packageName;
@@ -51,10 +51,11 @@ class MoveAppCommand extends Command {
 		if(empty($only)) {
 		
 		 $destination = base_path();
-		 
+		 app('files')->deleteDirectory($source."/.git");
 		 app('files')->move(base_path()."/composer.json", base_path()."/composer-backup.json");
 		 app('files')->copyDirectory($source, $destination);
-			
+		 app('files')->move(base_path()."/composer-backup.json", base_path()."/composer.json");	
+		 
 		} 
 		
 		// Publish config
