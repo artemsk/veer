@@ -1137,7 +1137,35 @@ class AdminController extends \BaseController {
 				}				
 			}
 		}		
-				
+			
+		// update|add images
+		if($all['action'] == "updateImages") {
+			if (starts_with($all['attachImages'], ":")) {
+				$arr = explode(",", substr($all['attachImages'], 1));
+				foreach ($arr as $image) {
+					$category->images()->attach($image);
+				}
+				Event::fire('veer.message.center', 'Attach existing images to category.');
+			}
+
+			if(Input::hasFile('uploadImage')) {
+
+				$fname = "ct".@$all['category']."_".date('YmdHis',time()).
+					str_random(10).".".Input::file('uploadImage')->getClientOriginalExtension();
+				Input::file('uploadImage')->move(base_path()."/".Config::get('veer.images_path'), $fname);
+				$newimage = new \Veer\Models\Image; 
+				$newimage->img = $fname;
+				$newimage->save();
+				$newimage->categories()->attach($all['category']);
+				Event::fire('veer.message.center', 'Upload new image & attach it to category.');
+			}							
+		}
+
+		if(starts_with($all['action'], 'removeImage')) {
+			$r = explode(".", $all['action']);
+			if(!empty($r[1])) { $category->images()->detach($r[1]);	}
+		}
+		
 	}
 
 	/**

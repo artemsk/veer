@@ -123,7 +123,7 @@
 	@if(count($items->images)>0)	
 	<div class="row">
 		<div class="col-md-12">
-			@include($template.'.lists.images', array('items' => $items->images))
+			@include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))
 		</div>
 	</div>	
 	@endif

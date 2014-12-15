@@ -25,4 +25,4 @@ post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.log
 get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.basket.add'));
 Route::resource('user', 'UserController', array('only' => array('index', 'show')));
 
-Route::resource('admin', 'AdminController');
+Route::resource('admin', 'AdminController', array('only' => array('index', 'show', 'update')));

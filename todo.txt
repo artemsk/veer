@@ -47,9 +47,10 @@ x Administration: get trashed elements
 x Administration: working with categories (sub/parent/current)
 x Administration: create jobs (as components!)
 ---------------------------------------------------- 0.3.0-alpha
-x Administration: sort categories with drag & drop (manual_sort, ajax)***END OF FILE***
+x Administration: sort categories with drag & drop (manual_sort, ajax)
+x Administration: update, upload & remove images from categories***END OF FILE***
 Administration: ! check before delete (popup)
-Administration: category page: add/remove images, products, pages
+Administration: category page:  products, pages
 Administration: search
 Administration: links to products & pages from elements
 Administration: add, update & delete attributes
@@ -65,6 +66,8 @@ Administration: deprecate in_last & in_news fields for pages
 Administration: real ajax on configuration pages
 Administration: clear trash
 Administration: restore() functions for categories/images/pages/products
+Administration: delete images from images url
+Administration: delete products & pages from its paths
 
 (web template) product page
 (web template) page
