@@ -53,7 +53,7 @@ class MoveAppCommand extends Command {
 		 $destination = base_path();
 		 
 		 app('files')->move(base_path()."/composer.json", base_path()."/composer-backup.json");
-		 app('files')->copy($source, $destination);
+		 app('files')->copyDirectory($source, $destination);
 			
 		} 
 		
