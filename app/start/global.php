@@ -14,11 +14,7 @@
 ClassLoader::addDirectories(array(
 
 	app_path().'/commands',
-	app_path().'/controllers',
-	app_path().'/models',
-	app_path().'/database',
-    app_path().'/lib',
-    
+	app_path().'/database',    
 ));
 
 /*
@@ -94,5 +90,3 @@ require app_path().'/events.php';
 | [Update] Registering was moved to Service Providers - see config/app.php
 |
 */
-
-//if ( !($app->runningInConsole()) ) { $app->veer->run(); }

@@ -1,11 +1,11 @@
 compiled.php
 /vendor
 /workbench
-/app/views/_temp
 /app/storage
 /assets/images/
 /assets/downloads/
 /assets/pages/
+/templates/
 composer.phar
 composer.lock
 .env.local.php

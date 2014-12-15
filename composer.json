@@ -10,25 +10,10 @@
         }
     ],
     "require": {	
-        "php": ">=5.3.0",
-        "laravel/framework": "4.1.*",
-        "doctrine/dbal": "~2.3",
-        "artemsk/queuedb": "0.1.*"
+        "artemsk/veer-core": "dev-master"
     },
     "require-dev": {	
-        "php": ">=5.3.0",
-        "laravel/framework": "4.1.*",
-        "doctrine/dbal": "~2.3",
-        "artemsk/queuedb": "0.1.*"
+        "artemsk/veer-core": "dev-master"
     },	
-	"autoload": {
-		"classmap": [
-			"app/database",
-			"app/controllers",
-			"app/models",
-			"app/lib"
-		],
-		"files": ["app/lib/helpers.php"]
-	},
 	"minimum-stability": "stable"
 }
