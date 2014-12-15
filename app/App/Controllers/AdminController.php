@@ -1018,9 +1018,6 @@ class AdminController extends \BaseController {
 	{	
 		$all = Input::all();
 		
-		echo "<pre>";
-		print_r($all);
-		echo "</pre>";
 		// deletecategoryid <- id of deleted category id
 		if($all['action'] == "delete") { 
 			$this->action_performed = "delete";	
@@ -1165,6 +1162,38 @@ class AdminController extends \BaseController {
 			$r = explode(".", $all['action']);
 			if(!empty($r[1])) { $category->images()->detach($r[1]);	}
 		}
+		
+		// add existings products
+		if($all['action'] == "updateProducts") {
+			if (starts_with($all['attachProducts'], ":")) {
+				$arr = explode(",", substr($all['attachProducts'], 1));
+				foreach ($arr as $prd) {
+					$category->products()->attach($prd);
+				}
+				Event::fire('veer.message.center', 'Attach existing products to category.');
+			}
+		}
+
+		if(starts_with($all['action'], 'removeProduct')) {
+			$r = explode(".", $all['action']);
+			if(!empty($r[1])) { $category->products()->detach($r[1]);	}
+		}	
+		
+		// add existings pages
+		if($all['action'] == "updatePages") {
+			if (starts_with($all['attachPages'], ":")) {
+				$arr = explode(",", substr($all['attachPages'], 1));
+				foreach ($arr as $pg) {
+					$category->pages()->attach($pg);
+				}
+				Event::fire('veer.message.center', 'Attach existing pages to category.');
+			}
+		}
+
+		if(starts_with($all['action'], 'removePage')) {
+			$r = explode(".", $all['action']);
+			if(!empty($r[1])) { $category->pages()->detach($r[1]);	}
+		}				
 		
 	}
 
