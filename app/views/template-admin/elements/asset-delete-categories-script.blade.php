@@ -1,0 +1,1 @@
+<script src="{{ URL::asset('assets/'.app('veer')->template.'/js/delete-categories.js') }}"></script>
