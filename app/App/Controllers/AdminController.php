@@ -89,7 +89,8 @@ class AdminController extends \BaseController {
 		$i = app('veeradmin');
 		
 		$json = Input::get('json',false);
-
+		// TODO: ?
+		
 		switch ($t) {
 			case "sites":				
 				$items = app('veeradmin')->showSites();	$view = "sites";
@@ -149,32 +150,29 @@ class AdminController extends \BaseController {
 								
 				$view = empty($page) ? "pages" : "page";
 				break;				
-			
 				
 			case "configuration":	
-				$siteId = Input::get('site', null);
-				$items = $this->showConfiguration($siteId);
+				$items = app('veeradmin')->showConfiguration(Input::get('site', null));
 				$view = "configuration";
 				break;				
 			
 			case "components":	
-				$siteId = Input::get('site', null);
-				$items = $this->showComponents($siteId);
+				$items = app('veeradmin')->showComponents(Input::get('site', null));
 				$view = "components";
 				break;	
 			
 			case "secrets":	
-				$items = $this->showSecrets();
+				$items = app('veeradmin')->showSecrets();
 				$view = "secrets";
 				break;	
 			
 			case "jobs":	
-				$items = $this->showJobs();
+				$items = app('veeradmin')->showJobs();
 				$view = "jobs";
 				break;	
 			
 			case "etc":	
-				$items = $this->showEtc();
+				$items = app('veeradmin')->showEtc();
 				$view = "etc";
 				break;	
 			
@@ -192,147 +190,7 @@ class AdminController extends \BaseController {
 
 	}
 
-		
-	
-	
-	
-	
-	
-	/**
-	 * Show Configurations
-	 * @return type
-	 */
-	protected function showConfiguration($siteId = null, $orderBy = array('id', 'desc')) 
-	{	
-		if(Input::get('sort', null)) { $orderBy[0] = Input::get('sort'); }
-		if(Input::get('direction', null)) { $orderBy[1] = Input::get('direction'); }
-		
-		if($siteId == null) {
-			$items = \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) use ($orderBy) {
-				$query->orderBy($orderBy[0], $orderBy[1]);
-			}))->get();
-			
-			return $items;
-		}
-		
-		$items[0] = \Veer\Models\Site::with(array('configuration' => function($query) use ($orderBy) {
-				$query->orderBy($orderBy[0], $orderBy[1]);
-			}))->find($siteId); 
-			
-		return $items;
-	}
-	
-	
-	
-	
-	/**
-	 * Show Components
-	 * @return type
-	 */
-	protected function showComponents($siteId = null, $orderBy = array('id', 'desc')) 
-	{	
-		if(Input::get('sort', null)) { $orderBy[0] = Input::get('sort'); }
-		if(Input::get('direction', null)) { $orderBy[1] = Input::get('direction'); }
-	
-		if($siteId == null) {
-			return \Veer\Models\Site::where('id','>',0)->with(array('components' => function($query) use ($orderBy) {
-				$query->orderBy('sites_id')->orderBy($orderBy[0], $orderBy[1]);
-			}))->get();
-		}
-		
-		$items = \Veer\Models\Site::with(array('components' => function($query) use ($orderBy) {
-				$query->orderBy('sites_id')->orderBy($orderBy[0], $orderBy[1]);
-			}))->find($siteId); 
-			
-		return array($items);
-	}
-	
-	
-	
-	
-	/**
-	 * Show Secrets
-	 * @return type
-	 */
-	protected function showSecrets() 
-	{		
-		$items = \Veer\Models\Secret::all();
-		$items->sortByDesc('created_at');
-			
-		return $items;
-	}
-	
-	
-	
-	
-	/**
-	 * Show Jobs
-	 * @return type
-	 */
-	protected function showJobs() 
-	{		
-		$items = \Artemsk\Queuedb\Job::all();
-		$items->sortBy('scheduled_at');
-		
-		$items_failed = DB::table("failed_jobs")->get();
-		
-		$statuses = array(\Artemsk\Queuedb\Job::STATUS_OPEN => "Open",
-						  \Artemsk\Queuedb\Job::STATUS_WAITING => "Waiting",
-					\Artemsk\Queuedb\Job::STATUS_STARTED => "Started",
-					\Artemsk\Queuedb\Job::STATUS_FINISHED => "Finished",
-					\Artemsk\Queuedb\Job::STATUS_FAILED => "Failed");
-			
-		return array('jobs' => $items, 'failed' => $items_failed, 'statuses' => $statuses);
-	}
-	
-	
-	
-	
-	/**
-	 * Show Etc.
-	 * @return type
-	 */
-	protected function showEtc() 
-	{		
-		$cache = DB::table("cache")->get();
-		$migrations = DB::table("migrations")->get();
-		$reminders = DB::table("password_reminders")->get();	
 
-		if(config('database.default') == 'mysql') {
-			$trashed = $this->trashedElements(); }
-		
-		return array('cache' => $cache, 'migrations' => $migrations, 
-			'reminders' => $reminders, 'trashed' => empty($trashed)?null:$trashed);
-	}
-	
-	
-	
-	
-	/**
-	 * Show trashedElements (only 'mysql')
-	 * @param type $action
-	 * @return type
-	 */
-	protected function trashedElements($action = null)
-	{
-		$tables = DB::select('SHOW TABLES');
-		
-		foreach($tables as $table) {
-			if (Schema::hasColumn(reset($table), 'deleted_at'))
-			{
-				$check = DB::table(reset($table))->whereNotNull('deleted_at')->count();
-				if($check > 0) {
-				$items[reset($table)] = $check;				
-					if($action == "delete") {
-						DB::table(reset($table))->whereNotNull('deleted_at')->delete();
-					}				
-				}
-			}
-		}
-		return $items;
-	}
-	
-	
 	
 	
 	/**
