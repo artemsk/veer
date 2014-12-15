@@ -19,6 +19,12 @@ Veer
 	
 3) run: php artisan veer:install [url] --migrate
    - use your installation url
-
+   
 4) go to [url]/admin/sites
    
+Update
+------
+
+1) run: composer update
+
+2) run: php artisan veer:publish
