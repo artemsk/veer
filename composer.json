@@ -13,13 +13,13 @@
         "php": ">=5.3.0",
         "laravel/framework": "4.1.*",
         "doctrine/dbal": "~2.3",
-        "artemsk/queuedb": "0.1.*",
+        "artemsk/queuedb": "0.1.*"
     },
     "require-dev": {	
         "php": ">=5.3.0",
         "laravel/framework": "4.1.*",
         "doctrine/dbal": "~2.3",
-        "artemsk/queuedb": "0.1.*",
+        "artemsk/queuedb": "0.1.*"
     },	
 	"autoload": {
         "classmap": [
