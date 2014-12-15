@@ -1,5 +1,7 @@
 <?php namespace Veer\Lib;
 
+use Illuminate\Support\Facades\Input;
+
 class VeerAdmin {
 
 	
@@ -290,5 +292,123 @@ class VeerAdmin {
 		return $items;
 	}
 	
+	
+	/**
+	 * Show Configurations
+	 */
+	public function showConfiguration($siteId = null, $orderBy = array('id', 'desc')) 
+	{	
+		if(Input::get('sort', null)) { $orderBy[0] = Input::get('sort'); }
+		if(Input::get('direction', null)) { $orderBy[1] = Input::get('direction'); }
+		
+		if($siteId == null) {
+			return \Veer\Models\Site::where('id','>',0)->with(array('configuration' => function($query) use ($orderBy) {
+				$query->orderBy($orderBy[0], $orderBy[1]);
+			}))->get();
+		}
+		
+		$items[0] = \Veer\Models\Site::with(array('configuration' => function($query) use ($orderBy) {
+				$query->orderBy($orderBy[0], $orderBy[1]);
+			}))->find($siteId); 
+		return $items;
+	}
+	
+	
+	/**
+	 * Show Components
+	 */
+	public function showComponents($siteId = null, $orderBy = array('id', 'desc')) 
+	{	
+		if(Input::get('sort', null)) { $orderBy[0] = Input::get('sort'); }
+		if(Input::get('direction', null)) { $orderBy[1] = Input::get('direction'); }
+	
+		if($siteId == null) {
+			return \Veer\Models\Site::where('id','>',0)->with(array('components' => function($query) use ($orderBy) {
+				$query->orderBy('sites_id')->orderBy($orderBy[0], $orderBy[1]);
+			}))->get();
+		}
+		
+		$items = \Veer\Models\Site::with(array('components' => function($query) use ($orderBy) {
+				$query->orderBy('sites_id')->orderBy($orderBy[0], $orderBy[1]);
+			}))->find($siteId); 
+			
+		return array($items);
+	}	
+	
+	
+	/**
+	 * Show Secrets
+	 */
+	public function showSecrets() 
+	{		
+		$items = \Veer\Models\Secret::all();
+		$items->sortByDesc('created_at');
+			
+		return $items;
+	}	
+	
+	
+	/**
+	 * Show Jobs
+	 */
+	public function showJobs() 
+	{		
+		$items = \Artemsk\Queuedb\Job::all();
+		$items->sortBy('scheduled_at');
+		
+		$items_failed = \Illuminate\Support\Facades\DB::table("failed_jobs")->get();
+		
+		$statuses = array(\Artemsk\Queuedb\Job::STATUS_OPEN => "Open",
+						  \Artemsk\Queuedb\Job::STATUS_WAITING => "Waiting",
+					\Artemsk\Queuedb\Job::STATUS_STARTED => "Started",
+					\Artemsk\Queuedb\Job::STATUS_FINISHED => "Finished",
+					\Artemsk\Queuedb\Job::STATUS_FAILED => "Failed");
+			
+		return array('jobs' => $items, 'failed' => $items_failed, 'statuses' => $statuses);
+	}	
+	
+	
+	/**
+	 * Show Etc.
+	 */
+	public function showEtc() 
+	{		
+		$cache = \Illuminate\Support\Facades\DB::table("cache")->get();
+		$migrations = \Illuminate\Support\Facades\DB::table("migrations")->get();
+		$reminders = \Illuminate\Support\Facades\DB::table("password_reminders")->get();	
+
+		if(config('database.default') == 'mysql') {
+			$trashed = $this->trashedElements(); }
+		
+		return array('cache' => $cache, 'migrations' => $migrations, 
+			'reminders' => $reminders, 'trashed' => empty($trashed)?null:$trashed);
+	}	
+	
+	
+	/**
+	 * Show trashedElements (only 'mysql')
+	 * @param type $action
+	 * @return type
+	 */
+	protected function trashedElements($action = null)
+	{
+		$tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
+		
+		foreach($tables as $table) {
+			if (\Illuminate\Support\Facades\Schema::hasColumn(reset($table), 'deleted_at'))
+			{
+				$check = \Illuminate\Support\Facades\DB::table(reset($table))
+					->whereNotNull('deleted_at')->count();
+				if($check > 0) {
+				$items[reset($table)] = $check;				
+					if($action == "delete") {
+						\Illuminate\Support\Facades\DB::table(reset($table))
+							->whereNotNull('deleted_at')->delete();
+					}				
+				}
+			}
+		}
+		return $items;
+	}	
 	
 }
