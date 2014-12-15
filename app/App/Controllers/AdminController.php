@@ -92,52 +92,46 @@ class AdminController extends \BaseController {
 
 		switch ($t) {
 			case "sites":				
-				$items = $this->showSites();					
-				$view = "sites";
+				$items = app('veeradmin')->showSites();	$view = "sites";
 				break;
 			
 			case "attributes":
-				$items = $this->showAttributes();				
-				$view = "attributes";
+				$items = app('veeradmin')->showAttributes(); $view = "attributes";
 				break;
-
-			case "categories":		
-				$category = Input::get('category', null);
-				$image = Input::get('image', null);
-				$items = $this->showCategories($category, $image);
-				$view = empty($category) ? "categories" : "category";
-				break;
-
+			
 			case "tags":		
-				$items = $this->showTags();
-				$view = "tags";
+				$items = app('veeradmin')->showTags(); $view = "tags";
+				break;
+			
+			case "downloads":		
+				$items = app('veeradmin')->showDownloads(); $view = "downloads";
+				break;			
+
+			case "comments":		
+				$items = app('veeradmin')->showComments(); $view = "comments";
 				break;			
 			
 			case "images":		
-				$items = $this->showImages();
-				$view = "images";
+				$items = app('veeradmin')->showImages(); $view = "images";
+				break;			
+			
+			case "categories":		
+				$category = Input::get('category', null);
+				$image = Input::get('image', null);
+				$items = app('veeradmin')->showCategories($category, $image);
+				$view = empty($category) ? "categories" : "category";
 				break;
 
-			case "downloads":		
-				$items = $this->showDownloads();
-				$view = "downloads";
-				break;
-			
-			case "comments":		
-				$items = $this->showComments();
-				$view = "comments";
-				break;		
-			
 			case "products":		
 				$image = Input::get('image', null);
 				$tag = Input::get('tag', null);
 				$product = Input::get('id', null);
-
-				$items = $this->showProducts($image, $tag, $product);
 				
-				if(is_object($items)) {
-					$items->fromCategory = Input::get('category', null); 
-				}
+				$items = app('veeradmin')->showProducts($image, $tag, $product);
+				
+					if(is_object($items)) {
+						$items->fromCategory = Input::get('category', null); 
+					}
 				
 				$view = empty($product) ? "products" : "product";
 				break;		
@@ -147,15 +141,16 @@ class AdminController extends \BaseController {
 				$tag = Input::get('tag', null);
 				$page = Input::get('id', null);
 				
-				$items = $this->showPages($image, $tag, $page);
+				$items = app('veeradmin')->showPages($image, $tag, $page);
 
-				if(is_object($items)) {
-					$items->fromCategory = Input::get('category', null); 
-				}
+					if(is_object($items)) {
+						$items->fromCategory = Input::get('category', null); 
+					}
 								
 				$view = empty($page) ? "pages" : "page";
 				break;				
 			
+				
 			case "configuration":	
 				$siteId = Input::get('site', null);
 				$items = $this->showConfiguration($siteId);
@@ -197,269 +192,8 @@ class AdminController extends \BaseController {
 
 	}
 
-	
-	
-	
-	/**
-	 * Show Sites
-	 * @return type
-	 */
-	protected function showSites() 
-	{	
-		return \Veer\Models\Site::orderBy('id','asc')->get()->load('subsites', 'categories', 'components', 'configuration', 
-					'users', 'discounts', 'userlists', 'orders', 'delivery', 'payment', 'communications', 
-					'roles', 'parentsite'); // elements separately		
-	}
-	
-	
-	
-	
-	/**
-	 * Show Attributes
-	 * @return type
-	 */
-	protected function showAttributes() 
-	{	
-		$items = \Veer\Models\Attribute::all()->sortBy('name')->load('pages', 'products');
-				
-		foreach($items as $key => $item) {
-			$items_grouped[$item->name][$key] = $key;
-			$items_counted[$item->name]['prd'] = (isset($items_counted[$item->name]['prd']) ? 
-				$items_counted[$item->name]['prd'] : 0) + ($item->products->count()); 
-			$items_counted[$item->name]['pg'] = (isset($items_counted[$item->name]['pg']) ? 
-				$items_counted[$item->name]['pg'] : 0) + ($item->pages->count()); 
-		}
-
-		if($items_grouped) {
-			
-			$items->put('grouped', $items_grouped);
-			$items->put('counted', $items_counted);				
-		}
 		
-		return $items;
-	}
 	
-	
-	
-	
-	/**
-	 * Show Categories
-	 * @return type
-	 */
-	protected function showCategories($category = null, $image = null) 
-	{	
-		if($category == null || $image != null) {
-			
-			if(!empty($image)) {
-				$items = \Veer\Models\Site::with(array('categories' => function($query) use ($image) {
-					$query->whereHas('images',function($q) use ($image) {
-						$q->where('images_id','=',$image);					
-					})->with('products', 'pages', 'subcategories');
-				}))->orderBy('manual_sort','asc')->get();	
-				
-				$items['filtered'] = "images";
-				$items['filtered_id'] = $image;
-				
-				return $items;
-			} 
-			
-				$items = \Veer\Models\Site::with(array('categories' => function($query) {
-					$query->has('parentcategories', '<', 1)->orderBy('manual_sort','asc')
-					->with('pages', 'products', 'subcategories');
-				}))->orderBy('manual_sort','asc')->get();
-			
-			
-		} else {			
-				$items = \Veer\Models\Category::where('id','=',$category)->with(array(
-					'parentcategories' => function ($query) { $query->orderBy('manual_sort','asc'); },
-					'subcategories' => function ($query) { $query->orderBy('manual_sort','asc')
-						->with('pages', 'products', 'subcategories'); }
-				))->first();
-				
-				if(is_object($items)) {
-					$items->load('products', 'pages', 'images', 'communications');
-					
-					$items->pages->sortBy('manual_order');
-
-					$site = \Veer\Models\Configuration::where('sites_id','=', $items->sites_id)
-						->where('conf_key','=','SITE_TITLE')->pluck('conf_val');
-					$items['site_title'] = $site;
-				}			
-		}
-		
-		return $items;
-	}	
-	
-	
-	
-	
-	/**
-	 * Show Tags
-	 * @return type
-	 */
-	protected function showTags() 
-	{	
-		$items = \Veer\Models\Tag::orderBy('name', 'asc')->with('pages', 'products')->paginate(50);	
-		
-		$items['counted'] = \Veer\Models\Tag::count();
-
-		return $items;
-	}	
-	
-	
-	
-	
-	/**
-	 * Show Images
-	 * @return type
-	 */
-	protected function showImages() 
-	{	
-		$items = \Veer\Models\Image::orderBy('id', 'desc')->with('pages', 'products', 'categories')->paginate(25);	
-		
-		$items['counted'] = \Veer\Models\Image::count();
-
-		return $items;
-	}		
-	
-	
-	
-	
-	/**
-	 * Show Downloads
-	 * @return type
-	 */
-	protected function showDownloads() 
-	{	
-		$items = \Veer\Models\Download::orderBy('fname','desc')->orderBy('id', 'desc')->with('elements')->paginate(50);	
-		$items_temporary = \Veer\Models\Download::where('original','=',0)->count();
-		$items_counted = \Veer\Models\Download::count(DB::raw('DISTINCT fname'));
-		
-		foreach($items as $key => $item) {
-			$items_regrouped[$item->fname][$item->original][$key]=$key;
-		}
-		
-		$items['temporary'] = $items_temporary;
-		$items['counted'] = $items_counted;
-		$items['regrouped'] = $items_regrouped;
-		return $items;
-	}
-	
-	
-	
-	
-	/**
-	 * Show Comments
-	 * @return type
-	 */
-	protected function showComments() 
-	{	
-		$items = \Veer\Models\Comment::orderBy('id','desc')->with('elements')->paginate(50); // users -> only for user's page
-		$items['counted'] = \Veer\Models\Comment::count();
-		return $items;
-	}
-	
-	
-	
-	
-	/**
-	 * Show Products
-	 * @return type
-	 */
-	protected function showProducts($image = null, $tag = null, $product = null) 
-	{	
-		if(!empty($image)) {
-			$items = \Veer\Models\Product::whereHas('images', function($query) use ($image) {
-				$query->where('images_id','=',$image);
-			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
-			
-			$items['filtered'] = "images";
-			$items['filtered_id'] = $image;
-			return $items;
-		}
-		
-		if(!empty($tag)) {
-			$items = \Veer\Models\Product::whereHas('tags', function($query) use ($tag) {
-				$query->where('tags_id','=',$tag);
-			})->orderBy('id','desc')->with('images', 'categories')->paginate(25); 
-			
-			$items['filtered'] = "tags";
-			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
-			return $items;
-		}
-		
-		if(!empty($product)) {
-			
-			if($product == "new") { return new stdClass(); }
-			
-			$items = Veer\Models\Product::find($product);
-			
-			if(is_object($items)) {
-				$items->load('subproducts', 'parentproducts', 'pages', 'categories', 'tags',
-					'attributes', 'images', 'downloads');		
-				
-				$items['basket'] = $items->userlists()->where('name','=','[basket]')->get();
-				$items['lists'] = $items->userlists()->where('name','!=','[basket]')->get();	
-			}	
-			
-			return $items;
-			
-		}
-		
-		$items = \Veer\Models\Product::orderBy('id','desc')->with('images', 'categories')->paginate(25); 
-		$items['counted'] = \Veer\Models\Product::count();
-		return $items;
-	}	
-	
-	
-	
-	
-	/**
-	 * Show Pages
-	 * @return
-	 */
-	protected function showPages($image = null, $tag = null, $page = null) 
-	{	
-		if(!empty($image)) {
-			$items = \Veer\Models\Page::whereHas('images', function($query) use ($image) {
-				$query->where('images_id','=',$image);
-			})->orderBy('id','desc')->with('images', 'categories', 'user', 'subpages', 'comments')->paginate(25); 
-			
-			$items['filtered'] = "images";
-			$items['filtered_id'] = $image;
-			return $items;
-		}
-		
-		if(!empty($tag)) {
-			$items = \Veer\Models\Page::whereHas('tags', function($query) use ($tag) {
-				$query->where('tags_id','=',$tag);
-			})->orderBy('id','desc')->with('images', 'categories', 'user', 'subpages', 'comments')->paginate(25); 
-			
-			$items['filtered'] = "tags";
-			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
-			return $items;
-		}
-		
-		if(!empty($page)) {
-			
-			if($page == "new") { return new stdClass(); }
-			
-			$items = Veer\Models\Page::find($page);
-			
-			if(is_object($items)) {
-				$items->load('user', 'subpages', 'parentpages', 'products', 'categories', 'tags', 'attributes',
-					'images', 'downloads');	
-				$items['lists'] = $items->userlists()->count(DB::raw('DISTINCT name'));
-			}	
-			
-			return $items;
-			
-		}
-		
-		$items = \Veer\Models\Page::orderBy('id','desc')->with('images', 'categories', 'user', 'subpages', 'comments')->paginate(25); 
-		$items['counted'] = \Veer\Models\Page::count();
-		return $items;
-	}
 	
 	
 	
