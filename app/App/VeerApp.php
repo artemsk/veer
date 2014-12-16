@@ -318,14 +318,22 @@ class VeerApp {
 	 * @return void
 	 */
 	public function queues() 	
-	{	
-		$item = Job::where('status','<=','1')->orderBy('scheduled_at', 'asc')->remember(config('veer.repeatjob'))->first();
+	{
+		if(config('queue.default') == "qdb" && !\Cache::has('queue_checked')) { 
+		
+		$item = Job::where('status','<=','1')
+			->where('scheduled_at','<=',date('Y-m-d H:i:00', time()))
+			->orderBy('scheduled_at', 'asc')
+			->first();
+		
 		if(is_object($item)) {		
 		
 			$job = new QdbJob(app(), $item);
 
-			$job->fire();
+				$job->fire(); 
 		}
+		\Cache::put('queue_checked', true, config('veer.repeatjob'));	
+	    }		
 	}
 
 }
