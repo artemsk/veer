@@ -61,7 +61,7 @@
         
         if(id == 'new') { id = id + siteid; type = 'new'; }
 
-        if(type == 'save' || type == 'new' || type == '_run') {
+        if(type == 'save' || type == 'new' || type == '_run' || type == 'paus') {
         $('#card' + id).addClass('animated').addClass('flipInY');
         }
         
