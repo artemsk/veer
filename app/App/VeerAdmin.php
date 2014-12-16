@@ -192,7 +192,7 @@ class VeerAdmin {
 		}
 		
 		if(!empty($product)) { 			
-			if($product == "new") { return new stdClass(); }
+			if($product == "new") { return new \stdClass(); }
 			return $this->showOneProduct($product);
 		}
 		
@@ -254,7 +254,7 @@ class VeerAdmin {
 		}
 		
 		if(!empty($page)) {			
-			if($page == "new") { return new stdClass(); }
+			if($page == "new") { return new \stdClass(); }
 			return $this->showOnePage($page);
 		}
 		
