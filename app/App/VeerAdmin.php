@@ -77,7 +77,7 @@ class VeerAdmin {
 		
 		$items['temporary'] = $items_temporary;
 		$items['counted'] = $items_counted;
-		$items['regrouped'] = $items_regrouped;
+		$items['regrouped'] = isset($items_regrouped) ? $items_regrouped : array();
 		return $items;
 	}	
 	
@@ -799,15 +799,17 @@ class VeerAdmin {
 	 */
 	public function addCategory($title, $site_id, $options = array())
 	{
-		$c = new \Veer\Models\Category;
-		$c->title = $title;
-		$c->description = array_get($options, 'description', '');
-		$c->remote_url = array_get($options, 'remote_url', '');
-		$c->manual_sort = array_get($options, 'sort', 999999);
-		$c->views = array_get($options, 'views', 0);;
-		$c->sites_id = $site_id;
-		$c->save();
-		return $c->id;
+		if(!empty($title)) {
+			$c = new \Veer\Models\Category;
+			$c->title = $title;
+			$c->description = array_get($options, 'description', '');
+			$c->remote_url = array_get($options, 'remote_url', '');
+			$c->manual_sort = array_get($options, 'sort', 999999);
+			$c->views = array_get($options, 'views', 0);;
+			$c->sites_id = $site_id;
+			$c->save();
+			return $c->id;
+		}
 	}
 	
 	
@@ -995,17 +997,10 @@ class VeerAdmin {
 			
 			if(Input::hasFile('uploadImage')) {
 
-				$fname = "ct". $all['category'] . "_" . date('YmdHis',time()) .
-					str_random(10) . "." . Input::file('uploadImage')->getClientOriginalExtension();
-				
-				Input::file('uploadImage')->move( base_path() . "/" . config('veer.images_path'), $fname);
-				
-				$newimage = new \Veer\Models\Image; 
-				$newimage->img = $fname;
-				$newimage->save();
-				$newimage->categories()->attach($all['category']);
-				Event::fire('veer.message.center', \Lang::get('veeradmin.category.images.new'));
-				$this->action_performed[] = "NEW images";
+				$this->upload('image', 'uploadImage', $all['category'], 'categories', 'ct', array(
+					"action" => "NEW images",
+					"language" => \Lang::get('veeradmin.category.images.new')
+				));
 			}	
 		}
 
@@ -1085,26 +1080,30 @@ class VeerAdmin {
 	
 	/**
 	 * attach Elements
-	 * @param type $ids
+	 * @param string|array $ids
 	 * @param type $object
 	 * @param type $relation
 	 * @param type $message
 	 * @param type $separator
 	 * @param type $start
 	 */
-	public function attachElements($ids, $object, $relation, $message = array(), $separator = ",", $start = ":")
+	public function attachElements($ids, $object, $relation, $message = array(), $separator = ",", $start = ":", $replace = false)
 	{
-		$elements = $this->parseIds($ids, $separator, $start);
-		
-		if($elements) {
-			if(count($elements) > 1 ) {
+		if(!is_array($ids)) {
+			$elements = $this->parseIds($ids, $separator, $start);
+		} else { $elements = $ids; }
+
+		if(isset($elements)) {
+			if($replace == true) {
 				$object->{$relation}()->sync($elements); 
 			} else {
 				$object->{$relation}()->attach($elements); 
 			}
 		
-			$this->action_performed[] = array_get($message, 'action', '');
-			Event::fire('veer.message.center', \Lang::get(array_get($message, 'language', 'veeradmin.empty')));
+			if(!empty($message)) {
+				$this->action_performed[] = array_get($message, 'action', '');
+				Event::fire('veer.message.center', \Lang::get(array_get($message, 'language', 'veeradmin.empty')));
+			}
 			return true;
 		}
 	}
@@ -1126,12 +1125,301 @@ class VeerAdmin {
 			
 			if(!empty($r[1])) { 
 				
-				$object->{$relation}()->detach($r[1]);	
-				$this->action_performed[] = array_get($message, 'action', '');
-				Event::fire('veer.message.center', \Lang::get(array_get($message, 'language', 'veeradmin.empty')));
+				$object->{$relation}()->detach($r[1]);
+				if(!empty($message)) {
+					$this->action_performed[] = array_get($message, 'action', '');
+					Event::fire('veer.message.center', \Lang::get(array_get($message, 'language', 'veeradmin.empty')));
+				}
 			}
 		}
 	}
 
+	
+	/**
+	 * update Products
+	 * @return type
+	 */
+	public function updateProducts()
+	{
+		// if we're working with one product then call another function
+		//
+		$editOneProduct = Input::get('id', null);
+		if(!empty($editOneProduct)) { 
+			
+			return $this->updateOneProduct($editOneProduct); 
+		}
+				
+		
+
+		
+		
+	}
+	
+	
+	/**
+	 * update One product
+	 * @param type $id
+	 */
+	public function updateOneProduct($id)
+	{
+		\Eloquent::unguard();
+		
+		$all = Input::all();
+		$action = array_get($all, 'action', null);
+				
+		array_set($all, 'fill.star', isset($all['fill']['star']) ? true : 0);
+		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
+		array_set($all, 'fill.price_sales_on', 
+			\Carbon\Carbon::parse(array_get($all, 'fill.price_sales_on', null))->toDateTimeString());
+		array_set($all, 'fill.price_sales_off', 
+			\Carbon\Carbon::parse(array_get($all, 'fill.price_sales_off', null))->toDateTimeString());
+		
+		$to_show = \Carbon\Carbon::parse(array_get($all, 'fill.to_show', null));
+		$to_show->hour(array_get($all, 'to_show_hour', null));
+		$to_show->minute(array_get($all, 'to_show_minute', null));
+		
+		array_set($all, 'fill.to_show', $to_show->toDateTimeString());
+			
+		if($action == "add" || $action == "saveAs") {
+			
+			$product = new \Veer\Models\Product;
+			$product->fill($all['fill']);
+			$product->status = "hide";
+			$product->save();
+			
+			$id = $product->id;
+		} else {
+			$product = \Veer\Models\Product::find($id);
+		}
+	
+		if($action == "update") {
+			$product->fill($all['fill']);
+			$product->save();
+		}
+		
+		//status
+		if($action == "updateStatus.".$id) 
+		{
+			$this->changeProductStatus($product);
+		}
+		
+		$this->attachTags($all['tags'], $product);
+		
+		$this->attachAttributes($all['attribute'], $product);
+		
+		// freeform
+		if(!empty($all['freeForm'])) {
+			$ff = preg_split('/[\n\r]+/', trim($all['freeForm']) );
+			foreach ($ff as $freeForm) {
+				if(starts_with($freeForm, 'Tag:')) {
+					$this->attachElements($freeForm, $product, 'tags', null, ",", "Tag:");
+				} else {
+					$this->attachElements($freeForm, $product, 'attributes', null, ",", "Attribute:");
+				}
+			}
+		}
+
+		// images
+		if(Input::hasFile('uploadImage')) {
+			$this->upload('image', 'uploadImage', $id, 'products', 'prd', null);
+		}			
+		
+		$this->attachElements($all['attachImages'], $product, 'images', null);
+		
+		$this->detachElements($action, 'removeImage', $product, 'images', array(
+			"action" => "REMOVE images",
+			"language" => "veeradmin.product.images.detach"
+		));
+	
+		//files
+		if(Input::hasFile('uploadFiles')) {
+			$this->upload('file', 'uploadFiles', $id, $product, 'prd', null);
+		}
+		
+		$this->copyFiles($all['attachFiles'], $product);
+		
+		$this->removeFile($action);
+		
+		// categories: we cannot add not existing categories as we don't know site id
+		$this->attachElements($all['attachCategories'], $product, 'categories', null);
+			
+		$this->detachElements($action, 'removeCategory', $product, 'categories', null);
+				
+		// pages
+		$this->attachElements($all['attachPages'], $product, 'pages', null);
+	
+		$this->detachElements($action, 'removePage', $product, 'pages', null);	
+		
+		// child products
+		$this->attachElements($all['attachChildProducts'], $product, 'subproducts', null);
+	
+		$this->detachElements($action, 'removeChildProduct', $product, 'subproducts', null);
+		
+		// parent products
+		$this->attachElements($all['attachParentProducts'], $product, 'parentproducts', null);
+	
+		$this->detachElements($action, 'removeParentProduct', $product, 'parentproducts', null);		
+	}
+	
+	
+	/**
+	 * attach Tags
+	 */
+	public function attachTags($tags, $object)
+	{
+		\Eloquent::unguard();
+		
+		$tagArr = array();
+		
+		$t = preg_split('/[\n\r]+/', trim($tags) );
+
+		foreach($t as $tag)
+		{
+			if(empty($tag)) { continue; }
+			
+			$tagDb = \Veer\Models\Tag::firstOrNew(array('name' => $tag));
+			if(!$tagDb->exists) {
+				$tagDb->name = $tag;
+				$tagDb->save();
+			}
+			$tagArr[] = $tagDb->id;
+		}
+		$this->attachElements($tagArr, $object, 'tags', null, ",", ":", true);
+	}
+	
+	
+	/**
+	 * attach Attributes
+	 * @param type $attributes
+	 * @param type $id
+	 * @param type $object
+	 */
+	public function attachAttributes($attributes, $object)
+	{
+		if(is_array($attributes)) {
+			
+			\Eloquent::unguard();
+
+			$attrArr = array();
+			
+			foreach($attributes as $a)
+			{
+				if(empty($a['name'])) { continue; }
+				
+				$attr = \Veer\Models\Attribute::firstOrNew(array(
+					"name" => $a['name'], 
+					"val" => $a['val'], 
+					"type" => $a['type']));
+				
+				if(!$attr->exists) {
+					$attr->type = $a['type'];
+					$attr->name = $a['name'];
+					$attr->val = $a['val'];
+					$attr->descr = $a['descr'];
+					$attr->save();
+				}
+				$attrArr[$attr->id] = array("product_new_price" => array_get($a, 'price', ''));	
+			}
+
+			$this->attachElements($attrArr, $object, 'attributes', null, ",", ":", true);
+		}
+	}
+	
+	
+	/**
+	 * upload Image
+	 * @param type $file
+	 * @param type $id
+	 * @param type $relation|$object
+	 * @param type $prefix
+	 * @param type $message
+	 */
+	public function upload($type, $file, $id, $relationOrObject, $prefix = null, $message = null) 
+	{
+		$fname = $prefix. $id. "_" . date('YmdHis',time()) .
+			str_random(10) . "." . Input::file($file)->getClientOriginalExtension();
+
+		if($type == "image") {
+			Input::file($file)->move( base_path() . "/" . config('veer.images_path'), $fname);
+			$new = new \Veer\Models\Image; 
+			$new->img = $fname;
+			$new->save();
+			$new->{$relationOrObject}()->attach($id);
+		} 
+		
+		if($type == "file") {
+			Input::file($file)->move( base_path() . "/" . config('veer.downloads_path'), $fname);
+			$new = new \Veer\Models\Download; 
+			$new->original = 1;
+			$new->fname= $fname;
+			$new->expires = 0;
+			$new->expiration_day = 0;
+			$new->expiration_times = 0;
+			$new->downloads = 0;
+			$relationOrObject->downloads()->save($new);
+		}
+				
+		if(!empty($message)) {
+			Event::fire('veer.message.center', $message['language']);
+			$this->action_performed[] = $message['action'];
+		}
+	}
+	
+	/**
+	 * copy files to new object
+	 * @param type $files
+	 * @param type $object
+	 */
+	public function copyFiles($files, $object) 
+	{
+		$filesDb = $this->parseIds($files);
+		
+		if(is_array($filesDb)) {
+			foreach($filesDb as $file) 
+			{
+				$fileModel = \Veer\Models\Download::find($file);
+				if(is_object($fileModel)) {
+					$newfile = $fileModel->replicate();
+					$object->downloads()->save($newfile);
+				}
+			}
+		}	
+	}
+	
+	
+	/**
+	 * remove file
+	 * @param type $removeFile
+	 */
+	public function removeFile($removeFile)
+	{
+		if(starts_with($removeFile, 'removeFile')) {
+			$r = explode(".", $removeFile);
+			if(!empty($r[1])) { 
+				\Veer\Models\Download::find($r[1])->update(array('elements_id' => null, 'elements_type' => ''));
+			}
+		}
+	}
+	
+	
+	/**
+	 * change product status
+	 */
+	public function changeProductStatus($product)
+	{
+		switch ($product->status) {
+			case "hide":
+				$product->status = "buy";
+				break;
+			case "sold":
+				$product->status = "hide";
+				break;
+			default:
+				$product->status = "sold";
+				break;
+		}	
+		$product->save();
+	}
+	
 	
 }

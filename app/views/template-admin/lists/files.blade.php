@@ -1,14 +1,14 @@
 <ul class="list-group">
 				@foreach($files as $file)
 				<li class="list-group-item">
-					<button type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>&nbsp;
+					<button type="submit" name="action" value="removeFile.{{ $file->id }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>&nbsp;
 					<small>#{{ $file->id }}:</small>
 					@if($file->original == true) 
 					<span class="label label-default">original</span>
 					@else
 					<span class="label label-success">copy</span>
 					@endif
-					<strong> {{ $file->fname }} </strong>
+					<strong> <a href='{{ asset('/download/'.$file->fname) }}'>{{ $file->fname }}</a> </strong>
 					@if(!empty($file->secret))
 					<span class="label label-success"><a href='{{ asset('/download/'.$file->secret) }}'>download link</a></span>
 					@endif
