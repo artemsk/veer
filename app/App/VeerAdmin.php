@@ -1149,10 +1149,119 @@ class VeerAdmin {
 			return $this->updateOneProduct($editOneProduct); 
 		}
 				
+		//status
+		$action = Input::get('action', null);
+		if(starts_with($action, "changeStatusProduct")) 
+		{
+			$r = explode(".", $action); 
+			$this->changeProductStatus( \Veer\Models\Product::find($r[1]) );
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.status'));
+			$this->action_performed[] = "UPDATE product status";
+		}
 		
+		if(starts_with($action, "deleteProduct")) 
+		{
+			$r = explode(".", $action); 
+			\Veer\Models\Product::find($r[1])->delete();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete'));
+			$this->action_performed[] = "DElETE product";
+		}		
+		
+		$all = Input::all();
+		
+		$title = trim(array_get($all, 'fill.title', null));
+		$freeForm = trim(array_get($all, 'freeForm', null));
+		
+		if(empty($freeForm) && !empty($title)) {
+			
+			$prices = explode(":", array_get($all, 'prices', null));
+			$options =  explode(":", array_get($all, 'options', null));
+			$categories =  explode(",", array_get($all, 'categories', null));
+			
+			$p = new \Veer\Models\Product;
+			$p->title = $title;
+			$p->url = array_get($all, 'fill.url', '');
+			$p->price = array_get($prices, 0, 0);
+			$p->price_sales = array_get($prices, 1, 0);
+			$p->price_opt = array_get($prices, 2, 0);
+			$p->price_base = array_get($prices, 3, 0);
+			$p->currency = array_get($prices, 4, 0);
+			$p->qty = array_get($options, 0, 0);
+			$p->weight = array_get($options, 1, 0);
+			$p->score = array_get($options, 2, 0);
+			$p->star = array_get($options, 3, 0);
+			$p->production_code = array_get($options, 4, '');
+			$p->status = "hide";
+			$p->save();
+			
+			if(!empty($categories)) {
+				$p->categories()->attach($categories);
+			}
+			
+			// images
+			if(Input::hasFile('uploadImage')) {
+				$this->upload('image', 'uploadImage', $p->id, 'products', 'prd', null);
+			}
 
+			//files
+			if(Input::hasFile('uploadFile')) {
+				$this->upload('file', 'uploadFile', $p->id, $p, 'prd', null);
+			}		
+		}
 		
-		
+		if(!empty($freeForm)) {
+			
+			$parseff = preg_split('/[\n\r]+/', trim($freeForm) );
+			foreach($parseff as $p) {
+				$items = explode("|", $p);
+
+				$p = new \Veer\Models\Product;
+				$p->title = array_get($items, 0, '');
+				$p->url = array_get($items, 1, '');
+				$p->qty = array_get($items, 3, 0);
+				$p->weight =  array_get($items, 4, 0);
+				$p->currency =  array_get($items, 5, 0);				
+				$p->price =  array_get($items, 6, 0);
+				$p->price_sales =  array_get($items, 7, 0);
+				$p->price_opt =  array_get($items, 8, 0);
+				$p->price_base =  array_get($items, 9, 0);
+				$p->price_sales_on = array_get($items, 10, 0);
+				$p->price_sales_off = array_get($items, 11, 0);
+				$p->to_show = array_get($items, 12, 0);				
+				$p->score = array_get($items, 13, 0);	
+				$p->star = array_get($items, 14, 0);	
+				$p->production_code = array_get($items, 17, 0);	
+				$p->status = array_get($items, 18, 'hide');					
+				$p->descr = substr(array_get($items, 19, ''), 2, -2);
+				$p->save();
+			
+				$categories =  explode(",", array_get($items, 2, ''));
+				if(!empty($categories)) {
+					$p->categories()->attach($categories);
+				}
+
+				$image = array_get($items, 15, null);
+				if(!empty($image)) {
+					$new = new \Veer\Models\Image; 
+					$new->img = $image;
+					$new->save();
+					$new->products()->attach($p->id);			
+				}
+				
+				$file= array_get($items, 16, null);
+				if(!empty($file)) {
+					$new = new \Veer\Models\Download; 
+					$new->original = 1;
+					$new->fname= $file;
+					$new->expires = 0;
+					$new->expiration_day = 0;
+					$new->expiration_times = 0;
+					$new->downloads = 0;
+					$p->downloads()->save($new);		
+				}				
+				
+			}			
+		}
 	}
 	
 	
@@ -1169,14 +1278,24 @@ class VeerAdmin {
 				
 		array_set($all, 'fill.star', isset($all['fill']['star']) ? true : 0);
 		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
-		array_set($all, 'fill.price_sales_on', 
-			\Carbon\Carbon::parse(array_get($all, 'fill.price_sales_on', null))->toDateTimeString());
-		array_set($all, 'fill.price_sales_off', 
-			\Carbon\Carbon::parse(array_get($all, 'fill.price_sales_off', null))->toDateTimeString());
+
+		$salesOn = explode("/", array_get($all, 'fill.price_sales_on', 0));
+		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, $salesOn[0], $salesOn[1], $salesOn[2]));
 		
-		$to_show = \Carbon\Carbon::parse(array_get($all, 'fill.to_show', null));
-		$to_show->hour(array_get($all, 'to_show_hour', null));
-		$to_show->minute(array_get($all, 'to_show_minute', null));
+		$salesOff = explode("/", array_get($all, 'fill.price_sales_off', 0));
+		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0, $salesOff[0], $salesOff[1], $salesOff[2]));
+		
+		$toShow = explode("/", array_get($all, 'fill.to_show', 0));
+		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0, $toShow[0], $toShow[1], $toShow[2]));
+		
+		array_set($all, 'fill.price_sales_on', $salesOnMake);
+
+		array_set($all, 'fill.price_sales_off', $salesOffMake);
+		
+		$to_show = \Carbon\Carbon::parse($toShowMake);
+
+		$to_show->hour(array_get($all, (int)'to_show_hour', 0));
+		$to_show->minute(array_get($all, (int)'to_show_minute', 0));
 		
 		array_set($all, 'fill.to_show', $to_show->toDateTimeString());
 			
@@ -1188,6 +1307,8 @@ class VeerAdmin {
 			$product->save();
 			
 			$id = $product->id;
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.new'));
+			$this->action_performed[] = "NEW product";
 		} else {
 			$product = \Veer\Models\Product::find($id);
 		}
@@ -1195,18 +1316,32 @@ class VeerAdmin {
 		if($action == "update") {
 			$product->fill($all['fill']);
 			$product->save();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.update'));
+			$this->action_performed[] = "UPDATE product";			
 		}
 		
 		//status
 		if($action == "updateStatus.".$id) 
 		{
 			$this->changeProductStatus($product);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.status'));
+			$this->action_performed[] = "UPDATE product status";
 		}
 		
-		$this->attachTags($all['tags'], $product);
-		
-		$this->attachAttributes($all['attribute'], $product);
-		
+		$this->connections($product, $id, 'products', array(
+			"actionButton" => $action,
+			"tags" => $all['tags'],
+			"attributes" => $all['attribute'],
+			"attachImages" => $all['attachImages'],
+			"attachFiles" => $all['attachFiles'],
+			"attachCategories" => $all['attachCategories'],
+			"attachPages" => $all['attachPages'],
+			"attachChildProducts" => $all['attachChildProducts'],
+			"attachParentProducts" => $all['attachParentProducts']
+		), array(
+			"prefix" => array("image" => "prd", "file" => "prd")
+		));		
+			
 		// freeform
 		if(!empty($all['freeForm'])) {
 			$ff = preg_split('/[\n\r]+/', trim($all['freeForm']) );
@@ -1218,47 +1353,6 @@ class VeerAdmin {
 				}
 			}
 		}
-
-		// images
-		if(Input::hasFile('uploadImage')) {
-			$this->upload('image', 'uploadImage', $id, 'products', 'prd', null);
-		}			
-		
-		$this->attachElements($all['attachImages'], $product, 'images', null);
-		
-		$this->detachElements($action, 'removeImage', $product, 'images', array(
-			"action" => "REMOVE images",
-			"language" => "veeradmin.product.images.detach"
-		));
-	
-		//files
-		if(Input::hasFile('uploadFiles')) {
-			$this->upload('file', 'uploadFiles', $id, $product, 'prd', null);
-		}
-		
-		$this->copyFiles($all['attachFiles'], $product);
-		
-		$this->removeFile($action);
-		
-		// categories: we cannot add not existing categories as we don't know site id
-		$this->attachElements($all['attachCategories'], $product, 'categories', null);
-			
-		$this->detachElements($action, 'removeCategory', $product, 'categories', null);
-				
-		// pages
-		$this->attachElements($all['attachPages'], $product, 'pages', null);
-	
-		$this->detachElements($action, 'removePage', $product, 'pages', null);	
-		
-		// child products
-		$this->attachElements($all['attachChildProducts'], $product, 'subproducts', null);
-	
-		$this->detachElements($action, 'removeChildProduct', $product, 'subproducts', null);
-		
-		// parent products
-		$this->attachElements($all['attachParentProducts'], $product, 'parentproducts', null);
-	
-		$this->detachElements($action, 'removeParentProduct', $product, 'parentproducts', null);		
 	}
 	
 	
@@ -1273,18 +1367,20 @@ class VeerAdmin {
 		
 		$t = preg_split('/[\n\r]+/', trim($tags) );
 
-		foreach($t as $tag)
-		{
-			if(empty($tag)) { continue; }
-			
-			$tagDb = \Veer\Models\Tag::firstOrNew(array('name' => $tag));
-			if(!$tagDb->exists) {
-				$tagDb->name = $tag;
-				$tagDb->save();
+		if(is_array($t)) {
+			foreach($t as $tag)
+			{
+				if(empty($tag)) { continue; }
+
+				$tagDb = \Veer\Models\Tag::firstOrNew(array('name' => $tag));
+				if(!$tagDb->exists) {
+					$tagDb->name = $tag;
+					$tagDb->save();
+				}
+				$tagArr[] = $tagDb->id;
 			}
-			$tagArr[] = $tagDb->id;
+			$this->attachElements($tagArr, $object, 'tags', null, ",", ":", true);
 		}
-		$this->attachElements($tagArr, $object, 'tags', null, ",", ":", true);
 	}
 	
 	
@@ -1407,19 +1503,75 @@ class VeerAdmin {
 	 */
 	public function changeProductStatus($product)
 	{
-		switch ($product->status) {
-			case "hide":
-				$product->status = "buy";
-				break;
-			case "sold":
-				$product->status = "hide";
-				break;
-			default:
-				$product->status = "sold";
-				break;
-		}	
-		$product->save();
+		if(is_object($product)) {
+			switch ($product->status) {
+				case "hide":
+					$product->status = "buy";
+					break;
+				case "sold":
+					$product->status = "hide";
+					break;
+				default:
+					$product->status = "sold";
+					break;
+			}	
+			$product->save();
+		}
 	}
 	
+	
+	public function connections($object, $id, $type, $attributes = array(), $options = array())
+	{
+		$action = array_get($attributes, 'actionButton', null);
+		
+		// tags
+		$this->attachTags(array_get($attributes, 'tags', null), $object);
+		
+		// attributes
+		$this->attachAttributes(array_get($attributes, 'attributes', null), $object);
+
+		// images
+		if(Input::hasFile(array_get($attributes, 'uploadImageId', 'uploadImage'))) {
+			$this->upload('image', array_get($attributes, 'uploadImageId', 'uploadImage'), 
+				$id, $type, array_get($options, 'prefix.image', null), null);
+		}			
+		
+		$this->attachElements(array_get($attributes, 'attachImages', null), $object, 'images', null);
+		
+		$this->detachElements($action, 
+			array_get($attributes, 'removeImageId', 'removeImage'), $object, 'images', 
+			array_get($options, 'message.images', null));
+	
+		//files
+		if(Input::hasFile(array_get($attributes, 'uploadFilesId', 'uploadFiles'))) {
+			$this->upload('file', array_get($attributes, 'uploadFilesId', 'uploadFiles'), 
+				$id, $object, array_get($options, 'prefix.file', null), null);
+		}
+		
+		$this->copyFiles(array_get($attributes, 'attachFiles', null), $object);
+		
+		$this->removeFile($action);
+		
+		// categories: we cannot add not existing categories as we don't know site id
+		$this->attachElements(array_get($attributes, 'attachCategories', null), $object, 'categories', null);
+			
+		$this->detachElements($action, array_get($attributes, 'removeCategoryId', 'removeCategory'), $object, 'categories', null);
+				
+		// pages
+		$this->attachElements(array_get($attributes, 'attachPages', null), $object, 'pages', null);
+	
+		$this->detachElements($action, array_get($attributes, 'removePageId', 'removePage'), $object, 'pages', null);	
+		
+		// child products
+		$this->attachElements(array_get($attributes, 'attachChildProducts', null), $object, 'subproducts', null);
+	
+		$this->detachElements($action, array_get($attributes, 'removeChildProductId', 'removeChildProduct'), $object, 'subproducts', null);
+		
+		// parent products
+		$this->attachElements(array_get($attributes, 'attachParentProducts', null), $object, 'parentproducts', null);
+	
+		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentProduct'), $object, 'parentproducts', null);	
+		
+	}
 	
 }
