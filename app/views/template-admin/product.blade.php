@@ -13,19 +13,19 @@
 		&nbsp; <nobr><span class="glyphicon glyphicon-fire danger-icon" aria-hidden="true"></span> {{ $items->ordered or '—' }}</nobr></small></h1>
 <br/>
 <div class="container">
-
+{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
 	<div class="row">
-		<div class="col-sm-6"><p><input type="text" class="form-control" placeholder="Clean Url" value="{{ $items->url or null }}"></p></div>
+		<div class="col-sm-6"><p><input type="text" class="form-control" name="url" placeholder="Clean Url" value="{{ $items->url or null }}"></p></div>
 		<div class="col-sm-2 col-xs-6 text-center"><p>
 				@if(isset($items->status))
 				@if ($items->status == 'buy' || $items->status == 'on')
-					<button type="button" class="btn btn-success" title="Current: ON (BUY)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> On | Buy</button>
+					<button type="submit" name="updateStatus.{{ $items->id }}" class="btn btn-success" title="Current: ON (BUY)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> On | Buy</button>
 					@elseif ($items->status == 'hide')
-					<button type="button" class="btn btn-default" title="Current: OFF (HIDE)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Hidden</button>
+					<button type="submit" name="updateStatus.{{ $items->id }}" class="btn btn-default" title="Current: OFF (HIDE)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Hidden</button>
 					@elseif ($items->status == 'sold')
-					<button type="button" class="btn btn-warning" title="Current: SOLD OUT (SOLD)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Sold out</button>
+					<button type="submit" name="updateStatus.{{ $items->id }}" class="btn btn-warning" title="Current: SOLD OUT (SOLD)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Sold out</button>
 					@else
-					<button type="button" class="btn btn-danger" title="Current: UNKNOWN ({{ $items->status }})" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Unknown</button>
+					<button type="submit" name="updateStatus.{{ $items->id }}" class="btn btn-danger" title="Current: UNKNOWN ({{ $items->status }})" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Unknown</button>
 					@endif
 				@endif	
 			</p></div>		
@@ -34,44 +34,44 @@
 		<div class="col-sm-2 col-xs-12"><p>updated at<br/><strong>{{ !empty($items->created_at) ? Carbon\Carbon::parse($items->updated_at)->format('D, j M Y H:i:s') : '—' }}</strong></p></div>	
 	</div>
 	<div class="row">
-		<div class="col-sm-12"><p><strong><input type="text" class="form-control input-lg" placeholder="Title" value="{{ $items->title or null }}"></strong></p></div>
+		<div class="col-sm-12"><p><strong><input type="text" class="form-control input-lg" placeholder="Title" name="title" value="{{ $items->title or null }}"></strong></p></div>
 	</div>
 	<div class="row">
 		<div class="col-md-2"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon">Cur</span>
-				<input type="text" class="form-control" placeholder="Currency" value="{{ $items->currency or null }}">
+				<input type="text" class="form-control" placeholder="Currency" name="currency" value="{{ $items->currency or null }}">
 			</div>
 		</div>
 		<div class="col-md-2"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon">$</span>
-				<input type="text" class="form-control" placeholder="Price" value="{{ $items->price or null }}">
+				<input type="text" class="form-control" placeholder="Price" name="price" value="{{ $items->price or null }}">
 			</div>
 		</div>
 		<div class="col-md-3"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon">Sales</span>
-				<input type="text" class="form-control" placeholder="Sales" value="{{ $items->price_sales or null }}">
+				<input type="text" class="form-control" placeholder="Sales" name="price_sales" value="{{ $items->price_sales or null }}">
 			</div>			
 
 		</div>
 		<div class="col-md-3"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon">Whole</span>
-				<input type="text" class="form-control" placeholder="Whole" value="{{ $items->price_opt or null }}">
+				<input type="text" class="form-control" placeholder="Whole" name="price_opt" value="{{ $items->price_opt or null }}">
 			</div>				
 		</div>
 		<div class="col-md-2"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon">Base</span>
-				<input type="text" class="form-control" placeholder="Base" value="{{ $items->price_base or null }}">
+				<input type="text" class="form-control" placeholder="Base" name="price_base" value="{{ $items->price_base or null }}">
 			</div>				
 		</div>		
 	</div>
 	<div class="row">
 		<div class="col-md-2"><p></p>
-			<input type="checkbox" class="page-checkboxes" data-on-color="warning" 
+			<input type="checkbox" class="page-checkboxes" name="star" data-on-color="warning" 
 				data-on-text='<span class="glyphicon glyphicon-heart warning-icon" 
 					  aria-hidden="true" title="Star"></span>&nbsp; Highlighted!' 
 				data-off-text='<span class=" glyphicon glyphicon-heart-empty warning-icon" 
@@ -79,7 +79,7 @@
 				   @if(isset($items->star) && $items->star == true) checked @endif>
 		</div>
 		<div class="col-md-2"><p></p>
-			<input type="checkbox" class="page-checkboxes" data-on-color="info" 
+			<input type="checkbox" class="page-checkboxes" name="download" data-on-color="info" 
 				data-on-text='<span class="glyphicon glyphicon-floppy-save" 
 					  aria-hidden="true" title="Star"></span><br/>Digital' 
 				data-off-text='Is it digital?' 
@@ -89,10 +89,10 @@
 			<p></p>
 			Sales price time range (m/d/y):
 			<div class="input-daterange input-group" id="datepicker">
-				<input type="text" class="input-sm form-control" name="start" 
+				<input type="text" class="input-sm form-control" name="price_sales_on" 
 					   value="{{ !empty($items->price_sales_on) ? Carbon\Carbon::parse($items->price_sales_on)->format('m/d/Y') : '' }}"/>
 				<span class="input-group-addon">to</span>
-				<input type="text" class="input-sm form-control" name="end" 
+				<input type="text" class="input-sm form-control" name="price_sales_off" 
 					   value="{{ !empty($items->price_sales_off) ? Carbon\Carbon::parse($items->price_sales_off)->format('m/d/Y') : '' }}"/>
 			</div>
 			@if(isset($items->price_sales_on) && isset($items->price_sales_off)) 
@@ -360,6 +360,7 @@
 <p>$items->grp_ids</p>
 // TODO: deprecated?
 -->
+{{ Form::close() }}
 </div>
 @if(isset($items->id))
 <div class="action-hover-box"><button type="button" class="btn btn-danger btn-lg btn-block">Update</button></div>
