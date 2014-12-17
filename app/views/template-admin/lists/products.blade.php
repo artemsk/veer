@@ -4,9 +4,9 @@
 			<div class="thumbnail @if($item->status == 'hide')
 				 bg-muted
 				 @endif ">
-				<a href="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" target="_blank">
+				<a href="{{ route('admin.show', array("products", "id" => $item->id)) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
-						 src="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" class="img-responsive @if($item->status == 'hide')
+						 src="{{ asset(config('veer.images_path').'/'.@$item->images[0]->img) }}" class="img-responsive @if($item->status == 'hide')
 				 image-faded
 				 @endif
 						 "></a>

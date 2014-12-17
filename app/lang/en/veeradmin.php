@@ -33,6 +33,9 @@ return array(
 	"category.pages.attach" => "Attach pages to current category",
 	"category.pages.detach" => "Detach pages from current category",
 	"product.images.detach" => "Detach image from current product",
-	
+	"product.new" => "Add new product",
+	"product.update" => "Update current product",
+	"product.status" => "Update product status",
+	"product.delete" => "Delete product",
 	
 );

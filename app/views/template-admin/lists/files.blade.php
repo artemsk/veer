@@ -8,7 +8,7 @@
 					@else
 					<span class="label label-success">copy</span>
 					@endif
-					<strong> <a href='{{ asset('/download/'.$file->fname) }}'>{{ $file->fname }}</a> </strong>
+					<strong> <a href='{{ asset(config('veer.downloads_path')."/".$file->fname) }}'>{{ $file->fname }}</a> </strong>
 					@if(!empty($file->secret))
 					<span class="label label-success"><a href='{{ asset('/download/'.$file->secret) }}'>download link</a></span>
 					@endif
