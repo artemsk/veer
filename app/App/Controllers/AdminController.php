@@ -215,7 +215,7 @@ class AdminController extends \BaseController {
 		
 		$data = app('veeradmin')->{$f}();
 		
-		if(!app('request')->ajax()) {
+		if(!app('request')->ajax() && !(app('veeradmin')->skipShow)) {
 			
 			return $this->show($t);
 		} else {
