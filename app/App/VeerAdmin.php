@@ -8,6 +8,8 @@ class VeerAdmin {
 	
 	protected $action_performed = array();
 	
+	public $skipShow = false;
+	
 	
 	public function __construct()
 	{
@@ -882,6 +884,7 @@ class VeerAdmin {
 			$this->action_performed[] = "DELETE category";	
 			Event::fire('veer.message.center', \Lang::get('veeradmin.category.delete') );	
 			
+			$this->skipShow = true;
 			return \Redirect::route('admin.show', array('categories'));
 		}
 		
@@ -1280,24 +1283,34 @@ class VeerAdmin {
 		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
 
 		$salesOn = explode("/", array_get($all, 'fill.price_sales_on', 0));
-		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, (int)array_get($salesOn, 0, 0), (int)array_get($salesOn, 1, 0), (int)array_get($salesOn, 2, 0)));
-		
+	
+		$temporaryY = (int)array_get($salesOn, 2, 0);
+		if($temporaryY <= 1999) { $salesOn = \Carbon\Carbon::today(); } else {
+			$salesOn = \Carbon\Carbon::parse($salesOn);
+		}
+	
 		$salesOff = explode("/", array_get($all, 'fill.price_sales_off', 0));
-		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0, (int)array_get($salesOff, 0, 0), (int)array_get($salesOff, 1, 0), (int)array_get($salesOff, 2, 0)));
 		
+		$temporaryY = (int)array_get($salesOff, 2, 0);
+		if($temporaryY <= 1999) { $salesOff = \Carbon\Carbon::today(); } else {
+			$salesOff = \Carbon\Carbon::parse($salesOff);
+		}		
+			
 		$toShow = explode("/", array_get($all, 'fill.to_show', 0));
-		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0, (int)array_get($toShow, 0, 0), (int)array_get($toShow, 1, 0), (int)array_get($toShow, 2, 0)));
 		
-		array_set($all, 'fill.price_sales_on', $salesOnMake);
+		$temporaryY = (int)array_get($toShow, 2, 0);
+		if($temporaryY <= 1999) { $toShow = \Carbon\Carbon::today(); } else {
+			$toShow = \Carbon\Carbon::parse($toShow);
+		}	
+		
+		array_set($all, 'fill.price_sales_on', $salesOn);
 
-		array_set($all, 'fill.price_sales_off', $salesOffMake);
+		array_set($all, 'fill.price_sales_off', $salesOff);
 		
-		$to_show = \Carbon\Carbon::parse($toShowMake);
-
-		$to_show->hour((int)array_get($all, (int)'to_show_hour', 0));
-		$to_show->minute((int)array_get($all, (int)'to_show_minute', 0));
+		$toShow->hour((int)array_get($all, (int)'to_show_hour', 0));
+		$toShow->minute((int)array_get($all, (int)'to_show_minute', 0));
 		
-		array_set($all, 'fill.to_show', $to_show->toDateTimeString());
+		array_set($all, 'fill.to_show', $toShow);
 			
 		if($action == "add" || $action == "saveAs") {
 			
@@ -1353,6 +1366,12 @@ class VeerAdmin {
 				}
 			}
 		}
+		
+		if($action == "add" || $action == "saveAs") {
+			$this->skipShow = true;
+			Input::replace(array('id' => $id));
+			return \Redirect::route('admin.show', array('products', 'id' => $id));
+		}
 	}
 	
 	
@@ -1405,10 +1424,10 @@ class VeerAdmin {
 				$attr = \Veer\Models\Attribute::firstOrNew(array(
 					"name" => $a['name'], 
 					"val" => $a['val'], 
-					"type" => $a['type']));
+					"type" => array_get($a, 'type', 'descr')));
 				
 				if(!$attr->exists) {
-					$attr->type = $a['type'];
+					$attr->type = array_get($a, 'type', 'descr');
 					$attr->name = $a['name'];
 					$attr->val = $a['val'];
 					$attr->descr = $a['descr'];
@@ -1557,29 +1576,36 @@ class VeerAdmin {
 				$id, $object, array_get($options, 'prefix.file', null), null);
 		}
 		
-		$this->copyFiles(array_get($attributes, 'attachFiles', null), $object);
-		
+		$this->copyFiles(array_get($attributes, 'attachFiles', null), $object);		
 		$this->removeFile($action);
 		
 		// categories: we cannot add not existing categories as we don't know site id
-		$this->attachElements(array_get($attributes, 'attachCategories', null), $object, 'categories', null);
-			
+		$this->attachElements(array_get($attributes, 'attachCategories', null), $object, 'categories', null);			
 		$this->detachElements($action, array_get($attributes, 'removeCategoryId', 'removeCategory'), $object, 'categories', null);
 				
 		// pages
-		$this->attachElements(array_get($attributes, 'attachPages', null), $object, 'pages', null);
-	
+		$this->attachElements(array_get($attributes, 'attachPages', null), $object, 'pages', null);	
 		$this->detachElements($action, array_get($attributes, 'removePageId', 'removePage'), $object, 'pages', null);	
 		
+		// products
+		$this->attachElements(array_get($attributes, 'attachProducts', null), $object, 'products', null);	
+		$this->detachElements($action, array_get($attributes, 'removePageId', 'removeProduct'), $object, 'products', null);			
+		
 		// child products
-		$this->attachElements(array_get($attributes, 'attachChildProducts', null), $object, 'subproducts', null);
-	
+		$this->attachElements(array_get($attributes, 'attachChildProducts', null), $object, 'subproducts', null);	
 		$this->detachElements($action, array_get($attributes, 'removeChildProductId', 'removeChildProduct'), $object, 'subproducts', null);
 		
 		// parent products
-		$this->attachElements(array_get($attributes, 'attachParentProducts', null), $object, 'parentproducts', null);
-	
-		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentProduct'), $object, 'parentproducts', null);	
+		$this->attachElements(array_get($attributes, 'attachParentProducts', null), $object, 'parentproducts', null);	
+		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentProduct'), $object, 'parentproducts', null);
+		
+		// child pages
+		$this->attachElements(array_get($attributes, 'attachChildPages', null), $object, 'subpages', null);	
+		$this->detachElements($action, array_get($attributes, 'removeChildProductId', 'removeChildPage'), $object, 'subpages', null);
+		
+		// parent pages
+		$this->attachElements(array_get($attributes, 'attachParentPages', null), $object, 'parentpages', null);	
+		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentPage'), $object, 'parentpages', null);		
 		
 	}
 	
@@ -1598,10 +1624,81 @@ class VeerAdmin {
 
 	
 	public function updateOnePage($id)
-	{
-		echo "<pre>";
-		print_r(Input::all());
-		echo "</pre>";
+	{	
+		\Eloquent::unguard();
+		
+		$all = Input::all();
+		$action = array_get($all, 'action', null);
+				
+		array_set($all, 'fill.original', isset($all['fill']['original']) ? true : 0);
+		array_set($all, 'fill.show_small', isset($all['fill']['show_small']) ? true : 0);
+		array_set($all, 'fill.show_comments', isset($all['fill']['show_comments']) ? true : 0);
+		array_set($all, 'fill.show_title', isset($all['fill']['show_title']) ? true : 0);		
+		array_set($all, 'fill.show_date', isset($all['fill']['show_date']) ? true : 0);
+		array_set($all, 'fill.in_list', isset($all['fill']['in_list']) ? true : 0);
+		
+		if($action == "add" || $action == "saveAs") {
+			
+			$page = new \Veer\Models\Page;
+			$page->fill($all['fill']);
+			$page->hidden = true;
+			$page->save();
+			
+			$id = $page->id;
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.new'));
+			$this->action_performed[] = "NEW page";
+		} else {
+			$page = \Veer\Models\Page::find($id);
+		}
+	
+		if($action == "update") {
+			$page->fill($all['fill']);
+			$page->save();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.update'));
+			$this->action_performed[] = "UPDATE page";			
+		}
+		
+		//status
+		if($action == "changeStatusPage.".$id) 
+		{
+			if($page->hidden == true) { $page->hidden = false; } else { $page->hidden = true; }
+			$page->save();
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.status'));
+			$this->action_performed[] = "UPDATE page status";
+		}		
+		
+		$this->connections($page, $id, 'pages', array(
+			"actionButton" => $action,
+			"tags" => $all['tags'],
+			"attributes" => $all['attribute'],
+			"attachImages" => $all['attachImages'],
+			"attachFiles" => $all['attachFiles'],
+			"attachCategories" => $all['attachCategories'],
+			"attachProducts" => $all['attachProducts'],
+			"attachChildPages" => $all['attachChildPages'],
+			"attachParentPages" => $all['attachParentPages']
+		), array(
+			"prefix" => array("image" => "pg", "file" => "pg")
+		));		
+			
+		// freeform
+		if(!empty($all['freeForm'])) {
+			$ff = preg_split('/[\n\r]+/', trim($all['freeForm']) );
+			foreach ($ff as $freeForm) {
+				if(starts_with($freeForm, 'Tag:')) {
+					$this->attachElements($freeForm, $page, 'tags', null, ",", "Tag:");
+				} else {
+					$this->attachElements($freeForm, $page, 'attributes', null, ",", "Attribute:");
+				}
+			}
+		}
+		
+		if($action == "add" || $action == "saveAs") {
+			$this->skipShow = true;
+			Input::replace(array('id' => $id));
+			return \Redirect::route('admin.show', array('pages', 'id' => $id));	
+		}
 	}
 	
 	

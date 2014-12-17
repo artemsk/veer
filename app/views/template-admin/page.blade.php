@@ -149,7 +149,7 @@
 				<h3><strong>Files</strong></h3>
 				<div class="row">
 					<div class="col-md-6">
-						<input class="input-files-enhance" type="file" id="InFile2" name="uploadFile" multiple=false>
+						<input class="input-files-enhance" type="file" id="InFile2" name="uploadFiles" multiple=false>
 					</div>
 					<div class="col-md-6">
 						<input class="form-control" name="attachFiles" placeholder=":Existing Files IDs[,]">
