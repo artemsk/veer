@@ -1280,13 +1280,13 @@ class VeerAdmin {
 		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
 
 		$salesOn = explode("/", array_get($all, 'fill.price_sales_on', 0));
-		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, @$salesOn[0], @$salesOn[1], @$salesOn[2]));
+		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, array_get($salesOn, 0, 0), array_get($salesOn, 1, 0), array_get($salesOn, 2, 0)));
 		
 		$salesOff = explode("/", array_get($all, 'fill.price_sales_off', 0));
-		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0, @$salesOff[0], @$salesOff[1], @$salesOff[2]));
+		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0,  array_get($salesOff, 0, 0), array_get($salesOff, 1, 0), array_get($salesOff, 2, 0)));
 		
 		$toShow = explode("/", array_get($all, 'fill.to_show', 0));
-		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0, @$toShow[0], @$toShow[1], @$toShow[2]));
+		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0,  array_get($toShow, 0, 0), array_get($toShow, 1, 0), array_get($toShow, 2, 0)));
 		
 		array_set($all, 'fill.price_sales_on', $salesOnMake);
 
