@@ -928,18 +928,18 @@ class VeerAdmin {
 		// adding childs (new or existing)
 		if($all['action'] == "addChild" && isset($all['child'])) {
 			
-			$childs = $this->parseIds($all['child']);
+			$childs = $this->attachElements($all['child'], $category, 'subcategories', array(
+				"action" => "NEW child categories",
+				"language" => "veeradmin.category.child.attach"
+			));
 			
-			if( $childs ) {
-				foreach($childs as $child) { $category->subcategories()->attach($child); }
-				Event::fire('veer.message.center', \Lang::get('veeradmin.category.child.attach'));
-			} else {				
+			if( !$childs ) {			
 				$category->subcategories()->attach(
 					$this->addCategory($all['child'], $category->site->id)
 				);
 				Event::fire('veer.message.center', \Lang::get('veeradmin.category.child.new'));
+				$this->action_performed[] = "NEW child category";
 			}
-			$this->action_performed[] = "NEW child category";
 		}
 		
 		
@@ -988,15 +988,11 @@ class VeerAdmin {
 		// update|add images
 		if($all['action'] == "updateImages") {
 			
-			$images = $this->parseIds($all['attachImages']);
+			$this->attachElements($all['attachImages'], $category, 'images', array(
+				"action" => "ATTACH images",
+				"language" => "veeradmin.category.images.attach"
+			));
 			
-			if ($images) {
-				foreach ($images as $image) {
-					$category->images()->attach($image);
-				}
-				Event::fire('veer.message.center', \Lang::get('veeradmin.category.images.attach'));
-			}
-
 			if(Input::hasFile('uploadImage')) {
 
 				$fname = "ct". $all['category'] . "_" . date('YmdHis',time()) .
@@ -1009,50 +1005,38 @@ class VeerAdmin {
 				$newimage->save();
 				$newimage->categories()->attach($all['category']);
 				Event::fire('veer.message.center', \Lang::get('veeradmin.category.images.new'));
+				$this->action_performed[] = "NEW images";
 			}	
-			$this->action_performed[] = "NEW images";
 		}
 
-		
 		$this->detachElements($all['action'], 'removeImage', $category, 'images', array(
 			"action" => "REMOVE images",
 			"language" => "veeradmin.category.images.detach"
 		));
-		
+	
 		
 		// add existings products
 		if($all['action'] == "updateProducts") {
 			
-			$products = $this->parseIds($all['attachProducts']);
-			
-			if ($products) {
-				foreach ($products as $prd) {
-					$category->products()->attach($prd);
-				}
-				Event::fire('veer.message.center', \Lang::get('veeradmin.category.products.attach'));
-				$this->action_performed[] = "ATTACH products";
-			}
+			$this->attachElements($all['attachProducts'], $category, 'products', array(
+				"action" => "ATTACH products",
+				"language" => "veeradmin.category.products.attach"
+			));
 		}
-
 		
 		$this->detachElements($all['action'], 'removeProduct', $category, 'products', array(
 			"action" => "REMOVE products",
 			"language" => "veeradmin.category.products.detach"
-		));
+		));		
 		
 		
 		// add existings pages
 		if($all['action'] == "updatePages") {
 			
-			$pages = $this->parseIds($all['attachPages']);
-			
-			if ($pages) {
-				foreach ($pages as $pg) {
-					$category->pages()->attach($pg);
-				}
-				Event::fire('veer.message.center', \Lang::get('veeradmin.category.pages.attach'));
-				$this->action_performed[] = "ATTACH pages";
-			}
+			$this->attachElements($all['attachPages'], $category, 'pages', array(
+				"action" => "ATTACH pages",
+				"language" => "veeradmin.category.pages.attach"
+			));
 		}
 
 		$this->detachElements($all['action'], 'removePage', $category, 'pages', array(
@@ -1083,6 +1067,7 @@ class VeerAdmin {
 		}
 	}
 	
+	
 	/**
 	 * parse Ids
 	 * @param type $ids
@@ -1096,6 +1081,34 @@ class VeerAdmin {
 			return explode( $separator, substr($ids, strlen($start)) );	
 		} 
 	}
+	
+	
+	/**
+	 * attach Elements
+	 * @param type $ids
+	 * @param type $object
+	 * @param type $relation
+	 * @param type $message
+	 * @param type $separator
+	 * @param type $start
+	 */
+	public function attachElements($ids, $object, $relation, $message = array(), $separator = ",", $start = ":")
+	{
+		$elements = $this->parseIds($ids, $separator, $start);
+		
+		if($elements) {
+			if(count($elements) > 1 ) {
+				$object->{$relation}()->sync($elements); 
+			} else {
+				$object->{$relation}()->attach($elements); 
+			}
+		
+			$this->action_performed[] = array_get($message, 'action', '');
+			Event::fire('veer.message.center', \Lang::get(array_get($message, 'language', 'veeradmin.empty')));
+			return true;
+		}
+	}
+	
 	
 	/**
 	 * detach Elements
