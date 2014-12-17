@@ -37,11 +37,12 @@ class VeerShop {
 	public function getPrice($product, $bypassUser = false)
 	{
 		$price = $this->calculator($product, $bypassUser);
+		$regular_price = $this->currency($product['price'], $product['currency']);
 		
-		if($product['price'] != $price) {
+		if($regular_price!= $price) {
 			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-discount")
 				->with('price', $this->priceFormat($price))
-				->with('regular_price', $this->priceFormat($product['price']));
+				->with('regular_price', $this->priceFormat($regular_price));
 		} else {
 			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-regular")->with('price', $this->priceFormat($price));
 		}

@@ -56,6 +56,7 @@
 			</ul>
 			@endforeach	
 			<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> product | page</button>
+			<div class="rowdelimiter"></div>
 		</div>		
 		@endforeach
 
