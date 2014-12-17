@@ -1280,13 +1280,13 @@ class VeerAdmin {
 		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
 
 		$salesOn = explode("/", array_get($all, 'fill.price_sales_on', 0));
-		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, $salesOn[0], $salesOn[1], $salesOn[2]));
+		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, @$salesOn[0], @$salesOn[1], @$salesOn[2]));
 		
 		$salesOff = explode("/", array_get($all, 'fill.price_sales_off', 0));
-		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0, $salesOff[0], $salesOff[1], $salesOff[2]));
+		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0, @$salesOff[0], @$salesOff[1], @$salesOff[2]));
 		
 		$toShow = explode("/", array_get($all, 'fill.to_show', 0));
-		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0, $toShow[0], $toShow[1], $toShow[2]));
+		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0, @$toShow[0], @$toShow[1], @$toShow[2]));
 		
 		array_set($all, 'fill.price_sales_on', $salesOnMake);
 
@@ -1461,6 +1461,7 @@ class VeerAdmin {
 		}
 	}
 	
+	
 	/**
 	 * copy files to new object
 	 * @param type $files
@@ -1520,6 +1521,14 @@ class VeerAdmin {
 	}
 	
 	
+	/**
+	 * Connections
+	 * @param type $object
+	 * @param type $id
+	 * @param type $type
+	 * @param type $attributes
+	 * @param type $options
+	 */
 	public function connections($object, $id, $type, $attributes = array(), $options = array())
 	{
 		$action = array_get($attributes, 'actionButton', null);
@@ -1573,5 +1582,28 @@ class VeerAdmin {
 		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentProduct'), $object, 'parentproducts', null);	
 		
 	}
+	
+	
+	public function updatePages()
+	{
+		// if we're working with one page then call another function
+		//
+		$editOnePage = Input::get('id', null);
+		if(!empty($editOnePage)) { 
+			
+			return $this->updateOnePage($editOnePage); 
+		}
+				
+	}
+
+	
+	public function updateOnePage($id)
+	{
+		echo "<pre>";
+		print_r(Input::all());
+		echo "</pre>";
+	}
+	
+	
 	
 }
