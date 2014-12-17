@@ -1280,13 +1280,13 @@ class VeerAdmin {
 		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
 
 		$salesOn = explode("/", array_get($all, 'fill.price_sales_on', 0));
-		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, array_get($salesOn, 0, 0), array_get($salesOn, 1, 0), array_get($salesOn, 2, 0)));
+		$salesOnMake = date("Y-m-d H:i:s", mktime(0, 0, 0, (int)array_get($salesOn, 0, 0), (int)array_get($salesOn, 1, 0), (int)array_get($salesOn, 2, 0)));
 		
 		$salesOff = explode("/", array_get($all, 'fill.price_sales_off', 0));
-		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0,  array_get($salesOff, 0, 0), array_get($salesOff, 1, 0), array_get($salesOff, 2, 0)));
+		$salesOffMake = date("Y-m-d H:i:s", mktime(0, 0, 0, (int)array_get($salesOff, 0, 0), (int)array_get($salesOff, 1, 0), (int)array_get($salesOff, 2, 0)));
 		
 		$toShow = explode("/", array_get($all, 'fill.to_show', 0));
-		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0,  array_get($toShow, 0, 0), array_get($toShow, 1, 0), array_get($toShow, 2, 0)));
+		$toShowMake = date("Y-m-d H:i:s", mktime(0, 0, 0, (int)array_get($toShow, 0, 0), (int)array_get($toShow, 1, 0), (int)array_get($toShow, 2, 0)));
 		
 		array_set($all, 'fill.price_sales_on', $salesOnMake);
 
@@ -1294,8 +1294,8 @@ class VeerAdmin {
 		
 		$to_show = \Carbon\Carbon::parse($toShowMake);
 
-		$to_show->hour(array_get($all, (int)'to_show_hour', 0));
-		$to_show->minute(array_get($all, (int)'to_show_minute', 0));
+		$to_show->hour((int)array_get($all, (int)'to_show_hour', 0));
+		$to_show->minute((int)array_get($all, (int)'to_show_minute', 0));
 		
 		array_set($all, 'fill.to_show', $to_show->toDateTimeString());
 			
