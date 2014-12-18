@@ -28,7 +28,7 @@
 	{{ Form::close() }}
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array('image' => Input::get('image', null), 'tag' => Input::get('tag', null)))->links() }}
 		</div>
 	</div>
 	

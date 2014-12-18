@@ -77,9 +77,14 @@ class VeerAdmin {
 			$items_regrouped[$item->fname][$item->original][$key]=$key;
 		}
 		
+		if(is_array($items_regrouped)) { $i = 0;
+			foreach($items_regrouped as $key => $item) { $items_index[$key] = $i; $i++; }
+		}
+		
 		$items['temporary'] = $items_temporary;
 		$items['counted'] = $items_counted;
 		$items['regrouped'] = isset($items_regrouped) ? $items_regrouped : array();
+		$items['index'] = isset($items_index) ? $items_index : array();
 		return $items;
 	}	
 	
@@ -100,8 +105,11 @@ class VeerAdmin {
 	 */
 	public function showImages() 
 	{	
-		$items = \Veer\Models\Image::orderBy('id', 'desc')->with('pages', 'products', 'categories')->paginate(25);	
-		
+		if(Input::get('filter', null) == "unused") {
+			$items = \Veer\Models\Image::orderBy('id', 'desc')->has('pages','<',1)->has('products','<',1)->has('categories','<',1)->paginate(25);	
+		} else {
+			$items = \Veer\Models\Image::orderBy('id', 'desc')->with('pages', 'products', 'categories')->paginate(25);	
+		}
 		$items['counted'] = \Veer\Models\Image::count();
 
 		return $items;

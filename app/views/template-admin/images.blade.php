@@ -9,7 +9,13 @@
 	<li><a href="{{ route("admin.show", "downloads") }}">Downloads</a></li>		
 	<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 </ol>
-<h1>Images: {{ array_pull($items, 'counted') }}</h1>
+<h1>Images: 
+	@if(Input::get('filter', null) == 'unused')
+	<a href="{{ route("admin.show", "images") }}">{{ array_pull($items, 'counted') }}</a> <small>| unused</small>
+	@else
+	{{ array_pull($items, 'counted') }} <small>| <a href="{{ route("admin.show", array("images", "filter" => "unused")) }}">unused</a></small>
+	@endif
+	</h1>
 <br/>
 <div class="container">
 
@@ -17,7 +23,7 @@
 	
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array('filter' => Input::get('filter', null)))->links() }}
 		</div>
 	</div>
 	
