@@ -14,7 +14,8 @@
 <div class="container">
 
 	<div class="row">
-		@foreach ($items['regrouped'] as $group) 
+		@foreach ($items['regrouped'] as $g => $group) 
+		@if(round($items['index'][$g]/4) == ($items['index'][$g]/4)) <div class="clearfix"></div> @endif
 		<div class="col-md-3 col-sm-6">
 			<h3>#{{ $items[head($group[1])]->id }}</h3>
 			<div class="thumbnail text-center">		    
