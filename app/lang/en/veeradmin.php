@@ -37,5 +37,13 @@ return array(
 	"product.update" => "Update current product",
 	"product.status" => "Update product status",
 	"product.delete" => "Delete product",
+	"product.show" => "Show product early",	
+	"page.new" => "Add new page",
+	"page.update" => "Update page",
+	"page.status" => "Update page status",
+	"page.delete" => "Delete page",
+	"image.upload" => "Upload image(-s)",
+	"image.attach" => "Attach image to elements",
+	"image.delete" => "Delete image",
 	
 );
