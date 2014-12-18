@@ -64,7 +64,7 @@
 		<div class="col-md-2">
 			<p></p>
 			User 
-			<input type="text" name="fill[users_id]" class="form-control" placeholder="User id" value="{{ $items->users_id or null }}">
+			<input type="text" name="fill[users_id]" class="form-control" placeholder="User id" value="{{ $items->users_id or \Auth::id() }}">
 			@if(isset($items->users_id) && $items->users_id > 0)
 			@if(is_object($items->user))
 			<a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@'.$items->user->firstname }}</a>

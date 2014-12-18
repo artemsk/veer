@@ -862,7 +862,7 @@ class VeerAdmin {
 	public function updateOneCategory($cid)
 	{	
 		$all = Input::all();
-		
+
 		// delete sub categories from db
 		// deletecategoryid <- id of deleted category id
 		if($all['action'] == "delete") { 			
@@ -1027,6 +1027,7 @@ class VeerAdmin {
 			"language" => "veeradmin.category.products.detach"
 		));		
 		
+		$this->quickProductsActions($all['action']);
 		
 		// add existings pages
 		if($all['action'] == "updatePages") {
@@ -1041,6 +1042,8 @@ class VeerAdmin {
 			"action" => "REMOVE pages",
 			"language" => "veeradmin.category.pages.detach"
 		));				
+		
+		$this->quickPagesActions($all['action']);
 		
 		// And that's it!
 	}	
@@ -1152,24 +1155,9 @@ class VeerAdmin {
 			return $this->updateOneProduct($editOneProduct); 
 		}
 				
-		//status
-		$action = Input::get('action', null);
-		if(starts_with($action, "changeStatusProduct")) 
-		{
-			$r = explode(".", $action); 
-			$this->changeProductStatus( \Veer\Models\Product::find($r[1]) );
-			Event::fire('veer.message.center', \Lang::get('veeradmin.product.status'));
-			$this->action_performed[] = "UPDATE product status";
-		}
-		
-		if(starts_with($action, "deleteProduct")) 
-		{
-			$r = explode(".", $action); 
-			\Veer\Models\Product::find($r[1])->delete();
-			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete'));
-			$this->action_performed[] = "DElETE product";
-		}		
-		
+		// quick actions: status etc.
+		$this->quickProductsActions(Input::get('action', null));
+
 		$all = Input::all();
 		
 		$title = trim(array_get($all, 'fill.title', null));
@@ -1210,6 +1198,9 @@ class VeerAdmin {
 			if(Input::hasFile('uploadFile')) {
 				$this->upload('file', 'uploadFile', $p->id, $p, 'prd', null);
 			}		
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.new'));
+			$this->action_performed[] = "NEW product";			
 		}
 		
 		if(!empty($freeForm)) {
@@ -1262,8 +1253,9 @@ class VeerAdmin {
 					$new->downloads = 0;
 					$p->downloads()->save($new);		
 				}				
-				
-			}			
+			}	
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.new'));
+			$this->action_performed[] = "NEW product";			
 		}
 	}
 	
@@ -1286,21 +1278,21 @@ class VeerAdmin {
 	
 		$temporaryY = (int)array_get($salesOn, 2, 0);
 		if($temporaryY <= 1999) { $salesOn = \Carbon\Carbon::today(); } else {
-			$salesOn = \Carbon\Carbon::parse($salesOn);
+			$salesOn = \Carbon\Carbon::parse(array_get($all, 'fill.price_sales_on', 0));
 		}
 	
 		$salesOff = explode("/", array_get($all, 'fill.price_sales_off', 0));
 		
 		$temporaryY = (int)array_get($salesOff, 2, 0);
 		if($temporaryY <= 1999) { $salesOff = \Carbon\Carbon::today(); } else {
-			$salesOff = \Carbon\Carbon::parse($salesOff);
+			$salesOff = \Carbon\Carbon::parse(array_get($all, 'fill.price_sales_off', 0));
 		}		
 			
 		$toShow = explode("/", array_get($all, 'fill.to_show', 0));
 		
 		$temporaryY = (int)array_get($toShow, 2, 0);
 		if($temporaryY <= 1999) { $toShow = \Carbon\Carbon::today(); } else {
-			$toShow = \Carbon\Carbon::parse($toShow);
+			$toShow = \Carbon\Carbon::parse(array_get($all, 'fill.to_show', 0));
 		}	
 		
 		array_set($all, 'fill.price_sales_on', $salesOn);
@@ -1606,10 +1598,12 @@ class VeerAdmin {
 		// parent pages
 		$this->attachElements(array_get($attributes, 'attachParentPages', null), $object, 'parentpages', null);	
 		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentPage'), $object, 'parentpages', null);		
-		
 	}
 	
 	
+	/**
+	 * update Pages
+	 */
 	public function updatePages()
 	{
 		// if we're working with one page then call another function
@@ -1619,10 +1613,55 @@ class VeerAdmin {
 			
 			return $this->updateOnePage($editOnePage); 
 		}
-				
+		
+		//quick actions
+		$this->quickPagesActions(Input::get('action', null));
+	
+		$all = Input::all();
+		
+		$title = trim(array_get($all, 'title', null));
+
+		if(!empty($title)) {
+			
+			$categories =  explode(",", array_get($all, 'categories', null));
+			
+			$p = new \Veer\Models\Page;
+			$p->title = $title;
+			$p->url = array_get($all, 'url', '');
+			$p->hidden = 1;
+			$p->manual_order = 999999;
+			$p->users_id = \Auth::id();
+			
+			$txt= preg_replace("/{{(?s).*}}/", "", array_get($all, 'txt', ''), 1);
+			$result = preg_match("/{{(?s).*}}/", array_get($all, 'txt', ''), $small);
+			
+			$p->small_txt = substr(trim( array_get($small, 0, '') ), 2, -2);
+			$p->txt = trim( $txt );
+			$p->save();
+					
+			if(!empty($categories)) {
+				$p->categories()->attach($categories);
+			}
+			
+			// images
+			if(Input::hasFile('uploadImage')) {
+				$this->upload('image', 'uploadImage', $p->id, 'pages', 'pg', null);
+			}
+
+			//files
+			if(Input::hasFile('uploadFile')) {
+				$this->upload('file', 'uploadFile', $p->id, $p, 'pg', null);
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.new'));
+			$this->action_performed[] = "NEW page";			
+		}
 	}
 
 	
+	/**
+	 * update One Page
+	 * @param type $id
+	 */
 	public function updateOnePage($id)
 	{	
 		\Eloquent::unguard();
@@ -1636,7 +1675,8 @@ class VeerAdmin {
 		array_set($all, 'fill.show_title', isset($all['fill']['show_title']) ? true : 0);		
 		array_set($all, 'fill.show_date', isset($all['fill']['show_date']) ? true : 0);
 		array_set($all, 'fill.in_list', isset($all['fill']['in_list']) ? true : 0);
-		
+		array_set($all, 'fill.users_id', empty($all['fill']['users_id']) ? \Auth::id() : $all['fill']['users_id']);
+
 		if($action == "add" || $action == "saveAs") {
 			
 			$page = new \Veer\Models\Page;
@@ -1702,5 +1742,62 @@ class VeerAdmin {
 	}
 	
 	
+	/**
+	 * Products actions
+	 * @param type $action
+	 */
+	public function quickProductsActions($action)
+	{
+		if(starts_with($action, "changeStatusProduct")) 
+		{
+			$r = explode(".", $action); 
+			$this->changeProductStatus( \Veer\Models\Product::find($r[1]) );
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.status'));
+			$this->action_performed[] = "UPDATE product status";
+		}
+		
+		if(starts_with($action, "deleteProduct")) 
+		{
+			$r = explode(".", $action); 
+			\Veer\Models\Product::find($r[1])->delete();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete'));
+			$this->action_performed[] = "DElETE product";
+		}		
+		
+		if(starts_with($action, "showEarlyProduct")) 
+		{
+			\Eloquent::unguard();
+			$r = explode(".", $action); 
+			\Veer\Models\Product::find($r[1])->update(array("to_show" => now()));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.show'));
+			$this->action_performed[] = "SHOW product";
+		}
+	}
 	
+	
+	/**
+	 * Pages actions
+	 * @param type $action
+	 */
+	public function quickPagesActions($action)
+	{
+		if(starts_with($action, "changeStatusPage")) 
+		{
+			$r = explode(".", $action); 
+			$page = \Veer\Models\Page::find($r[1]);
+			if($page->hidden == true) { $page->hidden = false; } else { $page->hidden = true; }
+			$page->save();
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.status'));
+			$this->action_performed[] = "UPDATE page status";			
+		}
+		
+		if(starts_with($action, "deletePage")) 
+		{
+			$r = explode(".", $action); 
+			\Veer\Models\Page::find($r[1])->delete();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete'));
+			$this->action_performed[] = "DElETE page";
+		}	
+	}	
 }
