@@ -1449,8 +1449,9 @@ class VeerAdmin {
 	 * @param type $prefix
 	 * @param type $message
 	 */
-	public function upload($type, $file, $id, $relationOrObject, $prefix = null, $message = null) 
+	public function upload($type, $file, $id, $relationOrObject, $prefix = null, $message = null, $skipRelation = false) 
 	{
+		$newId = null;
 		$fname = $prefix. $id. "_" . date('YmdHis',time()) .
 			str_random(10) . "." . Input::file($file)->getClientOriginalExtension();
 
@@ -1459,7 +1460,8 @@ class VeerAdmin {
 			$new = new \Veer\Models\Image; 
 			$new->img = $fname;
 			$new->save();
-			$new->{$relationOrObject}()->attach($id);
+			if(!$skipRelation) { $new->{$relationOrObject}()->attach($id); }
+			$newId = $new->id;
 		} 
 		
 		if($type == "file") {
@@ -1471,13 +1473,17 @@ class VeerAdmin {
 			$new->expiration_day = 0;
 			$new->expiration_times = 0;
 			$new->downloads = 0;
-			$relationOrObject->downloads()->save($new);
+			if(!$skipRelation) { $relationOrObject->downloads()->save($new); } else {
+				$new->save();
+			}
+			$newId = $new->id;
 		}
 				
 		if(!empty($message)) {
 			Event::fire('veer.message.center', $message['language']);
 			$this->action_performed[] = $message['action'];
 		}
+		return $newId;
 	}
 	
 	
@@ -1754,7 +1760,7 @@ class VeerAdmin {
 	 * Products actions
 	 * @param type $action
 	 */
-	public function quickProductsActions($action)
+	protected function quickProductsActions($action)
 	{
 		if(starts_with($action, "changeStatusProduct")) 
 		{
@@ -1768,6 +1774,7 @@ class VeerAdmin {
 		{
 			$r = explode(".", $action); 
 			\Veer\Models\Product::find($r[1])->delete();
+			// TODO: relationships
 			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete'));
 			$this->action_performed[] = "DElETE product";
 		}		
@@ -1787,7 +1794,7 @@ class VeerAdmin {
 	 * Pages actions
 	 * @param type $action
 	 */
-	public function quickPagesActions($action)
+	protected function quickPagesActions($action)
 	{
 		if(starts_with($action, "changeStatusPage")) 
 		{
@@ -1804,8 +1811,78 @@ class VeerAdmin {
 		{
 			$r = explode(".", $action); 
 			\Veer\Models\Page::find($r[1])->delete();
+			// TODO: relationships
 			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete'));
 			$this->action_performed[] = "DElETE page";
 		}	
 	}	
+	
+	
+	/**
+	 * update images 
+	 */
+	public function updateImages()
+	{
+		$all = Input::all();
+		foreach($all as $k => $v) { 
+			if(Input::hasFile($k)) {				
+					$newId[] = $this->upload('image', $k, null, null, '', null, true);
+					Event::fire('veer.message.center', \Lang::get('veeradmin.image.upload'));
+					$this->action_performed[] = "UPLOAD image";					
+			}				
+		}
+			
+		$attachImages = array_get($all, 'attachImages', null);
+		if(!empty($attachImages)) { 
+			
+			$result = preg_match("/\[(?s).*\]/", $attachImages, $small);
+			$parseTypes = explode(":", substr(array_get($small, 0, ''),2,-1));
+						
+			if(starts_with($attachImages, 'NEW')) {
+				$attach = empty($newId) ? null : $newId;
+			} else {
+				$parseAttach = explode("[", $attachImages);
+				$attach = explode(",", array_get($parseAttach, 0, null));				
+			}
+			
+			foreach($parseTypes as $k => $v) {
+				
+				$p = explode(",", $v);
+				foreach($p as $id) {
+					if($k === 0) { $object = \Veer\Models\Category::find($id); }
+					if($k === 1) { $object = \Veer\Models\Product::find($id); }
+					if($k === 2) { $object = \Veer\Models\Page::find($id); }
+					if(is_object($object)) {
+						$this->attachElements($attach, $object, 'images', null);
+					}
+				}
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.image.attach'));
+			$this->action_performed[] = "ATTACH image";				
+		}
+		
+		if(starts_with($all['action'], 'deleteImage')) {
+			$r = explode(".", $all['action']);
+			$this->deleteImage($r[1]);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.image.delete'));
+			$this->action_performed[] = "DELETE image";		
+		}
+		
+	}
+	
+	
+	// delete Image function
+	protected function deleteImage($id)
+	{
+		$img = \Veer\Models\Image::find($id);
+		if(is_object($img)) {
+			$img->pages()->detach();
+			$img->products()->detach();
+			$img->categories()->detach();
+			\File::delete(config("veer.images_path")."/".$img->img);
+			$img->delete();			
+		}
+	}
+	
+	
 }

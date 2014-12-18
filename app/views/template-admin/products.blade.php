@@ -21,7 +21,7 @@
 									   href="{{ route("admin.show", array("products", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
-	{{ Form::open(array('method' => 'put', 'files' => false)); }}
+	{{ Form::open(array('url' =>  URL::full(), 'method' => 'put', 'files' => false)); }}
 	
 	@include($template.'.lists.products', array('items' => $items))
 	
@@ -34,7 +34,7 @@
 	
 	<div class='rowdelimiter'></div>
 	<hr>
-	{{ Form::open(array('method' => 'put', 'files' => true)); }}
+	{{ Form::open(array('url' =>  URL::full(), 'method' => 'put', 'files' => true)); }}
 	<label>Quick form: Add products</label>
 	<div class="row">
 		<div class="col-sm-3"><p><input type="text" name="fill[title]" class="form-control" placeholder="Title|Name"></p></div>
