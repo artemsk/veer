@@ -36,7 +36,7 @@
 						@endif							
 						</small></p>
 					@if (now() < $item->to_show)
-					<button type="submit" name="action" value="showEarlyProduct[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Waiting for {{ $item->to_show }}. Press to show it now" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button>&nbsp;
+					<button type="submit" name="action" value="showEarlyProduct.{{ $item->id }}" class="btn btn-warning btn-xs" title="Waiting for {{ $item->to_show }}. Press to show it now" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button>&nbsp;
 					@endif
 					@if ($item->status == 'buy' || $item->status == 'on')
 					<button type="submit" name="action" value="changeStatusProduct.{{ $item->id }}" class="btn btn-success btn-xs" title="Current: ON (BUY)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
