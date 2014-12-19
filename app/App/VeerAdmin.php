@@ -1518,7 +1518,7 @@ class VeerAdmin {
 		if(starts_with($removeFile, 'removeFile')) {
 			$r = explode(".", $removeFile);
 			if(!empty($r[1])) { 
-				\Veer\Models\Download::find($r[1])->update(array('elements_id' => null, 'elements_type' => ''));
+				\Veer\Models\Download::where('id','=',$r[1])->update(array('elements_id' => null, 'elements_type' => ''));
 			}
 		}
 	}
@@ -1783,7 +1783,7 @@ class VeerAdmin {
 		{
 			\Eloquent::unguard();
 			$r = explode(".", $action); 
-			\Veer\Models\Product::find($r[1])->update(array("to_show" => now()));
+			\Veer\Models\Product::where('id','=',$r[1])->update(array("to_show" => now()));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.product.show'));
 			$this->action_performed[] = "SHOW product";
 		}
@@ -1845,23 +1845,13 @@ class VeerAdmin {
 				$attach = explode(",", array_get($parseAttach, 0, null));				
 			}
 			
-			foreach($parseTypes as $k => $v) {
-				
-				$p = explode(",", $v);
-				foreach($p as $id) {
-					if($k === 0) { $object = \Veer\Models\Category::find($id); }
-					if($k === 1) { $object = \Veer\Models\Product::find($id); }
-					if($k === 2) { $object = \Veer\Models\Page::find($id); }
-					if(is_object($object)) {
-						$this->attachElements($attach, $object, 'images', null);
-					}
-				}
-			}
+			$this->attachFromForm($parseTypes, $attach, 'images');
+			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.image.attach'));
 			$this->action_performed[] = "ATTACH image";				
 		}
 		
-		if(starts_with($all['action'], 'deleteImage')) {
+		if(starts_with(array_get($all, 'action', null), 'deleteImage')) {
 			$r = explode(".", $all['action']);
 			$this->deleteImage($r[1]);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.image.delete'));
@@ -1871,7 +1861,10 @@ class VeerAdmin {
 	}
 	
 	
-	// delete Image function
+	/**
+	 *  delete Image function
+	 * @param type $id
+	 */
 	protected function deleteImage($id)
 	{
 		$img = \Veer\Models\Image::find($id);
@@ -1881,6 +1874,97 @@ class VeerAdmin {
 			$img->categories()->detach();
 			\File::delete(config("veer.images_path")."/".$img->img);
 			$img->delete();			
+		}
+	}
+	
+	
+	/**
+	 * update tags
+	 */
+	public function updateTags()
+	{		
+		\Eloquent::unguard();
+		
+		if(starts_with(Input::get('action', null), "deleteTag")) {
+			$r = explode(".", Input::get('action', null));
+			$this->deleteTag($r[1]);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.tag.delete'));
+			$this->action_performed[] = "DELETE tag";			
+		} else {
+		
+			$existingTags = Input::get('renameTag', null);
+			if(is_array($existingTags)) {
+				foreach($existingTags as $key => $value) { $value = trim($value);
+					$tagDb = \Veer\Models\Tag::where('name','=',$value)->first();
+					if(!is_object($tagDb)) {
+						\Veer\Models\Tag::where('id','=',$key)->update(array('name' => $value));
+					}
+				}
+			}
+
+			$new = $this->parseForm(Input::get('newTag', null));
+
+			if(is_array($new['target'])) {
+				foreach($new['target'] as $tag) {
+					$tag = trim($tag);
+					if(empty($tag)) { continue; }
+					$tagDb = \Veer\Models\Tag::firstOrNew(array('name' => $tag));
+					$tagDb->save();
+					$tags[] = $tagDb->id;
+				}
+				if(isset($tags)) {
+					$this->attachFromForm($new['elements'], $tags, 'tags');
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * delete Tag
+	 * @param type $id
+	 */
+	protected function deleteTag($id)
+	{
+		$t = \Veer\Models\Tag::find($id);
+		if(is_object($t)) {
+			$t->pages()->detach();
+			$t->products()->detach();
+			$t->delete();			
+		}
+	}
+	
+	
+	/**
+	 * parsing free form for tag|image connections
+	 */
+	public function parseForm($textarea)
+	{
+		$small = ''; 
+		$result = preg_match("/\[(?s).*\]/", $textarea, $small);
+		$parseTypes = explode(":", substr(array_get($small, 0, ''),2,-1));
+		$parseAttach = explode("[", $textarea);
+		$attach = explode(",", trim(array_get($parseAttach, 0, null)));	
+		
+		return array('target' => $attach, 'elements' => $parseTypes);		
+	}
+				
+	
+	/**
+	 * attachFromForm
+	 */
+	public function attachFromForm($str, $attach, $type) 
+	{
+		foreach($str as $k => $v) {
+		$p = explode(",", $v);
+			foreach($p as $id) {
+				if($k === 0) { $object = \Veer\Models\Product::find($id); }
+				if($k === 1) { $object = \Veer\Models\Page::find($id); }
+				if($k === 2) { $object = \Veer\Models\Category::find($id); }			
+				if(is_object($object)) {
+					$this->attachElements($attach, $object, $type, null);
+				}
+			}
 		}
 	}
 	
