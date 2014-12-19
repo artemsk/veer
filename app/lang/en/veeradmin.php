@@ -46,5 +46,10 @@ return array(
 	"image.attach" => "Attach image to elements",
 	"image.delete" => "Delete image",
 	"tag.delete" => "Delete tag",
+	"tag.update" => "Update tag",
+	"file.delete" => "Delete file",
+	"file.download" => "Create download link",
+	"file.copy" => "Copy file to another element",
+	"file.upload" => "Upload file",
 	
 );

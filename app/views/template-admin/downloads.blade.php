@@ -12,7 +12,8 @@
 <h1>Downloads: {{ $items['counted'] }} files, {{ $items['temporary'] }} active downloads</h1>
 <br/>
 <div class="container">
-
+	
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<div class="row">
 		@foreach ($items['regrouped'] as $g => $group) 
 		@if(round($items['index'][$g]/4) == ($items['index'][$g]/4)) <div class="clearfix"></div> @endif
@@ -36,15 +37,40 @@
 				#{{ $items[$item]->id }} 
 				<a href="{{ route("admin.show", array("pages", "id" => $items[$item]->elements['id'])) }}">{{ $items[$item]->elements['title'] }}</a>
 			@else
-				<span class="text-muted">#{{ $items[$item]->id }} Unused</span>
-			@endif			
+				<span class="text-muted">#{{ $items[$item]->id }} Unused </span>
+			@endif
+			@if(empty($key))
 			<small>
 				<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>{{ $items[$item]->downloads }}
-				<p>{{ $items[$item]->expires }} | {{ $items[$item]->expiration_day  }}</p>
+				<p>{{ $items[$item]->expiration_times }} | {{ $items[$item]->expiration_day  }}
+				@if($items[$item]->expires > 0)
+				@if($items[$item]->expiration_times > 0 && $items[$item]->downloads >= $items[$item]->expiration_times) 			
+					<br/><span class="label label-success">expired</span>
+				@elseif($items[$item]->expiration_day > \Carbon\Carbon::create(2000) && now() > $items[$item]->expiration_day)
+					<br/><span class="label label-success">expired</span>
+				@else
+				@endif	
+				@endif
+				</p>
 			</small>
-			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+			@endif
+			@if($items[$item]->elements['id'] > 0 && $key > 0)
+			<button type="submit" name="action" value="removeFile.{{ $items[$item]->id }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+			@else
+			<button type="submit" name="action" value="deleteFile.{{ $items[$item]->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+			@endif
+			@if($items[$item]->elements['id'] > 0)
 			@if($key > 0)
-			<button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> make link</button>
+			<button type="button" name="action" value="makeRealLink.{{ $items[$item]->id }}" class="btn btn-info btn-xs" data-toggle="popover" title="Add New" 
+						data-content='
+						<div class="form-inline">
+						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<p><input type="text" class="form-control" placeholder="Maximum Downloads" size=6 name="times"></p>
+						<p><input type="date" class="form-control" placeholder="Expiration Date" size=6 name="expiration_day"></p>
+						<p><button class="btn btn-info btn-xs" type="submit" name="action" value="makeRealLink.{{ $items[$item]->id }}">Make</button></p>
+						{{ Form::close() }}
+						</div>
+						' data-html="true"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> make link</button>
 			@else
 			@if(empty($items[$item]->secret))
 			<span class="badge">bad copy</span>
@@ -52,17 +78,27 @@
 			<span class="badge"><a href="{{ asset('/download/'.$items[$item]->secret) }}">download link</a></span>
 			@endif
 			@endif
+			@endif
 			</li>
 			@endforeach
 			</ul>
 			@endforeach	
-			<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> product | page</button>
+			<button type="button" class="btn btn-success btn-xs" data-toggle="popover" title="Add New" 
+						data-content='
+						<div class="form-inline">
+						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<p><input type="text" class="form-control" placeholder="Product Id" size=6 name="prdId"></p>
+						<p><input type="text" class="form-control" placeholder="Page Id" size=6 name="pgId"></p>
+						<p><button class="btn btn-success btn-xs" type="submit" name="action" value="copyFile.{{ $items[head($group[1])]->id }}">Add</button></p>
+						{{ Form::close() }}
+						</div>
+						' data-html="true"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> product | page</button>		
 			<div class="rowdelimiter"></div>
 		</div>		
 		@endforeach
 
 	</div>
-	
+	{{ Form::close() }}
 	<div class="rowdelimiter"></div>
 	
 	<div class="row">
@@ -75,11 +111,11 @@
 		
 	{{ Form::open(array('method' => 'put', 'files' => true)); }}
 	<div class="row">
-		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="InFile1" multiple=false></p></div>
+		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="uploadFiles"  multiple=false></p></div>
 	</div>	
 	<div class="row">
 		<div class="col-sm-4">
-			<textarea class="form-control" placeholder="ID|NEW/blank [:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new files with products & pages. Example: 4:2,3:1 or :1:4,5,6 "></textarea>
+			<textarea class="form-control" name="attachFiles" placeholder="ID|NEW/blank [:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new files with products & pages. Example: 4:2,3:1 or :1:4,5,6 "></textarea>
 			<p></p>
 			<p>{{ Form::submit('Update | Upload', array('class' => 'form-control btn btn-primary')); }}</p>
 		</div>

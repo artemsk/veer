@@ -77,7 +77,7 @@ class VeerAdmin {
 			$items_regrouped[$item->fname][$item->original][$key]=$key;
 		}
 		
-		if(is_array($items_regrouped)) { $i = 0;
+		if(isset($items_regrouped)) { $i = 0;
 			foreach($items_regrouped as $key => $item) { $items_index[$key] = $i; $i++; }
 		}
 		
@@ -1914,8 +1914,10 @@ class VeerAdmin {
 				}
 				if(isset($tags)) {
 					$this->attachFromForm($new['elements'], $tags, 'tags');
-				}
+				}		
 			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.tag.update'));
+			$this->action_performed[] = "UPDATE tags";					
 		}
 	}
 	
@@ -1958,9 +1960,9 @@ class VeerAdmin {
 		foreach($str as $k => $v) {
 		$p = explode(",", $v);
 			foreach($p as $id) {
-				if($k === 0) { $object = \Veer\Models\Product::find($id); }
-				if($k === 1) { $object = \Veer\Models\Page::find($id); }
-				if($k === 2) { $object = \Veer\Models\Category::find($id); }			
+				if($k == 0) { $object = \Veer\Models\Product::find($id); }
+				if($k == 1) { $object = \Veer\Models\Page::find($id); }
+				if($k == 2) { $object = \Veer\Models\Category::find($id); }			
 				if(is_object($object)) {
 					$this->attachElements($attach, $object, $type, null);
 				}
@@ -1969,4 +1971,138 @@ class VeerAdmin {
 	}
 	
 	
+	/**
+	 * update downloads
+	 */
+	public function updateDownloads()
+	{
+		$action = Input::get('action', null);
+		
+		$this->removeFile($action);
+		
+		if(starts_with($action, 'deleteFile'))
+		{
+			$r = explode(".", $action);
+			$this->deleteFile($r[1]);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.file.delete'));
+			$this->action_performed[] = "DELETE file";	
+		}
+		
+		if(starts_with($action, 'makeRealLink')) 
+		{
+			$times = Input::get('times', 0);
+			$exdate = Input::get('expiration_day', null);
+			
+			$r = explode(".", $action);
+			$f = \Veer\Models\Download::find($r[1]);
+			if(is_object($f)) {
+				$newF = $f->replicate();
+				$newF->secret = str_random(100).date("Ymd", time());
+				if($times > 0 || !empty($exdate)) { 
+					$newF->expires = 1;
+					$newF->expiration_times = $times;
+					if(!empty($exdate)) {
+						$newF->expiration_day = \Carbon\Carbon::parse($exdate);				
+					}
+				}
+				
+				$newF->original = 0;
+				$newF->save();
+				Event::fire('veer.message.center', \Lang::get('veeradmin.file.download'));
+				$this->action_performed[] = "CREATE download link";
+			}
+		}
+		
+		if(starts_with($action, 'copyFile')) 
+		{
+			$r = explode(".", $action);
+			$prdIds = explode(",", Input::get('prdId', null));
+			$pgIds = explode(",", Input::get('pgId', null));
+			$this->prepareCopying($r[1], $prdIds, $pgIds);
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.file.copy'));
+			$this->action_performed[] = "COPY file";			
+		}
+		
+		if(Input::hasFile(Input::get('uploadFiles', null))) {				
+			echo "1<br>";
+			$newId[] = $this->upload('file', 'uploadFiles', null, null, '', null, true);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.file.upload'));
+			$this->action_performed[] = "UPLOAD file";					
+		}
+		
+		$attachFiles = Input::get('attachFiles', null);
+		if(!empty($attachFiles)) { 
+			
+			$parseTypes = $this->parseForm($attachFiles);
+			
+			$attach = array();
+			
+			if(is_array($parseTypes['target'])) {
+				foreach($parseTypes['target'] as $t) {
+					$t = trim($t);
+					if(empty($t) || $t == "NEW") { 
+						if(!empty($newId)) {
+							$attach = array_merge($attach, $newId);
+						}
+						continue;
+					}					
+					$attach[] = $t;
+				}	
+			}
+			
+			$prdIds = explode(",", array_get($parseTypes, 'elements.0', null));
+			$pgIds = explode(",",  array_get($parseTypes, 'elements.1', null));
+			foreach($attach as $f) {
+				$this->prepareCopying($f, $prdIds, $pgIds);
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.file.attach'));
+			$this->action_performed[] = "ATTACH file";				
+		}		
+	}
+	
+	
+	/**
+	 *  delete File function
+	 * @param type $id
+	 */
+	protected function deleteFile($id)
+	{
+		$f = \Veer\Models\Download::find($id);
+		if(is_object($f)) {			
+			$allCopies = \Veer\Models\Download::where('fname','=',$f->fname)->get();
+			
+			if(count($allCopies) <= 1) {
+				\File::delete(config("veer.downloads_path")."/".$f->fname);
+			}
+			$f->delete();			
+		}
+	}	
+	
+	
+	/**
+	 * prepare Copying Files
+	 * @param type $fileId
+	 */
+	public function prepareCopying($fileId, $prds = array(), $pgs = array())
+	{
+		
+		if(is_array($prds)) {
+			foreach($prds as $id) {
+				$object = \Veer\Models\Product::find(trim($id));
+				if(is_object($object)) {
+					$this->copyFiles(":".$fileId, $object);
+				}
+			}
+		}
+
+		if(is_array($pgs)) {
+			foreach($pgs as $id) {
+				$object = \Veer\Models\Page::find(trim($id));
+				if(is_object($object)) {
+					$this->copyFiles(":".$fileId, $object);
+				}
+			}
+		}
+	}
 }
