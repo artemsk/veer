@@ -20,7 +20,7 @@
 			<h3>#{{ $items[head($group[1])]->id }}</h3>
 			<div class="thumbnail text-center">		    
 			<a href="{{ asset(config('veer.downloads_path').'/'.$items[head($group[1])]->fname) }}" 
-			   target="_blank"><strong>{{ $items[head($group[1])]->fname }}</strong></a>
+			   target="_blank"><strong><small>{{ $items[head($group[1])]->fname }}</small></strong></a>
 			<div class="caption">	
 			<strong>{{ count($group[1]) }}</strong> elements, <strong>{{ count(@$group[0]) }}</strong> active
 			</div>

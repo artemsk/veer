@@ -45,5 +45,6 @@ return array(
 	"image.upload" => "Upload image(-s)",
 	"image.attach" => "Attach image to elements",
 	"image.delete" => "Delete image",
+	"tag.delete" => "Delete tag",
 	
 );
