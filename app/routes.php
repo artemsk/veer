@@ -25,4 +25,6 @@ post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.log
 get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.basket.add'));
 Route::resource('user', 'UserController', array('only' => array('index', 'show')));
 
+get('download/{lnk?}', array('uses' => 'DownloadController@download', 'as' => 'download.link'));
+
 Route::resource('admin', 'AdminController', array('only' => array('index', 'show', 'update')));

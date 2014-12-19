@@ -15,7 +15,8 @@
 <div class="container">
 
 	<div class="row">
-	@foreach($items as $item)	
+	@foreach($items as $key => $item)	
+	@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif		
 	<div class="col-lg-2 round-element">		
 		<input type="text" name="renameTag[{{ $item->id }}]" class="form-control admin-form text-center" value="{{ $item->name }}">
 		<span class="label label-info"><a href="{{ route('admin.show', array('products', 'tag' => $item->id)) }}" target="_blank">{{ $item->products->count() }}</a></span>
