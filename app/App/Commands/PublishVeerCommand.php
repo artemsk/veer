@@ -83,7 +83,7 @@ class PublishVeerCommand extends Command {
 			
 			$this->info('- Publishing migrations.');
 
-			$this->call('migrate:publish', array($this->packageName));
+			$this->call('migrate:publish', array('package' => $this->packageName));
 			
 			// Run migrations
 			$this->info('- Run migrations.');
