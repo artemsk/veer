@@ -9,35 +9,41 @@
 	<li><a href="{{ route("admin.show", "downloads") }}">Downloads</a></li>		
 	<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 </ol>
-<h1>Images: {{ array_pull($items, 'counted') }}</h1>
+<h1>Images: 
+	@if(Input::get('filter', null) == 'unused')
+	<a href="{{ route("admin.show", "images") }}">{{ array_pull($items, 'counted') }}</a> <small>| unused</small>
+	@else
+	{{ array_pull($items, 'counted') }} <small>| <a href="{{ route("admin.show", array("images", "filter" => "unused")) }}">unused</a></small>
+	@endif
+	</h1>
 <br/>
+{{ Form::open(array('url'=> URL::full(), 'method' => 'put', 'files' => true)); }}
 <div class="container">
 
 	@include($template.'.lists.images', array('items' => $items))
 	
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array('filter' => Input::get('filter', null)))->links() }}
 		</div>
 	</div>
 	
 	<hr>
-	{{ Form::open(array('method' => 'put', 'files' => true)); }}
+	
 	<label>Upload Images</label>
 	<div class="row">
 		<div class="col-sm-4">
-			<p><input class="input-files-enhance" type="file" id="InFile1" name="InFile1" multiple=false></p>
-			<p><input class="input-files-enhance" type="file" id="InFile2" name="InFile2" multiple=false></p>
-			<p><input class="input-files-enhance" type="file" id="InFile3" name="InFile3" multiple=false></p></div>
+			<p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImages1" multiple=false></p>
+			<p><input class="input-files-enhance" type="file" id="InFile2" name="uploadImages2" multiple=false></p>
+			<p><input class="input-files-enhance" type="file" id="InFile3" name="uploadImages3" multiple=false></p></div>
 	</div>	
 	<div class="row">
 		<div class="col-sm-4">
-			<textarea class="form-control" placeholder="ID|NEW [:id:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new images with products, pages, categories. Example: 4:2,3:1 or NEW:1:4,5,6 "></textarea>
+			<textarea class="form-control" name="attachImages" placeholder="ID|NEW [:id:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new images with products, pages, categories. Example: 4:2,3:1 or NEW:1:4,5,6 "></textarea>
 			<p></p>
 			<p>{{ Form::submit('Update', array('class' => 'form-control btn btn-primary')); }}</p>
 		</div>
-	</div>
-	{{ Form::close() }}
-	
+	</div>	
 </div>
+{{ Form::close() }}
 @stop

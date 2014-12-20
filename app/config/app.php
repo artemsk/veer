@@ -111,6 +111,7 @@ return array(
 		'Artemsk\Queuedb\QueuedbServiceProvider',
 		'Veer\Lib\VeerErrorServiceProvider',		
 		'Veer\Lib\VeerServiceProvider',
+		'Veer\Lib\VeerAdminServiceProvider'
 	),
 
 	/*
@@ -176,10 +177,6 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-		'VeerApp'         => 'Veer\Lib\VeerApp',
-		'VeerDb'          => 'Veer\Lib\VeerDb',
-		'VeerShop'        => 'Veer\Lib\VeerShop',
-		'VeerAdmin'		  => 'Veer\Lib\VeerAdmin'
 
 	),
 

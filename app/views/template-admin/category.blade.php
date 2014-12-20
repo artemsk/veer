@@ -123,7 +123,7 @@
 	@if(count($items->images)>0)	
 	<div class="row">
 		<div class="col-md-12">
-			@include($template.'.lists.images', array('items' => $items->images))
+			@include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))
 		</div>
 	</div>	
 	@endif
@@ -139,7 +139,7 @@
 		</div>
 		<div class="col-sm-9 col-md-10">
 			<div class="input-group">
-				<input type="text" class="form-control" name="attachProducs" placeholder=":Existing IDs">
+				<input type="text" class="form-control" name="attachProducts" placeholder=":Existing IDs">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="submit" name="action" value="updateProducts">Add</button>
 				</span>

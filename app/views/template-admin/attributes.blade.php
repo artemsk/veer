@@ -13,19 +13,39 @@
 <br/>
 <div class="container">
 
-	@foreach ($items['grouped'] as $name => $item)	  
-        <div class="col-sm-3 attribute-form">
-			<p><button type="button" class="btn btn-danger">Delete group</button></p>			
+	@foreach ($items['grouped'] as $name => $item)
+	<div class="row">
+        <div class="col-sm-12">	
 				<p><strong><input type="text" class="form-control" placeholder="Name" value="{{ $name }}"></strong></p>
-				<p><textarea class="form-control" rows="10" name="">@foreach ($item as $val)
-{{ $items[$val]->val }}
+				
+				<div class="row">
+				@foreach ($item as $key => $val)	
+				<div class="col-lg-2 col-md-6">
+					<div class="attribute-form">		
+					<input type="text" name="renameAttrValue[{{ $items[$val]->id }}]" 
+						   class="form-control admin-form text-center" value="{{ $items[$val]->val }}">
+					<textarea name="descrAttrValue[{{ $items[$val]->id }}]" class="form-control input-sm">{{ $items[$val]->descr }}</textarea>
+					<p></p>
+					<span class="label label-info"><a href="{{ route('admin.show', array('products', 'attribute' => $items[$val]->id)) }}" target="_blank">{{ $items[$val]->products->count() }}</a></span>
+					<span class="label label-success"><a href="{{ route('admin.show', array('pages', 'attribute' => $items[$val]->id)) }}" target="_blank">{{ $items[$val]->pages->count() }}</a></span>
+					&nbsp;<button type="submit" name="action" value="deleteAttrValue.{{ $items[$val]->id }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>	
+					</div>
+				</div>
+				@endforeach
 
-@endforeach
-</textarea></p>	
-<p><small>{{ $items['counted'][$name]['prd'] }} products,<br/>{{ $items['counted'][$name]['pg'] }} pages</small></p>
-<button type="button" class="btn btn-default">Update</button>
+
+				<div class="col-lg-2 round-element"><input type="text" name="newAttrValue" class="form-control admin-form" placeholder="New [:][,] [:id:id]" value=""></div>
+
+				<div class="col-lg-2 round-element">
+					<button type="submit" name="action" value="updateAttributes" class="btn btn-default admin-form">Update</button>
+				</div>
+
+				</div>
+				
+		<p><small>{{ $items['counted'][$name]['prd'] }} products, {{ $items['counted'][$name]['pg'] }} pages</small></p>
 		</div>
-	<div class="col-sm-1"></div>		
+	</div>
+	<div class="rowdelimiter"></div>
 	@endforeach
 
 	<div class="col-sm-3 attribute-form">		

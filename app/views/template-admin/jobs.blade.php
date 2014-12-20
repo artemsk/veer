@@ -36,15 +36,20 @@
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
 			{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}	
 			<div class="thumbnail" id="card{{$item->id}}">
-				<div class="caption"><small>#{{$item->id}}</small>					
+				<div class="caption"><small>#{{$item->id}} —
+							{{ \Carbon\Carbon::parse($item->updated_at)->format("m/d") }}</small>					
 					<strong><p>{{ $items['statuses'][$item->status] }} : {{ $item->times }}</p></strong>	
 					<p>scheduled at:<br/>{{ $item->scheduled_at }}</p>	
-					<p>created at:<br/>{{ $item->created_at }}</p>	
+					<p>updated at:<br/>{{ $item->updated_at }}</p>	
 					<p><textarea name="payload" class="form-control" rows="5">{{ $item->payload }}</textarea></p>	
-					{{-- @if($items['statuses'][$item->status] != 'Started' && $items['statuses'][$item->status] != 'Finished') --}}
+					@if($items['statuses'][$item->status] != 'Started')
 					<button type="submit" class="btn btn-info btn-xs" name="_run[{{ $item->id }}]">
 						<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Run</button>
-					{{-- @endif --}}
+					@endif
+					@if($items['statuses'][$item->status] == 'Open' || $items['statuses'][$item->status] == 'Waiting')
+					<button type="submit" class="btn btn-warning btn-xs" name="paus[{{ $item->id }}]">
+						<span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Pause</button>
+					@endif					
 					<button type="submit" class="btn btn-danger btn-xs" name="dele[{{ $item->id }}]">
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					

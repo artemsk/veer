@@ -29,12 +29,25 @@ return array(
 	| 
 	|--------------------------------------------------------------------------
 	*/
+		'assets_path' => "assets",
     
         'htmlpages_path' => "assets/pages",  
     
         'images_path' => "assets/images", 
     
         'downloads_path' => "assets/downloads",  
+	
+    /*
+	|--------------------------------------------------------------------------
+	| Paths to components, events, queues
+	|--------------------------------------------------------------------------
+	*/
+    
+        'components_path' => "app/lib/Components",  
+    
+        'events_path' => "app/lib/Events", 
+    
+        'queues_path' => "app/lib/Queues",  	
     
     /*
 	|--------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 	<div class="row">
-		@foreach($items as $item)	
+		@foreach($items as $key => $item)	
+		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif		
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
 			<div class="thumbnail @if($item->hidden == true)
 				 bg-muted
@@ -34,14 +35,14 @@
 						@endif
 						</small></p>
 					@if ($item->hidden == false)
-					<button type="submit" name="action" value="changeStatusPage[{{ $item->id }}]" class="btn btn-success btn-xs" title="Current: ON (SHOW)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusPage.{{ $item->id }}" class="btn btn-success btn-xs" title="Current: ON (SHOW)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
 					@else
-					<button type="submit" name="action" value="changeStatusPage[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Current: OFF (HIDDEN)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusPage.{{ $item->id }}" class="btn btn-warning btn-xs" title="Current: OFF (HIDDEN)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
 					@endif
 					@if(!isset($denyDelete) || !$denyDelete)
-					&nbsp;<button type="submit" name="action" value="deletePage[{{ $item->id }}]" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" name="action" value="deletePage.{{ $item->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					@else
-					&nbsp;<button type="submit" name="action" value="removePage[{{ $item->id }}]" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" name="action" value="removePage.{{ $item->id }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 					@endif
 				</div>
 			</div>

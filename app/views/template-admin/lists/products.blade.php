@@ -1,12 +1,13 @@
 	<div class="row">
-		@foreach($items as $item)	
+		@foreach($items as $key => $item)
+		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif	
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
 			<div class="thumbnail @if($item->status == 'hide')
 				 bg-muted
 				 @endif ">
-				<a href="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" target="_blank">
+				<a href="{{ route('admin.show', array("products", "id" => $item->id)) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
-						 src="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" class="img-responsive @if($item->status == 'hide')
+						 src="{{ asset(config('veer.images_path').'/'.@$item->images[0]->img) }}" class="img-responsive @if($item->status == 'hide')
 				 image-faded
 				 @endif
 						 "></a>
@@ -36,21 +37,21 @@
 						@endif							
 						</small></p>
 					@if (now() < $item->to_show)
-					<button type="submit" name="action" value="showEarlyProduct[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Waiting for {{ $item->to_show }}. Press to show it now" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button>&nbsp;
+					<button type="submit" name="action" value="showEarlyProduct.{{ $item->id }}" class="btn btn-warning btn-xs" title="Waiting for {{ $item->to_show }}. Press to show it now" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button>&nbsp;
 					@endif
 					@if ($item->status == 'buy' || $item->status == 'on')
-					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-success btn-xs" title="Current: ON (BUY)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct.{{ $item->id }}" class="btn btn-success btn-xs" title="Current: ON (BUY)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
 					@elseif ($item->status == 'hide')
-					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-default btn-xs" title="Current: OFF (HIDE)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct.{{ $item->id }}" class="btn btn-default btn-xs" title="Current: OFF (HIDE)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
 					@elseif ($item->status == 'sold')
-					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Current: SOLD OUT (SOLD)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct.{{ $item->id }}" class="btn btn-warning btn-xs" title="Current: SOLD OUT (SOLD)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
 					@else
-					<button type="submit" name="action" value="changeStatusProduct[{{ $item->id }}]" class="btn btn-danger btn-xs" title="Current: UNKNOWN ({{ $item->status }})" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></button>
+					<button type="submit" name="action" value="changeStatusProduct.{{ $item->id }}" class="btn btn-danger btn-xs" title="Current: UNKNOWN ({{ $item->status }})" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></button>
 					@endif
 					@if(!isset($denyDelete) || !$denyDelete)
-					&nbsp;<button type="submit" name="action" value="deleteProduct[{{ $item->id }}]" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" name="action" value="deleteProduct.{{ $item->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					@else
-					&nbsp;<button type="submit" name="action" value="removeProduct[{{ $item->id }}]" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" name="action" value="removeProduct.{{ $item->id }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 					@endif
 				</div>
 			</div>
