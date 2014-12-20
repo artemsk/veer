@@ -29,6 +29,7 @@ return array(
 	| 
 	|--------------------------------------------------------------------------
 	*/
+		'assets_path' => "assets",
     
         'htmlpages_path' => "assets/pages",  
     

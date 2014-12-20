@@ -8,7 +8,7 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="{{ asset('assets/template-blank/css/blank.css') }}">
+	<link rel="stylesheet" href="{{ asset(config('veer.assets_path').'/template-blank/css/blank.css') }}">
 	
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -26,6 +26,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script src="{{ asset('assets/template-blank/js/blank.js') }}"></script>
+	<script src="{{ asset(config('veer.assets_path').'/template-blank/js/blank.js') }}"></script>
   </body>
 </html>

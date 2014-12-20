@@ -23,7 +23,8 @@
     },	
 	"autoload": {
         "classmap": [
-            "app/App"
+            "app/App",
+			"app/database"
         ],
         "files": ["app/App/helpers.php"]
 	},
