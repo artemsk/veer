@@ -5,7 +5,9 @@ namespace Veer\Models;
 class OrderPayment extends \Eloquent {
     
     protected $table = "orders_payment";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
     
     // Many Payments Methods <- One
     

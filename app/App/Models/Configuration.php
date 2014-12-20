@@ -4,9 +4,11 @@ namespace Veer\Models;
 class Configuration extends \Eloquent {
     
     protected $table = "configuration";
-    protected $softDelete = true;
-	protected $fillable = array("sites_id", "conf_key");
-    
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
+    protected $fillable = array("sites_id", "conf_key");
+
     // Many Configuration Values <- One
     
     public function site() {

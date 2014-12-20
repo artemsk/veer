@@ -5,7 +5,9 @@ namespace Veer\Models;
 class Component extends \Eloquent {
     
     protected $table = "components";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
     
     public function scopeSiteValidation($q, $site_id) {
         return $q->where('sites_id','=',$site_id)->remember(1);          

@@ -5,7 +5,9 @@ namespace Veer\Models;
 class Download extends \Eloquent {
     
     protected $table = "downloads";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
 
     // Many Downloads <- One
     
