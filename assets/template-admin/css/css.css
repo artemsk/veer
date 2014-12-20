@@ -222,3 +222,10 @@ html, body
     height: 50px;
     background-color: #fefefe;
 }
+
+.attribute-descr {
+    text-align: center;
+    cursor: pointer;
+    font-size: x-small;
+    color: #ccc;
+}
