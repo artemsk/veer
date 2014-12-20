@@ -51,5 +51,8 @@ return array(
 	"file.download" => "Create download link",
 	"file.copy" => "Copy file to another element",
 	"file.upload" => "Upload file",
+	"attribute.delete" => "Delete attribute",
+	"attribute.update" => "Update attributes",
+	"attribute.new" => "New attribute",	
 	
 );

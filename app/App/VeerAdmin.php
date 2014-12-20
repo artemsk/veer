@@ -32,7 +32,7 @@ class VeerAdmin {
 	 */
 	public function showAttributes() 
 	{	
-		$items = \Veer\Models\Attribute::all()->sortBy('name')->load('pages', 'products');
+		$items = \Veer\Models\Attribute::orderBy('name')->with('pages', 'products')->paginate(100);
 				
 		foreach($items as $key => $item) {
 			$items_grouped[$item->name][$key] = $key;
@@ -42,9 +42,10 @@ class VeerAdmin {
 				$items_counted[$item->name]['pg'] : 0) + ($item->pages->count()); 
 		}
 
+		$items['grouped'] = array();
 		if(isset($items_grouped)) {
-			$items->put('grouped', $items_grouped);
-			$items->put('counted', $items_counted);				
+			$items['grouped'] = $items_grouped;
+			$items['counted'] = $items_counted;				
 		}
 		
 		return $items;
@@ -185,7 +186,7 @@ class VeerAdmin {
 	/**
 	 * Show Products
 	 */
-	public function showProducts($image = null, $tag = null, $product = null) 
+	public function showProducts($image = null, $tag = null, $attribute = null, $product = null) 
 	{	
 		if(!empty($image)) {
 			$items = $this->showProductsFiltered('images', $image);			
@@ -198,6 +199,14 @@ class VeerAdmin {
 			$items = $this->showProductsFiltered('tags', $tag);
 			$items['filtered'] = "tags";
 			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
+			return $items;
+		}
+		
+		if(!empty($attribute)) {
+			$items = $this->showProductsFiltered('attributes', $attribute);
+			$items['filtered'] = "attributes";
+			$a = \Veer\Models\Attribute::where('id','=',$attribute)->select('name', 'val')->first();
+			$items['filtered_id'] = $a->name.":".$a->val;
 			return $items;
 		}
 		
@@ -247,7 +256,7 @@ class VeerAdmin {
 	/**
 	 * Show Pages
 	 */
-	public function showPages($image = null, $tag = null, $page = null) 
+	public function showPages($image = null, $tag = null, $attribute = null, $page = null) 
 	{	
 		if(!empty($image)) {
 			$items = $this->showPagesFiltered('images', $image);			
@@ -260,6 +269,14 @@ class VeerAdmin {
 			$items = $this->showPagesFiltered('tags', $tag);
 			$items['filtered'] = "tags";
 			$items['filtered_id'] = \Veer\Models\Tag::where('id','=',$tag)->pluck('name');
+			return $items;
+		}
+		
+		if(!empty($attribute)) {
+			$items = $this->showPagesFiltered('attributes', $attribute);
+			$items['filtered'] = "attributes";
+			$a = \Veer\Models\Attribute::where('id','=',$attribute)->select('name', 'val')->first();
+			$items['filtered_id'] = $a->name.":".$a->val;
 			return $items;
 		}
 		
@@ -2151,4 +2168,115 @@ class VeerAdmin {
 			}
 		}
 	}
+	
+	
+	/**
+	 * update attributes
+	 */
+	public function updateAttributes()
+	{
+		\Eloquent::unguard();
+		
+		if(starts_with(Input::get('action', null), "deleteAttrValue")) {
+			list($act, $id) = explode(".", Input::get('action', null));
+			$this->deleteAttribute($id);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.attribute.delete'));
+			$this->action_performed[] = "DELETE attribute";	
+			
+		} elseif(Input::get('action', null) == "newAttribute") {
+		
+			$manyValues = preg_split('/[\n\r]+/', trim(Input::get('newValue', null)) );
+			foreach($manyValues as $value) {
+				$this->attachToAttributes(Input::get('newName', null), $value);
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.attribute.new'));
+			$this->action_performed[] = "NEW attribute";				
+		} else {
+			
+			// rename attribute name
+			$attrName = Input::get('renameAttrName', null);
+			foreach($attrName as $k => $v) 
+			{
+				if($k != $v) {
+					\Veer\Models\Attribute::where('name', '=', $k)
+						->update(array('name' => $v));
+				}
+			}
+			
+			// update attribute value & descr
+			$attrVal = Input::get('renameAttrValue', null);
+			$attrDescr = Input::get('descrAttrValue', null);
+			$attrType = Input::get('attrType', null);
+			foreach($attrVal as $k => $v) 
+			{
+				if(array_get($attrType, $k, 0) == 1) { $type = "descr"; } else { $type = "choose"; }
+				
+				\Veer\Models\Attribute::where('id', '=', $k)
+						->update(array('val' => $v, 
+							'descr' => array_get($attrDescr, $k, ''),
+							'type' => $type));
+			}
+			
+			// add new values to existing name
+			$newAttrValue = Input::get('newAttrValue', null);
+			foreach($newAttrValue as $k => $v) 
+			{	
+				$this->attachToAttributes($k, $v);
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.attribute.update'));
+			$this->action_performed[] = "UPDATE attributes";			
+		}
+	}
+	
+	
+	/**
+	 * delete Attribute
+	 */
+		/**
+	 * delete Tag
+	 * @param type $id
+	 */
+	protected function deleteAttribute($id)
+	{
+		$t = \Veer\Models\Attribute::find($id);
+		if(is_object($t)) {
+			$t->pages()->detach();
+			$t->products()->detach();
+			$t->delete();			
+		}
+	}
+	
+	
+	/**
+	 * update attributes Connections
+	 */
+	public function attachToAttributes($name, $form)
+	{
+		$new = $this->parseForm($form);
+				
+		if(is_array($new['target'])) {
+			foreach($new['target'] as $a) 
+			{
+				$a = trim($a);
+				if(empty($a)) { continue; }
+				if(starts_with($a, ":")) { 
+					$aDb = \Veer\Models\Attribute::find(substr($a,1));
+					if(!is_object($aDb)) { continue; }
+				} else {
+				$aDb = \Veer\Models\Attribute::firstOrNew(
+					array('name' => $name,
+						'val' => $a,
+						'type' => '?'
+						));
+				$aDb->save();
+				}
+				$attributes[] = $aDb->id;
+			}
+			if(isset($attributes)) {
+				$this->attachFromForm($new['elements'], $attributes, 'attributes');
+				unset($attributes);
+			}		
+		}
+	}
+	
 }

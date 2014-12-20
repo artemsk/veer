@@ -122,9 +122,10 @@ class AdminController extends \BaseController {
 			case "products":		
 				$image = Input::get('image', null);
 				$tag = Input::get('tag', null);
+				$attribute = Input::get('attribute', null);
 				$product = Input::get('id', null);
 				
-				$items = app('veeradmin')->showProducts($image, $tag, $product);
+				$items = app('veeradmin')->showProducts($image, $tag, $attribute, $product);
 				
 					if(is_object($items)) {
 						$items->fromCategory = Input::get('category', null); 
@@ -136,9 +137,10 @@ class AdminController extends \BaseController {
 			case "pages":		
 				$image = Input::get('image', null);
 				$tag = Input::get('tag', null);
+				$attribute = Input::get('attribute', null);
 				$page = Input::get('id', null);
 				
-				$items = app('veeradmin')->showPages($image, $tag, $page);
+				$items = app('veeradmin')->showPages($image, $tag, $attribute, $page);
 
 					if(is_object($items)) {
 						$items->fromCategory = Input::get('category', null); 
