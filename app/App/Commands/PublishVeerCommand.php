@@ -44,7 +44,7 @@ class PublishVeerCommand extends Command {
 		$this->info('Updating Veer...');
 		$this->info('');
 		
-		$source = base_path()."/vendor/".$this->packageName."/src";
+		$source = base_path()."/vendor/".$this->packageName."/src/publish";
 		
 		$only = $this->option('only');
 		
@@ -90,6 +90,16 @@ class PublishVeerCommand extends Command {
 			
 			$this->call('migrate');
 		}			
+		
+		// Publish assets
+		if($this->option('only') == "lang" || empty($only)) {
+			
+			$this->info('- Publishing language files.');
+
+			$destination = app_path()."/lang";
+			
+			app('files')->copyDirectory($source."/lang", $destination);
+		}		
 		
 		$this->info('Done.');
 		$this->info('');
