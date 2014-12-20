@@ -5,7 +5,9 @@ namespace Veer\Models;
 class Order extends \Eloquent {
     
     protected $table = "orders";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
     
     // Many Orders <- One
     

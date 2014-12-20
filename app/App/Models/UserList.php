@@ -5,7 +5,9 @@ namespace Veer\Models;
 class UserList extends \Eloquent {
     
     protected $table = "users_lists";
+	
     protected $softDelete = false;
+	
 	protected $fillable = array('session_id');
     
     // Many Lists <- One

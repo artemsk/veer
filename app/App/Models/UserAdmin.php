@@ -5,7 +5,10 @@ namespace Veer\Models;
 class UserAdmin extends \Eloquent {
     
     protected $table = "users_admin";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait; 	
+	protected $dates = ['deleted_at'];
+	
     protected $fillable = array("users_id", "sess_id");
     
     // One Admin <-> One

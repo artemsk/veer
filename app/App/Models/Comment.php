@@ -5,7 +5,9 @@ namespace Veer\Models;
 class Comment extends \Eloquent {
     
     protected $table = "comments";
-    protected $softDelete = true;
+	
+    use \Illuminate\Database\Eloquent\SoftDeletingTrait;
+	protected $dates = ['deleted_at'];
     
     public function scopeExcludeHidden($query) {
         return $query->where('hidden','!=',0);
