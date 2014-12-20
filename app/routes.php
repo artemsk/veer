@@ -2,7 +2,6 @@
 
 /* "/code/ext/",
  * + sort, sort_directons, + more_pages
- * + downloads
  */
 
 get('/404',array('uses' => 'IndexController@show404', 'as' => '404'));

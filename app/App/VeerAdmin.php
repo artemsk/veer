@@ -42,7 +42,7 @@ class VeerAdmin {
 				$items_counted[$item->name]['pg'] : 0) + ($item->pages->count()); 
 		}
 
-		if($items_grouped) {
+		if(isset($items_grouped)) {
 			$items->put('grouped', $items_grouped);
 			$items->put('counted', $items_counted);				
 		}
@@ -407,6 +407,8 @@ class VeerAdmin {
 	protected function trashedElements($action = null)
 	{
 		$tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
+		
+		$items = array();
 		
 		foreach($tables as $table) {
 			if (\Illuminate\Support\Facades\Schema::hasColumn(reset($table), 'deleted_at'))
@@ -1810,12 +1812,57 @@ class VeerAdmin {
 		if(starts_with($action, "deletePage")) 
 		{
 			$r = explode(".", $action); 
-			\Veer\Models\Page::find($r[1])->delete();
-			// TODO: relationships
+			$this->deletePage($r[1]);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete'));
 			$this->action_performed[] = "DElETE page";
 		}	
 	}	
+	
+	
+	/**
+	 * delete Page & relationships
+	 */
+	protected function deletePage($id)
+	{
+		$p = \Veer\Models\Page::find($id);
+		if(is_object($p)) {
+			$p->subpages()->detach();
+			$p->parentpages()->detach();
+			$p->products()->detach();
+			$p->categories()->detach();
+			$p->tags()->detach();
+			$p->attributes()->detach();
+			$p->images()->detach();
+			$p->downloads()->update(array("elements_id" => 0));
+			
+			$p->userlists()->delete();
+			$p->delete();
+			// comments, communications skip
+		}
+	}
+	
+
+	/**
+	 * delete Product & relationships
+	 */
+	protected function deleteProduct($id)
+	{
+		$p = \Veer\Models\Product::find($id);
+		if(is_object($p)) {
+			$p->subproducts()->detach();
+			$p->parentproducts()->detach();
+			$p->pages()->detach();
+			$p->categories()->detach();
+			$p->tags()->detach();
+			$p->attributes()->detach();
+			$p->images()->detach();
+			$p->downloads()->update(array("elements_id" => 0));
+			
+			$p->userlists()->delete();
+			$p->delete();
+			// orders_products, comments, communications skip
+		}
+	}
 	
 	
 	/**
@@ -2025,7 +2072,6 @@ class VeerAdmin {
 		}
 		
 		if(Input::hasFile(Input::get('uploadFiles', null))) {				
-			echo "1<br>";
 			$newId[] = $this->upload('file', 'uploadFiles', null, null, '', null, true);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.file.upload'));
 			$this->action_performed[] = "UPLOAD file";					

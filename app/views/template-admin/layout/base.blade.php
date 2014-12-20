@@ -9,13 +9,13 @@
     <title>Veer Layer - Administrating Route</title>
 
     <!-- Bootstrap -->
-    <link href="{{ URL::asset('assets/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/'.$template.'/css/css.css') }}" rel="stylesheet">
-	<link rel="stylesheet" href="{{ URL::asset('assets/'.$template.'/css/animate.css') }}">
-	<link href="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/css.css') }}" rel="stylesheet">
+	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/fileinput.min.css') }}" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="{{ asset('assets/packages/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/packages/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet">
+	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/datepicker3.css') }}" rel="stylesheet">
+	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/bootstrap-switch.min.css') }}" rel="stylesheet">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -169,14 +169,13 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ URL::asset('assets/'.$template.'/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/'.$template.'/js/holder.js') }}"></script>
-	<script src="{{ asset('assets/packages/kartik-v/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
-	<script src="{{ asset('assets/packages/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
-	<script src="{{ asset('assets/packages/bootstrap-switch-master/dist/js/bootstrap-switch.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/packages/html5sortable/html.sortable.min.js') }}"></script>	
-	<script src="{{ URL::asset('assets/'.$template.'/js/script.js') }}"></script>
-	<script src="{{ URL::asset('assets/'.$template.'/js/delete-categories.js') }}"></script>
-
+    <script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/holder.js') }}"></script>
+	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/fileinput.min.js') }}"></script>
+	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/bootstrap-datepicker.js') }}"></script>
+	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/bootstrap-switch.min.js') }}"></script>
+	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/html.sortable.min.js') }}"></script>	
+	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/script.js') }}"></script>
+	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/delete-categories.js') }}"></script>
   </body>
 </html>

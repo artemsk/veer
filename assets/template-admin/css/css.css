@@ -55,10 +55,10 @@ html, body
 
 .attribute-form {
     background-color: #f5f5f5; //#f5f5f5;
-    padding: 20px 20px 20px 20px;    
+    padding: 10px 10px 10px 10px;    
     border-radius: 5px;
     box-shadow: 0 1px 1px 0 #999;
-    margin-bottom: 50px;
+    margin: 0px;
 }
 
 .admin-form {
@@ -66,6 +66,7 @@ html, body
     box-shadow: 0 0 0 0 #fff;
     font-size: inherit;
     height: inherit;
+    background-color: transparent;
 }
 
 .round-element {
