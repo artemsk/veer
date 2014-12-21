@@ -15,9 +15,7 @@ class CreatePagesPivot extends Migration {
 		Schema::create('pages_pivot', function($table) {
                     $table->bigIncrements('id')->index();
                     $table->bigInteger('parent_id')->index();
-                    $table->bigInteger('child_id')->index();
-                    $table->nullableTimestamps();
-                    $table->softDeletes();                    
+                    $table->bigInteger('child_id')->index();               
                 });
 	}
 
