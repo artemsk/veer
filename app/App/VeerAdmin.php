@@ -2340,5 +2340,60 @@ class VeerAdmin {
 		return \Veer\Models\UserRole::orderBy('sites_id', 'asc')->with('users', 'site')->paginate(50);
 	}	
 	
+
+	/**
+	 * show Users Books
+	 */
+	public function showOrders()
+	{
+		return \Veer\Models\Order::orderBy('pin', 'desc')->orderBy('created_at', 'desc')->with('site', 'user', 'userbook',
+			'userdiscount', 'status', 'delivery', 'payment', 'bills')->paginate(50);	
+	}		
+	
+
+	/**
+	 * show Users Books
+	 */
+	public function showBills()
+	{
+		return \Veer\Models\OrderBill::orderBy('created_at', 'desc')->with('order', 'user', 'status',
+			'payment')->paginate(50);
+	}	
+	
+
+	/**
+	 * show Users Books
+	 */
+	public function showDiscounts()
+	{
+		return \Veer\Models\UserDiscount::orderBy('created_at', 'desc')->with('site', 'user', 'orders')->paginate(50);
+	}	
+	
+	
+	/**
+	 * show Users Books
+	 */
+	public function showShipping()
+	{
+		return \Veer\Models\OrderShipping::orderBy('sites_id', 'asc')->with('site', 'orders')->paginate(50);
+	}	
+	
+	
+	/**
+	 * show Users Books
+	 */
+	public function showPayment()
+	{
+		return \Veer\Models\OrderPayment::orderBy('sites_id', 'asc')->with('site', 'orders', 'bills')->paginate(50);
+	}	
+	
+	
+	/**
+	 * show Users Books
+	 */
+	public function showStatuses()
+	{
+		return \Veer\Models\OrderStatus::orderBy('manual_order', 'asc')->with('orders', 'bills', 'orders_with_history')->paginate(50);
+	}		
 	
 }
