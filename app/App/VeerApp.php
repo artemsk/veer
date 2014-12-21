@@ -1,4 +1,4 @@
-<?php namespace Veer\Lib;
+<?php namespace Veer;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -175,8 +175,8 @@ class VeerApp {
 
 				case "events":
 					$data['event_'.$component->components_src] = $this->loadComponentClass($component->components_src, $params, 'event');
-					if(class_exists("\Veer\Lib\Events\\" . $component->components_src, false)) { 
-						\Illuminate\Support\Facades\Event::subscribe("\Veer\Lib\Events\\" . $component->components_src); 
+					if(class_exists("\Veer\Events\\" . $component->components_src, false)) { 
+						\Illuminate\Support\Facades\Event::subscribe("\Veer\Events\\" . $component->components_src); 
 						// now you can fire these events in templates etc.
 					}						
 					break;
@@ -209,8 +209,8 @@ class VeerApp {
 			$classFullName = $className;
 		} else {
 			// detect: component or event 
-			$classFullName = empty($type) ? ("\Veer\Lib\Components\\" . $className) : ("\Veer\Lib\Events\\" . $className);
-			if($type == "queue") { $classFullName = "\Veer\Lib\Queues\\" . $className; }
+			$classFullName = empty($type) ? ("\Veer\Components\\" . $className) : ("\Veer\Events\\" . $className);
+			if($type == "queue") { $classFullName = "\Veer\Queues\\" . $className; }
 
 			if (!class_exists($classFullName)) { 
 

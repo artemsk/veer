@@ -1,4 +1,4 @@
-<?php namespace Veer\Lib;
+<?php namespace Veer;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Event;
@@ -724,7 +724,7 @@ class VeerAdmin {
 			$data['repeatJob'] = $repeat;
 		}
 
-		$classFullName = "\Veer\Lib\Queues\\" . $queue;
+		$classFullName = "\Veer\Queues\\" . $queue;
 
 		if (!class_exists($classFullName)) { 
 			//

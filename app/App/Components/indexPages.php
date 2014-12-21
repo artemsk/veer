@@ -1,5 +1,5 @@
 <?php
-namespace Veer\Lib\Components;
+namespace Veer\Components;
 
 class indexPages {   
     

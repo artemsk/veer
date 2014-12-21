@@ -1,4 +1,4 @@
-<?php namespace Veer\Lib;
+<?php namespace Veer;
 
 use Veer\Models\Category;
 use Veer\Models\Tag;

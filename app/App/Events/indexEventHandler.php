@@ -1,4 +1,4 @@
-<?php namespace Veer\Lib\Events;
+<?php namespace Veer\Events;
 
 class indexEventHandler {
 
@@ -23,7 +23,7 @@ class indexEventHandler {
 	 */
 	public function subscribe($events = null)
 	{
-		$events->listen('index.footer', '\Veer\Lib\Events\indexEventHandler@onShutdown');
+		$events->listen('index.footer', '\Veer\Events\indexEventHandler@onShutdown');
 	}
 
 }

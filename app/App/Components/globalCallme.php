@@ -1,7 +1,7 @@
-<?php namespace Veer\Lib\Components;
+<?php namespace Veer\Components;
 
 use Veer\Models\Product;
-use Veer\Lib\VeerShop;
+use Veer\VeerShop;
 use Illuminate\Support\Facades\Config;
 
 /**
