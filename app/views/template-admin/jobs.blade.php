@@ -19,7 +19,7 @@
 			<div class="thumbnail" id="cardnewsecret">
 				<div class="caption"><p><small>NEW JOB</small></p>
 					<strong><p><input type="text" class="form-control text-center" name="jobs[new][classname]"
-									  placeholder="Classname in app/lib/Queues/"></p>		
+									  placeholder="Classname within namespace Veer/Queues/"></p>		
 					<p><input type="text" class="form-control text-center" name="jobs[new][data]"
 									  placeholder="Array of data"></p></strong>			  
 					<p><input class="form-control" placeholder="Repeat time [0]" 

@@ -1,4 +1,4 @@
-<?php namespace Veer\Lib\Queues;
+<?php namespace Veer\Queues;
 
 class queueUnhidePages {
 

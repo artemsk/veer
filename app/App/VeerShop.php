@@ -1,4 +1,4 @@
-<?php namespace Veer\Lib;
+<?php namespace Veer;
 
 use Carbon\Carbon;
 

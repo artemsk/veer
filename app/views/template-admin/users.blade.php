@@ -10,15 +10,10 @@
 		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
 		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
 	</ol> 
-<h1>Users <small>sort by created | name</small></h1>
+<h1>Users :{{ array_pull($items, 'counted') }} <small>sort by created | name</small></h1>
 <br/>
 <div class="container">
-	@foreach($items as $item)
-	
-		{{ $item->id }}<br/>
-			
-	@endforeach
-	
+
 	
 </div>
 @stop
