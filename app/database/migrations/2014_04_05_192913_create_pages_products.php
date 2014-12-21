@@ -15,9 +15,7 @@ class CreatePagesProducts extends Migration {
 		Schema::create('pages_products', function($table) {
                     $table->bigIncrements('id')->index();
                     $table->bigInteger('pages_id')->index();
-                    $table->bigInteger('products_id')->index();
-                    $table->nullableTimestamps();
-                    $table->softDeletes();                    
+                    $table->bigInteger('products_id')->index();                 
                 });
 	}
 
