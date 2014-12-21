@@ -7,7 +7,7 @@ class AdminController extends \BaseController {
 	{
 		parent::__construct();
 		
-		$this->beforeFilter('auth');
+		$this->beforeFilter('auth.basic');
 		
 		$this->beforeFilter(function()
         {
@@ -88,30 +88,6 @@ class AdminController extends \BaseController {
 		// TODO: ?
 		
 		switch ($t) {
-			case "sites":				
-				$items = app('veeradmin')->showSites();	$view = "sites";
-				break;
-			
-			case "attributes":
-				$items = app('veeradmin')->showAttributes(); $view = "attributes";
-				break;
-			
-			case "tags":		
-				$items = app('veeradmin')->showTags(); $view = "tags";
-				break;
-			
-			case "downloads":		
-				$items = app('veeradmin')->showDownloads(); $view = "downloads";
-				break;			
-
-			case "comments":		
-				$items = app('veeradmin')->showComments(); $view = "comments";
-				break;			
-			
-			case "images":		
-				$items = app('veeradmin')->showImages(); $view = "images";
-				break;			
-			
 			case "categories":		
 				$category = Input::get('category', null);
 				$image = Input::get('image', null);
@@ -159,22 +135,14 @@ class AdminController extends \BaseController {
 				$view = "components";
 				break;	
 			
-			case "secrets":	
-				$items = app('veeradmin')->showSecrets();
-				$view = "secrets";
-				break;	
-			
-			case "jobs":	
-				$items = app('veeradmin')->showJobs();
-				$view = "jobs";
-				break;	
-			
-			case "etc":	
-				$items = app('veeradmin')->showEtc();
-				$view = "etc";
-				break;	
-			
+			case "lists":
+				$items = app('veeradmin')->showLists();
+				$view = "userlists";
+				break;					
+					
 			default:
+				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}();
+				$view = $t;
 				break;
 		}
 

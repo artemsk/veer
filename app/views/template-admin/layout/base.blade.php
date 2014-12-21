@@ -118,16 +118,6 @@
 	 
 	<!-- 
 	<ol class="breadcrumb">
-		<li><strong>Users</strong></li>
-		<li><a href="#">Users</a></li>
-		<li><a href="#">Books</a></li>
-		<li><a href="#">Lists</a></li>
-		<li><a href="#">Searches</a></li>		
-		<li><a href="#">Comments</a></li>	
-		<li><a href="#">Communications</a></li>
-		<li><a href="#">Roles</a></li>
-	</ol> 
-	<ol class="breadcrumb">
 		<li><strong>E-commerce</strong></li>
 		<li><a href="#">Orders</a></li>
 		<li><a href="#">Bills</a></li>

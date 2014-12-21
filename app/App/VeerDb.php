@@ -62,7 +62,7 @@ class VeerDb {
 
 		$functionName = camel_case(strtr($method, array("." => "_"))) . "Query";
 
-		return $this->$functionName($siteId, $id, $queryParams);
+		return $this->{$functionName}($siteId, $id, $queryParams);
 	}
 
 	/**
