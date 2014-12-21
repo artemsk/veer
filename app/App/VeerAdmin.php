@@ -2279,4 +2279,66 @@ class VeerAdmin {
 		}
 	}
 	
+	
+	/**
+	 * show Users
+	 */
+	public function showUsers()
+	{
+		$items = \Veer\Models\User::orderBy('created_at','desc')->with('site', 'role', 'comments', 'communications',
+			'books', 'orders', 'discounts', 'userlists', 'bills', 'administrator', 'searches', 'pages')->paginate(25);
+		$items['counted'] = \Veer\Models\User::count();
+		return $items;		
+	}
+	
+
+	/**
+	 * show Users Books
+	 */
+	public function showBooks()
+	{
+		return \Veer\Models\UserBook::orderBy('created_at','desc')->with('user', 'orders')->paginate(25);
+	}
+	
+	
+	/**
+	 * show Users Lists
+	 */
+	public function showLists()
+	{
+		$items = \Veer\Models\UserList::orderBy('created_at','desc')->with('site', 'user', 'elements')->paginate(50);
+		$items['basket'] = \Veer\Models\UserList::where('name','=','[basket]')->count();
+		$items['lists'] = \Veer\Models\UserList::where('name','!=','[basket]')->count();
+		// TODO: group
+		return $items;
+	}
+	
+	
+	/**
+	 * show Users Books
+	 */
+	public function showSearches()
+	{
+		return \Veer\Models\Search::orderBy('times', 'desc')->with('users')->paginate(50);
+	}	
+	
+	
+	/**
+	 * show Users Books
+	 */
+	public function showCommunications()
+	{
+		return \Veer\Models\Communication::orderBy('created_at', 'desc')->with('user', 'site', 'elements')->paginate(50);
+	}	
+	
+	
+	/**
+	 * show Users Books
+	 */
+	public function showRoles()
+	{
+		return \Veer\Models\UserRole::orderBy('sites_id', 'asc')->with('users', 'site')->paginate(50);
+	}	
+	
+	
 }
