@@ -47,8 +47,10 @@ class PublishVeerCommand extends Command {
 		$source = base_path()."/vendor/".$this->packageName."/src/publish";
 		
 		$only = $this->option('only');
+		$exclude = $this->option('exclude');
 		
 		// Publish config
+		if( empty($exclude) || $exclude != "config" ) {
 		if($this->option('only') == "config" || empty($only)) {
 			
 			$this->info('- Publishing config.');
@@ -56,9 +58,10 @@ class PublishVeerCommand extends Command {
 			$destination = app_path()."/config";
 			
 			app('files')->copyDirectory($source."/config", $destination);
-		}
+		}}
 		
 		// Publish views
+		if( empty($exclude) || $exclude != "views" ) {
 		if($this->option('only') == "views" || empty($only)) {
 			
 			$this->info('- Publishing views.');
@@ -66,9 +69,10 @@ class PublishVeerCommand extends Command {
 			$destination = app_path()."/views";
 			
 			app('files')->copyDirectory($source."/views", $destination);
-		}
+		}}
 		
 		// Publish assets
+		if( empty($exclude) || $exclude != "assets" ) {
 		if($this->option('only') == "assets" || empty($only)) {
 			
 			$this->info('- Publishing assets.');
@@ -76,9 +80,10 @@ class PublishVeerCommand extends Command {
 			$destination = public_path();
 			
 			app('files')->copyDirectory($source."/assets", $destination);
-		}		
+		}}		
 		
 		// Publish assets
+		if( empty($exclude) || $exclude != "migrations" ) {
 		if($this->option('only') == "migrations" || empty($only)) {
 			
 			$this->info('- Publishing migrations.');
@@ -89,9 +94,10 @@ class PublishVeerCommand extends Command {
 			$this->info('- Run migrations.');
 			
 			$this->call('migrate');
-		}			
+		}}			
 		
 		// Publish assets
+		if( empty($exclude) || $exclude != "lang" ) {
 		if($this->option('only') == "lang" || empty($only)) {
 			
 			$this->info('- Publishing language files.');
@@ -99,7 +105,7 @@ class PublishVeerCommand extends Command {
 			$destination = app_path()."/lang";
 			
 			app('files')->copyDirectory($source."/lang", $destination);
-		}		
+		}}		
 		
 		$this->info('Done.');
 		$this->info('');
@@ -125,7 +131,8 @@ class PublishVeerCommand extends Command {
 	protected function getOptions()
 	{
 		return array(
-			array('only', null, InputOption::VALUE_OPTIONAL, 'Publish only views|migrations|config|assets.', null),
+			array('only', null, InputOption::VALUE_OPTIONAL, 'Only views|migrations|config|assets|lang.', null),
+			array('exclude', null, InputOption::VALUE_OPTIONAL, 'Exclude views|migrations|config|assets|lang.', null),
 		);
 	}
 
