@@ -2314,7 +2314,7 @@ class VeerAdmin {
 		}
 		
 		$items = $items->with('role', 'comments', 'communications',
-			'books', 'orders', 'discounts', 'userlists', 'bills', 'administrator', 'searches', 'pages', 'images')
+			'administrator', 'pages', 'images')
 			->with(array('site' => function($q) {
 				$q->with(array('configuration' => function($query) {
 					$query->where('conf_key','=','SITE_TITLE');

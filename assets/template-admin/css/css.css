@@ -233,3 +233,8 @@ html, body
 .thumbnail-user {
     margin-bottom: 0px;
 }
+
+.thumbnail-admin {
+    border-color: #d9534f;
+    border-bottom-width: 10px;
+}
