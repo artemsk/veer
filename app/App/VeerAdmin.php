@@ -107,9 +107,10 @@ class VeerAdmin {
 	public function showImages() 
 	{	
 		if(Input::get('filter', null) == "unused") {
-			$items = \Veer\Models\Image::orderBy('id', 'desc')->has('pages','<',1)->has('products','<',1)->has('categories','<',1)->paginate(25);	
+			$items = \Veer\Models\Image::orderBy('id', 'desc')->has('pages','<',1)
+				->has('products','<',1)->has('categories','<',1)->has('users','<',1)->paginate(25);	
 		} else {
-			$items = \Veer\Models\Image::orderBy('id', 'desc')->with('pages', 'products', 'categories')->paginate(25);	
+			$items = \Veer\Models\Image::orderBy('id', 'desc')->with('pages', 'products', 'categories', 'users')->paginate(25);	
 		}
 		$items['counted'] = \Veer\Models\Image::count();
 
@@ -1901,7 +1902,7 @@ class VeerAdmin {
 			
 			$result = preg_match("/\[(?s).*\]/", $attachImages, $small);
 			$parseTypes = explode(":", substr(array_get($small, 0, ''),2,-1));
-						
+					
 			if(starts_with($attachImages, 'NEW')) {
 				$attach = empty($newId) ? null : $newId;
 			} else {
@@ -1936,6 +1937,7 @@ class VeerAdmin {
 			$img->pages()->detach();
 			$img->products()->detach();
 			$img->categories()->detach();
+			$img->users()->detach();
 			\File::delete(config("veer.images_path")."/".$img->img);
 			$img->delete();			
 		}
@@ -2026,7 +2028,8 @@ class VeerAdmin {
 			foreach($p as $id) {
 				if($k == 0) { $object = \Veer\Models\Product::find($id); }
 				if($k == 1) { $object = \Veer\Models\Page::find($id); }
-				if($k == 2) { $object = \Veer\Models\Category::find($id); }			
+				if($k == 2) { $object = \Veer\Models\Category::find($id); }	
+				if($k == 3) { $object = \Veer\Models\User::find($id); }	
 				if(is_object($object)) {
 					$this->attachElements($attach, $object, $type, null);
 				}
@@ -2286,7 +2289,7 @@ class VeerAdmin {
 	public function showUsers()
 	{
 		$items = \Veer\Models\User::orderBy('created_at','desc')->with('site', 'role', 'comments', 'communications',
-			'books', 'orders', 'discounts', 'userlists', 'bills', 'administrator', 'searches', 'pages')->paginate(25);
+			'books', 'orders', 'discounts', 'userlists', 'bills', 'administrator', 'searches', 'pages', 'images')->paginate(25);
 		$items['counted'] = \Veer\Models\User::count();
 		return $items;		
 	}

@@ -23,4 +23,8 @@ class Image extends \Eloquent {
         return $this->morphedByMany('\Veer\Models\Category', 'elements', 'images_connect', 'images_id', 'elements_id');
     }
     
+    public function users() {
+        return $this->morphedByMany('\Veer\Models\User', 'elements', 'images_connect', 'images_id', 'elements_id');
+    }
+	
 }

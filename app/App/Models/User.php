@@ -129,6 +129,12 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
 
 	public function pages() {
 		return $this->hasMany('\Veer\Models\Page', 'users_id');
-	}        
+	}       
+	
+	// Many-To-Many
+	
+    public function images() {
+        return $this->morphToMany('\Veer\Models\Image', 'elements', 'images_connect', 'elements_id', 'images_id');
+    } 	
         
 }
