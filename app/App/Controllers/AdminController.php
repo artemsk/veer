@@ -138,8 +138,16 @@ class AdminController extends \BaseController {
 			case "lists":
 				$items = app('veeradmin')->showLists();
 				$view = "userlists";
-				break;					
-					
+				break;		
+			
+			case "users":
+				$user = Input::get('id', null);
+				$items = app('veeradmin')->showUsers($user, array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
+				$view = "users";
+				break;	
+			
 			default:
 				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}();
 				$view = $t;
