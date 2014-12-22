@@ -39,7 +39,7 @@
 	</div>	
 	<div class="row">
 		<div class="col-sm-4">
-			<textarea class="form-control" name="attachImages" placeholder="ID|NEW [:id:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new images with products, pages, categories. Example: 4:2,3:1 or NEW:1:4,5,6 "></textarea>
+			<textarea class="form-control" name="attachImages" placeholder="ID|NEW [:id:id:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new images with products, pages, categories, users. Example: 4:2,3:1 or NEW:1:4,5,6 "></textarea>
 			<p></p>
 			<p>{{ Form::submit('Update', array('class' => 'form-control btn btn-primary')); }}</p>
 		</div>
