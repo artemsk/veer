@@ -18,7 +18,8 @@
 	@if(Input::get('filter',null) != null) 
 	filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong> | 
 	@endif		
-		sort by <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "created_at", "direction" => "desc")) }}">created</a> | <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "lastname", "direction" => "asc")) }}">lastname</a> | <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "email", "direction" => "asc")) }}">email</a> | <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "birth", "direction" => "desc")) }}">birthday</a></small></h1>
+		sort by <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "created_at", "direction" => "desc")) }}">created</a> | <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "lastname", "direction" => "asc")) }}">lastname</a> | <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "email", "direction" => "asc")) }}">email</a> | <a href="{{ route("admin.show", array("users", "filter" => Input::get('filter',null), "filter_id" => Input::get('filter_id',null), "sort" => "birth", "direction" => "desc")) }}">birthday</a></small> <a class="btn btn-default" 
+									   href="{{ route("admin.show", array("users", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
 	
@@ -26,7 +27,7 @@
 		@foreach($items as $key => $item)	
 		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif		
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
-			<div class="thumbnail thumbnail-user @if($item->banned == true) bg-muted @endif ">
+			<div class="thumbnail thumbnail-user @if($item->banned == true) bg-muted @endif @if(count($item->administrator) >0) thumbnail-admin @endif ">
 				@if(count($item->images)>0)
 				<a href="{{ asset(config('veer.images_path').'/'.$item->images->first()->img) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
@@ -62,6 +63,16 @@
 						@if($item->orders_count > 0)
 						&nbsp;<span class="glyphicon glyphicon-glass" aria-hidden="true" title="Orders count"></span> {{ count($item->orders_count) }}
 						@endif	
+						@if(count($item->comments) > 0)
+						&nbsp;<span class="glyphicon glyphicon-bullhorn" aria-hidden="true" title="Comments"></span> {{ count($item->comments) }}
+						@endif
+						@if(count($item->communications) > 0)
+						&nbsp;<span class="glyphicon glyphicon-comment" aria-hidden="true" title="Communications"></span> 
+						{{ count($item->communications) }}
+						@endif
+						@if(count($item->pages) > 0)
+						&nbsp;<i class="fa fa-pencil" title="Pages"></i> {{ count($item->pages) }}
+						@endif
 						<br/><a href="{{ route('admin.show', array("users", "filter" => "site", "filter_id" => $item->site->id)) }}">
 							{{ $item->site->configuration->first()->conf_val or $item->site->url; }}</a>
 						</small>
@@ -97,21 +108,33 @@
 	
 	<div class='rowdelimiter'></div>
 	<hr>
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put', 'files' => true)); }}
-	<label>Quick form: Add page</label>
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<label>Quick form: Add user</label>
 	<div class="row">
-		<div class="col-sm-4"><p><input type="text" class="form-control" placeholder="Title" name="title"></p></div>
-		<div class="col-sm-4"><p><input type="text" class="form-control" placeholder="Categories Id [,]" name="categories"></p></div>
-		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="attachImage" multiple=false>Image</p></div>
+		<div class="col-sm-4"><p><input type="email" class="form-control" placeholder="Email" name="email"></p></div>
+		<div class="col-sm-4"><p><input type="password" class="form-control" placeholder="Password" name="password"></p></div>
+		<div class="col-sm-4"><p><input type="siteId" class="form-control" placeholder="Site Id" name="siteId"></p></div>
 	</div>	
 	<div class="xs-rowdelimiter"></div>
 	<div class="row">
-		<div class="col-sm-8"><p><input type="text" class="form-control" placeholder="[Url]" name="url"></p></div>
-		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="attachFile" multiple=false>Attach file (*.html for full replacement)</p></div>
-	</div>	
-	<div class="row">
 		<div class="col-sm-6"><p>
-			<textarea class="form-control" placeholder="@{{Small txt}} Txt" rows="10" name="txt"></textarea></p>			
+			<textarea class="form-control" placeholder="Phone
+First name
+Last name
+Gender
+Birth
+Roles Id
+Newsletter
+Restrict orders
+Ban" rows="10" name="freeForm" title="Phone
+First name
+Last name
+Gender
+Birth
+Roles Id
+Newsletter
+Restrict orders
+Ban"></textarea></p>			
 		</div>
 		<div class="col-sm-6">
 			<p>{{ Form::submit('Add', array('class' => 'form-control btn btn-danger')); }}</p>

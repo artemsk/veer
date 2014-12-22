@@ -51,7 +51,8 @@
 					<a href="{{ route("admin.show", array("categories", "#site".$item->id)) }}">{{ $item->categories->count() }} categories</a>, 
 					<a href="{{ route("admin.show", array("components", "site" => $item->id)) }}">{{ $item->components->count() }} components</a>, 
 					<a href="{{ route("admin.show", array("configuration", "site" => $item->id)) }}">{{ $item->configuration->count() }} confs</a>, 
-					{{ $item->users->count() }} users, {{ $item->discounts->count() }} discounts, 
+					<a href="{{ route("admin.show", array("users", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->users->count() }} users</a>, 
+					{{ $item->discounts->count() }} discounts, 
 				{{ $item->userlists->count() }} lists, {{ $item->orders->count() }} orders, {{ $item->delivery->count() }} delivery, 
 				{{ $item->payment->count() }} payment, {{ $item->communications->count() }} messages, {{ $item->roles->count() }} roles, 
 				{{ $item->elements()->count() }} products & pages, {{ $item->subsites->count() }} sub-sites</small></td>
