@@ -3,22 +3,36 @@
 @section('body')
 	<ol class="breadcrumb">
 		<li><strong>Users</strong></li>
+		<li><a href="{{ route("admin.show", "users") }}">Users</a></li>
 		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
 		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
-		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>		
+		<li class="active">Searches</li>		
 		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
 		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
 	</ol> 
-<h1>Users <small>sort by created | name</small></h1>
+<h1>Searches :{{ array_pull($items, 'counted', 0) }}</h1>
 <br/>
 <div class="container">
+	<ul class="list-group">
 	@foreach($items as $item)
 	
-		{{ $item->id }}<br/>
+		<li class="list-group-item">
+			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+			<strong>{{ $item->q }}</strong>
+			@if(count($item->users) > 0)
+				<br/>
+				<small>
+				@foreach($item->users as $user)
+				<a href="{{ route("admin.show", array("users", "id" => $user->id)) }}">{{ '@'.$user->firstname }}</a> 
+				@endforeach
+				</small>
+			@endif
+			<span class="badge">{{ $item->times }}</span>
+		</li>
 			
 	@endforeach
 	
-	
+	</ul>
 </div>
 @stop

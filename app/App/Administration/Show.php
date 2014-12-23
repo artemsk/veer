@@ -658,9 +658,9 @@ class Show {
 			}
 		}
 		
-		$items['regrouped'] = $itemsRegroup;
+		$items['regrouped'] = isset($itemsRegroup) ? $itemsRegroup : array();
 		
-		$items['users'] = $itemsUsers;
+		$items['users'] = isset($itemsUsers) ? $itemsUsers : array();
 		
 		$items['basket'] = 
 			\Veer\Models\UserList::where('name','=','[basket]')->count();
@@ -676,9 +676,15 @@ class Show {
 	 */
 	public function showSearches()
 	{
-		return \Veer\Models\Search::orderBy('times', 'desc')
+		$items = \Veer\Models\Search::orderBy('times', 'desc')
 			->orderBy('created_at', 'desc')
 			->with('users')
 			->paginate(50);
+		
+		$items['counted'] = 
+			\Veer\Models\Search::count();
+		
+		return $items;
+		
 	}		
 }
