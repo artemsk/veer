@@ -2,10 +2,11 @@
 
 @section('body')
 	<ol class="breadcrumb">
+		<li><strong>Users</strong></li>
 		@if(Input::get('filter',null) != null) 
 		<li><strong><a href="{{ route("admin.show", "users") }}">Users</a></strong></li>
 		@else
-		<li><strong>Users</strong></li>
+		<li class="active">Users</li>
 		@endif
 		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
 		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>

@@ -112,16 +112,16 @@ class VeerDb {
 	public function categoryShowQuery($siteId, $id, $queryParams = array())
 	{
 		return Category::where('sites_id', '=', $siteId)->where('id', '=', $id)->
-				with(array(
-					'subcategories' => function($query) use ($siteId) {
+			with(array(
+				'subcategories' => function($query) use ($siteId) {
 
-					$query->where('sites_id', '=', $siteId);
-				},
-					'parentcategories' => function($query) use ($siteId) {
-
-					$query->where('sites_id', '=', $siteId);
-				}
-				))->first();
+				$query->where('sites_id', '=', $siteId);
+			},
+				'parentcategories' => function($query) use ($siteId) 
+			{
+				$query->where('sites_id', '=', $siteId);
+			}
+			))->first();
 	}
 
 	/**
@@ -134,16 +134,15 @@ class VeerDb {
 	public function categoryOnlyProductsQuery($id, $queryParams)
 	{
 		return Product::whereHas('categories', function($q) use($id) {
+				$q->where('categories_id', '=', $id);
+			})->with(array('images' => function($query) {
 
-					$q->where('categories_id', '=', $id);
-				})->with(array('images' => function($query) {
-
-					$query->orderBy('id', 'asc')->take(1);
-				}))->checked()
-				->orderBy($queryParams['sort'], $queryParams['direction'])
-				->take($queryParams['take'])
-				->skip($queryParams['skip'])
-				->get();
+				$query->orderBy('id', 'asc')->take(1);
+			}))->checked()
+			->orderBy($queryParams['sort'], $queryParams['direction'])
+			->take($queryParams['take'])
+			->skip($queryParams['skip'])
+			->get();
 	}
 
 	/**
