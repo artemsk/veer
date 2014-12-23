@@ -11,7 +11,7 @@
 		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
 		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
 	</ol> 
-<h1>Books :{{ array_pull($items, 'counted', 0) }}<small>| users addresses</small></h1>
+<h1>Books :{{ array_pull($items, 'counted', 0) }}<small> | users addresses</small></h1>
 <br/>
 <div class="container">
 <ul class="list-group">

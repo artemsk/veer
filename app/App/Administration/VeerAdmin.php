@@ -22,7 +22,7 @@ class VeerAdmin extends Show {
 			$trashed = $this->trashedElements(); }
 		
 		return array('cache' => $cache, 'migrations' => $migrations, 
-			'reminders' => $reminders, 'trashed' => empty($trashed)?null:$trashed);
+			'reminders' => $reminders, 'trashed' => empty($trashed)? null : $trashed);
 	}	
 	
 	
@@ -85,7 +85,7 @@ class VeerAdmin extends Show {
 			$site->manual_sort = empty($values['manual_sort']) ? 0 : $values['manual_sort'];
 			
 			if (app('veer')->siteId != $key) {
-				$site->redirect_on = empty($values['redirect_on']) ? null : true;
+				$site->redirect_on = empty($values['redirect_on']) ? 0 : true;
 				$site->redirect_url = empty($values['redirect_url']) ? '' : $values['redirect_url'];
 			}
 
