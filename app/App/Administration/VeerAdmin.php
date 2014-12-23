@@ -1895,15 +1895,6 @@ class VeerAdmin extends Show {
 	/**
 	 * show Users Books
 	 */
-	public function showRoles()
-	{
-		return \Veer\Models\UserRole::orderBy('sites_id', 'asc')->with('users', 'site')->paginate(50);
-	}	
-	
-
-	/**
-	 * show Users Books
-	 */
 	public function showOrders()
 	{
 		return \Veer\Models\Order::orderBy('pin', 'desc')->orderBy('created_at', 'desc')->with('site', 'user', 'userbook',

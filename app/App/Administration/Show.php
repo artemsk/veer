@@ -626,9 +626,14 @@ class Show {
 	 */
 	public function showBooks()
 	{
-		return \Veer\Models\UserBook::orderBy('created_at','desc')
+		$items = \Veer\Models\UserBook::orderBy('created_at','desc')
 			->with('user', 'orders')
 			->paginate(25);
+		
+		$items['counted'] =
+			\Veer\Models\UserBook::count();
+		
+		return $items;
 	}	
 	
 	/**
@@ -688,7 +693,7 @@ class Show {
 	}		
 	
 	/**
-	 * show Users Books
+	 * show Communications
 	 */
 	public function showCommunications()
 	{
@@ -740,4 +745,22 @@ class Show {
 		
 		return $itemsUsers;
 	}
+	
+	/**
+	 * show Roles
+	 */
+	public function showRoles()
+	{
+		return \Veer\Models\UserRole::orderBy('sites_id', 'asc')
+			->with('users')
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))
+			->paginate(50);
+	}	
+	
 }
