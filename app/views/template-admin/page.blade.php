@@ -67,7 +67,7 @@
 			<input type="text" name="fill[users_id]" class="form-control" placeholder="User id" value="{{ $items->users_id or \Auth::id() }}">
 			@if(isset($items->users_id) && $items->users_id > 0)
 			@if(is_object($items->user))
-			<a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@'.$items->user->firstname }}</a>
+			<a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@'.$items->user->username }}</a>
 			@else
 			<span class="glyphicon glyphicon-warning-sign danger-icon" aria-hidden="true" title="bad user!"></span>
 			@endif

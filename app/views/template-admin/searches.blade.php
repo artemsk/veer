@@ -24,7 +24,7 @@
 				<br/>
 				<small>
 				@foreach($item->users as $user)
-				<a href="{{ route("admin.show", array("users", "id" => $user->id)) }}">{{ '@'.$user->firstname }}</a> 
+				<a href="{{ route("admin.show", array("users", "id" => $user->id)) }}">{{ '@'.$user->username }}</a> 
 				@endforeach
 				</small>
 			@endif

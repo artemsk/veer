@@ -38,7 +38,7 @@
 		@if($item->orders->count() > 0) 
 		<span class="badge">{{ $item->orders->count() }} orders</span>
 		@endif
-		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ '@'.$item->user->firstname }}</a>
+		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ '@'.$item->user->username }}</a>
 		@if(!empty($item->b_account))
 		<br/>		
 		<small class="bank-data">

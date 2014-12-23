@@ -31,7 +31,7 @@
 							count($item->categories) }}
 						@endif
 						@if(is_object($item->user))
-						<br/><a href="{{ route('admin.show', array('users', 'id' => $item->user->id)) }}">{{ '@'.$item->user->firstname }}</a>
+						<br/><a href="{{ route('admin.show', array('users', 'id' => $item->user->id)) }}">{{ '@'.$item->user->username }}</a>
 						@endif
 						</small></p>
 					@if ($item->hidden == false)
