@@ -123,7 +123,7 @@ class Show {
 			->with('elements')
 			->paginate(50); 
 			// users -> only for user's page
-		
+				
 		$items['counted'] = \Veer\Models\Comment::count();
 		
 		return $items;
@@ -685,6 +685,59 @@ class Show {
 			\Veer\Models\Search::count();
 		
 		return $items;
-		
 	}		
+	
+	/**
+	 * show Users Books
+	 */
+	public function showCommunications()
+	{
+		$items = \Veer\Models\Communication::orderBy('created_at', 'desc')
+			->with('user', 'elements')
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))
+			->paginate(25);
+			
+		foreach($items as $key => $item)
+		{
+			$itemsUsers[$key] = $this->parseCommunicationRecipients($item->recipients);
+		}
+		
+		$items['recipients'] = isset($itemsUsers) ? $itemsUsers : array();
+		
+		$items['counted'] = 
+			\Veer\Models\Communication::count();
+		
+		return $items;		
+	}		
+	
+	/**
+	 * parse communications
+	 * @param string $recipients
+	 */
+	protected function parseCommunicationRecipients($recipients)
+	{
+		if(empty($recipients)) { return null; }
+		
+		$u = json_decode($recipients);
+				
+		if(!is_array($u)) { return null; } 
+		
+		foreach($u as $userId) 
+		{
+			if($userId != "all")
+			{
+				$getUser = \Veer\Models\User::find($userId);
+			}
+			
+			$itemsUsers[$userId] = isset($getUser) ? $getUser : $userId;  
+		}
+		
+		return $itemsUsers;
+	}
 }

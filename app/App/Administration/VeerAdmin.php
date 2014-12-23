@@ -1891,16 +1891,7 @@ class VeerAdmin extends Show {
 			}		
 		}
 	}
-		
-	/**
-	 * show Users Books
-	 */
-	public function showCommunications()
-	{
-		return \Veer\Models\Communication::orderBy('created_at', 'desc')->with('user', 'site', 'elements')->paginate(50);
-	}	
-	
-	
+			
 	/**
 	 * show Users Books
 	 */

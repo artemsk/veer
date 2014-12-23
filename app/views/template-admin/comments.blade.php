@@ -30,7 +30,7 @@
 			&nbsp;
 			@if($item->users_id > 0)
 			<a href="{{ route('admin.show', array("users", "id" => empty($item->users_id) ? '' : $item->users_id)) }}">
-			<strong>{{ '@'.$item->author }}</strong>
+			<strong>{{ '~'.$item->author }}</strong>
 			</a>
 			@else
 			<strong>{{ $item->author }}</strong>
