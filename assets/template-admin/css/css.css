@@ -238,3 +238,7 @@ html, body
     border-color: #d9534f;
     border-bottom-width: 10px;
 }
+
+.bank-data {
+    font-style: italic;
+}

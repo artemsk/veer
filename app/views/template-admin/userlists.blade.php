@@ -3,8 +3,9 @@
 @section('body')
 	<ol class="breadcrumb">
 		<li><strong>Users</strong></li>
+		<li><a href="{{ route("admin.show", "users") }}">Users</a></li>
 		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
-		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
+		<li class="active">Lists</li>
 		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>		
 		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>

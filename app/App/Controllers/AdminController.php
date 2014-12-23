@@ -41,8 +41,7 @@ class AdminController extends \BaseController {
 		return view(app('veer')->template.'.dashboard', array(
 			"data" => app('veer')->loadedComponents,
 			"template" => app('veer')->template
-		));	
-		
+		));			
 	}
 
 	
@@ -165,8 +164,6 @@ class AdminController extends \BaseController {
 	}
 
 
-	
-	
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -193,13 +190,12 @@ class AdminController extends \BaseController {
 		
 		$data = app('veeradmin')->{$f}();
 		
-		if(!app('request')->ajax() && !(app('veeradmin')->skipShow)) {
-			
+		if(!app('request')->ajax() && !(app('veeradmin')->skipShow)) 
+		{	
 			return $this->show($t);
-		} else {
+		} 
 			
-			return $data;
-		}
+		return $data;
 	}
 
 	
