@@ -55,9 +55,9 @@ class PublishVeerCommand extends Command {
 			
 			$this->info('- Publishing config.');
 
-			$destination = app_path()."/config";
+			$destination = app_path()."/config/veer.php";
 			
-			app('files')->copyDirectory($source."/config", $destination);
+			app('files')->copy($source."/config/veer.php", $destination);
 		}}
 		
 		// Publish views
