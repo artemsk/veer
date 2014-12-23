@@ -556,4 +556,129 @@ class Show {
 		);
 	}	
 	
+	/**
+	 * show Users Filtered
+	 */
+	protected function showUsersFiltered($filter_id, $type)
+	{
+		return \Veer\Models\User::whereHas($type, function($query) use ($filter_id, $type) 
+		{
+			$query->where( str_plural($type).'_id', '=', $filter_id );
+		});
+	}
+	
+	/**
+	* check if filter is active and get items 
+	*/
+	protected function isUsersFiltered($filters, $orderBy)
+	{
+		foreach($filters as $type => $filter_id)
+		{
+			if(!empty($filter_id)) 
+			{ 
+				$items = $this->showUsersFiltered($filter_id, $type);  
+			}	
+		}		
+		
+		if(!isset($items)) 
+		{ 
+			return \Veer\Models\User::orderBy($orderBy[0], $orderBy[1]); 
+		} 
+		
+		return $items->orderBy($orderBy[0], $orderBy[1]);
+	}
+
+	/**
+	 * show Users
+	 */
+	public function showUsers($userId = null, $filters = array(), $orderBy = array('created_at', 'desc'))
+	{
+		if(Input::get('sort', null)) 
+		{ 
+			$orderBy[0] = Input::get('sort'); 
+		}
+		
+		if(Input::get('direction', null)) 
+		{ 
+			$orderBy[1] = Input::get('direction'); 
+		}
+		
+		$items = $this->isUsersFiltered($filters, $orderBy)->with(
+			'role', 'comments', 'communications',
+			'administrator', 'pages', 'images'
+			)
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))
+			->paginate(25);
+			
+		$items['counted'] = \Veer\Models\User::count();
+		
+		return $items;		
+	}
+	
+	/**
+	 * show Users Books
+	 */
+	public function showBooks()
+	{
+		return \Veer\Models\UserBook::orderBy('created_at','desc')
+			->with('user', 'orders')
+			->paginate(25);
+	}	
+	
+	/**
+	 * show Users Lists
+	 */
+	public function showLists()
+	{
+		$items = \Veer\Models\UserList::orderBy('name','asc')
+			->orderBy('created_at','desc')
+			->with('user', 'elements')
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))
+			->paginate(50);
+		
+		foreach($items as $key => $item)
+		{
+			$itemsRegroup[$item->users_id][$item->id] = $key;
+			
+			if($item->users_id > 0 && !isset($itemsUsers[$item->users_id])) 
+			{
+				$itemsUsers[$item->users_id] = $item->user;
+			}
+		}
+		
+		$items['regrouped'] = $itemsRegroup;
+		
+		$items['users'] = $itemsUsers;
+		
+		$items['basket'] = 
+			\Veer\Models\UserList::where('name','=','[basket]')->count();
+		
+		$items['lists'] = 
+			\Veer\Models\UserList::where('name','!=','[basket]')->count();
+
+		return $items;
+	}
+	
+	/**
+	 * show Searches
+	 */
+	public function showSearches()
+	{
+		return \Veer\Models\Search::orderBy('times', 'desc')
+			->orderBy('created_at', 'desc')
+			->with('users')
+			->paginate(50);
+	}		
 }

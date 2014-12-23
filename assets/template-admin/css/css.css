@@ -242,3 +242,7 @@ html, body
 .bank-data {
     font-style: italic;
 }
+
+.list-group-item-active-invert {
+    color: #fff;
+}

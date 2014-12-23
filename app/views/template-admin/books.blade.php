@@ -14,7 +14,7 @@
 <h1>Books <small>| users addresses</small></h1>
 <br/>
 <div class="container">
-	<ul class="list-group">
+<ul class="list-group">
 	@foreach($items as $item)
 	
 	<li class="list-group-item">
@@ -52,9 +52,15 @@
 		@endif
 		<p></p>
 		<button type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp;
-		<button type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 	</li>			
 	@endforeach		
 </ul>	
+	
+	<div class="row">
+		<div class="text-center">
+			{{ $items->links() }}
+		</div>
+	</div>	
 </div>
 @stop
