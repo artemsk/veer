@@ -27,7 +27,7 @@
 		</li>
 		@foreach($itemGroup as $item)
 
-		<li class="list-group-item">
+		<li class="list-group-item bordered-row">
 			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 			@if($items[$item]->name == "[basket]")
 			<span class="label label-primary">cart</span>

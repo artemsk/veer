@@ -17,7 +17,7 @@
 <ul class="list-group">
 	@foreach($items as $item)
 	
-	<li class="list-group-item">
+	<li class="list-group-item bordered-row">
 		<small>#{{ $item->id }}</small>
 		{{ $item->name }} <strong>{{ $item->country }},
 		{{ $item->region }},

@@ -17,7 +17,7 @@
 	<ul class="list-group">
 	@foreach($items as $item)
 	
-		<li class="list-group-item">
+		<li class="list-group-item bordered-row">
 			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 			<strong>{{ $item->q }}</strong>
 			@if(count($item->users) > 0)
@@ -34,5 +34,11 @@
 	@endforeach
 	
 	</ul>
+	
+	<div class="row">
+		<div class="text-center">
+			{{ $items->links() }}
+		</div>
+	</div>	
 </div>
 @stop
