@@ -3,7 +3,7 @@
 @section('body')
 	<ol class="breadcrumb">
 		<li><strong>E-commerce</strong></li>
-		<li class="active">Orders</a></li>
+		<li class="active">Orders</li>
 		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
 		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
 		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
