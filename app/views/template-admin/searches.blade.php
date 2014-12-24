@@ -32,13 +32,29 @@
 		</li>
 			
 	@endforeach
-	
 	</ul>
 	
 	<div class="row">
 		<div class="text-center">
 			{{ $items->links() }}
 		</div>
-	</div>	
+	</div>
+	
+	<div class='rowdelimiter'></div>
+	<hr>
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<label>Add search</label>
+	<div class="row">
+        <div class="col-md-6">             
+            <div class="form-group">
+                <input type="text" class="form-control" name="InSearch" placeholder="Search">
+			</div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="InUsers" placeholder="Users ID [:ids]">
+			</div>
+			<button type="submit" class="btn btn-default">Add</button>
+        </div>  
+    </div>
+	{{ Form::close() }}	
 </div>
 @stop

@@ -735,10 +735,7 @@ class Show {
 		
 		foreach($u as $userId) 
 		{
-			if($userId != "all")
-			{
-				$getUser = \Veer\Models\User::find($userId);
-			}
+			$getUser = \Veer\Models\User::find($userId);
 			
 			$itemsUsers[$userId] = isset($getUser) ? $getUser : $userId;  
 		}
@@ -761,6 +758,25 @@ class Show {
 				}));
 			}))
 			->paginate(50);
+	}	
+	
+	/**
+	 * show Orders
+	 */
+	public function showOrders()
+	{
+		return \Veer\Models\Order::orderBy('pin', 'desc')
+			->orderBy('created_at', 'desc')
+			->with(
+				'user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'bills')
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))
+			->paginate(50);	
 	}	
 	
 }

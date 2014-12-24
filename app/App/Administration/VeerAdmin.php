@@ -1891,15 +1891,6 @@ class VeerAdmin extends Show {
 			}		
 		}
 	}
-			
-	/**
-	 * show Users Books
-	 */
-	public function showOrders()
-	{
-		return \Veer\Models\Order::orderBy('pin', 'desc')->orderBy('created_at', 'desc')->with('site', 'user', 'userbook',
-			'userdiscount', 'status', 'delivery', 'payment', 'bills')->paginate(50);	
-	}		
 	
 
 	/**
