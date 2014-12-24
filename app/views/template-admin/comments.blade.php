@@ -76,5 +76,49 @@
 			{{ $items->links() }}
 		</div>
 	</div>
+	
+	<div class='rowdelimiter'></div>
+	<hr>
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<label>Add comment to anything as anybody</label>
+	<div class="row">
+		<div class="col-md-6">             
+			<div class="form-group">
+				<input type="text" class="form-control" name="InAuthor" placeholder="Author">
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" rows="3" name="InComment" placeholder="Comment"></textarea>
+			</div> 
+			<div class="form-group">
+				<input type="text" class="form-control" name="InRate" placeholder="Rate (0-5)">
+			</div>            
+			<div class="radio">
+				<label>
+					{{ Form::radio('InVote', 'Yes') }} Yes <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+				</label>
+			</div>
+			<div class="radio">
+				<label>
+				{{ Form::radio('InVote', 'No') }} No <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+				</label>
+			</div>
+			<div class="radio">	
+				<label>
+				{{ Form::radio('InVote', 'Blank') }} Do not vote
+				</label>
+			</div>   
+		</div> 
+		<div class="col-md-6"> 
+			<div class="form-group">
+				<input type="text" class="form-control" name="InCID" placeholder="Users ID [or empty for current]">
+			</div> 			
+			<div class="form-group">
+				<label>Place on Product | Page</label>
+				<textarea class="form-control" name="InConnectedPages" rows="2" placeholder="[:id:id]"></textarea>
+			</div>                  
+			<button type="submit" class="btn btn-default">Submit</button> 
+		</div> 
+	</div> 
+	{{ Form::close() }}
 </div>
 @stop

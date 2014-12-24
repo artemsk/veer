@@ -49,6 +49,7 @@
 			@endif
 			@if($user <= 0)
 			<small>~ {{ $items[$item]->site->configuration->first()->conf_val or $items[$item]->site->url; }}</small>
+			<span class="label label-info" data-toggle="popover" data-container="body" data-placement="bottom" data-content="{{ $items[$item]->session_id }}">session</span>
 			@endif
 		</li>
 		
@@ -60,6 +61,44 @@
 		<div class="text-center">
 			{{ $items->links() }}
 		</div>
-	</div>		
+	</div>	
+	
+	<div class='rowdelimiter'></div>
+	<hr>
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<label>Add list</label>
+	<div class="row">
+        <div class="col-md-6">             
+            <div class="form-group">
+                <input type="text" class="form-control" name="InSite" placeholder="Sites ID">
+			</div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="InUsers" placeholder="Users ID">
+			</div>
+			<div class="form-group">
+                <input type="text" class="form-control" name="InSession" placeholder="Session ID">
+            </div>     
+			<div class="form-group">
+                <input type="text" class="form-control" name="InUserList" placeholder="List Name">
+            </div>
+            <div class="checkbox">
+                <label>
+					<input type="checkbox" name="OnBasket"> (or) shopping cart
+                </label>
+            </div>		
+        </div>  
+        <div class="col-md-6">
+            <div class="form-group">
+				<label>Products (Id per row > Product:Quantity)</label>
+				<textarea class="form-control" name="InListProducts" rows="2" placeholder="Id:Quantity"></textarea>
+            </div>
+            <div class="form-group">
+				<label>Pages in List (Id per row)</label>
+				<textarea class="form-control" name="InListPages" rows="2" placeholder="Id"></textarea>
+            </div>
+			<button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </div>
+	{{ Form::close() }}
 </div>
 @stop

@@ -115,18 +115,6 @@
 	  </nav>
 
 	<div class="rowdelimiter"></div>
-	 
-	<!-- 
-	<ol class="breadcrumb">
-		<li><strong>E-commerce</strong></li>
-		<li><a href="#">Orders</a></li>
-		<li><a href="#">Bills</a></li>
-		<li><a href="#">Discounts</a></li>
-		<li><a href="#">Shipping methods</a></li>		
-		<li><a href="#">Payment methods</a></li>	
-		<li><a href="#">Statuses</a></li>
-	</ol> 	
-	-->
 	
     @yield('body')
 
@@ -140,7 +128,7 @@
 					 <p>Veer :: version <strong>{{ $app['veer']->statistics['version'] }}</strong> <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> loading time <strong>{{ $app['veer']->statistics['loading'] }}</strong> memory usage <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
 				 </div>
 				 <div class="col-sm-3 text-center">
-					 <p class="footer-block">сделано в <strong><a href="http://bolshay.net">Большой мастерской</a></strong></p>
+					 <p class="footer-block">created by <strong><a href="http://bolshaya.net">bolshaya.net</a></strong></p>
 				 </div>
 				 <div class="col-sm-3 text-right">	 
 					 <p class="footer-block">powered by <strong>Veer.</strong></p>

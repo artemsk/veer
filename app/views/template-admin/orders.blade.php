@@ -2,15 +2,16 @@
 
 @section('body')
 	<ol class="breadcrumb">
-		<li><strong>Users</strong></li>
-		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
-		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
-		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>		
-		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
-		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
+		<li><strong>E-commerce</strong></li>
+		<li class="active">Orders</a></li>
+		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
+		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
+		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
+		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
+		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 	</ol> 
-<h1>Users <small>sort by created | name</small></h1>
+<h1>Orders <small>sort by created | updated | status | price</small> <a class="btn btn-default" 
+									   href="{{ route("admin.show", array("orders", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
 	@foreach($items as $item)

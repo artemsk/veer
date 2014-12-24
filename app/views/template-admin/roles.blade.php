@@ -51,10 +51,8 @@
 		</div>
 		@endforeach
 		<div class="list-group-item row">
-			<div class="col-sm-1">
-			</div>
-			<div class="col-sm-3">
-				<p><strong><input type="text" value="" placeholder="Role" class="form-control"></strong></p>
+			<div class="col-sm-4">
+				<p><strong><input type="text" value="" placeholder="Role (user, wholesaler, author, etc.)" class="form-control"></strong></p>
 			</div>
 			<div class="col-sm-4">
 				<p><select class="form-control">
@@ -65,10 +63,14 @@
 				</select></p>
 			</div>
 			<div class="col-sm-2">
-				<input type="text" value="" placeholder="Discount (percent)" class="form-control">
+				<p><input type="text" value="" placeholder="Discount (percent)" class="form-control"></p>
+			</div>
+			<div class="col-sm-2">
+				<p><input type="text" class="form-control" name="InSite" placeholder="Sites Id"></p>
+				<p><input type="text" class="form-control" name="InUsers" placeholder="Users Id [:ids]"></p>
 			</div>
 		</div>
 	</div>
-	<button type="button" class="btn btn-default">Add | Update</button>	
+	<button type="button" class="btn btn-default">Add | Update</button>	 
 </div>
 @stop

@@ -81,13 +81,12 @@
 			<li class="list-group-item">
 				@if(isset($items['recipients'][$key])) 
 					@foreach($items['recipients'][$key] as $r)
-						@if($r == "all") <span class="badge">public</span> @else
 					<a href="{{ route('admin.show', array("users", "id" => empty($r->id) ? '' : $r->id)) }}">
 						{{ '@' }}{{ $r->username or '?' }}</a>
-						@endif
 					@endforeach
 				@endif
-				{{ $item->message }}	
+				{{ $item->message }}
+				@if($item->public == true) <span class="badge">public</span> @endif
 			</li>
 		</ul>
 		</div>
@@ -100,5 +99,70 @@
 		</div>
 	</div>	
 	
+	<div class='rowdelimiter'></div>
+	<hr>
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<label>Add message to anything as anybody</label>
+	<div class="row">
+        <div class="col-md-6">
+			<div class="form-group">
+                <input type="text" class="form-control" name="InSender" placeholder="Sender">
+			</div>
+			<div class="form-group">
+                <input type="tel" class="form-control" name="InSenderPhone" placeholder="Sender Phone">
+			</div>
+			<div class="form-group">
+                <input type="email" class="form-control" name="InSenderEmail" placeholder="Sender Email">
+			</div>
+			<div class="form-group">
+                <textarea class="form-control" rows="3" name="InMessage" placeholder="Message @recipient @recipient"></textarea>
+			</div> 
+			<div class="form-group">
+                <input type="text" class="form-control" name="InTheme" placeholder="Theme">
+			</div>
+			<div class="form-group">
+                <input type="text" class="form-control" name="InType" placeholder="Label | Type (IM, email, callme etc.)">
+			</div> 
+			<div class="checkbox">
+                <label>
+					<input type="checkbox" name="OnPublic" checked> Public
+                </label>
+			</div>			
+			<div class="checkbox">
+                <label>
+					<input type="checkbox" name="OnNotify"> Email Notify
+                </label>
+			</div>
+			<div class="checkbox">
+                <label>
+					<input type="checkbox" name="OnIntranet"> Intranet
+                </label>
+			</div>
+			<div class="checkbox">
+                <label>
+					<input type="checkbox" name="OnHidden"> Hidden
+                </label>
+			</div>			
+
+		</div> 
+		<div class="col-md-6">
+			<div class="form-group">
+                <input type="text" class="form-control" name="InSite" placeholder="Sites ID">
+			</div> 
+			<div class="form-group">
+                <input type="text" class="form-control" name="InUser" placeholder="Users ID [or empty for current]">
+			</div> 			
+			<div class="form-group">
+				<label>Place on specific Url</label>
+				<input type="url" class="form-control" name="InUrl" placeholder="Url">
+			</div> 
+			<div class="form-group">
+				<label>Place on Product | Page | Category</label>
+				<textarea class="form-control" name="InConnectedPages" rows="3" placeholder="[:id:id:id]"></textarea>
+			</div>   
+			<button type="submit" class="btn btn-default">Submit</button> 
+		</div> 
+	</div>
+	{{ Form::close() }}
 </div>
 @stop
