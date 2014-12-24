@@ -39,7 +39,7 @@
 			</div>
 			<div class="col-sm-2">
 				<small>
-					{{ $item->site->configuration->first()->conf_val or $item->site->url; }}<br/>
+					@if(is_object($item->site)) {{ $item->site->configuration->first()->conf_val or $item->site->url; }} @endif<br/>
 					{{ $item->created_at }}
 					@if($item->updated_at != $item->created_at)
 					<br/>{{ $item->updated_at }}

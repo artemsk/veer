@@ -22,7 +22,7 @@
 			| <a href="tel:{{ $items['users'][$user]->phone }}">{{ $items['users'][$user]->phone }}</a> 
 			@else Guest @endif</strong>
 			@if($user > 0) 
-			~ {{ $items[head($itemGroup)]->site->configuration->first()->conf_val or $items[head($itemGroup)]->site->url; }}
+			@if(is_object($items[head($itemGroup)]->site)) ~ {{ $items[head($itemGroup)]->site->configuration->first()->conf_val or $items[head($itemGroup)]->site->url; }} @endif
 			@endif
 		</li>
 		@foreach($itemGroup as $item)
@@ -48,7 +48,7 @@
 				<span class="text-muted">#{{ $items[$item]->elements_id }} ?</span>
 			@endif
 			@if($user <= 0)
-			<small>~ {{ $items[$item]->site->configuration->first()->conf_val or $items[$item]->site->url; }}</small>
+			<small>@if(is_object($items[$item]->site)) ~ {{ $items[$item]->site->configuration->first()->conf_val or $items[$item]->site->url; }} @endif</small>
 			<span class="label label-info" data-toggle="popover" data-container="body" data-placement="bottom" data-content="{{ $items[$item]->session_id }}">session</span>
 			@endif
 		</li>
