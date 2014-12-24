@@ -28,7 +28,7 @@
 			@endif
 			&nbsp;
 			<small>#{{ $item->id }}</small>
-			~ {{ $item->site->configuration->first()->conf_val or $item->site->url; }}
+			@if(is_object($item->site))~ {{ $item->site->configuration->first()->conf_val or $item->site->url; }} @endif
 			<strong>:
 			@if(!empty($item->url))
 			{{ $item->url }}

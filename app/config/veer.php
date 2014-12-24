@@ -39,15 +39,17 @@ return array(
 	
     /*
 	|--------------------------------------------------------------------------
-	| Paths to components, events, queues
+	| USER ! Paths to components, events, queues, e-commerce
 	|--------------------------------------------------------------------------
 	*/
     
-        'components_path' => "app/lib/Components",  
+        'components_path' => "app/App/Components",  
     
-        'events_path' => "app/lib/Events", 
+        'events_path' => "app/App/Events", 
     
-        'queues_path' => "app/lib/Queues",  	
+        'queues_path' => "app/App/Queues",  	
+	
+		'ecommerce_path' => "app/App/Ecommerce",  
     
     /*
 	|--------------------------------------------------------------------------

@@ -777,6 +777,32 @@ class Show {
 				}));
 			}))
 			->paginate(50);	
+	}
+	
+	/**
+	 * show Users Books
+	 */
+	public function showStatuses()
+	{
+		return \Veer\Models\OrderStatus::orderBy('manual_order', 'asc')
+			->with('orders', 'bills', 'orders_with_history')
+			->paginate(50);
 	}	
+	
+	/**
+	 * show Users Books
+	 */
+	public function showShipping()
+	{
+		return \Veer\Models\OrderShipping::orderBy('sites_id', 'asc')
+			->with('orders')
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))->paginate(50);
+	}		
 	
 }

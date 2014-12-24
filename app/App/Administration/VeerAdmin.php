@@ -1915,27 +1915,9 @@ class VeerAdmin extends Show {
 	/**
 	 * show Users Books
 	 */
-	public function showShipping()
-	{
-		return \Veer\Models\OrderShipping::orderBy('sites_id', 'asc')->with('site', 'orders')->paginate(50);
-	}	
-	
-	
-	/**
-	 * show Users Books
-	 */
 	public function showPayment()
 	{
 		return \Veer\Models\OrderPayment::orderBy('sites_id', 'asc')->with('site', 'orders', 'bills')->paginate(50);
-	}	
-	
-	
-	/**
-	 * show Users Books
-	 */
-	public function showStatuses()
-	{
-		return \Veer\Models\OrderStatus::orderBy('manual_order', 'asc')->with('orders', 'bills', 'orders_with_history')->paginate(50);
-	}		
+	}			
 	
 }
