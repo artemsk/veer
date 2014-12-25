@@ -17,7 +17,7 @@
 	@foreach($items as $key => $item)
 	@if(round($key/4) == ($key/4)) <div class="clearfix"></div> @endif	
 		<div class="col-lg-3 col-md-3 col-sm-6 text-center">
-		<small>#{{ $item->id }}
+		<small>#{{ $item->id }}</small>
 		@if($item->status == "wait")
 		<span class="label label-info">waiting</span>
 		@elseif($item->status == "active")
@@ -27,8 +27,10 @@
 		@else
 		<span class="label label-default">{{ $item->status }}</span>
 		@endif
-		</small>
-			<p class="xs-rowdelimiter"></p>
+		@if(count($item->orders) > 0)
+		<span class="label label-primary"><a href="{{ route("admin.show", array("orders", "filter" => "discounts", "filter_id" => $item->id)) }}">{{ count($item->orders) }} orders</a></span>
+		@endif
+		<p class="xs-rowdelimiter"></p>
 		<div class="input-group">
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
