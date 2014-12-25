@@ -16,7 +16,21 @@
 	@foreach($items as $item)
 	
 		{{ $item->id }}<br/>
-			
+		{{ $item->orders_id }}<br/>
+		{{ $item->users_id }}<br/>
+		{{ $item->status_id }}<br/>
+		{{ $item->payment_method }}<br/>
+		{{ $item->payment_method_id }}<br/>
+		{{ $item->link }}<br/>
+		{{ $item->content }}<br/>
+		{{ $item->price }}<br/>
+		{{ $item->sent }}<br/>
+		{{ $item->viewed }}<br/>
+		{{ $item->paid }}<br/>
+		{{ $item->canceled }}<br/>
+		{{ $item->created_at }}<br/>
+		{{ $item->updated_at }}<br/>
+		
 	@endforeach
 	
 	
