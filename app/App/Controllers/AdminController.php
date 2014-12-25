@@ -28,8 +28,6 @@ class AdminController extends \BaseController {
 		$this->template = config('veer.template-admin');
 	}
 	
-
-	
 	
 	/**
 	 * Display a listing of the resource.
@@ -45,19 +43,12 @@ class AdminController extends \BaseController {
 	}
 
 	
-	
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		//
-	}
-
-
+	public function create() {}
 	
 	
 	/**
@@ -65,13 +56,8 @@ class AdminController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		//
-	}
+	public function store() {}
 
-	
-	
 
 	/**
 	 * Display the specified resource.
@@ -170,14 +156,9 @@ class AdminController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
-		//
-	}
+	public function edit($id) {}
 
 	
-	
-
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -199,8 +180,6 @@ class AdminController extends \BaseController {
 	}
 
 	
-	
-
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -208,9 +187,7 @@ class AdminController extends \BaseController {
 	 * @return Response
 	 */
 	public function destroy($id)
-	{
-		//
-	}
+	{}
 
 
 }

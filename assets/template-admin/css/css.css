@@ -264,3 +264,7 @@ html, body
     width:100% !important;
     margin: 5px 0px 5px 0px;
 }
+
+.label-bg {
+    font-size: 1em;
+}

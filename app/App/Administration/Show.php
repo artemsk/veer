@@ -854,7 +854,7 @@ class Show {
 	{
 		return \Veer\Models\OrderBill::orderBy('created_at', 'desc')
 			->with(
-				'order', 'user', 'status','payment'
+				'order', 'user', 'status', 'payment'
 			)->paginate(50);
 	}	
 			

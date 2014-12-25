@@ -10,7 +10,8 @@ Route::resource('category', 'CategoryController', array('only' => array('index',
 Route::resource('attribute', 'AttributeController', array('only' => array('index', 'show')));
 Route::resource('filter', 'FilterController', array('only' => array('index', 'show')));
 Route::resource('image', 'ImageController', array('only' => array('show')));
-//
+
+get('order/bills/{id?}/{lnk?}', array('uses' => 'OrderController@bills', 'as' => 'order.bills'));
 Route::resource('order', 'OrderController', array('only' => array('index', 'show', 'store')));
 //
 Route::resource('page', 'PageController', array('only' => array('index', 'show')));

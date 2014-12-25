@@ -44,7 +44,7 @@
 				</div>
 				<div class="form-group">
 					<input type="text" class="form-control" name="InPrice" placeholder="Commission (percent)"
-						   value="{{ $item->commission }}">
+						   value="{{ $item->commission }}%">
 				</div>
 			</div>
 			<div class="col-md-4">

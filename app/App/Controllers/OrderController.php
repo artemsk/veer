@@ -2,6 +2,7 @@
 
 class OrderController extends \BaseController {
 
+	protected $administrator = false;
 	
 	public function __construct()
 	{
@@ -32,10 +33,7 @@ class OrderController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		//
-	}
+	public function create() {}
 
 
 	/**
@@ -73,11 +71,11 @@ class OrderController extends \BaseController {
 	 */
 	public function show($id, $force = false)
 	{
-		$administrator = administrator();
+		$this->administrator = administrator();
 		
-		if(Auth::check() || $administrator == true) {
+		if(Auth::check() || $this->administrator == true) {
 			
-			$orders = app('veerdb')->route($id, array('userId' => Auth::id(), 'administrator' => $administrator));
+			$orders = app('veerdb')->route($id, array('userId' => Auth::id(), 'administrator' => $this->administrator));
 			
 		} else {			
 			return $this->index(); 
@@ -123,10 +121,7 @@ class OrderController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
-		//
-	}
+	public function edit($id) {}
 
 
 	/**
@@ -135,10 +130,7 @@ class OrderController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		//
-	}
+	public function update($id) {}
 
 
 	/**
@@ -147,10 +139,47 @@ class OrderController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($id) {}
+
+
+	/**
+	 * check Bills
+	 * @param type $lnk
+	 * @return type
+	 */
+	public function bills($id = null, $lnk = null) 
 	{
-		//
+		$this->administrator = administrator();
+		
+		if(Auth::check() || $this->administrator == true) 
+		{	
+			return $this->showBill( 
+				app('veerdb')->route(array($id, $lnk), array('userId' => Auth::id(), 'administrator' => $this->administrator))
+			);
+		}		
+		
+		return Redirect::route('index'); 
 	}
-
-
+	
+	/**
+	 * show Blls
+	 * @param type $bills
+	 */
+	protected function showBill($bills)
+	{
+		if(!is_object($bills)) { return Redirect::route('index'); }
+		
+		// TODO: only html output? can it be redirect to external payment?
+		// TODO: loadedComponents here?
+		
+		if(!$this->administrator) 
+		{
+			$bills->viewed = true;
+			$bills->save();
+		}
+		
+		return Response::make($bills->content);
+	}
+	
+	
 }

@@ -17,6 +17,8 @@
 	@foreach($items as $key => $item)
 	@if(round($key/4) == ($key/4)) <div class="clearfix"></div> @endif	
 		<div class="col-lg-3 col-md-3 col-sm-6 text-center">
+		<button type="button" class="btn btn-danger btn-xs btn-block"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+		<p class="xs-rowdelimiter"></p>
 		<small>#{{ $item->id }}</small>
 		@if($item->status == "wait")
 		<span class="label label-info">waiting</span>
