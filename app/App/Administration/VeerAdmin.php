@@ -1891,16 +1891,5 @@ class VeerAdmin extends Show {
 			}		
 		}
 	}
-	
-
-	/**
-	 * show Users Books
-	 */
-	public function showBills()
-	{
-		return \Veer\Models\OrderBill::orderBy('created_at', 'desc')->with('order', 'user', 'status',
-			'payment')->paginate(50);
-	}	
-				
-	
+		
 }

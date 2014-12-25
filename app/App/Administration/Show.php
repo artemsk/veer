@@ -846,4 +846,16 @@ class Show {
 			}))
 			->paginate(50);
 	}	
+	
+	/**
+	 * show Bills
+	 */
+	public function showBills()
+	{
+		return \Veer\Models\OrderBill::orderBy('created_at', 'desc')
+			->with(
+				'order', 'user', 'status','payment'
+			)->paginate(50);
+	}	
+			
 }

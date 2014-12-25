@@ -18,6 +18,7 @@
 					<a href="{{ route('admin.show', array("pages", "id" => $item->id)) }}"><strong>{{ $item->title }}</strong></a>
 					<p>{{ Carbon\Carbon::parse($item->created_at)->toFormattedDateString() }}<Br/>
 						<small>#{{$item->id}} 
+						&nbsp;<i class="fa fa-paragraph" title="Characters"></i> {{ strlen($item->small_txt.$item->txt) }}
 						@if(count($item->comments) > 0)
 						&nbsp;<span class="glyphicon glyphicon-comment" aria-hidden="true" title="Comments"></span> {{ count($item->comments) }}
 						@endif
