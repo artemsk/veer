@@ -885,6 +885,32 @@ class VeerDb {
 	/**
 	 * Query Builder: 
 	 * 
+	 * - who: 1 Bill
+	 * - with: 
+	 * - to whom: make() | order/bills/{id}
+	 * 
+	 * @later: 'order', 'user', 'status', 'payment'
+	 */
+	protected function orderBillsQuery($siteId, $id, $queryParams)
+	{
+		$userId = $queryParams['userId']; // @testing security
+		
+		if((bool)$queryParams['administrator'] == true) {
+			return \Veer\Models\OrderBill::where('link', '=', array_get($id, 1, null))
+				->where('id', '=', array_get($id, 0, null))
+				->first();			
+		} else {		
+			return \Veer\Models\OrderBill::where('link', '=', array_get($id, 1, null))
+				->where('id', '=', array_get($id, 0, null))
+				->where('users_id', '=', $userId)
+				->where('sites_id', '=', $siteId)
+				->first();
+		}
+	}
+	
+	/**
+	 * Query Builder: 
+	 * 
 	 * - who: 1 User
 	 * - with: 
 	 * - to whom: make() | user/{id}

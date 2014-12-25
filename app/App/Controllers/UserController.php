@@ -138,7 +138,7 @@ class UserController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function addToCart($id)
+	public function addToCart($id = null)
 	{
 		if(isset($id)) {
 			

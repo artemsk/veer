@@ -128,7 +128,7 @@
 			
 			<textarea class="form-control" rows="15" name="fill[txt]" placeholder="Text">{{ $items->txt or null }}</textarea>
 			@if(isset($items->id))
-			<a href="#" data-toggle="modal" data-target="#previewText">Preview</a>
+			<a href="#" data-toggle="modal" data-target="#previewText" class="previewMarkdownPage">Preview</a>
 			<div class="modal fade" id="previewText" tabindex="-1" role="dialog" aria-labelledby="previewTextLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">

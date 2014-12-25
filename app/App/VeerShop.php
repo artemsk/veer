@@ -19,6 +19,8 @@ class VeerShop {
 	
 	protected $discount_by_role_checked = false;
 	
+	protected $use_cluster;
+	
 	/**
 	 * Price calculator:
 	 * user_discounts > role > price_sales (promotions) > price
@@ -29,6 +31,8 @@ class VeerShop {
 	public function __construct() 
 	{
 		$this->currency_symbol = db_parameter('CURRENCY_SYMBOL', config('veer.currency_symbol'));
+		
+		$this->use_cluster = db_parameter('USE_CLUSTER', config('veer.use_cluster'));
 	}
 
 	
@@ -211,6 +215,25 @@ class VeerShop {
 		}
 		
 		return $price;		
+	}
+	
+	
+	
+	
+	/**
+	 * get real order Id
+	 * @param int $cluster
+	 * @param int $cluster_oid
+	 * @return string
+	 */
+	public function getOrderId($cluster, $cluster_oid)
+	{
+		if($this->use_cluster == true) 
+		{
+			return $cluster . "." . $cluster_oid;
+		}
+		
+		return $cluster_oid;
 	}
 	
 }
