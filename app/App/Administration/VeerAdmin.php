@@ -1901,14 +1901,6 @@ class VeerAdmin extends Show {
 		return \Veer\Models\OrderBill::orderBy('created_at', 'desc')->with('order', 'user', 'status',
 			'payment')->paginate(50);
 	}	
-	
-
-	/**
-	 * show Users Books
-	 */
-	public function showDiscounts()
-	{
-		return \Veer\Models\UserDiscount::orderBy('created_at', 'desc')->with('site', 'user', 'orders')->paginate(50);
-	}			
+				
 	
 }

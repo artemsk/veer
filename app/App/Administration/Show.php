@@ -829,4 +829,21 @@ class Show {
 			}))
 			->paginate(50);
 	}		
+	
+	/**
+	 * show Discounts
+	 */
+	public function showDiscounts()
+	{
+		return \Veer\Models\UserDiscount::orderBy('created_at', 'desc')
+			->with('user', 'orders')
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))
+			->paginate(50);
+	}	
 }
