@@ -26,8 +26,9 @@
 					<input type="text" class="form-control" name="InSite" placeholder="Sites ID" value="{{ $item->sites_id }}">
 					<small>@if(is_object($item->site))~ {{ $item->site->configuration->first()->conf_val or $item->site->url; }} @endif</small>
 				</div>
-				<div class="form-group">
+				<div class="form-group"><strong>
 					<input type="text" class="form-control" name="InName" placeholder="Shipping Method Name" value="{{ $item->name }}">
+					</strong>
 				</div>
 				<div class="form-group">
 					<input type="text" class="form-control" name="InDelivery" placeholder="Shipping Type (delivery, pickup, no-delivery etc.)"
@@ -63,9 +64,10 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="form-group">
-					<input type="text" class="form-control has-warning" name="InFunc" 
+				<div class="form-group"><strong>
+					<input type="text" class="form-control" name="InFunc" 
 						   placeholder="Class | function in ../Ecommerce/" value="{{ $item->func_name }}">
+					</strong>
 					@if(!class_exists('\\Veer\\Ecommerce\\' . $item->func_name)) 
 					<span class='label label-danger'>Class doesn't exists</span>
 					@endif
@@ -79,11 +81,13 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 					<label>Manual Order</label>
 					<input type="text" class="form-control" name="InOrder" placeholder="Manual Order" value="{{ $item->manual_order }}">
 				</div>
-				<button type="submit" class="btn btn-danger">Update #{{ $item->id }}</button> 
+				<button type="submit" class="btn btn-info">Update #{{ $item->id }}</button>&nbsp; 
+				<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 				<p></p>
 				<small>
 					{{ $item->created_at }}<br/>
-					{{ $item->updated_at }}
+					{{ $item->updated_at }}<br/>
+					<span class="label label-info"><a href="{{ route("admin.show", array("orders", "filter" => "shipping", "filter_id" => $item->id)) }}">{{ count($item->orders) }} orders</a></span>
 				</small>
 			</div> 
 		</div>

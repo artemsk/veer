@@ -247,6 +247,16 @@ class Show {
 	 */
 	public function showProducts($image = null, $tag = null, $attribute = null, $product = null) 
 	{	
+		if(!empty($product)) 
+		{ 			
+			if($product == "new") 
+			{ 
+				return new \stdClass(); 
+			}
+			
+			return $this->showOneProduct($product);
+		}		
+		
 		if(!empty($image)) 
 		{
 			$items = $this->showProductsFiltered('images', $image);	
@@ -283,17 +293,7 @@ class Show {
 			
 			return $items;
 		}
-		
-		if(!empty($product)) 
-		{ 			
-			if($product == "new") 
-			{ 
-				return new \stdClass(); 
-			}
-			
-			return $this->showOneProduct($product);
-		}
-		
+				
 		$items = \Veer\Models\Product::orderBy('id','desc')
 			->with('images', 'categories')
 			->paginate(25); 
@@ -346,6 +346,16 @@ class Show {
 	 */
 	public function showPages($image = null, $tag = null, $attribute = null, $page = null) 
 	{	
+		if(!empty($page)) 
+		{			
+			if($page == "new") 
+			{ 
+				return new \stdClass(); 
+			}
+			
+			return $this->showOnePage($page);
+		}		
+		
 		if(!empty($image)) 
 		{
 			$items = $this->showPagesFiltered('images', $image);
@@ -382,17 +392,7 @@ class Show {
 			
 			return $items;
 		}
-		
-		if(!empty($page)) 
-		{			
-			if($page == "new") 
-			{ 
-				return new \stdClass(); 
-			}
-			
-			return $this->showOnePage($page);
-		}
-		
+				
 		$items = \Veer\Models\Page::orderBy('id','desc')
 			->with(
 				'images', 'categories', 'user', 'subpages', 'comments'
@@ -440,6 +440,14 @@ class Show {
 				$items->userlists()->count(\Illuminate\Support\Facades\DB::raw(
 					'DISTINCT name'
 				));
+			
+			$items->markdownSmall = \Parsedown::instance()
+				->setBreaksEnabled(true)
+				->text($items->small_txt);
+			$items->markdownTxt = \Parsedown::instance()
+				->setBreaksEnabled(true)
+				->text($items->txt);
+			// TODO: test because of fatal errors
 		}	
 			
 		return $items;
@@ -780,7 +788,7 @@ class Show {
 	}
 	
 	/**
-	 * show Users Books
+	 * show Statuses
 	 */
 	public function showStatuses()
 	{
@@ -790,7 +798,7 @@ class Show {
 	}	
 	
 	/**
-	 * show Users Books
+	 * show Shipping Methods
 	 */
 	public function showShipping()
 	{
@@ -805,4 +813,20 @@ class Show {
 			}))->paginate(50);
 	}		
 	
+	/**
+	 * show Payment Methods
+	 */
+	public function showPayment()
+	{
+		return \Veer\Models\OrderPayment::orderBy('sites_id', 'asc')
+			->with('orders', 'bills')
+			->with(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}))
+			->paginate(50);
+	}		
 }

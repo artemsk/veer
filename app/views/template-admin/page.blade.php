@@ -1,6 +1,6 @@
 @extends($template.'.layout.base')
 
-@section('body')
+@section('body')			
 <ol class="breadcrumb">
 		<li><strong>Structure</strong></li>
 		<li><a href="{{ route("admin.show", "sites") }}">Sites</a></li>
@@ -127,7 +127,29 @@
 			<div class="rowdelimiter"></div>
 			
 			<textarea class="form-control" rows="15" name="fill[txt]" placeholder="Text">{{ $items->txt or null }}</textarea>
-			
+			@if(isset($items->id))
+			<a href="#" data-toggle="modal" data-target="#previewText">Preview</a>
+			<div class="modal fade" id="previewText" tabindex="-1" role="dialog" aria-labelledby="previewTextLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">{{ $items->title or null }}</h4>
+						</div>
+						<div class="modal-body">
+							{{-- {{ isset($items->small_txt) ? nl2br($items->small_txt) : null }} --}}
+							{{ $items->markdownSmall or null }}
+							<hr>
+							{{-- {{ isset($items->txt) ? nl2br($items->txt) : null }} --}}
+							{{ $items->markdownTxt or null }}
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			@endif
 			<div class="rowdelimiter"></div>
 			
 			<div class="row">
