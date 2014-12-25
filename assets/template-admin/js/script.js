@@ -125,45 +125,28 @@
         
     });
     
-    
-    // 
-    
-    var currentTallest = 0,
-     currentRowStart = 0,
-     rowDivs = new Array(),
-     $el,
-     topPosition = 0;
-
- $('.blocks').each(function() {
-     
-     
-   $el = $(this);
-   topPostion = $el.position().top;
-   
-   if (currentRowStart != topPostion) {
-
-     // we just came to a new row.  Set all the heights on the completed row
-     for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-       rowDivs[currentDiv].height(currentTallest);
-     }
-
-     // set the variables for the new row
-     rowDivs.length = 0; // empty the array
-     currentRowStart = topPostion;
-     currentTallest = $el.height();
-     rowDivs.push($el);
-
-   } else {
-
-     // another div on the current row.  Add it to the list and check if it's taller
-     rowDivs.push($el);
-     currentTallest = (currentTallest < $el.height()) ? ($el.height()) : (currentTallest);
-
-  }
-   
-  // do the last row
-   for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-     rowDivs[currentDiv].height(currentTallest);
-   }
-     
- });
+ $(function(){
+	var widthNew;	
+        var removedClass = false;
+	function updateWidth(){
+		widthNew = $(window).width();
+                if(widthNew < 768)
+                {
+                    $('.dynamic-input-group').removeClass('input-group');
+                    $('.dynamic-input-group-btn').removeClass('input-group-btn');
+                    $('.dynamic-input-group-addon').removeClass('input-group-addon');
+                    $('.dynamic-input-group-input').addClass('limited-size-input-100');
+                    removedClass = true;
+                } else {
+                    if(removedClass == true) {
+                        $('.dynamic-input-group').addClass('input-group');
+                        $('.dynamic-input-group-btn').addClass('input-group-btn');
+                        $('.dynamic-input-group-addon').addClass('input-group-addon');
+                        $('.dynamic-input-group-input').removeClass('limited-size-input-100');                        
+                        removedClass = false;
+                    }
+                 }  
+	};
+	$(window).ready(updateWidth);
+	$(window).resize(updateWidth); 
+}); 

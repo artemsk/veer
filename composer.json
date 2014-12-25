@@ -13,7 +13,8 @@
         "php": ">=5.4.0",
         "laravel/framework": "4.2.*",
         "doctrine/dbal": "~2.3",
-        "artemsk/queuedb": "0.1.*"
+        "artemsk/queuedb": "0.1.*",
+		"erusev/parsedown": "*"
     },
     "require-dev": {	
         "php": ">=5.4.0",
