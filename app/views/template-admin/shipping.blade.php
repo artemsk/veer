@@ -23,11 +23,16 @@
 					<input type="checkbox" name="OnEnable" @if($item->enable == true) checked @endif class="page-checkboxes">
 				</div>			
 				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon">
+						  <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						</span>
 					<input type="text" class="form-control" name="InSite" placeholder="Sites ID" value="{{ $item->sites_id }}">
+					</div>
 					<small>@if(is_object($item->site))~ {{ $item->site->configuration->first()->conf_val or $item->site->url; }} @endif</small>
 				</div>
 				<div class="form-group"><strong>
-					<input type="text" class="form-control" name="InName" placeholder="Shipping Method Name" value="{{ $item->name }}">
+					<input type="text" class="form-control input-lg" name="InName" placeholder="Shipping Method Name" value="{{ $item->name }}">
 					</strong>
 				</div>
 				<div class="form-group">
@@ -48,8 +53,8 @@
 					<input type="text" class="form-control" name="InDiscount" placeholder="Discount (Percent)" value="{{ $item->discount_price  }}%">
 				</div>
 				<div class="checkbox">
-					<input type="checkbox" name="OnDiscountEnable" data-on-text="On" date-off-text="Off"
-						   @if($item->discount_enable == true) checked @endif class="page-checkboxes"> &nbsp;Discount
+					<input type="checkbox" name="OnDiscountEnable" data-on-text="On" data-off-text="Off" class="page-checkboxes"
+						   @if($item->discount_enable == true) checked @endif > &nbsp;Discount
 				</div>
 				<div class="form-group">
 					<label>Discount Conditions</label>
@@ -65,7 +70,7 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group"><strong>
-					<input type="text" class="form-control" name="InFunc" 
+					<input type="text" class="form-control input-lg" name="InFunc" 
 						   placeholder="Class | function in ../Ecommerce/" value="{{ $item->func_name }}">
 					</strong>
 					@if(!class_exists('\\Veer\\Ecommerce\\' . $item->func_name)) 
@@ -114,7 +119,7 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
                 <input type="text" class="form-control" name="InSite" placeholder="Sites ID">
 			</div>
 			<div class="form-group">
-                <input type="text" class="form-control" name="InName" placeholder="Shipping Method Name">
+                <input type="text" class="form-control input-lg" name="InName" placeholder="Shipping Method Name">
 			</div>
 			<div class="form-group">
                 <input type="text" class="form-control" name="InDelivery" placeholder="Shipping Type (delivery, pickup, no-delivery etc.)">
@@ -146,7 +151,7 @@ d:total|delivery"></textarea>
 		</div>
 		<div class="col-md-4">
 			<div class="form-group">
-				<input type="text" class="form-control has-warning" name="InFunc" placeholder="Class | function in ../Ecommerce/">
+				<input type="text" class="form-control input-lg" name="InFunc" placeholder="Class | function in ../Ecommerce/">
 			</div>
 			<div class="form-group">
 				<textarea class="form-control" name="InOther" rows="2" placeholder="Other options (used in functions)"></textarea>
