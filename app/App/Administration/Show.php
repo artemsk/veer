@@ -590,12 +590,12 @@ class Show {
 		
 		if(!isset($items)) 
 		{ 
-			return \Veer\Models\User::orderBy($orderBy[0], $orderBy[1]); 
+			$items = \Veer\Models\User::select(); 
 		} 
 		
 		return $items->orderBy($orderBy[0], $orderBy[1]);
 	}
-
+	
 	/**
 	 * show Users
 	 */
@@ -647,9 +647,32 @@ class Show {
 	/**
 	 * show Users Lists
 	 */
-	public function showLists()
+	public function showLists($filters = array())
 	{
-		$items = \Veer\Models\UserList::orderBy('name','asc')
+		$type = key($filters); 
+			
+		$filter_id = head($filters);
+			
+		if($filter_id != null && $type != "pages" && $type != "products" )
+		{
+			$items = \Veer\Models\UserList::whereHas($type, function($query) use ($filter_id, $type) 
+			{
+				$query->where( str_plural($type).'_id', '=', $filter_id );
+			});
+		}
+		
+		elseif($filter_id != null)
+		{
+			$items = \Veer\Models\UserList::where('elements_type', '=', elements($type))
+				->where('elements_id','=', $filter_id);
+		}
+		
+		else 
+		{
+			$items = \Veer\Models\UserList::select();
+		}
+		
+		$items = $items->orderBy('name','asc')
 			->orderBy('created_at','desc')
 			->with('user', 'elements')
 			->with(array('site' => function($q) 
@@ -687,9 +710,26 @@ class Show {
 	/**
 	 * show Searches
 	 */
-	public function showSearches()
+	public function showSearches($filters = array())
 	{
-		$items = \Veer\Models\Search::orderBy('times', 'desc')
+		$type = key($filters); 
+			
+		$filter_id = head($filters);
+		
+		if($filter_id != null)
+		{
+			$items = \Veer\Models\Search::whereHas($type, function($query) use ($filter_id, $type) 
+			{
+				$query->where( str_plural($type).'_id', '=', $filter_id );
+			});
+		}
+			
+		else 
+		{
+			$items = \Veer\Models\Search::select();
+		}
+		
+		$items = $items->orderBy('times', 'desc')
 			->orderBy('created_at', 'desc')
 			->with('users')
 			->paginate(50);

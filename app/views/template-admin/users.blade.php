@@ -74,8 +74,9 @@
 						@if(count($item->pages) > 0)
 						&nbsp;<i class="fa fa-pencil" title="Pages"></i> {{ count($item->pages) }}
 						@endif
-						<br/><a href="{{ route('admin.show', array("users", "filter" => "site", "filter_id" => $item->site->id)) }}">
-							@if(is_object($item->site)) {{ $item->site->configuration->first()->conf_val or $item->site->url; }} @endif</a>
+						<br/>@if(is_object($item->site)) 
+						<a href="{{ route('admin.show', array("users", "filter" => "site", "filter_id" => $item->site->id)) }}">
+							{{ $item->site->configuration->first()->conf_val or $item->site->url; }} </a>@endif
 						</small>
 					</p>
 					@if ($item->restrict_orders == false)

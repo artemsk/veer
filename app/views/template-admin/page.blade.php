@@ -282,12 +282,12 @@
 	<div class="row">
 		<div class="col-xs-12">
 			@if(isset($items['lists']))
-			<a class="btn btn-default" href="{{ route('admin.show', array('lists', 'page' => $items->id)) }}" 
+			<a class="btn btn-default" href="{{ route('admin.show', array('lists', "filter" => "pages", "filter_id" => $items->id)) }}" 
 			   role="button">{{ $items['lists'] }} lists</a>
 			@endif						
-			<a class="btn btn-default" href="{{ route('admin.show', array('comments', 'page' => $items->id)) }}"
+			<a class="btn btn-default" href="{{ route('admin.show', array('comments', "filter" => "pages", "filter_id" => $items->id)) }}"
 			   role="button">{{ $items->comments()->count() }} comments</a>
-			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', 'page' => $items->id)) }}"
+			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', "filter" => "pages", "filter_id" => $items->id)) }}"
 			   role="button">{{ $items->communications()->count() }} communications</a>
 		</div>
 	</div>

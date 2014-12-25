@@ -357,15 +357,15 @@
 	<hr>
 	<div class="row">
 		<div class="col-xs-12">
-			<a class="btn btn-info" href="{{ route('admin.show', array('orders', 'product' => $items->id)) }}" 
+			<a class="btn btn-info" href="{{ route('admin.show', array('orders', "filter" => "products", "filter_id" => $items->id)) }}" 
 			   role="button">{{ $items->orders()->count() }} orders</a>
-			<a class="btn btn-info" href="{{ route('admin.show', array('lists', 'product' => $items->id)) }}" 
+			<a class="btn btn-info" href="{{ route('admin.show', array('lists', "filter" => "products", "filter_id" => $items->id)) }}" 
 			   role="button">{{ count($items->basket) }} in baskets</a>
-			<a class="btn btn-default" href="{{ route('admin.show', array('lists', 'product' => $items->id)) }}" 
+			<a class="btn btn-default" href="{{ route('admin.show', array('lists', "filter" => "products", "filter_id" => $items->id)) }}" 
 			   role="button">{{ count($items->lists) }} in lists</a>			
-			<a class="btn btn-default" href="{{ route('admin.show', array('comments', 'product' => $items->id)) }}"
+			<a class="btn btn-default" href="{{ route('admin.show', array('comments', "filter" => "products", "filter_id" => $items->id)) }}"
 			   role="button">{{ $items->comments()->count() }} comments</a>
-			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', 'product' => $items->id)) }}"
+			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', "filter" => "products", "filter_id" => $items->id)) }}"
 			   role="button">{{ $items->communications()->count() }} communications</a>
 		</div>
 	</div>

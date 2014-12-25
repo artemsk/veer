@@ -121,7 +121,9 @@ class AdminController extends \BaseController {
 				break;	
 			
 			case "lists":
-				$items = app('veeradmin')->showLists();
+				$items = app('veeradmin')->showLists(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
 				$view = "userlists";
 				break;		
 			
@@ -132,6 +134,13 @@ class AdminController extends \BaseController {
 				));
 				$view = "users";
 				break;	
+	
+			case "searches":
+				$items = app('veeradmin')->showSearches(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
+				$view = "searches";
+				break;					
 			
 			default:
 				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}();
@@ -186,8 +195,7 @@ class AdminController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{}
+	public function destroy($id) {}
 
 
 }

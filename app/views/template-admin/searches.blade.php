@@ -6,12 +6,19 @@
 		<li><a href="{{ route("admin.show", "users") }}">Users</a></li>
 		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
 		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
-		<li class="active">Searches</li>		
+		@if(Input::get('filter',null) != null) 
+		<li><strong><a href="{{ route("admin.show", "searches") }}">Searches</a></strong></li>
+		@else
+		<li class="active">Searches</li>
+		@endif			
 		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
 		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
 	</ol> 
-<h1>Searches :{{ array_pull($items, 'counted', 0) }}</h1>
+<h1>Searches :{{ array_pull($items, 'counted', 0) }}
+			@if(Input::get('filter',null) != null) 
+			<small> | filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong></small>
+			@endif </h1>
 <br/>
 <div class="container">
 	<ul class="list-group">
@@ -36,7 +43,10 @@
 	
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array(
+					'filter' => Input::get('filter', null), 
+					'filter_id' => Input::get('filter_id', null),
+				))->links() }}
 		</div>
 	</div>
 	

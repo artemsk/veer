@@ -36,7 +36,7 @@
 		<span class="badge">{{ \Carbon\Carbon::parse($item->updated_at)->format('Y-m-d') }}</span>
 		@endif
 		@if($item->orders->count() > 0) 
-		<span class="badge">{{ $item->orders->count() }} orders</span>
+		<span class="badge"><a href="{{ route("admin.show", array("orders", "filter" => "books", "id" => $item->id)) }}">{{ $item->orders->count() }} orders</a></span>
 		@endif
 		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ '@'.$item->user->username }}</a>
 		@if(!empty($item->b_account))
