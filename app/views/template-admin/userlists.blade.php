@@ -5,13 +5,23 @@
 		<li><strong>Users</strong></li>
 		<li><a href="{{ route("admin.show", "users") }}">Users</a></li>
 		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
+		@if(Input::get('filter',null) != null) 
+		<li><strong><a href="{{ route("admin.show", "lists") }}">Lists</a></strong></li>
+		@else
 		<li class="active">Lists</li>
+		@endif		
 		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>		
 		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
 		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
 	</ol> 
-<h1>Lists <small>| lists:{{ array_pull($items, 'lists', 0) }} carts:{{ array_pull($items, 'basket', 0) }}</small></h1>
+<h1>Lists <small>| 
+		@if(Input::get('filter',null) != null) 
+			filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
+			@else
+			lists:{{ array_pull($items, 'lists', 0) }} carts:{{ array_pull($items, 'basket', 0) }}
+		@endif	
+		</small></h1>
 <br/>
 <div class="container">
 	@foreach(array_get($items, 'regrouped', array()) as $user => $itemGroup)
@@ -22,7 +32,7 @@
 			| <a href="tel:{{ $items['users'][$user]->phone }}">{{ $items['users'][$user]->phone }}</a> 
 			@else Guest @endif</strong>
 			@if($user > 0) 
-			@if(is_object($items[head($itemGroup)]->site)) ~ {{ $items[head($itemGroup)]->site->configuration->first()->conf_val or $items[head($itemGroup)]->site->url; }} @endif
+			@if(is_object($items[head($itemGroup)]->site)) ~ <a href="{{ route('admin.show', array("lists", "filter" => "site", "filter_id" => $items[head($itemGroup)]->site->id)) }}">{{ $items[head($itemGroup)]->site->configuration->first()->conf_val or $items[head($itemGroup)]->site->url; }}</a> @endif
 			@endif
 		</li>
 		@foreach($itemGroup as $item)
@@ -48,7 +58,7 @@
 				<span class="text-muted">#{{ $items[$item]->elements_id }} ?</span>
 			@endif
 			@if($user <= 0)
-			<small>@if(is_object($items[$item]->site)) ~ {{ $items[$item]->site->configuration->first()->conf_val or $items[$item]->site->url; }} @endif</small>
+			<small>@if(is_object($items[$item]->site)) ~ <a href="{{ route('admin.show', array("lists", "filter" => "site", "filter_id" => $items[$item]->site->id)) }}">{{ $items[$item]->site->configuration->first()->conf_val or $items[$item]->site->url; }}</a> @endif</small>
 			<span class="label label-info" data-toggle="popover" data-container="body" data-placement="bottom" data-content="{{ $items[$item]->session_id }}">session</span>
 			@endif
 		</li>
@@ -59,7 +69,10 @@
 	
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array(
+					'filter' => Input::get('filter', null), 
+					'filter_id' => Input::get('filter_id', null),
+				))->links() }}
 		</div>
 	</div>	
 	

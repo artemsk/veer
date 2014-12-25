@@ -547,3 +547,22 @@ if (!function_exists('session')) {
 	}
 
 }
+
+
+
+
+if (!function_exists('elements')) {
+
+	/**
+	 * Correct model name for element
+	 * Model doesn't start with \
+	 * 
+	 * @param string $type
+	 * @return string
+	 */
+	function elements($type = "page")
+	{
+		return "Veer\Models\\" . strtoupper($type[0]) . substr( str_singular($type), 1);
+	}
+
+}
