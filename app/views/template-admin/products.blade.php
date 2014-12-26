@@ -16,9 +16,10 @@
 @if(!empty($items['filtered'])) 
  filtered by {{ $items['filtered'] }} <a href="{{ route("admin.show", array(array_pull($items, 'filtered'))) }}">
 	 #{{ array_pull($items, 'filtered_id') }}</a> 
+ @else
+ {{ array_pull($items, 'counted') }} <small>| <a href="{{ route("admin.show", array("products", "filter" => "unused")) }}">unused</a></small> 
 @endif	
-{{ array_pull($items, 'counted') }} <a class="btn btn-default" 
-									   href="{{ route("admin.show", array("products", "id" => "new")) }}" role="button">Add</a></h1>
+ <a class="btn btn-default" href="{{ route("admin.show", array("products", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
 	{{ Form::open(array('url' =>  URL::full(), 'method' => 'put', 'files' => false)); }}
@@ -28,7 +29,7 @@
 	{{ Form::close() }}
 	<div class="row">
 		<div class="text-center">
-			{{ $items->appends(array('image' => Input::get('image', null), 'tag' => Input::get('tag', null)))->links() }}
+			{{ $items->appends(array('filter' => Input::get('filter', null), 'filter_id' => Input::get('filter_id', null)))->links() }}
 		</div>
 	</div>
 	

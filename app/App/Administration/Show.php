@@ -8,7 +8,7 @@ class Show {
 	/**
 	 * Show Sites
 	 */
-	public function showSites() 
+	public function showSites( $filters = array() ) 
 	{	
 		return \Veer\Models\Site::orderBy('manual_sort','asc')
 			->get()->load(
@@ -23,7 +23,7 @@ class Show {
 	/**
 	 * Show Attributes
 	 */
-	public function showAttributes() 
+	public function showAttributes( $filters = array() ) 
 	{	
 		$items = \Veer\Models\Attribute::orderBy('name')
 			->with('pages', 'products')->paginate(100);
@@ -58,7 +58,7 @@ class Show {
 	/**
 	 * Show Tags
 	 */
-	public function showTags() 
+	public function showTags( $filters = array() ) 
 	{	
 		$items = \Veer\Models\Tag::orderBy('name', 'asc')
 			->with('pages', 'products')->paginate(50);	
@@ -71,7 +71,7 @@ class Show {
 	/**
 	 * Show Downloads
 	 */
-	public function showDownloads() 
+	public function showDownloads( $filters = array() ) 
 	{	
 		$items = \Veer\Models\Download::orderBy('fname','desc')
 			->orderBy('id', 'desc')
@@ -171,9 +171,9 @@ class Show {
 	/**
 	 * Show Images
 	 */
-	public function showImages() 
+	public function showImages( $filters = array() ) 
 	{	
-		if(Input::get('filter', null) == "unused") 
+		if(key($filters) == "unused") 
 		{
 			$items = \Veer\Models\Image::orderBy('id', 'desc')
 				->has('pages','<',1)
@@ -284,8 +284,12 @@ class Show {
 	/**
 	 * Show Products
 	 */
-	public function showProducts($image = null, $tag = null, $attribute = null, $product = null) 
+	public function showProducts($product = null, $filters = array()) 
 	{	
+		$type = key($filters);
+		
+		$filter_id = head($filters);
+		
 		if(!empty($product)) 
 		{ 			
 			if($product == "new") 
@@ -296,48 +300,69 @@ class Show {
 			return $this->showOneProduct($product);
 		}		
 		
-		if(!empty($image)) 
+		if(!empty($type) && !empty($filter_id) && $type != "site") 
 		{
-			$items = $this->showProductsFiltered('images', $image);	
+			$items = $this->showProductsFiltered($type, $filter_id);
 			
-			$items['filtered'] = "images";
+			$items['filtered'] = $type;
 			
-			$items['filtered_id'] = $image;
+			if($type == "attributes")
+			{				
+				$a = \Veer\Models\Attribute::where('id','=',$filter_id)
+					->select('name', 'val')->first();
+
+				if(is_object($a)) 
+				{
+					$items['filtered_id'] = $a->name.":".$a->val;
+				}
+			}
+			
+			elseif($type == "tags") 
+			{
+				$items['filtered_id'] = 
+				\Veer\Models\Tag::where('id','=',$filter_id)->pluck('name');
+			}
+			
+			else 
+			{
+				$items['filtered_id'] = $filter_id;
+			}
 			
 			return $items;
+		}
+			
+		if($type == "unused") 
+		{
+			$items = \Veer\Models\Product::has('categories','<',1);
 		}
 		
-		if(!empty($tag)) 
+		elseif($type == "site" && !empty($filter_id))
 		{
-			$items = $this->showProductsFiltered('tags', $tag);
-			
-			$items['filtered'] = "tags";
-			
-			$items['filtered_id'] = 
-				\Veer\Models\Tag::where('id','=',$tag)->pluck('name');
-			
-			return $items;
+			$items = \Veer\Models\Product::whereHas('categories', function($query) use ($filter_id) {
+				$query->where('sites_id', '=', $filter_id);
+			});
 		}
 		
-		if(!empty($attribute)) 
+		else
 		{
-			$items = $this->showProductsFiltered('attributes', $attribute);
-			
-			$items['filtered'] = "attributes";
-			
-			$a = \Veer\Models\Attribute::where('id','=',$attribute)
-				->select('name', 'val')->first();
-			
-			$items['filtered_id'] = $a->name.":".$a->val;
-			
-			return $items;
+			$items = \Veer\Models\Product::select();
 		}
-				
-		$items = \Veer\Models\Product::orderBy('id','desc')
+		
+		$items = $items->orderBy('id','desc')
 			->with('images', 'categories')
 			->paginate(25); 
 		
-		$items['counted'] = \Veer\Models\Product::count();
+		if(!empty($type)) 
+		{ 
+			$items['filtered'] = $type; 
+		} 
+		
+		else 
+		{ 
+			$items['counted'] = \Veer\Models\Product::count();
+		}
+		
+		if(!empty($filter_id)) { $items['filtered_id'] = $filter_id; }		
 		
 		return $items;
 	}	
@@ -383,8 +408,12 @@ class Show {
 	/**
 	 * Show Pages
 	 */
-	public function showPages($image = null, $tag = null, $attribute = null, $page = null) 
+	public function showPages($page = null, $filters = array()) 
 	{	
+		$type = key($filters);
+		
+		$filter_id = head($filters);
+		
 		if(!empty($page)) 
 		{			
 			if($page == "new") 
@@ -394,50 +423,71 @@ class Show {
 			
 			return $this->showOnePage($page);
 		}		
-		
-		if(!empty($image)) 
+					
+		if(!empty($type) && !empty($filter_id) && $type != "site") 
 		{
-			$items = $this->showPagesFiltered('images', $image);
+			$items = $this->showPagesFiltered($type, $filter_id);
 			
-			$items['filtered'] = "images";
+			$items['filtered'] = $type;
 			
-			$items['filtered_id'] = $image;
+			if($type == "attributes")
+			{				
+				$a = \Veer\Models\Attribute::where('id','=',$filter_id)
+					->select('name', 'val')->first();
+				
+				if(is_object($a)) 
+				{
+					$items['filtered_id'] = $a->name.":".$a->val;
+				}
+			}
 			
-			return $items;
-		}
-		
-		if(!empty($tag)) 
-		{
-			$items = $this->showPagesFiltered('tags', $tag);
+			elseif($type == "tags") 
+			{
+				$items['filtered_id'] = 
+				\Veer\Models\Tag::where('id','=',$filter_id)->pluck('name');
+			}
 			
-			$items['filtered'] = "tags";
-			
-			$items['filtered_id'] = 
-				\Veer\Models\Tag::where('id','=',$tag)->pluck('name');
-			
-			return $items;
-		}
-		
-		if(!empty($attribute)) 
-		{
-			$items = $this->showPagesFiltered('attributes', $attribute);
-			
-			$items['filtered'] = "attributes";
-			
-			$a = \Veer\Models\Attribute::where('id','=',$attribute)
-				->select('name', 'val')->first();
-			
-			$items['filtered_id'] = $a->name.":".$a->val;
+			else 
+			{
+				$items['filtered_id'] = $filter_id;
+			}
 			
 			return $items;
 		}
 				
-		$items = \Veer\Models\Page::orderBy('id','desc')
+		if($type == "unused") 
+		{
+			$items = \Veer\Models\Page::has('categories','<',1);
+		}
+		
+		elseif($type == "site" && !empty($filter_id))
+		{
+			$items = \Veer\Models\Page::whereHas('categories', function($query) use ($filter_id) {
+				$query->where('sites_id', '=', $filter_id);
+			});
+		}
+		
+		else
+		{
+			$items = \Veer\Models\Page::select();
+		}
+		
+		$items = $items->orderBy('id','desc')
 			->with(
 				'images', 'categories', 'user', 'subpages', 'comments'
 				)->paginate(25); 
+
+		if(!empty($type)) 
+		{ 
+			$items['filtered'] = $type; 
+		} 
 		
-		$items['counted'] = \Veer\Models\Page::count();
+		else 
+		{ 
+			$items['counted'] = \Veer\Models\Page::count(); 
+		}
+		
+		if(!empty($filter_id)) { $items['filtered_id'] = $filter_id; }
 		
 		return $items;
 	}	
@@ -567,7 +617,7 @@ class Show {
 	/**
 	 * Show Secrets
 	 */
-	public function showSecrets() 
+	public function showSecrets( $filters = array() ) 
 	{		
 		$items = \Veer\Models\Secret::all();
 		
@@ -579,7 +629,7 @@ class Show {
 	/**
 	 * Show Jobs
 	 */
-	public function showJobs() 
+	public function showJobs( $filters = array() ) 
 	{		
 		$items = \Artemsk\Queuedb\Job::all();
 		
@@ -758,7 +808,19 @@ class Show {
 	 */
 	public function showCommunications($filters = array())
 	{
-		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Communication")->orderBy('created_at', 'desc')
+		$type = key($filters);
+		
+		if($type != "type" && $type != "url")
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Communication");
+		} 
+		
+		else
+		{
+			$items = \Veer\Models\Communication::where($type, '=', array_get($filters, $type, 0));
+		}
+		
+		$items = $items->orderBy('created_at', 'desc')
 			->with('user', 'elements')
 			->with(array('site' => function($q) 
 			{
@@ -824,7 +886,7 @@ class Show {
 	/**
 	 * show Orders
 	 */
-	public function showOrders()
+	public function showOrders( $order = null, $filters = array() )
 	{
 		return \Veer\Models\Order::orderBy('pin', 'desc')
 			->orderBy('created_at', 'desc')
@@ -843,7 +905,7 @@ class Show {
 	/**
 	 * show Statuses
 	 */
-	public function showStatuses()
+	public function showStatuses( $filters = array() )
 	{
 		return \Veer\Models\OrderStatus::orderBy('manual_order', 'asc')
 			->with('orders', 'bills', 'orders_with_history')
@@ -853,9 +915,9 @@ class Show {
 	/**
 	 * show Shipping Methods
 	 */
-	public function showShipping()
+	public function showShipping( $filters = array() )
 	{
-		return \Veer\Models\OrderShipping::orderBy('sites_id', 'asc')
+		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\OrderShipping")->orderBy('sites_id', 'asc')
 			->with('orders')
 			->with(array('site' => function($q) 
 			{
@@ -869,9 +931,9 @@ class Show {
 	/**
 	 * show Payment Methods
 	 */
-	public function showPayment()
+	public function showPayment( $filters = array() )
 	{
-		return \Veer\Models\OrderPayment::orderBy('sites_id', 'asc')
+		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\OrderPayment")->orderBy('sites_id', 'asc')
 			->with('orders', 'bills')
 			->with(array('site' => function($q) 
 			{
@@ -886,9 +948,20 @@ class Show {
 	/**
 	 * show Discounts
 	 */
-	public function showDiscounts()
+	public function showDiscounts( $filters = array() )
 	{
-		return \Veer\Models\UserDiscount::orderBy('created_at', 'desc')
+		$type = key($filters);
+		
+		if($type == "status")
+		{
+			$items = \Veer\Models\UserDiscount::where('status', '=', head($filters));
+		}
+		
+		else
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserDiscount");
+		}
+		return $items->orderBy('created_at', 'desc')
 			->with('user', 'orders')
 			->with(array('site' => function($q) 
 			{

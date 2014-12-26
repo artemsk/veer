@@ -10,7 +10,7 @@
 		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
 		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 </ol>
-<h1>Discounts</h1>
+<h1>Discounts <small>| <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "wait")) }}">wait</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "active")) }}">active</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "expired")) }}">expired</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "canceled")) }}">canceled</a></small></h1>
 <br/>
 <div class="container">
 	<div class="row">

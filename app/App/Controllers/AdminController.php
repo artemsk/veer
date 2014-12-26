@@ -81,31 +81,29 @@ class AdminController extends \BaseController {
 				break;
 
 			case "products":		
-				$image = Input::get('image', null);
-				$tag = Input::get('tag', null);
-				$attribute = Input::get('attribute', null);
 				$product = Input::get('id', null);
 				
-				$items = app('veeradmin')->showProducts($image, $tag, $attribute, $product);
+				$items = app('veeradmin')->showProducts($product, array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
 				
-					if(is_object($items)) {
-						$items->fromCategory = Input::get('category', null); 
-					}
+				if(is_object($items)) {
+					$items->fromCategory = Input::get('category', null); 
+				}
 				
 				$view = empty($product) ? "products" : "product";
 				break;		
 
 			case "pages":		
-				$image = Input::get('image', null);
-				$tag = Input::get('tag', null);
-				$attribute = Input::get('attribute', null);
 				$page = Input::get('id', null);
 				
-				$items = app('veeradmin')->showPages($image, $tag, $attribute, $page);
+				$items = app('veeradmin')->showPages($page, array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
 
-					if(is_object($items)) {
-						$items->fromCategory = Input::get('category', null); 
-					}
+				if(is_object($items)) {
+					$items->fromCategory = Input::get('category', null); 
+				}
 								
 				$view = empty($page) ? "pages" : "page";
 				break;				
@@ -135,50 +133,18 @@ class AdminController extends \BaseController {
 				$view = "users";
 				break;	
 			
-			case "books":
-				$items = app('veeradmin')->showBooks(array(
+			case "orders":
+				$order = Input::get('id', null);
+				$items = app('veeradmin')->showOrders($order, array(
 					Input::get('filter', null) =>  Input::get('filter_id', null),
 				));
-				$view = "books";
-				break;			
-	
-			case "searches":
-				$items = app('veeradmin')->showSearches(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
-				));
-				$view = "searches";
-				break;					
-			
-			case "comments":
-				$items = app('veeradmin')->showComments(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
-				));
-				$view = "comments";
-				break;	
-			
-			case "communications":
-				$items = app('veeradmin')->showCommunications(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
-				));
-				$view = "communications";
-				break;
-			
-			case "roles":
-				$items = app('veeradmin')->showRoles(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
-				));
-				$view = "roles";
-				break;	
-			
-			case "bills":
-				$items = app('veeradmin')->showBills(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
-				));
-				$view = "bills";
-				break;			
+				$view = "orders";
+				break;				
 			
 			default:
-				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}();
+				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
 				$view = $t;
 				break;
 		}

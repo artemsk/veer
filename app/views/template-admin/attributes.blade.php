@@ -34,8 +34,8 @@
 					<input class="page-checkboxes" data-on-text="descr" data-off-text="choose&nbsp;" data-size="mini" type="checkbox" value="1" name="attrType[{{ $items[$val]->id }}]" @if($items[$val]->type == "descr") checked @endif >
 					<p></p>
 					<small>#{{ $items[$val]->id }}</small>
-					<span class="label label-info"><a href="{{ route('admin.show', array('products', 'attribute' => $items[$val]->id)) }}" target="_blank">{{ $items[$val]->products->count() }}</a></span>
-					<span class="label label-success"><a href="{{ route('admin.show', array('pages', 'attribute' => $items[$val]->id)) }}" target="_blank">{{ $items[$val]->pages->count() }}</a></span>
+					<span class="label label-info"><a href="{{ route('admin.show', array('products', 'filter' => 'attributes', 'filter_id' => $items[$val]->id)) }}" target="_blank">{{ $items[$val]->products->count() }}</a></span>
+					<span class="label label-success"><a href="{{ route('admin.show', array('pages', 'filter' => 'attributes', 'filter_id' => $items[$val]->id)) }}" target="_blank">{{ $items[$val]->pages->count() }}</a></span>
 					&nbsp;<button type="submit" name="action" value="deleteAttrValue.{{ $items[$val]->id }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>	
 					</div>
 				</div>
