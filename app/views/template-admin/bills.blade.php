@@ -19,7 +19,8 @@
 		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp
 		#{{ $item->id }}
 		@if(is_object($item->payment))
-		<strong>{{ $item->payment_method }}</strong>
+		<strong><a href="{{ route("admin.show", array("bills", "filter" => "payment", "filter_id" => $item->payment->id)) }}">
+				{{ $item->payment_method }}</a></strong>
 		@else
 		<del>&nbsp;{{ $item->payment_method }}&nbsp;</del>
 		@endif

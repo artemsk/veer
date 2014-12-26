@@ -134,6 +134,13 @@ class AdminController extends \BaseController {
 				));
 				$view = "users";
 				break;	
+			
+			case "books":
+				$items = app('veeradmin')->showBooks(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
+				$view = "books";
+				break;			
 	
 			case "searches":
 				$items = app('veeradmin')->showSearches(array(
@@ -141,6 +148,34 @@ class AdminController extends \BaseController {
 				));
 				$view = "searches";
 				break;					
+			
+			case "comments":
+				$items = app('veeradmin')->showComments(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
+				$view = "comments";
+				break;	
+			
+			case "communications":
+				$items = app('veeradmin')->showCommunications(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
+				$view = "communications";
+				break;
+			
+			case "roles":
+				$items = app('veeradmin')->showRoles(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
+				$view = "roles";
+				break;	
+			
+			case "bills":
+				$items = app('veeradmin')->showBills(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));
+				$view = "bills";
+				break;			
 			
 			default:
 				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}();
