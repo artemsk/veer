@@ -114,12 +114,51 @@ class Show {
 		return $items;
 	}	
 	
+	/*
+	 * build filter query on models with elements
+	 */
+	protected function buildFilterWithElementsQuery($filters, $model, $pluralize = true, $field = null)
+	{
+		$type = key($filters); 
+			
+		$filter_id = head($filters);
+			
+		if($filter_id != null && $type != "pages" && $type != "products" && $type != "categories" )
+		{
+			$items = $model::whereHas($type, function($query) use ($filter_id, $type, $pluralize, $field) 
+			{
+				if(!empty($field))
+				{
+					$query->where( $field, '=', $filter_id );
+				}
+				
+				else 
+				{
+					$query->where( ($pluralize) ? str_plural($type).'_id' : $type.'_id', '=', $filter_id );
+				}
+			});
+		}
+		
+		elseif($filter_id != null)
+		{
+			$items = $model::where('elements_type', '=', elements($type))
+				->where('elements_id','=', $filter_id);
+		}
+		
+		else 
+		{
+			$items = $model::select();
+		}
+		
+		return $items;
+	}
+	
 	/**
 	 * Show Comments
 	 */
-	public function showComments() 
-	{	
-		$items = \Veer\Models\Comment::orderBy('id','desc')
+	public function showComments($filters = array()) 
+	{		
+		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Comment")->orderBy('id','desc')
 			->with('elements')
 			->paginate(50); 
 			// users -> only for user's page
@@ -632,9 +671,21 @@ class Show {
 	/**
 	 * show Users Books
 	 */
-	public function showBooks()
+	public function showBooks($filters = array())
 	{
-		$items = \Veer\Models\UserBook::orderBy('created_at','desc')
+		$type = key($filters);
+		
+		if($type == "orders") 
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserBook", $pluralize = false, "userbook_id");
+		}
+		
+		else
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserBook");
+		}
+		
+		$items = $items->orderBy('created_at','desc')
 			->with('user', 'orders')
 			->paginate(25);
 		
@@ -649,30 +700,8 @@ class Show {
 	 */
 	public function showLists($filters = array())
 	{
-		$type = key($filters); 
-			
-		$filter_id = head($filters);
-			
-		if($filter_id != null && $type != "pages" && $type != "products" )
-		{
-			$items = \Veer\Models\UserList::whereHas($type, function($query) use ($filter_id, $type) 
-			{
-				$query->where( str_plural($type).'_id', '=', $filter_id );
-			});
-		}
-		
-		elseif($filter_id != null)
-		{
-			$items = \Veer\Models\UserList::where('elements_type', '=', elements($type))
-				->where('elements_id','=', $filter_id);
-		}
-		
-		else 
-		{
-			$items = \Veer\Models\UserList::select();
-		}
-		
-		$items = $items->orderBy('name','asc')
+		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserList")
+			->orderBy('name','asc')
 			->orderBy('created_at','desc')
 			->with('user', 'elements')
 			->with(array('site' => function($q) 
@@ -712,24 +741,8 @@ class Show {
 	 */
 	public function showSearches($filters = array())
 	{
-		$type = key($filters); 
-			
-		$filter_id = head($filters);
-		
-		if($filter_id != null)
-		{
-			$items = \Veer\Models\Search::whereHas($type, function($query) use ($filter_id, $type) 
-			{
-				$query->where( str_plural($type).'_id', '=', $filter_id );
-			});
-		}
-			
-		else 
-		{
-			$items = \Veer\Models\Search::select();
-		}
-		
-		$items = $items->orderBy('times', 'desc')
+		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Search")
+			->orderBy('times', 'desc')
 			->orderBy('created_at', 'desc')
 			->with('users')
 			->paginate(50);
@@ -743,9 +756,9 @@ class Show {
 	/**
 	 * show Communications
 	 */
-	public function showCommunications()
+	public function showCommunications($filters = array())
 	{
-		$items = \Veer\Models\Communication::orderBy('created_at', 'desc')
+		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Communication")->orderBy('created_at', 'desc')
 			->with('user', 'elements')
 			->with(array('site' => function($q) 
 			{
@@ -794,9 +807,9 @@ class Show {
 	/**
 	 * show Roles
 	 */
-	public function showRoles()
+	public function showRoles( $filters = array() )
 	{
-		return \Veer\Models\UserRole::orderBy('sites_id', 'asc')
+		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserRole")->orderBy('sites_id', 'asc')
 			->with('users')
 			->with(array('site' => function($q) 
 			{
@@ -890,9 +903,31 @@ class Show {
 	/**
 	 * show Bills
 	 */
-	public function showBills()
+	public function showBills($filters = array())
 	{
-		return \Veer\Models\OrderBill::orderBy('created_at', 'desc')
+		$type = key($filters);
+		
+		if($type == 'order' || $type == 'user' || empty($type))
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\OrderBill");
+		} 
+		
+		elseif( $type == 'status')
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\OrderBill", $pluralize = false);
+		}
+		
+		elseif( $type == 'payment')
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\OrderBill", $pluralize = false, "payment_method_id");
+		}
+		
+		else 
+		{
+			$items = \Veer\Models\OrderBill::where($type, '=', array_get($filters, $type, 0));
+		}
+		
+		return $items->orderBy('created_at', 'desc')
 			->with(
 				'order', 'user', 'status', 'payment'
 			)->paginate(50);

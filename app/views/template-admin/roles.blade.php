@@ -9,9 +9,16 @@
 		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>			
 		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
 		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
+		@if(Input::get('filter',null) != null) 
+		<li><strong><a href="{{ route("admin.show", "roles") }}">Roles</a></strong></li>
+		@else
 		<li class="active">Roles</li>
+		@endif			
 	</ol>
-<h1>Roles</h1>
+<h1>Roles @if(Input::get('filter',null) != null) 
+	<small> filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong></small>
+	@endif
+</h1>
 <br/>
 <div class="container">
 	<div class="list-group">
@@ -72,5 +79,14 @@
 		</div>
 	</div>
 	<button type="button" class="btn btn-default">Add | Update</button>	 
+	
+	<div class="row">
+		<div class="text-center">
+			{{ $items->appends(array(
+					'filter' => Input::get('filter', null), 
+					'filter_id' => Input::get('filter_id', null),
+				))->links() }}
+		</div>
+	</div>	
 </div>
 @stop

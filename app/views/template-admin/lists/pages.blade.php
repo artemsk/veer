@@ -11,14 +11,19 @@
 						 src="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" class="img-responsive 
 						 @if($item->hidden == true) image-faded @endif"></a>
 				@else
-				<img data-src="holder.js/100%x150/vine/text:{{ $item->title }}" 
+				<!--<img data-src="holder.js/100%x50/gray/text:{{ $item->title }}" 
+						 class="img-responsive @if($item->hidden == true) image-faded @endif">-->
+				@if($item->original == true || (File::exists( config('veer.htmlpages_path') . '/' . $item->id . '.html'))) 
+				<img data-src="holder.js/100%x50/gray/text:Original" 
 						 class="img-responsive @if($item->hidden == true) image-faded @endif">
+				@endif
 				@endif		 
 				<div class="caption @if($item->hidden == true) image-faded @endif">
-					<a href="{{ route('admin.show', array("pages", "id" => $item->id)) }}"><strong>{{ $item->title }}</strong></a>
+					<a href="{{ route('admin.show', array("pages", "id" => $item->id)) }}"><strong>{{ empty($item->title) ? 'Empty' : $item->title  }}</strong></a>
 					<p>{{ Carbon\Carbon::parse($item->created_at)->toFormattedDateString() }}<Br/>
 						<small>#{{$item->id}} 
 						&nbsp;<i class="fa fa-paragraph" title="Characters"></i> {{ strlen($item->small_txt.$item->txt) }}
+						&nbsp;<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $item->views }}
 						@if(count($item->comments) > 0)
 						&nbsp;<span class="glyphicon glyphicon-comment" aria-hidden="true" title="Comments"></span> {{ count($item->comments) }}
 						@endif
@@ -56,9 +61,6 @@
 				@endif
 			</div>
 			@endif
-			<div class="top-panel-right">
-					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $item->views }}&nbsp;
-			</div>
 		</div>
 		@endforeach	
 	</div>

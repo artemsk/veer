@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => !getenv('DBDRVR') ? 'sqlite' : getenv('DBDRVR'),
+	'default' => $_ENV['DBDRVR'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -48,39 +48,39 @@ return array(
 
 		'sqlite' => array(
 			'driver'   => 'sqlite',
-			'database' => __DIR__.'/../database/' . !getenv('DBNAME') ? 'empty.sqlite' : getenv('DBNAME'), //
+			'database' => __DIR__.'/../database/' . ($_ENV['DBNAME']), //
 			'prefix'   => '',
 		),
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => !getenv('DBHOST') ? '' : getenv('DBHOST'),
-			'database'  => !getenv('DBNAME') ? '' : getenv('DBNAME'),
-			'username'  => !getenv('DBUSER') ? '' : getenv('DBUSER'),
-			'password'  => !getenv('DBPSSW') ? '' : getenv('DBPSSW'),
-			'charset'   => !getenv('DBCHAR') ? '' : getenv('DBCHAR'),
-			'collation' => !getenv('DBCOLL') ? '' : getenv('DBCOLL'),
-			'prefix'    => !getenv('DBPRFX') ? '' : getenv('DBPRFX'),
+			'host'      => $_ENV['DBHOST'],
+			'database'  => $_ENV['DBNAME'],
+			'username'  => $_ENV['DBUSER'],
+			'password'  => $_ENV['DBPSSW'],
+			'charset'   => $_ENV['DBCHAR'],
+			'collation' => $_ENV['DBCOLL'],
+			'prefix'    => $_ENV['DBPRFX'],
 		),
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
-			'host'     => !getenv('DBHOST') ? '' : getenv('DBHOST'),
-			'database' => !getenv('DBNAME') ? '' : getenv('DBNAME'),
-			'username' => !getenv('DBUSER') ? '' : getenv('DBUSER'),
-			'password' => !getenv('DBPSSW') ? '' : getenv('DBPSSW'),
-			'charset'  => !getenv('DBCHAR') ? '' : getenv('DBCHAR'),
-			'prefix'   => !getenv('DBPRFX') ? '' : getenv('DBPRFX'),
+			'host'     => $_ENV['DBHOST'],
+			'database' => $_ENV['DBNAME'],
+			'username' => $_ENV['DBUSER'],
+			'password' => $_ENV['DBPSSW'],
+			'charset'  => $_ENV['DBCHAR'],
+			'prefix'   => $_ENV['DBPRFX'],
 			'schema'   => 'public',
 		),
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
-			'host'     => !getenv('DBHOST') ? '' : getenv('DBHOST'),
-			'database' => !getenv('DBNAME') ? '' : getenv('DBNAME'),
-			'username' => !getenv('DBUSER') ? '' : getenv('DBUSER'),
-			'password' => !getenv('DBPSSW') ? '' : getenv('DBPSSW'),
-			'prefix'   => !getenv('DBPRFX') ? '' : getenv('DBPRFX'),
+			'host'     => $_ENV['DBHOST'],
+			'database' => $_ENV['DBNAME'],
+			'username' => $_ENV['DBUSER'],
+			'password' => $_ENV['DBPSSW'],
+			'prefix'   => $_ENV['DBPRFX'],
 		),
 
 	),

@@ -185,12 +185,8 @@
 	
 	@if(count($items->communications)>0)
 	<div class="rowdelimiter"></div>
-	<h3>Communications</h3>
-	<div class="row">
-		<div class="col-md-12">
-			@include($template.'.lists.communications', array('items' => $items->communications))
-		</div>
-	</div>
+	<a class="btn btn-default"  href="{{ route('admin.show', array('communications', "filter" => "categories", "filter_id" => $items->id)) }}"
+			   role="button">{{ $items->communications()->count() }} communications</a>
 	@endif
 	
 </div>

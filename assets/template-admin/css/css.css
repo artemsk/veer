@@ -154,6 +154,16 @@ html, body
     background-color: rgba(200, 200, 200, 0.8);
 }
 
+.top-panel-transparent {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 1.3em;
+    padding: 4px 10px 0px 15px;
+    background-color: rgba(71, 186, 195, 0.5);
+    color: #fff;
+}
+
 .danger-icon {
     color: #FF4136;
 }
