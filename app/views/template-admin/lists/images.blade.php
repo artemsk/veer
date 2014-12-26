@@ -8,10 +8,10 @@
 						 class="img-responsive"></a>
 				<div class="caption"><small>#{{$item->id}}</small>
 					<span class="label label-info">
-						<a href="{{ route('admin.show', array('products', 'image' => $item->id)) }}" target="_blank">
+						<a href="{{ route('admin.show', array('products', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">
 							{{ $item->products->count() }}</a></span>
 					<span class="label label-success">
-						<a href="{{ route('admin.show', array('pages', 'image' => $item->id)) }}" target="_blank">
+						<a href="{{ route('admin.show', array('pages', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">
 							{{ $item->pages->count() }}</a></span>
 					<span class="label label-warning">
 						<a href="{{ route('admin.show', array('categories', 'image' => $item->id)) }}" target="_blank">

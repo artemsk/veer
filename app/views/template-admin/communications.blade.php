@@ -40,7 +40,7 @@
 			@if(is_object($item->site))~ {{ $item->site->configuration->first()->conf_val or $item->site->url; }} @endif
 			<strong>:
 			@if(!empty($item->url))
-			{{ $item->url }}
+			<a href="{{ route("admin.show", array("communications", "filter" => "url", "filter_id" => $item->url)) }}">{{ $item->url }}</a>
 			@endif
 			
 			@if($item->elements_type == "Veer\Models\Product")
@@ -61,7 +61,8 @@
 			</span>
 			@endif
 			&nbsp;
-			<span class="label @if($item->type == 'email') label-primary @else label-info @endif">{{ $item->type }}</span>
+			<span class="label @if($item->type == 'email') label-primary @else label-info @endif">
+				<a href="{{ route("admin.show", array("communications", "filter" => "type", "filter_id" => $item->type)) }}">{{ $item->type }}</a></span>
 			&nbsp;
 			<span class="badge" title="views">{{ $item->views }}</span>
 			<span class="badge">{{ $item->created_at }}</span>
