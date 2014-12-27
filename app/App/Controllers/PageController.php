@@ -62,8 +62,17 @@ class PageController extends \BaseController {
 	 * @return Response
 	 */
 	public function show($id)
-	{		
-		// 1 file check   
+	{			
+		// 1 db		
+		$vdb = app('veerdb');
+
+		$page = $vdb->route($id);                 
+
+		if(!is_object($page)) { return Redirect::route('page.index'); }
+		
+		$page->increment('views');	
+		
+		// 2 file check   
         $p_html = config('veer.htmlpages_path') . '/' . $id . '.html';
         if (File::exists( $p_html )) {
             
@@ -72,13 +81,6 @@ class PageController extends \BaseController {
             $response->header('Content-type','text/html');
             return $response;
         }
-		
-		// 2 db		
-		$vdb = app('veerdb');
-
-		$page = $vdb->route($id);                 
-
-		if(!is_object($page)) { return Redirect::route('page.index'); }
 		
 		$paginator_and_sorting = get_paginator_and_sorting();
 		
@@ -89,8 +91,6 @@ class PageController extends \BaseController {
 			$categories = $vdb->pageOnlyCategoriesQuery($this->veer->siteId, $id, $paginator_and_sorting);
 
 			$products= $vdb->pageOnlyProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
-
-		$page->increment('views');	
 
 		$page->load('images', 'tags', 'attributes', 'downloads', 'userlists', 'user');
 		

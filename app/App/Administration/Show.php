@@ -925,6 +925,11 @@ class Show {
 			$items = \Veer\Models\Order::where($type, '=', head($filters));
 		}
 		
+		if($type != "archive")
+		{
+			$items = $items->where('archive', '!=', true);
+		}
+		
 		return $items->orderBy('pin', 'desc')
 			->orderBy('created_at', 'desc')
 			->with(

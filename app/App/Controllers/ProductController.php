@@ -87,8 +87,8 @@ class ProductController extends \BaseController {
 			if(db_parameter('COMMENTS_SYSTEM') == "disqus") { 
 				$this->veer->loadedComponents['comments_disqus'] = view('components.disqus', array("identifier" => "product".$product->id));
 			} else {
-				$page->load('comments');
-				$this->veer->loadedComponents['comments_own'] = $page->comments->toArray();
+				$product->load('comments');
+				$this->veer->loadedComponents['comments_own'] = $product->comments->toArray();
 			}
 
 			$data = array(
