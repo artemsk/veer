@@ -7,10 +7,16 @@
 		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
 		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
 		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
+		@if(Input::get('filter',null) != null) 
+		<li><strong><a href="{{ route("admin.show", "payment") }}">Payment methods</a></strong></li>
+		@else
 		<li class="active">Payment methods</li>	
+		@endif				
 		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>	
 </ol>
-<h1>Payment methods</h1>
+<h1>Payment methods @if(Input::get('filter',null) != null) 
+		<small>filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong></small>
+		@endif</h1>
 <br/>
 <div class="container">
 	@foreach($items as $item)
@@ -97,7 +103,10 @@ d:total">{{ $item->discount_conditions }}</textarea>
 	
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array(
+					'filter' => Input::get('filter', null), 
+					'filter_id' => Input::get('filter_id', null),
+				))->links() }}
 		</div>
 	</div>
 	

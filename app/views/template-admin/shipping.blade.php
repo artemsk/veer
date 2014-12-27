@@ -6,11 +6,17 @@
 		<li><a href="{{ route("admin.show", "orders") }}">Orders</a></li>
 		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
 		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
-		<li class="shipping">Shipping methods</li>		
+		@if(Input::get('filter',null) != null) 
+		<li><strong><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></strong></li>
+		@else
+		<li class="active">Shipping methods</li>
+		@endif				
 		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
 		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 </ol>
-<h1>Shipping methods</h1>
+<h1>Shipping methods @if(Input::get('filter',null) != null) 
+		<small>filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong></small>
+		@endif</h1>
 <br/>
 <div class="container">
 	
@@ -102,7 +108,10 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 	
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array(
+					'filter' => Input::get('filter', null), 
+					'filter_id' => Input::get('filter_id', null),
+				))->links() }}
 		</div>
 	</div>
 	

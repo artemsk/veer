@@ -4,13 +4,21 @@
 <ol class="breadcrumb">
 		<li><strong>E-commerce</strong></li>
 		<li><a href="{{ route("admin.show", "orders") }}">Orders</a></li>
+		@if(Input::get('filter',null) != null) 
+		<li><strong><a href="{{ route("admin.show", "bills") }}">Bills</a></strong></li>
+		@else
 		<li class="active">Bills</li>
+		@endif		
 		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
 		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
 		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
 		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 </ol>
-<h1>Bills <small>sort by created | price | labels | type</small></h1>
+<h1>Bills <small>
+		@if(Input::get('filter',null) != null) 
+			filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong> | 
+		@endif
+		sort by created | price | labels | type</small></h1>
 <br/>
 <div class="container">
 	@foreach($items as $item)
@@ -58,7 +66,14 @@
 	</ul>	
 	@endforeach
 	
-	
+	<div class="row">
+		<div class="text-center">
+			{{ $items->appends(array(
+					'filter' => Input::get('filter', null), 
+					'filter_id' => Input::get('filter_id', null),
+				))->links() }}
+		</div>
+	</div>		
 	
 </div>
 @stop

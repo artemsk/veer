@@ -5,12 +5,20 @@
 		<li><strong>E-commerce</strong></li>
 		<li><a href="{{ route("admin.show", "orders") }}">Orders</a></li>
 		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
+		@if(Input::get('filter',null) != null) 
+		<li><strong><a href="{{ route("admin.show", "discounts") }}">Discounts</a></strong></li>
+		@else
 		<li class="active">Discounts</li>
+		@endif			
 		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
 		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
 		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 </ol>
-<h1>Discounts <small>| <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "wait")) }}">wait</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "active")) }}">active</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "expired")) }}">expired</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "canceled")) }}">canceled</a></small></h1>
+<h1>Discounts <small>
+		@if(Input::get('filter',null) != null) 
+			filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
+		@endif
+		| <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "wait")) }}">wait</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "active")) }}">active</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "expired")) }}">expired</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "canceled")) }}">canceled</a></small></h1>
 <br/>
 <div class="container">
 	<div class="row">
@@ -134,7 +142,10 @@
 	
 	<div class="row">
 		<div class="text-center">
-			{{ $items->links() }}
+			{{ $items->appends(array(
+					'filter' => Input::get('filter', null), 
+					'filter_id' => Input::get('filter_id', null),
+				))->links() }}
 		</div>
 	</div>
 	
