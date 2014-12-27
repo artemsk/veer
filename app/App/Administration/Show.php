@@ -286,10 +286,6 @@ class Show {
 	 */
 	public function showProducts($product = null, $filters = array()) 
 	{	
-		$type = key($filters);
-		
-		$filter_id = head($filters);
-		
 		if(!empty($product)) 
 		{ 			
 			if($product == "new") 
@@ -300,6 +296,10 @@ class Show {
 			return $this->showOneProduct($product);
 		}		
 		
+		$type = key($filters);
+		
+		$filter_id = head($filters);
+				
 		if(!empty($type) && !empty($filter_id) && $type != "site") 
 		{
 			$items = $this->showProductsFiltered($type, $filter_id);
@@ -410,10 +410,6 @@ class Show {
 	 */
 	public function showPages($page = null, $filters = array()) 
 	{	
-		$type = key($filters);
-		
-		$filter_id = head($filters);
-		
 		if(!empty($page)) 
 		{			
 			if($page == "new") 
@@ -423,7 +419,11 @@ class Show {
 			
 			return $this->showOnePage($page);
 		}		
-					
+				
+		$type = key($filters);
+		
+		$filter_id = head($filters);
+				
 		if(!empty($type) && !empty($filter_id) && $type != "site") 
 		{
 			$items = $this->showPagesFiltered($type, $filter_id);
