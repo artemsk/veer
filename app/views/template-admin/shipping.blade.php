@@ -98,7 +98,7 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 				<small>
 					{{ $item->created_at }}<br/>
 					{{ $item->updated_at }}<br/>
-					<span class="label label-info"><a href="{{ route("admin.show", array("orders", "filter" => "shipping", "filter_id" => $item->id)) }}">{{ count($item->orders) }} orders</a></span>
+					<span class="label label-info"><a href="{{ route("admin.show", array("orders", "filter" => "delivery", "filter_id" => $item->id)) }}">{{ count($item->orders) }} orders</a></span>
 				</small>
 			</div> 
 		</div>

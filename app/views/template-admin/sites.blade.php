@@ -54,7 +54,7 @@
 				<a href="{{ route("admin.show", array("users", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->users->count() }} users</a>, 
 				<a href="{{ route("admin.show", array("discounts", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->discounts->count() }} discounts</a>, 
 				<a href="{{ route("admin.show", array("lists", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->userlists->count() }} lists</a>, 
-				{{ $item->orders->count() }} orders, 
+				<a href="{{ route("admin.show", array("orders", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->orders->count() }} orders</a>, 
 				<a href="{{ route("admin.show", array("shipping", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->delivery->count() }} shipping</a>, 
 				<a href="{{ route("admin.show", array("payment", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->payment->count() }} payment</a>, 
 				<a href="{{ route("admin.show", array("communications", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->communications->count() }} messages</a>, 

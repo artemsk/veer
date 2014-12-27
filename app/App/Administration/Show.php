@@ -888,7 +888,44 @@ class Show {
 	 */
 	public function showOrders( $order = null, $filters = array() )
 	{
-		return \Veer\Models\Order::orderBy('pin', 'desc')
+		$type = key($filters);
+		
+		if($type == "userbook" || $type == "userdiscount" || $type == "status") 
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Order", $pluralize = false, $type . "_id");
+		}
+		
+		elseif( $type == "delivery" || $type == "payment")
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Order", $pluralize = false, $type . "_method_id");
+		}
+		
+		elseif( $type == "status_history")
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Order", $pluralize = false, "status_id");
+		}
+		
+		elseif( $type == "products")
+		{
+			$filter_id = head($filters);
+			
+			$items = \Veer\Models\Order::whereHas($type, function($query) use ($filter_id) 
+			{
+				$query->where( 'products_id', '=', $filter_id );
+			});
+		}
+		
+		elseif( $type == "site" || $type == "user" || empty($type))
+		{
+			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Order");
+		}
+		
+		else
+		{
+			$items = \Veer\Models\Order::where($type, '=', head($filters));
+		}
+		
+		return $items->orderBy('pin', 'desc')
 			->orderBy('created_at', 'desc')
 			->with(
 				'user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'bills')

@@ -278,3 +278,12 @@ html, body
 .label-bg {
     font-size: 1em;
 }
+
+.pinned {
+    border-top: 5px solid #ffcc66;
+}
+
+.label-yellow {
+    background-color: #ffcc66;
+    color: #000;
+}
