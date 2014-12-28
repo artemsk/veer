@@ -130,7 +130,7 @@ class AdminController extends \BaseController {
 				$items = app('veeradmin')->showUsers($user, array(
 					Input::get('filter', null) =>  Input::get('filter_id', null),
 				));
-				$view = "users";
+				$view = empty($user) ? "users" : "user";
 				break;	
 			
 			case "orders":
@@ -138,7 +138,7 @@ class AdminController extends \BaseController {
 				$items = app('veeradmin')->showOrders($order, array(
 					Input::get('filter', null) =>  Input::get('filter_id', null),
 				));
-				$view = "orders";
+				$view = empty($order) ? "orders" : "order";
 				break;				
 			
 			default:
