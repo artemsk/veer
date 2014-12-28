@@ -9,6 +9,8 @@ class VeerAdmin extends Show {
 	
 	public $skipShow = false;
 	
+	public $counted = null;
+	
 	/**
 	 * Show Etc.
 	 */

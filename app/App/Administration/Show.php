@@ -690,6 +690,13 @@ class Show {
 	 */
 	public function showUsers($userId = null, $filters = array(), $orderBy = array('created_at', 'desc'))
 	{
+		if(!empty($userId)) 
+		{			
+			if($userId == "new") { return new \stdClass(); }
+			
+			return $this->showOneUser($userId);
+		}
+		
 		if(Input::get('sort', null)) 
 		{ 
 			$orderBy[0] = Input::get('sort'); 
@@ -718,6 +725,39 @@ class Show {
 		return $items;		
 	}
 	
+	/**
+	 * show One User
+	 * @param type $user
+	 */
+	public function showOneUser($user)
+	{
+		$items = \Veer\Models\User::find($user);
+			
+		if(is_object($items)) 
+		{
+			$items->load(
+				'role', 'comments', 'books', 'discounts',
+				'userlists', 'orders', 'bills', 'communications', 'administrator',
+				'searches', 'pages', 'images'
+			);
+			
+			$items->load(array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE');
+				}));
+			}));
+			
+			$items['lists'] = 
+				$items->userlists()->count(\Illuminate\Support\Facades\DB::raw(
+					'DISTINCT name'
+				));
+		}	
+		
+		return $items;
+	}
+
 	/**
 	 * show Users Books
 	 */
@@ -945,6 +985,10 @@ class Show {
 		}
 		
 		if($pinSkip === false) { $items = $items->orderBy('pin', 'desc'); }
+		
+		$this->counted['active'] = \Veer\Models\Order::where('archive', '!=', true)->count();
+		
+		$this->counted['archived'] = \Veer\Models\Order::where('archive', '=', true)->count();
 		
 		return $items->orderBy($orderBy[0], $orderBy[1])
 			->with(
