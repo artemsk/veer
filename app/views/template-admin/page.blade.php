@@ -47,7 +47,7 @@
 			<input type="checkbox" class="page-checkboxes" name="fill[show_small]" data-on-color="info" data-on-text="Intro" data-off-text="No&nbsp;Intro" 
 					   @if(isset($items->show_small) && $items->show_small == true) checked @endif></div>
 			<div class="page-checkboxes-box">
-			<input type="checkbox" class="page-checkboxes" name="fill[show_comments]" data-on-color="info" data-on-text="Comments" data-off-text="No&nbsp;Comments" 
+			<input type="checkbox" class="page-checkboxes" name="fill[show_comments]" data-on-color="info" data-on-text="Comments" data-off-text="No&nbsp;Comments&nbsp;" 
 					   @if(isset($items->show_comments) && $items->show_comments == true) checked @endif></div>			
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[show_title]" data-on-color="info" data-on-text="Title" data-off-text="No&nbsp;Title" 
@@ -94,6 +94,7 @@
 @endif</textarea>
 			
 			<div class="rowdelimiter"></div>
+			<label>Attributes</label>
 			@if(isset($items->attributes))
 			@foreach($items->attributes as $key => $attribute)
 			<div class="row">
@@ -101,7 +102,6 @@
 					<strong><input type="text" name="attribute[{{ $key }}][name]" class="form-control input-sm" value="{{ $attribute->name }}" placeholder="Name"></strong>
 					<p></p><input type="text" name="attribute[{{ $key }}][val]" class="form-control input-sm" value="{{ $attribute->val }}" placeholder="Value">
 				<p></p><textarea class="form-control input-sm" name="attribute[{{ $key }}][descr]" placeholder="Description">{{ $attribute->descr }}</textarea>
-				<p></p><button type="submit" name="action" value="updateAttribute.{{ $key }}.{{ $attribute->id }}" class="btn btn-default btn-xs">Update</button>
 				</div>				
 			</div>
 			<div class="rowdelimiter"></div>
@@ -112,7 +112,7 @@
 					<strong><input type="text" name="attribute[new][name]" class="form-control input-sm" placeholder="Name"></strong>
 				<p></p><input type="text" name="attribute[new][val]" class="form-control input-sm"placeholder="Value">
 				<p></p><textarea  name="attribute[new][descr]" class="form-control input-sm" placeholder="Description"></textarea>
-				<p></p><button type="submit" name="action" value="updateAttribute.new" class="btn btn-default btn-xs">Update</button></div>
+				</div>
 			</div>
 			
 			<div class="rowdelimiter"></div>

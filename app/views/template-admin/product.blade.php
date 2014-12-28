@@ -359,10 +359,14 @@
 		<div class="col-xs-12">
 			<a class="btn btn-info" href="{{ route('admin.show', array('orders', "filter" => "products", "filter_id" => $items->id)) }}" 
 			   role="button">{{ $items->orders()->count() }} orders</a>
+			@if(isset($items['basket']))
 			<a class="btn btn-info" href="{{ route('admin.show', array('lists', "filter" => "products", "filter_id" => $items->id)) }}" 
-			   role="button">{{ count($items->basket) }} in baskets</a>
+			   role="button">{{ $items['basket'] }} in baskets</a>
+			@endif
+			@if(isset($items['lists']))
 			<a class="btn btn-default" href="{{ route('admin.show', array('lists', "filter" => "products", "filter_id" => $items->id)) }}" 
-			   role="button">{{ count($items->lists) }} in lists</a>			
+			   role="button">{{ $items['lists'] }} in lists</a>		
+			@endif
 			<a class="btn btn-default" href="{{ route('admin.show', array('comments', "filter" => "products", "filter_id" => $items->id)) }}"
 			   role="button">{{ $items->comments()->count() }} comments</a>
 			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', "filter" => "products", "filter_id" => $items->id)) }}"
