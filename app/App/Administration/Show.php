@@ -886,8 +886,22 @@ class Show {
 	/**
 	 * show Orders
 	 */
-	public function showOrders( $order = null, $filters = array() )
+	public function showOrders( $order = null, $filters = array(), $orderBy = array('created_at', 'desc') )
 	{
+		$pinSkip = false;
+		
+		if(Input::get('sort', null)) 
+		{ 
+			$orderBy[0] = Input::get('sort');
+			
+			$pinSkip = true;
+		}
+		
+		if(Input::get('direction', null)) 
+		{ 
+			$orderBy[1] = Input::get('direction'); 
+		}
+		
 		$type = key($filters);
 		
 		if($type == "userbook" || $type == "userdiscount" || $type == "status") 
@@ -930,8 +944,9 @@ class Show {
 			$items = $items->where('archive', '!=', true);
 		}
 		
-		return $items->orderBy('pin', 'desc')
-			->orderBy('created_at', 'desc')
+		if($pinSkip === false) { $items = $items->orderBy('pin', 'desc'); }
+		
+		return $items->orderBy($orderBy[0], $orderBy[1])
 			->with(
 				'user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'bills')
 			->with(array('site' => function($q) 
@@ -1018,8 +1033,18 @@ class Show {
 	/**
 	 * show Bills
 	 */
-	public function showBills($filters = array())
+	public function showBills($filters = array(), $orderBy = array('created_at', 'desc'))
 	{
+		if(Input::get('sort', null)) 
+		{ 
+			$orderBy[0] = Input::get('sort'); 
+		}
+		
+		if(Input::get('direction', null)) 
+		{ 
+			$orderBy[1] = Input::get('direction'); 
+		}
+		
 		$type = key($filters);
 		
 		if($type == 'order' || $type == 'user' || empty($type))
@@ -1042,7 +1067,7 @@ class Show {
 			$items = \Veer\Models\OrderBill::where($type, '=', array_get($filters, $type, 0));
 		}
 		
-		return $items->orderBy('created_at', 'desc')
+		return $items->orderBy($orderBy[0], $orderBy[1])
 			->with(
 				'order', 'user', 'status', 'payment'
 			)->paginate(50);
