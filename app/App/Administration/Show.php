@@ -397,9 +397,9 @@ class Show {
 				'subproducts', 'parentproducts', 'pages', 'categories', 
 				'tags', 'attributes', 'images', 'downloads' );		
 
-			$items['basket'] = $items->userlists()->where('name','=','[basket]')->get();
+			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
 			
-			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->get();	
+			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();	
 		}	
 		
 		return $items;
@@ -736,9 +736,9 @@ class Show {
 		if(is_object($items)) 
 		{
 			$items->load(
-				'role', 'comments', 'books', 'discounts',
-				'userlists', 'orders', 'bills', 'communications', 'administrator',
-				'searches', 'pages', 'images'
+				'role', 'books', 'discounts',
+				'orders', 'bills', 'administrator',
+				'pages', 'images'
 			);
 			
 			$items->load(array('site' => function($q) 
@@ -748,11 +748,10 @@ class Show {
 					$query->where('conf_key','=','SITE_TITLE');
 				}));
 			}));
+						
+			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
 			
-			$items['lists'] = 
-				$items->userlists()->count(\Illuminate\Support\Facades\DB::raw(
-					'DISTINCT name'
-				));
+			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();			
 		}	
 		
 		return $items;

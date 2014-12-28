@@ -50,6 +50,11 @@ class Order extends \Eloquent {
         return $this->belongsToMany('\Veer\Models\Product','orders_products', 'orders_id', 'products_id');        
     }
     
+    public function downloads() {
+        return $this->hasManyThrough('\Veer\Models\Download', '\Veer\Models\OrderProduct', 'orders_id', 'elements_id');
+		// experimental - later we should skip everything except products
+    }
+	
     // One Order -> Many
     
     public function bills() {
