@@ -139,31 +139,34 @@
 			</div>
 			@if(isset($items->images) && count($items->images)>0)			
 			<p></p>
-			{{-- @include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true)) --}}
+			@include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))
 			@endif
 		</div>
 	</div>
 	
+	<h3><strong>Books <small>addresses</small></strong></h3>
 	@if(isset($items->books) && count($items->books)>0)
 	<div class="row">
 		<div class="col-sm-12">
-			{{-- @include($template.'.lists.books', array('items' => $items->books, 'denyDelete' => true)) --}}
+			@include($template.'.lists.books', array('items' => $items->books, 'skipUser' => true))
 		</div>
 	</div>
 	@endif
 	
+	<h3><strong>Discounts</strong></h3>
 	@if(isset($items->discounts) && count($items->discounts)>0)
 	<div class="row">
 		<div class="col-sm-12">
-			{{-- @include($template.'.lists.discounts', array('items' => $items->discounts, 'denyDelete' => true)) --}}
+			@include($template.'.lists.discounts', array('items' => $items->discounts))
 		</div>
 	</div>
 	@endif
 	
+	<h3><strong>Orders</strong></h3>
 	@if(isset($items->orders) && count($items->orders)>0)
 	<div class="row">
 		<div class="col-sm-12">
-			{{-- @include($template.'.lists.orders', array('items' => $items->orders, 'denyDelete' => true)) --}}
+			@include($template.'.lists.orders', array('items' => $items->orders, 'skipUser' => true))
 		</div>
 	</div>
 	@endif

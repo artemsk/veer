@@ -22,7 +22,10 @@
 		@if($item->orders->count() > 0) 
 		<span class="badge"><a href="{{ route("admin.show", array("orders", "filter" => "userbook", "filter_id" => $item->id)) }}">{{ $item->orders->count() }} orders</a></span>
 		@endif
+		@if(!isset($skipUser))
 		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ '@'.$item->user->username }}</a>
+		@endif
+		
 		@if(!empty($item->b_account))
 		<br/>		
 		<small class="bank-data">
