@@ -13,7 +13,6 @@
 
 ClassLoader::addDirectories(array(
 
-	app_path().'/commands',
 	app_path().'/database',    
 ));
 

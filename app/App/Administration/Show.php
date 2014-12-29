@@ -749,6 +749,8 @@ class Show {
 				}));
 			}));
 						
+			// TODO: orders files
+			
 			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
 			
 			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();			
