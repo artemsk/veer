@@ -23,6 +23,12 @@ Route::resource('tag', 'TagController', array('only' => array('index', 'show')))
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
 get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.basket.add'));
+
+get('user/password/remind', 'RemindersController@getRemind');
+post('user/password/remind', 'RemindersController@postRemind');
+get('user/password/reset/{token?}', 'RemindersController@getReset');
+post('user/password/reset', 'RemindersController@postReset');
+
 Route::resource('user', 'UserController', array('only' => array('index', 'show')));
 
 get('download/{lnk?}', array('uses' => 'DownloadController@download', 'as' => 'download.link'));

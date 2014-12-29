@@ -114,7 +114,7 @@
 		</div>			
 		<div class="col-md-2">
 			<div class="page-checkboxes-box">
-				<input type="checkbox" class="page-checkboxes" name="administrator[banned]" data-on-color="warning" data-on-text="Banned" data-off-text="Admin" data-off-color="info" @if(isset($items->administrator->banned) && $items->administrator->banned == true) checked @endif></div>
+				<input type="checkbox" class="page-checkboxes" name="administrator[banned]" data-on-color="warning" data-on-text="Banned<br/>Admin" data-off-text="Active<br/>Admin" data-off-color="info" @if(isset($items->administrator->banned) && $items->administrator->banned == true) checked @endif></div>
 		</div>
 	</div>
 	@else
@@ -139,7 +139,7 @@
 			</div>
 			@if(isset($items->images) && count($items->images)>0)			
 			<p></p>
-			@include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))
+			{{-- @include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true)) --}}
 			@endif
 		</div>
 	</div>
@@ -147,7 +147,7 @@
 	@if(isset($items->books) && count($items->books)>0)
 	<div class="row">
 		<div class="col-sm-12">
-			@include($template.'.lists.books', array('items' => $items->books, 'denyDelete' => true))
+			{{-- @include($template.'.lists.books', array('items' => $items->books, 'denyDelete' => true)) --}}
 		</div>
 	</div>
 	@endif
@@ -155,7 +155,7 @@
 	@if(isset($items->discounts) && count($items->discounts)>0)
 	<div class="row">
 		<div class="col-sm-12">
-			@include($template.'.lists.discounts', array('items' => $items->discounts, 'denyDelete' => true))
+			{{-- @include($template.'.lists.discounts', array('items' => $items->discounts, 'denyDelete' => true)) --}}
 		</div>
 	</div>
 	@endif
@@ -163,7 +163,7 @@
 	@if(isset($items->orders) && count($items->orders)>0)
 	<div class="row">
 		<div class="col-sm-12">
-			@include($template.'.lists.orders', array('items' => $items->orders, 'denyDelete' => true))
+			{{-- @include($template.'.lists.orders', array('items' => $items->orders, 'denyDelete' => true)) --}}
 		</div>
 	</div>
 	@endif
@@ -171,7 +171,7 @@
 	@if(isset($items->bills) && count($items->bills)>0)
 	<div class="row">
 		<div class="col-sm-12">
-			@include($template.'.lists.bills', array('items' => $items->bills, 'denyDelete' => true))
+			{{-- @include($template.'.lists.bills', array('items' => $items->bills, 'denyDelete' => true)) --}}
 		</div>
 	</div>
 	@endif
@@ -179,7 +179,7 @@
 	<h3><strong>Pages</strong></h3>
 	<ul class="list-group">
 		@if(isset($items->pages) && count($items->pages)>0)	
-		@foreach ($items->pages as $p)	
+		{{-- @foreach ($items->pages as $p)	
 		<li class="list-group-item">
 			<span class="badge">{{ $p->views }}</span>
 			<button type="submit" name="action" value="removeChildPage.{{ $p->id }}" class="btn btn-warning btn-xs">
@@ -187,32 +187,29 @@
 			<a href="{{ route('admin.show', array('pages', 'id' => $p->id)) }}">{{ $p->title }}</a> 
 			<small>{{ Carbon\Carbon::parse($p->created_at)->format('d M Y'); }}</small>
 		</li>	
-		@endforeach
+		@endforeach --}}
 		@endif
 		<li class="list-group-item">
 				<input type="text" name="attachChildPages" class="form-control" placeholder=":Existings IDs[,]">
 		</li>
 	</ul>
 	
+
 	{{-- skip everything except products ! --}}
+	{{--
 	@foreach($items->orders as $order)
 	@foreach($order->downloads as $file)
 
 	@endforeach
 	@endforeach
+	--}}
+	
+	<!--
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="rowdelimiter"></div>
 			
 			<h3><strong>Files</strong></h3>
-			<div class="row">
-				<div class="col-md-6">
-					<input class="input-files-enhance" type="file" id="InFile2" name="uploadFiles" multiple=false>
-				</div>
-				<div class="col-md-6">
-					<input class="form-control" name="attachFiles" placeholder=":Existing Files IDs[,]">
-				</div>				
-			</div>
 			@if(isset($items->downloads) && count($items->downloads)>0)	
 			<p></p>
 			@include($template.'.lists.files', array('files' => $items->downloads, 'denyDelete' => true))
@@ -220,7 +217,7 @@
 			<div class="rowdelimiter"></div>		
 		</div>	
 	</div>
-
+ -->
 	<div class="rowdelimiter"></div>
 	@if(isset($items->id))
 	<div class="row">

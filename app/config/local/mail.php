@@ -2,6 +2,8 @@
 
 return array(
 
-	'driver' => 'sendmail',
+	'driver' => 'log',
+	
+	'pretend' => true,
 	
 );
