@@ -74,15 +74,16 @@
 				
 				<div class="pull-right">{{ app('veershop')->priceFormat($item->price) }}</div>
 			</div>
-			<div class="panel-collapse collapse @if($key == 0) in @else out @endif" id="collapse{{ $key }}">
+			<div class="panel-collapse collapse @if($key == 0 && !isset($skipUser)) in @else out @endif" id="collapse{{ $key }}">
 				<div class="panel-body">
 					Payer: <strong>{{ $item->name }}</strong>, <a href="mailto:{{ $item->email }}">{{ $item->email }}</a>, <a 
-						href="tel:{{ $item->phone }}">{{ $item->phone }}</a> |
+						href="tel:{{ $item->phone }}">{{ $item->phone }}</a>@if(!isset($skipUser)) |
 					@if($item->users_id > 0 && is_object($item->user))
 					<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ "@".$item->user->username }}</a>
 					@elseif($item->users_id > 0) 
 					<del><a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">#{{ $item->users_id }}</a></del>
 					@else
+					@endif
 					@endif
 				</div>
 				<ul class="list-group">

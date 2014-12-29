@@ -213,7 +213,7 @@ class Show {
 	/**
 	 * show One Category
 	 */
-	public function showOneCategory($category) 
+	public function showOneCategory($category, $options = array()) 
 	{
 		$items = \Veer\Models\Category::where('id','=',$category)
 			->with(array(
@@ -230,8 +230,10 @@ class Show {
 
 		if(is_object($items)) 
 		{
-			$items->load('products', 'pages', 'images', 'communications');
+			$items->load('products', 'pages', 'communications');
 
+			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
+			
 			$items->pages->sortBy('manual_order');
 
 			$items['site_title'] = 
@@ -387,7 +389,7 @@ class Show {
 	 * @param type $product
 	 * @return type
 	 */
-	public function showOneProduct($product)
+	public function showOneProduct($product, $options = array())
 	{
 		$items = \Veer\Models\Product::find($product);
 			
@@ -395,8 +397,10 @@ class Show {
 		{
 			$items->load(
 				'subproducts', 'parentproducts', 'pages', 'categories', 
-				'tags', 'attributes', 'images', 'downloads' );		
+				'tags', 'attributes', 'downloads' );		
 
+			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
+			
 			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
 			
 			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();	
@@ -515,7 +519,7 @@ class Show {
 	 * @param type $page
 	 * @return type
 	 */
-	public function showOnePage($page) 
+	public function showOnePage($page, $options = array()) 
 	{
 		$items = \Veer\Models\Page::find($page);
 			
@@ -523,7 +527,9 @@ class Show {
 		{
 			$items->load(
 				'user', 'subpages', 'parentpages', 'products', 'categories', 
-				'tags', 'attributes', 'images', 'downloads');
+				'tags', 'attributes', 'downloads');
+			
+			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
 			
 			$items['lists'] = 
 				$items->userlists()->count(\Illuminate\Support\Facades\DB::raw(
@@ -711,13 +717,7 @@ class Show {
 			'role', 'comments', 'communications',
 			'administrator', 'pages', 'images'
 			)
-			->with(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}))
+			->with($this->loadSiteTitle())
 			->paginate(25);
 			
 		$items['counted'] = \Veer\Models\User::count();
@@ -725,30 +725,71 @@ class Show {
 		return $items;		
 	}
 	
+	/*
+	 * Images with Elements
+	 */
+	protected function loadImagesWithElements($items, $skipWith = false)
+	{
+		return $skipWith === false ? $items->load(array('images' => function($q)
+			{
+				$q->with('pages', 'products', 'categories', 'users');
+			})) 
+				: $items->load('images');
+	}
+	
+	/**
+	 * Site with Site title
+	 */
+	protected function loadSiteTitle($items = null)
+	{
+		$siteWithTitle = array('site' => function($q) 
+			{
+				$q->with(array('configuration' => function($query) 
+				{
+					$query->where('conf_key','=','SITE_TITLE')->remember(5);
+				}));
+			});
+			
+		return !empty($items) ? $items->load($siteWithTitle) : $siteWithTitle;
+	}
+	
 	/**
 	 * show One User
 	 * @param type $user
 	 */
-	public function showOneUser($user)
+	public function showOneUser($user, $options = array())
 	{
 		$items = \Veer\Models\User::find($user);
 			
 		if(is_object($items)) 
 		{
 			$items->load(
-				'role', 'books', 'discounts',
-				'orders', 'bills', 'administrator',
-				'pages', 'images'
+				'role', 'administrator', 'bills', 'pages'
 			);
 			
-			$items->load(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}));
-						
+			$this->loadSiteTitle($items);
+					
+			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
+			
+			$items->load(array(
+				'books' => function($q)
+					{
+						$q->with('orders')->remember(1);
+					}, 
+				'orders' => function($q) 
+					{
+						$q->with('userbook', 'userdiscount', 'status', 'delivery', 'payment')
+						->with($this->loadSiteTitle())
+						->with(array('bills' => function($q) 
+						{
+							$q->with('status');
+						}));
+					},
+				'discounts' => function($q)
+					{
+						$q->with('orders')->remember(1);
+					}));
+			
 			// TODO: orders files
 			
 			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
@@ -795,13 +836,7 @@ class Show {
 			->orderBy('name','asc')
 			->orderBy('created_at','desc')
 			->with('user', 'elements')
-			->with(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}))
+			->with($this->loadSiteTitle())
 			->paginate(50);
 		
 		foreach($items as $key => $item)
@@ -863,13 +898,7 @@ class Show {
 		
 		$items = $items->orderBy('created_at', 'desc')
 			->with('user', 'elements')
-			->with(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}))
+			->with($this->loadSiteTitle())
 			->paginate(25);
 			
 		foreach($items as $key => $item)
@@ -914,13 +943,7 @@ class Show {
 	{
 		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserRole")->orderBy('sites_id', 'asc')
 			->with('users')
-			->with(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}))
+			->with($this->loadSiteTitle())
 			->paginate(50);
 	}	
 	
@@ -993,13 +1016,11 @@ class Show {
 		
 		return $items->orderBy($orderBy[0], $orderBy[1])
 			->with(
-				'user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment', 'bills')
-			->with(array('site' => function($q) 
+				'user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment')
+			->with($this->loadSiteTitle())
+			->with(array('bills' => function($q) 
 			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
+				$q->with('status');
 			}))
 			->paginate(50);	
 	}
@@ -1021,13 +1042,7 @@ class Show {
 	{
 		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\OrderShipping")->orderBy('sites_id', 'asc')
 			->with('orders')
-			->with(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}))->paginate(50);
+			->with($this->loadSiteTitle())->paginate(50);
 	}		
 	
 	/**
@@ -1037,13 +1052,7 @@ class Show {
 	{
 		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\OrderPayment")->orderBy('sites_id', 'asc')
 			->with('orders', 'bills')
-			->with(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}))
+			->with($this->loadSiteTitle())
 			->paginate(50);
 	}		
 	
@@ -1065,13 +1074,7 @@ class Show {
 		}
 		return $items->orderBy('created_at', 'desc')
 			->with('user', 'orders')
-			->with(array('site' => function($q) 
-			{
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE');
-				}));
-			}))
+			->with($this->loadSiteTitle())
 			->paginate(50);
 	}	
 	
