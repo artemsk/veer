@@ -25,16 +25,18 @@
 		@endif
 		</li>
 		<li class="list-group-item">
+		@if(!isset($skipUser))
 		Order: @if(is_object($item->order)) 
 		<a href="{{ route("admin.show", array("orders", "id" => $item->orders_id)) }}">
 			#{{ app('veershop')->getOrderId($item->order->cluster, $item->order->cluster_oid) }}</a>
 			<br/>Payer: <strong>{{ $item->order->name }}</strong>, <a href="mailto:{{ $item->order->email }}">{{ $item->order->email }}</a>, <a 
-				href="tel:{{ $item->order->phone }}">{{ $item->order->phone }}</a> |
+				href="tel:{{ $item->order->phone }}">{{ $item->order->phone }}</a>
 		@else <del><a href="{{ route("admin.show", array("orders", "id" => $item->orders_id)) }}">#{{ $item->orders_id }}</a></del> @endif
 		@if($item->users_id > 0 && is_object($item->user))
-		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ "@".$item->user->username }}</a>
+		| <a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ "@".$item->user->username }}</a>
 		@endif
 		<br/>
+		@endif
 		Bill link: <a href="{{ route("order.bills", array($item->id, $item->link)) }}" target="_blank">{{ $item->link }}</a>
 		<br/>
 		<h3>{{ app('veershop')->priceFormat($item->price) }}</h3>
