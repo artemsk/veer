@@ -50,6 +50,10 @@
 			@elseif($item->elements_type == "Veer\Models\Category")
 				<a href="{{ route("admin.show", array("categories", "category" => $item->elements_id)) }}">
 				{{ $item->elements->title or '[?] Unknown' }}</a>	
+			@elseif($item->elements_type == "Veer\Models\Order")
+				<a href="{{ route("admin.show", array("orders", "id" => $item->elements_id)) }}">
+				@if(is_object($item->elements)) 
+				Order # ID {{ app('veershop')->getOrderId($item->elements->cluster, $item->elements->cluster_oid) }}@else [?] Unknown @endif</a>				
 			@else
 			@endif
 			</strong>
@@ -170,8 +174,8 @@
 				<input type="url" class="form-control" name="InUrl" placeholder="Url">
 			</div> 
 			<div class="form-group">
-				<label>Place on Product | Page | Category</label>
-				<textarea class="form-control" name="InConnectedPages" rows="3" placeholder="[:id:id:id]"></textarea>
+				<label>Place on Product | Page | Category | Order</label>
+				<textarea class="form-control" name="InConnectedPages" rows="3" placeholder="[:id:id:id:id]"></textarea>
 			</div>   
 			<button type="submit" class="btn btn-default">Submit</button> 
 		</div> 

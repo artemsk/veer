@@ -910,10 +910,16 @@ class Show {
 	{
 		$type = key($filters);
 		
-		if($type != "type" && $type != "url")
+		if($type != "type" && $type != "url" && $type != "order")
 		{
 			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Communication");
 		} 
+		
+		elseif($type == "order")
+		{
+			$items = \Veer\Models\Communication::where('elements_type', '=', elements($type))
+				->where('elements_id','=', head($filters));
+		}
 		
 		else
 		{
@@ -976,6 +982,13 @@ class Show {
 	 */
 	public function showOrders( $order = null, $filters = array(), $orderBy = array('created_at', 'desc') )
 	{
+		if(!empty($order)) 
+		{			
+			if($order == "new") { return new \stdClass(); }
+			
+			return $this->showOneOrder($order);
+		}
+		
 		$pinSkip = false;
 		
 		if(Input::get('sort', null)) 
@@ -1047,6 +1060,49 @@ class Show {
 				$q->with('status');
 			}))
 			->paginate(50);	
+	}
+	
+	/**
+	 * show One order
+	 * @param type $order
+	 */
+	public function showOneOrder($order)
+	{
+		$items = \Veer\Models\Order::find($order);
+			
+		if(is_object($items)) 
+		{
+			$items->load(
+				'status', 'delivery', 'payment', 'status_history', 'secrets'
+			);
+			// do not load 'downloads' because we have products->with(downloads)
+			
+			$this->loadSiteTitle($items);
+					
+			$items->load(array(
+				'user' => function($q)
+					{
+						$q->with('role', 'administrator');
+					},
+				'userbook' => function($q)
+					{
+						$q->with('orders')->remember(1);
+					}, 
+				'userdiscount' => function($q)
+					{
+						$q->with('orders')->remember(1);
+					},
+				'bills' => function($q)
+					{
+						$q->with('status', 'payment');
+					},
+				'products' => function($q)
+					{
+						$q->with('images', 'categories', 'tags', 'attributes', 'downloads');
+					}));
+		}	
+		
+		return $items;
 	}
 	
 	/**

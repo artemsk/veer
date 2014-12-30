@@ -2,16 +2,15 @@
 
 @section('body')			
 	<ol class="breadcrumb">
-		<li><strong>Users</strong></li>
-		<li><strong><a href="{{ route("admin.show", "users") }}">Users</a></strong></li>
-		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
-		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
-		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>		
-		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
-		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
+		<li><strong>E-commerce</strong></li>
+		<li><strong><a href="{{ route("admin.show", "orders") }}">Orders</a></strong></li>	
+		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
+		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
+		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
+		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
+		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 	</ol> 
-<h1>User #{{ $items->id or '—' }} <small>
+<h1>Order #{{ $items->id or '—' }} <small>
 		&nbsp; <nobr><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> {{ $items->logons_count or '—' }}</nobr>
 		&nbsp; <nobr><span class="glyphicon glyphicon-glass" aria-hidden="true"></span> {{ $items->orders_count or '—' }}</nobr></small></h1>
 <br/>
@@ -216,20 +215,8 @@
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-xs-12">
-			@if(isset($items['basket']))
-			<a class="btn btn-info" href="{{ route('admin.show', array('lists', "filter" => "user", "filter_id" => $items->id)) }}" 
-			   role="button">{{ $items['basket'] }} in baskets</a>
-			@endif
-			@if(isset($items['lists']))
-			<a class="btn btn-default" href="{{ route('admin.show', array('lists', "filter" => "user", "filter_id" => $items->id)) }}" 
-			   role="button">{{ $items['lists'] }} in lists</a>		
-			@endif	
-			<a class="btn btn-default" href="{{ route('admin.show', array('searches', "filter" => "users", "filter_id" => $items->id)) }}"
-			   role="button">{{ $items->searches()->count() }} searches</a>
-			<a class="btn btn-default" href="{{ route('admin.show', array('comments', "filter" => "user", "filter_id" => $items->id)) }}"
-			   role="button">{{ $items->comments()->count() }} comments</a>
-			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', "filter" => "user", "filter_id" => $items->id)) }}"
+		<div class="col-xs-12">	
+			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', "filter" => "order", "filter_id" => $items->id)) }}"
 			   role="button">{{ $items->communications()->count() }} communications</a>
 		</div>
 	</div>
