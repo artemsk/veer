@@ -764,7 +764,7 @@ class Show {
 		if(is_object($items)) 
 		{
 			$items->load(
-				'role', 'administrator', 'bills', 'pages'
+				'role', 'administrator', 'pages'
 			);
 			
 			$this->loadSiteTitle($items);
@@ -778,7 +778,7 @@ class Show {
 					}, 
 				'orders' => function($q) 
 					{
-						$q->with('userbook', 'userdiscount', 'status', 'delivery', 'payment')
+						$q->with('userbook', 'userdiscount', 'status', 'delivery', 'payment', 'downloads')
 						->with($this->loadSiteTitle())
 						->with(array('bills' => function($q) 
 						{
@@ -788,10 +788,14 @@ class Show {
 				'discounts' => function($q)
 					{
 						$q->with('orders')->remember(1);
+					},
+				'bills' => function($q)
+					{
+						$q->with('status', 'payment');
 					}));
 			
-			// TODO: orders files
-			
+			$items['files'] = $this->getOrderDownloads($items->orders);
+					
 			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
 			
 			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();			
@@ -800,6 +804,26 @@ class Show {
 		return $items;
 	}
 
+	/**
+	 * only downloads for order
+	 * (will take through products)
+	 */
+	public function getOrderDownloads($orders = array())
+	{
+		$files = array();
+		
+		foreach($orders as $o)
+		{
+			foreach($o->downloads as $file)
+			{
+				$file->elements_type == elements('product') 
+					? array_push($files, $file) : null;
+			}
+		}
+		
+		return $files;
+	}
+	
 	/**
 	 * show Users Books
 	 */

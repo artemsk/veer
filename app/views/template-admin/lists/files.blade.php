@@ -1,7 +1,10 @@
 <ul class="list-group">
 				@foreach($files as $file)
+				@if(!isset($skipUser) || (isset($skipUser) && $file->original != true)) 
 				<li class="list-group-item">
+					@if(!isset($skipOrder))
 					<button type="submit" name="action" value="removeFile.{{ $file->id }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>&nbsp;
+					@endif
 					<small>#{{ $file->id }}:</small>
 					@if($file->original == true) 
 					<span class="label label-default">original</span>
@@ -32,5 +35,6 @@
 					@endif
 					</small>				
 				</li>
+				@endif
 				@endforeach
 </ul>
