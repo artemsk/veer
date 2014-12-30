@@ -65,4 +65,8 @@ class Order extends \Eloquent {
         return $this->morphMany('\Veer\Models\Secret', 'elements');
     }   
 	
+    public function communications() {
+        return $this->morphMany('\Veer\Models\Communication', 'elements');
+    }     	
+	
 }
