@@ -12,22 +12,24 @@
 	</ol> 
 <h1>Order #@if(isset($items->cluster)){{ app('veershop')->getOrderId($items->cluster, $items->cluster_oid) }} @else — @endif<small>
 		@if(isset($items->site) && is_object($items->site))~ {{ $items->site->configuration->first()->conf_val or $items->site->url; }} @endif
-		@if($items->pin == true) <span class="label label-yellow"><span class="glyphicon glyphicon-pushpin"></span> pinned</span> @endif
-		@if(is_object($items->status))<span class="label" style="background-color: {{ $items->status->color }}">
+		@if(isset($items->pin) && $items->pin == true) 
+		<span class="label label-yellow"><span class="glyphicon glyphicon-pushpin"></span> pinned</span> @endif
+		@if(isset($items->status) && is_object($items->status))<span class="label" style="background-color: {{ $items->status->color }}">
 			<a href="{{ route("admin.show", array("orders", "filter" => "status", "filter_id" => $items->status->id)) }}" target="_blank">
 				<strong>{{ $items->status->name or null }}</strong>
 			</a></span>&nbsp; 
 		@endif
-		{{ app('veershop')->priceFormat($items->price) }}
+		@if(isset($items->price)) {{ app('veershop')->priceFormat($items->price) }} @endif
 		</small></h1>
 <br/>
 {{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
 <div class="container">
 
 	<div class="row">
-		<div class="col-sm-12"><small>#{{ $items->id }} {{ $items->hash }}</small></div>
+		<div class="col-sm-12"><small>#{{ $items->id or '—' }} {{ $items->hash or null }}</small></div>
 	</div>
 	
+	@if(isset($items->progress))
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="progress">
@@ -45,11 +47,11 @@
 	</div>
 	
 	<div class="xs-rowdelimiter"></div>
-	
+	@endif
 	<div class="row">
 		<div class="col-sm-4">
 			<p><select class="form-control" name="fill[status_id]">
-				<option value="{{ $items->status->id }}">{{ $items->status->name }}</option>
+				<option value="{{ $items->status->id or null }}">{{ $items->status->name or null }}</option>
 				@foreach(statuses() as $status)
 				<option value="{{ $status->id }}">{{ $status->name }}</option>
 				@endforeach
@@ -127,7 +129,7 @@
 				</span>
 				<input type="text" name="fill[users_id]" class="form-control" placeholder="Users Id" value="{{ $items->users_id or null }}">
 			</div>
-		@if(is_object($items->user))
+		@if(isset($items->user) && is_object($items->user))
 		<small><a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@'.$items->user->username }}</a><br/>
 			<span class="text-muted">{{ $items->user->role->role }} {{ isset($items->user->administrator) ? '| administrator' : null }}</span>
 		</small>
@@ -162,13 +164,13 @@
 	@endif
 	
 	<div class="rowdelimiter"></div>
-	<h3><strong>Shipping</strong> <small>{{ app('veershop')->priceFormat($items->delivery_price) }}</small></h3>
+	<h3><strong>Shipping</strong> @if(isset($items->delivery_price))<small>{{ app('veershop')->priceFormat($items->delivery_price) }}</small>@endif</h3>
 	<div class="row">
 		<div class="col-md-2"><p></p><strong>
 			<input type="text" name="fill[delivery_method]" class="form-control" placeholder="Shipping method" 
 				   value="{{ $items->delivery_method or null }}">
 			</strong><small>Shipping method</small><p></p>
-			<input type="text" name="fill[delivery_method_id]" class="form-control" placeholder="Shipping method Id" value="{{ $items->delivery_method_id or null }}"><small>@if(is_object($items->delivery))
+			<input type="text" name="fill[delivery_method_id]" class="form-control" placeholder="Shipping method Id" value="{{ $items->delivery_method_id or null }}"><small>@if(isset($items->delivery) && is_object($items->delivery))
 				{{ $items->delivery->name }}:
 				{{ $items->delivery->delivery_type }},
 				{{ $items->delivery->payment_type }},
@@ -180,11 +182,11 @@
 			</small>			
 		</div>
 		<div class="col-md-2">
-			<div class="@if($items->delivery_plan < now()) has-warning @endif has-feedback">
+			<div class="@if(isset($items->delivery_plan) && $items->delivery_plan < now()) has-warning @endif has-feedback">
 			<p></p>
 			<input type="text" class="form-control date-container" name="fill[delivery_plan]"
 					   placeholder="Month/Day/Year" value="{{ !empty($items->delivery_plan) ? Carbon\Carbon::parse($items->delivery_plan)->format('m/d/Y') : '' }}"/>
-			@if($items->delivery_plan < now() && $items->delivery_real > now())
+			@if(isset($items->delivery_plan) && $items->delivery_plan < now() && $items->delivery_real > now())
 			<span class="glyphicon glyphicon-question-sign form-control-feedback" aria-hidden="true"></span>
 			@endif
 			<small>Delivery date (scheduled)</small>
@@ -223,7 +225,8 @@
 			<p></p><input type="text" class="form-control input-sm" name="fill[userbook_id]"
 					  placeholder="Userbook Id" value="{{ $items->userbook_id or null }}"/>
 			<small>Userbook 
-				<a href="{{ route("admin.show", array("books", "filter" => "user", "filter_id" => $items->users_id)) }}" target="_blank">~ edit user books</a></small>
+				@if(isset($items->users_id))
+				<a href="{{ route("admin.show", array("books", "filter" => "user", "filter_id" => $items->users_id)) }}" target="_blank">~ edit user books</a>@endif</small>
 		</div>
 	</div>
 		
@@ -248,7 +251,7 @@
 		</div>
 		<div class="col-md-3">
 			<p></p>
-			<input type="text" name="fill[payment_method_id]" class="form-control" placeholder="Payment method Id" value="{{ $items->payment_method_id or null }}"><small>@if(is_object($items->payment))
+			<input type="text" name="fill[payment_method_id]" class="form-control" placeholder="Payment method Id" value="{{ $items->payment_method_id or null }}"><small>@if(isset($items->payment) && is_object($items->payment))
 				{{ $items->payment->name }}:
 				{{ $items->payment->type }},
 				{{ $items->payment->paying_time }},
@@ -279,7 +282,7 @@
 
 	<div class="rowdelimiter"></div>
 	
-	<h3><strong>Order content</strong> <small>{{ app('veershop')->priceFormat($items->content_price) }}</small></h3>
+	<h3><strong>Order content</strong> @if(isset($items->content_price))<small>{{ app('veershop')->priceFormat($items->content_price) }}</small>@endif</h3>
 	
 	@if(isset($items->orderContent) && count ($items->orderContent)>0)
 	<p>
@@ -314,6 +317,8 @@
 	</div>
 	@endif
 	
+	@if(isset($items->id))
+	
 	<div class="row">
 		<div class="col-sm-12 text-center">
 			<h2>
@@ -322,7 +327,7 @@
 				{{ app('veershop')->priceFormat($items->price) }}
 			</h2>
 		</div>
-	</div>	
+	</div>
 
 	<h3>History</h3>
 	@if(is_object($items->status_history))
@@ -351,7 +356,7 @@
 	@endif
 	
 	<div class="rowdelimiter"></div>
-	@if(isset($items->id))
+	
 	<div class="row">
 		<div class="col-sm-12"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 	</div>
