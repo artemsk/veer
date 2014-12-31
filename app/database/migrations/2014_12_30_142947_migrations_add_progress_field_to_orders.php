@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MigrationsAddUsernameField extends Migration {
+class MigrationsAddProgressFieldToOrders extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,8 +12,8 @@ class MigrationsAddUsernameField extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('users', function(Blueprint $table) {
-            $table->string('username', 255)->after('gender')->index();
+		Schema::table('orders', function(Blueprint $table) {
+            $table->tinyInteger('progress')->nullable()->after('status_id')->index();
         });
 	}
 
@@ -24,8 +24,8 @@ class MigrationsAddUsernameField extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('users', function($table) {
-            $table->dropColumn('username');
+		Schema::table('orders', function($table) {
+            $table->dropColumn('progress');
         });
 	}
 

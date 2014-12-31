@@ -1,8 +1,10 @@
 <ul class="list-group">
 	@foreach($items as $discount)
 	<li class="list-group-item">
+		@if(!isset($skipOrder))
 		<button type="submit" name="action" value="deleteDiscount.{{ $discount->id }}" class="btn btn-danger btn-xs">
 			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+		@endif
 		<small>#{{ $discount->id }}:</small>
 		{{ $discount->sites_id }}
 		{{ $discount->secret_code }}

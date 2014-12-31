@@ -292,3 +292,13 @@ html, body
     background-color: #ffcc66;
     color: #000;
 }
+
+.xs-thumbnails-img {
+    width: 50px;
+}
+
+.xs-thumbnails-grid {
+    padding-right: 0px !important;
+    width: auto !important;
+    max-width: 50%;
+}

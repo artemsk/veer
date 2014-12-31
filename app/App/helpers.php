@@ -566,3 +566,23 @@ if (!function_exists('elements')) {
 	}
 
 }
+
+
+
+
+if (!function_exists('statuses')) {
+
+	/**
+	 * Get all veer shop statuses
+	 * @return object
+	 */
+	function statuses($flag = null)
+	{
+		if(empty($flag)) return \Veer\Models\OrderStatus::orderBy('manual_order','asc')->get();
+		
+		$statuses = $flag == "secret" ? \Veer\Models\OrderStatus::where($flag, '=', true) :
+			\Veer\Models\OrderStatus::where('flag_' . $flag, '=', true);
+		return $statuses->orderBy('manual_order', 'asc')->get();
+	}
+
+}

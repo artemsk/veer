@@ -27,7 +27,7 @@
     
     $(".page-checkboxes").bootstrapSwitch({'labelWidth':0});
     
-    $("input, textarea").change(function() {
+    $("input, textarea, select").change(function() {
        if($(this).attr('id') != 'SearchField') {
         $(".action-hover-box").show().addClass('animated').addClass('flipInY'); 
 
