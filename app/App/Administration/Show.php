@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Event;
 
 class Show {
 	
+	/* request from user */
+	public $userRequest = false;
+	
 	/**
 	 * Show Sites
 	 */
@@ -272,15 +275,17 @@ class Show {
 			return $items;
 		} 
 
-		return \Veer\Models\Site::with(
+		$items = \Veer\Models\Site::with(
 			array('categories' => function($query) 
 			{
 				$query->has('parentcategories', '<', 1)
 					->orderBy('manual_sort','asc')
 					->with('pages', 'products', 'subcategories');
 			}))
-				->orderBy('manual_sort','asc')
-				->get();
+				->orderBy('manual_sort','asc');
+
+		return !$this->userRequest ? $items->get() : $items->find($this->userRequest);
+		// TODO: later will try to unite veerdb & show ?
 	}
 	
 	/**
@@ -956,11 +961,13 @@ class Show {
 				
 		if(!is_array($u)) { return null; } 
 		
-		foreach($u as $userId) 
+		$getUsers = \Veer\Models\User::whereIn('id', $u)->get();
+	
+		$itemsUsers = array();
+		
+		foreach($getUsers as $user) 
 		{
-			$getUser = \Veer\Models\User::find($userId);
-			
-			$itemsUsers[$userId] = isset($getUser) ? $getUser : $userId;  
+			$itemsUsers[$user->id] = $user;
 		}
 		
 		return $itemsUsers;

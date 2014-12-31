@@ -336,4 +336,117 @@ class VeerApp {
 	    }		
 	}
 
+	/**
+	 * add new message to communication table
+	 */
+	public function communicationsSend( $options = array() )
+	{
+		\Event::fire('router.filter: csrf');
+		
+		$all = \Input::all();
+		
+		if(array_get($all, 'message', null) == null) return;
+		
+		\Eloquent::unguard();
+		
+		if(array_get($all, 'fill.users_id', null) == null) array_set($all, 'fill.users_id', \Auth::id());		
+		if(array_get($all, 'fill.sites_id', null) == null) array_set($all, 'fill.sites_id', app('veer')->siteId);		
+		if(array_get($all, 'fill.url', null) == null) array_set($all, 'fill.url', app('url')->current());
+		
+		if(array_get($all, 'fill.users_id', null) != null)
+		{
+			if(array_get($all, 'fill.sender', null) == null) array_set($all, 'fill.sender', \Auth::user()->username);			
+			if(array_get($all, 'fill.sender_phone', null) == null) array_set($all, 'fill.sender_phone', \Auth::user()->phone);			
+			if(array_get($all, 'fill.sender_email', null) == null) array_set($all, 'fill.sender_email', \Auth::user()->email);
+		}
+		
+		$message = new \Veer\Models\Communication;
+		
+		$message->fill( array_get($all, 'fill', null) );
+		
+		$message->public = array_get($all, 'checkboxes.public', 
+			array_get($options, 'checkboxes.public', false)) ? true : false;
+		
+		$message->email_notify = array_get($all, 'checkboxes.email_notify', 
+			array_get($options, 'checkboxes.email_notify', false)) ? true : false;
+		
+		$message->hidden = array_get($all, 'checkboxes.hidden', 
+			array_get($options, 'checkboxes.hidden', false)) ? true : false;
+		
+		$message->intranet = array_get($all, 'checkboxes.intranet', 
+			array_get($options, 'checkboxes.intranet', false)) ? true : false;
+		
+		$connected = array_get($all, 'connected', null) ;
+		
+		if(!empty($connected))
+		{
+			list($model, $id) = explode(":", $connected);
+			
+			$message->elements_type = elements($model);
+			
+			$message->elements_id = $id;
+		}
+		
+		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'message', null) );
+		
+		$message->message = $text;
+		$message->recipients = json_encode($recipients);
+		
+		$message->save();
+		
+		if($message->email_notify == true || !empty($emails))
+		{
+			$this->message2mail($message->id);
+		}
+	}
+	
+	/**
+	 * parse message
+	 * @param type $m
+	 */
+	protected function parseMessage($m)
+	{
+		$emailsCollection = $usernamesCollection = array();
+		
+		$usernames = "/(@[^\\s]+)\\b/i"; 		
+		$emails = "/(\\[[^\\s]+\\])/i"; 
+		
+		preg_match_all($emails, $m, $matches);
+		
+		$m = preg_replace($emails, "", $m);
+		
+		foreach($matches[0] as $match)
+		{
+			$emailsCollection[] = substr($match, 1, -1);
+		}
+		
+		preg_match_all($usernames, $m, $matches);
+		
+		$m = preg_replace($usernames, "", $m);
+		
+		foreach($matches[0] as $match)
+		{ 
+			if(starts_with($match, "@:")) { $userId = substr($match, 2); }
+			
+			else
+			{
+				$userId = \Veer\Models\User::where('username','=', substr($match, 1))->pluck('id');
+			}
+			
+			if(!empty($userId)) $usernamesCollection[] = $userId;
+		}
+		
+		$m = preg_replace("/(\\s+)/i", " ", $m);
+		
+		return array( trim($m), $emailsCollection, $usernamesCollection );
+	}
+	
+	/**
+	 * queue sending message by email
+	 */
+	protected function message2mail($messageId)
+	{
+		//
+	}
+	
 }

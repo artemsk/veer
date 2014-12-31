@@ -125,61 +125,61 @@
 	<div class="row">
         <div class="col-md-6">
 			<div class="form-group">
-                <input type="text" class="form-control" name="InSender" placeholder="Sender">
+                <input type="text" class="form-control" name="fill[sender]" placeholder="Sender">
 			</div>
 			<div class="form-group">
-                <input type="tel" class="form-control" name="InSenderPhone" placeholder="Sender Phone">
+                <input type="tel" class="form-control" name="fill[sender_phone]" placeholder="Sender Phone">
 			</div>
 			<div class="form-group">
-                <input type="email" class="form-control" name="InSenderEmail" placeholder="Sender Email">
+                <input type="email" class="form-control" name="fill[sender_email]" placeholder="Sender Email">
 			</div>
 			<div class="form-group">
-                <textarea class="form-control" rows="3" name="InMessage" placeholder="Message @recipient @recipient"></textarea>
+                <textarea class="form-control" rows="3" name="message" placeholder="Message @recipient @recipient"></textarea>
 			</div> 
 			<div class="form-group">
-                <input type="text" class="form-control" name="InTheme" placeholder="Theme">
+                <input type="text" class="form-control" name="fill[theme]" placeholder="Theme">
 			</div>
 			<div class="form-group">
-                <input type="text" class="form-control" name="InType" placeholder="Label | Type (IM, email, callme etc.)">
+                <input type="text" class="form-control" name="fill[type]" placeholder="Label | Type (IM, email, callme etc.)">
 			</div> 
 			<div class="checkbox">
                 <label>
-					<input type="checkbox" name="OnPublic" checked> Public
+					<input type="checkbox" name="checkboxes[public]" checked> Public
                 </label>
 			</div>			
 			<div class="checkbox">
                 <label>
-					<input type="checkbox" name="OnNotify"> Email Notify
+					<input type="checkbox" name="checkboxes[email_notify]"> Email Notify
                 </label>
 			</div>
 			<div class="checkbox">
                 <label>
-					<input type="checkbox" name="OnIntranet"> Intranet
+					<input type="checkbox" name="checkboxes[intranet]"> Intranet
                 </label>
 			</div>
 			<div class="checkbox">
                 <label>
-					<input type="checkbox" name="OnHidden"> Hidden
+					<input type="checkbox" name="checkboxes[hidden]"> Hidden
                 </label>
 			</div>			
 
 		</div> 
 		<div class="col-md-6">
 			<div class="form-group">
-                <input type="text" class="form-control" name="InSite" placeholder="Sites ID">
+                <input type="text" class="form-control" name="fill[sites_id]" placeholder="Sites ID">
 			</div> 
 			<div class="form-group">
-                <input type="text" class="form-control" name="InUser" placeholder="Users ID [or empty for current]">
+                <input type="text" class="form-control" name="fill[users_id]" placeholder="Users ID [or empty for current]">
 			</div> 			
 			<div class="form-group">
 				<label>Place on specific Url</label>
-				<input type="url" class="form-control" name="InUrl" placeholder="Url">
+				<input type="url" class="form-control" name="fill[url]" placeholder="Url">
 			</div> 
 			<div class="form-group">
 				<label>Place on Product | Page | Category | Order</label>
-				<textarea class="form-control" name="InConnected" rows="3" placeholder="[:id:id:id:id]"></textarea>
+				<textarea class="form-control" name="connected" rows="3" placeholder="page|product|category|order:id"></textarea>
 			</div>   
-			<button type="submit" class="btn btn-default">Submit</button> 
+			<button type="submit" name="action" value="addMessage" class="btn btn-default">Submit</button> 
 		</div> 
 	</div>
 	{{ Form::close() }}
