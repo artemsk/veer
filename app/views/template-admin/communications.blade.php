@@ -23,17 +23,18 @@
 	</small></h1>
 <br/>
 <div class="container">
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<ul class="list-group">
 	@foreach($items as $key => $item)
 		@if($key !== 'recipients')
 		<div class="panel @if($item->intranet == true) panel-info @else panel-default @endif">
 		<div class="panel-heading">
-			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+			<button type="submit" name="deleteMessage[{{ $item->id }}]" value="{{ $item->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 			&nbsp;
 			@if($item->hidden > 0)
-			<button type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>
+			<button type="submit" name="unhideMessage[{{ $item->id }}]" value="{{ $item->id }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>
 			@else
-			<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>
+			<button type="submit" name="hideMessage[{{ $item->id }}]" value="{{ $item->id }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>
 			@endif
 			&nbsp;
 			<small>#{{ $item->id }}</small>
@@ -107,6 +108,7 @@
 		@endif
 	@endforeach
 	</ul>
+	{{ Form::close() }}
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
@@ -175,7 +177,7 @@
 			</div> 
 			<div class="form-group">
 				<label>Place on Product | Page | Category | Order</label>
-				<textarea class="form-control" name="InConnectedPages" rows="3" placeholder="[:id:id:id:id]"></textarea>
+				<textarea class="form-control" name="InConnected" rows="3" placeholder="[:id:id:id:id]"></textarea>
 			</div>   
 			<button type="submit" class="btn btn-default">Submit</button> 
 		</div> 

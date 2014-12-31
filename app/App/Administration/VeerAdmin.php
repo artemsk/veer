@@ -1893,5 +1893,116 @@ class VeerAdmin extends Show {
 			}		
 		}
 	}
+	
+	
+	/**
+	 * update Etc
+	 */
+	public function updateEtc()
+	{
+		Event::fire('router.filter: csrf');
 		
+		$all = Input::all();
+		$action = Input::get('action', null);
+		
+		if($action == "runRawSql" && array_get($all, 'freeFormSql', null) != null)
+		{
+			// TODO: warning! very dangerous!
+			\DB::statement( array_get($all, 'freeFormSql', null) );
+			Event::fire('veer.message.center', \Lang::get('veeradmin.etc.sql'));
+			$this->action_performed[] = "RUN sql";
+		}
+	
+	}	
+	
+	
+	/**
+	 * update Roles
+	 */
+	public function updateRoles()
+	{
+		\Eloquent::unguard();
+		
+		$action = Input::get('action', null);
+		
+		if($action == "updateRoles")
+		{
+			foreach(Input::get('role', array()) as $roleId => $role)
+			{
+				if($roleId != "new") 
+				{
+					\Veer\Models\UserRole::where('id','=', $roleId)
+						->update($role);					
+				}
+				
+				elseif( $roleId == "new" && !empty($role['role']))
+				{
+					$r = \Veer\Models\UserRole::firstOrNew(array("role" => $role['role'], "sites_id" => Input::get('InSite', null)));
+					$r->fill($role);
+					$r->sites_id = Input::get('InSite', null);
+					$r->save();
+					$newId = $r->id;
+				}
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.role.update'));
+			$this->action_performed[] = "UPDATE roles";
+		}
+		
+		if(!empty($action) && starts_with($action, "deleteRole"))
+		{
+			list($act, $id) = explode(".", $action);
+			$this->deleteUserRole($id);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.role.delete'));
+			$this->action_performed[] = "DELETE role";	
+		}
+		
+		if(Input::get('InUsers', null) != null)
+		{
+			$users = Input::get('InUsers', null);
+			
+			$parseAttach = explode("[", $users);
+			
+			if(starts_with($users, "NEW")) { $rolesId = array($newId); } 
+			
+			else {	$rolesId = trim(array_get($parseAttach, 0, null));	}
+			
+			$usersIds = $this->parseIds( substr( array_get($parseAttach, 1, null) ,0,-1) );
+		
+			$this->associate("\Veer\Models\User", $usersIds, "id", $rolesId, "roles_id");								
+		}
+	}
+	
+	
+	/**
+	 * delete User Role
+	 * @param type $id
+	 */
+	protected function deleteUserRole($id)
+	{
+		$u = \Veer\Models\UserRole::find($id);
+		if(is_object($u)) {
+			$u->users()->update(array('roles_id' => null));
+			$u->delete();			
+		}
+	}
+	
+	
+	/**
+	 * associate (belongTo, hasMany relationships)
+	 */
+	protected function associate($relation, $childs, $childsField, $parentId, $parentField, $raw = null)
+	{
+		$r = $relation::whereIn($childsField, $childs);
+		if (!empty($raw)) { $r->whereRaw($raw); }
+		$r->update(array($parentField => $parentId));
+	}
+
+	
+	public function updateCommunications()
+	{
+		echo "<pre>";
+		print_r(Input::all());
+		echo "</pre>";
+	}
+	
 }
