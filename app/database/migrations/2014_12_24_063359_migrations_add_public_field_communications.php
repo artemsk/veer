@@ -13,7 +13,7 @@ class MigrationsAddPublicFieldCommunications extends Migration {
 	public function up()
 	{
 		Schema::table('communications', function(Blueprint $table) {
-            $table->boolean('public')->default(1)->after('views');
+            $table->boolean('public')->default(1)->after('views')->index();
         });
 	}
 

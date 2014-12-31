@@ -43,11 +43,14 @@ class Order extends \Eloquent {
     // Many Orders <-> Many
     
     public function status_history() {
-        return $this->belongsToMany('\Veer\Models\OrderStatus','orders_history', 'orders_id', 'status_id');        
+        return $this->belongsToMany('\Veer\Models\OrderStatus','orders_history', 'orders_id', 'status_id')
+		->withPivot('name', 'comments', 'to_customer', 'order_cache')
+		->withTimestamps();        
     }
     
     public function products() {
-        return $this->belongsToMany('\Veer\Models\Product','orders_products', 'orders_id', 'products_id');        
+        return $this->belongsToMany('\Veer\Models\Product','orders_products', 'orders_id', 'products_id')
+		->withPivot('id');      
     }
     
     public function downloads() {
@@ -68,5 +71,17 @@ class Order extends \Eloquent {
     public function communications() {
         return $this->morphMany('\Veer\Models\Communication', 'elements');
     }     	
+	
+	// order content (not only products)
+	public function orderContent() {
+		return $this->hasMany('\Veer\Models\OrderProduct', 'orders_id', 'id');
+	}
+	
+	public function scopeNotProducts($query) {
+		return $query->with(array('orderContent' => function($q) 
+		{
+			$q->where('product', '!=', true);
+		}));
+	}
 	
 }

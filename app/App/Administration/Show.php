@@ -1073,7 +1073,7 @@ class Show {
 		if(is_object($items)) 
 		{
 			$items->load(
-				'status', 'delivery', 'payment', 'status_history', 'secrets'
+				'status', 'delivery', 'payment', 'secrets', 'orderContent'
 			);
 			// do not load 'downloads' because we have products->with(downloads)
 			
@@ -1099,10 +1099,112 @@ class Show {
 				'products' => function($q)
 					{
 						$q->with('images', 'categories', 'tags', 'attributes', 'downloads');
+					},
+				'status_history' => function($q)
+					{
+						$q->withTrashed();
 					}));
 		}	
 		
+		$regroupedProducts = array();
+		
+		if(is_object($items->products))
+		{
+			$regroupedProducts = $items->products = $this->regroupOrderProducts($items->products);
+		}
+		
+		if(is_object($items->orderContent))
+		{
+			$items->orderContent = $this->orderContentParse($items->orderContent, $regroupedProducts);
+		}
+		
 		return $items;
+	}
+	
+	/**
+	 * regrouped order products by pivot-id
+	 */
+	protected function regroupOrderProducts($products = array())
+	{
+		$regrouped = array();
+		
+		foreach($products as $p)
+		{
+			array_set($regrouped, $p->pivot->id, $p);
+		}
+		
+		return $regrouped;
+	}
+	
+	/** 
+	 * parse order content's attributes and make elements summary (cloud)
+	 * @param type $content
+	 * @param type $products
+	 */
+	protected function orderContentParse($content, $products = null, $skipStats = false)
+	{
+		$downloads =
+		$categoriesCloud = 
+		$tagsCloud = 
+		$attributesCloud = array();
+		
+		foreach($content as $key => $p)
+		{
+			if( array_get($products, $p->id, null) != null)
+			{
+				if(!empty($p->attributes)) 
+				{
+					$a = json_decode($p->attributes);
+
+					$attributesParsed = array();
+
+					foreach( is_array($a) ? $a : array() as $key => $value)
+					{
+						$attribute = $products[$p->id]->attributes->filter(function($attr) use ($value)
+						{
+							return $attr->id == $value ? $attr : null;
+						});
+
+						$attributesParsed = array_merge($attributesParsed, $attribute->toArray());
+					}	
+
+					$p->attributesParsed = $attributesParsed;
+				}
+				
+				foreach(!empty($products[$p->id]->downloads) ? $products[$p->id]->downloads : array() as $c)
+				{
+						$downloads[] = $c;
+				}
+					
+				if($skipStats === false) 
+				{	
+					foreach(!empty($products[$p->id]->categories) ? $products[$p->id]->categories : array() as $c)
+					{
+						$categoriesCloud['t'][$c->id] = $c->title;
+						//$categoriesCloud['q'][$c->id] = isset($categoriesCloud['q'][$c->id]) ? ($categoriesCloud['q'][$c->id] + 1) : 1; 
+					}
+
+					foreach(!empty($products[$p->id]->tags) ? $products[$p->id]->tags : array() as $c)
+					{
+						$tagsCloud['t'][$c->id] = $c->name;
+						//$tagsCloud['q'][$c->id] = isset($tagsCloud['q'][$c->id]) ? ($tagsCloud['q'][$c->id] + 1) : 1;
+					}	
+
+					foreach(!empty($products[$p->id]->attributes) ? $products[$p->id]->attributes : array() as $c)
+					{
+						$attributesCloud['t'][$c->id] = $c->name.":".$c->val;
+						//$attributesCloud['q'][$c->id] = isset($attributesCloud['q'][$c->id]) ? ($attributesCloud['q'][$c->id] + 1) : 1;
+						// TODO: how to count values properly
+					}
+				}
+			} 
+		}
+		
+		return array('content' => $content, 'downloads' => $downloads, 'statistics' => array(
+			"categories" => $categoriesCloud,
+			"tags" => $tagsCloud,
+			"attributes" => $attributesCloud
+		));
 	}
 	
 	/**

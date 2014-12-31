@@ -22,7 +22,7 @@
 		@if($item->orders->count() > 0) 
 		<span class="badge"><a href="{{ route("admin.show", array("orders", "filter" => "userbook", "filter_id" => $item->id)) }}">{{ $item->orders->count() }} orders</a></span>
 		@endif
-		@if(!isset($skipUser))
+		@if(!isset($skipUser) && !isset($skipOrder))
 		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ '@'.$item->user->username }}</a>
 		@endif
 		
@@ -37,9 +37,11 @@
 			OTHER {{ $item->b_others }}
 		</small>
 		@endif
+		@if(!isset($skipOrder))
 		<p></p>
 		<button type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp;
 		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+		@endif
 	</li>			
 	@endforeach		
 </ul>	
