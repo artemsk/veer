@@ -2000,9 +2000,16 @@ class VeerAdmin extends Show {
 	
 	public function updateCommunications()
 	{
+		if(Input::get('action', null) == "addMessage")
+		{
+			return app('veer')->communicationsSend();
+		}
+		
 		echo "<pre>";
 		print_r(Input::all());
 		echo "</pre>";
+		
+		
 	}
 	
 }

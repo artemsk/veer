@@ -39,9 +39,13 @@ use Veer\Models\User;    //b
 class VeerDb {
 
 	public $data;
+	
+	public $show;
 
 	function __construct($method = null, $id = null, $params = null)
 	{
+		//$this->show = new Administration\Show();
+		
 		if ($method != null) {
 
 			$this->data = $this->make($method, $id, $params);
@@ -111,6 +115,8 @@ class VeerDb {
 	 */
 	public function categoryShowQuery($siteId, $id, $queryParams = array())
 	{
+		//return $this->show->showOneCategory($id);
+		
 		return Category::where('sites_id', '=', $siteId)->where('id', '=', $id)->
 			with(array(
 				'subcategories' => function($query) use ($siteId) {
@@ -121,7 +127,7 @@ class VeerDb {
 			{
 				$query->where('sites_id', '=', $siteId);
 			}
-			))->first();
+			))->first(); 
 	}
 
 	/**
