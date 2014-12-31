@@ -54,5 +54,8 @@ return array(
 	"attribute.delete" => "Delete attribute",
 	"attribute.update" => "Update attributes",
 	"attribute.new" => "New attribute",	
+	"etc.sql" => "Run raw sql",
+	"role.delete" => "User role delete",
+	"role.update" => "Update roles",
 	
 );

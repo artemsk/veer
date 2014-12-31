@@ -13,6 +13,10 @@
 <br/>
 <div class="container">
 
-	
+	{{ Form::open(array('method' => 'put', 'files' => false)); }}	
+	<label>Raw Sql</label>
+	<p><textarea class="form-control" name="freeFormSql" placeholder="Raw Sql [Update, Insert, Delete]"></textarea></p>
+	<button type="submit" class="btn btn-default" name="action" value="runRawSql">Run</button>
+	{{ Form::close() }}
 </div>
 @stop
