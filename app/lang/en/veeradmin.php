@@ -68,5 +68,6 @@ return array(
 	"search.delete" => "Delete search",
 	"search.new" => "New search",
 	"list.delete" => "Delete list",
+	"list.new" => "New list",
 	
 );

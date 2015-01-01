@@ -2148,8 +2148,8 @@ class VeerAdmin extends Show {
 			
 			if(array_get($all, 'fill.users_id', null) == null && array_get($all, 'fill.session_id', null) == null)
 			{
-				if(array_get($all, 'fill.users_id', null) == null) array_set($all, 'fill.users_id', \Auth::id());
-				if(array_get($all, 'fill.session_id', null) == null) array_set($all, 'fill.session_id', \Session::getId());
+				array_set($all, 'fill.users_id', \Auth::id());
+				array_set($all, 'fill.session_id', \Session::getId());
 			}
 			
 			if(array_get($all, 'fill.name', null) == null) array_set($all, 'fill.name', '[basket]');				
