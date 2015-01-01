@@ -2035,4 +2035,41 @@ class VeerAdmin extends Show {
 		}
 	}
 	
+	
+	/**
+	 * update Comments
+	 */
+	public function updateComments()
+	{
+		if(Input::get('action', null) == "addComment")
+		{
+			return app('veer')->commentsSend();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.new'));
+			$this->action_performed[] = "NEW comment";
+		}
+		
+		if(Input::get('hideComment', null))
+		{
+			\Veer\Models\Comment::where('id','=',head(Input::get('hideComment', null)))
+				->update(array('hidden' => true));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.hide'));
+			$this->action_performed[] = "HIDE comment";
+		}
+		
+		if(Input::get('unhideComment', null))
+		{
+			\Veer\Models\Comment::where('id','=',head(Input::get('unhideComment', null)))
+				->update(array('hidden' => false));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.unhide'));
+			$this->action_performed[] = "UNHIDE comment";
+		}
+		
+		if(Input::get('deleteComment', null))
+		{
+			\Veer\Models\Comment::where('id','=',head(Input::get('deleteComment', null)))
+				->delete();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.delete'));
+			$this->action_performed[] = "DELETE comment";
+		}
+	}
 }

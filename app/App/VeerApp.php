@@ -384,8 +384,7 @@ class VeerApp {
 		{
 			list($model, $id) = explode(":", $connected);
 			
-			$message->elements_type = elements($model);
-			
+			$message->elements_type = elements($model);			
 			$message->elements_id = $id;
 		}
 		
@@ -398,7 +397,7 @@ class VeerApp {
 		
 		if($message->email_notify == true || !empty($emails))
 		{
-			$this->message2mail($message->id);
+			$this->message2mail($message->id, $emails, $recipients);
 		}
 		
 		return true;
@@ -474,9 +473,60 @@ class VeerApp {
 	 * Sending mails queue
 	 * 
 	 */
-	protected function message2mail($messageId)
+	protected function message2mail($messageId, $emails = null, $recipients = null)
 	{
 		//
+	}
+	
+	/**
+	 * Comments send
+	 * 
+	 */
+	public function commentsSend( $options = array() )
+	{
+		\Event::fire('router.filter: csrf');
+		
+		$all = \Input::all();
+		
+		if(array_get($all, 'fill.txt', null) == null) return false;
+		
+		\Eloquent::unguard();
+		
+		if(array_get($all, 'fill.users_id', null) == null) array_set($all, 'fill.users_id', \Auth::id());		
+			
+		if(array_get($all, 'fill.users_id', null) != null)
+		{
+			if(array_get($all, 'fill.author', null) == null) array_set($all, 'fill.author', \Auth::user()->username);			
+		}
+		
+		if(array_get($all, 'vote', null) == "Yes") array_set($all, 'fill.vote_y', true);		
+		if(array_get($all, 'vote', null) == "No") array_set($all, 'fill.vote_n', true);
+
+		$comment = new \Veer\Models\Comment;
+		
+		$comment->fill( array_get($all, 'fill', null) );
+		$comment->hidden = array_get($options, 'checkboxes.hidden', false);		
+		
+		$connected = array_get($all, 'connected', null) ;
+		
+		if(!empty($connected))
+		{
+			list($model, $id) = explode(":", $connected);
+			
+			$comment->elements_type = elements($model);			
+			$comment->elements_id = $id;
+		}
+		
+		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'fill.txt', null) );
+		
+		$comment->save();
+		
+		if(!empty($emails) || !empty($recipients))
+		{
+			$this->message2mail($comment->id, $emails, $recipients);
+		}
+		
+		return true;
 	}
 	
 }
