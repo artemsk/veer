@@ -1998,18 +1998,41 @@ class VeerAdmin extends Show {
 	}
 
 	
+	/**
+	 * update Communications
+	 */
 	public function updateCommunications()
 	{
 		if(Input::get('action', null) == "addMessage")
 		{
 			return app('veer')->communicationsSend();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.new'));
+			$this->action_performed[] = "NEW communication";
 		}
 		
-		echo "<pre>";
-		print_r(Input::all());
-		echo "</pre>";
+		if(Input::get('hideMessage', null))
+		{
+			\Veer\Models\Communication::where('id','=',head(Input::get('hideMessage', null)))
+				->update(array('hidden' => true));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.hide'));
+			$this->action_performed[] = "HIDE communication";
+		}
 		
+		if(Input::get('unhideMessage', null))
+		{
+			\Veer\Models\Communication::where('id','=',head(Input::get('unhideMessage', null)))
+				->update(array('hidden' => false));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.unhide'));
+			$this->action_performed[] = "UNHIDE communication";
+		}
 		
+		if(Input::get('deleteMessage', null))
+		{
+			\Veer\Models\Communication::where('id','=',head(Input::get('deleteMessage', null)))
+				->delete();
+			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.delete'));
+			$this->action_performed[] = "DELETE communication";
+		}
 	}
 	
 }

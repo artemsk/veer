@@ -139,7 +139,23 @@ class AdminController extends \BaseController {
 					Input::get('filter', null) =>  Input::get('filter_id', null),
 				));
 				$view = empty($order) ? "orders" : "order";
-				break;				
+				break;	
+			
+			case "communications":
+				$items = app('veeradmin')->showCommunications(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));				
+				app('veer')->setUnreadTimestamp('communications');				
+				$view = "communications";
+				break;
+			
+			case "comments":
+				$items = app('veeradmin')->showComments(array(
+					Input::get('filter', null) =>  Input::get('filter_id', null),
+				));				
+				app('veer')->setUnreadTimestamp('comments');				
+				$view = "comments";
+				break;
 			
 			default:
 				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}(array(

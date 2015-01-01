@@ -946,8 +946,26 @@ class Show {
 		$items['counted'] = 
 			\Veer\Models\Communication::count();
 		
+		$items['counted_unread'] = $this->showUnreadNumbers("communication");
+		
 		return $items;		
 	}		
+	
+	/**
+	 * show Unread Numbers
+	 */
+	public function showUnreadNumbers($model, $raw = null)
+	{
+		$modelFull = "\\" . elements( str_singular($model) );
+		
+		$numbers = $modelFull::where('created_at', '>=', app('veer')->getUnreadTimestamp( str_plural($model) ));
+		
+		if (!empty($raw)) { $numbers->whereRaw($raw); }
+		
+		$numbers = $numbers->remember(1)->count();
+		
+		return $numbers > 0 ? $numbers : null;		
+	}
 	
 	/**
 	 * parse communications
@@ -958,8 +976,8 @@ class Show {
 		if(empty($recipients)) { return null; }
 		
 		$u = json_decode($recipients);
-				
-		if(!is_array($u)) { return null; } 
+		
+		if(!is_array($u) || is_array($u) && count($u) < 1) { return null; } 
 		
 		$getUsers = \Veer\Models\User::whereIn('id', $u)->get();
 	

@@ -57,5 +57,9 @@ return array(
 	"etc.sql" => "Run raw sql",
 	"role.delete" => "User role delete",
 	"role.update" => "Update roles",
+	"communication.new" => "New communication",
+	"communication.hide" => "Hide communication",
+	"communication.unhide" => "Unhide communication",
+	"communication.delete" => "Delete communication",
 	
 );
