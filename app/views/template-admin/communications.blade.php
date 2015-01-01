@@ -4,9 +4,9 @@
 
 	@include($template.'.layout.breadcrumb-user', array('place' => 'communications'))
 
-<h1>Communications :{{ array_pull($items, 'counted', 0) }} <small>| unread: {{ array_pull($items, 'counted_unread', 0) }} 
+<h1>Communications :{{ array_pull($items, 'counted', 0) }} <small>unread: {{ array_pull($items, 'counted_unread', 0) }} 
 	@if(Input::get('filter',null) != null) 
-	filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
+	| filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
 	@endif
 	</small></h1>
 <br/>

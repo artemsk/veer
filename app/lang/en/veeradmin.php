@@ -61,5 +61,9 @@ return array(
 	"communication.hide" => "Hide communication",
 	"communication.unhide" => "Unhide communication",
 	"communication.delete" => "Delete communication",
+	"comment.new" => "New comment",
+	"comment.hide" => "Hide comment",
+	"comment.unhide" => "Unhide comment",
+	"comment.delete" => "Delete comment",
 	
 );
