@@ -2072,4 +2072,59 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "DELETE comment";
 		}
 	}
+	
+	/**
+	 * update Searches
+	 */
+	public function updateSearches()
+	{
+		if(Input::get('deleteSearch', null))
+		{
+			$this->deleteSearch(head(Input::get('deleteSearch', null)));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.search.delete'));
+			$this->action_performed[] = "DELETE search";
+		}
+		
+		if(Input::get('action', null) == "addSearch" && Input::get('search', null) != null)
+		{
+			$q = trim( Input::get('search', null) );
+			if(!empty($q))
+			{
+				$search = \Veer\Models\Search::firstOrCreate(array("q" => $q));
+				$search->increment('times');                  
+				$search->save();
+				
+				$users =  Input::get('users', null);
+				
+				if(starts_with($users, ':')) 
+				{
+					$users = substr($users, 1);
+					
+					if( !empty($users) )
+					{
+						$users = explode(",", trim($users) );
+
+						if(count($users) > 0) $search->users()->attach($users);
+					}	
+				}
+								
+				Event::fire('veer.message.center', \Lang::get('veeradmin.search.new'));
+				$this->action_performed[] = "NEW search";
+			}
+		}	
+	}
+	
+	/**
+	 * delete Search
+	 * @param int $id
+	 */
+	protected function deleteSearch($id)
+	{
+		$s = \Veer\Models\Search::find($id);
+		if(is_object($s)) {
+			$s->users()->detach();
+			$s->delete();			
+		}
+	}
+	
 }

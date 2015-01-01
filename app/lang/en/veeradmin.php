@@ -65,5 +65,7 @@ return array(
 	"comment.hide" => "Hide comment",
 	"comment.unhide" => "Unhide comment",
 	"comment.delete" => "Delete comment",
+	"search.delete" => "Delete search",
+	"search.new" => "New search",
 	
 );

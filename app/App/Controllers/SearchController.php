@@ -34,7 +34,7 @@ class SearchController extends \BaseController {
 		if(Input::has('q')) 
 		{                
 			$q = trim(Input::get('q'));  
-			if( $q != '' ) 
+			if( !empty($q) ) 
 			{
 				$search = \Veer\Models\Search::firstOrCreate(array("q" => $q));
 				$search->increment('times');                  
@@ -89,13 +89,13 @@ class SearchController extends \BaseController {
 	{	
 		$items = array("products" => array(0 => 0), "pages" => array(0 => 0));
 		
-		if(count($searched['products'])) {
+		if(count($searched['products']) > 0) {
 			foreach($searched['products'] as $p) {
 				$items['products'][$p->id] = $p->id;
 			}
 		}
 
-		if(count($searched['pages'])) {
+		if(count($searched['pages']) > 0) {
 			foreach($searched['pages'] as $p) {
 				$items['pages'][$p->id] = $p->id;
 			}
