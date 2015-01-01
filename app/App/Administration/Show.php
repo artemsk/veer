@@ -954,7 +954,7 @@ class Show {
 	/**
 	 * show Unread Numbers
 	 */
-	public function showUnreadNumbers($model, $raw = null)
+	public function showUnreadNumbers($model, $raw = null, $period = 5)
 	{
 		$modelFull = "\\" . elements( str_singular($model) );
 		
@@ -962,7 +962,7 @@ class Show {
 		
 		if (!empty($raw)) { $numbers->whereRaw($raw); }
 		
-		$numbers = $numbers->remember(1)->count();
+		$numbers = $numbers->remember($period)->count();
 		
 		return $numbers > 0 ? $numbers : null;		
 	}
