@@ -67,5 +67,6 @@ return array(
 	"comment.delete" => "Delete comment",
 	"search.delete" => "Delete search",
 	"search.new" => "New search",
+	"list.delete" => "Delete list",
 	
 );
