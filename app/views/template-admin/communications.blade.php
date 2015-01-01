@@ -1,24 +1,12 @@
 @extends($template.'.layout.base')
 
 @section('body')
-	<ol class="breadcrumb">
-		<li><strong>Users</strong></li>
-		<li><a href="{{ route("admin.show", "users") }}">Users</a></li>
-		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
-		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
-		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>			
-		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-		@if(Input::get('filter',null) != null) 
-		<li><strong><a href="{{ route("admin.show", "communications") }}">Communications</a></strong></li>
-		@else
-		<li class="active">Communications</li>
-		@endif			
-		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
-	</ol> 
-<h1>Communications :{{ array_pull($items, 'counted', 0) }} <small>| 
-		@if(Input::get('filter',null) != null) 
+
+	@include($template.'.layout.breadcrumb-user', array('place' => 'communications'))
+
+<h1>Communications :{{ array_pull($items, 'counted', 0) }} <small>| unread: {{ array_pull($items, 'counted_unread', 0) }} 
+	@if(Input::get('filter',null) != null) 
 	filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
-	@else emails | ims | etc.
 	@endif
 	</small></h1>
 <br/>

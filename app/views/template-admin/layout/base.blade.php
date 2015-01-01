@@ -71,8 +71,8 @@
 							  <li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
 							  <li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>
 							  <li class="divider"></li>
-							  <li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>
-							  <li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
+							  <li><a href="{{ route("admin.show", "comments") }}">Comments <strong>{{ app('veeradmin')->showUnreadNumbers('comment') }}</strong></a></li>
+							  <li><a href="{{ route("admin.show", "communications") }}">Communications <strong>{{ app('veeradmin')->showUnreadNumbers('communication') }}</strong></a></li>
 							  <li class="divider"></li>
 							  <li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
 						  </ul>

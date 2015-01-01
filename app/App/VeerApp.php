@@ -49,7 +49,7 @@ class VeerApp {
 	 * 
 	 */		
 	public $loadedComponents;	
-	
+
 	/**
 	 * Construct the VeerApp.
 	 *
@@ -337,7 +337,9 @@ class VeerApp {
 	}
 
 	/**
-	 * add new message to communication table
+	 * Communications Send
+	 * 
+	 * @return bool
 	 */
 	public function communicationsSend( $options = array() )
 	{
@@ -345,7 +347,7 @@ class VeerApp {
 		
 		$all = \Input::all();
 		
-		if(array_get($all, 'message', null) == null) return;
+		if(array_get($all, 'message', null) == null) return false;
 		
 		\Eloquent::unguard();
 		
@@ -398,11 +400,15 @@ class VeerApp {
 		{
 			$this->message2mail($message->id);
 		}
+		
+		return true;
 	}
 	
 	/**
-	 * parse message
+	 * Parse message
+	 * 
 	 * @param type $m
+	 * @return string
 	 */
 	protected function parseMessage($m)
 	{
@@ -441,8 +447,32 @@ class VeerApp {
 		return array( trim($m), $emailsCollection, $usernamesCollection );
 	}
 	
+	/*
+	 * Get unread timestamps
+	 * for user & elements
+	 * 
+	 */
+	public function getUnreadTimestamp($type)
+	{
+		$cacheName = "unread." . $type . "." . \Auth::id();
+		
+		return \Cache::get($cacheName, now());
+	}
+	
+	/*
+	 * Set unread timestamps
+	 * 
+	 */
+	public function setUnreadTimestamp($type)
+	{
+		$cacheName = "unread." . $type . "." . \Auth::id();
+		
+		\Cache::forever($cacheName, now());
+	}
+	
 	/**
-	 * queue sending message by email
+	 * Sending mails queue
+	 * 
 	 */
 	protected function message2mail($messageId)
 	{

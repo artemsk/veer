@@ -1,20 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-	<ol class="breadcrumb">
-		<li><strong>Users</strong></li>
-		<li><a href="{{ route("admin.show", "users") }}">Users</a></li>
-		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
-		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
-		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>			
-		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
-		@if(Input::get('filter',null) != null) 
-		<li><strong><a href="{{ route("admin.show", "roles") }}">Roles</a></strong></li>
-		@else
-		<li class="active">Roles</li>
-		@endif			
-	</ol>
+
+	@include($template.'.layout.breadcrumb-user', array('place' => 'roles'))
+	
 <h1>Roles @if(Input::get('filter',null) != null) 
 	<small> filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong></small>
 	@endif

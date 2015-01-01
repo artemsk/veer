@@ -1,16 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')			
-	<ol class="breadcrumb">
-		<li><strong>Users</strong></li>
-		<li><strong><a href="{{ route("admin.show", "users") }}">Users</a></strong></li>
-		<li><a href="{{ route("admin.show", "books") }}">Books</a></li>
-		<li><a href="{{ route("admin.show", "lists") }}">Lists</a></li>
-		<li><a href="{{ route("admin.show", "searches") }}">Searches</a></li>		
-		<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-		<li><a href="{{ route("admin.show", "communications") }}">Communications</a></li>
-		<li><a href="{{ route("admin.show", "roles") }}">Roles</a></li>
-	</ol> 
+
+	@include($template.'.layout.breadcrumb-user', array('place' => 'user'))
+	
 <h1>User #{{ $items->id or '—' }} <small>
 		&nbsp; <nobr><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> {{ $items->logons_count or '—' }}</nobr>
 		&nbsp; <nobr><span class="glyphicon glyphicon-glass" aria-hidden="true"></span> {{ $items->orders_count or '—' }}</nobr></small></h1>
