@@ -13,10 +13,12 @@
 		</small></h1>
 <br/>
 <div class="container">
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	@foreach(array_get($items, 'regrouped', array()) as $user => $itemGroup)
 	<ul class="list-group">
 		<li class="list-group-item list-group-item-info"><strong>
 			@if($user > 0) {{ $items['users'][$user]->firstname }} {{ $items['users'][$user]->lastname }} 
+			<strong>{{ '@'.$items['users'][$user]->username }}</strong>
 			<a href="{{ route("admin.show", array("users", "id" => $items['users'][$user]->id)) }}">{{ $items['users'][$user]->email }}</a> 
 			| <a href="tel:{{ $items['users'][$user]->phone }}">{{ $items['users'][$user]->phone }}</a> 
 			@else Guest @endif</strong>
@@ -27,7 +29,7 @@
 		@foreach($itemGroup as $item)
 
 		<li class="list-group-item bordered-row">
-			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+			<button type="submit" name="deleteList[{{ $items[$item]->id }}]" value="{{ $items[$item]->id }}"  class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 			@if($items[$item]->name == "[basket]")
 			<span class="label label-primary">cart</span>
 			@else
@@ -56,6 +58,8 @@
 	</ul>		
 	@endforeach
 	
+	{{ Form::close() }}
+	
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
@@ -72,33 +76,33 @@
 	<div class="row">
         <div class="col-md-6">             
             <div class="form-group">
-                <input type="text" class="form-control" name="InSite" placeholder="Sites ID">
+                <input type="text" class="form-control" name="fill[sites_id]" placeholder="Sites ID">
 			</div>
             <div class="form-group">
-                <input type="text" class="form-control" name="InUsers" placeholder="Users ID">
+                <input type="text" class="form-control" name="fill[users_id]" placeholder="Users ID (or leavy empty for guest)">
 			</div>
 			<div class="form-group">
-                <input type="text" class="form-control" name="InSession" placeholder="Session ID">
+                <input type="text" class="form-control" name="fill[session_id]" placeholder="Session ID">
             </div>     
 			<div class="form-group">
-                <input type="text" class="form-control" name="InUserList" placeholder="List Name">
+                <input type="text" class="form-control" name="fill[name]" placeholder="List Name">
             </div>
             <div class="checkbox">
                 <label>
-					<input type="checkbox" name="OnBasket"> (or) shopping cart
+					<input type="checkbox" name="checkboxes[basket]"> (or) shopping cart
                 </label>
             </div>		
         </div>  
         <div class="col-md-6">
             <div class="form-group">
-				<label>Products (Id per row > Product:Quantity)</label>
-				<textarea class="form-control" name="InListProducts" rows="2" placeholder="Id:Quantity"></textarea>
+				<label>Products (Id per row > Product:Quantity:Attributes[,])</label>
+				<textarea class="form-control" name="products" rows="2" placeholder="Id:Quantity"></textarea>
             </div>
             <div class="form-group">
 				<label>Pages in List (Id per row)</label>
-				<textarea class="form-control" name="InListPages" rows="2" placeholder="Id"></textarea>
+				<textarea class="form-control" name="pages" rows="2" placeholder="Id"></textarea>
             </div>
-			<button type="submit" class="btn btn-default">Submit</button>
+			<button type="submit" name="action" value="addList" class="btn btn-default">Submit</button>
         </div>
     </div>
 	{{ Form::close() }}

@@ -2010,7 +2010,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "NEW communication";
 		}
 		
-		if(Input::get('hideMessage', null))
+		if(Input::get('hideMessage', null) != null)
 		{
 			\Veer\Models\Communication::where('id','=',head(Input::get('hideMessage', null)))
 				->update(array('hidden' => true));
@@ -2018,7 +2018,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "HIDE communication";
 		}
 		
-		if(Input::get('unhideMessage', null))
+		if(Input::get('unhideMessage', null) != null)
 		{
 			\Veer\Models\Communication::where('id','=',head(Input::get('unhideMessage', null)))
 				->update(array('hidden' => false));
@@ -2026,7 +2026,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "UNHIDE communication";
 		}
 		
-		if(Input::get('deleteMessage', null))
+		if(Input::get('deleteMessage', null) != null)
 		{
 			\Veer\Models\Communication::where('id','=',head(Input::get('deleteMessage', null)))
 				->delete();
@@ -2048,7 +2048,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "NEW comment";
 		}
 		
-		if(Input::get('hideComment', null))
+		if(Input::get('hideComment', null) != null)
 		{
 			\Veer\Models\Comment::where('id','=',head(Input::get('hideComment', null)))
 				->update(array('hidden' => true));
@@ -2056,7 +2056,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "HIDE comment";
 		}
 		
-		if(Input::get('unhideComment', null))
+		if(Input::get('unhideComment', null) != null)
 		{
 			\Veer\Models\Comment::where('id','=',head(Input::get('unhideComment', null)))
 				->update(array('hidden' => false));
@@ -2064,7 +2064,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "UNHIDE comment";
 		}
 		
-		if(Input::get('deleteComment', null))
+		if(Input::get('deleteComment', null) != null)
 		{
 			\Veer\Models\Comment::where('id','=',head(Input::get('deleteComment', null)))
 				->delete();
@@ -2078,7 +2078,7 @@ class VeerAdmin extends Show {
 	 */
 	public function updateSearches()
 	{
-		if(Input::get('deleteSearch', null))
+		if(Input::get('deleteSearch', null) != null)
 		{
 			$this->deleteSearch(head(Input::get('deleteSearch', null)));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.search.delete'));
@@ -2127,4 +2127,83 @@ class VeerAdmin extends Show {
 		}
 	}
 	
+	/**
+	 * update Lists
+	 */
+	public function updateLists()
+	{
+		if(Input::get('deleteList', null) != null)
+		{
+			$this->deleteList(head(Input::get('deleteList', null)));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.list.delete'));
+			$this->action_performed[] = "DELETE list";
+		}
+		
+		if(Input::get('action', null) == "addList" && 
+			(Input::get('products', null) != null || Input::get('pages', null) != null))
+		{
+			\Eloquent::unguard();
+			
+			$all = Input::all();
+			
+			if(array_get($all, 'fill.users_id', null) == null && array_get($all, 'fill.session_id', null) == null)
+			{
+				if(array_get($all, 'fill.users_id', null) == null) array_set($all, 'fill.users_id', \Auth::id());
+				if(array_get($all, 'fill.session_id', null) == null) array_set($all, 'fill.session_id', \Session::getId());
+			}
+			
+			if(array_get($all, 'fill.name', null) == null) array_set($all, 'fill.name', '[basket]');				
+			if(array_get($all, 'checkboxes.basket', null) != null) array_set($all, 'fill.name', '[basket]');	
+				
+			$p = preg_split('/[\n\r]+/', trim( array_get($all, 'products', null) ));
+			
+			if(is_array($p)) { $this->saveAndAttachLists ($p, '\\'.elements('product'), array_get($all, 'fill')); }					
+			
+			$pg = preg_split('/[\n\r]+/', trim( array_get($all, 'pages', null) ));
+			
+			if(is_array($pg)) { $this->saveAndAttachLists ($pg, '\\'.elements('page'), array_get($all, 'fill')); }		
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.list.new'));
+			$this->action_performed[] = "NEW list";
+		}	
+	}
+	
+	protected function saveAndAttachLists($p, $model, $fill)
+	{
+		foreach($p as $element)
+		{
+			$parseElements = explode(":", $element);
+
+			$id = array_get($parseElements, 0, null);
+			$qty = array_get($parseElements, 1, 1);
+			$attrStr = array_get($parseElements, 2, null);
+
+			$attrs = explode(",", $attrStr);
+
+			$item = $model::find( trim($id) );
+
+			if(is_object($item))
+			{
+				$cart = new \Veer\Models\UserList;
+				$cart->fill( $fill );
+				$cart->quantity = !empty($qty) ? $qty : 1;
+
+				if(is_array($attrs) && !empty($attrStr) ) 
+				{
+					$cart->attributes = json_encode($attrs); 
+				}
+				$cart->save();
+				$item->userlists()->save($cart);
+			}
+		}
+	}
+	
+	/**
+	 * delete List
+	 * @param int $id
+	 */
+	protected function deleteList($id)
+	{
+		\Veer\Models\UserList::where('id','=',$id)->delete();
+	}
 }
