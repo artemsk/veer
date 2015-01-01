@@ -10,11 +10,12 @@
 			@endif </h1>
 <br/>
 <div class="container">
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<ul class="list-group">
 	@foreach($items as $item)
 	
 		<li class="list-group-item bordered-row">
-			<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+			<button type="submit" name="deleteSearch[{{ $item->id }}]" value="{{ $item->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 			<strong>{{ $item->q }}</strong>
 			@if(count($item->users) > 0)
 				<br/>
@@ -29,7 +30,7 @@
 			
 	@endforeach
 	</ul>
-	
+	{{ Form::close() }}
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
@@ -46,12 +47,12 @@
 	<div class="row">
         <div class="col-md-6">             
             <div class="form-group">
-                <input type="text" class="form-control" name="InSearch" placeholder="Search">
+                <input type="text" class="form-control" name="search" placeholder="Search">
 			</div>
             <div class="form-group">
-                <input type="text" class="form-control" name="InUsers" placeholder="Users ID [:ids]">
+                <input type="text" class="form-control" name="users" placeholder="Users ID [:ids]">
 			</div>
-			<button type="submit" class="btn btn-default">Add</button>
+			<button type="submit" name="action" value="addSearch" class="btn btn-default">Add</button>
         </div>  
     </div>
 	{{ Form::close() }}	
