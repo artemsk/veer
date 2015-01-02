@@ -25,7 +25,7 @@
 						 @if($item->banned == true) image-faded @endif"></a>
 				@endif		 
 				<div class="caption @if($item->banned == true) image-faded @endif">
-					<strong>{{ $item->firstname }} {{ $item->lastname }}</strong>
+					<strong>{{ $item->firstname }} {{ $item->lastname }} <small>{{ !empty($item->username) ? '@'.$item->username : '' }}</small></strong>
 					<p><a href="{{ route('admin.show', array("users", "id" => $item->id)) }}">{{ str_limit($item->email,25) }}</a><br/>
 						<small>
 						{{ !empty($item->phone) ? str_limit($item->phone,25)."<br/>" : null }}	
@@ -69,16 +69,16 @@
 						</small>
 					</p>
 					@if ($item->restrict_orders == false)
-					<button type="submit" name="action" value="changeRestrictUser.{{ $item->id }}" class="btn btn-success btn-xs" title="Current: Allow orders" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></button>
+					<button type="submit" value="1" name="changeRestrictUser[{{ $item->id }}]" class="btn btn-success btn-xs" title="Current: Allow orders" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></button>
 					@else
-					<button type="submit" name="action" value="changeRestrictUser.{{ $item->id }}" class="btn btn-warning btn-xs" title="Current: Restrict orders" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-minus-sign " aria-hidden="true"></span></button>
+					<button type="submit" value="0" name="changeRestrictUser[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Current: Restrict orders" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-minus-sign " aria-hidden="true"></span></button>
 					@endif					
 					@if ($item->banned == false)
-					&nbsp;<button type="submit" name="action" value="changeStatusUser.{{ $item->id }}" class="btn btn-success btn-xs" title="Current: Active" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" value="1" name="changeStatusUser[{{ $item->id }}]" class="btn btn-success btn-xs" title="Current: Active" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></button>
 					@else
-					&nbsp;<button type="submit" name="action" value="changeStatusUser.{{ $item->id }}" class="btn btn-warning btn-xs" title="Current: BANNED" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" value="0" name="changeStatusUser[{{ $item->id }}]" class="btn btn-warning btn-xs" title="Current: BANNED" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></button>
 					@endif
-					&nbsp;<button type="submit" name="action" value="deleteUser.{{ $item->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+					&nbsp;<button type="submit" value="1" name="deleteUser[{{ $item->id }}]" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 				</div>
 			</div>
 			<span class="text-muted"><small>{{ $item->created_at }}</small></span>
@@ -109,26 +109,28 @@
 	<div class="xs-rowdelimiter"></div>
 	<div class="row">
 		<div class="col-sm-6"><p>
-			<textarea class="form-control" placeholder="Phone
-First name
-Last name
-Gender
-Birth
-Roles Id
-Newsletter
-Restrict orders
-Ban" rows="10" name="freeForm" title="Phone
-First name
-Last name
-Gender
-Birth
-Roles Id
-Newsletter
-Restrict orders
+			<textarea class="form-control" placeholder="Username |
+Phone |
+First name |
+Last name |
+Birth |
+Gender |
+Roles Id |
+Newsletter |
+Restrict orders |
+Ban" rows="10" name="freeForm" title="Username |
+Phone |
+First name |
+Last name |
+Birth |
+Gender |
+Roles Id |
+Newsletter |
+Restrict orders |
 Ban"></textarea></p>			
 		</div>
 		<div class="col-sm-6">
-			<p>{{ Form::submit('Add', array('class' => 'form-control btn btn-danger')); }}</p>
+			<p>{{ Form::submit('Add', array('name' => 'action', 'class' => 'form-control btn btn-danger')); }}</p>
 		</div>
 	</div>
 	{{ Form::close() }}	

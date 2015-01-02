@@ -76,7 +76,7 @@
 				@endif
 				@if($item->users_id > 0)
 				<a href="{{ route('admin.show', array("users", "id" => empty($item->users_id) ? '' : $item->users_id)) }}">
-					{{ '@'.$item->user->username }}</a>
+					{{ '@' }}{{ $item->user->username or '?Unknown' }}</a>
 				@endif			
 			</strong>{{ empty($item->theme)? null : ": ".$item->theme }}
 		</div>

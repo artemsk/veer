@@ -69,5 +69,11 @@ return array(
 	"search.new" => "New search",
 	"list.delete" => "Delete list",
 	"list.new" => "New list",
+	"book.update" => "Update user book",
+	"book.delete" => "Delete user book",
+	"user.update" => "Update user",
+	"user.ban" => "Update user status",
+	"user.delete" => "Delete user",
+	"user.new" => "New user",
 	
 );

@@ -17,10 +17,12 @@
 	@foreach(array_get($items, 'regrouped', array()) as $user => $itemGroup)
 	<ul class="list-group">
 		<li class="list-group-item list-group-item-info"><strong>
-			@if($user > 0) {{ $items['users'][$user]->firstname }} {{ $items['users'][$user]->lastname }} 
-			<strong>{{ '@'.$items['users'][$user]->username }}</strong>
+			@if($user > 0) {{ $items['users'][$user]->firstname or null }} {{ $items['users'][$user]->lastname or null }} 
+			<strong>{{ '@' }}{{ $items['users'][$user]->username or '?Unknown' }}</strong>
+			@if(is_object($items['users'][$user]))
 			<a href="{{ route("admin.show", array("users", "id" => $items['users'][$user]->id)) }}">{{ $items['users'][$user]->email }}</a> 
 			| <a href="tel:{{ $items['users'][$user]->phone }}">{{ $items['users'][$user]->phone }}</a> 
+			@endif
 			@else Guest @endif</strong>
 			@if($user > 0) 
 			@if(is_object($items[head($itemGroup)]->site)) ~ <a href="{{ route('admin.show', array("lists", "filter" => "site", "filter_id" => $items[head($itemGroup)]->site->id)) }}">{{ $items[head($itemGroup)]->site->configuration->first()->conf_val or $items[head($itemGroup)]->site->url; }}</a> @endif
