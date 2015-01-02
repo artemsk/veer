@@ -251,8 +251,13 @@ class VeerShop {
 		
 		$bookId = array_get($book, 'bookId', null);
 
-		$usersId = array_get($book, 'fill.users_id', \Auth::id());
-		if(empty($usersId)) { $usersId = \Auth::id(); }
+		if(isset(app('veer')->administrator_credentials))
+		{
+			$usersId = array_get($book, 'fill.users_id', \Auth::id());
+			if(empty($usersId)) { $usersId = \Auth::id(); }
+		}
+
+		else { $usersId = \Auth::id(); }
 		
 		$book['fill']['users_id'] = $usersId;
 		

@@ -12,7 +12,7 @@
 									   href="{{ route("admin.show", array("users", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
-	
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<div class="row">
 		@foreach($items as $key => $item)	
 		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif		
@@ -85,7 +85,7 @@
 		</div>
 		@endforeach	
 	</div>
-	
+	{{ Form::close() }}
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
