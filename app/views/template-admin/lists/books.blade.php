@@ -23,7 +23,7 @@
 		<span class="badge"><a href="{{ route("admin.show", array("orders", "filter" => "userbook", "filter_id" => $item->id)) }}">{{ $item->orders->count() }} orders</a></span>
 		@endif
 		@if(!isset($skipUser) && !isset($skipOrder))
-		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ '@'.$item->user->username }}</a>
+		<a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ '@' }}{{ $item->user->username or '?Unknown' }}</a>
 		@endif
 		
 		@if(!empty($item->b_account))

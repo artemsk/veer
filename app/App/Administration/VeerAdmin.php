@@ -2241,4 +2241,106 @@ class VeerAdmin extends Show {
 	{
 		\Veer\Models\UserBook::where('id','=',$id)->delete();
 	}
+	
+	/**
+	 * update Users
+	 */
+	public function updateUsers()
+	{
+		Event::fire('router.filter: csrf');
+		
+		$restrictions = Input::get('changeRestrictUser', null);
+		$ban = Input::get('changeStatusUser', null);
+		$delete = Input::get('deleteUser', null);
+		
+		if($restrictions != null)
+		{
+			\Veer\Models\User::where('id','=', key($restrictions))
+				->update(array('restrict_orders' => head($restrictions)));			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.update'));
+			$this->action_performed[] = "UPDATE user";
+			return null;
+		}
+		
+		if($ban != null && key($ban) != \Auth::id())
+		{
+			\Veer\Models\User::where('id','=', key($ban))
+				->update(array('banned' => head($ban)));			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.ban'));
+			$this->action_performed[] = "UPDATE user";
+			return null;
+		}
+		
+		if($delete != null && key($delete) != \Auth::id())
+		{
+			$this->deleteUser(key($delete));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.delete'));
+			$this->action_performed[] = "DELETE user";
+			return null;
+		}
+		
+		if(Input::get('action', null) == "Add")
+		{
+			$freeForm = Input::get('freeForm', null);
+			$parseForm = !empty($freeForm) ? preg_split('/[\n\r]+/', trim($freeForm)) : array() ;
+			
+			$freeFormKeys = array(
+				'username', 'phone', 'firstname', 'lastname', 'birth', 'gender', 'roles_id',
+				'newsletter', 'restrict_orders', 'banned'
+			);
+			
+			//$email =  Input::get('email', null);
+			//$password = Input::get('password', null);
+			$siteId = Input::get('siteId', null);
+						
+			if(empty($siteId)) $siteId = app('veer')->siteId;
+			
+			$rules = array(
+				'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL,sites_id,' . $siteId,
+				'password' => 'required|min:6',
+			);			
+
+			$validator = \Validator::make(Input::all(), $rules);
+			 
+			if(!$validator->fails())
+			{
+				$user = new \Veer\Models\User;
+				
+				$user->email = Input::get('email');
+				$user->password = Input::get('password');
+				$user->sites_id = $siteId;
+				
+				foreach($parseForm as $key => $value)
+				{
+					if(!empty($value)) $user->{$freeFormKeys[$key]} = $value;
+				}
+				$user->save();		
+				Event::fire('veer.message.center', \Lang::get('veeradmin.user.new'));
+				$this->action_performed[] = "NEW user";			
+			}
+
+		}
+	}
+	
+	/**
+	 * delete User and update connections
+	 * @param int $id
+	 */
+	protected function deleteUser($id)
+	{
+		$u = \Veer\Models\User::find($id);
+		if(is_object($u)) 
+		{
+			$u->discounts()->update(array("status" => "canceled"));
+			$u->userlists()->update(array("users_id" => false));
+			$u->books()->update(array("users_id" => false));
+			$u->images()->detach();
+			$u->searches()->detach();
+			$u->administrator()->delete();
+			// don't update: orders, bills, pages, comments, communications
+			// do not need: site, role	
+			$u->delete();
+		}
+	}
+	
 }
