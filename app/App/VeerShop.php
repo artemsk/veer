@@ -236,4 +236,33 @@ class VeerShop {
 		return $cluster_oid;
 	}
 	
+	
+	
+	
+	/**
+	 * update or create new user book (or office address)
+	 * @param type $book
+	 */
+	public function updateOrNewBook($book)
+	{
+		\Event::fire('router.filter: csrf');
+		
+		\Eloquent::unguard();
+		
+		$bookId = array_get($book, 'bookId', null);
+
+		$usersId = array_get($book, 'fill.users_id', \Auth::id());
+		if(empty($usersId)) { $usersId = \Auth::id(); }
+		
+		$book['fill']['users_id'] = $usersId;
+		
+		$b = empty($bookId) ? new \Veer\Models\UserBook : \Veer\Models\UserBook::firstOrNew(array("id" => $bookId));
+		
+		if(isset($book['fill'])) { $b->fill($book['fill']); }
+		$b->primary = array_get($book, 'checkboxes.primary', false) ? true : false;
+		$b->office_address = array_get($book, 'checkboxes.office_address', false) ? true : false;
+		$b->save();
+	}
+	
+	
 }
