@@ -2083,6 +2083,7 @@ class VeerAdmin extends Show {
 			$this->deleteSearch(head(Input::get('deleteSearch', null)));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.search.delete'));
 			$this->action_performed[] = "DELETE search";
+			return null;
 		}
 		
 		if(Input::get('action', null) == "addSearch" && Input::get('search', null) != null)
@@ -2137,6 +2138,7 @@ class VeerAdmin extends Show {
 			$this->deleteList(head(Input::get('deleteList', null)));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.list.delete'));
 			$this->action_performed[] = "DELETE list";
+			return null;
 		}
 		
 		if(Input::get('action', null) == "addList" && 
@@ -2205,5 +2207,38 @@ class VeerAdmin extends Show {
 	protected function deleteList($id)
 	{
 		\Veer\Models\UserList::where('id','=',$id)->delete();
+	}
+	
+	/**
+	 * update Books
+	 */
+	public function updateBooks()
+	{
+		if(Input::get('deleteUserbook', null) != null)
+		{
+			$this->deleteBook(head(Input::get('deleteUserbook', null)));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete'));
+			$this->action_performed[] = "DELETE book";
+			return null;
+		}
+		
+		$all = Input::all();
+		$action = array_get($all, 'action', null);
+		
+		if($action == "addUserbook" || $action == "updateUserbook" )
+		{
+			app('veershop')->updateOrNewBook($all);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.book.update'));
+			$this->action_performed[] = "UPDATE books";
+		}
+	}
+	
+	/**
+	 * delete Book
+	 * @param int $id
+	 */
+	protected function deleteBook($id)
+	{
+		\Veer\Models\UserBook::where('id','=',$id)->delete();
 	}
 }
