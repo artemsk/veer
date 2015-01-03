@@ -785,9 +785,9 @@ class Show {
 					{
 						$q->with('userbook', 'userdiscount', 'status', 'delivery', 'payment', 'downloads')
 						->with($this->loadSiteTitle())
-						->with(array('bills' => function($q) 
+						->with(array('bills' => function($query) 
 						{
-							$q->with('status');
+							$query->with('status');
 						}));
 					},
 				'discounts' => function($q)
@@ -957,7 +957,7 @@ class Show {
 	public function showUnreadNumbers($model, $raw = null, $period = 5)
 	{
 		$modelFull = "\\" . elements( str_singular($model) );
-		
+			
 		$numbers = $modelFull::where('created_at', '>=', app('veer')->getUnreadTimestamp( str_plural($model) ));
 		
 		if (!empty($raw)) { $numbers->whereRaw($raw); }

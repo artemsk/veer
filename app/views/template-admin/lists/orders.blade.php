@@ -2,7 +2,8 @@
 		@foreach($items as $key => $item)
 		<div class="panel panel-default @if($item->pin == true) pinned @else not-pinned @endif">
 			<div class="panel-heading" role="tab" data-toggle="collapse" data-target="#collapse{{ $key }}" data-parent="#accordion">
-				<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp
+				<!--<button type="button" class="btn btn-danger btn-xs">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp -->
 
 				<small>#{{ $item->id }}</small>
 				<a href="{{ route("admin.show", array("orders", "id" => $item->id)) }}"><span class="label label-yellow label-bg">
