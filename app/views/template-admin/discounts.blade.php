@@ -100,7 +100,8 @@
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 			</span>
-			<input type="text" class="form-control" value="" placeholder="Users Id (optional)">
+			<input type="text" class="form-control" placeholder="Users Id (optional)" 
+				   @if(Input::get('filter',null) == "user" && Input::has('filter_id')) value="{{ Input::get("filter_id") }}" @endif>
 		</div>	
 		<p class="xs-rowdelimiter"></p>
 		<div class="input-group">

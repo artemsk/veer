@@ -1191,10 +1191,10 @@ class VeerAdmin extends Show {
 		$action = array_get($attributes, 'actionButton', null);
 		
 		// tags
-		$this->attachTags(array_get($attributes, 'tags', null), $object);
+		if(isset($attributes['tags'])) $this->attachTags(array_get($attributes, 'tags', null), $object);
 		
 		// attributes
-		$this->attachAttributes(array_get($attributes, 'attributes', null), $object);
+		if(isset($attributes['attributes'])) $this->attachAttributes(array_get($attributes, 'attributes', null), $object);
 
 		// images
 		if(Input::hasFile(array_get($attributes, 'uploadImageId', 'uploadImage'))) {
@@ -1218,7 +1218,10 @@ class VeerAdmin extends Show {
 		$this->removeFile($action);
 		
 		// categories: we cannot add not existing categories as we don't know site id
-		$this->attachElements(array_get($attributes, 'attachCategories', null), $object, 'categories', null);			
+		if(isset($attributes['attachCategories'])) 
+		{
+			$this->attachElements(array_get($attributes, 'attachCategories', null), $object, 'categories', null);	
+		}
 		$this->detachElements($action, array_get($attributes, 'removeCategoryId', 'removeCategory'), $object, 'categories', null);
 				
 		// pages
@@ -1239,11 +1242,11 @@ class VeerAdmin extends Show {
 		
 		// child pages
 		$this->attachElements(array_get($attributes, 'attachChildPages', null), $object, 'subpages', null);	
-		$this->detachElements($action, array_get($attributes, 'removeChildProductId', 'removeChildPage'), $object, 'subpages', null);
+		$this->detachElements($action, array_get($attributes, 'removeChildPageId', 'removeChildPage'), $object, 'subpages', null);
 		
 		// parent pages
 		$this->attachElements(array_get($attributes, 'attachParentPages', null), $object, 'parentpages', null);	
-		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentPage'), $object, 'parentpages', null);		
+		$this->detachElements($action, array_get($attributes, 'removeParentPageId', 'removeParentPage'), $object, 'parentpages', null);		
 	}
 	
 	
@@ -1961,13 +1964,13 @@ class VeerAdmin extends Show {
 			
 			$parseAttach = explode("[", $users);
 			
-			if(starts_with($users, "NEW")) { $rolesId = array($newId); } 
+			if(starts_with($users, "NEW")) { $rolesId = $newId; } 
 			
 			else {	$rolesId = trim(array_get($parseAttach, 0, null));	}
 			
 			$usersIds = $this->parseIds( substr( array_get($parseAttach, 1, null) ,0,-1) );
 		
-			$this->associate("\Veer\Models\User", $usersIds, "id", $rolesId, "roles_id");								
+			$this->associate("users", $usersIds, $rolesId, "roles_id");								
 		}
 	}
 	
@@ -1987,10 +1990,20 @@ class VeerAdmin extends Show {
 	
 	
 	/**
-	 * associate (belongTo, hasMany relationships)
+	 * Associate (belongTo, hasMany relationships)
+	 * - updating parents (parent field) in childs tables
+	 * 
+	 * @param string $relation Child model, ex: page, user, product etc.
+	 * @param array $childs Ids 
+	 * @param string $childsField 
+	 * @param int $parentId
+	 * @param string $parentField
+	 * @param string $raw Raw where Sql
+	 * @return void
 	 */
-	protected function associate($relation, $childs, $childsField, $parentId, $parentField, $raw = null)
+	protected function associate($relation, $childs, $parentId, $parentField, $childsField = "id", $raw = null)
 	{
+		$relation = "\\" . elements(str_singular($relation));
 		$r = $relation::whereIn($childsField, $childs);
 		if (!empty($raw)) { $r->whereRaw($raw); }
 		$r->update(array($parentField => $parentId));
@@ -2072,6 +2085,7 @@ class VeerAdmin extends Show {
 		}
 	}
 	
+	
 	/**
 	 * update Searches
 	 */
@@ -2114,6 +2128,7 @@ class VeerAdmin extends Show {
 		}	
 	}
 	
+	
 	/**
 	 * delete Search
 	 * @param int $id
@@ -2126,6 +2141,7 @@ class VeerAdmin extends Show {
 			$s->delete();			
 		}
 	}
+	
 	
 	/**
 	 * update Lists
@@ -2168,6 +2184,13 @@ class VeerAdmin extends Show {
 		}	
 	}
 	
+	
+	/**
+	 * Save and Attach Lists
+	 * @param type $p
+	 * @param type $model
+	 * @param type $fill
+	 */
 	protected function saveAndAttachLists($p, $model, $fill)
 	{
 		foreach($p as $element)
@@ -2198,6 +2221,7 @@ class VeerAdmin extends Show {
 		}
 	}
 	
+	
 	/**
 	 * delete List
 	 * @param int $id
@@ -2206,6 +2230,7 @@ class VeerAdmin extends Show {
 	{
 		\Veer\Models\UserList::where('id','=',$id)->delete();
 	}
+	
 	
 	/**
 	 * update Books
@@ -2231,6 +2256,7 @@ class VeerAdmin extends Show {
 		}
 	}
 	
+	
 	/**
 	 * delete Book
 	 * @param int $id
@@ -2239,6 +2265,7 @@ class VeerAdmin extends Show {
 	{
 		\Veer\Models\UserBook::where('id','=',$id)->delete();
 	}
+	
 	
 	/**
 	 * update Users
@@ -2331,6 +2358,7 @@ class VeerAdmin extends Show {
 		}
 	}
 	
+	
 	/**
 	 * delete User and update connections
 	 * @param int $id
@@ -2352,6 +2380,7 @@ class VeerAdmin extends Show {
 		}
 	}
 	
+	
 	/**
 	 * update One user
 	 */
@@ -2360,6 +2389,43 @@ class VeerAdmin extends Show {
 		echo "<pre>";
 		print_r(Input::all());
 		echo "</pre>";
+		
+		$action = Input::get('action', null);
+		$fill = Input::get('fill', null);
+		
+		$siteId = Input::get('fill.sites_id', null);						
+		if(empty($siteId)) $siteId = app('veer')->siteId;
+		
+		$fill['sites_id'] = $siteId;
+		if(array_has($fill, 'password') && empty($fill['password'])) array_forget($fill, 'password');
+		
+		if($action == "add") 
+		{	
+			$rules = array(
+				'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL,sites_id,' . $siteId,
+				'password' => 'required|min:6',
+			);			
+
+			$validator = \Validator::make($fill, $rules);
+			
+			if($validator->fails()) { 
+				Event::fire('veer.message.center', \Lang::get('veeradmin.user.new.error'));
+				$this->action_performed[] = "ERROR add user";
+				return false;	
+			}
+			
+			$user = new \Veer\Models\User;
+			$user->save();		
+			$id = $user->id;
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.new'));
+			$this->action_performed[] = "NEW user";
+		} 
+		
+		else 
+		{
+			$user = \Veer\Models\User::find($id);
+		}
 		
 		if(Input::has('addAsAdministrator'))
 		{
@@ -2374,14 +2440,81 @@ class VeerAdmin extends Show {
 			else { $admin->restore(); }
 		}
 		
-		if(Input::has('administrator'))
+		if(Input::has('administrator')) $this->updateOneAdministrator(Input::get('administrator'), $id);
+
+		// images
+		if(Input::hasFile('uploadImage')) 
 		{
-			$this->updateOneAdministrator(Input::get('administrator'), $id);
-			Event::fire('veer.message.center', \Lang::get('veeradmin.user.admin.update'));
-			$this->action_performed[] = "UPDATE admin";		
+			$this->upload('image', 'uploadImage', $id, 'users', 'usr', null);
+		}			
+		
+		$this->attachElements(Input::get('attachImages', null), $user, 'images', null);
+		
+		$this->detachElements($action, 'removeImage', $user, 'images', null);
+		
+		// pages
+		if(Input::has('attachPages'))
+		{
+			$pages = $this->parseIds(Input::get('attachPages'));
+			$this->associate("pages", $pages, $id, "users_id");
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.attach'));
+			$this->action_performed[] = "ATTACH page to user";			
 		}
 		
+		if(starts_with($action, 'removePage'))
+		{
+			$p = explode(".", $action);
+			$this->associate("pages", array($p[1]), 0, "users_id");
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.detach'));
+			$this->action_performed[] = "DETACH page from user";
+		}
+		
+		if(starts_with($action, "deletePage")) 
+		{
+			$p = explode(".", $action); 
+			$this->deletePage($p[1]);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete'));
+			$this->action_performed[] = "DElETE page";
+			return null;
+		}
+		
+		// books
+		if($action == "addUserbook" || $action == "updateUserbook" )
+		{
+			foreach(Input::get('userbook', array()) as $book)
+			{
+				app('veershop')->updateOrNewBook($book);
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.book.update'));
+			$this->action_performed[] = "UPDATE books";
+		}		
+		
+		if(Input::has('deleteUserbook'))
+		{
+			$this->deleteBook(head(Input::get('deleteUserbook', null)));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete'));
+			$this->action_performed[] = "DELETE book";
+			return null;
+		}
+		
+		// discounts
+		if(Input::has('cancelDiscount'))
+		{
+			\Veer\Models\UserDiscount::where('id','=', head(Input::get('cancelDiscount')))
+				->update(array('status' => 'canceled'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.cancel'));
+			$this->action_performed[] = "CANCEL discount";
+		}
+		
+		if(Input::has('attachDiscounts'))
+		{
+			$discounts = $this->parseIds(Input::get('attachDiscounts'));
+			$this->associate("UserDiscount", $discounts, $id, "users_id", "id", "users_id = 0 and status = 'wait'");
+			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.attach'));
+			$this->action_performed[] = "ATTACH discount";			
+		}
 	}
+	
 	
 	/** 
 	 * update Administrator
@@ -2391,7 +2524,7 @@ class VeerAdmin extends Show {
 	{
 		$administrator['banned'] = array_get($administrator, 'banned', false) ? true : false;
 		
-		if($id == \Auth::id()) array_pull($administrator, 'banned');
+		if($id == \Auth::id()) array_forget($administrator, 'banned');
 			
 		\Veer\Models\UserAdmin::where('users_id','=',$id)
 			->update($administrator);

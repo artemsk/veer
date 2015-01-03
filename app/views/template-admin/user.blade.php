@@ -89,12 +89,12 @@
 		<small>@if(isset($items->site) && is_object($items->site))~ {{ $items->site->configuration->first()->conf_val or $items->site->url; }} @endif</small>
 		</div>
 		<div class="col-md-4"><p></p>
-			<input type="text" name="fill[password]" class="form-control" placeholder="New password" value="">
+			<input type="password" name="fill[password]" class="form-control" placeholder="New password" value="">
 		</div>			
 	</div>
 	
 	@if(isset($items->administrator) && is_object($items->administrator))
-	<h3><strong>Administrator</strong> <small> logins: {{ $items->administrator->logons_count or '—' }} &nbsp; <span class="label label-default">{{ $items->administrator->updated_at }}</span></small></h3>
+	<h3>Administrator <small> logins: {{ $items->administrator->logons_count or '—' }} &nbsp; <span class="label label-default">{{ $items->administrator->updated_at }}</span></small></h3>
 	<div class="row">
 		<div class="col-md-4">
 			<input type="text" class="form-control" name="administrator[description]" value="{{ $items->administrator->description }}" placeholder="Description">
@@ -121,7 +121,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<p></p>	
-			<h3><strong>Images</strong></h3>
+			<h3>Images</h3>
 			<div class="row">
 				<div class="col-md-6">
 					<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage" multiple=false>
@@ -136,15 +136,17 @@
 			@endif
 		</div>
 	</div>
+	<div class="rowdelimiter"></div>
 	
-	
-	<h3><strong>Pages</strong></h3>
+	<h3>Pages</h3>
 	<ul class="list-group">
 		@if(isset($items->pages) && count($items->pages)>0)	
 		@foreach ($items->pages as $p)	
 		<li class="list-group-item">
 			<span class="badge">{{ $p->views }}</span>
-			<button type="submit" name="action" value="removeChildPage.{{ $p->id }}" class="btn btn-warning btn-xs">
+			<button type="submit" name="action" value="deletePage.{{ $p->id }}" class="btn btn-danger btn-xs">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
+			<button type="submit" name="action" value="removePage.{{ $p->id }}" class="btn btn-warning btn-xs">
 				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>&nbsp;
 			<a href="{{ route('admin.show', array('pages', 'id' => $p->id)) }}">{{ $p->title }}</a> 
 			<small>{{ Carbon\Carbon::parse($p->created_at)->format('d M Y'); }}</small>
@@ -152,12 +154,17 @@
 		@endforeach
 		@endif
 		<li class="list-group-item">
-				<input type="text" name="attachChildPages" class="form-control" placeholder=":Existings IDs[,]">
+			<input type="text" name="attachPages" class="form-control" placeholder=":Existings IDs[,]">	
 		</li>
 	</ul>
+	@if(isset($items->id))
+	<a class="btn btn-default" href="{{ route("admin.show", array("pages", 
+				"id" => "new", "user" => isset($items->id) ? $items->id : null)) }}" role="button" target="_blank">New page</a>
+	@endif
 	<div class="rowdelimiter"></div>
 	
-	<h3><strong>Books <small>addresses</small></strong></h3>
+	@if(isset($items->id))
+	<h3>Books <small>addresses | <a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a></small></h3>
 	@if(isset($items->books) && count($items->books)>0)
 	<div class="row">
 		<div class="col-sm-12">
@@ -165,17 +172,41 @@
 		</div>
 	</div>
 	@endif
-	
-	<h3><strong>Discounts</strong></h3>
-	@if(isset($items->discounts) && count($items->discounts)>0)
-	<div class="row">
-		<div class="col-sm-12">
-			@include($template.'.lists.discounts', array('items' => $items->discounts))
-		</div>
-	</div>
+	<div class="modal fade" id="bookModalNew">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">And new user's book</h4>
+				</div>
+				<div class="modal-body">
+					@include($template.'.layout.form-userbook', array('item' =>array(), 'skipSubmit' => true, 'UsersId' => $items->id))
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" name="action" value="updateUserbook" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div class="rowdelimiter"></div>
 	@endif
 	
-	<h3><strong>Orders</strong></h3>
+@if(isset($items->id))
+	
+	<h3>Discounts <small><a href="{{ route("admin.show", array("discounts", "filter" => "user", "filter_id" => $items->id)) }}" target="_blank">create</a></small></h3>
+	<ul class="list-group">
+	@if(isset($items->discounts) && count($items->discounts)>0)
+		@include($template.'.lists.discounts', array('items' => $items->discounts))
+	@endif
+	<li class="list-group-item">
+		<input type="text" name="attachDiscounts" class="form-control" placeholder=":Existings IDs[,]">	
+	</li>
+	</ul>	
+	
+	<div class="rowdelimiter"></div>
+	
+	<h3>Orders</h3>
 	@if(isset($items->orders) && count($items->orders)>0)
 	<div class="row">
 		<div class="col-sm-12">
@@ -184,7 +215,8 @@
 	</div>
 	@endif
 	
-	<h3><strong>Bills</strong></h3>
+	<div class="rowdelimiter"></div>
+	<h3>Bills</h3>
 	@if(isset($items->bills) && count($items->bills)>0)
 	<div class="row">
 		<div class="col-sm-12">
@@ -193,8 +225,9 @@
 	</div>
 	@endif	
 
-	@if(isset($items->id) && isset($items['files']) && count($items['files'])>0)	
-	<h3><strong>Files</strong></h3>
+	@if(isset($items->id) && isset($items['files']) && count($items['files'])>0)
+	<div class="rowdelimiter"></div>
+	<h3>Files</h3>
 	<div class="row">
 		<div class="col-sm-12">
 		@include($template.'.lists.files', array('files' => $items['files'], 'skipUser' => true))
@@ -203,7 +236,7 @@
 	@endif
 
 	<div class="rowdelimiter"></div>
-	@if(isset($items->id))
+
 	<div class="row">
 		<div class="col-sm-12"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 	</div>
@@ -226,9 +259,11 @@
 			   role="button">{{ $items->communications()->count() }} communications</a>
 		</div>
 	</div>
-	@else
+	
+@else
+
 	<button type="submit" name="action" value="add" class="btn btn-danger btn-lg btn-block">Add</button>
-	@endif
+@endif
 
 </div>
 @if(isset($items->id))

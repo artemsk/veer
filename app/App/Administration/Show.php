@@ -233,11 +233,13 @@ class Show {
 
 		if(is_object($items)) 
 		{
-			$items->load('products', 'pages', 'communications');
+			$items->load('products', 'communications');
 
 			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
 			
-			$items->pages->sortBy('manual_order');
+			$items->load(array('pages' => function($q) {
+				$q->orderBy('manual_order', 'asc');
+			}));
 
 			$items['site_title'] = 
 				\Veer\Models\Configuration::where('sites_id','=',$items->sites_id)
@@ -749,7 +751,7 @@ class Show {
 	{
 		$siteWithTitle = array('site' => function($q) 
 			{
-				$q->with(array('configuration' => function($query) 
+				$q->remember(0.5)->with(array('configuration' => function($query) 
 				{
 					$query->where('conf_key','=','SITE_TITLE')->remember(5);
 				}));
@@ -792,7 +794,7 @@ class Show {
 					},
 				'discounts' => function($q)
 					{
-						$q->with('orders');
+						$q->with('orders')->with($this->loadSiteTitle());
 					},
 				'bills' => function($q)
 					{

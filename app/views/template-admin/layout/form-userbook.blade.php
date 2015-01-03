@@ -1,7 +1,7 @@
 	<div class="row">
         <div class="col-md-6">             
 			<div class="form-group">
-                <input type="text" class="form-control" name="userbook[{{ $item->id or 0 }}][fill][users_id]" placeholder="Users ID" value="{{ $item->users_id or null }}">
+                <input type="text" class="form-control" name="userbook[{{ $item->id or 0 }}][fill][users_id]" placeholder="Users ID" value="{{ $item->users_id or (isset($UsersId) ? $UsersId : null) }}">
 				<small>Users Id</small>
 			</div>
 			<div class="form-group">

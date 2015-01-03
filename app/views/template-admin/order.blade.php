@@ -153,14 +153,12 @@
 		</div>
 	</div>
 	
-	<div class="rowdelimiter"></div>
 	@if(isset($items->userdiscount) && count($items->userdiscount)>0)
+	<div class="rowdelimiter"></div>
 	<h4>Used discount</h4>	
-	<div class="row">
-		<div class="col-sm-12">
+	<ul class="list-group">
 			@include($template.'.lists.discounts', array('items' => array($items->userdiscount), 'skipOrder' => true))
-		</div>
-	</div>
+	</ul>
 	@endif
 	
 	<div class="rowdelimiter"></div>

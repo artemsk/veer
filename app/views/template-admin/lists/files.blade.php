@@ -32,8 +32,7 @@
 						<span class="label label-danger">expired</span>
 					@else
 					@endif	
-					@endif
-					</small>				
+					@endif			
 				</li>
 				@endif
 				@endforeach

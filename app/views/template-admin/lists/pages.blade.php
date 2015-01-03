@@ -6,7 +6,7 @@
 				 bg-muted
 				 @endif ">
 				@if(count($item->images)>0)
-				<a href="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" target="_blank">
+				<a href="{{ route('admin.show', array("pages", "id" => $item->id)) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
 						 src="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" class="img-responsive 
 						 @if($item->hidden == true) image-faded @endif"></a>
