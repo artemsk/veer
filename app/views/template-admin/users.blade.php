@@ -19,7 +19,7 @@
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
 			<div class="thumbnail thumbnail-user @if($item->banned == true) bg-muted @endif @if(count($item->administrator) >0) thumbnail-admin @endif ">
 				@if(count($item->images)>0)
-				<a href="{{ asset(config('veer.images_path').'/'.$item->images->first()->img) }}" target="_blank">
+				<a href="{{ route('admin.show', array("users", "id" => $item->id)) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
 						 src="{{ asset(config('veer.images_path').'/'.$item->images->first()->img) }}" class="img-responsive 
 						 @if($item->banned == true) image-faded @endif"></a>

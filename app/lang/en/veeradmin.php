@@ -75,7 +75,10 @@ return array(
 	"user.ban" => "Update user status",
 	"user.delete" => "Delete user",
 	"user.new" => "New user",
+	"user.new.error" => "Error when adding new user",
 	"user.admin" => "Create new administrator",
-	"user.admin.update" => "Update administrator",
+	"user.page.attach" => "Attach page to user",
+	"user.page.detach" => "Detach page from user",
+	"discount.cancel" => "Cancel discount",
 	
 );
