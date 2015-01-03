@@ -2263,7 +2263,13 @@ class VeerAdmin extends Show {
 		if(!empty($ban) && key($ban) != \Auth::id())
 		{
 			\Veer\Models\User::where('id','=', key($ban))
-				->update(array('banned' => head($ban)));			
+				->update(array('banned' => head($ban)));
+			
+			if(head($ban) == true) {
+				\Veer\Models\UserAdmin::where('users_id','=', key($ban))
+				->update(array('banned' => head($ban)));
+			}
+			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.ban'));
 			$this->action_performed[] = "UPDATE user";
 			return null;
@@ -2350,17 +2356,45 @@ class VeerAdmin extends Show {
 	 * update One user
 	 */
 	public function updateOneUser($id)
-	{
-		
+	{	
 		echo "<pre>";
 		print_r(Input::all());
 		echo "</pre>";
 		
 		if(Input::has('addAsAdministrator'))
 		{
+			$admin = \Veer\Models\UserAdmin::withTrashed()->where('users_id','=',$id)->first();
+			if(!is_object($admin))
+			{
+				\Veer\Models\UserAdmin::create(array('users_id' => $id));
+				Event::fire('veer.message.center', \Lang::get('veeradmin.user.admin'));
+				$this->action_performed[] = "CREATE admin";		
+			}
 			
+			else { $admin->restore(); }
 		}
 		
+		if(Input::has('administrator'))
+		{
+			$this->updateOneAdministrator(Input::get('administrator'), $id);
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.admin.update'));
+			$this->action_performed[] = "UPDATE admin";		
+		}
+		
+	}
+	
+	/** 
+	 * update Administrator
+	 * TODO: use ranks to determine who can update whom
+	 */
+	protected function updateOneAdministrator($administrator, $id)
+	{
+		$administrator['banned'] = array_get($administrator, 'banned', false) ? true : false;
+		
+		if($id == \Auth::id()) array_pull($administrator, 'banned');
+			
+		\Veer\Models\UserAdmin::where('users_id','=',$id)
+			->update($administrator);
 	}
 	
 }

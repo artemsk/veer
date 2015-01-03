@@ -454,6 +454,7 @@ class VeerApp {
 	public function getUnreadTimestamp($type)
 	{
 		$cacheName = "unread." . $type . "." . \Auth::id();
+		
 		return \Cache::get($cacheName, date('Y-m-d 0:0:00', time()));
 	}
 	
