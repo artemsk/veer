@@ -779,7 +779,7 @@ class Show {
 			$items->load(array(
 				'books' => function($q)
 					{
-						$q->with('orders')->remember(1);
+						$q->with('orders');
 					}, 
 				'orders' => function($q) 
 					{
@@ -792,7 +792,7 @@ class Show {
 					},
 				'discounts' => function($q)
 					{
-						$q->with('orders')->remember(1);
+						$q->with('orders');
 					},
 				'bills' => function($q)
 					{
@@ -1111,11 +1111,11 @@ class Show {
 					},
 				'userbook' => function($q)
 					{
-						$q->with('orders')->remember(1);
+						$q->with('orders');
 					}, 
 				'userdiscount' => function($q)
 					{
-						$q->with('orders')->remember(1);
+						$q->with('orders');
 					},
 				'bills' => function($q)
 					{

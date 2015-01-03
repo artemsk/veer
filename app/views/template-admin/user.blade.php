@@ -16,9 +16,9 @@
 		<div class="col-sm-2 col-xs-6 text-center"><p>
 				@if(isset($items->banned))
 					@if ($items->banned == false)
-					<button type="submit" name="action" value="changeStatusUser.{{ $items->id }}" class="btn btn-success" title="Current: ON (Active)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Active</button>
+					<button type="submit" value="1" name="changeStatusUser[{{ $items->id }}]" class="btn btn-success" title="Current: ON (Active)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Active</button>
 					@else
-					<button type="submit" name="action" value="changeStatusUser.{{ $items->id }}" class="btn btn-warning" title="Current: BANNED " data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Banned</button>
+					<button type="submit" value="0" name="changeStatusUser[{{ $items->id }}]" class="btn btn-warning" title="Current: BANNED " data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Banned</button>
 					@endif
 				@endif	
 			</p></div>		
@@ -229,11 +229,7 @@
 	@else
 	<button type="submit" name="action" value="add" class="btn btn-danger btn-lg btn-block">Add</button>
 	@endif
-<!--	
-<p>$items->grp</p>
-<p>$items->grp_ids</p>
-// TODO: deprecated?
--->
+
 </div>
 @if(isset($items->id))
 <div class="action-hover-box"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>

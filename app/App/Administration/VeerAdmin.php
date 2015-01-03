@@ -2227,7 +2227,7 @@ class VeerAdmin extends Show {
 		
 		if($action == "addUserbook" || $action == "updateUserbook" )
 		{
-			app('veershop')->updateOrNewBook($all);
+			app('veershop')->updateOrNewBook( head(array_get($all, 'userbook', array())) );
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.update'));
 			$this->action_performed[] = "UPDATE books";
 		}
@@ -2248,7 +2248,7 @@ class VeerAdmin extends Show {
 	public function updateUsers()
 	{
 		Event::fire('router.filter: csrf');
-		
+			
 		$restrictions = Input::get('changeRestrictUser', null);
 		$ban = Input::get('changeStatusUser', null);
 		$delete = Input::get('deleteUser', null);
@@ -2279,6 +2279,14 @@ class VeerAdmin extends Show {
 			return null;
 		}
 		
+		// if we're working with one user then call another function
+		//
+		$editOneUser = Input::get('id', null);
+		if(!empty($editOneUser)) 
+		{ 	
+			return $this->updateOneUser($editOneUser); 
+		}
+		
 		if(Input::get('action', null) == "Add")
 		{
 			$freeForm = Input::get('freeForm', null);
@@ -2289,10 +2297,7 @@ class VeerAdmin extends Show {
 				'newsletter', 'restrict_orders', 'banned'
 			);
 			
-			//$email =  Input::get('email', null);
-			//$password = Input::get('password', null);
-			$siteId = Input::get('siteId', null);
-						
+			$siteId = Input::get('siteId', null);						
 			if(empty($siteId)) $siteId = app('veer')->siteId;
 			
 			$rules = array(
@@ -2341,6 +2346,17 @@ class VeerAdmin extends Show {
 			// do not need: site, role	
 			$u->delete();
 		}
+	}
+	
+	/**
+	 * update One user
+	 */
+	public function updateOneUser($id)
+	{
+		
+		echo "<pre>";
+		print_r(Input::all());
+		echo "</pre>";
 	}
 	
 }
