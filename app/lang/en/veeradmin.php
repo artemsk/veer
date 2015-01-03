@@ -75,5 +75,7 @@ return array(
 	"user.ban" => "Update user status",
 	"user.delete" => "Delete user",
 	"user.new" => "New user",
+	"user.admin" => "Create new administrator",
+	"user.admin.update" => "Update administrator",
 	
 );

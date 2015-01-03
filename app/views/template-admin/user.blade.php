@@ -100,10 +100,10 @@
 			<input type="text" class="form-control" name="administrator[description]" value="{{ $items->administrator->description }}" placeholder="Description">
 		</div>	
 		<div class="col-md-4">
-			<textarea class="form-control" name="administrator[access]" placeholder="Access parameters">{{ $items->administrator->access_parameters }}</textarea>
+			<textarea class="form-control" name="administrator[access_parameters]" placeholder="Access parameters">{{ $items->administrator->access_parameters }}</textarea>
 		</div>	
 		<div class="col-md-2">
-			<textarea class="form-control" name="administrator[sites]" placeholder="Sites watch">{{ $items->administrator->sites_watch }}</textarea>
+			<textarea class="form-control" name="administrator[sites_watch]" placeholder="Sites watch">{{ $items->administrator->sites_watch }}</textarea>
 		</div>			
 		<div class="col-md-2">
 			<div class="page-checkboxes-box">
