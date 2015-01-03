@@ -1405,8 +1405,7 @@ class VeerAdmin extends Show {
 		if(starts_with($action, "deleteProduct")) 
 		{
 			$r = explode(".", $action); 
-			\Veer\Models\Product::find($r[1])->delete();
-			// TODO: relationships
+			$this->deleteProduct($r[1]);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete'));
 			$this->action_performed[] = "DElETE product";
 		}		
@@ -1956,7 +1955,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "DELETE role";	
 		}
 		
-		if(Input::get('InUsers', null) != null)
+		if(Input::has('InUsers'))
 		{
 			$users = Input::get('InUsers', null);
 			
@@ -2010,7 +2009,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "NEW communication";
 		}
 		
-		if(Input::get('hideMessage', null) != null)
+		if(Input::has('hideMessage'))
 		{
 			\Veer\Models\Communication::where('id','=',head(Input::get('hideMessage', null)))
 				->update(array('hidden' => true));
@@ -2018,7 +2017,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "HIDE communication";
 		}
 		
-		if(Input::get('unhideMessage', null) != null)
+		if(Input::has('unhideMessage'))
 		{
 			\Veer\Models\Communication::where('id','=',head(Input::get('unhideMessage', null)))
 				->update(array('hidden' => false));
@@ -2026,7 +2025,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "UNHIDE communication";
 		}
 		
-		if(Input::get('deleteMessage', null) != null)
+		if(Input::has('deleteMessage'))
 		{
 			\Veer\Models\Communication::where('id','=',head(Input::get('deleteMessage', null)))
 				->delete();
@@ -2048,7 +2047,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "NEW comment";
 		}
 		
-		if(Input::get('hideComment', null) != null)
+		if(Input::has('hideComment'))
 		{
 			\Veer\Models\Comment::where('id','=',head(Input::get('hideComment', null)))
 				->update(array('hidden' => true));
@@ -2056,7 +2055,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "HIDE comment";
 		}
 		
-		if(Input::get('unhideComment', null) != null)
+		if(Input::has('unhideComment'))
 		{
 			\Veer\Models\Comment::where('id','=',head(Input::get('unhideComment', null)))
 				->update(array('hidden' => false));
@@ -2064,7 +2063,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "UNHIDE comment";
 		}
 		
-		if(Input::get('deleteComment', null) != null)
+		if(Input::has('deleteComment'))
 		{
 			\Veer\Models\Comment::where('id','=',head(Input::get('deleteComment', null)))
 				->delete();
@@ -2078,7 +2077,7 @@ class VeerAdmin extends Show {
 	 */
 	public function updateSearches()
 	{
-		if(Input::get('deleteSearch', null) != null)
+		if(Input::has('deleteSearch'))
 		{
 			$this->deleteSearch(head(Input::get('deleteSearch', null)));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.search.delete'));
@@ -2086,7 +2085,7 @@ class VeerAdmin extends Show {
 			return null;
 		}
 		
-		if(Input::get('action', null) == "addSearch" && Input::get('search', null) != null)
+		if(Input::get('action', null) == "addSearch" && Input::has('search'))
 		{
 			$q = trim( Input::get('search', null) );
 			if(!empty($q))
@@ -2133,7 +2132,7 @@ class VeerAdmin extends Show {
 	 */
 	public function updateLists()
 	{
-		if(Input::get('deleteList', null) != null)
+		if(Input::has('deleteList'))
 		{
 			$this->deleteList(head(Input::get('deleteList', null)));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.list.delete'));
@@ -2141,8 +2140,7 @@ class VeerAdmin extends Show {
 			return null;
 		}
 		
-		if(Input::get('action', null) == "addList" && 
-			(Input::get('products', null) != null || Input::get('pages', null) != null))
+		if(Input::get('action', null) == "addList" && ( Input::has('products') || Input::has('pages') ))
 		{
 			\Eloquent::unguard();
 			
@@ -2214,7 +2212,7 @@ class VeerAdmin extends Show {
 	 */
 	public function updateBooks()
 	{
-		if(Input::get('deleteUserbook', null) != null)
+		if(Input::has('deleteUserbook'))
 		{
 			$this->deleteBook(head(Input::get('deleteUserbook', null)));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete'));
@@ -2253,7 +2251,7 @@ class VeerAdmin extends Show {
 		$ban = Input::get('changeStatusUser', null);
 		$delete = Input::get('deleteUser', null);
 		
-		if($restrictions != null)
+		if(!empty($restrictions))
 		{
 			\Veer\Models\User::where('id','=', key($restrictions))
 				->update(array('restrict_orders' => head($restrictions)));			
@@ -2262,7 +2260,7 @@ class VeerAdmin extends Show {
 			return null;
 		}
 		
-		if($ban != null && key($ban) != \Auth::id())
+		if(!empty($ban) && key($ban) != \Auth::id())
 		{
 			\Veer\Models\User::where('id','=', key($ban))
 				->update(array('banned' => head($ban)));			
@@ -2271,7 +2269,7 @@ class VeerAdmin extends Show {
 			return null;
 		}
 		
-		if($delete != null && key($delete) != \Auth::id())
+		if(!empty($delete) && key($delete) != \Auth::id())
 		{
 			$this->deleteUser(key($delete));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.delete'));
@@ -2357,6 +2355,12 @@ class VeerAdmin extends Show {
 		echo "<pre>";
 		print_r(Input::all());
 		echo "</pre>";
+		
+		if(Input::has('addAsAdministrator'))
+		{
+			
+		}
+		
 	}
 	
 }
