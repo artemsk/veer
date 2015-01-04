@@ -577,12 +577,12 @@ if (!function_exists('statuses')) {
 	 * @return object
 	 */
 	function statuses($flag = null)
-	{
-		if(empty($flag)) return \Veer\Models\OrderStatus::orderBy('manual_order','asc')->get();
+	{ 
+		if(empty($flag)) return \Veer\Models\OrderStatus::orderBy('manual_order','asc')->remember(0.5)->get();
 		
 		$statuses = $flag == "secret" ? \Veer\Models\OrderStatus::where($flag, '=', true) :
 			\Veer\Models\OrderStatus::where('flag_' . $flag, '=', true);
-		return $statuses->orderBy('manual_order', 'asc')->get();
+		return $statuses->orderBy('manual_order', 'asc')->remember(0.5)->get();
 	}
 
 }

@@ -111,7 +111,7 @@
 		</div>
 	</div>
 	@else
-	<div class="rowdelimiter"></div>
+	<div class="sm-rowdelimiter"></div>
 	<div class="page-checkboxes-box">
 		<input type="checkbox" class="page-checkboxes" name="addAsAdministrator" data-on-color="info" data-on-text="User will be administrator<br/> after save | update" data-off-text="Turn on to add user as administrator"></div>
 	@endif
@@ -154,7 +154,7 @@
 		@endforeach
 		@endif
 		<li class="list-group-item">
-			<input type="text" name="attachPages" class="form-control" placeholder=":Existings IDs[,]">	
+			<input type="text" name="attachPages" class="form-control input-no-borders" placeholder=":Existings IDs[,]">	
 		</li>
 	</ul>
 	@if(isset($items->id))
@@ -200,7 +200,7 @@
 		@include($template.'.lists.discounts', array('items' => $items->discounts))
 	@endif
 	<li class="list-group-item">
-		<input type="text" name="attachDiscounts" class="form-control" placeholder=":Existings IDs[,]">	
+		<input type="text" name="attachDiscounts" class="form-control input-no-borders" placeholder=":Existings IDs[,]">	
 	</li>
 	</ul>	
 	
@@ -214,6 +214,8 @@
 		</div>
 	</div>
 	@endif
+	<a class="btn btn-default" href="{{ route("admin.show", array("orders", 
+				"id" => "new", "user" => isset($items->id) ? $items->id : null)) }}" role="button" target="_blank">New order</a>
 	
 	<div class="rowdelimiter"></div>
 	<h3>Bills</h3>

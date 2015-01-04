@@ -127,7 +127,8 @@
 				<span class="input-group-addon">
 				  <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 				</span>
-				<input type="text" name="fill[users_id]" class="form-control" placeholder="Users Id" value="{{ $items->users_id or null }}">
+				<input type="text" name="fill[users_id]" class="form-control" placeholder="Users Id" value="{{ Input::get('user', 
+						(isset($items->users_id) ? $items->users_id : \Auth::id())) }}">
 			</div>
 		@if(isset($items->user) && is_object($items->user))
 		<small><a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@'.$items->user->username }}</a><br/>

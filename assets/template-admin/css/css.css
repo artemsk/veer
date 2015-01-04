@@ -285,7 +285,7 @@ html, body
 }
 
 .not-pinned {
-    //border-left-width: 5px;
+    border-left-width: 5px;
 }
 
 .label-yellow {
@@ -301,4 +301,9 @@ html, body
     padding-right: 0px !important;
     width: auto !important;
     max-width: 50%;
+}
+
+.input-no-borders {
+    border-width: 0px;
+    box-shadow: 0 0 0 0 #fff;
 }

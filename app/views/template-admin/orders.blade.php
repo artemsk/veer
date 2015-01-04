@@ -14,7 +14,7 @@
 		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
 		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 	</ol> 
-<h1>Orders :{{ array_get(app('veeradmin')->counted, 'active', 0) }}<small> <a href="{{ route("admin.show", array("orders", "filter" => "archive", "filter_id" => true)) }}">~{{ array_get(app('veeradmin')->counted, 'archive', 0) }}</a>&nbsp;  
+<h1>Orders :{{ array_get(app('veeradmin')->counted, 'active', 0) }}<small> @if(array_get(app('veeradmin')->counted, 'archived', 0) > 0)<a href="{{ route("admin.show", array("orders", "filter" => "archive", "filter_id" => true)) }}">~{{ array_get(app('veeradmin')->counted, 'archived', 0) }}</a>&nbsp;@endif 
 	@if(Input::get('filter',null) != null) 
 	filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong> | 
 	@endif	
