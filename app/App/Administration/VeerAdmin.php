@@ -2386,9 +2386,9 @@ class VeerAdmin extends Show {
 	 */
 	public function updateOneUser($id)
 	{	
-		echo "<pre>";
-		print_r(Input::all());
-		echo "</pre>";
+		//echo "<pre>";
+		//print_r(Input::all());
+		//echo "</pre>";
 		
 		$action = Input::get('action', null);
 		$fill = Input::get('fill', null);
@@ -2513,6 +2513,65 @@ class VeerAdmin extends Show {
 			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.attach'));
 			$this->action_performed[] = "ATTACH discount";			
 		}
+		
+		// orders
+		// TODO: move to app(veershop)
+		if(Input::has('pin'))
+		{
+			$pin = key(Input::get('pin'));
+			\Veer\Models\Order::where('id','=',head(Input::get('pin')))
+				->update(array('pin' => $pin == 1 ? 0 : 1));
+		}
+		
+		if(Input::has('updateOrderStatus'))
+		{
+			$history = Input::get('history.'.Input::get('updateOrderStatus'), null);
+			array_set($history, 'orders_id', Input::get('updateOrderStatus'));
+			array_set($history, 'name', 
+				\Veer\Models\OrderStatus::where('id','=', array_get($history, 'status_id', null))
+					->pluck('name')
+				);
+			\Eloquent::unguard();
+			\Veer\Models\OrderHistory::create($history);
+			\Veer\Models\Order::where('id','=',Input::get('updateOrderStatus'))
+				->update(array('status_id' => array_get($history, 'status_id', null)));
+			// TODO: send to user
+		}
+		
+		if(Input::has('updatePaymentHold'))
+		{
+			\Veer\Models\Order::where('id','=',head(Input::get('updatePaymentHold')))
+				->update(array('payment_hold' => key(Input::get('updatePaymentHold'))));
+		}
+		
+		if(Input::has('updatePaymentDone'))
+		{
+			\Veer\Models\Order::where('id','=',head(Input::get('updatePaymentDone')))
+				->update(array('payment_done' => key(Input::get('updatePaymentDone'))));
+		}
+		
+		if(Input::has('updateShippingHold'))
+		{
+			\Veer\Models\Order::where('id','=',head(Input::get('updateShippingHold')))
+				->update(array('delivery_hold' => key(Input::get('updateShippingHold'))));
+		}
+		
+		if(Input::has('updateOrderClose'))
+		{
+			\Eloquent::unguard();
+			\Veer\Models\Order::where('id','=',head(Input::get('updateOrderClose')))
+				->update(array('close' => key(Input::get('updateOrderClose')), "close_time" => now()));
+		}
+		if(Input::has('updateOrderHide'))
+		{
+			\Veer\Models\Order::where('id','=',head(Input::get('updateOrderHide')))
+				->update(array('hidden' => key(Input::get('updateOrderHide'))));
+		}
+		if(Input::has('updateOrderArchive'))
+		{
+			\Veer\Models\Order::where('id','=',head(Input::get('updateOrderArchive')))
+				->update(array('archive' => key(Input::get('updateOrderArchive'))));
+		}		
 	}
 	
 	

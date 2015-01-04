@@ -206,7 +206,7 @@
 			@endforeach
 			@endif
 			<li class="list-group-item">
-					<input type="text" class="form-control" placeholder=":Existings IDs[,]" name="attachCategories" 
+					<input type="text" class="form-control input-no-borders" placeholder=":Existings IDs[,]" name="attachCategories" 
 						   value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">
 			</li>
 		</ul>
@@ -227,7 +227,7 @@
 					@endforeach
 					@endif
 					<li class="list-group-item">
-							<input type="text" class="form-control" placeholder=":Existings IDs[,]" name="attachPages">
+							<input type="text" class="form-control input-no-borders" placeholder=":Existings IDs[,]" name="attachPages">
 					</li>
 				</ul>				                  
 			</div> 
@@ -248,7 +248,7 @@
 					@endforeach
 					@endif
 					<li class="list-group-item">
-							<input type="text" class="form-control" placeholder=":Existings IDs[,]" name="attachParentProducts">
+							<input type="text" class="form-control input-no-borders" placeholder=":Existings IDs[,]" name="attachParentProducts">
 					</li>
 				</ul>	
 			</div>
@@ -267,7 +267,7 @@
 					@endforeach
 					@endif
 					<li class="list-group-item">
-							<input type="text" class="form-control" placeholder=":Existings IDs[,]" name="attachChildProducts">
+							<input type="text" class="form-control input-no-borders" placeholder=":Existings IDs[,]" name="attachChildProducts">
 					</li>
 				</ul>	 
 			</div>			
@@ -291,11 +291,6 @@
 						<option>choose</option>
                         <option>descr</option>                        
                     </select>					
-					@if(isset($items->id))
-					<p></p>
-					<button type="submit" name='action' value="updateAttribute.{{ $key }}.{{ $attribute->id }}" 
-							class="hidden-xs hidden-sm btn btn-default btn-xs">Update</button>	
-					@endif
 				</div>
 				<div class="col-md-8"><strong>
 						<input type="text" name='attribute[{{ $key }}][name]' 
@@ -310,10 +305,6 @@
 					attribute changes price</span>
 				@endif
 				@endif
-				@if(isset($items->id))
-				<p></p><button type="submit"  name='action' value="updateAttribute.{{ $key }}.{{ $attribute->id }}"  
-							   class="visible-xs visible-sm btn btn-default btn-xs">Update</button>
-				@endif
 				</div>				
 			</div>
 			<input type="hidden" name='attribute[{{ $key }}][id]' value="{{ $attribute->id }}"> 
@@ -325,12 +316,7 @@
 					<select class="form-control input-sm" name='attribute[new][type]'>
 						<option>choose</option>
                         <option>descr</option>                        
-                    </select>
-					@if(isset($items->id))
-					<p></p>
-					<button type="submit" name='action' value="updateAttribute.new" 
-							class="hidden-xs hidden-sm btn btn-default btn-xs">Update</button>	
-					@endif							
+                    </select>						
 				</div>
 				<div class="col-md-8"><strong>
 						<input type="text" name='attribute[new][name]' class="form-control input-sm" placeholder="Name"></strong>
@@ -338,10 +324,6 @@
 				<textarea class="form-control input-sm" name='attribute[new][descr]' placeholder="Description"></textarea>
 				<strong><input type="text" class="form-control input-sm" 
 							   value="" placeholder="New price" name='attribute[new][price]'></strong>
-				@if(isset($items->id))
-				<p></p><button type="submit" name='action' value="updateAttribute.new" 
-							   class="visible-xs visible-sm btn btn-default btn-xs">Update</button></div>
-				@endif
 			</div>
 			<div class="rowdelimiter"></div>
 			<label>Free form</label>

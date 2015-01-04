@@ -201,7 +201,7 @@
 				@endforeach
 				@endif
 				<li class="list-group-item">
-						<input type="text" name="attachCategories" class="form-control" placeholder=":Existings IDs[,]" 
+						<input type="text" name="attachCategories" class="form-control input-no-borders" placeholder=":Existings IDs[,]" 
 							   value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">
 				</li>
 			</ul>
@@ -222,7 +222,7 @@
 						@endforeach
 						@endif
 						<li class="list-group-item">
-								<input type="text" name="attachProducts" class="form-control" placeholder=":Existings IDs[,]">
+								<input type="text" name="attachProducts" class="form-control input-no-borders" placeholder=":Existings IDs[,]">
 						</li>
 					</ul>				                  
 				</div> 
@@ -243,7 +243,7 @@
 						@endforeach
 						@endif
 						<li class="list-group-item">
-								<input type="text" name="attachParentPages" class="form-control" placeholder=":Existings IDs[,]">
+								<input type="text" name="attachParentPages" class="form-control input-no-borders" placeholder=":Existings IDs[,]">
 						</li>
 					</ul>	
 				</div>
@@ -262,7 +262,7 @@
 						@endforeach
 						@endif
 						<li class="list-group-item">
-								<input type="text" name="attachChildPages" class="form-control" placeholder=":Existings IDs[,]">
+								<input type="text" name="attachChildPages" class="form-control input-no-borders" placeholder=":Existings IDs[,]">
 						</li>
 					</ul>	 
 				</div>			
