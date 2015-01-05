@@ -226,7 +226,9 @@
 		</div>
 	</div>
 	@endif	
-
+	<a class="btn btn-default" href="{{ route("admin.show", array("orders", 
+				"id" => "new", "user" => isset($items->id) ? $items->id : null)) }}" role="button" target="_blank">New bill</a>
+	
 	@if(isset($items->id) && isset($items['files']) && count($items['files'])>0)
 	<div class="rowdelimiter"></div>
 	<h3>Files</h3>
