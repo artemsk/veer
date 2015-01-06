@@ -110,67 +110,7 @@
 	<hr>
 	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<label>Add message to anything as anybody</label>
-	<div class="row">
-        <div class="col-md-6">
-			<div class="form-group">
-                <input type="text" class="form-control" name="fill[sender]" placeholder="Sender">
-			</div>
-			<div class="form-group">
-                <input type="tel" class="form-control" name="fill[sender_phone]" placeholder="Sender Phone">
-			</div>
-			<div class="form-group">
-                <input type="email" class="form-control" name="fill[sender_email]" placeholder="Sender Email">
-			</div>
-			<div class="form-group">
-                <textarea class="form-control" rows="3" name="message" placeholder="Message @recipient @recipient"></textarea>
-			</div> 
-			<div class="form-group">
-                <input type="text" class="form-control" name="fill[theme]" placeholder="Theme">
-			</div>
-			<div class="form-group">
-                <input type="text" class="form-control" name="fill[type]" placeholder="Label | Type (IM, email, callme etc.)">
-			</div> 
-			<div class="checkbox">
-                <label>
-					<input type="checkbox" name="checkboxes[public]" checked> Public
-                </label>
-			</div>			
-			<div class="checkbox">
-                <label>
-					<input type="checkbox" name="checkboxes[email_notify]"> Email Notify
-                </label>
-			</div>
-			<div class="checkbox">
-                <label>
-					<input type="checkbox" name="checkboxes[intranet]"> Intranet
-                </label>
-			</div>
-			<div class="checkbox">
-                <label>
-					<input type="checkbox" name="checkboxes[hidden]"> Hidden
-                </label>
-			</div>			
-
-		</div> 
-		<div class="col-md-6">
-			<div class="form-group">
-                <input type="text" class="form-control" name="fill[sites_id]" placeholder="Sites ID">
-			</div> 
-			<div class="form-group">
-                <input type="text" class="form-control" name="fill[users_id]" placeholder="Users ID [or empty for current]"
-					   @if(Input::get('filter',null) == "user" && Input::has('filter_id')) value="{{ Input::get("filter_id") }}" @endif>
-			</div> 			
-			<div class="form-group">
-				<label>Place on specific Url</label>
-				<input type="url" class="form-control" name="fill[url]" placeholder="Url">
-			</div> 
-			<div class="form-group">
-				<label>Place on Product | Page | Category | Order</label>
-				<textarea class="form-control" name="connected" rows="3" placeholder="page|product|category|order:id"></textarea>
-			</div>   
-			<button type="submit" name="action" value="addMessage" class="btn btn-default">Submit</button> 
-		</div> 
-	</div>
+	@include($template.'.layout.form-communication')
 	{{ Form::close() }}
 </div>
 @stop

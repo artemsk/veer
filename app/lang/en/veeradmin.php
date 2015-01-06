@@ -79,6 +79,7 @@ return array(
 	"user.admin" => "Create new administrator",
 	"user.page.attach" => "Attach page to user",
 	"user.page.detach" => "Detach page from user",
+	"user.page.sendmessage" => "Send message to user",
 	"discount.cancel" => "Cancel discount",
 	
 );
