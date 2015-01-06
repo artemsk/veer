@@ -345,18 +345,18 @@ class VeerApp {
 	{
 		\Event::fire('router.filter: csrf');
 		
-		if(array_get($all, 'message', null) == null) return false;
+		if(array_get($all, 'message') == null) return false;
 		
 		\Eloquent::unguard();
 		
-		if(array_get($all, 'fill.users_id', null) == null) array_set($all, 'fill.users_id', \Auth::id());		
-		if(array_get($all, 'fill.sites_id', null) == null) array_set($all, 'fill.sites_id', app('veer')->siteId);		
+		if(array_get($all, 'fill.users_id') == null) array_set($all, 'fill.users_id', \Auth::id());		
+		if(array_get($all, 'fill.sites_id') == null) array_set($all, 'fill.sites_id', app('veer')->siteId);		
 		
-		if(array_get($all, 'fill.users_id', null) != null)
+		if(array_get($all, 'fill.users_id') != null)
 		{
-			if(array_get($all, 'fill.sender', null) == null) array_set($all, 'fill.sender', \Auth::user()->username);			
-			if(array_get($all, 'fill.sender_phone', null) == null) array_set($all, 'fill.sender_phone', \Auth::user()->phone);			
-			if(array_get($all, 'fill.sender_email', null) == null) array_set($all, 'fill.sender_email', \Auth::user()->email);
+			if(array_get($all, 'fill.sender') == null) array_set($all, 'fill.sender', \Auth::user()->username);			
+			if(array_get($all, 'fill.sender_phone') == null) array_set($all, 'fill.sender_phone', \Auth::user()->phone);			
+			if(array_get($all, 'fill.sender_email') == null) array_set($all, 'fill.sender_email', \Auth::user()->email);
 		}
 		
 		$message = new \Veer\Models\Communication;
@@ -373,7 +373,7 @@ class VeerApp {
 		$message->intranet = array_get($all, 'checkboxes.intranet', 
 			array_get($options, 'checkboxes.intranet', false)) ? true : false;
 		
-		$connected = array_get($all, 'connected', null) ;
+		$connected = array_get($all, 'connected') ;
 		
 		if(!empty($connected))
 		{
@@ -383,14 +383,14 @@ class VeerApp {
 			$message->elements_id = $id;
 		}
 		
-		if(array_get($all, 'fill.url', null) != null || empty($message->elements_id))
+		if(array_get($all, 'fill.url') != null || empty($message->elements_id))
 		{
-			if(array_get($all, 'fill.url', null) == null) array_set($all, 'fill.url', app('url')->current());
+			if(array_get($all, 'fill.url') == null) array_set($all, 'fill.url', app('url')->current());
 		}
 		
-		$message->fill( array_get($all, 'fill', null) );
+		$message->fill( array_get($all, 'fill') );
 	
-		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'message', null) );
+		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'message') );
 		
 		$message->message = $text;
 		$message->recipients = json_encode($recipients);
@@ -490,26 +490,26 @@ class VeerApp {
 		
 		$all = \Input::all();
 		
-		if(array_get($all, 'fill.txt', null) == null) return false;
+		if(array_get($all, 'fill.txt') == null) return false;
 		
 		\Eloquent::unguard();
 		
-		if(array_get($all, 'fill.users_id', null) == null) array_set($all, 'fill.users_id', \Auth::id());		
+		if(array_get($all, 'fill.users_id') == null) array_set($all, 'fill.users_id', \Auth::id());		
 			
-		if(array_get($all, 'fill.users_id', null) != null)
+		if(array_get($all, 'fill.users_id') != null)
 		{
-			if(array_get($all, 'fill.author', null) == null) array_set($all, 'fill.author', \Auth::user()->username);			
+			if(array_get($all, 'fill.author') == null) array_set($all, 'fill.author', \Auth::user()->username);			
 		}
 		
-		if(array_get($all, 'vote', null) == "Yes") array_set($all, 'fill.vote_y', true);		
-		if(array_get($all, 'vote', null) == "No") array_set($all, 'fill.vote_n', true);
+		if(array_get($all, 'vote') == "Yes") array_set($all, 'fill.vote_y', true);		
+		if(array_get($all, 'vote') == "No") array_set($all, 'fill.vote_n', true);
 
 		$comment = new \Veer\Models\Comment;
 		
-		$comment->fill( array_get($all, 'fill', null) );
+		$comment->fill( array_get($all, 'fill') );
 		$comment->hidden = array_get($options, 'checkboxes.hidden', false);		
 		
-		$connected = array_get($all, 'connected', null) ;
+		$connected = array_get($all, 'connected') ;
 		
 		if(!empty($connected))
 		{
@@ -519,7 +519,7 @@ class VeerApp {
 			$comment->elements_id = $id;
 		}
 		
-		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'fill.txt', null) );
+		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'fill.txt') );
 		
 		$comment->save();
 		
