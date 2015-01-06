@@ -21,79 +21,80 @@
 <div class="container">
 	
 	@foreach($items as $item)
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<h3>#{{ $item->id }}</h3>
 	<ul class="list-group">
 		<div class="row list-group-item">
 			<div class="col-md-4">
 				<div class="checkbox">
-					<input type="checkbox" name="OnEnable" @if($item->enable == true) checked @endif class="page-checkboxes">
+					<input type="checkbox" name="shipping[fill][enable]" value="1" @if($item->enable == true) checked @endif class="page-checkboxes">
 				</div>			
 				<div class="form-group">
 					<div class="input-group">
 						<span class="input-group-addon">
 						  <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						</span>
-					<input type="text" class="form-control" name="InSite" placeholder="Sites ID" value="{{ $item->sites_id }}">
+					<input type="text" class="form-control" name="shipping[fill][sites_id]" placeholder="Sites ID" value="{{ $item->sites_id }}">
 					</div>
 					<small>@if(is_object($item->site))~ {{ $item->site->configuration->first()->conf_val or $item->site->url; }} @endif</small>
 				</div>
 				<div class="form-group"><strong>
-					<input type="text" class="form-control input-lg" name="InName" placeholder="Shipping Method Name" value="{{ $item->name }}">
+					<input type="text" class="form-control input-lg" name="shipping[fill][name]" placeholder="Shipping Method Name" value="{{ $item->name }}">
 					</strong>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" name="InDelivery" placeholder="Shipping Type (delivery, pickup, no-delivery etc.)"
+					<input type="text" class="form-control" name="shipping[fill][delivery_type]" placeholder="Shipping Type (delivery, pickup, no-delivery etc.)"
 						   value="{{ $item->delivery_type }}">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" name="InPayment" placeholder="Payment Type (fix, calculator, free)"
+					<input type="text" class="form-control" name="shipping[fill][payment_type]" placeholder="Payment Type (fix, calculator, free)"
 						   value="{{ $item->payment_type }}">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" name="InPrice" placeholder="Price (if fix | if failed calculation)"
+					<input type="text" class="form-control" name="shipping[fill][price]" placeholder="Price (if fix | if failed calculation)"
 						   value="{{ $item->price }}">
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
-					<input type="text" class="form-control" name="InDiscount" placeholder="Discount (Percent)" value="{{ $item->discount_price  }}%">
+					<input type="text" class="form-control" name="shipping[fill][discount_price]" placeholder="Discount (Percent)" value="{{ $item->discount_price  }}%">
 				</div>
 				<div class="checkbox">
-					<input type="checkbox" name="OnDiscountEnable" data-on-text="On" data-off-text="Off" class="page-checkboxes"
+					<input type="checkbox" name="shipping[fill][discount_enable]" value="1" data-on-text="On" data-off-text="Off" class="page-checkboxes"
 						   @if($item->discount_enable == true) checked @endif > &nbsp;Discount
 				</div>
 				<div class="form-group">
 					<label>Discount Conditions</label>
-					<textarea class="form-control" name="InDiscountConditions" rows="5" placeholder="p:?
+					<textarea class="form-control" name="shipping[fill][discount_conditions]" rows="5" placeholder="p:?
 w:?
 l:?
 d:total|delivery">{{ $item->discount_conditions }}</textarea>
 				</div>
 				<div class="form-group">
-					<textarea class="form-control" name="InAddress" rows="3" 
+					<textarea class="form-control" name="shipping[fill][address]" rows="3" 
 							  placeholder="Address (if it's pickup and known addresses)">{{ $item->address }}</textarea>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group"><strong>
-					<input type="text" class="form-control input-lg" name="InFunc" 
+					<input type="text" class="form-control input-lg" name="shipping[fill][func_name]" 
 						   placeholder="Class | function in ../Ecommerce/" value="{{ $item->func_name }}">
 					</strong>
-					@if(!class_exists('\\Veer\\Ecommerce\\' . $item->func_name)) 
+					@if(!empty($item->func_name) && !class_exists('\\Veer\\Ecommerce\\' . $item->func_name)) 
 					<span class='label label-danger'>Class doesn't exists</span>
 					@endif
 				</div>
 				<div class="form-group">
-					<textarea class="form-control" name="InOther" rows="2" 
+					<textarea class="form-control" name="shipping[fill][other_options]" rows="2" 
 							  placeholder="Other options (used in functions)">{{ $item->other_options }}</textarea>
 				</div>
 				<hr>
 				<div class="form-group">
 					<label>Manual Order</label>
-					<input type="text" class="form-control" name="InOrder" placeholder="Manual Order" value="{{ $item->manual_order }}">
+					<input type="text" class="form-control" name="shipping[fill][manual_order]" placeholder="Manual Order" value="{{ $item->manual_order }}">
 				</div>
-				<button type="submit" class="btn btn-info">Update #{{ $item->id }}</button>&nbsp; 
-				<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+				<button type="submit" name="updateShippingMethod" value="{{ $item->id }}" class="btn btn-info">Update #{{ $item->id }}</button>&nbsp; 
+				<button type="submit" name="deleteShippingMethod" value="{{ $item->id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 				<p></p>
 				<small>
 					{{ $item->created_at }}<br/>
@@ -103,6 +104,7 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 			</div> 
 		</div>
 	</ul>	
+	{{ Form::close() }}
 	@endforeach
 	
 	
@@ -122,54 +124,54 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 	<div class="row">
         <div class="col-md-4">
 			<div class="checkbox">
-				<input type="checkbox" name="OnEnable" checked class="page-checkboxes">
+				<input type="checkbox" name="shipping[fill][enable]" checked class="page-checkboxes">
 			</div>			
 			<div class="form-group">
-                <input type="text" class="form-control" name="InSite" placeholder="Sites ID">
+                <input type="text" class="form-control" name="shipping[fill][sites_id]" placeholder="Sites ID">
 			</div>
 			<div class="form-group">
-                <input type="text" class="form-control input-lg" name="InName" placeholder="Shipping Method Name">
+                <input type="text" class="form-control input-lg" name="shipping[fill][name]" placeholder="Shipping Method Name">
 			</div>
 			<div class="form-group">
-                <input type="text" class="form-control" name="InDelivery" placeholder="Shipping Type (delivery, pickup, no-delivery etc.)">
+                <input type="text" class="form-control" name="shipping[fill][delivery_type]" placeholder="Shipping Type (delivery, pickup, no-delivery etc.)">
 			</div>
 			<div class="form-group">
-                <input type="text" class="form-control" name="InPayment" placeholder="Payment Type (fix, calculator, free)">
+                <input type="text" class="form-control" name="shipping[fill][payment_type]" placeholder="Payment Type (fix, calculator, free)">
 			</div>
 			<div class="form-group">
-                <input type="text" class="form-control" name="InPrice" placeholder="Price (if fix | if failed calculation)">
+                <input type="text" class="form-control" name="shipping[fill][price]" placeholder="Price (if fix | if failed calculation)">
 			</div>
 		</div>
 		<div class="col-md-4">
 			<div class="form-group">
-                <input type="text" class="form-control" name="InDiscount" placeholder="Discount (Percent)">
+                <input type="text" class="form-control" name="shipping[fill][discount_price]" placeholder="Discount (Percent)">
 			</div>
 			<div class="checkbox">
-				<input type="checkbox" name="OnDiscountEnable" data-on-text="On" date-off-text="Off" class="page-checkboxes"> &nbsp;Discount
+				<input type="checkbox" name="shipping[fill][discount_enable]" value="1" data-on-text="On" date-off-text="Off" class="page-checkboxes"> &nbsp;Discount
 			</div>
 			<div class="form-group">
 				<label>Discount Conditions</label>
-				<textarea class="form-control" name="InDiscountConditions" rows="5" placeholder="p:?
+				<textarea class="form-control" name="shipping[fill][discount_conditions]" rows="5" placeholder="p:?
 w:?
 l:?
 d:total|delivery"></textarea>
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" name="InAddress" rows="3" placeholder="Address (if it's pickup and known addresses)"></textarea>
+				<textarea class="form-control" name="shipping[fill][address]" rows="3" placeholder="Address (if it's pickup and known addresses)"></textarea>
 			</div>
 		</div>
 		<div class="col-md-4">
 			<div class="form-group">
-				<input type="text" class="form-control input-lg" name="InFunc" placeholder="Class | function in ../Ecommerce/">
+				<input type="text" class="form-control input-lg" name="shipping[fill][func_name]" placeholder="Class | function in ../Ecommerce/">
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" name="InOther" rows="2" placeholder="Other options (used in functions)"></textarea>
+				<textarea class="form-control" name="shipping[fill][other_options]" rows="2" placeholder="Other options (used in functions)"></textarea>
 			</div>
 			<hr>
 			<div class="form-group">
-                <input type="text" class="form-control" name="InOrder" placeholder="Manual Order">
+                <input type="text" class="form-control" name="shipping[fill][manual_order]" placeholder="Manual Order">
 			</div>
-			<button type="submit" class="btn btn-default">Submit</button> 
+			<button type="submit" name="addShippingMethod" value="New" class="btn btn-default">Submit</button> 
         </div> 
 	</div>
 	
