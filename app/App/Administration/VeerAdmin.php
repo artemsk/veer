@@ -2653,4 +2653,89 @@ class VeerAdmin extends Show {
 			->update($administrator);
 	}
 	
+	
+	
+	/*
+	 * update Statuses
+	 */
+	public function updateStatuses()
+	{
+		\Eloquent::unguard();
+
+		if(Input::has('updateGlobalStatus'))
+		{
+			$status_id = Input::get('updateGlobalStatus');
+			
+			$s = \Veer\Models\OrderStatus::find($status_id);
+			
+			if(is_object($s))
+			{
+				$this->addOrUpdateGlobalStatus($s, $status_id);
+				Event::fire('veer.message.center', \Lang::get('veeradmin.status.update'));
+				$this->action_performed[] = "UPDATE status";
+			}
+		}
+		
+		if(Input::has('deleteStatus'))
+		{
+			$this->deleteStatus(Input::get('deleteStatus'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.status.delete'));
+			$this->action_performed[] = "DELETE status";
+		}
+		
+		if(Input::has('addStatus'))
+		{
+			foreach(Input::get('InName') as $key => $value)
+			{
+				if(!empty($value))
+				{
+					$this->addOrUpdateGlobalStatus(new \Veer\Models\OrderStatus, $key);
+				}
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.status.new'));
+			$this->action_performed[] = "NEW status";			
+		}
+	}
+	
+	
+	/**
+	 * add or update global status (query)
+	 * @param type $s
+	 * @param type $status_id
+	 */
+	protected function addOrUpdateGlobalStatus($s, $status_id)
+	{
+		$s->name = Input::get('InName.'.$status_id);
+		$s->manual_order = Input::get('InOrder.'.$status_id, $status_id);
+		$s->color = Input::get('InColor.'.$status_id, '#000');
+				
+		$flag = Input::get('InFlag.'.$status_id);
+				
+		$flags = array('flag_first' => 0,'flag_unreg' => 0, 'flag_error' => 0,
+				'flag_payment' => 0, 'flag_delivery' => 0, 'flag_close' => 0,
+				'secret' => 0);
+				
+		if(!empty($flag)) $flags[$flag] = true;
+
+		$s->fill($flags);
+		$s->save();		
+	}
+	
+	
+	/**
+	 * delete Status
+	 */
+	protected function deleteStatus($id)
+	{
+		\Veer\Models\Order::where('status_id','=',$id)
+			->update(array('status_id' => 0));
+		
+		\Veer\Models\OrderBill::where('status_id','=',$id)
+			->update(array('status_id' => 0));
+		
+		\Veer\Models\OrderHistory::where('status_id','=',$id)
+			->update(array('status_id' => 0));
+		
+		\Veer\Models\OrderStatus::destroy($id);
+	}
 }
