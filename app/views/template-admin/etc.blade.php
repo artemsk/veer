@@ -18,5 +18,19 @@
 	<p><textarea class="form-control" name="freeFormSql" placeholder="Raw Sql [Update, Insert, Delete]"></textarea></p>
 	<button type="submit" class="btn btn-default" name="action" value="runRawSql">Run</button>
 	{{ Form::close() }}
+	
+	<div class="rowdelimiter"></div>
+	
+	
+	
+	<div class="form-group">
+	<label>Check Latest Version</label>
+	{{  Form::open(array('method' => 'put', 'class' => 'ajaxFormSubmit', 'files' => false));  }}
+	<div id="compareVersions">
+	<input type="hidden" name="actionButton" value="checkLatestVersion">
+	<p><button type="submit" class="btn btn-default" name="action" value="checkLatestVersion" data-resultdiv="#compareVersions">Check Version</button></p>
+	</div>
+	{{ Form::close() }}
+	</div>
 </div>
 @stop

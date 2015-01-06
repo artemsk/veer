@@ -14,13 +14,15 @@
         "laravel/framework": "4.2.*",
         "doctrine/dbal": "~2.3",
         "artemsk/queuedb": "0.1.*",
-		"erusev/parsedown": "*"
+		"erusev/parsedown": "*",
+		"guzzlehttp/guzzle": "~5.0"
     },
     "require-dev": {	
         "php": ">=5.4.0",
         "laravel/framework": "4.2.*",
         "doctrine/dbal": "~2.3",
-        "artemsk/queuedb": "0.1.*"
+        "artemsk/queuedb": "0.1.*",
+		"guzzlehttp/guzzle": "~5.0"
     },	
 	"autoload": {
         "classmap": [
