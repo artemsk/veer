@@ -65,8 +65,8 @@ class VeerAdmin extends Show {
 	public function updateSites()
 	{
 		$data = Input::get('site');
-		$turnoff = Input::get('turnoff', null);
-		$turnon = Input::get('turnon', null);
+		$turnoff = Input::get('turnoff');
+		$turnon = Input::get('turnon');
 		$message = \Lang::get('veeradmin.sites.update');
 
 		foreach ($data as $key => $values) {
@@ -132,16 +132,16 @@ class VeerAdmin extends Show {
 		\Eloquent::unguard();
 		
 		$siteid = Input::get('siteid');
-		$confs = Input::get('configuration', null);		
-		$new = Input::get('new', null);
+		$confs = Input::get('configuration');		
+		$new = Input::get('new');
 		
 		if(!empty($confs)) { $cardid = head(array_keys($confs)); }
 		if(!empty($new)) { $cardid = $siteid; $confs = $new; }
 		
 		if(!empty($siteid)) { 
 		
-			$save = Input::get('save', null);
-			$delete = Input::get('dele', null);
+			$save = Input::get('save');
+			$delete = Input::get('dele');
 
 			if(!empty($save) && !empty($confs[$cardid]['key'])) {
 				$newc = \Veer\Models\Configuration::firstOrNew(array("conf_key" => $confs[$cardid]['key'], "sites_id" => $siteid));
@@ -187,16 +187,16 @@ class VeerAdmin extends Show {
 		\Eloquent::unguard();		
 		
 		$siteid = Input::get('siteid');
-		$confs = Input::get('components', null);
-		$new = Input::get('new', null);
+		$confs = Input::get('components');
+		$new = Input::get('new');
 		
 		if(!empty($confs)) { $cardid = head(array_keys($confs)); }
 		if(!empty($new)) { $cardid = $siteid; $confs = $new; }
 		
 		if(!empty($siteid)) { 
 		
-			$save = Input::get('save', null);
-			$delete = Input::get('dele', null);
+			$save = Input::get('save');
+			$delete = Input::get('dele');
 
 			// We create new insert id every time
 			if(!empty($save) && !empty($confs[$cardid]['name'])) {
@@ -240,9 +240,9 @@ class VeerAdmin extends Show {
 	{
 		\Eloquent::unguard();	
 		
-		$save = Input::get('save', null);
-		$delete = Input::get('dele', null);		
-		$cardid = Input::get('secrets', null);
+		$save = Input::get('save');
+		$delete = Input::get('dele');		
+		$cardid = Input::get('secrets');
 		
 		if(!empty($delete)) {
 			\Veer\Models\Secret::destroy(head(array_keys($delete)));
@@ -280,10 +280,10 @@ class VeerAdmin extends Show {
 	 */	
 	public function updateJobs()
 	{
-		$run = Input::get('_run', null);
-		$delete = Input::get('dele', null);
-		$save = Input::get('save', null);
-		$pause = Input::get('paus', null);
+		$run = Input::get('_run');
+		$delete = Input::get('dele');
+		$save = Input::get('save');
+		$pause = Input::get('paus');
 		
 		if(!empty($delete)) {
 			
@@ -294,7 +294,7 @@ class VeerAdmin extends Show {
 
 		if(!empty($run)) {
 			
-			$this->runJob( head(array_keys($run)) , Input::get('payload', null) );
+			$this->runJob( head(array_keys($run)) , Input::get('payload') );
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.jobs.done'));
 			$this->action_performed[] = "RUN job";			
@@ -381,15 +381,15 @@ class VeerAdmin extends Show {
 	{
 		// if we're working with one category then call another function
 		//
-		$editOneCategory = Input::get('category', null);
+		$editOneCategory = Input::get('category');
 		if(!empty($editOneCategory)) { 
 			
 			return $this->updateOneCategory($editOneCategory); 
 		}
 		
-		$action = Input::get('action', null);
-		$cid = Input::get('deletecategoryid', null);
-		$new = Input::get('newcategory', null);
+		$action = Input::get('action');
+		$cid = Input::get('deletecategoryid');
+		$new = Input::get('newcategory');
 		
 		if($action == "delete" && !empty($cid)) {
 			$this->action_performed[] = "DELETE category";
@@ -397,7 +397,7 @@ class VeerAdmin extends Show {
 		}
 		
 		if($action == "add" && !empty($new)) {			
-			$site_id = Input::get('siteid', null);				
+			$site_id = Input::get('siteid');				
 			$this->addCategory($new, $site_id);			
 			$this->action_performed[] = "NEW category";
 			
@@ -789,25 +789,25 @@ class VeerAdmin extends Show {
 	{
 		// if we're working with one product then call another function
 		//
-		$editOneProduct = Input::get('id', null);
+		$editOneProduct = Input::get('id');
 		if(!empty($editOneProduct)) { 
 			
 			return $this->updateOneProduct($editOneProduct); 
 		}
 				
 		// quick actions: status etc.
-		$this->quickProductsActions(Input::get('action', null));
+		$this->quickProductsActions(Input::get('action'));
 
 		$all = Input::all();
 		
-		$title = trim(array_get($all, 'fill.title', null));
-		$freeForm = trim(array_get($all, 'freeForm', null));
+		$title = trim(array_get($all, 'fill.title'));
+		$freeForm = trim(array_get($all, 'freeForm'));
 		
 		if(empty($freeForm) && !empty($title)) {
 			
-			$prices = explode(":", array_get($all, 'prices', null));
-			$options =  explode(":", array_get($all, 'options', null));
-			$categories =  explode(",", array_get($all, 'categories', null));
+			$prices = explode(":", array_get($all, 'prices'));
+			$options =  explode(":", array_get($all, 'options'));
+			$categories =  explode(",", array_get($all, 'categories'));
 			
 			$p = new \Veer\Models\Product;
 			$p->title = $title;
@@ -874,7 +874,7 @@ class VeerAdmin extends Show {
 					$p->categories()->attach($categories);
 				}
 
-				$image = array_get($items, 15, null);
+				$image = array_get($items, 15);
 				if(!empty($image)) {
 					$new = new \Veer\Models\Image; 
 					$new->img = $image;
@@ -882,7 +882,7 @@ class VeerAdmin extends Show {
 					$new->products()->attach($p->id);			
 				}
 				
-				$file= array_get($items, 16, null);
+				$file= array_get($items, 16);
 				if(!empty($file)) {
 					$new = new \Veer\Models\Download; 
 					$new->original = 1;
@@ -909,7 +909,7 @@ class VeerAdmin extends Show {
 		\Eloquent::unguard();
 		
 		$all = Input::all();
-		$action = array_get($all, 'action', null);
+		$action = array_get($all, 'action');
 				
 		array_set($all, 'fill.star', isset($all['fill']['star']) ? true : 0);
 		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
@@ -1188,64 +1188,64 @@ class VeerAdmin extends Show {
 	 */
 	public function connections($object, $id, $type, $attributes = array(), $options = array())
 	{
-		$action = array_get($attributes, 'actionButton', null);
+		$action = array_get($attributes, 'actionButton');
 		
 		// tags
-		if(isset($attributes['tags'])) $this->attachTags(array_get($attributes, 'tags', null), $object);
+		if(isset($attributes['tags'])) $this->attachTags(array_get($attributes, 'tags'), $object);
 		
 		// attributes
-		if(isset($attributes['attributes'])) $this->attachAttributes(array_get($attributes, 'attributes', null), $object);
+		if(isset($attributes['attributes'])) $this->attachAttributes(array_get($attributes, 'attributes'), $object);
 
 		// images
 		if(Input::hasFile(array_get($attributes, 'uploadImageId', 'uploadImage'))) {
 			$this->upload('image', array_get($attributes, 'uploadImageId', 'uploadImage'), 
-				$id, $type, array_get($options, 'prefix.image', null), null);
+				$id, $type, array_get($options, 'prefix.image'), null);
 		}			
 		
-		$this->attachElements(array_get($attributes, 'attachImages', null), $object, 'images', null);
+		$this->attachElements(array_get($attributes, 'attachImages'), $object, 'images', null);
 		
 		$this->detachElements($action, 
 			array_get($attributes, 'removeImageId', 'removeImage'), $object, 'images', 
-			array_get($options, 'message.images', null));
+			array_get($options, 'message.images'));
 	
 		//files
 		if(Input::hasFile(array_get($attributes, 'uploadFilesId', 'uploadFiles'))) {
 			$this->upload('file', array_get($attributes, 'uploadFilesId', 'uploadFiles'), 
-				$id, $object, array_get($options, 'prefix.file', null), null);
+				$id, $object, array_get($options, 'prefix.file'), null);
 		}
 		
-		$this->copyFiles(array_get($attributes, 'attachFiles', null), $object);		
+		$this->copyFiles(array_get($attributes, 'attachFiles'), $object);		
 		$this->removeFile($action);
 		
 		// categories: we cannot add not existing categories as we don't know site id
 		if(isset($attributes['attachCategories'])) 
 		{
-			$this->attachElements(array_get($attributes, 'attachCategories', null), $object, 'categories', null);	
+			$this->attachElements(array_get($attributes, 'attachCategories'), $object, 'categories', null);	
 		}
 		$this->detachElements($action, array_get($attributes, 'removeCategoryId', 'removeCategory'), $object, 'categories', null);
 				
 		// pages
-		$this->attachElements(array_get($attributes, 'attachPages', null), $object, 'pages', null);	
+		$this->attachElements(array_get($attributes, 'attachPages'), $object, 'pages', null);	
 		$this->detachElements($action, array_get($attributes, 'removePageId', 'removePage'), $object, 'pages', null);	
 		
 		// products
-		$this->attachElements(array_get($attributes, 'attachProducts', null), $object, 'products', null);	
+		$this->attachElements(array_get($attributes, 'attachProducts'), $object, 'products', null);	
 		$this->detachElements($action, array_get($attributes, 'removeProductId', 'removeProduct'), $object, 'products', null);			
 		
 		// child products
-		$this->attachElements(array_get($attributes, 'attachChildProducts', null), $object, 'subproducts', null);	
+		$this->attachElements(array_get($attributes, 'attachChildProducts'), $object, 'subproducts', null);	
 		$this->detachElements($action, array_get($attributes, 'removeChildProductId', 'removeChildProduct'), $object, 'subproducts', null);
 		
 		// parent products
-		$this->attachElements(array_get($attributes, 'attachParentProducts', null), $object, 'parentproducts', null);	
+		$this->attachElements(array_get($attributes, 'attachParentProducts'), $object, 'parentproducts', null);	
 		$this->detachElements($action, array_get($attributes, 'removeParentProductId', 'removeParentProduct'), $object, 'parentproducts', null);
 		
 		// child pages
-		$this->attachElements(array_get($attributes, 'attachChildPages', null), $object, 'subpages', null);	
+		$this->attachElements(array_get($attributes, 'attachChildPages'), $object, 'subpages', null);	
 		$this->detachElements($action, array_get($attributes, 'removeChildPageId', 'removeChildPage'), $object, 'subpages', null);
 		
 		// parent pages
-		$this->attachElements(array_get($attributes, 'attachParentPages', null), $object, 'parentpages', null);	
+		$this->attachElements(array_get($attributes, 'attachParentPages'), $object, 'parentpages', null);	
 		$this->detachElements($action, array_get($attributes, 'removeParentPageId', 'removeParentPage'), $object, 'parentpages', null);		
 	}
 	
@@ -1257,22 +1257,22 @@ class VeerAdmin extends Show {
 	{
 		// if we're working with one page then call another function
 		//
-		$editOnePage = Input::get('id', null);
+		$editOnePage = Input::get('id');
 		if(!empty($editOnePage)) { 
 			
 			return $this->updateOnePage($editOnePage); 
 		}
 		
 		//quick actions
-		$this->quickPagesActions(Input::get('action', null));
+		$this->quickPagesActions(Input::get('action'));
 	
 		$all = Input::all();
 		
-		$title = trim(array_get($all, 'title', null));
+		$title = trim(array_get($all, 'title'));
 
 		if(!empty($title)) {
 			
-			$categories =  explode(",", array_get($all, 'categories', null));
+			$categories =  explode(",", array_get($all, 'categories'));
 			
 			$p = new \Veer\Models\Page;
 			$p->title = $title;
@@ -1316,7 +1316,7 @@ class VeerAdmin extends Show {
 		\Eloquent::unguard();
 		
 		$all = Input::all();
-		$action = array_get($all, 'action', null);
+		$action = array_get($all, 'action');
 				
 		array_set($all, 'fill.original', isset($all['fill']['original']) ? true : 0);
 		array_set($all, 'fill.show_small', isset($all['fill']['show_small']) ? true : 0);
@@ -1511,7 +1511,7 @@ class VeerAdmin extends Show {
 			}				
 		}
 			
-		$attachImages = array_get($all, 'attachImages', null);
+		$attachImages = array_get($all, 'attachImages');
 		if(!empty($attachImages)) { 
 			
 			$result = preg_match("/\[(?s).*\]/", $attachImages, $small);
@@ -1521,7 +1521,7 @@ class VeerAdmin extends Show {
 				$attach = empty($newId) ? null : $newId;
 			} else {
 				$parseAttach = explode("[", $attachImages);
-				$attach = explode(",", array_get($parseAttach, 0, null));				
+				$attach = explode(",", array_get($parseAttach, 0));				
 			}
 			
 			$this->attachFromForm($parseTypes, $attach, 'images');
@@ -1530,7 +1530,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "ATTACH image";				
 		}
 		
-		if(starts_with(array_get($all, 'action', null), 'deleteImage')) {
+		if(starts_with(array_get($all, 'action'), 'deleteImage')) {
 			$r = explode(".", $all['action']);
 			$this->deleteImage($r[1]);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.image.delete'));
@@ -1565,14 +1565,14 @@ class VeerAdmin extends Show {
 	{		
 		\Eloquent::unguard();
 		
-		if(starts_with(Input::get('action', null), "deleteTag")) {
-			$r = explode(".", Input::get('action', null));
+		if(starts_with(Input::get('action'), "deleteTag")) {
+			$r = explode(".", Input::get('action'));
 			$this->deleteTag($r[1]);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.tag.delete'));
 			$this->action_performed[] = "DELETE tag";			
 		} else {
 		
-			$existingTags = Input::get('renameTag', null);
+			$existingTags = Input::get('renameTag');
 			if(is_array($existingTags)) {
 				foreach($existingTags as $key => $value) { $value = trim($value);
 					$tagDb = \Veer\Models\Tag::where('name','=',$value)->first();
@@ -1582,7 +1582,7 @@ class VeerAdmin extends Show {
 				}
 			}
 
-			$new = $this->parseForm(Input::get('newTag', null));
+			$new = $this->parseForm(Input::get('newTag'));
 
 			if(is_array($new['target'])) {
 				foreach($new['target'] as $tag) {
@@ -1626,7 +1626,7 @@ class VeerAdmin extends Show {
 		$result = preg_match("/\[(?s).*\]/", $textarea, $small);
 		$parseTypes = explode(":", substr(array_get($small, 0, ''),2,-1));
 		$parseAttach = explode("[", $textarea);
-		$attach = explode(",", trim(array_get($parseAttach, 0, null)));	
+		$attach = explode(",", trim(array_get($parseAttach, 0)));	
 		
 		return array('target' => $attach, 'elements' => $parseTypes);		
 	}
@@ -1657,7 +1657,7 @@ class VeerAdmin extends Show {
 	 */
 	public function updateDownloads()
 	{
-		$action = Input::get('action', null);
+		$action = Input::get('action');
 		
 		$this->removeFile($action);
 		
@@ -1672,7 +1672,7 @@ class VeerAdmin extends Show {
 		if(starts_with($action, 'makeRealLink')) 
 		{
 			$times = Input::get('times', 0);
-			$exdate = Input::get('expiration_day', null);
+			$exdate = Input::get('expiration_day');
 			
 			$r = explode(".", $action);
 			$f = \Veer\Models\Download::find($r[1]);
@@ -1697,21 +1697,21 @@ class VeerAdmin extends Show {
 		if(starts_with($action, 'copyFile')) 
 		{
 			$r = explode(".", $action);
-			$prdIds = explode(",", Input::get('prdId', null));
-			$pgIds = explode(",", Input::get('pgId', null));
+			$prdIds = explode(",", Input::get('prdId'));
+			$pgIds = explode(",", Input::get('pgId'));
 			$this->prepareCopying($r[1], $prdIds, $pgIds);
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.file.copy'));
 			$this->action_performed[] = "COPY file";			
 		}
 		
-		if(Input::hasFile(Input::get('uploadFiles', null))) {				
+		if(Input::hasFile(Input::get('uploadFiles'))) {				
 			$newId[] = $this->upload('file', 'uploadFiles', null, null, '', null, true);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.file.upload'));
 			$this->action_performed[] = "UPLOAD file";					
 		}
 		
-		$attachFiles = Input::get('attachFiles', null);
+		$attachFiles = Input::get('attachFiles');
 		if(!empty($attachFiles)) { 
 			
 			$parseTypes = $this->parseForm($attachFiles);
@@ -1731,8 +1731,8 @@ class VeerAdmin extends Show {
 				}	
 			}
 			
-			$prdIds = explode(",", array_get($parseTypes, 'elements.0', null));
-			$pgIds = explode(",",  array_get($parseTypes, 'elements.1', null));
+			$prdIds = explode(",", array_get($parseTypes, 'elements.0'));
+			$pgIds = explode(",",  array_get($parseTypes, 'elements.1'));
 			foreach($attach as $f) {
 				$this->prepareCopying($f, $prdIds, $pgIds);
 			}
@@ -1794,24 +1794,24 @@ class VeerAdmin extends Show {
 	{
 		\Eloquent::unguard();
 		
-		if(starts_with(Input::get('action', null), "deleteAttrValue")) {
-			list($act, $id) = explode(".", Input::get('action', null));
+		if(starts_with(Input::get('action'), "deleteAttrValue")) {
+			list($act, $id) = explode(".", Input::get('action'));
 			$this->deleteAttribute($id);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.attribute.delete'));
 			$this->action_performed[] = "DELETE attribute";	
 			
-		} elseif(Input::get('action', null) == "newAttribute") {
+		} elseif(Input::get('action') == "newAttribute") {
 		
-			$manyValues = preg_split('/[\n\r]+/', trim(Input::get('newValue', null)) );
+			$manyValues = preg_split('/[\n\r]+/', trim(Input::get('newValue')) );
 			foreach($manyValues as $value) {
-				$this->attachToAttributes(Input::get('newName', null), $value);
+				$this->attachToAttributes(Input::get('newName'), $value);
 			}
 			Event::fire('veer.message.center', \Lang::get('veeradmin.attribute.new'));
 			$this->action_performed[] = "NEW attribute";				
 		} else {
 			
 			// rename attribute name
-			$attrName = Input::get('renameAttrName', null);
+			$attrName = Input::get('renameAttrName');
 			foreach($attrName as $k => $v) 
 			{
 				if($k != $v) {
@@ -1821,9 +1821,9 @@ class VeerAdmin extends Show {
 			}
 			
 			// update attribute value & descr
-			$attrVal = Input::get('renameAttrValue', null);
-			$attrDescr = Input::get('descrAttrValue', null);
-			$attrType = Input::get('attrType', null);
+			$attrVal = Input::get('renameAttrValue');
+			$attrDescr = Input::get('descrAttrValue');
+			$attrType = Input::get('attrType');
 			foreach($attrVal as $k => $v) 
 			{
 				if(array_get($attrType, $k, 0) == 1) { $type = "descr"; } else { $type = "choose"; }
@@ -1835,7 +1835,7 @@ class VeerAdmin extends Show {
 			}
 			
 			// add new values to existing name
-			$newAttrValue = Input::get('newAttrValue', null);
+			$newAttrValue = Input::get('newAttrValue');
 			foreach($newAttrValue as $k => $v) 
 			{	
 				$this->attachToAttributes($k, $v);
@@ -1905,12 +1905,12 @@ class VeerAdmin extends Show {
 		Event::fire('router.filter: csrf');
 		
 		$all = Input::all();
-		$action = Input::get('action', null);
+		$action = Input::get('action');
 		
-		if($action == "runRawSql" && array_get($all, 'freeFormSql', null) != null)
+		if($action == "runRawSql" && array_get($all, 'freeFormSql') != null)
 		{
 			// TODO: warning! very dangerous!
-			\DB::statement( array_get($all, 'freeFormSql', null) );
+			\DB::statement( array_get($all, 'freeFormSql') );
 			Event::fire('veer.message.center', \Lang::get('veeradmin.etc.sql'));
 			$this->action_performed[] = "RUN sql";
 		}
@@ -1925,7 +1925,7 @@ class VeerAdmin extends Show {
 	{
 		\Eloquent::unguard();
 		
-		$action = Input::get('action', null);
+		$action = Input::get('action');
 		
 		if($action == "updateRoles")
 		{
@@ -1939,9 +1939,9 @@ class VeerAdmin extends Show {
 				
 				elseif( $roleId == "new" && !empty($role['role']))
 				{
-					$r = \Veer\Models\UserRole::firstOrNew(array("role" => $role['role'], "sites_id" => Input::get('InSite', null)));
+					$r = \Veer\Models\UserRole::firstOrNew(array("role" => $role['role'], "sites_id" => Input::get('InSite')));
 					$r->fill($role);
-					$r->sites_id = Input::get('InSite', null);
+					$r->sites_id = Input::get('InSite');
 					$r->save();
 					$newId = $r->id;
 				}
@@ -1960,15 +1960,15 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('InUsers'))
 		{
-			$users = Input::get('InUsers', null);
+			$users = Input::get('InUsers');
 			
 			$parseAttach = explode("[", $users);
 			
 			if(starts_with($users, "NEW")) { $rolesId = $newId; } 
 			
-			else {	$rolesId = trim(array_get($parseAttach, 0, null));	}
+			else {	$rolesId = trim(array_get($parseAttach, 0));	}
 			
-			$usersIds = $this->parseIds( substr( array_get($parseAttach, 1, null) ,0,-1) );
+			$usersIds = $this->parseIds( substr( array_get($parseAttach, 1) ,0,-1) );
 		
 			$this->associate("users", $usersIds, $rolesId, "roles_id");								
 		}
@@ -2015,7 +2015,7 @@ class VeerAdmin extends Show {
 	 */
 	public function updateCommunications()
 	{
-		if(Input::get('action', null) == "addMessage")
+		if(Input::get('action') == "addMessage")
 		{
 			return app('veer')->communicationsSend(Input::get('communication', array()));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.new'));
@@ -2024,7 +2024,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('hideMessage'))
 		{
-			\Veer\Models\Communication::where('id','=',head(Input::get('hideMessage', null)))
+			\Veer\Models\Communication::where('id','=',head(Input::get('hideMessage')))
 				->update(array('hidden' => true));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.hide'));
 			$this->action_performed[] = "HIDE communication";
@@ -2032,7 +2032,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('unhideMessage'))
 		{
-			\Veer\Models\Communication::where('id','=',head(Input::get('unhideMessage', null)))
+			\Veer\Models\Communication::where('id','=',head(Input::get('unhideMessage')))
 				->update(array('hidden' => false));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.unhide'));
 			$this->action_performed[] = "UNHIDE communication";
@@ -2040,7 +2040,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('deleteMessage'))
 		{
-			\Veer\Models\Communication::where('id','=',head(Input::get('deleteMessage', null)))
+			\Veer\Models\Communication::where('id','=',head(Input::get('deleteMessage')))
 				->delete();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.delete'));
 			$this->action_performed[] = "DELETE communication";
@@ -2053,7 +2053,7 @@ class VeerAdmin extends Show {
 	 */
 	public function updateComments()
 	{
-		if(Input::get('action', null) == "addComment")
+		if(Input::get('action') == "addComment")
 		{
 			return app('veer')->commentsSend();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.new'));
@@ -2062,7 +2062,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('hideComment'))
 		{
-			\Veer\Models\Comment::where('id','=',head(Input::get('hideComment', null)))
+			\Veer\Models\Comment::where('id','=',head(Input::get('hideComment')))
 				->update(array('hidden' => true));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.hide'));
 			$this->action_performed[] = "HIDE comment";
@@ -2070,7 +2070,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('unhideComment'))
 		{
-			\Veer\Models\Comment::where('id','=',head(Input::get('unhideComment', null)))
+			\Veer\Models\Comment::where('id','=',head(Input::get('unhideComment')))
 				->update(array('hidden' => false));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.unhide'));
 			$this->action_performed[] = "UNHIDE comment";
@@ -2078,7 +2078,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('deleteComment'))
 		{
-			\Veer\Models\Comment::where('id','=',head(Input::get('deleteComment', null)))
+			\Veer\Models\Comment::where('id','=',head(Input::get('deleteComment')))
 				->delete();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.delete'));
 			$this->action_performed[] = "DELETE comment";
@@ -2093,22 +2093,22 @@ class VeerAdmin extends Show {
 	{
 		if(Input::has('deleteSearch'))
 		{
-			$this->deleteSearch(head(Input::get('deleteSearch', null)));
+			$this->deleteSearch(head(Input::get('deleteSearch')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.search.delete'));
 			$this->action_performed[] = "DELETE search";
 			return null;
 		}
 		
-		if(Input::get('action', null) == "addSearch" && Input::has('search'))
+		if(Input::get('action') == "addSearch" && Input::has('search'))
 		{
-			$q = trim( Input::get('search', null) );
+			$q = trim( Input::get('search') );
 			if(!empty($q))
 			{
 				$search = \Veer\Models\Search::firstOrCreate(array("q" => $q));
 				$search->increment('times');                  
 				$search->save();
 				
-				$users =  Input::get('users', null);
+				$users =  Input::get('users');
 				
 				if(starts_with($users, ':')) 
 				{
@@ -2150,32 +2150,32 @@ class VeerAdmin extends Show {
 	{
 		if(Input::has('deleteList'))
 		{
-			$this->deleteList(head(Input::get('deleteList', null)));
+			$this->deleteList(head(Input::get('deleteList')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.list.delete'));
 			$this->action_performed[] = "DELETE list";
 			return null;
 		}
 		
-		if(Input::get('action', null) == "addList" && ( Input::has('products') || Input::has('pages') ))
+		if(Input::get('action') == "addList" && ( Input::has('products') || Input::has('pages') ))
 		{
 			\Eloquent::unguard();
 			
 			$all = Input::all();
 			
-			if(array_get($all, 'fill.users_id', null) == null && array_get($all, 'fill.session_id', null) == null)
+			if(array_get($all, 'fill.users_id') == null && array_get($all, 'fill.session_id') == null)
 			{
 				array_set($all, 'fill.users_id', \Auth::id());
 				array_set($all, 'fill.session_id', \Session::getId());
 			}
 			
-			if(array_get($all, 'fill.name', null) == null) array_set($all, 'fill.name', '[basket]');				
-			if(array_get($all, 'checkboxes.basket', null) != null) array_set($all, 'fill.name', '[basket]');	
+			if(array_get($all, 'fill.name') == null) array_set($all, 'fill.name', '[basket]');				
+			if(array_get($all, 'checkboxes.basket') != null) array_set($all, 'fill.name', '[basket]');	
 				
-			$p = preg_split('/[\n\r]+/', trim( array_get($all, 'products', null) ));
+			$p = preg_split('/[\n\r]+/', trim( array_get($all, 'products') ));
 			
 			if(is_array($p)) { $this->saveAndAttachLists ($p, '\\'.elements('product'), array_get($all, 'fill')); }					
 			
-			$pg = preg_split('/[\n\r]+/', trim( array_get($all, 'pages', null) ));
+			$pg = preg_split('/[\n\r]+/', trim( array_get($all, 'pages') ));
 			
 			if(is_array($pg)) { $this->saveAndAttachLists ($pg, '\\'.elements('page'), array_get($all, 'fill')); }		
 			
@@ -2197,9 +2197,9 @@ class VeerAdmin extends Show {
 		{
 			$parseElements = explode(":", $element);
 
-			$id = array_get($parseElements, 0, null);
+			$id = array_get($parseElements, 0);
 			$qty = array_get($parseElements, 1, 1);
-			$attrStr = array_get($parseElements, 2, null);
+			$attrStr = array_get($parseElements, 2);
 
 			$attrs = explode(",", $attrStr);
 
@@ -2239,14 +2239,14 @@ class VeerAdmin extends Show {
 	{
 		if(Input::has('deleteUserbook'))
 		{
-			$this->deleteBook(head(Input::get('deleteUserbook', null)));
+			$this->deleteBook(head(Input::get('deleteUserbook')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete'));
 			$this->action_performed[] = "DELETE book";
 			return null;
 		}
 		
 		$all = Input::all();
-		$action = array_get($all, 'action', null);
+		$action = array_get($all, 'action');
 		
 		if($action == "addUserbook" || $action == "updateUserbook" )
 		{
@@ -2274,9 +2274,9 @@ class VeerAdmin extends Show {
 	{
 		Event::fire('router.filter: csrf');
 			
-		$restrictions = Input::get('changeRestrictUser', null);
-		$ban = Input::get('changeStatusUser', null);
-		$delete = Input::get('deleteUser', null);
+		$restrictions = Input::get('changeRestrictUser');
+		$ban = Input::get('changeStatusUser');
+		$delete = Input::get('deleteUser');
 		
 		if(!empty($restrictions))
 		{
@@ -2312,15 +2312,15 @@ class VeerAdmin extends Show {
 		
 		// if we're working with one user then call another function
 		//
-		$editOneUser = Input::get('id', null);
+		$editOneUser = Input::get('id');
 		if(!empty($editOneUser)) 
 		{ 	
 			return $this->updateOneUser($editOneUser); 
 		}
 		
-		if(Input::get('action', null) == "Add")
+		if(Input::get('action') == "Add")
 		{
-			$freeForm = Input::get('freeForm', null);
+			$freeForm = Input::get('freeForm');
 			$parseForm = !empty($freeForm) ? preg_split('/[\n\r]+/', trim($freeForm)) : array() ;
 			
 			$freeFormKeys = array(
@@ -2328,7 +2328,7 @@ class VeerAdmin extends Show {
 				'newsletter', 'restrict_orders', 'banned'
 			);
 			
-			$siteId = Input::get('siteId', null);						
+			$siteId = Input::get('siteId');						
 			if(empty($siteId)) $siteId = app('veer')->siteId;
 			
 			$rules = array(
@@ -2386,10 +2386,10 @@ class VeerAdmin extends Show {
 	 */
 	public function updateOneUser($id)
 	{	
-		$action = Input::get('action', null);
-		$fill = Input::get('fill', null);
+		$action = Input::get('action');
+		$fill = Input::get('fill');
 		
-		$siteId = Input::get('fill.sites_id', null);						
+		$siteId = Input::get('fill.sites_id');						
 		if(empty($siteId)) $siteId = app('veer')->siteId;
 		
 		$fill['sites_id'] = $siteId;
@@ -2448,7 +2448,7 @@ class VeerAdmin extends Show {
 			$this->upload('image', 'uploadImage', $id, 'users', 'usr', null);
 		}			
 		
-		$this->attachElements(Input::get('attachImages', null), $user, 'images', null);
+		$this->attachElements(Input::get('attachImages'), $user, 'images', null);
 		
 		$this->detachElements($action, 'removeImage', $user, 'images', null);
 		
@@ -2491,7 +2491,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('deleteUserbook'))
 		{
-			$this->deleteBook(head(Input::get('deleteUserbook', null)));
+			$this->deleteBook(head(Input::get('deleteUserbook')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete'));
 			$this->action_performed[] = "DELETE book";
 			return null;
@@ -2525,7 +2525,7 @@ class VeerAdmin extends Show {
 		
 		if(Input::has('updateOrderStatus'))
 		{
-			$history = Input::get('history.'.Input::get('updateOrderStatus'), null);
+			$history = Input::get('history.'.Input::get('updateOrderStatus'));
 			array_set($history, 'orders_id', Input::get('updateOrderStatus'));
 			array_set($history, 'name', 
 				\Veer\Models\OrderStatus::where('id','=', array_get($history, 'status_id', null))
@@ -2536,7 +2536,7 @@ class VeerAdmin extends Show {
 			\Eloquent::unguard();
 			\Veer\Models\OrderHistory::create($history);
 			\Veer\Models\Order::where('id','=',Input::get('updateOrderStatus'))
-				->update(array('status_id' => array_get($history, 'status_id', null)));
+				->update(array('status_id' => array_get($history, 'status_id')));
 			
 			// TODO: send to user: sendEmail
 		}
@@ -2579,23 +2579,23 @@ class VeerAdmin extends Show {
 		// bills
 		if(Input::has('updateBillStatus'))
 		{
-			$billUpdate = Input::get('billUpdate.'.Input::get('updateBillStatus'), null);
+			$billUpdate = Input::get('billUpdate.'.Input::get('updateBillStatus'));
 			
 			\Veer\Models\OrderBill::where('id','=',Input::get('updateBillStatus'))
-				->update(array('status_id' => array_get($billUpdate, 'status_id', null)));
+				->update(array('status_id' => array_get($billUpdate, 'status_id')));
 			
 			if(array_has($billUpdate, 'comments'))
 			{
 				array_set($billUpdate, 'name', 
-				\Veer\Models\OrderStatus::where('id','=', array_get($billUpdate, 'status_id', null))
+				\Veer\Models\OrderStatus::where('id','=', array_get($billUpdate, 'status_id'))
 					->pluck('name')
 				);
 				\Eloquent::unguard();
 				\Veer\Models\OrderHistory::create($billUpdate);				
 			}
 			
-			\Veer\Models\Order::where('id','=',array_get($billUpdate, 'orders_id', null))
-				->update(array('status_id' => array_get($billUpdate, 'status_id', null)));
+			\Veer\Models\Order::where('id','=',array_get($billUpdate, 'orders_id'))
+				->update(array('status_id' => array_get($billUpdate, 'status_id')));
 		}		
 		
 		if(Input::has('updateBillSend'))
