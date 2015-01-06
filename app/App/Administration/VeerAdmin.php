@@ -2017,7 +2017,7 @@ class VeerAdmin extends Show {
 	{
 		if(Input::get('action', null) == "addMessage")
 		{
-			return app('veer')->communicationsSend();
+			return app('veer')->communicationsSend(Input::get('communication', array()));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.new'));
 			$this->action_performed[] = "NEW communication";
 		}
@@ -2386,10 +2386,6 @@ class VeerAdmin extends Show {
 	 */
 	public function updateOneUser($id)
 	{	
-		//echo "<pre>";
-		//print_r(Input::all());
-		//echo "</pre>";
-		
 		$action = Input::get('action', null);
 		$fill = Input::get('fill', null);
 		
@@ -2580,6 +2576,7 @@ class VeerAdmin extends Show {
 				->update(array('archive' => key(Input::get('updateOrderArchive'))));
 		}		
 		
+		// bills
 		if(Input::has('updateBillStatus'))
 		{
 			$billUpdate = Input::get('billUpdate.'.Input::get('updateBillStatus'), null);
@@ -2626,6 +2623,19 @@ class VeerAdmin extends Show {
 				->delete();
 		}		
 		
+		// communications
+		if(Input::has('sendMessageToUser'))
+		{
+			app('veer')->communicationsSend(Input::get('communication', array()));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
+			$this->action_performed[] = "SEND message to user";
+		}
+
+		if($action == "add") {
+			$this->skipShow = true;
+			Input::replace(array('id' => $id));
+			return \Redirect::route('admin.show', array('users', 'id' => $id));	
+		}	
 	}
 	
 	

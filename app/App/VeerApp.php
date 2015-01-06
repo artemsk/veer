@@ -341,11 +341,9 @@ class VeerApp {
 	 * 
 	 * @return bool
 	 */
-	public function communicationsSend( $options = array() )
+	public function communicationsSend( $all, $options = array() )
 	{
 		\Event::fire('router.filter: csrf');
-		
-		$all = \Input::all();
 		
 		if(array_get($all, 'message', null) == null) return false;
 		
@@ -353,7 +351,6 @@ class VeerApp {
 		
 		if(array_get($all, 'fill.users_id', null) == null) array_set($all, 'fill.users_id', \Auth::id());		
 		if(array_get($all, 'fill.sites_id', null) == null) array_set($all, 'fill.sites_id', app('veer')->siteId);		
-		if(array_get($all, 'fill.url', null) == null) array_set($all, 'fill.url', app('url')->current());
 		
 		if(array_get($all, 'fill.users_id', null) != null)
 		{
@@ -363,8 +360,6 @@ class VeerApp {
 		}
 		
 		$message = new \Veer\Models\Communication;
-		
-		$message->fill( array_get($all, 'fill', null) );
 		
 		$message->public = array_get($all, 'checkboxes.public', 
 			array_get($options, 'checkboxes.public', false)) ? true : false;
@@ -388,6 +383,13 @@ class VeerApp {
 			$message->elements_id = $id;
 		}
 		
+		if(array_get($all, 'fill.url', null) != null || empty($message->elements_id))
+		{
+			if(array_get($all, 'fill.url', null) == null) array_set($all, 'fill.url', app('url')->current());
+		}
+		
+		$message->fill( array_get($all, 'fill', null) );
+	
 		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'message', null) );
 		
 		$message->message = $text;
