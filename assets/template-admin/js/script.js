@@ -150,3 +150,20 @@
 	$(window).ready(updateWidth);
 	$(window).resize(updateWidth); 
 }); 
+
+
+
+    $(".ajaxFormSubmit").on("submit",  function(event) {
+        event.preventDefault();
+
+        var resultdivid = $("button[type=submit][clicked=true]").attr('data-resultdiv');
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(results) { 
+                $(resultdivid).html(results); 
+            },
+          }); 
+    });

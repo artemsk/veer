@@ -12,8 +12,14 @@ class VeerApp {
 	 *  Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = '0.7.0-alpha';
+	const VEERVERSION = 'v0.7.0-alpha';
 
+	/** 
+	 * Veer Core Url
+	 * 
+	 */
+	const VEERCOREURL = 'https://api.github.com/repos/artemsk/veer-core';
+	
 	/**
 	 *  Booted?
 	 * 

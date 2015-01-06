@@ -84,5 +84,9 @@ return array(
 	"status.update" => "Update status",
 	"status.delete" => "Delete status",
 	"status.new" => "New status",
+	"payment.new" => "New payment method",
+	"payment.update" => "Update payment method",
+	"payment.delete" => "Delete payment method",
+	"payment.error" => "Error: Class not found",
 	
 );

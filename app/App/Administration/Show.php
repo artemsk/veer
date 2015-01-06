@@ -1239,9 +1239,17 @@ class Show {
 	 */
 	public function showStatuses( $filters = array() )
 	{
-		return \Veer\Models\OrderStatus::orderBy('manual_order', 'asc')
-			->with('orders', 'bills', 'orders_with_history')
-			->paginate(50);
+		$items = \Veer\Models\OrderStatus::orderBy('manual_order', 'asc');
+		
+		$items->with(array('orders' => function($q) {
+				
+			}, 'bills' => function($q) {
+				
+			}, 'orders_with_history' => function($q) {
+				
+			}));
+			
+		return $items->paginate(50);
 	}	
 	
 	/**

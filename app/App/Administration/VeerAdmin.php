@@ -22,11 +22,19 @@ class VeerAdmin extends Show {
 
 		if(config('database.default') == 'mysql') {
 			$trashed = $this->trashedElements(); }
-		
+
 		return array('cache' => $cache, 'migrations' => $migrations, 
 			'reminders' => $reminders, 'trashed' => empty($trashed)? null : $trashed);
 	}	
 	
+	protected function checkLatestVersion()
+	{
+		$client = new \GuzzleHttp\Client();
+		$response = $client->get(\Veer\VeerApp::VEERCOREURL . "/releases", array('verify' => false));
+		$res = json_decode($response->getBody());
+				
+		return head($res)->tag_name;
+	}
 	
 	/**
 	 * Show trashedElements (only 'mysql')
@@ -1915,6 +1923,20 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "RUN sql";
 		}
 	
+		if(Input::get('actionButton') == "checkLatestVersion")
+		{
+			$latest = $this->checkLatestVersion();
+			
+			// for ajax calls
+			if(app('request')->ajax()) {
+				return view(app('veer')->template.'.elements.version', array(
+					"latest" => $latest,
+					"current" => \Veer\VeerApp::VEERVERSION,
+				));		
+			}
+		}
+		
+
 	}	
 	
 	
@@ -2738,4 +2760,70 @@ class VeerAdmin extends Show {
 		
 		\Veer\Models\OrderStatus::destroy($id);
 	}
+	
+	
+	/**
+	 * update Payment Methods
+	 */
+	public function updatePayment()
+	{
+		if(Input::has('deletePaymentMethod'))
+		{
+			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.delete'));
+			$this->action_performed[] = "DELETE status";
+			return $this->deletePaymentMethod(Input::get('deletePaymentMethod'));
+		}
+		
+		if(Input::has('updatePaymentMethod'))
+		{
+			$p = \Veer\Models\OrderPayment::find(Input::get('updatePaymentMethod'));
+			if(!is_object($p))
+			{
+				return Event::fire('veer.message.center', \Lang::get('veeradmin.payment.error'));
+			}
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.update'));
+			$this->action_performed[] = "UPDATE payment";	
+		}
+		
+		if(Input::has('addPaymentMethod'))
+		{
+			$p = new \Veer\Models\OrderPayment;
+			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.new'));
+			$this->action_performed[] = "NEW payment";	
+		}	
+		
+		$func_name = Input::get('payment.fill.func_name');
+		
+		if(!empty($func_name) && !class_exists('\\Veer\\Ecommerce\\' . $func_name)) 
+		{
+			return Event::fire('veer.message.center', \Lang::get('veeradmin.payment.error'));
+		}
+		
+		$fill = Input::get('payment.fill');
+		
+		$fill['commission'] = strtr( array_get($fill, 'commission'), array("%" => ""));
+		$fill['discount_price'] = strtr( array_get($fill, 'discount_price'), array("%" => ""));
+		
+		\Eloquent::unguard();
+		
+		$p->fill($fill);
+		$p->save();
+	}
+
+	
+	/**
+	 * delete Payment Method
+	 */
+	protected function deletePaymentMethod($id)
+	{
+		\Veer\Models\Order::where('payment_method_id','=',$id)
+			->update(array('payment_method_id' => 0));
+		
+		\Veer\Models\OrderBill::where('payment_method_id','=',$id)
+			->update(array('payment_method_id' => 0));
+				
+		\Veer\Models\OrderPayment::destroy($id);
+	}
+	
 }
