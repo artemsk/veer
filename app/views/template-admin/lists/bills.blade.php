@@ -1,7 +1,7 @@
 @foreach($items as $item)
 	<ul class="list-group">
 		<li class="list-group-item bordered-row">
-		<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp
+		<button type="submit" value="{{ $item->id }}" name="deleteBill" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp
 		#{{ $item->id }}
 		@if(is_object($item->payment))
 		<strong><a href="{{ route("admin.show", array("bills", "filter" => "payment", "filter_id" => $item->payment->id)) }}">
@@ -21,7 +21,7 @@
 		@if($item->canceled == true) <span class="label label-danger"><a href="{{ route("admin.show", array("bills", "filter" => "canceled", "filter_id" => 1)) }}">canceled</a></span> @endif
 		
 		&nbsp;
-		<button type="button" class="btn btn-default btn-xs cancel-collapse" data-toggle="modal" data-target="#orderModal{{ $item->id }}">
+		<button type="button" class="btn btn-default btn-xs cancel-collapse" data-toggle="modal" data-target="#billModal{{ $item->id }}">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
 				
 		<span class="badge">{{ $item->created_at }}</span>
@@ -46,6 +46,61 @@
 		<br/>
 		<h3>{{ app('veershop')->priceFormat($item->price) }}</h3>
 		{{-- Currency used when creating bill --}}
+		
+		<div class="modal fade" id="billModal{{ $item->id }}">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Quick update</h4>
+					</div>	
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Status</label>
+						<select class="form-control" name="billUpdate[{{ $item->id }}][status_id]">
+							@if(is_object($item->status)) 
+								<option value="{{ $item->status->id or null }}">{{ $item->status->name or null }}</option>
+							@endif
+							@foreach(statuses() as $status)
+							<option value="{{ $status->id }}">{{ $status->name }}</option>
+							@endforeach
+						</select>
+							<input type="hidden" name="billUpdate[{{ $item->id }}][orders_id]" value="{{ $item->orders_id }}">
+						</div>
+						<div class="form-group">
+							<label>Comment</label>
+							<textarea class="form-control" name="billUpdate[{{ $item->id }}][comments]" placeholder="Comment"></textarea>
+						</div>
+						<div class="checkbox">
+							<label>
+							<input type="checkbox" name="billUpdate[{{ $item->id }}][to_customer]" value="1"> Show comment to user
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" value="{{ $item->id }}" name="updateBillStatus" class="btn btn-primary btn-xs">Update bill status</button>
+						&nbsp; | &nbsp;
+						@if($item->sent == true)
+							@if($item->paid == true)
+							<button type="submit" value="{{ $item->id }}" name="updateBillPaid[0]" class="btn btn-success btn-xs">Payment done</button>
+							@else
+							<button type="submit" value="{{ $item->id }}" name="updateBillPaid[1]" 
+									class="btn btn-default btn-xs">Mark bill as paid</button>
+							@endif
+						@else
+						<button type="submit" value="{{ $item->id }}" name="updateBillSend[1]" 
+								class="btn btn-info btn-xs">Send bill to user</button>
+						@endif
+						@if($item->canceled == true)
+						<button type="submit" value="{{ $item->id }}" name="updateBillCancel[0]" class="btn btn-danger btn-xs">Bill canceled</button>
+						@else
+						<button type="submit" value="{{ $item->id }}" name="updateBillCancel[1]" class="btn btn-default btn-xs">Cancel bill</button>
+						@endif		
+					</div>
+
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 		</li>
 	</ul>	
 	@endforeach

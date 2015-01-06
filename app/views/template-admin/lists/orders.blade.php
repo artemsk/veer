@@ -160,7 +160,12 @@
 						</div>
 						<div class="checkbox">
 							<label>
-							<input type="checkbox" name="history[{{ $item->id }}][to_customer]" value="1"> Send comment to user
+							<input type="checkbox" name="history[{{ $item->id }}][to_customer]" value="1"> Show comment to user
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+							<input type="checkbox" name="history[{{ $item->id }}][send_to_customer]" value="1"> Send comment by email
 							</label>
 						</div>
 					</div>

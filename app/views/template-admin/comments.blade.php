@@ -109,7 +109,9 @@
 		</div> 
 		<div class="col-md-6"> 
 			<div class="form-group">
-				<input type="text" class="form-control" name="fill[users_id]" placeholder="Users ID [or empty for current]">
+				<input type="text" class="form-control" name="fill[users_id]" placeholder="Users ID [or empty for current]"
+					   @if(Input::get('filter',null) == "user" && Input::has('filter_id')) value="{{ Input::get("filter_id") }}" @endif
+					   >
 			</div> 			
 			<div class="form-group">
 				<label>Place on Product | Page</label>
