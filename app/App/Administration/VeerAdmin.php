@@ -2770,7 +2770,7 @@ class VeerAdmin extends Show {
 		if(Input::has('deletePaymentMethod'))
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.delete'));
-			$this->action_performed[] = "DELETE status";
+			$this->action_performed[] = "DELETE payment method";
 			return $this->deletePaymentMethod(Input::get('deletePaymentMethod'));
 		}
 		
@@ -2826,4 +2826,64 @@ class VeerAdmin extends Show {
 		\Veer\Models\OrderPayment::destroy($id);
 	}
 	
+
+	/**
+	 * update Shipping Methods
+	 */
+	public function updateShipping()
+	{
+		if(Input::has('deleteShippingMethod'))
+		{
+			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.delete'));
+			$this->action_performed[] = "DELETE shipping method";
+			return $this->deleteShippingMethod(Input::get('deleteShippingMethod'));
+		}
+		
+		if(Input::has('updateShippingMethod'))
+		{
+			$p = \Veer\Models\OrderShipping::find(Input::get('updateShippingMethod'));
+			if(!is_object($p))
+			{
+				return Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.error'));
+			}
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.update'));
+			$this->action_performed[] = "UPDATE shipping";	
+		}
+		
+		if(Input::has('addShippingMethod'))
+		{
+			$p = new \Veer\Models\OrderShipping;
+			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.new'));
+			$this->action_performed[] = "NEW shipping";	
+		}	
+		
+		$func_name = Input::get('shipping.fill.func_name');
+		
+		if(!empty($func_name) && !class_exists('\\Veer\\Ecommerce\\' . $func_name)) 
+		{
+			return Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.error'));
+		}
+		
+		$fill = Input::get('shipping.fill');
+		
+		$fill['discount_price'] = strtr( array_get($fill, 'discount_price'), array("%" => ""));
+		
+		\Eloquent::unguard();
+		
+		$p->fill($fill);
+		$p->save();
+	}
+
+	
+	/**
+	 * delete Shipping Method
+	 */
+	protected function deleteShippingMethod($id)
+	{
+		\Veer\Models\Order::where('delivery_method_id','=',$id)
+			->update(array('delivery_method_id' => 0));
+				
+		\Veer\Models\OrderShipping::destroy($id);
+	}	
 }

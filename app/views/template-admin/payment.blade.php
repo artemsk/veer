@@ -120,7 +120,7 @@ d:total">{{ $item->discount_conditions }}</textarea>
 	<div class="row">
         <div class="col-md-4">
 			<div class="checkbox">
-				<input type="checkbox" name="payment[fill][enable]" checked class="page-checkboxes">
+				<input type="checkbox" name="payment[fill][enable]" checked class="page-checkboxes" value="1">
 			</div>			
 			<div class="form-group">
                 <input type="text" class="form-control" name="payment[fill][sites_id]" placeholder="Sites ID">
@@ -143,7 +143,7 @@ d:total">{{ $item->discount_conditions }}</textarea>
                 <input type="text" class="form-control" name="payment[fill][discount_price]" placeholder="Discount (Percent)">
 			</div>
 			<div class="checkbox">
-				<input type="checkbox" name="payment[fill][discount_enable]" data-on-text="On" date-off-text="Off" class="page-checkboxes"> &nbsp;Discount
+				<input type="checkbox" name="payment[fill][discount_enable]" value="1" data-on-text="On" date-off-text="Off" class="page-checkboxes"> &nbsp;Discount
 			</div>
 			<div class="form-group">
 				<label>Discount Conditions</label>

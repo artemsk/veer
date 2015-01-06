@@ -88,5 +88,8 @@ return array(
 	"payment.update" => "Update payment method",
 	"payment.delete" => "Delete payment method",
 	"payment.error" => "Error: Class not found",
-	
+	"shipping.new" => "New shipping method",
+	"shipping.update" => "Update shipping method",
+	"shipping.delete" => "Delete shipping method",
+	"shipping.error" => "Error: Class not found",	
 );
