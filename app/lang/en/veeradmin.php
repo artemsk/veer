@@ -81,5 +81,8 @@ return array(
 	"user.page.detach" => "Detach page from user",
 	"user.page.sendmessage" => "Send message to user",
 	"discount.cancel" => "Cancel discount",
+	"status.update" => "Update status",
+	"status.delete" => "Delete status",
+	"status.new" => "New status",
 	
 );

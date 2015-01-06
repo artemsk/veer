@@ -125,7 +125,7 @@
 				<li class="list-group-item">
 						@foreach($item->bills as $bill)
 							<a href="{{ route("admin.show", array("bills", "filter" => "order", "filter_id" => $item->id)) }}">Bill</a> #{{$bill->id}} {{$bill->payment_method}} {{ $bill->link }} 
-							{{ $bill->price }} {{ $bill->status->name }} {{ $bill->sent }} {{ $bill->viewed }} {{ $bill->paid }} {{ $bill->canceled }}<br/>
+							{{ $bill->price }} {{ $bill->status->name or null }} {{ $bill->sent }} {{ $bill->viewed }} {{ $bill->paid }} {{ $bill->canceled }}<br/>
 						@endforeach	
 				</li>
 				@endif

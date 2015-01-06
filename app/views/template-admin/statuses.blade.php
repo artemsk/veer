@@ -20,15 +20,15 @@
 		<div class="col-md-12">
 			<div class="input-group dynamic-input-group">
 				<span class="input-group-btn dynamic-input-group-btn">
-					<button type="button" class="btn btn-danger" >
+					<button type="submit" name="deleteStatus" value="{{ $item->id }}" class="btn btn-danger" >
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 						<small>#{{ $item->id }}</small></button>
 				</span>
-				<input type="text" class="form-control limited-size-input-50 dynamic-input-group-input" name="InName" placeholder="Name" value="{{ $item->name }}">
-				<input type="color" class="form-control limited-size-input-10 dynamic-input-group-input" name="InColor" 
+				<input type="text" class="form-control limited-size-input-50 dynamic-input-group-input" name="InName[{{ $item->id }}]" placeholder="Name" value="{{ $item->name }}">
+				<input type="color" class="form-control limited-size-input-10 dynamic-input-group-input" name="InColor[{{ $item->id }}]" 
 					   placeholder="Color" value="{{ $item->color }}">
-				<input type="text" class="form-control limited-size-input-10 dynamic-input-group-input" name="InOrder" placeholder="Order" value="{{ $item->manual_order }}">
-				<select class="form-control limited-size-input-30 dynamic-input-group-input">
+				<input type="text" class="form-control limited-size-input-10 dynamic-input-group-input" name="InOrder[{{ $item->id }}]" placeholder="Order" value="{{ $item->manual_order }}">
+				<select class="form-control limited-size-input-30 dynamic-input-group-input" name="InFlag[{{ $item->id }}]">
 					@if($item->flag_first == true) <option value="flag_first">First Status</option> @endif
 					@if($item->flag_unreg == true) <option value="flag_unreg">Unregistered Order Status</option> @endif
 					@if($item->flag_error == true) <option value="flag_error">Error Status</option> @endif
@@ -46,7 +46,7 @@
 					<option value="secret">Secret Status (hidden from user)</option>
 				</select>
 				<span class="input-group-btn dynamic-input-group-btn">
-					<button type="submit" class="btn btn-default">Update</button> 
+					<button type="submit" class="btn btn-default" value="{{ $item->id }}" name="updateGlobalStatus">Update</button> 
 				</span>
 			</div>
 		</div>
@@ -81,7 +81,7 @@
 				<input type="color" class="form-control dynamic-input-group-input limited-size-input-10 " name="InColor[{{ $i }}]" placeholder="Color">
 				<input type="text" class="form-control dynamic-input-group-input limited-size-input-10 " name="InOrder[{{ $i }}]" placeholder="Order">
 
-				<select class="form-control dynamic-input-group-input limited-size-input-30">
+				<select class="form-control dynamic-input-group-input limited-size-input-30" name="InFlag[{{ $i }}]">
 					<option value=""></option>
 					<option value="flag_first">First Status</option>
 					<option value="flag_unreg">Unregistered Order Status</option>
@@ -98,7 +98,7 @@
 	</div>
 	<p></p>
     @endfor
-    <button type="submit" class="btn btn-default">Submit</button> 
+    <button type="submit" class="btn btn-default" name="addStatus" value="addStatus">Submit</button> 
 	{{ Form::close() }}
 </div>
 @stop
