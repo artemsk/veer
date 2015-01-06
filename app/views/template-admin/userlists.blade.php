@@ -81,7 +81,9 @@
                 <input type="text" class="form-control" name="fill[sites_id]" placeholder="Sites ID">
 			</div>
             <div class="form-group">
-                <input type="text" class="form-control" name="fill[users_id]" placeholder="Users ID (or leavy empty for guest)">
+                <input type="text" class="form-control" name="fill[users_id]" placeholder="Users ID (or leavy empty for guest)"
+					@if(Input::get('filter',null) == "user" && Input::has('filter_id')) value="{{ Input::get("filter_id") }}" @endif
+					   >
 			</div>
 			<div class="form-group">
                 <input type="text" class="form-control" name="fill[session_id]" placeholder="Session ID">

@@ -50,7 +50,9 @@
                 <input type="text" class="form-control" name="search" placeholder="Search">
 			</div>
             <div class="form-group">
-                <input type="text" class="form-control" name="users" placeholder="Users ID [:ids]">
+                <input type="text" class="form-control" name="users" placeholder="Users ID [:ids]"
+					@if(Input::get('filter',null) == "users" && Input::has('filter_id')) value="[:{{ Input::get("filter_id") }}]" @endif  
+					   >
 			</div>
 			<button type="submit" name="action" value="addSearch" class="btn btn-default">Add</button>
         </div>  

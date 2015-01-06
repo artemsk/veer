@@ -226,8 +226,8 @@
 		</div>
 	</div>
 	@endif	
-	<a class="btn btn-default" href="{{ route("admin.show", array("orders", 
-				"id" => "new", "user" => isset($items->id) ? $items->id : null)) }}" role="button" target="_blank">New bill</a>
+	<a class="btn btn-default" href="{{ route("admin.show", array("bills", 
+				"filter" => "user", "filter_id" => isset($items->id) ? $items->id : null)) }}#newBill" role="button" target="_blank">New bill</a>
 	
 	@if(isset($items->id) && isset($items['files']) && count($items['files'])>0)
 	<div class="rowdelimiter"></div>
@@ -242,7 +242,8 @@
 	<div class="rowdelimiter"></div>
 
 	<div class="row">
-		<div class="col-sm-12"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+		<div class="col-sm-2"><button type="button" class="btn btn-default btn-lg btn-block">Send message</button></div>
+		<div class="col-sm-10"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 	</div>
 	<hr>
 	<div class="row">
@@ -265,7 +266,6 @@
 	</div>
 	
 @else
-
 	<button type="submit" name="action" value="add" class="btn btn-danger btn-lg btn-block">Add</button>
 @endif
 

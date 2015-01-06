@@ -1230,7 +1230,7 @@ class VeerAdmin extends Show {
 		
 		// products
 		$this->attachElements(array_get($attributes, 'attachProducts', null), $object, 'products', null);	
-		$this->detachElements($action, array_get($attributes, 'removePageId', 'removeProduct'), $object, 'products', null);			
+		$this->detachElements($action, array_get($attributes, 'removeProductId', 'removeProduct'), $object, 'products', null);			
 		
 		// child products
 		$this->attachElements(array_get($attributes, 'attachChildProducts', null), $object, 'subproducts', null);	
@@ -2427,6 +2427,10 @@ class VeerAdmin extends Show {
 			$user = \Veer\Models\User::find($id);
 		}
 		
+		\Eloquent::unguard();
+		$user->fill($fill);
+		$user->save();
+		
 		if(Input::has('addAsAdministrator'))
 		{
 			$admin = \Veer\Models\UserAdmin::withTrashed()->where('users_id','=',$id)->first();
@@ -2531,11 +2535,14 @@ class VeerAdmin extends Show {
 				\Veer\Models\OrderStatus::where('id','=', array_get($history, 'status_id', null))
 					->pluck('name')
 				);
+			$sendEmail = array_pull($history, 'send_to_customer', false);
+			
 			\Eloquent::unguard();
 			\Veer\Models\OrderHistory::create($history);
 			\Veer\Models\Order::where('id','=',Input::get('updateOrderStatus'))
 				->update(array('status_id' => array_get($history, 'status_id', null)));
-			// TODO: send to user
+			
+			// TODO: send to user: sendEmail
 		}
 		
 		if(Input::has('updatePaymentHold'))
@@ -2572,6 +2579,53 @@ class VeerAdmin extends Show {
 			\Veer\Models\Order::where('id','=',head(Input::get('updateOrderArchive')))
 				->update(array('archive' => key(Input::get('updateOrderArchive'))));
 		}		
+		
+		if(Input::has('updateBillStatus'))
+		{
+			$billUpdate = Input::get('billUpdate.'.Input::get('updateBillStatus'), null);
+			
+			\Veer\Models\OrderBill::where('id','=',Input::get('updateBillStatus'))
+				->update(array('status_id' => array_get($billUpdate, 'status_id', null)));
+			
+			if(array_has($billUpdate, 'comments'))
+			{
+				array_set($billUpdate, 'name', 
+				\Veer\Models\OrderStatus::where('id','=', array_get($billUpdate, 'status_id', null))
+					->pluck('name')
+				);
+				\Eloquent::unguard();
+				\Veer\Models\OrderHistory::create($billUpdate);				
+			}
+			
+			\Veer\Models\Order::where('id','=',array_get($billUpdate, 'orders_id', null))
+				->update(array('status_id' => array_get($billUpdate, 'status_id', null)));
+		}		
+		
+		if(Input::has('updateBillSend'))
+		{
+			\Veer\Models\OrderBill::where('id','=',head(Input::get('updateBillSend')))
+				->update(array('sent' => true));
+			// TODO: SendMail
+		}
+		
+		if(Input::has('updateBillPaid'))
+		{
+			\Veer\Models\OrderBill::where('id','=',head(Input::get('updateBillPaid')))
+				->update(array('paid' => key(Input::get('updateBillPaid'))));
+		}	
+		
+		if(Input::has('updateBillCancel'))
+		{
+			\Veer\Models\OrderBill::where('id','=',head(Input::get('updateBillCancel')))
+				->update(array('canceled' => key(Input::get('updateBillCancel'))));
+		}
+		
+		if(Input::has('deleteBill'))
+		{
+			\Veer\Models\OrderBill::where('id','=',Input::get('deleteBill'))
+				->delete();
+		}		
+		
 	}
 	
 	
