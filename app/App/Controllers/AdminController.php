@@ -67,10 +67,14 @@ class AdminController extends \BaseController {
 	 */
 	public function show($t)
 	{
-		$i = app('veeradmin');
+		$json = Input::get('json',false); // TODO: ?
 		
-		$json = Input::get('json',false);
-		// TODO: ?
+		if(Input::has('SearchField')) 
+		{ 
+			$search = app('veeradmin')->search($t);
+		
+			if(is_object($search)) { return $search; }
+		}
 		
 		switch ($t) {
 			case "categories":		
@@ -193,6 +197,8 @@ class AdminController extends \BaseController {
 	 */
 	public function update($t)
 	{
+		if(Input::has('SearchField')) return $this->show($t);
+
 		$f = "update".strtoupper($t[0]).substr($t,1);
 		
 		$data = app('veeradmin')->{$f}();

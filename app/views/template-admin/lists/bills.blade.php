@@ -15,9 +15,9 @@
 			<strong>{{ $item->status->name or null }}</strong>
 			</a></span>@endif
 		&nbsp;
-		@if($item->sent == true) <span class="label label-info"><a href="{{ route("admin.show", array("bills", "filter" => "sent", "filter_id" => 1)) }}">sent</a></span> @else <span class="label label-default"><a href="{{ route("admin.show", array("bills", "filter" => "sent", "filter_id" => 0)) }}">waiting</a></span> @endif
+		@if($item->sent == true) <span class="label label-info"><a href="{{ route("admin.show", array("bills", "filter" => "sent", "filter_id" => 1)) }}">sent</a></span> @else <span class="label label-default"><a href="{{ route("admin.show", array("bills", "filter" => "sent", "filter_id" => 0)) }}">not sent</a></span> @endif
 		@if($item->viewed == true) <span class="label label-primary"><a href="{{ route("admin.show", array("bills", "filter" => "viewed", "filter_id" => 1)) }}">viewed</a></span> @else <span class="label label-default"><a href="{{ route("admin.show", array("bills", "filter" => "viewed", "filter_id" => 0)) }}">not seen</a></span> @endif
-		@if($item->paid == true) <span class="label label-success"><a href="{{ route("admin.show", array("bills", "filter" => "paid", "filter_id" => 1)) }}">paid</a></span> @else <span class="label label-default"><a href="{{ route("admin.show", array("bills", "filter" => "paid", "filter_id" => 0)) }}">unpaid</a></span> @endif
+		@if($item->paid == true) <span class="label label-success"><a href="{{ route("admin.show", array("bills", "filter" => "paid", "filter_id" => 1)) }}">paid</a></span> @else <span class="label label-default"><a href="{{ route("admin.show", array("bills", "filter" => "paid", "filter_id" => 0)) }}">not paid</a></span> @endif
 		@if($item->canceled == true) <span class="label label-danger"><a href="{{ route("admin.show", array("bills", "filter" => "canceled", "filter_id" => 1)) }}">canceled</a></span> @endif
 		
 		&nbsp;

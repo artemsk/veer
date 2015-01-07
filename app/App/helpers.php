@@ -580,9 +580,47 @@ if (!function_exists('statuses')) {
 	{ 
 		if(empty($flag)) return \Veer\Models\OrderStatus::orderBy('manual_order','asc')->remember(0.5)->get();
 		
-		$statuses = $flag == "secret" ? \Veer\Models\OrderStatus::where($flag, '=', true) :
+		$statuses = ($flag == "secret") ? \Veer\Models\OrderStatus::where($flag, '=', true) :
 			\Veer\Models\OrderStatus::where('flag_' . $flag, '=', true);
 		return $statuses->orderBy('manual_order', 'asc')->remember(0.5)->get();
 	}
 
+}
+
+
+
+
+if (!function_exists('payments')) {
+
+	/**
+	 * Get all veer shop payments
+	 * @return object
+	 */
+	function payments($siteId = null)
+	{ 
+		if(empty($siteId)) { $payments = \Veer\Models\OrderPayment::select(); } else {
+			$payments = \Veer\Models\OrderPayment::where('sites_id', '=', $siteId);
+		}
+		
+		return $payments->where('enable', '=', true)->orderBy('manual_order', 'asc')->remember(0.5)->get();
+	}
+}
+
+
+
+
+if (!function_exists('shipping')) {
+
+	/**
+	 * Get all veer shop shipping
+	 * @return object
+	 */
+	function shipping($siteId = null)
+	{ 
+		if(empty($siteId)) { $shipping = \Veer\Models\OrderShipping::select(); } else {
+			$shipping = \Veer\Models\OrderShipping::where('sites_id', '=', $siteId);
+		}
+		
+		return $shipping->where('enable', '=', true)->orderBy('manual_order', 'asc')->remember(0.5)->get();
+	}
 }

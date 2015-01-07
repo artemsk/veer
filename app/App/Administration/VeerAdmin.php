@@ -454,7 +454,7 @@ class VeerAdmin extends Show {
 			$c->description = array_get($options, 'description', '');
 			$c->remote_url = array_get($options, 'remote_url', '');
 			$c->manual_sort = array_get($options, 'sort', 999999);
-			$c->views = array_get($options, 'views', 0);;
+			$c->views = array_get($options, 'views', 0);
 			$c->sites_id = $site_id;
 			$c->save();
 			return $c->id;
@@ -2599,6 +2599,32 @@ class VeerAdmin extends Show {
 		}		
 		
 		// bills
+		$this->shopActions();
+		
+		// communications
+		if(Input::has('sendMessageToUser'))
+		{
+			app('veer')->communicationsSend(Input::get('communication', array()));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
+			$this->action_performed[] = "SEND message to user";
+		}
+
+		if($action == "add") {
+			$this->skipShow = true;
+			Input::replace(array('id' => $id));
+			return \Redirect::route('admin.show', array('users', 'id' => $id));	
+		}	
+	}
+	
+	
+	/*
+	 * Shop Actions: 
+	 * - Bills: update, delete, send|paid|cancel
+	 * -
+	 */
+	protected function shopActions()
+	{
+		// bills
 		if(Input::has('updateBillStatus'))
 		{
 			$billUpdate = Input::get('billUpdate.'.Input::get('updateBillStatus'));
@@ -2616,8 +2642,8 @@ class VeerAdmin extends Show {
 				\Veer\Models\OrderHistory::create($billUpdate);				
 			}
 			
-			\Veer\Models\Order::where('id','=',array_get($billUpdate, 'orders_id'))
-				->update(array('status_id' => array_get($billUpdate, 'status_id')));
+			//\Veer\Models\Order::where('id','=',array_get($billUpdate, 'orders_id'))
+			//	->update(array('status_id' => array_get($billUpdate, 'status_id')));
 		}		
 		
 		if(Input::has('updateBillSend'))
@@ -2643,21 +2669,52 @@ class VeerAdmin extends Show {
 		{
 			\Veer\Models\OrderBill::where('id','=',Input::get('deleteBill'))
 				->delete();
-		}		
-		
-		// communications
-		if(Input::has('sendMessageToUser'))
-		{
-			app('veer')->communicationsSend(Input::get('communication', array()));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
-			$this->action_performed[] = "SEND message to user";
 		}
-
-		if($action == "add") {
-			$this->skipShow = true;
-			Input::replace(array('id' => $id));
-			return \Redirect::route('admin.show', array('users', 'id' => $id));	
-		}	
+		
+		if(Input::has('addNewBill') && Input::has('billCreate.fill.orders_id'))
+		{
+			$fill = Input::get('billCreate.fill');
+			
+			$order = \Veer\Models\Order::find(array_get($fill, 'orders_id'));
+			$status = \Veer\Models\OrderStatus::find(array_get($fill, 'status_id'));
+			
+			$payment = $payment_method = array_get($fill, 'payment_method');
+			
+			if(empty($payment))	
+			{
+				$payment = \Veer\Models\OrderPayment::find(array_get($fill, 'payment_method_id'));
+				$payment_method = isset($payment->name) ? $payment->name : $payment_method;
+			}
+			
+			$content = null;
+			
+			if(Input::has('billCreate.template'))
+			{
+				$content = view("components.bills.".Input::get('billCreate.template'), array(
+					"order" => $order,
+					"status" => $status,
+					"payment" => $payment,
+					"price" => array_get($fill, 'price')
+				))->render();
+			}
+			
+			\Eloquent::unguard();
+			
+			$b = new \Veer\Models\OrderBill;
+			
+			$b->fill($fill);
+			$b->users_id = isset($order->users_id) ? $order->users_id : 0;
+			$b->payment_method = $payment_method;
+			$b->content = $content;
+					
+			if(Input::has('billCreate.fill.sendTo'))
+			{
+				$b->sent = true;
+				// TODO: SendMail
+			}
+			
+			$b->save();
+		}
 	}
 	
 	
@@ -2886,4 +2943,65 @@ class VeerAdmin extends Show {
 				
 		\Veer\Models\OrderShipping::destroy($id);
 	}	
+	
+	
+	/**
+	 * update Discounts
+	 */
+	public function updateDiscounts()
+	{
+		if(Input::has('deleteDiscount'))
+		{
+			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.delete'));
+			$this->action_performed[] = "DELETE discount";
+			return $this->deleteDiscount(Input::get('deleteDiscount'));
+		}
+		
+		\Eloquent::unguard();
+		
+		if(Input::has('updateGlobalDiscounts'))
+		{
+			foreach(Input::get('discount', array()) as $key => $discount)
+			{
+				$fill = array_get($discount, 'fill');
+
+				$fill['discount'] = strtr($fill['discount'], array("%" => ""));
+				$fill['expires'] = isset($fill['expires']) ? true : false;
+
+				if($key == "new") { //continue;
+					if(array_get($fill, 'discount') > 0 && array_get($fill, 'sites_id') > 0) $d = new \Veer\Models\UserDiscount; 
+				}
+				
+				else { $d = \Veer\Models\UserDiscount::find($key); }
+				
+				if(isset($d) && is_object($d))
+				{
+					$d->fill($fill);
+					$d->save();
+					unset($d);
+				}
+			}
+			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.update'));
+			$this->action_performed[] = "UPDATE discount";			
+		}
+	}
+	
+	
+	/**
+	 * delete Discount
+	 */
+	protected function deleteDiscount($id)
+	{
+		return \Veer\Models\UserDiscount::destroy($id);
+	}
+	
+	
+	/**
+	 * update Bills
+	 */
+	public function updateBills()
+	{
+		$this->shopActions();
+		
+	}
 }
