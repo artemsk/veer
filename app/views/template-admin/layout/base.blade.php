@@ -108,7 +108,7 @@
 						  <input type="text" class="form-control" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom" 
 								 data-html="true" title="Searching current element" id="SearchField" name="SearchField">
 					  </div>
-					  <button type="submit" name="SearchButton" class="btn btn-default">Search</button>
+					  <button type="submit" name="SearchButton" class="btn btn-default" value="Search">Search</button>
 				  {{ Form::close() }}
 			  </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->

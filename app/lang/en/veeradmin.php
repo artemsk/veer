@@ -92,4 +92,6 @@ return array(
 	"shipping.update" => "Update shipping method",
 	"shipping.delete" => "Delete shipping method",
 	"shipping.error" => "Error: Class not found",	
+	"discount.update" => "Update discounts",
+	
 );
