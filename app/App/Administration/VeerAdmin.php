@@ -2536,6 +2536,32 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "ATTACH discount";			
 		}
 		
+		// orders & bills
+		$this->shopActions();
+		
+		// communications
+		if(Input::has('sendMessageToUser'))
+		{
+			app('veer')->communicationsSend(Input::get('communication', array()));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
+			$this->action_performed[] = "SEND message to user";
+		}
+
+		if($action == "add") {
+			$this->skipShow = true;
+			Input::replace(array('id' => $id));
+			return \Redirect::route('admin.show', array('users', 'id' => $id));	
+		}	
+	}
+	
+	
+	/*
+	 * Shop Actions: 
+	 * - Bills: update, delete, send|paid|cancel
+	 * -
+	 */
+	protected function shopActions()
+	{
 		// orders
 		// TODO: move to app(veershop)
 		if(Input::has('pin'))
@@ -2587,43 +2613,19 @@ class VeerAdmin extends Show {
 			\Veer\Models\Order::where('id','=',head(Input::get('updateOrderClose')))
 				->update(array('close' => key(Input::get('updateOrderClose')), "close_time" => now()));
 		}
+		
 		if(Input::has('updateOrderHide'))
 		{
 			\Veer\Models\Order::where('id','=',head(Input::get('updateOrderHide')))
 				->update(array('hidden' => key(Input::get('updateOrderHide'))));
 		}
+		
 		if(Input::has('updateOrderArchive'))
 		{
 			\Veer\Models\Order::where('id','=',head(Input::get('updateOrderArchive')))
 				->update(array('archive' => key(Input::get('updateOrderArchive'))));
-		}		
-		
-		// bills
-		$this->shopActions();
-		
-		// communications
-		if(Input::has('sendMessageToUser'))
-		{
-			app('veer')->communicationsSend(Input::get('communication', array()));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
-			$this->action_performed[] = "SEND message to user";
 		}
-
-		if($action == "add") {
-			$this->skipShow = true;
-			Input::replace(array('id' => $id));
-			return \Redirect::route('admin.show', array('users', 'id' => $id));	
-		}	
-	}
-	
-	
-	/*
-	 * Shop Actions: 
-	 * - Bills: update, delete, send|paid|cancel
-	 * -
-	 */
-	protected function shopActions()
-	{
+		
 		// bills
 		if(Input::has('updateBillStatus'))
 		{
@@ -3001,7 +3003,15 @@ class VeerAdmin extends Show {
 	 */
 	public function updateBills()
 	{
-		$this->shopActions();
-		
+		return $this->shopActions();	
+	}
+	
+	
+	/**
+	 * update Orders
+	 */
+	public function updateOrders()
+	{
+		return $this->shopActions();	
 	}
 }

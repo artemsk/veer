@@ -22,9 +22,11 @@
 									   href="{{ route("admin.show", array("orders", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
+	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	
 	@include($template.'.lists.orders', array('items' => $items))
 	
+	{{ Form::close() }}
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
