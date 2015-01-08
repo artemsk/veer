@@ -1,4 +1,3 @@
-<ul class="list-group">
 @foreach($items as $p)
 	<li class="list-group-item bordered-row">
 		<span class="badge">{{ app('veershop')->priceFormat($p->price) }}</span>
@@ -36,11 +35,68 @@
 					@endforeach		
 				@endif
 		
+				&nbsp;<button type="button" class="btn btn-default btn-xs cancel-collapse" data-toggle="modal" data-target="#contentModal{{ $p->id }}">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+				
 				@if(!empty($p->comments)) 
 				<p></p><small class="text-muted">— {{ $p->comments }}</small>
 				@endif
 			</div>
+			<div class="modal fade" id="contentModal{{ $p->id }}">
+				<div class="modal-dialog  modal-sm">
+					<div class="modal-content">
+						
+						<div class="modal-body">
+							<div class="form-group">
+								<label>Product Id or Empty</label>
+								<input type="text" class="form-control input-sm" placeholder="Product ID or Empty" 
+								   name="ordersProducts[{{ $p->id }}][fill][products_id]" value="{{ $p->products_id }}">
+							</div>
+							<div class="form-group">
+							<input type="text" class="form-control input-sm" name="ordersProducts[{{ $p->id }}][fill][name]" value="{{ $p->name }}">
+							</div>
+							<div class="form-group">
+								<label>Original Price</label>
+								<input type="text" class="form-control input-sm" placeholder="Original price" name="ordersProducts[{{ $p->id }}][fill][original_price]" value="{{ $p->original_price }}">
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label>Price per one</label>
+										<input type="text" class="form-control input-sm" placeholder="Price per one" name="ordersProducts[{{ $p->id }}][fill][price_per_one]" value="{{ $p->price_per_one }}">
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label>Quantity</label>
+										<input type="text" class="form-control input-sm" placeholder="Quantity" name="ordersProducts[{{ $p->id }}][fill][quantity]" value="{{ $p->quantity }}">
+									</div>
+								</div>
+							</div>							
+							<div class="form-group">
+								<label>Attributes</label>
+								<input type="text" class="form-control" placeholder="Attributes Ids[,]" 
+									   name="ordersProducts[{{ $p->id }}][fill][attributes]" value="
+@if(!empty($p->attributes))
+@foreach(json_decode($p->attributes) as $attribute)
+{{ $attribute }},@endforeach
+@endif">
+							</div>
+							<div class="form-group">
+								<label>Comments</label>
+								<textarea class="form-control" placeholder="Comments (visible to user)" 
+										  name="ordersProducts[{{ $p->id }}][fill][comments]">{{ $p->comments }}</textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="submit" value="{{ $p->id }}" name="editContent" class="btn btn-primary">Update</button>
+							<button type="submit" value="{{ $p->id }}" name="deleteContent" class="btn btn-danger">Delete</button>
+						</div>
+
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 		</div>
 	</li>
 @endforeach
-</ul>
