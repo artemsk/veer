@@ -299,7 +299,7 @@
 		
 	@if(isset($items->userbook) && count($items->userbook)>0)
 	<div class="rowdelimiter"></div>
-	<h4>Book <small>delivery address | <a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a></small></h4>
+	<h4>Book <small>delivery address | <a href="#" data-toggle="modal" data-target="#bookModalEdit">edit book</a> | <a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a></small></h4>
 	<div class="row">
 		<div class="col-sm-12">
 			@include($template.'.lists.books', array('items' => array($items->userbook), 'skipOrder' => true))
@@ -366,8 +366,13 @@
 	
 	<div class="row">
 		<div class="col-sm-12">
+		<ul class="list-group">
 			@include($template.'.lists.order-content', 
 			array('items' => array_get($items->orderContent, 'content', array()), 'products' => isset($items->products) ? $items->products : array()))
+			<li class="list-group-item">
+			<input type="text" name="attachContent" class="form-control input-no-borders" placeholder=":Existings IDs[,](qty) or Name:pricePerOne:Qty">	
+			</li>
+		</ul>
 		</div>
 	</div>	
 	@endif

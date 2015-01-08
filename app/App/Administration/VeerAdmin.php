@@ -3090,6 +3090,18 @@ class VeerAdmin extends Show {
 			}
 		}
 		
+		if(Input::has('editContent'))
+		{
+			$contentId = Input::get('editContent');
+			
+			$ordersProducts = Input::get('ordersProducts.' . $contentId . ".fill");
+			
+			$content = \Veer\Models\OrderProduct::find($contentId);
+			
+			$productsId = array_get($ordersProducts, 'products_id');
+			
+			
+		}
 		
 		
 		$order->save();
