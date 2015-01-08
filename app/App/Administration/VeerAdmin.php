@@ -3072,10 +3072,27 @@ class VeerAdmin extends Show {
 			}
 		}
 		
-		//$order->fill($fill);
+		$order->fill($fill);
+		
+		// new book
+		if($action == "addUserbook" || $action == "updateUserbook" )
+		{
+			foreach(Input::get('userbook', array()) as $book)
+			{
+				$newBook = app('veershop')->updateOrNewBook($book);
+				
+				if(isset($newBook) && is_object($newBook)) { 
+					$order->userbook_id = $newBook->id;
+					$order->country = $newBook->country;
+					$order->city = $newBook->city;
+					$order->address = trim( $newBook->postcode . " " . $newBook->address );
+				}
+			}
+		}
+		
+		
+		
 		$order->save();
-		
-		
 	}
 	
 	

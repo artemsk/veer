@@ -263,10 +263,14 @@ class VeerShop {
 		
 		$b = empty($bookId) ? new \Veer\Models\UserBook : \Veer\Models\UserBook::firstOrNew(array("id" => $bookId));
 		
+		if(isset($book['fill']['address']) && empty($book['fill']['address'])) { return false; }
+		
 		if(isset($book['fill'])) { $b->fill($book['fill']); }
 		$b->primary = array_get($book, 'checkboxes.primary', false) ? true : false;
 		$b->office_address = array_get($book, 'checkboxes.office_address', false) ? true : false;
 		$b->save();
+		
+		return $b;
 	}
 	
 	
