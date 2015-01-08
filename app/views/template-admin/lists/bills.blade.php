@@ -1,5 +1,6 @@
+@if(isset($skipUser)) <ul class="list-group"> @endif
 @foreach($items as $item)
-	<ul class="list-group">
+	@if(!isset($skipUser)) <ul class="list-group"> @endif
 		<li class="list-group-item bordered-row">
 		<button type="submit" value="{{ $item->id }}" name="deleteBill" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp
 		#{{ $item->id }}
@@ -20,6 +21,16 @@
 		@if($item->paid == true) <span class="label label-success"><a href="{{ route("admin.show", array("bills", "filter" => "paid", "filter_id" => 1)) }}">paid</a></span> @else <span class="label label-default"><a href="{{ route("admin.show", array("bills", "filter" => "paid", "filter_id" => 0)) }}">not paid</a></span> @endif
 		@if($item->canceled == true) <span class="label label-danger"><a href="{{ route("admin.show", array("bills", "filter" => "canceled", "filter_id" => 1)) }}">canceled</a></span> @endif
 		
+		
+		@if(isset($skipUser))
+		&nbsp;
+		<small>
+		<a href="{{ route("order.bills", array($item->id, $item->link)) }}" target="_blank">link</a>
+		</small>
+		&nbsp;
+		<strong>{{ app('veershop')->priceFormat($item->price) }}</strong>
+		@endif
+		
 		&nbsp;
 		<button type="button" class="btn btn-default btn-xs cancel-collapse" data-toggle="modal" data-target="#billModal{{ $item->id }}">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
@@ -28,9 +39,10 @@
 		@if($item->updated_at != $item->created_at)
 		<span class="badge">{{ $item->updated_at }}</span>
 		@endif
+		
+		@if(!isset($skipUser))
 		</li>
 		<li class="list-group-item">
-		@if(!isset($skipUser))
 		Order: @if(is_object($item->order)) 
 		<a href="{{ route("admin.show", array("orders", "id" => $item->orders_id)) }}">
 			#{{ app('veershop')->getOrderId($item->order->cluster, $item->order->cluster_oid) }}</a>
@@ -41,11 +53,11 @@
 		| <a href="{{ route("admin.show", array("users", "id" => $item->users_id)) }}">{{ "@".$item->user->username }}</a>
 		@endif
 		<br/>
-		@endif
 		Bill link: <a href="{{ route("order.bills", array($item->id, $item->link)) }}" target="_blank">{{ $item->link }}</a>
 		<br/>
 		<h3>{{ app('veershop')->priceFormat($item->price) }}</h3>
-		{{-- Currency used when creating bill --}}
+		{{-- Currency used when creating bill --}}		
+		@endif
 		
 		<div class="modal fade" id="billModal{{ $item->id }}">
 			<div class="modal-dialog">
@@ -102,5 +114,6 @@
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 		</li>
-	</ul>	
+	@if(!isset($skipUser)) </ul> @endif	
 	@endforeach
+	@if(isset($skipUser)) </ul> @endif	

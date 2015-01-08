@@ -2678,7 +2678,7 @@ class VeerAdmin extends Show {
 				$payment_method = isset($payment->name) ? $payment->name : $payment_method;
 			}
 			
-			$content = null;
+			$content = '';
 			
 			if(Input::has('billCreate.template'))
 			{
@@ -3030,9 +3030,10 @@ class VeerAdmin extends Show {
 		$fill = Input::get('fill');
 		
 		$siteId = Input::get('fill.sites_id');						
-		if(empty($siteId)) $siteId = app('veer')->siteId;
+		if(empty($siteId)) $fill['sites_id'] = app('veer')->siteId;
 		
-		$fill['sites_id'] = $siteId;
+		$usersId = Input::get('fill.users_id');
+		if(empty($usersId)) $fill['users_id'] = \Auth::id();
 		
 		$order = \Veer\Models\Order::find($id);
 		
@@ -3057,7 +3058,21 @@ class VeerAdmin extends Show {
 		$fill['delivery_plan'] = !empty($deliveryPlan) ? parse_form_date($deliveryPlan) : NULL;
 		$fill['delivery_real'] = !empty($deliveryReal) ? parse_form_date($deliveryReal) : NULL;
 		
-		$order->fill($fill);
+		if($order->cluster_oid != array_get($fill, 'cluster_oid') || $order->cluster != array_get($fill, 'cluster'))
+		{
+			$existingOrders = \Veer\Models\Order::where('cluster','=', array_get($fill, 'cluster'))
+				->where('cluster_oid','=',array_get($fill, 'cluster_oid'))->first();
+			
+			// we cannot update cluster ids if they already exist
+			if(isset($existingOrders) || array_get($fill, 'cluster_oid') == null) 
+			{
+				array_forget($fill, 'cluster_oid');
+				array_forget($fill, 'cluster');
+				// TODO: new orders generate new
+			}
+		}
+		
+		//$order->fill($fill);
 		$order->save();
 		
 		
