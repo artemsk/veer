@@ -921,28 +921,13 @@ class VeerAdmin extends Show {
 				
 		array_set($all, 'fill.star', isset($all['fill']['star']) ? true : 0);
 		array_set($all, 'fill.download', isset($all['fill']['download']) ? true : 0);
-
-		$salesOn = explode("/", array_get($all, 'fill.price_sales_on', 0));
 	
-		$temporaryY = (int)array_get($salesOn, 2, 0);
-		if($temporaryY <= 1999) { $salesOn = \Carbon\Carbon::today(); } else {
-			$salesOn = \Carbon\Carbon::parse(array_get($all, 'fill.price_sales_on', 0));
-		}
-	
-		$salesOff = explode("/", array_get($all, 'fill.price_sales_off', 0));
+		$salesOn = parse_form_date(array_get($all, 'fill.price_sales_on', 0));
 		
-		$temporaryY = (int)array_get($salesOff, 2, 0);
-		if($temporaryY <= 1999) { $salesOff = \Carbon\Carbon::today(); } else {
-			$salesOff = \Carbon\Carbon::parse(array_get($all, 'fill.price_sales_off', 0));
-		}		
-			
-		$toShow = explode("/", array_get($all, 'fill.to_show', 0));
-		
-		$temporaryY = (int)array_get($toShow, 2, 0);
-		if($temporaryY <= 1999) { $toShow = \Carbon\Carbon::today(); } else {
-			$toShow = \Carbon\Carbon::parse(array_get($all, 'fill.to_show', 0));
-		}	
-		
+		$salesOff = parse_form_date(array_get($all, 'fill.price_sales_off', 0));
+					
+		$toShow = parse_form_date(array_get($all, 'fill.to_show', 0));
+				
 		array_set($all, 'fill.price_sales_on', $salesOn);
 
 		array_set($all, 'fill.price_sales_off', $salesOff);
@@ -2445,6 +2430,11 @@ class VeerAdmin extends Show {
 			$user = \Veer\Models\User::find($id);
 		}
 		
+		$fill['restrict_orders'] = isset($fill['restrict_orders']) ? true : false;
+		$fill['newsletter'] = isset($fill['newsletter']) ? true : false;
+		
+		$fill['birth'] = parse_form_date(array_get($fill, 'birth'));
+		
 		\Eloquent::unguard();
 		$user->fill($fill);
 		$user->save();
@@ -2863,6 +2853,8 @@ class VeerAdmin extends Show {
 		
 		$fill['commission'] = strtr( array_get($fill, 'commission'), array("%" => ""));
 		$fill['discount_price'] = strtr( array_get($fill, 'discount_price'), array("%" => ""));
+		$fill['enable'] = isset($fill['enable']) ? true : false;
+		$fill['discount_enable'] = isset($fill['discount_enable']) ? true : false;
 		
 		\Eloquent::unguard();
 		
@@ -2927,6 +2919,8 @@ class VeerAdmin extends Show {
 		$fill = Input::get('shipping.fill');
 		
 		$fill['discount_price'] = strtr( array_get($fill, 'discount_price'), array("%" => ""));
+		$fill['enable'] = isset($fill['enable']) ? true : false;
+		$fill['discount_enable'] = isset($fill['discount_enable']) ? true : false;
 		
 		\Eloquent::unguard();
 		
@@ -3012,6 +3006,62 @@ class VeerAdmin extends Show {
 	 */
 	public function updateOrders()
 	{
-		return $this->shopActions();	
+		$this->shopActions();
+		
+		$editOneOrder = Input::get('id');
+		
+		if(!empty($editOneOrder)) 
+		{ 	
+			return $this->updateOneOrder($editOneOrder); 
+		}		
 	}
+	
+	
+	/**
+	 * update One Order
+	 */
+	public function updateOneOrder($id)
+	{
+		echo "<pre>";
+		print_r(Input::all());
+		echo "</pre>";
+		
+		$action = Input::get('action');
+		$fill = Input::get('fill');
+		
+		$siteId = Input::get('fill.sites_id');						
+		if(empty($siteId)) $siteId = app('veer')->siteId;
+		
+		$fill['sites_id'] = $siteId;
+		
+		$order = \Veer\Models\Order::find($id);
+		
+		\Eloquent::unguard();
+		
+		$fill['free'] = isset($fill['free']) ? 1 : 0;
+		$fill['close'] = isset($fill['close']) ? 1 : 0;
+		$fill['hidden'] = isset($fill['hidden']) ? 1 : 0;
+		$fill['archive'] = isset($fill['archive']) ? 1 : 0;
+		$fill['delivery_free'] = isset($fill['delivery_free']) ? 1 : 0;
+		$fill['delivery_hold'] = isset($fill['delivery_hold']) ? 1 : 0;
+		$fill['payment_hold'] = isset($fill['payment_hold']) ? 1 : 0;
+		$fill['payment_done'] = isset($fill['payment_done']) ? 1 : 0;
+		
+		if($fill['close'] == true) $fill['close_time'] = now();
+		
+		$fill['progress'] = isset($fill['progress']) ? strtr($fill['progress'], array("%" => "")) : 5;
+		
+		$deliveryPlan = array_get($fill, 'delivery_plan');
+		$deliveryReal = array_get($fill, 'delivery_real');
+		
+		$fill['delivery_plan'] = !empty($deliveryPlan) ? parse_form_date($deliveryPlan) : NULL;
+		$fill['delivery_real'] = !empty($deliveryReal) ? parse_form_date($deliveryReal) : NULL;
+		
+		$order->fill($fill);
+		$order->save();
+		
+		
+	}
+	
+	
 }
