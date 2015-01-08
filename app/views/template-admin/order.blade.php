@@ -155,16 +155,18 @@
 	</div>
 	
 	@if(isset($items->userdiscount) && count($items->userdiscount)>0)
-	<div class="rowdelimiter"></div>
-	<h4>Used discount</h4>	
+	<div class="sm-rowdelimiter"></div>
+	<h4>Discount</h4>	
 	<ul class="list-group">
 			@include($template.'.lists.discounts', array('items' => array($items->userdiscount), 'skipOrder' => true))
 	</ul>
 	@endif
-	
-	<div class="rowdelimiter"></div>
-	
-	<h3><strong>Payment</strong></h3>
+</div>
+
+<hr class="no-body-padding">
+
+<div class="container">	
+	<h3><strong>Payment</strong>@if(!isset($items->bills) || count(@$items->bills)<=0) <small><a href="#" data-toggle="modal" data-target="#billModalNew">create bill</a></small>@endif</h3>
 	<div class="row">
 		<div class="col-md-3"><p></p><strong>
 			<input type="text" name="fill[payment_method]" class="form-control" placeholder="Payment method" 
@@ -193,8 +195,8 @@
 	
 	<div class="rowdelimiter"></div>
 	
-	<h4>Bills <small><a href="#" data-toggle="modal" data-target="#billModalNew">new bill</a></small></h4>
 	@if(isset($items->bills) && count($items->bills)>0)
+	<h4>Bills <small><a href="#" data-toggle="modal" data-target="#billModalNew">new bill</a></small></h4>
 	<div class="row">
 		<div class="col-sm-12">
 			@include($template.'.lists.bills', array('items' => $items->bills, 'skipUser' => true))
@@ -209,7 +211,8 @@
 					<h4 class="modal-title">Create new bill</h4>
 				</div>
 				<div class="modal-body">
-					@include($template.'.layout.form-bill', array('OrdersId' => isset($items->id) ? $items->id : 0, 'skipSubmit' => true))
+					@include($template.'.layout.form-bill', array('OrdersId' => isset($items->id) ? $items->id : 0, 
+					'skipSubmit' => true, 'defaultType' => isset($items->payment_method_id) ? $items->payment_method_id : null))
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -217,10 +220,12 @@
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-	
-	<div class="rowdelimiter"></div>
-	
+	</div><!-- /.modal -->	
+</div>
+
+<hr class="no-body-padding">
+
+<div class="container">	
 	<h3><strong>Shipping</strong> @if(isset($items->delivery_price))<small>{{ app('veershop')->priceFormat($items->delivery_price) }}</small>@endif</h3>
 	<div class="row">
 		<div class="col-md-2"><p></p><strong>
@@ -263,7 +268,7 @@
 			</strong>
 			<small>Shipping price</small>
 			<p></p>
-			<input type="text" class="form-control" name="fill[weight]"
+			<input type="text" class="form-control" name="fill[weight]" disabled
 					   placeholder="Shipping weight" value="{{ $items->weight or null }}"/>
 			<small>Weight(g): calculated by content</small>
 			<p></p>
@@ -273,17 +278,20 @@
 			<input type="checkbox" class="page-checkboxes" name="fill[delivery_hold]" data-on-color="danger" data-off-color="info" data-on-text="Hold&nbsp;shipping" data-off-text="Allow&nbsp;shipping" @if(isset($items->delivery_hold) && $items->delivery_hold == true) checked @endif></div>
 		</div>
 		<div class="col-md-4"><p></p>
-			<input type="text" class="form-control" name="fill[country]"
+			<input type="text" class="form-control" name="fill[country]" disabled
 					   placeholder="Country" value="{{ $items->country or null }}"/>
-			<p></p><input type="text" class="form-control" name="fill[city]"
+			<p></p><input type="text" class="form-control" name="fill[city]" disabled
 					  placeholder="City" value="{{ $items->city or null }}"/>
-			<p></p><input type="text" class="form-control" name="fill[address]"
+			<p></p><input type="text" class="form-control" name="fill[address]" disabled
 					  placeholder="Address" value="{{ $items->address or null }}"/>
 			<p></p><input type="text" class="form-control input-sm" name="fill[userbook_id]"
 					  placeholder="Userbook Id" value="{{ $items->userbook_id or null }}"/>
 			<small>Userbook 
 				@if(isset($items->users_id))
-				<a href="{{ route("admin.show", array("books", "filter" => "user", "filter_id" => $items->users_id)) }}" target="_blank">~ edit user books</a> | @endif
+				<a href="{{ route("admin.show", array("books", "filter" => "user", "filter_id" => $items->users_id)) }}" target="_blank">~ edit all user books</a> | @endif
+			@if(isset($items->userbook) && count($items->userbook)>0)
+			<a href="#" data-toggle="modal" data-target="#bookModalEdit">edit book</a> | 
+			@endif
 			<a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a>
 			</small>
 		</div>
@@ -297,6 +305,23 @@
 			@include($template.'.lists.books', array('items' => array($items->userbook), 'skipOrder' => true))
 		</div>
 	</div>
+	<div class="modal fade" id="bookModalEdit">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">And new user's book</h4>
+				</div>
+				<div class="modal-body">
+					@include($template.'.layout.form-userbook', array('item' =>$items->userbook, 'skipSubmit' => true))
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" name="action" value="updateUserbook" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	@endif
 	<div class="modal fade" id="bookModalNew">
 		<div class="modal-dialog">
@@ -311,14 +336,16 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="submit" name="action" value="updateUserbook" class="btn btn-primary">Save changes</button>
+					<button type="submit" name="action" value="addUserbook" class="btn btn-primary">Save changes</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-	
-	<div class="rowdelimiter"></div>
-	
+</div>
+
+<hr class="no-body-padding">
+
+<div class="container">	
 	<h3><strong>Order content</strong> @if(isset($items->content_price))<small>{{ app('veershop')->priceFormat($items->content_price) }}</small>@endif</h3>
 	
 	@if(isset($items->orderContent) && count ($items->orderContent)>0)
