@@ -624,3 +624,23 @@ if (!function_exists('shipping')) {
 		return $shipping->where('enable', '=', true)->orderBy('manual_order', 'asc')->remember(0.5)->get();
 	}
 }
+
+
+
+
+
+if (!function_exists('parse_form_date')) {
+
+	/**
+	 * Parse date from form
+	 * @return object
+	 */
+	function parse_form_date($d = null)
+	{ 
+		if(empty($d)) return now();
+		
+		$parseDate = explode("/", $d);
+		
+		return ((int)array_get($parseDate, 2, 0) <= 0) ? now() : \Carbon\Carbon::parse($d);	
+	}
+}

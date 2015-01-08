@@ -124,8 +124,13 @@
 				@if(is_object($item->bills) && count($item->bills) > 0)
 				<li class="list-group-item">
 						@foreach($item->bills as $bill)
-							<a href="{{ route("admin.show", array("bills", "filter" => "order", "filter_id" => $item->id)) }}">Bill</a> #{{$bill->id}} {{$bill->payment_method}} {{ $bill->link }} 
-							{{ $bill->price }} {{ $bill->status->name or null }} {{ $bill->sent }} {{ $bill->viewed }} {{ $bill->paid }} {{ $bill->canceled }}<br/>
+						<a href="{{ route("admin.show", array("bills", "filter" => "order", "filter_id" => $item->id)) }}">Bill</a> #{{$bill->id}} <strong>{{$bill->payment_method}}</strong> <a href="{{ route("order.bills", array($item->id, $item->link)) }}" target="_blank">{{ $bill->link }}</a> 
+						<strong>{{ app('veershop')->priceFormat($bill->price) }}</strong> {{ $bill->status->name or null }} 
+						<small><strong>
+						@if($bill->sent == true) -sent @endif 
+						@if($bill->viewed == true) -viewed @endif
+						@if($bill->paid == true) -paid @endif
+						@if($bill->canceled == true) -canceled @endif</strong></small><br/>
 						@endforeach	
 				</li>
 				@endif

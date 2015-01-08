@@ -99,7 +99,7 @@
 				<span class="input-group-addon">
 				  Order Id
 				</span>
-				<input type="text" name="fill[cluster_id]" class="form-control" placeholder="Order Id" value="{{ $items->cluster_oid or null }}">
+				<input type="text" name="fill[cluster_oid]" class="form-control" placeholder="Order Id" value="{{ $items->cluster_oid or null }}">
 			</div>
 		</div>
 		<div class="col-md-6"><p></p>
