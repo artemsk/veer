@@ -809,7 +809,9 @@ class Show {
 					
 			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
 			
-			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();			
+			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();	
+			
+			if(empty($this->billsTypes)) $this->getExistingBillTemplates();
 		}	
 		
 		return $items;
@@ -1148,6 +1150,8 @@ class Show {
 		{
 			$items->orderContent = $this->orderContentParse($items->orderContent, $regroupedProducts);
 		}
+		
+		if(empty($this->billsTypes)) $this->getExistingBillTemplates();
 		
 		return $items;
 	}

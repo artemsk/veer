@@ -131,8 +131,8 @@
 						(isset($items->users_id) ? $items->users_id : \Auth::id())) }}">
 			</div>
 		@if(isset($items->user) && is_object($items->user))
-		<small><a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@'.$items->user->username }}</a><br/>
-			<span class="text-muted">{{ $items->user->role->role }} {{ isset($items->user->administrator) ? '| administrator' : null }}</span>
+		<small><a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@' }}{{ $items->user->username or null }}</a><br/>
+			<span class="text-muted">{{ $items->user->role->role or null }} {{ isset($items->user->administrator) ? '| administrator' : null }}</span>
 		</small>
 		@endif	
 		</div>
@@ -141,7 +141,7 @@
 			<small>User type</small>
 		</div>
 		<div class="col-md-3"><p></p>
-			<input type="text" name="fill[used_discount]" class="form-control" placeholder="Discount Value" value="{{ $items->used_discount or null }}">
+			<input type="text" name="fill[used_discount]" class="form-control" disabled placeholder="Discount Value" value="{{ $items->used_discount or null }}">
 			<small>Discount value: For information purposes only</small>
 		</div>
 		<div class="col-md-2"><p></p>
@@ -163,6 +163,64 @@
 	@endif
 	
 	<div class="rowdelimiter"></div>
+	
+	<h3><strong>Payment</strong></h3>
+	<div class="row">
+		<div class="col-md-3"><p></p><strong>
+			<input type="text" name="fill[payment_method]" class="form-control" placeholder="Payment method" 
+				   value="{{ $items->payment_method or null }}">
+			</strong><small>Payment method</small>
+		</div>
+		<div class="col-md-3">
+			<p></p>
+			<input type="text" name="fill[payment_method_id]" class="form-control" placeholder="Payment method Id" value="{{ $items->payment_method_id or null }}"><small>Id @if(isset($items->payment) && is_object($items->payment))
+				— {{ $items->payment->name }}:
+				{{ $items->payment->type }},
+				{{ $items->payment->paying_time }},
+				{{ $items->payment->commission }}
+			@else
+			Payment method Id
+			@endif			
+			</small>			
+		</div>
+		<div class="col-md-6"><p></p>
+			<div class="page-checkboxes-box">
+			<input type="checkbox" class="page-checkboxes" name="fill[payment_hold]" data-on-color="danger" data-off-color="info" data-on-text="Hold&nbsp;payment" data-off-text="Allow&nbsp;payment&nbsp;" @if(isset($items->payment_hold) && $items->payment_hold == true) checked @endif></div>
+			<div class="page-checkboxes-box">
+			<input type="checkbox" class="page-checkboxes" name="fill[payment_done]" data-on-color="success" data-on-text="Payment&nbsp;done" data-off-text="Awaiting&nbsp;payment&nbsp;" @if(isset($items->payment_done) && $items->payment_done == true) checked @endif></div>
+		</div>
+	</div>
+	
+	<div class="rowdelimiter"></div>
+	
+	<h4>Bills <small><a href="#" data-toggle="modal" data-target="#billModalNew">new bill</a></small></h4>
+	@if(isset($items->bills) && count($items->bills)>0)
+	<div class="row">
+		<div class="col-sm-12">
+			@include($template.'.lists.bills', array('items' => $items->bills, 'skipUser' => true))
+		</div>
+	</div>
+	@endif	
+	<div class="modal fade" id="billModalNew">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Create new bill</h4>
+				</div>
+				<div class="modal-body">
+					@include($template.'.layout.form-bill', array('OrdersId' => isset($items->id) ? $items->id : 0, 'skipSubmit' => true))
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" name="addNewBill" value="New" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<div class="rowdelimiter"></div>
+	
 	<h3><strong>Shipping</strong> @if(isset($items->delivery_price))<small>{{ app('veershop')->priceFormat($items->delivery_price) }}</small>@endif</h3>
 	<div class="row">
 		<div class="col-md-2"><p></p><strong>
@@ -225,60 +283,40 @@
 					  placeholder="Userbook Id" value="{{ $items->userbook_id or null }}"/>
 			<small>Userbook 
 				@if(isset($items->users_id))
-				<a href="{{ route("admin.show", array("books", "filter" => "user", "filter_id" => $items->users_id)) }}" target="_blank">~ edit user books</a>@endif</small>
+				<a href="{{ route("admin.show", array("books", "filter" => "user", "filter_id" => $items->users_id)) }}" target="_blank">~ edit user books</a> | @endif
+			<a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a>
+			</small>
 		</div>
 	</div>
 		
 	@if(isset($items->userbook) && count($items->userbook)>0)
 	<div class="rowdelimiter"></div>
-	<h4>Book <small>delivery address</small></h4>
+	<h4>Book <small>delivery address | <a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a></small></h4>
 	<div class="row">
 		<div class="col-sm-12">
 			@include($template.'.lists.books', array('items' => array($items->userbook), 'skipOrder' => true))
 		</div>
 	</div>
 	@endif
-		
-	<div class="rowdelimiter"></div>
-		
-	<h3><strong>Payment</strong></h3>
-	<div class="row">
-		<div class="col-md-3"><p></p><strong>
-			<input type="text" name="fill[payment_method]" class="form-control" placeholder="Payment method" 
-				   value="{{ $items->payment_method or null }}">
-			</strong><small>Payment method</small>
-		</div>
-		<div class="col-md-3">
-			<p></p>
-			<input type="text" name="fill[payment_method_id]" class="form-control" placeholder="Payment method Id" value="{{ $items->payment_method_id or null }}"><small>@if(isset($items->payment) && is_object($items->payment))
-				{{ $items->payment->name }}:
-				{{ $items->payment->type }},
-				{{ $items->payment->paying_time }},
-				{{ $items->payment->commission }}
-			@else
-			Payment method Id
-			@endif			
-			</small>			
-		</div>
-		<div class="col-md-6"><p></p>
-			<div class="page-checkboxes-box">
-			<input type="checkbox" class="page-checkboxes" name="fill[payment_hold]" data-on-color="danger" data-off-color="info" data-on-text="Hold&nbsp;payment" data-off-text="Allow&nbsp;payment&nbsp;" @if(isset($items->payment_hold) && $items->payment_hold == true) checked @endif></div>
-			<div class="page-checkboxes-box">
-			<input type="checkbox" class="page-checkboxes" name="fill[payment_done]" data-on-color="success" data-on-text="Payment&nbsp;done" data-off-text="Awaiting&nbsp;payment&nbsp;" @if(isset($items->payment_done) && $items->payment_done == true) checked @endif></div>
-		</div>
-	</div>
+	<div class="modal fade" id="bookModalNew">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">And new user's book</h4>
+				</div>
+				<div class="modal-body">
+					@include($template.'.layout.form-userbook', array('item' =>array(), 'skipSubmit' => true, 
+					'UsersId' => isset($items->users_id) ? $items->users_id : 0))
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" name="action" value="updateUserbook" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	
-	<div class="rowdelimiter"></div>
-	
-	<h4>Bills</h4>
-	@if(isset($items->bills) && count($items->bills)>0)
-	<div class="row">
-		<div class="col-sm-12">
-			@include($template.'.lists.bills', array('items' => $items->bills, 'skipUser' => true))
-		</div>
-	</div>
-	@endif	
-
 	<div class="rowdelimiter"></div>
 	
 	<h3><strong>Order content</strong> @if(isset($items->content_price))<small>{{ app('veershop')->priceFormat($items->content_price) }}</small>@endif</h3>
@@ -357,7 +395,8 @@
 	<div class="rowdelimiter"></div>
 	
 	<div class="row">
-		<div class="col-sm-12"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+		<div class="col-sm-8"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+		<div class="col-sm-4"><button type="submit" name="action" value="recalculate" class="btn btn-info btn-lg btn-block">Recalculate</button></div>
 	</div>
 	<hr>
 	<div class="row">

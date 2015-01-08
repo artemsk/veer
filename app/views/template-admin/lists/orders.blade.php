@@ -109,10 +109,15 @@
 					<div class="xs-rowdelimiter"></div>
 
 					Shipping plan: 
+					@if(!empty($item->delivery_plan))
 					<span class="label label-default">
 						{{ \Carbon\Carbon::parse($item->delivery_plan)->format("Y-m-d H:i") }}</span> 
+					@else NOT PLANNED
+					@endif
+					@if(!empty($item->delivery_real))
 					<small>~ real: </small><span class="label label-success">
 						{{ \Carbon\Carbon::parse($item->delivery_real)->format("Y-m-d H:i") }}</span>	
+					@endif
 				</li>
 				<li class="list-group-item">
 					Content price: <strong>{{ app('veershop')->priceFormat($item->content_price) }}</strong>

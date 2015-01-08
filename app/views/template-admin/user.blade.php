@@ -226,8 +226,24 @@
 		</div>
 	</div>
 	@endif	
-	<a class="btn btn-default" href="{{ route("admin.show", array("bills", 
-				"filter" => "user", "filter_id" => isset($items->id) ? $items->id : null)) }}#newBill" role="button" target="_blank">New bill</a>
+	<a class="btn btn-default" href="#" data-toggle="modal" data-target="#billModalNew">New bill</a>
+	<div class="modal fade" id="billModalNew">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Create new bill</h4>
+				</div>
+				<div class="modal-body">
+					@include($template.'.layout.form-bill', array('skipSubmit' => true))
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" name="addNewBill" value="New" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	
 	@if(isset($items->id) && isset($items['files']) && count($items['files'])>0)
 	<div class="rowdelimiter"></div>
