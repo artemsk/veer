@@ -38,9 +38,14 @@ class VeerShop {
 	
 	
 	
-	public function getPrice($product, $bypassUser = false)
+	public function getPrice($product, $bypassUser = false, $custom = null)
 	{
-		$price = $this->calculator($product, $bypassUser);
+		if(!empty($custom))
+		{
+			if(!administrator()) $custom = null;
+		}
+		
+		$price = $this->calculator($product, $bypassUser, $custom);
 		$regular_price = $this->currency($product['price'], $product['currency']);
 		
 		if($regular_price!= $price) {
@@ -79,7 +84,7 @@ class VeerShop {
 	
 	
 	
-	public function calculator($product, $bypassUser = false)
+	public function calculator($product, $bypassUser = false, $custom = null)
 	{
 		// 1
 		// First of all, we take regular price
@@ -91,7 +96,7 @@ class VeerShop {
 		{ 
 			$price = $product['price_sales']; 			
 		}
-                        
+            
 		// 3 
 		// We check if we have logged user & if he has active discount
 		if(app('auth')->id() <= 0 || $bypassUser == true) { 
@@ -100,7 +105,7 @@ class VeerShop {
 		
 		// 4
 		// We check if existing user have discount
-		$discounts = $this->discounts($price);
+		$discounts = $this->discounts($price, $custom);
 		
 		if($discounts['discount'] == true) {
 			return $this->currency($discounts['price'], $product['currency']);
@@ -108,7 +113,7 @@ class VeerShop {
 		
 		// 5 
 		// We check if existing user have discount by his role
-		$discounts_by_role = $this->discounts_by_role($product, $price);
+		$discounts_by_role = $this->discounts_by_role($product, $price, $custom);
 		
 		if($discounts_by_role['discount'] == true) {
 			return $this->currency($discounts_by_role['price'], $product['currency']);
@@ -121,14 +126,23 @@ class VeerShop {
 	
 	
 	
-	public function discounts($price) 
+	public function discounts($price, $custom = null) 
 	{	
 		$discount = false;
 		
+		$siteId = app('veer')->siteId;
+		$userId = app('auth')->id();
+		
+		if(!empty($custom))
+		{
+			$siteId = array_get($custom, 'sites_id', $siteId);
+			$userId = array_get($custom, 'users_id', $userId);
+		}
+		
 		if($this->discount_checked == false) {
 			if(!app('session')->has('discounts_checked')) {
-				$this->current_user_discount = \Veer\Models\UserDiscount::where('sites_id','=',app('veer')->siteId)
-				->where('users_id','=',app('auth')->id())
+				$this->current_user_discount = \Veer\Models\UserDiscount::where('sites_id','=',$siteId)
+				->where('users_id','=',$userId)
 				->where('status','=','active')
 				->whereNested(function($query) {
 					$query->whereRaw(" ( expires = '1' and (expiration_day >= '" . date('Y-m-d H:i:00', time()) . 
@@ -154,13 +168,22 @@ class VeerShop {
 	
 	
 	
-	public function discounts_by_role($product, $price)
+	public function discounts_by_role($product, $price, $custom = null)
 	{
 		$discount = false;
 
+		$roleId = app('auth')->user()->roles_id;
+		$siteId = app('veer')->siteId;
+		
+		if(!empty($custom))
+		{
+			$roleId = array_get($custom, 'roles_id', $roleId);
+			$siteId = array_get($custom, 'sites_id', $siteId);
+		}
+		
 		if(empty($this->current_user_role)) {
 			if(!app('session')->has('roles_id')) {
-				$this->current_user_role = app('auth')->user()->roles_id;
+				$this->current_user_role = $roleId;
 				app('session')->put('roles_id', $this->current_user_role);
 			} else {
 				$this->current_user_role = app('session')->get('roles_id');
@@ -169,7 +192,7 @@ class VeerShop {
 		
 		if($this->discount_by_role_checked == false) {
 			if(!app('session')->has('discounts_by_role_checked')) {	
-				$this->current_user_discount_by_role = \Veer\Models\UserRole::where('sites_id','=',app('veer')->siteId)
+				$this->current_user_discount_by_role = \Veer\Models\UserRole::where('sites_id','=',$siteId)
 				->where('id','=',$this->current_user_role)
 				->whereNested(function($query) {
 					$query->where('discount','>',0)
