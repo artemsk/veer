@@ -3022,9 +3022,9 @@ class VeerAdmin extends Show {
 	 */
 	public function updateOneOrder($id)
 	{
-		echo "<pre>";
-		print_r(Input::all());
-		echo "</pre>";
+		//echo "<pre>";
+		//print_r(Input::all());
+		//echo "</pre>";
 		
 		$action = Input::get('action');
 		$fill = Input::get('fill');
@@ -3096,16 +3096,127 @@ class VeerAdmin extends Show {
 			
 			$ordersProducts = Input::get('ordersProducts.' . $contentId . ".fill");
 			
-			$content = \Veer\Models\OrderProduct::find($contentId);
+			$content = $this->editOrderContent( \Veer\Models\OrderProduct::find($contentId) , $ordersProducts, $order);
 			
-			$productsId = array_get($ordersProducts, 'products_id');
-			
-			
+			$content->save();
 		}
 		
+		if(Input::has('attachContent'))
+		{
+			$newContent = Input::get('attachContent');
+			if(starts_with($newContent, ":"))
+			{
+				$parseContent = explode(":", substr($newContent,1) );
+				foreach($parseContent as $product)
+				{
+					$p = explode(",", $product);
+					if(array_get($p,0) != null)
+					{
+						$content = $this->editOrderContent( new \Veer\Models\OrderProduct, array(
+							"product" => 1,
+							"products_id" => array_get($p, 0),
+							"quantity" => array_get($p, 1, 1)
+						), $order);
+					
+						$content->save();
+					}
+				}
+			}
+			
+			else 
+			{
+				$parseContent = explode(":", $newContent);
+				
+				$content = new \Veer\Models\OrderProduct;
+				
+				$content->orders_id = $order->id;
+				$content->product = 0;
+				$content->products_id = 0;
+				$content->name = array_get($parseContent, 0, '[?]');
+				$content->original_price = $content->price_per_one = array_get($parseContent, 1, 0);
+				$content->quantity = array_get($parseContent, 2, 1);
+				$content->price = $content->price_per_one * $content->quantity;
+				$content->save();
+			}
+		}
 		
+		if(Input::has('deleteContent'))
+		{
+			\Veer\Models\OrderProduct::destroy(Input::get('deleteContent'));
+		}
+		
+		$order->content_price = $order->orderContent->sum('price'); 
+			
+		if($order->delivery_free == true) {	$order->price = $order->content_price; }
+		else { $order->price = $order->content_price + $order->delivery_price; }
+			
 		$order->save();
 	}
 	
+	
+	/**
+	 * edit Content
+	 */
+	protected function editOrderContent($content, $ordersProducts, $order)
+	{
+		$productsId = array_get($ordersProducts, 'products_id');
+		$attributes = array_pull($ordersProducts, 'attributes');
+			
+		$content->orders_id = $order->id;
+		
+		if(!empty($attributes)) $content->attributes = json_encode(explode(",", $attributes));
+			
+		$content->quantity = array_pull($ordersProducts, 'quantity', 1);
+		if($content->quantity < 1) $content->quantity = 1;
+		
+		\Eloquent::unguard();
+
+		if(empty($productsId)) 
+		{
+			$content->product = 0;
+			$content->fill($ordersProducts);
+			$content->price = $content->quantity * $content->price_per_one;
+			return $content;
+		}
+
+		$content->product = 1;
+		$content->name = array_Get($ordersProducts, 'name');
+		$content->original_price = array_Get($ordersProducts, 'original_price');
+		$content->price_per_one =  array_Get($ordersProducts, 'price_per_one');
+
+		if($content->products_id != array_get($ordersProducts, 'products_id'))
+		{
+			$product = \Veer\Models\Product::find(array_get($ordersProducts, 'products_id'));
+			if(is_object($product))
+			{
+				$content->products_id = $product->id;
+				$content->original_price = empty($content->original_price) ? $product->price : $content->original_price;
+				$content->name = $product->title;
+
+				if(empty($content->price_per_one))
+				{
+					\Session::forget('discounts');
+					\Session::forget('discounts_checked');
+					\Session::forget('roles_id');
+					\Session::forget('discounts_by_role_checked');
+					\Session::forget('discounts_by_role');
+
+					$pricePerOne = app('veershop')->calculator($product, false, array(
+						"sites_id" => $order->sites_id,
+						"users_id" => $order->users_id,
+						"roles_id" => \Veer\Models\UserRole::where('role','=', $order->user_type)->pluck('id')
+					));
+
+					$content->price_per_one = $pricePerOne;
+				}
+			}
+		}
+
+		$content->price = $content->quantity * $content->price_per_one;
+
+		$content->comments = array_get($ordersProducts, 'comments', '');
+		
+		return $content;
+	}
 	
 }
