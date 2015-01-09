@@ -10,19 +10,19 @@
 		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
 		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
 	</ol> 
-<h1>Order #@if(isset($items->cluster)){{ app('veershop')->getOrderId($items->cluster, $items->cluster_oid) }} @else — @endif<small>
-		@if(isset($items->site) && is_object($items->site))~ {{ $items->site->configuration->first()->conf_val or $items->site->url; }} @endif
-		@if(isset($items->pin) && $items->pin == true) 
-		<span class="label label-yellow"><span class="glyphicon glyphicon-pushpin"></span> pinned</span> @endif
-		@if(isset($items->status) && is_object($items->status))<span class="label" style="background-color: {{ $items->status->color }}">
-			<a href="{{ route("admin.show", array("orders", "filter" => "status", "filter_id" => $items->status->id)) }}" target="_blank">
-				<strong>{{ $items->status->name or null }}</strong>
-			</a></span>&nbsp; 
-		@endif
-		@if(isset($items->price)) {{ app('veershop')->priceFormat($items->price) }} @endif
-		</small></h1>
-<br/>
 {{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
+<h1>Order #@if(isset($items->cluster)){{ app('veershop')->getOrderId($items->cluster, $items->cluster_oid) }} @else — @endif<small>
+	@if(isset($items->site) && is_object($items->site))~ {{ $items->site->configuration->first()->conf_val or $items->site->url; }} @endif
+	@if(isset($items->status) && is_object($items->status))<span class="label" style="background-color: {{ $items->status->color }}">
+		<a href="{{ route("admin.show", array("orders", "filter" => "status", "filter_id" => $items->status->id)) }}" target="_blank">
+			<strong>{{ $items->status->name or null }}</strong>
+		</a></span>&nbsp; 
+	@endif
+	@if(isset($items->price)) {{ app('veershop')->priceFormat($items->price) }} @endif
+	</small>
+	&nbsp;<button type="submit" name="pin[{{ $items->pin }}]" value="{{ $items->id }}" class="btn @if($items->pin == true) label-yellow @else btn-default @endif btn-xs"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>@if($items->pin == true) pinned @endif</button>
+</h1>
+<br/>
 <div class="container">
 
 	<div class="row">
@@ -370,7 +370,7 @@
 			@include($template.'.lists.order-content', 
 			array('items' => array_get($items->orderContent, 'content', array()), 'products' => isset($items->products) ? $items->products : array()))
 			<li class="list-group-item">
-			<input type="text" name="attachContent" class="form-control input-no-borders" placeholder=":Existings IDs[,](qty) or Name:pricePerOne:Qty">	
+			<input type="text" name="attachContent" class="form-control input-no-borders" placeholder=":Existings IDs[:id,qty:] or Name:pricePerOne:Qty">	
 			</li>
 		</ul>
 		</div>
@@ -427,7 +427,8 @@
 	<div class="rowdelimiter"></div>
 	
 	<div class="row">
-		<div class="col-sm-8"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+		<div class="col-sm-2"><button type="submit" name="action" value="delete" class="btn btn-default btn-lg btn-block">Delete</button></div>
+		<div class="col-sm-6"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 		<div class="col-sm-4"><button type="submit" name="action" value="recalculate" class="btn btn-info btn-lg btn-block">Recalculate</button></div>
 	</div>
 	<hr>
@@ -435,8 +436,29 @@
 		<div class="col-xs-12">	
 			<a class="btn btn-default"  href="{{ route('admin.show', array('communications', "filter" => "order", "filter_id" => $items->id)) }}"
 			   role="button">{{ $items->communications()->count() }} communications</a>
+			<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#communicationModal">Send message</button>
 		</div>
 	</div>
+	<div class="modal fade" id="communicationModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Send message</h4>
+				</div>	
+				<div class="modal-body">
+					@include($template.'.layout.form-communication', array('send2UserId' => $items->users_id, 
+						'send2Username' => isset($items->user->username) ? $items->user->username : null, 'emailOn' => true,
+						'placeOn' => 'Order:'.$items->id))
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" value="{{ $items->id }}" name="sendMessageToUser" class="btn btn-primary">Send message</button>
+				</div>
+
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	@else
 	<button type="submit" name="action" value="add" class="btn btn-danger btn-lg btn-block">Add</button>
 	@endif

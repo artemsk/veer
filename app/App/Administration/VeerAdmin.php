@@ -2571,10 +2571,15 @@ class VeerAdmin extends Show {
 				);
 			$sendEmail = array_pull($history, 'send_to_customer', false);
 			
+			$update = array('status_id' => array_get($history, 'status_id'));
+		
+			$progress = array_pull($history, 'progress');
+			if(!empty($progress)) $update['progress'] = $progress;
+			
 			\Eloquent::unguard();
 			\Veer\Models\OrderHistory::create($history);
 			\Veer\Models\Order::where('id','=',Input::get('updateOrderStatus'))
-				->update(array('status_id' => array_get($history, 'status_id')));
+				->update($update);
 			
 			// TODO: send to user: sendEmail
 		}
@@ -3037,6 +3042,16 @@ class VeerAdmin extends Show {
 		
 		$order = \Veer\Models\Order::find($id);
 		
+		if($action == "delete")
+		{
+			$this->deleteOrder($order);
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.order.delete'));
+			$this->action_performed[] = "DELETE order";	
+			$this->skipShow = true;
+			return \Redirect::route('admin.show', array('orders'));
+		}
+		
 		\Eloquent::unguard();
 		
 		$fill['free'] = isset($fill['free']) ? 1 : 0;
@@ -3115,7 +3130,8 @@ class VeerAdmin extends Show {
 						$content = $this->editOrderContent( new \Veer\Models\OrderProduct, array(
 							"product" => 1,
 							"products_id" => array_get($p, 0),
-							"quantity" => array_get($p, 1, 1)
+							"quantity" => array_get($p, 1, 1),
+							"attributes" => array_get($p, 2)
 						), $order);
 					
 						$content->save();
@@ -3127,8 +3143,7 @@ class VeerAdmin extends Show {
 			{
 				$parseContent = explode(":", $newContent);
 				
-				$content = new \Veer\Models\OrderProduct;
-				
+				$content = new \Veer\Models\OrderProduct;			
 				$content->orders_id = $order->id;
 				$content->product = 0;
 				$content->products_id = 0;
@@ -3151,6 +3166,14 @@ class VeerAdmin extends Show {
 		else { $order->price = $order->content_price + $order->delivery_price; }
 			
 		$order->save();
+		
+		// communications
+		if(Input::has('sendMessageToUser'))
+		{
+			app('veer')->communicationsSend(Input::get('communication', array()));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
+			$this->action_performed[] = "SEND message to user";
+		}
 	}
 	
 	
@@ -3164,7 +3187,7 @@ class VeerAdmin extends Show {
 			
 		$content->orders_id = $order->id;
 		
-		if(!empty($attributes)) $content->attributes = json_encode(explode(",", $attributes));
+		$content->attributes = json_encode(explode(",", $attributes));
 			
 		$content->quantity = array_pull($ordersProducts, 'quantity', 1);
 		if($content->quantity < 1) $content->quantity = 1;
@@ -3184,31 +3207,44 @@ class VeerAdmin extends Show {
 		$content->original_price = array_Get($ordersProducts, 'original_price');
 		$content->price_per_one =  array_Get($ordersProducts, 'price_per_one');
 
-		if($content->products_id != array_get($ordersProducts, 'products_id'))
+		if($content->products_id != array_get($ordersProducts, 'products_id') || !empty($content->attributes))
 		{
 			$product = \Veer\Models\Product::find(array_get($ordersProducts, 'products_id'));
-			if(is_object($product))
-			{
-				$content->products_id = $product->id;
-				$content->original_price = empty($content->original_price) ? $product->price : $content->original_price;
-				$content->name = $product->title;
-
-				if(empty($content->price_per_one))
-				{
-					\Session::forget('discounts');
-					\Session::forget('discounts_checked');
-					\Session::forget('roles_id');
-					\Session::forget('discounts_by_role_checked');
-					\Session::forget('discounts_by_role');
-
-					$pricePerOne = app('veershop')->calculator($product, false, array(
-						"sites_id" => $order->sites_id,
-						"users_id" => $order->users_id,
-						"roles_id" => \Veer\Models\UserRole::where('role','=', $order->user_type)->pluck('id')
-					));
-
-					$content->price_per_one = $pricePerOne;
+		}
+		
+		// use attributes
+		if(!empty($content->attributes) && is_object($product))
+		{
+			$attributesParsed = $this->parseAttributes($content->attributes, $content->id, $product);
+			if(is_array($attributesParsed)) {
+				foreach($attributesParsed as $attr) {
+					$content->price_per_one = 
+						$attr['pivot']['product_new_price'] > 0 ? $attr['pivot']['product_new_price'] : $content->price_per_one;
 				}
+			}
+		}
+		
+		if($content->products_id != array_get($ordersProducts, 'products_id') && is_object($product))
+		{
+			$content->products_id = $product->id;
+			$content->original_price = empty($content->original_price) ? $product->price : $content->original_price;
+			$content->name = $product->title;
+
+			if(empty($content->price_per_one))
+			{
+				\Session::forget('discounts');
+				\Session::forget('discounts_checked');
+				\Session::forget('roles_id');
+				\Session::forget('discounts_by_role_checked');
+				\Session::forget('discounts_by_role');
+
+				$pricePerOne = app('veershop')->calculator($product, false, array(
+					"sites_id" => $order->sites_id,
+					"users_id" => $order->users_id,
+					"roles_id" => \Veer\Models\UserRole::where('role','=', $order->user_type)->pluck('id')
+				));
+
+				$content->price_per_one = $pricePerOne;
 			}
 		}
 
@@ -3218,5 +3254,22 @@ class VeerAdmin extends Show {
 		
 		return $content;
 	}
+
 	
+	/**
+	 * delete Order
+	 */
+	protected function deleteOrder($order)
+	{
+		if(is_object($order))
+		{
+			\Veer\Models\OrderHistory::where('orders_id','=',$order->id)->delete();
+			$order->orderContent()->delete();			
+			$order->bills()->delete();			
+			$order->secrets()->delete();
+			// communications skip
+			
+			$order->delete();		
+		}
+	}
 }

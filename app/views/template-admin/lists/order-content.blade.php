@@ -31,7 +31,7 @@
 					<span class="label label-warning">
 						{{ $a['name'] }} : {{ $a['val'] }} {{ $a['pivot']['product_new_price'] > 0 ? 
 							app('veershop')->priceFormat($a['pivot']['product_new_price']) : null }}
-					</span>
+					</span>&nbsp;
 					@endforeach		
 				@endif
 		
@@ -79,7 +79,10 @@
 									   name="ordersProducts[{{ $p->id }}][fill][attributes]" value="
 @if(!empty($p->attributes))
 @foreach(json_decode($p->attributes) as $attribute)
-{{ $attribute }},@endforeach
+@if(!empty($attribute))
+{{ $attribute }},
+@endif
+@endforeach
 @endif">
 							</div>
 							<div class="form-group">
