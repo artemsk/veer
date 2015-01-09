@@ -58,7 +58,10 @@
 		</div> 
 		<div class="form-group">
 			<label>Place on Product | Page | Category | Order</label>
-			<textarea class="form-control" name="communication[connected]" rows="3" placeholder="page|product|category|order:id"></textarea>
+			<textarea class="form-control" name="communication[connected]" rows="3" placeholder="page|product|category|order:id">
+@if(isset($placeOn))
+{{ $placeOn }}
+@endif</textarea>
 		</div>   
 		<button type="submit" name="action" value="addMessage" class="btn btn-default">Submit</button> 
 	</div> 

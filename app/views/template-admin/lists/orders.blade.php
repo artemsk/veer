@@ -73,8 +73,7 @@
 			&nbsp;
 			<button type="button" class="btn btn-default btn-xs cancel-collapse" data-toggle="modal" data-target="#orderModal{{ $item->id }}">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
-			<button type="submit" name="pin[{{ $item->pin }}]" value="{{ $item->id }}" class="btn @if($item->pin == true) btn-warning @else btn-default @endif btn-xs">
-				<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>
+			<button type="submit" name="pin[{{ $item->pin }}]" value="{{ $item->id }}" class="btn @if($item->pin == true) btn-warning @else btn-default @endif btn-xs"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>
 
 			<div class="pull-right"><a data-toggle="collapse" data-target="#collapse{{ $key }}" data-parent="#accordion" style="cursor:zoom-in">{{ app('veershop')->priceFormat($item->price) }}</a></div>
 		</div>
@@ -163,6 +162,10 @@
 							<option value="{{ $status->id }}">{{ $status->name }}</option>
 							@endforeach
 						</select>
+						</div>
+						<div class="form-group">
+							<label>Progress</label>
+							<input type="text" class="form-control" name="history[{{ $item->id }}][progress]" placeholder="Progress (%)" value="{{ $item->progress or '5' }}%">
 						</div>
 						<div class="form-group">
 							<label>Comment</label>

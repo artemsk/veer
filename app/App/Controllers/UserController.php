@@ -153,8 +153,8 @@ class UserController extends \BaseController {
 				$cart->session_id = Session::getId();
 				$cart->name = "[basket]";                           
 				$cart->quantity = 1;
-				if(count(Input::all())>0) {
-					$cart->attributes = json_encode(Input::all());
+				if(Input::has('attributes')) {
+					$cart->attributes = json_encode(Input::get('attributes'));
 				}				
 				$cart->save();
 				$product->userlists()->save($cart);  
