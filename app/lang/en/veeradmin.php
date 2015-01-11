@@ -95,5 +95,8 @@ return array(
 	"discount.update" => "Update discounts",
 	"order.delete" => "Delete order",
 	"order.history.delete" => "Delete order history",
+	"order.content.delivery.discount" => "Delivery Method Discount",
+	"order.content.discount" => "Discount",
+	
 	
 );

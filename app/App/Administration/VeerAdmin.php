@@ -3222,10 +3222,7 @@ class VeerAdmin extends Show {
 			$this->action_performed[] = "DELETE history";
 		}
 		
-		echo "<pre>";
-		print_r($order);
-		echo "</pre>";
-		//$order->save();
+		$order->save();
 		
 		// communications
 		if(Input::has('sendMessageToUser'))
@@ -3353,121 +3350,156 @@ class VeerAdmin extends Show {
 	 */
 	protected function recalculateOrderDelivery($order)
 	{
-        $delivery = \Veer\Models\OrderShipping::find($order->delivery_method_id);
+		$delivery = \Veer\Models\OrderShipping::find($order->delivery_method_id);
 
-        // change address if it's pickup
-        if($delivery->delivery_type == "pickup" && !empty($delivery->address)) 
-		{	
+		// change address if it's pickup
+		if ($delivery->delivery_type == "pickup" && !empty($delivery->address)) 
+		{
 			// TODO: if we have several address how to choose the right one?
 			// now it's just one address!
 			$parseAddresses = json_decode($delivery->address);
-			
-            $order->country = array_get(head($parseAddresses), 0);
-            $order->city =  array_get(head($parseAddresses), 1);
-            $order->address =  array_get(head($parseAddresses), 2);
-            $order->userbook_id = 0;
-			echo "1<br>";
-        }
-          
-        // 2
-        if($delivery->payment_type == "free") { 
-            $order->delivery_price = 0; 
-            $order->delivery_free = true;
-            $order->delivery_hold = false;            
-			echo "2<br>";
-        } 
 
-        if($delivery->payment_type == "fix") {
-            $order->delivery_price = $delivery->price;
-            $order->delivery_free = false;
-            $order->delivery_hold = false; 
-			echo "3<br>";
-        }
-        
-        // 3 calculator
-        if(!empty($delivery->func_name) && class_exists('\\Veer\\Ecommerce\\' . $delivery->func_name))
-		{	
-			$class = '\\Veer\\Ecommerce\\'.$delivery->func_name;
-			
+			$order->country = array_get(head($parseAddresses), 0);
+			$order->city = array_get(head($parseAddresses), 1);
+			$order->address = array_get(head($parseAddresses), 2);
+			$order->userbook_id = 0;
+		}
+
+		// 2
+		if ($delivery->payment_type == "free") 
+		{
+			$order->delivery_price = 0;
+			$order->delivery_free = true;
+			$order->delivery_hold = false;
+		}
+
+		if ($delivery->payment_type == "fix") 
+		{
+			$order->delivery_price = $delivery->price;
+			$order->delivery_free = false;
+			$order->delivery_hold = false;
+		}
+
+		// 3 calculator
+		if (!empty($delivery->func_name) && class_exists('\\Veer\\Ecommerce\\' . $delivery->func_name)) 
+		{
+			$class = '\\Veer\\Ecommerce\\' . $delivery->func_name;
+
 			$deliveryFunc = new $class;
-			
+
 			$getData = $deliveryFunc->fire($order, $delivery);
-			
+
 			$order->delivery_price = isset($getData->delivery_price) ? $getData->delivery_price : $delivery->price;
 			$order->delivery_free = isset($getData->delivery_free) ? $getData->delivery_free : false;
 			$order->delivery_hold = isset($getData->delivery_hold) ? $getData->delivery_hold : true;
-			
+
 			$delivery->discount_enable = isset($getData->discount_enable) ? $getData->discount_enable : $delivery->discount_enable;
-            $delivery->discount_price = isset($getData->discount_price) ? $getData->discount_price : $delivery->discount_price;
-			echo "4<br>";
-        }
-            
-        // 4
-		/*
-        if($delivery->discount_enable == 1 && $delivery->discount_price > 0) {
-            $conditions_exist = 0;
-            $activate_discount = 0;
-            $conditions = explode("\n", $delivery->discount_conditions);
-            if(count($conditions)>0) {
-                foreach($conditions as $c) {
-                    if(trim($c) == "") { continue; }
-                    $c2 = explode(":", $c); // type:cond
-                    //                    
-                    // p
-                    if($c2[0] == "p") {
-                        if($o->content_price >= trim($c2[1])) { $activate_discount = 1; }
-                        $conditions_exist = 1;
-                    }
-                    
-                    // w
-                    if($c2[0] == "w") {
-                        if($o->weight >= trim($c2[1])) { $activate_discount = 1; }
-                        $conditions_exist = 1;
-                    }
-                    
-                    // l 
-                    if($c2[0] == "l") {
-                        // TODO: Р»РѕРєРµР№С€РЅ
-                        $conditions_exist = 1;
-                    }
-                    
-                    // d
-                    if($c2[0] == "d") { 
-                        $price_to_discount = trim($c2[1]);
-                    }
-                }
-            }
-            
-
-            if(@$activate_discount == 1 || $conditions_exist != 1) {
-                if(@trim($price_to_discount) == "total") { 
-                    
-                    $content = new OrderProduct;
-                    $content->orders_id = $o->id;
-                    $content->product = 0;
-                    $content->products_id = 0;
-                    $content->name = "Delivery Method Discount (-".$delivery->discount_price."%)";
-                    $content->original_price = 0 - ($o->content_price * ($delivery->discount_price / 100));
-                    $content->quantity = 1;
-                    $content->attributes = "";
-                    $content->comments = "Discount"; 
-                    $content->price_per_one = $content->original_price;
-                    $content->price = $content->original_price;                        
-                    $content->save();
-
-                    $summ_content_price = $summ_content_price + $content->price;
-                    $o->content_price = $summ_content_price;                    
-                    }
-                if(@trim($price_to_discount) == "delivery") { $o->delivery_price = $o->delivery_price * ( 1 - ( $delivery->discount_price / 100)); }
-            }            
-        }*/
-        
-        if($order->delivery_price <= 0 && $order->delivery_hold != true) 
-		{ 
-			$order->delivery_free = true; 
-			echo "5<br>";
+			$delivery->discount_price = isset($getData->discount_price) ? $getData->discount_price : $delivery->discount_price;
+			$delivery->discount_conditions = isset($getData->discount_conditions) ? $getData->discount_conditions : $delivery->discount_conditions;
 		}
-               
+
+		// 4
+		if ($delivery->discount_enable == 1 && $delivery->discount_price > 0) 
+		{
+			$checkConditions = $this->checkShippingDisountConditions($delivery->discount_conditions, $order);
+
+			if (array_get($checkConditions, 'activate') == true || array_get($checkConditions, 'conditions') == false) {
+				if (array_get($checkConditions, 'price') == "total") {
+					$content = new \Veer\Models\OrderProduct;
+					$content->orders_id = $order->id;
+					$content->product = 0;
+					$content->products_id = 0;
+					$content->name = \Lang::get('veeradmin.order.content.delivery.discount') . " (-" . $delivery->discount_price . "%)";
+					$content->original_price = 0 - ($order->content_price * ($delivery->discount_price / 100));
+					$content->quantity = 1;
+					$content->attributes = "";
+					$content->comments = \Lang::get('veeradmin.order.content.discount');
+					$content->price_per_one = $content->original_price;
+					$content->price = $content->original_price;
+					$content->save();
+
+					$order->content_price = $order->content_price + $content->price;
+				} else {
+					$order->delivery_price = $order->delivery_price * ( 1 - ( $delivery->discount_price / 100));
+				}
+			}
+		}
+
+		if ($order->delivery_price <= 0 && $order->delivery_hold != true) 
+		{
+			$order->delivery_free = true;
+		}
+
 		return $order;
+	}
+
+	/**
+	 * check Discount Conditions for Shipping
+	 * @param type $delivery_conditions
+	 * @param type $order
+	 * @return type
+	 */
+	protected function checkShippingDisountConditions($delivery_conditions, $order)
+	{
+		$conditions_exist = false;
+		$activate_discount = false;		
+		$price_to_discount = "delivery";
+		
+		$conditions = preg_split('/[\n\r]+/', $delivery_conditions );
+		
+		if (count($conditions) > 0) 
+		{
+			foreach ($conditions as $c) 
+			{
+				if(empty($c)) continue;
+				
+				$parseCondition = explode(":", $c);
+				
+				$condition = array_get($parseCondition, 0);
+				$value = array_get($parseCondition, 1);
+				$value = trim($value);
+				
+				switch ($condition) 
+				{
+					case "$": // discount by price
+						if ($order->content_price >= $value) $activate_discount = true;
+						$conditions_exist = true;
+						break;
+
+					case "w": // discount by weight
+						if ($order->weight >= $value) $activate_discount = true;
+						$conditions_exist = true;
+						break;
+						
+					case "l": // discount by location (country, city)
+						if (str_contains($order->country, $value)) $activate_discount = true;
+						if (str_contains($order->city, $value)) $activate_discount = true;
+						$conditions_exist = true;
+						break;
+					
+					case "la": // discount by location (address)
+						if (str_contains($order->address, $value)) $activate_discount = true;
+						$conditions_exist = true;
+						break;
+						
+					case "pp": // discount by payment method (id)
+						if ($order->payment_method_id == $value) $activate_discount = true;
+						$conditions_exist = true;
+						break;
+						
+					case "d": // price to change by discount ( content_price or only delivery price)
+						$price_to_discount = $value;
+						break;
+					
+					default:
+						break;
+				}
+			}
+		}
+
+		return array(
+			"conditions" => $conditions_exist, 
+			"activate" => $activate_discount, 
+			"price" => $price_to_discount);
 	}
 }
