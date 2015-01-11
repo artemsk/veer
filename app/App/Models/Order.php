@@ -44,7 +44,7 @@ class Order extends \Eloquent {
     
     public function status_history() {
         return $this->belongsToMany('\Veer\Models\OrderStatus','orders_history', 'orders_id', 'status_id')
-		->withPivot('name', 'comments', 'to_customer', 'order_cache')
+		->withPivot('id', 'name', 'comments', 'to_customer', 'order_cache')
 		->withTimestamps();        
     }
     

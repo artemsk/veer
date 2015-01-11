@@ -72,7 +72,16 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 				</div>
 				<div class="form-group">
 					<textarea class="form-control" name="shipping[fill][address]" rows="3" 
-							  placeholder="Address (if it's pickup and known addresses)">{{ $item->address }}</textarea>
+							  placeholder="Address (if it's pickup and known addresses)">
+@if(!empty($item->address))
+@foreach(json_decode($item->address) as $address)
+@if(!empty($address))
+@foreach($address as $line)
+{{ $line }}|@endforeach
+
+@endif
+@endforeach
+@endif</textarea>
 				</div>
 			</div>
 			<div class="col-md-4">

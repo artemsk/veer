@@ -94,5 +94,6 @@ return array(
 	"shipping.error" => "Error: Class not found",	
 	"discount.update" => "Update discounts",
 	"order.delete" => "Delete order",
+	"order.history.delete" => "Delete order history",
 	
 );
