@@ -72,7 +72,11 @@
 										<input type="text" class="form-control input-sm" placeholder="Quantity" name="ordersProducts[{{ $p->id }}][fill][quantity]" value="{{ $p->quantity }}">
 									</div>
 								</div>
-							</div>							
+							</div>	
+							<div class="form-group">
+								<label>Weight</label>
+								<input type="text" class="form-control input-sm" placeholder="Original price" name="ordersProducts[{{ $p->id }}][fill][weight]" value="{{ $p->weight }}">
+							</div>
 							<div class="form-group">
 								<label>Attributes</label>
 								<input type="text" class="form-control" placeholder="Attributes Ids[,]" 

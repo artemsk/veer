@@ -2927,6 +2927,19 @@ class VeerAdmin extends Show {
 		$fill['enable'] = isset($fill['enable']) ? true : false;
 		$fill['discount_enable'] = isset($fill['discount_enable']) ? true : false;
 		
+		if(array_has($fill, 'address'))
+		{
+			$addresses = preg_split('/[\n\r]+/', array_get($fill, 'address') );
+			foreach($addresses as $k => $address)
+			{
+				$parts = explode("|", $address);
+				$parts = array_filter($parts, function($value) { if(!empty($value)) return $value; });
+				$addresses[$k] = $parts;
+			}
+			
+			$fill['address'] = json_encode($addresses);	
+		}
+
 		\Eloquent::unguard();
 		
 		$p->fill($fill);
@@ -3026,11 +3039,7 @@ class VeerAdmin extends Show {
 	 * update One Order
 	 */
 	public function updateOneOrder($id)
-	{
-		//echo "<pre>";
-		//print_r(Input::all());
-		//echo "</pre>";
-		
+	{		
 		$action = Input::get('action');
 		$fill = Input::get('fill');
 		
@@ -3087,6 +3096,28 @@ class VeerAdmin extends Show {
 			}
 		}
 		
+		if($order->status_id != array_get($fill, 'status_id', $order->status_id))
+		{
+			\Veer\Models\OrderHistory::create(array(
+				"orders_id" => $order->id,
+				"status_id" => array_get($fill, 'status_id'),
+				"name" => \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name'),
+				"comments" => "",
+			));
+		}
+		
+		if($order->delivery_method_id != array_get($fill, 'delivery_method_id', $order->delivery_method_id)	&& 
+			array_get($fill, 'delivery_method') == null)
+		{
+			$fill['delivery_method'] = \Veer\Models\OrderShipping::where('id','=',array_get($fill, 'delivery_method_id'))->pluck('name');
+		}
+		
+		if($order->payment_method_id != array_get($fill, 'payment_method_id', $order->payment_method_id)	&& 
+			array_get($fill, 'payment_method') == null)
+		{
+			$fill['payment_method'] = \Veer\Models\OrderPayment::where('id','=',array_get($fill, 'payment_method_id'))->pluck('name');
+		}
+		
 		$order->fill($fill);
 		
 		// new book
@@ -3105,6 +3136,7 @@ class VeerAdmin extends Show {
 			}
 		}
 		
+		// contents
 		if(Input::has('editContent'))
 		{
 			$contentId = Input::get('editContent');
@@ -3159,13 +3191,41 @@ class VeerAdmin extends Show {
 		{
 			\Veer\Models\OrderProduct::destroy(Input::get('deleteContent'));
 		}
-		
+				
+		// sums price & weight
 		$order->content_price = $order->orderContent->sum('price'); 
-			
+		
+		$order->weight = $order->orderContent->sum('weight');
+		
+		// recalculate delivery
+		if($action == "recalculate")
+		{
+			$order = $this->recalculateOrderDelivery($order);
+		}
+		
+		// total
 		if($order->delivery_free == true) {	$order->price = $order->content_price; }
 		else { $order->price = $order->content_price + $order->delivery_price; }
 			
-		$order->save();
+		// history
+		if(Input::has('deleteHistory'))
+		{
+			\Veer\Models\OrderHistory::where('id','=',Input::get('deleteHistory'))->forceDelete();
+			
+			$previous = \Veer\Models\OrderHistory::where('orders_id','=',$order->id)->orderBy('id','desc')->first();
+			if(is_object($previous))
+			{
+				$order->status_id = $previous->status_id;
+			}
+			
+			Event::fire('veer.message.center', \Lang::get('veeradmin.order.history.delete'));
+			$this->action_performed[] = "DELETE history";
+		}
+		
+		echo "<pre>";
+		print_r($order);
+		echo "</pre>";
+		//$order->save();
 		
 		// communications
 		if(Input::has('sendMessageToUser'))
@@ -3173,7 +3233,7 @@ class VeerAdmin extends Show {
 			app('veer')->communicationsSend(Input::get('communication', array()));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
 			$this->action_performed[] = "SEND message to user";
-		}
+		}	
 	}
 	
 	
@@ -3185,6 +3245,8 @@ class VeerAdmin extends Show {
 		$productsId = array_get($ordersProducts, 'products_id');
 		$attributes = array_pull($ordersProducts, 'attributes');
 			
+		$oldQuantity = isset($content->quantity) ? $content->quantity : 1;
+		
 		$content->orders_id = $order->id;
 		
 		$content->attributes = json_encode(explode(",", $attributes));
@@ -3203,10 +3265,20 @@ class VeerAdmin extends Show {
 		}
 
 		$content->product = 1;
-		$content->name = array_Get($ordersProducts, 'name');
-		$content->original_price = array_Get($ordersProducts, 'original_price');
-		$content->price_per_one =  array_Get($ordersProducts, 'price_per_one');
-
+		$content->name = array_get($ordersProducts, 'name');
+		$content->original_price = array_get($ordersProducts, 'original_price');
+		$content->price_per_one =  array_get($ordersProducts, 'price_per_one');
+		
+		if($content->quantity != $oldQuantity) 
+		{
+			$content->weight = (array_get($ordersProducts, 'weight') / $oldQuantity) * $content->quantity;
+		} 
+		
+		else 
+		{
+			$content->weight = array_get($ordersProducts, 'weight');
+		}
+		
 		if($content->products_id != array_get($ordersProducts, 'products_id') || !empty($content->attributes))
 		{
 			$product = \Veer\Models\Product::find(array_get($ordersProducts, 'products_id'));
@@ -3229,6 +3301,7 @@ class VeerAdmin extends Show {
 			$content->products_id = $product->id;
 			$content->original_price = empty($content->original_price) ? $product->price : $content->original_price;
 			$content->name = $product->title;
+			$content->weight = $product->weight * $content->quantity;
 
 			if(empty($content->price_per_one))
 			{
@@ -3241,7 +3314,8 @@ class VeerAdmin extends Show {
 				$pricePerOne = app('veershop')->calculator($product, false, array(
 					"sites_id" => $order->sites_id,
 					"users_id" => $order->users_id,
-					"roles_id" => \Veer\Models\UserRole::where('role','=', $order->user_type)->pluck('id')
+					"roles_id" => \Veer\Models\UserRole::where('role','=', $order->user_type)->pluck('id'),
+					"discount_id" => $order->userdiscount_id
 				));
 
 				$content->price_per_one = $pricePerOne;
@@ -3271,5 +3345,129 @@ class VeerAdmin extends Show {
 			
 			$order->delete();		
 		}
+	}
+	
+	
+	/**
+	 * recalculate order delivery
+	 */
+	protected function recalculateOrderDelivery($order)
+	{
+        $delivery = \Veer\Models\OrderShipping::find($order->delivery_method_id);
+
+        // change address if it's pickup
+        if($delivery->delivery_type == "pickup" && !empty($delivery->address)) 
+		{	
+			// TODO: if we have several address how to choose the right one?
+			// now it's just one address!
+			$parseAddresses = json_decode($delivery->address);
+			
+            $order->country = array_get(head($parseAddresses), 0);
+            $order->city =  array_get(head($parseAddresses), 1);
+            $order->address =  array_get(head($parseAddresses), 2);
+            $order->userbook_id = 0;
+			echo "1<br>";
+        }
+          
+        // 2
+        if($delivery->payment_type == "free") { 
+            $order->delivery_price = 0; 
+            $order->delivery_free = true;
+            $order->delivery_hold = false;            
+			echo "2<br>";
+        } 
+
+        if($delivery->payment_type == "fix") {
+            $order->delivery_price = $delivery->price;
+            $order->delivery_free = false;
+            $order->delivery_hold = false; 
+			echo "3<br>";
+        }
+        
+        // 3 calculator
+        if(!empty($delivery->func_name) && class_exists('\\Veer\\Ecommerce\\' . $delivery->func_name))
+		{	
+			$class = '\\Veer\\Ecommerce\\'.$delivery->func_name;
+			
+			$deliveryFunc = new $class;
+			
+			$getData = $deliveryFunc->fire($order, $delivery);
+			
+			$order->delivery_price = isset($getData->delivery_price) ? $getData->delivery_price : $delivery->price;
+			$order->delivery_free = isset($getData->delivery_free) ? $getData->delivery_free : false;
+			$order->delivery_hold = isset($getData->delivery_hold) ? $getData->delivery_hold : true;
+			
+			$delivery->discount_enable = isset($getData->discount_enable) ? $getData->discount_enable : $delivery->discount_enable;
+            $delivery->discount_price = isset($getData->discount_price) ? $getData->discount_price : $delivery->discount_price;
+			echo "4<br>";
+        }
+            
+        // 4
+		/*
+        if($delivery->discount_enable == 1 && $delivery->discount_price > 0) {
+            $conditions_exist = 0;
+            $activate_discount = 0;
+            $conditions = explode("\n", $delivery->discount_conditions);
+            if(count($conditions)>0) {
+                foreach($conditions as $c) {
+                    if(trim($c) == "") { continue; }
+                    $c2 = explode(":", $c); // type:cond
+                    //                    
+                    // p
+                    if($c2[0] == "p") {
+                        if($o->content_price >= trim($c2[1])) { $activate_discount = 1; }
+                        $conditions_exist = 1;
+                    }
+                    
+                    // w
+                    if($c2[0] == "w") {
+                        if($o->weight >= trim($c2[1])) { $activate_discount = 1; }
+                        $conditions_exist = 1;
+                    }
+                    
+                    // l 
+                    if($c2[0] == "l") {
+                        // TODO: Р»РѕРєРµР№С€РЅ
+                        $conditions_exist = 1;
+                    }
+                    
+                    // d
+                    if($c2[0] == "d") { 
+                        $price_to_discount = trim($c2[1]);
+                    }
+                }
+            }
+            
+
+            if(@$activate_discount == 1 || $conditions_exist != 1) {
+                if(@trim($price_to_discount) == "total") { 
+                    
+                    $content = new OrderProduct;
+                    $content->orders_id = $o->id;
+                    $content->product = 0;
+                    $content->products_id = 0;
+                    $content->name = "Delivery Method Discount (-".$delivery->discount_price."%)";
+                    $content->original_price = 0 - ($o->content_price * ($delivery->discount_price / 100));
+                    $content->quantity = 1;
+                    $content->attributes = "";
+                    $content->comments = "Discount"; 
+                    $content->price_per_one = $content->original_price;
+                    $content->price = $content->original_price;                        
+                    $content->save();
+
+                    $summ_content_price = $summ_content_price + $content->price;
+                    $o->content_price = $summ_content_price;                    
+                    }
+                if(@trim($price_to_discount) == "delivery") { $o->delivery_price = $o->delivery_price * ( 1 - ( $delivery->discount_price / 100)); }
+            }            
+        }*/
+        
+        if($order->delivery_price <= 0 && $order->delivery_hold != true) 
+		{ 
+			$order->delivery_free = true; 
+			echo "5<br>";
+		}
+               
+		return $order;
 	}
 }

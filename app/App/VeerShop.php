@@ -132,11 +132,16 @@ class VeerShop {
 		
 		$siteId = app('veer')->siteId;
 		$userId = app('auth')->id();
+		$whereraw = "id > 0";
 		
 		if(!empty($custom))
 		{
 			$siteId = array_get($custom, 'sites_id', $siteId);
 			$userId = array_get($custom, 'users_id', $userId);
+			if(array_get($custom, 'discount_id') > 0)
+			{
+				$whereraw = "id = ".array_get($custom, 'discount_id');
+			}
 		}
 		
 		if($this->discount_checked == false) {
@@ -144,6 +149,7 @@ class VeerShop {
 				$this->current_user_discount = \Veer\Models\UserDiscount::where('sites_id','=',$siteId)
 				->where('users_id','=',$userId)
 				->where('status','=','active')
+				->whereRaw($whereraw)
 				->whereNested(function($query) {
 					$query->whereRaw(" ( expires = '1' and (expiration_day >= '" . date('Y-m-d H:i:00', time()) . 
 						"' or expiration_times > '0') ) or ( expires = '0' ) ");

@@ -18,9 +18,10 @@
 			<strong>{{ $items->status->name or null }}</strong>
 		</a></span>&nbsp; 
 	@endif
-	@if(isset($items->price)) {{ app('veershop')->priceFormat($items->price) }} @endif
+	@if(isset($items->price)) {{ app('veershop')->priceFormat($items->price) }} @if($items->free == true) free @endif @endif
 	</small>
-	&nbsp;<button type="submit" name="pin[{{ $items->pin }}]" value="{{ $items->id }}" class="btn @if($items->pin == true) label-yellow @else btn-default @endif btn-xs"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>@if($items->pin == true) pinned @endif</button>
+	@if(isset($items->id))
+	&nbsp;<button type="submit" name="pin[{{ $items->pin or '0' }}]" value="{{ $items->id or null }}" class="btn @if($items->pin == true) label-yellow @else btn-default @endif btn-xs"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>@if($items->pin == true) pinned @endif</button>@endif
 </h1>
 <br/>
 <div class="container">
@@ -391,34 +392,51 @@
 	<div class="row">
 		<div class="col-sm-12 text-center">
 			<h2>
+				@if($items->free == true) {{ app('veershop')->priceFormat($items->price) }} free @else
 				{{ app('veershop')->priceFormat($items->content_price) }} + 
 				{{ ($items->delivery_free == true) ? 'free' : app('veershop')->priceFormat($items->delivery_price) }} =
 				{{ app('veershop')->priceFormat($items->price) }}
+				@endif
 			</h2>
 		</div>
 	</div>
+</div>
 
+<hr class="no-body-padding">
+
+<div class="container">	
 	<h3>History</h3>
 	@if(is_object($items->status_history))
 	<ul class="list-group">
 	@foreach($items->status_history as $history)
 		<li class="list-group-item">
-			{{ $history->pivot->name }}
-			{{ $history->pivot->comments }}
-			{{ $history->pivot->to_customer }}
-			{{ $history->pivot->order_cache }}
-			{{ $history->pivot->created_at }}
-			{{ $history->pivot->updated_at }}
-			{{ $history->name }}
-			{{ $history->color }}
-			{{ $history->flag_first }}
-			{{ $history->flag_unreg }}
-			{{ $history->flag_error }}
-			{{ $history->flag_payment }}
-			{{ $history->flag_delivery }}
-			{{ $history->flag_close }}
-			{{ $history->secret }}
-			{{ $history->trashed() }}
+			<small>
+				<strong>
+				{{ \Carbon\Carbon::parse($history->pivot->updated_at)->format('Y-m-d') }}
+				</strong>
+				&nbsp;
+				{{ \Carbon\Carbon::parse($history->pivot->updated_at)->format('H:i') }}
+			</small>&nbsp
+			<span class="label" style="background-color: {{ $history->color or 'inherit' }}"><span class="glyphicon glyphicon-ok"></span></span>&nbsp;
+				<a href="{{ route("admin.show", array("orders", "filter" => "status", "filter_id" => $history->pivot->status_id)) }}" target="_blank">
+				{{ $history->pivot->name or null }}
+				</a>
+			&nbsp; 
+			@if($history->pivot->to_customer == true) <span class="label label-info">visible</span> @endif
+			@if($history->flag_first == true) <span class="label label-primary">first</span> @endif
+			@if($history->flag_unreg == true) <span class="label label-default">unreg</span> @endif
+			@if($history->flag_error == true) <span class="label label-danger">error</span> @endif
+			@if($history->flag_payment == true) <span class="label label-yellow">payment</span> @endif
+			@if($history->flag_delivery == true) <span class="label label-yellow">delivery</span> @endif
+			@if($history->flag_close == true) <span class="label label-success">close</span> @endif
+			@if($history->secret == true) <span class="label label-default">secret</span> @endif
+			@if($history->trashed() == true) <small>trashed</small> @endif
+			&nbsp;
+			<button type="submit" value="{{ $history->pivot->id or null }}" name="deleteHistory" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp
+			@if(!empty($history->pivot->comments))
+			<p></p>
+			<span class="text-muted"><small>{{ $history->pivot->comments }}</small></span>
+			@endif
 		</li>
 	@endforeach
 	</ul>
