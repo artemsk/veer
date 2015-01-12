@@ -3201,6 +3201,8 @@ class VeerAdmin extends Show {
 		if($action == "recalculate")
 		{
 			$order = $this->recalculateOrderDelivery($order);
+			
+			$order = $this->recalculateOrderPayment($order);
 		}
 		
 		// total
@@ -3352,6 +3354,8 @@ class VeerAdmin extends Show {
 	{
 		$delivery = \Veer\Models\OrderShipping::find($order->delivery_method_id);
 
+		if(!is_object($delivery)) return $order;
+		
 		// change address if it's pickup
 		if ($delivery->delivery_type == "pickup" && !empty($delivery->address)) 
 		{
@@ -3366,20 +3370,21 @@ class VeerAdmin extends Show {
 		}
 
 		// 2
-		if ($delivery->payment_type == "free") 
+		switch ($delivery->payment_type) 
 		{
-			$order->delivery_price = 0;
-			$order->delivery_free = true;
-			$order->delivery_hold = false;
+			case "free":
+				$order->delivery_price = 0;
+				$order->delivery_free = true;
+				$order->delivery_hold = false;
+				break;
+			
+			case "fix":
+				$order->delivery_price = $delivery->price;
+				$order->delivery_free = false;
+				$order->delivery_hold = false;
+				break;
 		}
-
-		if ($delivery->payment_type == "fix") 
-		{
-			$order->delivery_price = $delivery->price;
-			$order->delivery_free = false;
-			$order->delivery_hold = false;
-		}
-
+		
 		// 3 calculator
 		if (!empty($delivery->func_name) && class_exists('\\Veer\\Ecommerce\\' . $delivery->func_name)) 
 		{
@@ -3401,10 +3406,12 @@ class VeerAdmin extends Show {
 		// 4
 		if ($delivery->discount_enable == 1 && $delivery->discount_price > 0) 
 		{
-			$checkConditions = $this->checkShippingDisountConditions($delivery->discount_conditions, $order);
+			$checkConditions = $this->checkDisountConditions($delivery->discount_conditions, $order);
 
-			if (array_get($checkConditions, 'activate') == true || array_get($checkConditions, 'conditions') == false) {
-				if (array_get($checkConditions, 'price') == "total") {
+			if (array_get($checkConditions, 'activate') == true || array_get($checkConditions, 'conditions') == false) 
+			{
+				if (array_get($checkConditions, 'price') == "total") 
+				{
 					$content = new \Veer\Models\OrderProduct;
 					$content->orders_id = $order->id;
 					$content->product = 0;
@@ -3419,7 +3426,10 @@ class VeerAdmin extends Show {
 					$content->save();
 
 					$order->content_price = $order->content_price + $content->price;
-				} else {
+				} 
+				
+				else 
+				{
 					$order->delivery_price = $order->delivery_price * ( 1 - ( $delivery->discount_price / 100));
 				}
 			}
@@ -3434,18 +3444,17 @@ class VeerAdmin extends Show {
 	}
 
 	/**
-	 * check Discount Conditions for Shipping
-	 * @param type $delivery_conditions
+	 * check Discount Conditions for Shipping|Payment
+	 * @param type $custom_conditions
 	 * @param type $order
 	 * @return type
 	 */
-	protected function checkShippingDisountConditions($delivery_conditions, $order)
+	protected function checkDisountConditions($custom_conditions, $order, $price_to_discount = "delivery")
 	{
 		$conditions_exist = false;
 		$activate_discount = false;		
-		$price_to_discount = "delivery";
 		
-		$conditions = preg_split('/[\n\r]+/', $delivery_conditions );
+		$conditions = preg_split('/[\n\r]+/', $custom_conditions );
 		
 		if (count($conditions) > 0) 
 		{
@@ -3502,4 +3511,99 @@ class VeerAdmin extends Show {
 			"activate" => $activate_discount, 
 			"price" => $price_to_discount);
 	}
+	
+	
+	/**
+	 * recalculate Payment for Orders
+	 * @param type $order
+	 */
+	protected function recalculateOrderPayment($order)
+	{
+        $payment = \Veer\Models\OrderPayment::find($order->payment_method_id);
+
+		if(!is_object($payment)) return $order;
+		
+		// 1
+		switch ($payment->paying_time) 
+		{
+			case "now":
+				// TODO: redirect to payment system (but if admin then change to later)
+				break;
+
+			case "later":
+				// TODO: create link to payment system and send it to user (save it somewhere)
+				break;
+		}
+		
+		// 2 calculator
+		if (!empty($payment->func_name) && class_exists('\\Veer\\Ecommerce\\' . $payment->func_name)) 
+		{
+			$class = '\\Veer\\Ecommerce\\' . $payment->func_name;
+
+			$paymentFunc = new $class;
+
+			$getData = $paymentFunc->fire($order, $payment);
+
+			$order->payment_done = isset($getData->payment_done) ? $getData->payment_done : false;
+			$order->payment_hold = isset($getData->payment_hold) ? $getData->payment_hold : true;
+
+			$payment->commission = isset($getData->commission) ? $getData->commission : $payment->commission;
+			$payment->discount_enable = isset($getData->discount_enable) ? $getData->discount_enable : $payment->discount_enable;
+			$payment->discount_price = isset($getData->discount_price) ? $getData->discount_price : $payment->discount_price;
+			$payment->discount_conditions = isset($getData->discount_conditions) ? $getData->discount_conditions : $payment->discount_conditions;
+		}
+		
+		// 3 
+		if ($payment->commission > 0) 
+		{
+			$content = new \Veer\Models\OrderProduct;
+			$content->orders_id = $order->id;
+			$content->product = 0;
+			$content->products_id = 0;
+			$content->name = \Lang::get('veeradmin.order.content.payment.commission') . " (" . $payment->commission . "%)";
+			$content->original_price = $order->content_price * ($payment->commission / 100);
+			$content->quantity = 1;
+			$content->attributes = "";
+			$content->comments = \Lang::get('veeradmin.order.content.commission');
+			$content->price_per_one = $content->original_price;
+			$content->price = $content->original_price;
+			$content->save();
+
+			$order->content_price = $order->content_price + $content->price;
+		}
+
+		// 4
+		if ($payment->discount_enable == 1 && $payment->discount_price > 0) 
+		{
+			$checkConditions = $this->checkDisountConditions($payment->discount_conditions, $order, "total");
+
+			if (array_get($checkConditions, 'activate') == true || array_get($checkConditions, 'conditions') == false) 
+			{
+				if (array_get($checkConditions, 'price') == "total") 
+				{
+					$content = new \Veer\Models\OrderProduct;
+					$content->orders_id = $order->id;
+					$content->product = 0;
+					$content->products_id = 0;
+					$content->name = \Lang::get('veeradmin.order.content.payment.discount') ." (-" . $payment->discount_price . "%)";
+					$content->original_price = 0 - ($order->content_price * ($payment->discount_price / 100));
+					$content->quantity = 1;
+					$content->attributes = "";
+					$content->comments = \Lang::get('veeradmin.order.content.discount');
+					$content->price_per_one = $content->original_price;
+					$content->price = $content->original_price;
+					$content->save();
+					
+					$order->content_price = $order->content_price + $content->price;
+				}
+				
+				else
+				{
+					$order->delivery_price = $order->delivery_price * ( 1 - ( $payment->discount_price / 100));
+				}
+			}
+		}
+		
+		return $order;
+	}	
 }
