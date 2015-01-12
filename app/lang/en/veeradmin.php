@@ -96,7 +96,9 @@ return array(
 	"order.delete" => "Delete order",
 	"order.history.delete" => "Delete order history",
 	"order.content.delivery.discount" => "Delivery Method Discount",
+	"order.content.payment.discount" => "Payment Method Discount",
+	"order.content.payment.commission" => "Payment Method Commission",
 	"order.content.discount" => "Discount",
-	
+	"order.content.commission" => "Commission",
 	
 );
