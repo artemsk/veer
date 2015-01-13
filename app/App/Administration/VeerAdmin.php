@@ -3040,9 +3040,6 @@ class VeerAdmin extends Show {
 	 */
 	public function updateOneOrder($id)
 	{		
-		echo "<pre>";
-		print_r(Input::all());
-		echo "</pre>";
 		$action = Input::get('action');
 		$fill = Input::get('fill');
 		
@@ -3100,17 +3097,7 @@ class VeerAdmin extends Show {
 				array_forget($fill, 'cluster');
 			}
 		}
-		
-		if($order->status_id != array_get($fill, 'status_id', $order->status_id))
-		{
-			\Veer\Models\OrderHistory::create(array(
-				"orders_id" => $order->id,
-				"status_id" => array_get($fill, 'status_id'),
-				"name" => \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name'),
-				"comments" => "",
-			));
-		}
-		
+				
 		if($order->delivery_method_id != array_get($fill, 'delivery_method_id', $order->delivery_method_id)	&& 
 			array_get($fill, 'delivery_method') == null)
 		{
@@ -3131,10 +3118,8 @@ class VeerAdmin extends Show {
 			$order->close_time = null;
 			$order->type = 'reg';
 			
-			if(empty($order->status_id))
-			{
-				$order->status_id = \Veer\Models\OrderStatus::firststatus()->pluck('id');
-			}			
+			$firststatus = \Veer\Models\OrderStatus::firststatus()->pluck('id');
+			$order->status_id = !empty($firststatus) ? $firststatus : 0;			
 			
 			$cluster = \Veer\Models\Configuration::where('sites_id','=',$order->sites_id)
 				->where('conf_key','=','CLUSTER')->pluck('conf_val');
@@ -3221,6 +3206,16 @@ class VeerAdmin extends Show {
 	
 			$order->hash = bcrypt($order->cluster.$order->cluster_oid.$order->users_id.$order->sites_id.str_random(16));
 			$order->save();
+		}
+		
+		if($order->status_id != array_get($fill, 'status_id', $order->status_id))
+		{
+			\Veer\Models\OrderHistory::create(array(
+				"orders_id" => $order->id,
+				"status_id" => array_get($fill, 'status_id'),
+				"name" => \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name'),
+				"comments" => "",
+			));
 		}
 		
 		// new book
