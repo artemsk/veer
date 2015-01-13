@@ -46,7 +46,7 @@ class VeerShop {
 		}
 		
 		$price = $this->calculator($product, $bypassUser, $custom);
-		$regular_price = $this->currency($product['price'], $product['currency']);
+		$regular_price = $this->currency($product['price'], $product['currency'], $custom);
 		
 		if($regular_price!= $price) {
 			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-discount")
@@ -76,9 +76,9 @@ class VeerShop {
 	
 	
 	
-	public function priceCurrencyFormat($price, $itemCurrency)
+	public function priceCurrencyFormat($price, $itemCurrency, $custom = null)
 	{
-		return $this->priceFormat($this->currency($price, $itemCurrency));
+		return $this->priceFormat($this->currency($price, $itemCurrency, $custom));
 	}
 	
 	
@@ -100,7 +100,7 @@ class VeerShop {
 		// 3 
 		// We check if we have logged user & if he has active discount
 		if(app('auth')->id() <= 0 || $bypassUser == true) { 
-			return $this->currency($price, $product['currency']);
+			return $this->currency($price, $product['currency'], $custom);
 		}
 		
 		// 4
@@ -108,7 +108,7 @@ class VeerShop {
 		$discounts = $this->discounts($price, $custom);
 		
 		if($discounts['discount'] == true) {
-			return $this->currency($discounts['price'], $product['currency']);
+			return $this->currency($discounts['price'], $product['currency'], $custom);
 		}
 		
 		// 5 
@@ -116,11 +116,11 @@ class VeerShop {
 		$discounts_by_role = $this->discounts_by_role($product, $price, $custom);
 		
 		if($discounts_by_role['discount'] == true) {
-			return $this->currency($discounts_by_role['price'], $product['currency']);
+			return $this->currency($discounts_by_role['price'], $product['currency'], $custom);
 		}		
 		
 		// if no discounts for user
-		return $this->currency($price, $product['currency']);				
+		return $this->currency($price, $product['currency'], $custom);				
 	}
 	
 	
@@ -230,14 +230,16 @@ class VeerShop {
 	 * Use shop or product currencies
 	 * itemCurrency > shopCurrency > price
 	 * 
+	 * TODO: later get sites_id and get specific db parameter for specific site
+	 * 
 	 * @params $price, $itemCurrency
 	 * @return $price
 	 */
-	public function currency($price, $itemCurrency)
+	public function currency($price, $itemCurrency, $custom = null)
 	{		
 		if($itemCurrency > 0 && $itemCurrency != 1) { return ($price * $itemCurrency);  }
 		
-		$shopCurrency = db_parameter('SHOP_CURRENCY', 1);
+		$shopCurrency = array_get($custom, 'forced_currency', db_parameter('SHOP_CURRENCY', 1));
 		
 		if($shopCurrency > 0 && $shopCurrency != 1) {
 			return ($price * $shopCurrency);

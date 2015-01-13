@@ -3043,8 +3043,6 @@ class VeerAdmin extends Show {
 		echo "<pre>";
 		print_r(Input::all());
 		echo "</pre>";
-		
-		
 		$action = Input::get('action');
 		$fill = Input::get('fill');
 		
@@ -3052,7 +3050,7 @@ class VeerAdmin extends Show {
 		if(empty($siteId)) $fill['sites_id'] = app('veer')->siteId;
 		
 		$usersId = Input::get('fill.users_id');
-		if(empty($usersId)) $fill['users_id'] = \Auth::id();
+		if(empty($usersId) && $action != "add") $fill['users_id'] = \Auth::id();
 		
 		$order = \Veer\Models\Order::find($id);
 		
@@ -3091,7 +3089,8 @@ class VeerAdmin extends Show {
 		
 		if($order->cluster_oid != array_get($fill, 'cluster_oid') || $order->cluster != array_get($fill, 'cluster'))
 		{
-			$existingOrders = \Veer\Models\Order::where('cluster','=', array_get($fill, 'cluster'))
+			$existingOrders = \Veer\Models\Order::where('sites_id','=',$fill['sites_id'])
+				->where('cluster','=', array_get($fill, 'cluster'))
 				->where('cluster_oid','=',array_get($fill, 'cluster_oid'))->first();
 			
 			// we cannot update cluster ids if they already exist
@@ -3099,7 +3098,6 @@ class VeerAdmin extends Show {
 			{
 				array_forget($fill, 'cluster_oid');
 				array_forget($fill, 'cluster');
-				// TODO: new orders generate new
 			}
 		}
 		
@@ -3127,12 +3125,106 @@ class VeerAdmin extends Show {
 		
 		$order->fill($fill);
 		
-		echo "<pre>";
-		print_r($order);
-		echo "</pre>";
-		exit;
+		if($action == "add")
+		{
+			$order->pin = false;
+			$order->close_time = null;
+			$order->type = 'reg';
+			
+			if(empty($order->status_id))
+			{
+				$order->status_id = \Veer\Models\OrderStatus::firststatus()->pluck('id');
+			}			
+			
+			$cluster = \Veer\Models\Configuration::where('sites_id','=',$order->sites_id)
+				->where('conf_key','=','CLUSTER')->pluck('conf_val');
+			if(empty($cluster)) $cluster = 0;
+			
+			$order->cluster = $cluster;
+			$order->cluster_oid = \Veer\Models\Order::where('sites_id','=',$order->sites_id)
+				->where('cluster','=',$cluster)->max('cluster_oid') + 1;
+			
+			if(empty($usersId) && !empty($order->email)) 
+			{
+				$findUser = \Veer\Models\User::where('sites_id','=',$order->sites_id)
+					->where('email','=',$order->email)->first();
+				
+				if(is_object($findUser)) 
+				{
+					$order->users_id = $findUser->id;
+				}
+
+				else 
+				{
+					$newUser = new \Veer\Models\User;
+
+					$newUser->sites_id = $order->sites_id;
+					$newUser->email = $order->email;
+					$newUser->phone = $order->phone;
+
+					$password2Email = str_random(16);
+					$newUser->password = $password2Email;
+					$newUser->save();
+
+					$order->users_id = $newUser->id;
+					$order->type = 'unreg';
+					
+					$unregStatus = \Veer\Models\OrderStatus::unregstatus()->pluck('id');
+					if(!empty($unregStatus)) $order->status_id = $unregStatus;					
+				}	
+			}
+			
+			$userRole = \Veer\Models\UserRole::whereHas('users', function($q) use ($order) {
+				$q->where('users.id','=',$order->users_id);
+			})->pluck('role');
+			
+			if(isset($userRole)) $order->user_type = $userRole;
+			
+			if(!empty($order->userdiscount_id))
+			{
+				$checkDiscount = \Veer\Models\UserDiscount::where('id','=',$order->userdiscount_id)
+					->where('sites_id','=',$order->sites_id)
+					->whereNested(function($q) use ($order) {
+						$q->where('users_id','=',0)
+							->orWhere('users_id','=',$order->users_id);
+					})
+					->whereNested(function($q) {
+						$q->where('status','=','wait')
+							->orWhere('status','=','active');
+					})
+					->first();
+				
+				if(is_object($checkDiscount))
+				{
+					$checkDiscount->users_id = $order->users_id;
+					$checkDiscount->status = 'active';
+					$checkDiscount->save();
+				}
+				
+				else
+				{
+					$order->userdiscount_id = 0;
+				}	
+			}
+			
+			$book = Input::get('userbook.0', array());
+			$book['fill']['users_id'] = $order->users_id;
+			
+			$newBook = app('veershop')->updateOrNewBook($book);
+				
+			if(isset($newBook) && is_object($newBook)) { 
+				$order->userbook_id = $newBook->id;
+				$order->country = $newBook->country;
+				$order->city = $newBook->city;
+				$order->address = trim( $newBook->postcode . " " . $newBook->address );
+			}
+	
+			$order->hash = bcrypt($order->cluster.$order->cluster_oid.$order->users_id.$order->sites_id.str_random(16));
+			$order->save();
+		}
+		
 		// new book
-		if($action == "addUserbook" || $action == "updateUserbook" )
+		if($action == "addUserbook" || $action == "updateUserbook")
 		{
 			foreach(Input::get('userbook', array()) as $book)
 			{
@@ -3206,10 +3298,15 @@ class VeerAdmin extends Show {
 		// sums price & weight
 		$order->content_price = $order->orderContent->sum('price'); 
 		
+		$order->used_discount = ($order->orderContent->sum('original_price')) - ($order->orderContent->sum('price_per_one'));
+		
+		if($order->used_discount < 0) { $order->used_discount = 0; }		
+		else { $order->used_discount = round(($order->used_discount / $order->content_price) * 100, 2); }
+		
 		$order->weight = $order->orderContent->sum('weight');
 		
 		// recalculate delivery
-		if($action == "recalculate")
+		if($action == "recalculate" || $action == "add")
 		{
 			$order = $this->recalculateOrderDelivery($order);
 			
@@ -3234,9 +3331,9 @@ class VeerAdmin extends Show {
 			Event::fire('veer.message.center', \Lang::get('veeradmin.order.history.delete'));
 			$this->action_performed[] = "DELETE history";
 		}
-		
+				
 		$order->save();
-		
+
 		// communications
 		if(Input::has('sendMessageToUser'))
 		{
@@ -3308,8 +3405,13 @@ class VeerAdmin extends Show {
 		
 		if($content->products_id != array_get($ordersProducts, 'products_id') && is_object($product))
 		{
+			$shopCurrency = \Veer\Models\Configuration::where('sites_id','=',$order->sites_id)
+					->where('conf_key','=','SHOP_CURRENCY')->pluck('conf_val');
+			$shopCurrency = !empty($shopCurrency) ? $shopCurrency : null;
+			
 			$content->products_id = $product->id;
-			$content->original_price = empty($content->original_price) ? $product->price : $content->original_price;
+			$content->original_price = empty($content->original_price) ? 
+				app('veershop')->currency($product->price, $product->currency, array("forced_currency" => $shopCurrency)) : $content->original_price;
 			$content->name = $product->title;
 			$content->weight = $product->weight * $content->quantity;
 
@@ -3325,7 +3427,8 @@ class VeerAdmin extends Show {
 					"sites_id" => $order->sites_id,
 					"users_id" => $order->users_id,
 					"roles_id" => \Veer\Models\UserRole::where('role','=', $order->user_type)->pluck('id'),
-					"discount_id" => $order->userdiscount_id
+					"discount_id" => $order->userdiscount_id,
+					"forced_currency" => $shopCurrency 
 				));
 
 				$content->price_per_one = $pricePerOne;
