@@ -3040,6 +3040,11 @@ class VeerAdmin extends Show {
 	 */
 	public function updateOneOrder($id)
 	{		
+		echo "<pre>";
+		print_r(Input::all());
+		echo "</pre>";
+		
+		
 		$action = Input::get('action');
 		$fill = Input::get('fill');
 		
@@ -3050,6 +3055,8 @@ class VeerAdmin extends Show {
 		if(empty($usersId)) $fill['users_id'] = \Auth::id();
 		
 		$order = \Veer\Models\Order::find($id);
+		
+		if(!is_object($order)) $order = new \Veer\Models\Order;
 		
 		if($action == "delete")
 		{
@@ -3120,6 +3127,10 @@ class VeerAdmin extends Show {
 		
 		$order->fill($fill);
 		
+		echo "<pre>";
+		print_r($order);
+		echo "</pre>";
+		exit;
 		// new book
 		if($action == "addUserbook" || $action == "updateUserbook" )
 		{

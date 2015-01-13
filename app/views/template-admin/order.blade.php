@@ -87,6 +87,7 @@
 			</div>
 		<small>@if(isset($items->site) && is_object($items->site))~ {{ $items->site->configuration->first()->conf_val or $items->site->url; }} @endif</small>
 		</div>
+		@if(isset($items->id))
 		<div class="col-md-2"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon">
@@ -103,23 +104,26 @@
 				<input type="text" name="fill[cluster_oid]" class="form-control" placeholder="Order Id" value="{{ $items->cluster_oid or null }}">
 			</div>
 		</div>
+		@endif
 		<div class="col-md-6"><p></p>
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[free]" data-on-color="success" data-on-text="Free" data-off-text="Regular" @if(isset($items->free) && $items->free == true) checked @endif></div>
+			@if(isset($items->id))
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[close]" data-on-color="success" data-on-text="Close&nbsp;" data-off-color="info"  data-off-text="Open" @if(isset($items->close) && $items->close == true) checked @endif></div>	
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[hidden]" data-on-color="warning" data-on-text="Hidden&nbsp;" data-off-color="info" data-off-text="Visible" @if(isset($items->hidden) && $items->hidden == true) checked @endif></div>
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[archive]" data-on-color="danger" data-on-text="Archived&nbsp;" data-off-text="Inbox" @if(isset($items->archive) && $items->archive == true) checked @endif></div>	
+			@endif
 		</div>	
 	</div>
 	<div class="rowdelimiter"></div>
 	<h3><strong>User</strong></h3>	
 	<div class="row">
-		<div class="col-sm-4"><p><strong><input type="text" class="form-control input-lg" placeholder="Username" name="fill[name]" value="{{ $items->name or null }}"></strong></p></div>
-		<div class="col-sm-4"><p><strong><input type="email" class="form-control input-lg" placeholder="Firstname" name="fill[email]" value="{{ $items->email or null }}"></strong></p></div>
-		<div class="col-sm-4"><p><strong><input type="tel" class="form-control input-lg" placeholder="Lastname" name="fill[phone]" value="{{ $items->phone or null }}"></strong></p></div>
+		<div class="col-sm-4"><p><strong><input type="text" class="form-control input-lg" placeholder="Name" name="fill[name]" value="{{ $items->name or null }}"></strong></p></div>
+		<div class="col-sm-4"><p><strong><input type="email" class="form-control input-lg" placeholder="Email" name="fill[email]" value="{{ $items->email or null }}"></strong></p></div>
+		<div class="col-sm-4"><p><strong><input type="tel" class="form-control input-lg" placeholder="Phone" name="fill[phone]" value="{{ $items->phone or null }}"></strong></p></div>
 	</div>	
 	
 	<div class="row">	
@@ -129,7 +133,7 @@
 				  <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 				</span>
 				<input type="text" name="fill[users_id]" class="form-control" placeholder="Users Id" value="{{ Input::get('user', 
-						(isset($items->users_id) ? $items->users_id : \Auth::id())) }}">
+						(isset($items->users_id) ? $items->users_id : null)) }}">
 			</div>
 		@if(isset($items->user) && is_object($items->user))
 		<small><a href="{{ route('admin.show', array('users', 'id' => $items->user->id)) }}">{{ '@' }}{{ $items->user->username or null }}</a><br/>
@@ -137,14 +141,16 @@
 		</small>
 		@endif	
 		</div>
+		@if(isset($items->id))
 		<div class="col-md-3"><p></p>
 			<input type="text" name="fill[user_type]" class="form-control" placeholder="User Type" value="{{ $items->user_type or null }}">
 			<small>User type</small>
-		</div>
+		</div>		
 		<div class="col-md-3"><p></p>
 			<input type="text" name="fill[used_discount]" class="form-control" disabled placeholder="Discount Value" value="{{ $items->used_discount or null }}">
 			<small>Discount value: For information purposes only</small>
 		</div>
+		@endif
 		<div class="col-md-2"><p></p>
 			<input type="text" name="fill[userdiscount_id]" class="form-control" placeholder="User Discount Id" value="{{ $items->userdiscount_id or null }}">
 			<small>Discount Id (if used)</small>
@@ -167,13 +173,13 @@
 <hr class="no-body-padding">
 
 <div class="container">	
-	<h3><strong>Payment</strong>@if(!isset($items->bills) || count(@$items->bills)<=0) <small><a href="#" data-toggle="modal" data-target="#billModalNew">create bill</a></small>@endif</h3>
-	<div class="row">
+	<h3><strong>Payment</strong>@if((!isset($items->bills) || count(@$items->bills)<=0) && isset($items->id)) <small><a href="#" data-toggle="modal" data-target="#billModalNew">create bill</a></small>@endif</h3>
+	<div class="row">@if(isset($items->id))
 		<div class="col-md-3"><p></p><strong>
 			<input type="text" name="fill[payment_method]" class="form-control" placeholder="Payment method" 
 				   value="{{ $items->payment_method or null }}">
 			</strong><small>Payment method</small>
-		</div>
+		</div>@endif
 		<div class="col-md-3">
 			<p></p>
 			<input type="text" name="fill[payment_method_id]" class="form-control" placeholder="Payment method Id" value="{{ $items->payment_method_id or null }}"><small>Id @if(isset($items->payment) && is_object($items->payment))
@@ -186,12 +192,14 @@
 			@endif			
 			</small>			
 		</div>
+		@if(isset($items->id))
 		<div class="col-md-6"><p></p>
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[payment_hold]" data-on-color="danger" data-off-color="info" data-on-text="Hold&nbsp;payment" data-off-text="Allow&nbsp;payment&nbsp;" @if(isset($items->payment_hold) && $items->payment_hold == true) checked @endif></div>
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[payment_done]" data-on-color="success" data-on-text="Payment&nbsp;done" data-off-text="Awaiting&nbsp;payment&nbsp;" @if(isset($items->payment_done) && $items->payment_done == true) checked @endif></div>
 		</div>
+		@endif
 	</div>
 	
 	<div class="rowdelimiter"></div>
@@ -229,10 +237,10 @@
 <div class="container">	
 	<h3><strong>Shipping</strong> @if(isset($items->delivery_price))<small>{{ app('veershop')->priceFormat($items->delivery_price) }}</small>@endif</h3>
 	<div class="row">
-		<div class="col-md-2"><p></p><strong>
+		<div class="col-md-2"><p></p>@if(isset($items->id))<strong>
 			<input type="text" name="fill[delivery_method]" class="form-control" placeholder="Shipping method" 
 				   value="{{ $items->delivery_method or null }}">
-			</strong><small>Shipping method</small><p></p>
+			</strong><small>Shipping method</small><p></p>@endif
 			<input type="text" name="fill[delivery_method_id]" class="form-control" placeholder="Shipping method Id" value="{{ $items->delivery_method_id or null }}"><small>@if(isset($items->delivery) && is_object($items->delivery))
 				{{ $items->delivery->name }}:
 				{{ $items->delivery->delivery_type }},
@@ -254,6 +262,7 @@
 			@endif
 			<small>Delivery date (scheduled)</small>
 			</div>
+			@if(isset($items->id))
 			<div class="has-success has-feedback">
 			<p></p>
 			<input type="text" class="form-control date-container" name="fill[delivery_real]"
@@ -261,7 +270,9 @@
 			<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 			<small>Delivery date (actual)</small>
 			</div>
+			@endif
 		</div>
+		@if(isset($items->id))
 		<div class="col-md-4"><p></p>
 			<strong>
 				<input type="text" class="form-control" name="fill[delivery_price]"
@@ -269,15 +280,17 @@
 			</strong>
 			<small>Shipping price</small>
 			<p></p>
+			@if(isset($items->id))
 			<input type="text" class="form-control" name="fill[weight]" disabled
 					   placeholder="Shipping weight" value="{{ $items->weight or null }}"/>
 			<small>Weight(g): calculated by content</small>
 			<p></p>
+			@endif
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[delivery_free]" data-on-color="success" data-on-text="Free&nbsp;delivery" data-off-text="Paid&nbsp;delivery" @if(isset($items->delivery_free) && $items->delivery_free == true) checked @endif></div>
 			<div class="page-checkboxes-box">
 			<input type="checkbox" class="page-checkboxes" name="fill[delivery_hold]" data-on-color="danger" data-off-color="info" data-on-text="Hold&nbsp;shipping" data-off-text="Allow&nbsp;shipping" @if(isset($items->delivery_hold) && $items->delivery_hold == true) checked @endif></div>
-		</div>
+		</div>		
 		<div class="col-md-4"><p></p>
 			<input type="text" class="form-control" name="fill[country]" disabled
 					   placeholder="Country" value="{{ $items->country or null }}"/>
@@ -296,6 +309,7 @@
 			<a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a>
 			</small>
 		</div>
+		@endif
 	</div>
 		
 	@if(isset($items->userbook) && count($items->userbook)>0)
@@ -344,6 +358,15 @@
 	</div><!-- /.modal -->
 </div>
 
+@if(!isset($items->id))
+<div class="rowdelimiter"></div>
+<div class="container">	
+	<h4>Delivery address</h4>
+	@include($template.'.layout.form-userbook', array('item' =>array(), 'skipSubmit' => true, 
+				'UsersId' => isset($items->users_id) ? $items->users_id : null))
+</div>
+@endif
+
 <hr class="no-body-padding">
 
 <div class="container">	
@@ -364,19 +387,20 @@
 	@endforeach
 	</p>
 	<div class="xs-rowdelimiter"></div>
-	
+	@endif
 	<div class="row">
 		<div class="col-sm-12">
 		<ul class="list-group">
+			@if(isset($items->orderContent) && count ($items->orderContent)>0)
 			@include($template.'.lists.order-content', 
 			array('items' => array_get($items->orderContent, 'content', array()), 'products' => isset($items->products) ? $items->products : array()))
+			@endif
 			<li class="list-group-item">
 			<input type="text" name="attachContent" class="form-control input-no-borders" placeholder=":Existings IDs[:id,qty:] or Name:pricePerOne:Qty">	
 			</li>
 		</ul>
 		</div>
 	</div>	
-	@endif
 	
 	@if(isset($items->orderContent) && array_get($items->orderContent, 'downloads', null) != null)	
 	<h4>Files</h4>
