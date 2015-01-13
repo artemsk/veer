@@ -217,7 +217,7 @@
 							<button type="submit" name="action" value="removeProduct.{{ $prd->id }}" class="btn btn-warning btn-xs">
 								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>&nbsp;
 							<a href="{{ route('admin.show', array('products', 'id' => $prd->id)) }}">{{ $prd->title }}</a> 
-							<small>{{ app('veershop')->getPrice($prd, true) }}</small>
+							<small>{{ app('veershop')->getPrice($prd, true, array('forced_currency' => 1)) }}</small>
 						</li>	
 						@endforeach
 						@endif

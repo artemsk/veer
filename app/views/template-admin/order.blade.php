@@ -309,6 +309,12 @@
 			<a href="#" data-toggle="modal" data-target="#bookModalNew">new book</a>
 			</small>
 		</div>
+		@else
+		<div class="col-md-2"><p></p>
+			<input type="text" class="form-control" name="fill[userbook_id]"
+					  placeholder="Userbook Id" value="{{ $items->userbook_id or null }}"/>
+			<small>Userbook Id if exists</small>
+		</div>
 		@endif
 	</div>
 		

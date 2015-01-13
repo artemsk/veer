@@ -14,10 +14,10 @@
 				<div class="caption @if($item->hidden == true) image-faded @endif"><small>#{{$item->id}}
 					</small>
 					<a href="{{ route('admin.show', array("products", "id" => $item->id)) }}">{{ $item->title }}</a>
-					<p><strong>{{ app('veershop')->getPrice($item, true) }}</strong><Br/>
+					<p><strong>{{ app('veershop')->getPrice($item, true, array('forced_currency' => 1)) }}</strong><Br/>
 						<small>
 						@if($item->price_base != $item->price)
-						{{ app('veershop')->priceCurrencyFormat($item->price_base, $item->currency) }}
+						{{ app('veershop')->priceCurrencyFormat($item->price_base, $item->currency, array('forced_currency' => 1)) }}
 						@endif						
 						&nbsp;<span class="glyphicon glyphicon-th-list" aria-hidden="true" title="Quantity"></span> {{ $item->qty }}
 						@if($item->currency > 0)
