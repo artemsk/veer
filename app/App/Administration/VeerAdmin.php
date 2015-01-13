@@ -3210,10 +3210,11 @@ class VeerAdmin extends Show {
 		
 		if($order->status_id != array_get($fill, 'status_id', $order->status_id))
 		{
+			$statusName = \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name');
 			\Veer\Models\OrderHistory::create(array(
 				"orders_id" => $order->id,
 				"status_id" => array_get($fill, 'status_id'),
-				"name" => \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name'),
+				"name" => !empty($statusName) ? $statusName : '',
 				"comments" => "",
 			));
 		}
@@ -3296,7 +3297,11 @@ class VeerAdmin extends Show {
 		$order->used_discount = ($order->orderContent->sum('original_price')) - ($order->orderContent->sum('price_per_one'));
 		
 		if($order->used_discount < 0) { $order->used_discount = 0; }		
-		else { $order->used_discount = round(($order->used_discount / $order->content_price) * 100, 2); }
+		
+		else 
+		{ 
+			$order->used_discount = ($order->content_price > 0) ? round(($order->used_discount / $order->content_price) * 100, 2) : 0; 
+		}
 		
 		$order->weight = $order->orderContent->sum('weight');
 		

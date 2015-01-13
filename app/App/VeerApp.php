@@ -12,7 +12,7 @@ class VeerApp {
 	 *  Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = 'v0.8.0-alpha';
+	const VEERVERSION = 'v0.8.2-alpha';
 
 	/** 
 	 * Veer Core Url
