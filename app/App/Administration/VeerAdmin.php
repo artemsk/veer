@@ -3510,7 +3510,7 @@ class VeerAdmin extends Show {
 
 			$order->delivery_price = isset($getData->delivery_price) ? $getData->delivery_price : $delivery->price;
 			$order->delivery_free = isset($getData->delivery_free) ? $getData->delivery_free : false;
-			$order->delivery_hold = isset($getData->delivery_hold) ? $getData->delivery_hold : true;
+			$order->delivery_hold = isset($getData->delivery_hold) ? $getData->delivery_hold : true; // TODO: do we need this?
 
 			$delivery->discount_enable = isset($getData->discount_enable) ? $getData->discount_enable : $delivery->discount_enable;
 			$delivery->discount_price = isset($getData->discount_price) ? $getData->discount_price : $delivery->discount_price;
@@ -3659,7 +3659,7 @@ class VeerAdmin extends Show {
 			$getData = $paymentFunc->fire($order, $payment);
 
 			$order->payment_done = isset($getData->payment_done) ? $getData->payment_done : false;
-			$order->payment_hold = isset($getData->payment_hold) ? $getData->payment_hold : true;
+			$order->payment_hold = isset($getData->payment_hold) ? $getData->payment_hold : true; // TODO: do we need this?
 
 			$payment->commission = isset($getData->commission) ? $getData->commission : $payment->commission;
 			$payment->discount_enable = isset($getData->discount_enable) ? $getData->discount_enable : $payment->discount_enable;
