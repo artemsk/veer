@@ -338,8 +338,11 @@ class VeerShop {
 			$findUser = \Veer\Models\User::where('sites_id', '=', $order->sites_id)
 				->where('email', '=', $order->email)->first();
 
-			if (is_object($findUser)) {
+			if (is_object($findUser)) 
+			{
 				$order->users_id = $findUser->id;
+				if(empty($order->phone)) $order->phone = $findUser->phone;
+				if(empty($order->name)) $order->name = $findUser->firstname . " " . $findUser->lastname;
 			} else {
 				$newUser = new \Veer\Models\User;
 
@@ -359,6 +362,17 @@ class VeerShop {
 			}
 		}
 
+		if(!empty($usersId) && (empty($order->email) || empty($order->phone) || empty($order->name)))
+		{
+			$findUser = \Veer\Models\User::where('id','=', $usersId)->first();
+			if(is_object($findUser))
+			{
+				if(empty($order->email)) $order->email = $findUser->email;
+				if(empty($order->phone)) $order->phone = $findUser->phone;
+				if(empty($order->name)) $order->name = $findUser->firstname . " " . $findUser->lastname;
+			}
+		}
+		
 		$userRole = \Veer\Models\UserRole::whereHas('users', function ($q) use ($order) {
 			$q->where('users.id', '=', $order->users_id);
 		})->pluck('role');
