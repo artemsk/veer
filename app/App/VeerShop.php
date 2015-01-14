@@ -417,6 +417,9 @@ class VeerShop {
 		
 		$this->incrementOrdersCount($order->users_id);
 		
+		$secret = new \Veer\Models\Secret(array("secret" => str_random(64)));
+		$order->secrets()->save($secret);
+		
 		return array($order, isset($checkDiscount) ? $checkDiscount : null);
 	}
 	
