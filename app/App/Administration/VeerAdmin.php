@@ -3098,6 +3098,17 @@ class VeerAdmin extends Show {
 			}
 		}
 				
+		if($order->status_id != array_get($fill, 'status_id', $order->status_id))
+		{
+			$statusName = \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name');
+			\Veer\Models\OrderHistory::create(array(
+				"orders_id" => $order->id,
+				"status_id" => array_get($fill, 'status_id'),
+				"name" => !empty($statusName) ? $statusName : '',
+				"comments" => "",
+			));
+		}
+		
 		if($order->delivery_method_id != array_get($fill, 'delivery_method_id', $order->delivery_method_id)	&& 
 			array_get($fill, 'delivery_method') == null)
 		{
@@ -3208,17 +3219,6 @@ class VeerAdmin extends Show {
 			$order->save();
 		}
 		
-		if($order->status_id != array_get($fill, 'status_id', $order->status_id))
-		{
-			$statusName = \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name');
-			\Veer\Models\OrderHistory::create(array(
-				"orders_id" => $order->id,
-				"status_id" => array_get($fill, 'status_id'),
-				"name" => !empty($statusName) ? $statusName : '',
-				"comments" => "",
-			));
-		}
-		
 		// new book
 		if($action == "addUserbook" || $action == "updateUserbook")
 		{
@@ -3300,7 +3300,8 @@ class VeerAdmin extends Show {
 		
 		else 
 		{ 
-			$order->used_discount = ($order->content_price > 0) ? round(($order->used_discount / $order->content_price) * 100, 2) : 0; 
+			$order->used_discount = ($order->content_price > 0) ? 
+				round(($order->used_discount / $order->orderContent->sum('price_per_one')) * 100, 2) : 0; 
 		}
 		
 		$order->weight = $order->orderContent->sum('weight');
@@ -3334,6 +3335,11 @@ class VeerAdmin extends Show {
 				
 		$order->save();
 
+		if($action == "add" && $order->userdiscount_id > 0 && isset($checkDiscount))
+		{
+			$this->changeUserDiscountStatus($checkDiscount);
+		}
+		
 		// communications
 		if(Input::has('sendMessageToUser'))
 		{
@@ -3341,6 +3347,29 @@ class VeerAdmin extends Show {
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
 			$this->action_performed[] = "SEND message to user";
 		}	
+	}
+	
+	
+	/**
+	 * change User Discount Status
+	 * @param type $discount
+	 * @param type $status
+	 */
+	public function changeUserDiscountStatus($discount, $status = null)
+	{
+		$discount->expiration_times = $discount->expiration_times - 1;
+		
+		if($discount->expiration_times <= 0) $discount->expiration_times = -1;
+		
+		if($discount->expires == true && $discount->expiration_times <= 0) $discount->status = 'expired';
+		
+		if($discount->expires == true && \Carbon\Carbon::parse($discount->expiration_day)->timestamp > 0 
+			&& \Carbon\Carbon::parse($discount->expiration_day)->timestamp < time())
+		{
+			$discount->status = 'expired';
+		}
+		
+		$discount->save();
 	}
 	
 	
