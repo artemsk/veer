@@ -3121,6 +3121,18 @@ class VeerAdmin extends Show {
 			$fill['payment_method'] = \Veer\Models\OrderPayment::where('id','=',array_get($fill, 'payment_method_id'))->pluck('name');
 		}
 		
+		if($order->userbook_id != array_get($fill, 'userbook_id', $order->userbook_id))
+		{
+			$getBook = \Veer\Models\UserBook::find(array_get($fill, 'userbook_id'));
+			if(is_object($getBook))
+			{
+				$order->userbook_id = $getBook->id;
+				$order->country = $getBook->country;
+				$order->city = $getBook->city;
+				$order->address = trim( $getBook->postcode . " " . $getBook->address );	
+			}
+		}
+		
 		$order->fill($fill);
 		
 		if($action == "add")
