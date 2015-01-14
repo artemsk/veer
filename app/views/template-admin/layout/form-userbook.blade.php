@@ -1,9 +1,11 @@
 	<div class="row">
-        <div class="col-md-6">             
+        <div class="col-md-6"> 
+			@if(!isset($skipNewOrder))
 			<div class="form-group">
                 <input type="text" class="form-control" name="userbook[{{ $item->id or 0 }}][fill][users_id]" placeholder="Users ID" value="{{ $item->users_id or (isset($UsersId) ? $UsersId : null) }}">
 				<small>Users Id</small>
 			</div>
+			@endif
 			<div class="form-group">
                 <label>Address</label>
                 <input type="text" class="form-control" name="userbook[{{ $item->id or 0 }}][fill][name]" placeholder="Business Name" value="{{ $item->name or null }}"><div class="xs-rowdelimiter"></div>
