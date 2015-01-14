@@ -3125,6 +3125,21 @@ class VeerAdmin extends Show {
 		
 		if($action == "add")
 		{
+			$validator = \Validator::make($fill, array(
+				'email' => 'required_without:users_id',
+				'users_id' => 'required_without:email',
+			));
+			
+			$validator_content = \Validator::make(Input::all(), array(
+				'attachContent' => 'required'
+			));
+			
+			if($validator->fails() || $validator_content->fails()) { 
+				Event::fire('veer.message.center', \Lang::get('veeradmin.order.new.error'));
+				$this->action_performed[] = "ERROR add order";
+				return false;	
+			}
+			
 			list($order, $checkDiscount) = app('veershop')->addNewOrder($order, $usersId, Input::get('userbook.0', array()));
 		}
 		
@@ -3218,6 +3233,15 @@ class VeerAdmin extends Show {
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
 			$this->action_performed[] = "SEND message to user";
 		}	
+		
+		// redirect to new order
+		if($action == "add")
+		{
+			$this->skipShow = true;
+			Input::replace(array('id' => $order->id));
+			return \Redirect::route('admin.show', array('orders', 'id' => $order->id));
+		}
+			
 	}
 	
 	

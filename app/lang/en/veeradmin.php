@@ -100,5 +100,6 @@ return array(
 	"order.content.payment.commission" => "Payment Method Commission",
 	"order.content.discount" => "Discount",
 	"order.content.commission" => "Commission",
+	"order.new.error" => "Error: blank email or users_id, or content",
 	
 );

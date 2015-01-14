@@ -401,7 +401,21 @@ class VeerShop {
 		$order->hash = bcrypt($order->cluster . $order->cluster_oid . $order->users_id . $order->sites_id . str_random(16));
 		$order->save();
 		
+		$this->incrementOrdersCount($order->users_id);
+		
 		return array($order, isset($checkDiscount) ? $checkDiscount : null);
+	}
+	
+	
+	
+	
+	/**
+	 * Increment Orders Counts
+	 */
+	protected function incrementOrdersCount($users_id)
+	{
+		\Veer\Models\User::where('id','=',$users_id)
+			->increment('orders_count');
 	}
 	
 	
