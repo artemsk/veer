@@ -2728,8 +2728,7 @@ class VeerAdmin extends Show {
 		\Veer\Models\UserAdmin::where('users_id','=',$id)
 			->update($administrator);
 	}
-	
-	
+		
 	
 	/*
 	 * update Statuses
