@@ -3098,16 +3098,7 @@ class VeerAdmin extends Show {
 			}
 		}
 				
-		if($order->status_id != array_get($fill, 'status_id', $order->status_id))
-		{
-			$statusName = \Veer\Models\OrderStatus::where('id','=',array_get($fill, 'status_id'))->pluck('name');
-			\Veer\Models\OrderHistory::create(array(
-				"orders_id" => $order->id,
-				"status_id" => array_get($fill, 'status_id'),
-				"name" => !empty($statusName) ? $statusName : '',
-				"comments" => "",
-			));
-		}
+		if($order->status_id != array_get($fill, 'status_id', $order->status_id)) $addStatusToHistory = true;
 		
 		if($order->delivery_method_id != array_get($fill, 'delivery_method_id', $order->delivery_method_id)	&& 
 			array_get($fill, 'delivery_method') == null)
@@ -3153,6 +3144,8 @@ class VeerAdmin extends Show {
 			}
 			
 			list($order, $checkDiscount) = app('veershop')->addNewOrder($order, $usersId, Input::get('userbook.0', array()));
+			
+			$addStatusToHistory = true;
 		}
 		
 		// new book
@@ -3233,6 +3226,18 @@ class VeerAdmin extends Show {
 				
 		$order->save();
 
+		if(isset($addStatusToHistory))
+		{
+			$statusName = \Veer\Models\OrderStatus::where('id','=',$order->status_id)->pluck('name');
+			\Veer\Models\OrderHistory::create(array(
+				"orders_id" => $order->id,
+				"status_id" => $order->status_id,
+				"name" => !empty($statusName) ? $statusName : '',
+				"comments" => "",
+			));
+			// TODO: cross with updateOrdersStatus in shop actions ? remove
+		}
+		
 		if($action == "add" && $order->userdiscount_id > 0 && isset($checkDiscount))
 		{
 			app('veershop')->changeUserDiscountStatus($checkDiscount);
