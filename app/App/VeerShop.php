@@ -725,13 +725,13 @@ class VeerShop {
 						break;
 						
 					case "l": // discount by location (country, city)
-						if (str_contains($order->country, $value)) $activate_discount = true;
-						if (str_contains($order->city, $value)) $activate_discount = true;
+						if (str_contains( mb_strtolower($order->country), mb_strtolower($value) )) $activate_discount = true;
+						if (str_contains( mb_strtolower($order->city), mb_strtolower($value) )) $activate_discount = true;
 						$conditions_exist = true;
 						break;
 					
 					case "la": // discount by location (address)
-						if (str_contains($order->address, $value)) $activate_discount = true;
+						if (str_contains( mb_strtolower($order->address), mb_strtolower($value) )) $activate_discount = true;
 						$conditions_exist = true;
 						break;
 						
