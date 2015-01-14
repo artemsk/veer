@@ -1189,7 +1189,7 @@ class Show {
 			{
 				if(!empty($p->attributes)) 
 				{
-					$p->attributesParsed = $this->parseAttributes($p->attributes, $p->id, $products[$p->id]);
+					$p->attributesParsed = app('veershop')->parseAttributes($p->attributes, $p->id, $products[$p->id]);
 				}
 				
 				foreach(!empty($products[$p->id]->downloads) ? $products[$p->id]->downloads : array() as $c)
@@ -1228,30 +1228,7 @@ class Show {
 		));
 	}
 	
-	/**
-	 * parseAttributes
-	 * @param orders_products table $attributes
-	 * @param orders_products table $id
-	 * @param object $product
-	 */
-	public function parseAttributes($attributes, $id, $product)
-	{
-		$a = json_decode($attributes);
-
-		$attributesParsed = array();
-
-		foreach( is_array($a) ? $a : array() as $value)
-		{
-			$attribute = $product->attributes->filter(function($attr) use ($value)
-			{
-				return $attr->id == $value ? $attr : null;
-			});
-
-			$attributesParsed = array_merge($attributesParsed, $attribute->toArray());
-		}	
-
-		return $attributesParsed;
-	}
+	
 	
 	/**
 	 * show Statuses

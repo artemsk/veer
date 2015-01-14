@@ -369,7 +369,7 @@
 <div class="container">	
 	<h4>Delivery address</h4>
 	@include($template.'.layout.form-userbook', array('item' =>array(), 'skipSubmit' => true, 
-				'UsersId' => isset($items->users_id) ? $items->users_id : null))
+				'UsersId' => isset($items->users_id) ? $items->users_id : null, 'skipNewOrder' => true))
 </div>
 @endif
 
