@@ -86,11 +86,19 @@ if ( ! function_exists('db_parameter'))
          * @param parameter name
 	 * @return result
 	 */
-	function db_parameter($param = null, $default = null)
+	function db_parameter($param = null, $default = null, $getFromDbSiteId = null)
 	{
                 if(!empty($param)) 
                 {
-                    $v = app('veer')->siteConfig;                   
+                    $v = app('veer')->siteConfig;    
+					
+					if(!empty($getFromDbSiteId)) { 
+						$v[$param] = \Veer\Models\Configuration::where('sites_id','=',$getFromDbSiteId)
+						->where('conf_key','=',$param)->remember(0.5)->pluck('conf_val');
+						
+						if(empty($v[$param])) unset($v[$param]);
+					}
+					
                     return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param, $default);
                 }
 	}

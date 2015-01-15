@@ -4,6 +4,6 @@ return array(
 
 	'driver' => 'log',
 	
-	'pretend' => true,
+	'pretend' => false,
 	
 );

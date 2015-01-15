@@ -295,11 +295,6 @@
 	@else
 	<button type="submit" name="action" value="add" class="btn btn-danger btn-lg btn-block">Add</button>
 	@endif
-<!--	
-<p>$items->grp</p>
-<p>$items->grp_ids</p>
-// TODO: deprecated?
--->
 </div>
 @if(isset($items->id))
 <div class="action-hover-box"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
