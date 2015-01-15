@@ -3,10 +3,9 @@
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Event;
 
-class Configuration extends Show {
+trait Configuration {
 		
-	protected $action_performed = array();
-	
+	protected $action_performed = array();	
 
 	/**
 	 * Show Etc.

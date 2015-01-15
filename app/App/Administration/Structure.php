@@ -3,10 +3,9 @@
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Event;
 
-class Structure extends Configuration {
+trait Structure {
 	
 	public $skipShow = false;
-	
 	
 	/**
 	 * Update Sites
