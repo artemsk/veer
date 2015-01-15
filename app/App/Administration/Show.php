@@ -11,6 +11,8 @@ class Show {
 	/* contents of bills types */
 	public $billsTypes = null;
 	
+	/* */
+	public $counted = null;
 	
 	/**
 	 * Show Sites
