@@ -351,7 +351,10 @@ trait Configuration {
 			\Mail::send('emails.ping', array(), function($message)
 			{
 				$message->to('artem.troshin@gmail.com');
+				$message->subject('Ping Test #1');
 			});
+			
+			mail('artem.troshin@gmail.com', 'Ping Test #2', 'Ping Test #2');
 		}
 	}	
 	
