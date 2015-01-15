@@ -345,6 +345,14 @@ trait Configuration {
 				));		
 			}
 		}
+		
+		if(Input::get('actionButton') == "sendPingEmail")
+		{
+			\Mail::send('emails.ping', array(), function($message)
+			{
+				$message->to('artem.troshin@gmail.com');
+			});
+		}
 	}	
 	
 }

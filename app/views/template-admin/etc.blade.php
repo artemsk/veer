@@ -21,14 +21,24 @@
 	
 	<div class="rowdelimiter"></div>
 	
-	
-	
 	<div class="form-group">
 	<label>Check Latest Version</label>
 	{{  Form::open(array('method' => 'put', 'class' => 'ajaxFormSubmit', 'files' => false));  }}
 	<div id="compareVersions">
 	<input type="hidden" name="actionButton" value="checkLatestVersion">
 	<p><button type="submit" class="btn btn-default" name="action" value="checkLatestVersion" data-resultdiv="#compareVersions">Check Version</button></p>
+	</div>
+	{{ Form::close() }}
+	</div>
+	
+	<div class="rowdelimiter"></div>
+	
+	<div class="form-group">
+	<label>Send Ping</label>
+	{{  Form::open(array('method' => 'put', 'class' => 'ajaxFormSubmit', 'files' => false));  }}
+	<div id="sendPingEmail">
+	<input type="hidden" name="actionButton" value="sendPingEmail">
+	<p><button type="submit" class="btn btn-default" name="action" value="sendPingEmail" data-resultdiv="#sendPingEmail">Send Ping Email</button></p>
 	</div>
 	{{ Form::close() }}
 	</div>
