@@ -346,15 +346,13 @@ trait Configuration {
 			}
 		}
 		
-		if(Input::get('actionButton') == "sendPingEmail")
+		if(Input::get('actionButton') == "sendPingEmail" && config('mail.from.address') != null)
 		{
 			\Mail::send('emails.ping', array(), function($message)
 			{
-				$message->to('artem.troshin@gmail.com');
+				$message->to(config('mail.from.address'));
 				$message->subject('Ping Test #1');
 			});
-			
-			mail('artem.troshin@gmail.com', 'Ping Test #2', 'Ping Test #2');
 		}
 	}	
 	
