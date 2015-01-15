@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Event;
 
-class Users extends Ecommerce {
+trait Users {
 	
 	/**
 	 * update Roles
