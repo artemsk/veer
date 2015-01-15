@@ -101,5 +101,7 @@ return array(
 	"order.content.discount" => "Discount",
 	"order.content.commission" => "Commission",
 	"order.new.error" => "Error: blank email or users_id, or content",
-	
+	"emails.communication.subject" => "[:url] You have a message",
+	"emails.communication.subjectTheme" => "[:url] :theme",
+	"emails.comment.subject" => "[:url] You had been mentioned in comment",	
 );

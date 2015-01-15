@@ -405,7 +405,7 @@ class VeerApp {
 		
 		if($message->email_notify == true || !empty($emails))
 		{
-			$this->message2mail($message->id, $emails, $recipients);
+			$this->message2mail($message, $emails, $recipients);
 		}
 		
 		return true;
@@ -481,9 +481,90 @@ class VeerApp {
 	 * Sending mails queue
 	 * 
 	 */
-	protected function message2mail($messageId, $emails = null, $recipients = null)
-	{
-		//
+	protected function message2mail($object, $emails = null, $recipients = null, $type = "communication")
+	{		
+		$place = $link = $subject = null;
+		
+		if($type == "communication") {
+			$siteUrl = $object->site->url;
+			
+			if(!empty($object->theme)) 
+			{ 
+				$subject = \Lang::get('veeradmin.emails.communication.subjectTheme', array(
+					'url' => $siteUrl, 'theme' => $object->theme
+				)); 
+			}
+			else {	$subject = \Lang::get('veeradmin.emails.communication.subject', array('url' => $siteUrl)); }
+		}
+		
+		if($type == "comment") {
+			$siteUrl = app('veer')->siteUrl;
+			$subject = \Lang::get('veeradmin.emails.comment.subject', array('url' => $siteUrl));
+		}
+		
+		switch ($object->elements_type) 
+		{
+			case "Veer\Models\Product":
+				$place = isset($object->elements->title) ? $object->elements->title : null;
+				$link = $siteUrl . "/product/" . $object->elements_id;
+			break;
+
+			case "Veer\Models\Page":
+				$place = isset($object->elements->title) ? $object->elements->title : null;
+				$link = $siteUrl . "/page/" . $object->elements_id;
+			break;
+
+			case "Veer\Models\Category":
+				$place = isset($object->elements->title) ? $object->elements->title : null;
+				$link = $siteUrl . "/category/" . $object->elements_id;
+			break;
+
+			case "Veer\Models\Order":
+				if(is_object($object->elements)) { $place = "#" . 
+					app('veershop')->getOrderId($object->elements->cluster, $object->elements->cluster_oid); }
+				$link = $siteUrl . "/user/";
+			break;
+
+			default:
+				$place = $link = $object->url;
+			break;
+		}
+
+		if(empty($place) && !empty($link)) $place = $link;
+		
+		$data = array(
+			"sender" => isset($object->author) ? $object->author : $object->sender,
+			"txt" => isset($object->txt) ? $object->txt : $object->message,
+			"place" => $place,
+			"link" => $link
+		);
+		
+		$from = array(
+			"address" => db_parameter("EMAIL_ADDRESS", config("mail.from.address"), $object->sites_id),
+			"name" => db_parameter("EMAIL_NAME", config("mail.from.name"), $object->sites_id)
+		);
+		
+		if(is_array($recipients))
+		{
+			foreach($recipients as $userId)
+			{
+				$email = \Veer\Models\User::where('id','=',$userId)->pluck('email');
+				if(!empty($email)) array_push($emails, $email);
+			}
+		}
+		
+		if(is_array($emails))
+		{
+			foreach(array_unique($emails) as $email)
+			{
+				\Mail::queue('emails.'.str_plural($type), $data, function($message) use ($from, $email, $subject)
+				{
+					$message->from($from['address'], $from['name']);
+					$message->to($email);
+					$message->subject($subject);
+				});
+			}
+		}
 	}
 	
 	/**
@@ -531,7 +612,7 @@ class VeerApp {
 		
 		if(!empty($emails) || !empty($recipients))
 		{
-			$this->message2mail($comment->id, $emails, $recipients);
+			$this->message2mail($comment, $emails, $recipients, 'comment');
 		}
 		
 		return true;
