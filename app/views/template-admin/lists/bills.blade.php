@@ -88,6 +88,11 @@
 							<input type="checkbox" name="billUpdate[{{ $item->id }}][to_customer]" value="1"> Show comment to user
 							</label>
 						</div>
+						<div class="checkbox">
+							<label>
+							<input type="checkbox" name="billUpdate[{{ $item->id }}][send_to_customer]" value="1"> Send comment by email
+							</label>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" value="{{ $item->id }}" name="updateBillStatus" class="btn btn-primary btn-xs">Update bill status</button>

@@ -12,7 +12,7 @@ class VeerApp {
 	 *  Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = 'v0.8.2-alpha';
+	const VEERVERSION = 'v0.9.0-alpha';
 
 	/** 
 	 * Veer Core Url
@@ -539,10 +539,7 @@ class VeerApp {
 			"link" => $link
 		);
 		
-		$from = array(
-			"address" => db_parameter("EMAIL_ADDRESS", config("mail.from.address"), $object->sites_id),
-			"name" => db_parameter("EMAIL_NAME", config("mail.from.name"), $object->sites_id)
-		);
+		$from = $this->getEmailFrom($object->sites_id);
 		
 		if(is_array($recipients))
 		{
@@ -557,14 +554,38 @@ class VeerApp {
 		{
 			foreach(array_unique($emails) as $email)
 			{
-				\Mail::queue('emails.'.str_plural($type), $data, function($message) use ($from, $email, $subject)
-				{
-					$message->from($from['address'], $from['name']);
-					$message->to($email);
-					$message->subject($subject);
-				});
+				$this->basicEmailSendQueue('emails.'.str_plural($type), $data, $from, $email, $subject);
 			}
 		}
+	}
+	
+	/**
+	 * Get 'From' field values for specific site
+	 */
+	public function getEmailFrom($siteId = null)
+	{
+		return array(
+			"address" => db_parameter("EMAIL_ADDRESS", config("mail.from.address"), $siteId),
+			"name" => db_parameter("EMAIL_NAME", config("mail.from.name"), $siteId)
+		);
+	}
+	
+	
+	/**
+	 * Basic Email Send Queue
+	 */
+	public function basicEmailSendQueue($view, $data, $from = null, $to = null, $subject = null)
+	{
+		if(empty($to)) return false;
+		
+		\Mail::queue($view, $data, function($message) use ($from, $to, $subject)
+		{
+			if(!empty($from)) $message->from($from['address'], $from['name']);
+			$message->to($to);
+			if(!empty($subject)) $message->subject($subject);
+		});
+		
+		return true;
 	}
 	
 	/**

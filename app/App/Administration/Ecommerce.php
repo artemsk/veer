@@ -30,7 +30,7 @@ trait Ecommerce {
 				\Veer\Models\OrderStatus::where('id','=', array_get($history, 'status_id', null))
 					->pluck('name')
 				);
-			$sendEmail = array_pull($history, 'send_to_customer', false);
+			$sendEmail = array_pull($history, 'send_to_customer', null);
 			
 			$update = array('status_id' => array_get($history, 'status_id'));
 		
@@ -42,7 +42,7 @@ trait Ecommerce {
 			\Veer\Models\Order::where('id','=',Input::get('updateOrderStatus'))
 				->update($update);
 			
-			// TODO: send to user: sendEmail
+			if(!empty($sendEmail)) $this->sendEmailOrdersStatus(Input::get('updateOrderStatus'), array("history" => $history));
 		}
 		
 		if(Input::has('updatePaymentHold'))
@@ -89,15 +89,19 @@ trait Ecommerce {
 			
 			\Veer\Models\OrderBill::where('id','=',Input::get('updateBillStatus'))
 				->update(array('status_id' => array_get($billUpdate, 'status_id')));
-			
+						
 			if(array_has($billUpdate, 'comments'))
 			{
+				$sendEmail = array_pull($billUpdate, 'send_to_customer', null);
+				
 				array_set($billUpdate, 'name', 
 				\Veer\Models\OrderStatus::where('id','=', array_get($billUpdate, 'status_id'))
 					->pluck('name')
 				);
 				\Eloquent::unguard();
-				\Veer\Models\OrderHistory::create($billUpdate);				
+				\Veer\Models\OrderHistory::create($billUpdate);
+				
+				if(!empty($sendEmail)) $this->sendEmailOrdersStatus(array_get($billUpdate, 'orders_id'), array("history" => $billUpdate));
 			}
 			
 			//\Veer\Models\Order::where('id','=',array_get($billUpdate, 'orders_id'))
@@ -108,7 +112,10 @@ trait Ecommerce {
 		{
 			\Veer\Models\OrderBill::where('id','=',head(Input::get('updateBillSend')))
 				->update(array('sent' => true));
-			// TODO: SendMail
+			
+			$b = \Veer\Models\OrderBill::find(head(Input::get('updateBillSend')));
+
+			if(is_object($b)) $this->sendEmailBillCreate($b, $b->order);
 		}
 		
 		if(Input::has('updateBillPaid'))
@@ -132,11 +139,13 @@ trait Ecommerce {
 		if(Input::has('addNewBill') && Input::has('billCreate.fill.orders_id'))
 		{
 			$fill = Input::get('billCreate.fill');
-			
+		
 			$order = \Veer\Models\Order::find(array_get($fill, 'orders_id'));
 			$status = \Veer\Models\OrderStatus::find(array_get($fill, 'status_id'));
 			
 			$payment = $payment_method = array_get($fill, 'payment_method');
+			
+			$sendEmail = array_pull($fill, 'sendTo', null);
 			
 			if(empty($payment))	
 			{
@@ -164,15 +173,51 @@ trait Ecommerce {
 			$b->users_id = isset($order->users_id) ? $order->users_id : 0;
 			$b->payment_method = $payment_method;
 			$b->content = $content;
-					
-			if(Input::has('billCreate.fill.sendTo'))
-			{
-				$b->sent = true;
-				// TODO: SendMail
-			}
+				
+			if(!empty($sendEmail)) $b->sent = true;
 			
 			$b->save();
+			
+			if(!empty($sendEmail)) $this->sendEmailBillCreate($b, $order);
 		}
+	}
+	
+	
+	/**
+	 * send emails when creating bill
+	 */
+	protected function sendEmailBillCreate($b, $order)
+	{
+		$data['orders_id'] = app('veershop')->getOrderId($order->cluster, $order->cluster_oid);
+		$data['name'] = $order->name;
+		$data['bills_id'] = $b->id;
+		$data['link'] = $order->site->url . "/order/bills/" . $b->id . "/" . $b->link;
+				
+		$subject = \Lang::get('veeradmin.emails.bill.new.subject', array('oid' => $data['orders_id']));
+		$from = app('veer')->getEmailFrom($order->sites_id);
+		app('veer')->basicEmailSendQueue('emails.bill-create', $data, $from, $order->email, $subject);
+	}
+	
+	
+	/**
+	 * send emails when updating order status
+	 */
+	protected function sendEmailOrdersStatus($orderId, $options = array())
+	{
+		$data = \Veer\Models\Order::where('id','=',$orderId)
+					->select('sites_id', 'cluster', 'cluster_oid', 'name', 'email')->first();
+				
+		$data_array = $data->toArray();
+
+		$data_array['orders_id'] = app('veershop')->getOrderId($data->cluster, $data->cluster_oid);
+		$data_array['status'] = array_get($options, 'history');
+		$data_array['link'] = $data->site->url . "/order/" . $orderId;
+
+		$email = $data->email;
+		$subject = \Lang::get('veeradmin.emails.order.subject', array('oid' => $data_array['orders_id']));
+		$from = app('veer')->getEmailFrom($data->sites_id);
+
+		if(!empty($email)) app('veer')->basicEmailSendQueue('emails.order-status', $data_array, $from, $email, $subject);
 	}
 	
 	
@@ -699,11 +744,30 @@ trait Ecommerce {
 		// redirect to new order
 		if($action == "add")
 		{
+			$this->sendEmailOrderNew($order);
+			
 			$this->skipShow = true;
 			Input::replace(array('id' => $order->id));
 			return \Redirect::route('admin.show', array('orders', 'id' => $order->id));
 		}
 			
+	}
+	
+	
+	/**
+	 * send email when creating new order
+	 */
+	protected function sendEmailOrderNew($order)
+	{
+		$data = $order->toArray();
+		$data['orders_id'] = app('veershop')->getOrderId($order->cluster, $order->cluster_oid);
+		$data['link'] = $order->site->url . "/order/" . $order->id;
+		
+		$email = $order->email;
+		$subject = \Lang::get('veeradmin.emails.order.new.subject', array('oid' => $data['orders_id']));
+		$from = app('veer')->getEmailFrom($order->id);
+
+		if(!empty($email)) app('veer')->basicEmailSendQueue('emails.order-new', $data, $from, $email, $subject);
 	}
 	
 	

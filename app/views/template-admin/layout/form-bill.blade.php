@@ -46,7 +46,7 @@
 			</select>
 		</div>
 		<div class="checkbox">
-			<input type="checkbox" name="billCreate[fill][sendTo]" value="1" data-on-text="On" date-off-text="Off" class="page-checkboxes"> &nbsp;Send to user
+			<input type="checkbox" name="billCreate[fill][sendTo]" value="1" checked data-on-text="On" date-off-text="Off" class="page-checkboxes"> &nbsp;Send to user
 		</div>
 		@if(!isset($skipSubmit))
 		<button type="submit" class="btn btn-default" name="addNewBill" value="New">Submit</button> 

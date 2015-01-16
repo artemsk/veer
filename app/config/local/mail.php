@@ -2,8 +2,8 @@
 
 return array(
 
-	'driver' => 'mail',
+	'driver' => 'log',
 	
-	'pretend' => true,
+	'pretend' => false,
 	
 );

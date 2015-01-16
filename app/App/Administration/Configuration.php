@@ -324,7 +324,7 @@ trait Configuration {
 		
 		$all = Input::all();
 		$action = Input::get('action');
-		
+	
 		if($action == "runRawSql" && array_get($all, 'freeFormSql') != null)
 		{
 			// TODO: warning! very dangerous!
@@ -351,9 +351,15 @@ trait Configuration {
 			\Mail::send('emails.ping', array(), function($message)
 			{
 				$message->to(config('mail.from.address'));
-				$message->subject('Ping Test #1');
 			});
 		}
+		
+		if(Input::get('actionButton') == "clearTrashed" && Input::get('button') != null)
+		{
+			\Illuminate\Support\Facades\DB::table(Input::get('button'))
+				->whereNotNull('deleted_at')->delete();
+		}
+		
 	}	
 	
 }
