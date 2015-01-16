@@ -161,7 +161,7 @@
         $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
-            data: $(this).serialize(),
+            data: $(this).serialize() + '&button=' + $("button[type=submit][clicked=true]").val(),
             success: function(results) { 
                 $(resultdivid).html(results); 
             },

@@ -314,3 +314,7 @@ html, body
     border-top-color: #ddd !important;
     border-top-style: dashed;
 }
+
+.margin-bottom-button {
+    margin-bottom: 5px;
+}

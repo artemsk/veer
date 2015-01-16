@@ -104,4 +104,7 @@ return array(
 	"emails.communication.subject" => "[:url] You have a message",
 	"emails.communication.subjectTheme" => "[:url] :theme",
 	"emails.comment.subject" => "[:url] You had been mentioned in comment",	
+	"emails.order.subject" => "Order #:oid updated",
+	"emails.order.new.subject" => "Order #:oid",
+	"emails.bill.new.subject" => "You have a new bill for order #:oid",
 );

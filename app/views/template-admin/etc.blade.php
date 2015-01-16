@@ -19,6 +19,20 @@
 	<button type="submit" class="btn btn-default" name="action" value="runRawSql">Run</button>
 	{{ Form::close() }}
 	
+	@if(array_get($items, 'trashed') != null)
+	<div class="rowdelimiter"></div>
+	
+	<div class="form-group">
+	<label>Clear Trashed Elements</label>
+	{{  Form::open(array('method' => 'put', 'files' => false));  }}
+	<div id="clearTrashed">
+	<input type="hidden" name="actionButton" value="clearTrashed">
+	@foreach(array_get($items, 'trashed') as $table => $trash)
+	<button type="submit" class="btn btn-default margin-bottom-button" name="button" value="{{ $table }}" data-resultdiv="#clearTrashed">Clear <strong>{{ $table }} {{ $trash }}</strong></button>&nbsp;
+	@endforeach
+	</div>
+	{{ Form::close() }}
+	@endif
 	<div class="rowdelimiter"></div>
 	
 	<div class="form-group">
