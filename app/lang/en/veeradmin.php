@@ -81,6 +81,8 @@ return array(
 	"user.page.detach" => "Detach page from user",
 	"user.page.sendmessage" => "Send message to user",
 	"discount.cancel" => "Cancel discount",
+	"discount.delete" => "Delete discount",
+	"discount.update" => "Update discounts",	
 	"status.update" => "Update status",
 	"status.delete" => "Delete status",
 	"status.new" => "New status",
@@ -92,7 +94,6 @@ return array(
 	"shipping.update" => "Update shipping method",
 	"shipping.delete" => "Delete shipping method",
 	"shipping.error" => "Error: Class not found",	
-	"discount.update" => "Update discounts",
 	"order.delete" => "Delete order",
 	"order.history.delete" => "Delete order history",
 	"order.content.delivery.discount" => "Delivery Method Discount",
@@ -107,4 +108,6 @@ return array(
 	"emails.order.subject" => "Order #:oid updated",
 	"emails.order.new.subject" => "Order #:oid",
 	"emails.bill.new.subject" => "You have a new bill for order #:oid",
+	"undo" => "Undo",
+	"restored" => "Restored",
 );

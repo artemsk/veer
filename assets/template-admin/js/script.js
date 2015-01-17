@@ -4,7 +4,7 @@
             
             setTimeout(function() {
              $(".events-veer-message-center").removeClass('flipInX').addClass('flipOutX');
-            }, 3000);
+            }, 10000);
         }
 
     });

@@ -1092,7 +1092,8 @@ trait Structure {
 		{
 			$r = explode(".", $action); 
 			$this->deleteProduct($r[1]);
-			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete') . 
+				" " . app('veeradmin')->restore_link('product', $r[1]));
 			$this->action_performed[] = "DElETE product";
 		}		
 		
@@ -1128,7 +1129,8 @@ trait Structure {
 		{
 			$r = explode(".", $action); 
 			$this->deletePage($r[1]);
-			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete') . 
+				" " . app('veeradmin')->restore_link('page', $r[1]));
 			$this->action_performed[] = "DElETE page";
 		}	
 	}	

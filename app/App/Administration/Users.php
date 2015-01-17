@@ -327,7 +327,8 @@ trait Users {
 		if(Input::has('deleteUserbook'))
 		{
 			$this->deleteBook(head(Input::get('deleteUserbook')));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete') . 
+				" " . app('veeradmin')->restore_link('UserBook', head(Input::get('deleteUserbook'))));
 			$this->action_performed[] = "DELETE book";
 			return null;
 		}
@@ -392,7 +393,8 @@ trait Users {
 		if(!empty($delete) && key($delete) != \Auth::id())
 		{
 			$this->deleteUser(key($delete));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.user.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.user.delete') .
+				" " . app('veeradmin')->restore_link("user", key($delete)));
 			$this->action_performed[] = "DELETE user";
 			return null;
 		}
