@@ -78,76 +78,76 @@ class AdminController extends \BaseController {
 		
 		switch ($t) {
 			case "categories":		
-				$category = Input::get('category', null);
-				$image = Input::get('image', null);
+				$category = Input::get('category');
+				$image = Input::get('image');
 				$items = app('veeradmin')->showCategories($category, $image);
 				$view = empty($category) ? "categories" : "category";
 				break;
 
 			case "products":		
-				$product = Input::get('id', null);
+				$product = Input::get('id');
 				
 				$items = app('veeradmin')->showProducts($product, array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				
 				if(is_object($items)) {
-					$items->fromCategory = Input::get('category', null); 
+					$items->fromCategory = Input::get('category'); 
 				}
 				
 				$view = empty($product) ? "products" : "product";
 				break;		
 
 			case "pages":		
-				$page = Input::get('id', null);
+				$page = Input::get('id');
 				
 				$items = app('veeradmin')->showPages($page, array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));
 
 				if(is_object($items)) {
-					$items->fromCategory = Input::get('category', null); 
+					$items->fromCategory = Input::get('category'); 
 				}
 								
 				$view = empty($page) ? "pages" : "page";
 				break;				
 				
 			case "configuration":	
-				$items = app('veeradmin')->showConfiguration(Input::get('site', null));
+				$items = app('veeradmin')->showConfiguration(Input::get('site'));
 				$view = "configuration";
 				break;				
 			
 			case "components":	
-				$items = app('veeradmin')->showComponents(Input::get('site', null));
+				$items = app('veeradmin')->showComponents(Input::get('site'));
 				$view = "components";
 				break;	
 			
 			case "lists":
 				$items = app('veeradmin')->showLists(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				$view = "userlists";
 				break;		
 			
 			case "users":
-				$user = Input::get('id', null);
+				$user = Input::get('id');
 				$items = app('veeradmin')->showUsers($user, array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				$view = empty($user) ? "users" : "user";
 				break;	
 			
 			case "orders":
-				$order = Input::get('id', null);
+				$order = Input::get('id');
 				$items = app('veeradmin')->showOrders($order, array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				$view = empty($order) ? "orders" : "order";
 				break;	
 			
 			case "communications":
 				$items = app('veeradmin')->showCommunications(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));				
 				app('veer')->setUnreadTimestamp('communications');				
 				$view = "communications";
@@ -155,15 +155,20 @@ class AdminController extends \BaseController {
 			
 			case "comments":
 				$items = app('veeradmin')->showComments(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));				
 				app('veer')->setUnreadTimestamp('comments');				
 				$view = "comments";
 				break;
 			
+			case "restore":
+				app('veeradmin')->restore(Input::get('type'), Input::get('id'));
+				return back();
+				break;
+			
 			default:
 				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}(array(
-					Input::get('filter', null) =>  Input::get('filter_id', null),
+					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				$view = $t;
 				break;

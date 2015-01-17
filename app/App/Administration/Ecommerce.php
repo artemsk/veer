@@ -245,7 +245,8 @@ trait Ecommerce {
 		if(Input::has('deleteStatus'))
 		{
 			$this->deleteStatus(Input::get('deleteStatus'));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.status.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.status.delete'). 
+				" " . app('veeradmin')->restore_link('OrderStatus', Input::get('deleteStatus')));
 			$this->action_performed[] = "DELETE status";
 		}
 		
@@ -313,7 +314,8 @@ trait Ecommerce {
 	{
 		if(Input::has('deletePaymentMethod'))
 		{
-			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.delete') . 
+				" " . app('veeradmin')->restore_link('OrderPayment', Input::get('deletePaymentMethod')));
 			$this->action_performed[] = "DELETE payment method";
 			return $this->deletePaymentMethod(Input::get('deletePaymentMethod'));
 		}
@@ -380,7 +382,8 @@ trait Ecommerce {
 	{
 		if(Input::has('deleteShippingMethod'))
 		{
-			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.delete') . 
+				" " . app('veeradmin')->restore_link('OrderShipping', Input::get('deleteShippingMethod')));
 			$this->action_performed[] = "DELETE shipping method";
 			return $this->deleteShippingMethod(Input::get('deleteShippingMethod'));
 		}
@@ -456,7 +459,8 @@ trait Ecommerce {
 	{
 		if(Input::has('deleteDiscount'))
 		{
-			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.delete') .
+				" " . app('veeradmin')->restore_link('UserDiscount', Input::get('deleteDiscount')));
 			$this->action_performed[] = "DELETE discount";
 			return $this->deleteDiscount(Input::get('deleteDiscount'));
 		}
@@ -547,7 +551,8 @@ trait Ecommerce {
 		{
 			$this->deleteOrder($order);
 			
-			Event::fire('veer.message.center', \Lang::get('veeradmin.order.delete'));
+			Event::fire('veer.message.center', \Lang::get('veeradmin.order.delete') .
+				" " . app('veeradmin')->restore_link('order', $order->id));
 			$this->action_performed[] = "DELETE order";	
 			$this->skipShow = true;
 			return \Redirect::route('admin.show', array('orders'));

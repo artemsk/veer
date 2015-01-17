@@ -10,4 +10,24 @@ class VeerAdmin extends Show {
 	/*
 	 *  
 	 */
+	
+	/**
+	 * Restore soft deleted entity
+	 */
+	public function restore($type = null, $id = null)
+	{
+		if(empty($type) || empty($id)) return;
+		
+		$type = "\\".elements($type);
+		
+		$type::withTrashed()->where('id', $id)->restore();
+		
+		Event::fire('veer.message.center', \Lang::get('veeradmin.restored'));
+	}
+	
+	public function restore_link($type, $id)
+	{
+		return "<a href=". route('admin.update', array('restore', 'type' => $type, 'id' => $id)) .">".
+			\Lang::get('veeradmin.undo')."</a>";
+	}
 }
