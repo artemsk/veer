@@ -1,19 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-<ol class="breadcrumb">
-		<li><strong>E-commerce</strong></li>
-		<li><a href="{{ route("admin.show", "orders") }}">Orders</a></li>
-		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
-		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
-		@if(Input::get('filter',null) != null) 
-		<li><strong><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></strong></li>
-		@else
-		<li class="active">Shipping methods</li>
-		@endif				
-		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
-		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
-</ol>
+
+	@include($template.'.layout.breadcrumb-order', array('place' => 'shipping'))
+
 <h1>Shipping methods @if(Input::get('filter',null) != null) 
 		<small>filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong></small>
 		@endif</h1>

@@ -1,15 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')			
-	<ol class="breadcrumb">
-		<li><strong>E-commerce</strong></li>
-		<li><strong><a href="{{ route("admin.show", "orders") }}">Orders</a></strong></li>	
-		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
-		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
-		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
-		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
-		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
-	</ol> 
+	
+	@include($template.'.layout.breadcrumb-order', array('place' => 'order'))
+	
 {{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
 <h1>Order #@if(isset($items->cluster)){{ app('veershop')->getOrderId($items->cluster, $items->cluster_oid) }} @else — @endif<small>
 	@if(isset($items->site) && is_object($items->site))~ {{ $items->site->configuration->first()->conf_val or $items->site->url; }} @endif

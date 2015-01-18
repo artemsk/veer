@@ -1,15 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-<ol class="breadcrumb">
-		<li><strong>E-commerce</strong></li>
-		<li><a href="{{ route("admin.show", "orders") }}">Orders</a></li>
-		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
-		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
-		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
-		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
-		<li class="active">Statuses</li>
-</ol>
+
+	@include($template.'.layout.breadcrumb-order', array('place' => 'statuses'))
+
 <h1>Statuses</h1>
 <br/>
 <div class="container">

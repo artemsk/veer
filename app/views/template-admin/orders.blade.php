@@ -1,19 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-	<ol class="breadcrumb">
-		<li><strong>E-commerce</strong></li>
-		@if(Input::get('filter',null) != null) 
-		<li><strong><a href="{{ route("admin.show", "orders") }}">Orders</a></strong></li>
-		@else
-		<li class="active">Orders</li>
-		@endif		
-		<li><a href="{{ route("admin.show", "bills") }}">Bills</a></li>
-		<li><a href="{{ route("admin.show", "discounts") }}">Discounts</a></li>
-		<li><a href="{{ route("admin.show", "shipping") }}">Shipping methods</a></li>		
-		<li><a href="{{ route("admin.show", "payment") }}">Payment methods</a></li>	
-		<li><a href="{{ route("admin.show", "statuses") }}">Statuses</a></li>
-	</ol> 
+
+	@include($template.'.layout.breadcrumb-order', array('place' => 'orders'))
+	
 <h1>Orders :{{ array_get(app('veeradmin')->counted, 'active', 0) }}<small> @if(array_get(app('veeradmin')->counted, 'archived', 0) > 0)<a href="{{ route("admin.show", array("orders", "filter" => "archive", "filter_id" => true)) }}">~{{ array_get(app('veeradmin')->counted, 'archived', 0) }}</a>&nbsp;@endif 
 	@if(Input::get('filter',null) != null) 
 	filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong> | 
