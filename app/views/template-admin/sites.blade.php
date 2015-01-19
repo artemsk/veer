@@ -1,13 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-<ol class="breadcrumb">
-		<li><strong>Structure</strong></li>
-		<li class="active">Sites</li>
-		<li><a href="{{ route("admin.show", "categories") }}">Categories</a></li>
-		<li><a href="{{ route("admin.show", "pages") }}">Pages</a></li>
-		<li><a href="{{ route("admin.show", "products") }}">Products</a></li>
-</ol>
+
+	@include($template.'.layout.breadcrumb-structure', array('place' => 'sites'))
+	
 <h1>Sites</h1>
 {{ Form::open(array('method' => 'put', 'files' => false)); }}
 <div class="table-responsive">

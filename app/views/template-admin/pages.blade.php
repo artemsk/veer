@@ -1,17 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-<ol class="breadcrumb">
-		<li><strong>Structure</strong></li>
-		<li><a href="{{ route("admin.show", "sites") }}">Sites</a></li>
-		<li><a href="{{ route("admin.show", "categories") }}">Categories</a></li>
-		@if(!empty($items['filtered'])) 
-		<li><a href="{{ route("admin.show", "pages") }}"><strong>Pages</strong></a></li>
-		@else
-		<li class="active">Pages</li>
-		@endif
-		<li><a href="{{ route("admin.show", "products") }}">Products</a></li>
-</ol>
+
+	@include($template.'.layout.breadcrumb-structure', array('place' => 'pages'))
+
 <h1>Pages: 
 @if(!empty($items['filtered'])) 
  filtered by {{ $items['filtered'] }} <a href="{{ route("admin.show", array(array_pull($items, 'filtered'))) }}">

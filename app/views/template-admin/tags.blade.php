@@ -1,14 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-<ol class="breadcrumb">
-	<li><strong>Elements</strong></li>
-	<li><a href="{{ route("admin.show", "images") }}">Images</a></li>
-	<li><a href="{{ route("admin.show", "attributes") }}">Attributes</a></li>	
-	<li class="active">Tags</li>
-	<li><a href="{{ route("admin.show", "downloads") }}">Downloads</a></li>		
-	<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-</ol>
+
+	@include($template.'.layout.breadcrumb-elements', array('place' => 'tags'))
+
 <h1>Tags: {{ array_pull($items, 'counted') }}</h1>
 <br/>
 {{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
