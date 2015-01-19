@@ -1,14 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-<ol class="breadcrumb">
-	<li><strong>Elements</strong></li>
-	<li class="active">Images</li>
-	<li><a href="{{ route("admin.show", "attributes") }}">Attributes</a></li>	
-	<li><a href="{{ route("admin.show", "tags") }}">Tags</a></li>
-	<li><a href="{{ route("admin.show", "downloads") }}">Downloads</a></li>		
-	<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-</ol>
+
+	@include($template.'.layout.breadcrumb-elements', array('place' => 'images'))
+	
 <h1>Images: 
 	@if(Input::get('filter', null) == 'unused')
 	<a href="{{ route("admin.show", "images") }}">{{ array_pull($items, 'counted') }}</a> <small>| unused</small>

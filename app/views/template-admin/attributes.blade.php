@@ -1,14 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-<ol class="breadcrumb">
-	<li><strong>Elements</strong></li>
-	<li><a href="{{ route("admin.show", "images") }}">Images</a></li>
-	<li class="active">Attributes</li>
-	<li><a href="{{ route("admin.show", "tags") }}">Tags</a></li>
-	<li><a href="{{ route("admin.show", "downloads") }}">Downloads</a></li>		
-	<li><a href="{{ route("admin.show", "comments") }}">Comments</a></li>	
-</ol>   
+
+	@include($template.'.layout.breadcrumb-elements', array('place' => 'attributes'))
+
 <h1>Attributes: {{ count($items['grouped']) }} @if(count($items)>2) with {{ count($items)-2 }} values @endif</h1>
 <br/>
 <div class="container">

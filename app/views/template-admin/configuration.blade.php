@@ -1,14 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')
-	<ol class="breadcrumb">
-		<li><strong>Settings</strong></li>
-		<li class="active">Configuration</li>
-		<li><a href="{{ route("admin.show", "components") }}">Components</a></li>
-		<li><a href="{{ route("admin.show", "secrets") }}">Secrets</a></li>
-		<li><a href="{{ route("admin.show", "jobs") }}">Jobs</a></li>		
-		<li><a href="{{ route("admin.show", "etc") }}">etc.</a></li>	
-	</ol>
+	
+	@include($template.'.layout.breadcrumb-settings', array('place' => 'configuration'))
+
 <h1>Configuration cards</h1>
 <br/>
 <div class="container">

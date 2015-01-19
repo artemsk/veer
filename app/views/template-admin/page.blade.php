@@ -1,13 +1,9 @@
 @extends($template.'.layout.base')
 
 @section('body')			
-<ol class="breadcrumb">
-		<li><strong>Structure</strong></li>
-		<li><a href="{{ route("admin.show", "sites") }}">Sites</a></li>
-		<li><a href="{{ route("admin.show", "categories") }}">Categories</a></li>
-		<li><a href="{{ route("admin.show", "pages") }}"><strong>Pages</strong></a></li>
-		<li><a href="{{ route("admin.show", "products") }}">Products</a></li>
-</ol>
+
+	@include($template.'.layout.breadcrumb-structure', array('place' => 'page'))
+	
 <h1>Page #{{ $items->id or '—' }} <small>
 		&nbsp; <nobr><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $items->views or '—' }}</nobr></small></h1>
 <br/>
