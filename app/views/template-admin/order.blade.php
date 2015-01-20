@@ -176,15 +176,23 @@
 		</div>@endif
 		<div class="col-md-3">
 			<p></p>
-			<input type="text" name="fill[payment_method_id]" class="form-control" placeholder="Payment method Id" value="{{ $items->payment_method_id or null }}"><small>Id @if(isset($items->payment) && is_object($items->payment))
-				— {{ $items->payment->name }}:
-				{{ $items->payment->type }},
-				{{ $items->payment->paying_time }},
-				{{ $items->payment->commission }}
-			@else
-			Payment method Id
-			@endif			
-			</small>			
+			<div class="form-group">
+				<select class="form-control" name="fill[payment_method_id]">
+					<option value="{{ $items->payment_method_id or null }}">{{ $items->payment_method_id or null }}</option>
+					@foreach(payments() as $payment)
+					<option value="{{ $payment->id }}">{{ '['.$payment->id . '] '.$payment->name }}</option>
+					@endforeach
+				</select>
+				<small>Id @if(isset($items->payment) && is_object($items->payment))
+					— {{ $items->payment->name }}:
+					{{ $items->payment->type }},
+					{{ $items->payment->paying_time }},
+					{{ $items->payment->commission }}
+				@else
+				Payment method Id
+				@endif			
+				</small>	
+			</div>	
 		</div>
 		@if(isset($items->id))
 		<div class="col-md-6"><p></p>
@@ -235,7 +243,13 @@
 			<input type="text" name="fill[delivery_method]" class="form-control" placeholder="Shipping method" 
 				   value="{{ $items->delivery_method or null }}">
 			</strong><small>Shipping method</small><p></p>@endif
-			<input type="text" name="fill[delivery_method_id]" class="form-control" placeholder="Shipping method Id" value="{{ $items->delivery_method_id or null }}"><small>@if(isset($items->delivery) && is_object($items->delivery))
+			<select class="form-control" name="fill[delivery_method_id]">
+				<option value="{{ $items->delivery_method_id or null }}">{{ $items->delivery_method_id or null }}</option>
+				@foreach(shipping() as $shipping)
+				<option value="{{ $shipping->id }}">{{ '['.$shipping->id . '] '.$shipping->name }}</option>
+				@endforeach
+			</select>
+			<small>@if(isset($items->delivery) && is_object($items->delivery))
 				{{ $items->delivery->name }}:
 				{{ $items->delivery->delivery_type }},
 				{{ $items->delivery->payment_type }},
