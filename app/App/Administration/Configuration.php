@@ -360,6 +360,11 @@ trait Configuration {
 				->whereNotNull('deleted_at')->delete();
 		}
 		
+		if(Input::get('actionButton') == "clearCache")
+		{
+			\Cache::flush();
+		}
+		
 	}	
 	
 }

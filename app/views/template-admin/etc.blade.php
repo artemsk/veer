@@ -28,6 +28,18 @@
 	</div>
 	{{ Form::close() }}
 	@endif
+
+	<div class="rowdelimiter"></div>
+	
+	<div class="form-group">
+	<label>Clear Cache</label>
+	{{  Form::open(array('method' => 'put', 'files' => false));  }}
+	<div id="clearCache">
+	<input type="hidden" name="actionButton" value="clearCache">
+	<button type="submit" class="btn btn-default margin-bottom-button" name="action" value="clearCache" data-resultdiv="#clearCache">Clear cache <strong>{{ array_get($items, 'cache') != null ? count($items['cache']) : null }}</strong></button>&nbsp;
+	</div>
+	{{ Form::close() }}
+
 	<div class="rowdelimiter"></div>
 	
 	<div class="form-group">
