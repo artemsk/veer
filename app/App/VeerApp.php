@@ -592,12 +592,10 @@ class VeerApp {
 	 * Comments send
 	 * 
 	 */
-	public function commentsSend( $options = array() )
+	public function commentsSend( $all, $options = array() )
 	{
 		\Event::fire('router.filter: csrf');
-		
-		$all = \Input::all();
-		
+			
 		if(array_get($all, 'fill.txt') == null) return false;
 		
 		\Eloquent::unguard();
