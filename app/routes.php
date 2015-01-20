@@ -22,7 +22,10 @@ Route::resource('tag', 'TagController', array('only' => array('index', 'show')))
 //
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
-get('user/basket/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.basket.add'));
+get('user/cart/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.cart.add'));
+get('user/list/add/{listName}/{type?}/{id?}', array('uses' => 'UserController@addToList', 'as' => 'user.list.add'));
+get('user/cart/remove/{cartId?}', array('uses' => 'UserController@removeFromCart', 'as' => 'user.cart.remove'));
+get('user/list/remove/{listId?}', array('uses' => 'UserController@removeFromList', 'as' => 'user.list.remove'));
 
 get('user/password/remind', 'RemindersController@getRemind');
 post('user/password/remind', 'RemindersController@postRemind');

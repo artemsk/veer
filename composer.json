@@ -31,5 +31,10 @@
         ],
         "files": ["app/App/helpers.php"]
 	},
+	"scripts": {
+		"post-create-project-cmd": [
+		"php -r \"copy('.env.example', '.env');\""
+		]
+	},
 	"minimum-stability": "stable"
 }

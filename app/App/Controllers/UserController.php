@@ -142,32 +142,101 @@ class UserController extends \BaseController {
 	{
 		if(isset($id)) {
 			
-			$product = \Veer\Models\Product::where('id','=',$id)->checked()->first();
-			if(is_object($product)) {
-				
+			$product = \Veer\Models\Product::sitevalidation(app('veer')->siteId)
+				->where('id','=',$id)->checked()->first();
+			if(is_object($product)) 
+			{	
 				$userid = \Illuminate\Support\Facades\Auth::id();
 					
-				$cart = new UserList;
-				$cart->sites_id = app('veer')->siteId;
-				$cart->users_id = empty($userid) ? 0 : $userid;
-				$cart->session_id = Session::getId();
-				$cart->name = "[basket]";                           
-				$cart->quantity = 1;
-				if(Input::has('attributes')) {
-					$cart->attributes = json_encode(Input::get('attributes'));
-				}				
-				$cart->save();
-				$product->userlists()->save($cart);  
+				$this->savingEntity($product, $userid);
 				
-				$items = app('veerdb')->userShoppingCart(app('veer')->siteId, $userid);
+				$items = app('veerdb')->userLists(app('veer')->siteId, $userid);
 				
 				Session::put('shopping_cart_items',$items);
-				
 			}
 		}
 		
 		return stored();
 	}	
+	
+	
+	/**
+	 * Add page or product to user list
+	 *
+	 * @return Response
+	 */
+	public function addToList($listName, $type = null, $id = null)
+	{
+		$userid = \Illuminate\Support\Facades\Auth::id();
+		
+		if(isset($id))
+		{
+			switch ($type) {
+				case "product": $e = \Veer\Models\Product::sitevalidation(app('veer')->siteId)
+					->where('id','=',$id)->checked()->first(); break;
+				case "page": $e = \Veer\Models\Page::sitevalidation(app('veer')->siteId)
+					->where('id','=',$id)->excludeHidden()->first(); break;
+			}
+			
+			if(is_object($e)) $this->savingEntity($e, $userid, $listName);
+		}
+		
+		return  app('veerdb')->userLists(app('veer')->siteId, $userid, $listName);
+	}	
+	
+	
+	/**
+	 * saving Entity to db
+	 * @param type $e
+	 */
+	protected function savingEntity($e, $userid, $name = "[basket]")
+	{		
+		$cart = new UserList;
+		$cart->sites_id = app('veer')->siteId;
+		$cart->users_id = empty($userid) ? 0 : $userid;
+		$cart->session_id = Session::getId();
+		$cart->name = $name;                           
+		$cart->quantity = 1;
+		if(Input::has('attributes') && is_array(Input::get('attributes'))) {
+			$cart->attributes = json_encode(Input::get('attributes'));
+		}				
+		$cart->save();
+		
+		$e->userlists()->save($cart);  // another query
+	}
+	
+	
+	/**
+	 * remove Entity from Cart
+	 */
+	public function removeFromCart($cartId)
+	{
+		$this->removeFromList($cartId);
+		
+		$items = app('veerdb')->userLists(app('veer')->siteId, \Auth::id());
+				
+		Session::put('shopping_cart_items',$items);
+	}
+	
+	
+	/**
+	 * remove Entity from List
+	 */
+	public function removeFromList($listId)
+	{
+		$userid = \Illuminate\Support\Facades\Auth::id();
+		
+		\Veer\Models\UserList::where('sites_id','=', app('veer')->siteId)
+			->where(function($query) use ($userid) {
+				if($userid > 0) {
+				$query->where('users_id','=', empty($userid) ? 0 : $userid)
+					->orWhere('session_id','=', app('session')->getId());	
+				} else {
+				$query->where('users_id','=', empty($userid) ? 0 : $userid)
+					->where('session_id','=', app('session')->getId());							
+				}
+		})->where('id','=', $listId)->delete();	
+	}
 	
 	
 	/**
@@ -206,7 +275,7 @@ class UserController extends \BaseController {
 			UserList::where('session_id','=',$save_old_session_id)->update(array('users_id' => Auth::id()));
 			
 			Session::put('shopping_cart_items', 
-				app('veerdb')->userShoppingCart(app('veer')->siteId, Auth::id()));
+				app('veerdb')->userLists(app('veer')->siteId, Auth::id()));
 					
 			if(administrator() == true) {
 				\Veer\Models\UserAdmin::where('id','=',app('veer')->administrator_credentials['id'])->

@@ -937,8 +937,9 @@ class VeerDb {
 	 * - with: 
 	 * - to whom: add2cart(), user.login | user/basket/add
 	 */
-	public function userShoppingCart($siteId, $userid) {
-		return \Veer\Models\UserList::where('sites_id','=', $siteId)
+	public function userLists($siteId, $userid, $name = "[basket]") 
+	{
+		$items = \Veer\Models\UserList::where('sites_id','=', $siteId)
 					->where(function($query) use ($userid) {
 						if($userid > 0) {
 						$query->where('users_id','=', empty($userid) ? 0 : $userid)
@@ -947,9 +948,11 @@ class VeerDb {
 						$query->where('users_id','=', empty($userid) ? 0 : $userid)
 							->where('session_id','=', app('session')->getId());							
 						}
-					})->where('name','=','[basket]')
-					->where('elements_type','=','Veer\Models\Product')
-					->sum('quantity');
+					})->where('name','=', $name);
+					
+		if($name == "[basket]")	$items->where('elements_type','=','Veer\Models\Product');
+		
+		return $items->sum('quantity');
 	}
 	
 	/**
