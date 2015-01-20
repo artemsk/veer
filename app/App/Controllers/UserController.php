@@ -165,7 +165,7 @@ class UserController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function addToList($listName, $type = null, $id = null)
+	public function addToList($type = null, $id = null)
 	{
 		$userid = \Illuminate\Support\Facades\Auth::id();
 		
@@ -178,10 +178,10 @@ class UserController extends \BaseController {
 					->where('id','=',$id)->excludeHidden()->first(); break;
 			}
 			
-			if(is_object($e)) $this->savingEntity($e, $userid, $listName);
+			if(is_object($e)) $this->savingEntity($e, $userid, Input::get('name','[basket]'));
 		}
 		
-		return  app('veerdb')->userLists(app('veer')->siteId, $userid, $listName);
+		return  app('veerdb')->userLists(app('veer')->siteId, $userid, Input::get('name','[basket]'));
 	}	
 	
 	
@@ -255,6 +255,19 @@ class UserController extends \BaseController {
 		return $view;  
 	}
 
+	
+	/**
+	 * Logout
+	 */
+	public function logout()
+	{
+		Session::flush();
+		
+		Auth::logout();
+		
+		if(!app('request')->ajax()) return Redirect::route('index'); 
+	}
+	
 
 	/**
 	 * Login Post
@@ -292,7 +305,30 @@ class UserController extends \BaseController {
 		
 		return $this->login();
 	}        
-        
+     
+	
+	/**
+	 * add Comment
+	 */
+	public function addComment()
+	{
+		$added = false;
+		
+		$anonymAllow = db_parameter("NEW_COMMENT_ANONYM", true);
+		
+		if( ($anonymAllow == false && Auth::id() > 0) || $anonymAllow == true )
+		{
+			$data = Input::all();
+
+			array_set($data, 'fill.users_id', Auth::id());			
+
+			array_set($options, 'checkboxes.hidden', db_parameter('NEW_COMMENT_HIDDEN', false));
+
+			$added = app('veer')->commentsSend($data, $options);
+		}
+
+		return (int)$added;
+	}
         
 }
 

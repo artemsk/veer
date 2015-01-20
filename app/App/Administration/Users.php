@@ -142,7 +142,7 @@ trait Users {
 	{
 		if(Input::get('action') == "addComment")
 		{
-			return app('veer')->commentsSend();
+			return app('veer')->commentsSend(Input::all());
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.new'));
 			$this->action_performed[] = "NEW comment";
 		}

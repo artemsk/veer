@@ -904,7 +904,7 @@ class VeerShop {
 	 * flush disounts & roles values in session
 	 * 
 	 */
-	protected function flushRememberedDiscounts()
+	public function flushRememberedDiscounts()
 	{
 		\Session::forget('discounts');
 		\Session::forget('discounts_checked');
