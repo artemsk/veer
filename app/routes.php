@@ -19,7 +19,10 @@ Route::resource('page', 'PageController', array('only' => array('index', 'show')
 Route::resource('product', 'ProductController', array('only' => array('index', 'show')));
 Route::resource('search', 'SearchController', array('only' => array('index', 'show', 'store')));
 Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
+
 //
+get('user/register', array('uses' => 'UserController@register', 'as' => 'user.register'));
+post('user/register', array('uses' => 'UserController@registerPost', 'as' => 'user.register.post'));
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
 get('user/logout', array('uses' => 'UserController@logout', 'as' => 'user.logout'));
@@ -29,6 +32,7 @@ get('user/cart/remove/{cartId?}', array('uses' => 'UserController@removeFromCart
 get('user/list/remove/{listId?}', array('uses' => 'UserController@removeFromList', 'as' => 'user.list.remove'));
 
 post('user/comment/add', array('uses' => 'UserController@addComment', 'as' => 'user.comment.add'));
+post('user/communication/add', array('uses' => 'UserController@addCommunication', 'as' => 'user.communication.add'));
 
 get('user/password/remind', 'RemindersController@getRemind');
 post('user/password/remind', 'RemindersController@postRemind');
