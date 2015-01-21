@@ -330,7 +330,97 @@ class UserController extends \BaseController {
 		return (int)$added;
 	}
         
+	
+	/**
+	 * add Communication
+	 */
+	public function addCommunication()
+	{
+		$added = false;
+		
+		$data = Input::all();
+
+		array_set($data, 'communication.fill.users_id', Auth::id());			
+		array_set($data, 'communication.fill.sites_id', app('veer')->siteId);	
+		
+		$validator = \Validator::make( array_get($data, 'communication.fill'), array(
+				'users_id' => 'required_without_all:sender_email,sender_phone',
+				'sender_phone' => 'required_without_all:users_id,sender_email',
+				'sender_email' => 'required_without_all:users_id,sender_phone'
+			));
+		
+		if(!$validator->fails())
+		{
+			array_set($data, 'communication.checkboxes.public', db_parameter('NEW_COMMUNICATION_PUBLIC', true));
+			array_set($data, 'communication.checkboxes.email_notify', db_parameter('NEW_COMMUNICATION_EMAIL', true));
+			array_set($data, 'communication.checkboxes.hidden', db_parameter('NEW_COMMUNICATION_HIDDEN', false));
+			array_set($data, 'communication.checkboxes.intranet', db_parameter('NEW_COMMUNICATION_INTRANET', false));
+
+			$added = app('veer')->communicationsSend( array_get($data, 'communication') );
+		}
+		
+		return (int)$added;
+	}
+	
+	
+	/**
+	 * register
+	 */
+	public function register()
+	{
+		$data = $this->veer->loadedComponents;
+                
+		$view = view($this->template.'.register', $data); 
+
+		return $view;  
+	}
+	
+	
+	/**
+	 * register Post
+	 */
+	public function registerPost()
+	{
+		\Event::fire('router.filter: csrf');
+		
+		$fill = Input::get('fill');
+				
+		$fill['sites_id'] = app('veer')->siteId;
+		
+		if(array_has($fill, 'password') && empty($fill['password'])) array_forget($fill, 'password');
+		
+		$rules = array(
+			'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL,sites_id,' . app('veer')->siteId,
+			'password' => 'required|min:6',
+		);			
+
+		$validator = \Validator::make($fill, $rules);
+			
+		if($validator->fails()) 
+		{ 
+			return Redirect::route('user.register')->withErrors($validator);		
+		}
+		
+		\Eloquent::unguard();
+		
+		$user = new \Veer\Models\User;
+		
+		$fill['restrict_orders'] = db_parameter('ECOMMERCE_RESTRICT_ORDERS', config('veer.restrict_orders', false));
+		
+		$fill['newsletter'] = isset($fill['newsletter']) ? true : false;
+		$fill['birth'] = parse_form_date(array_get($fill, 'birth'));
+		
+		$user->fill($fill);
+		
+		$user->save();		
+		
+		\Auth::login($user);
+		
+		return Redirect::intended();	
+	}
+	
 }
 
 // TODO: Validator: показывать ошибки
 // TODO: регистрация пользователя по секретному коду без какой-либо формы (быстрая регистрация)
+// TODO: send email to user after successful registration
