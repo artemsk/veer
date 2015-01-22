@@ -26,9 +26,11 @@ post('user/register', array('uses' => 'UserController@registerPost', 'as' => 'us
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
 get('user/logout', array('uses' => 'UserController@logout', 'as' => 'user.logout'));
+
+get('user/cart', array('uses' => 'UserController@showCart', 'as' => 'user.cart.show'));
 get('user/cart/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.cart.add'));
-get('user/list/add/{type?}/{id?}', array('uses' => 'UserController@addToList', 'as' => 'user.list.add'));
 get('user/cart/remove/{cartId?}', array('uses' => 'UserController@removeFromCart', 'as' => 'user.cart.remove'));
+get('user/list/add/{type?}/{id?}', array('uses' => 'UserController@addToList', 'as' => 'user.list.add'));
 get('user/list/remove/{listId?}', array('uses' => 'UserController@removeFromList', 'as' => 'user.list.remove'));
 
 post('user/comment/add', array('uses' => 'UserController@addComment', 'as' => 'user.comment.add'));
