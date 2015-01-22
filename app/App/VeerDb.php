@@ -937,7 +937,7 @@ class VeerDb {
 	 * - with: 
 	 * - to whom: add2cart(), user.login | user/basket/add
 	 */
-	public function userLists($siteId, $userid, $name = "[basket]") 
+	public function userLists($siteId, $userid, $name = "[basket]", $onlySum = true) 
 	{
 		$items = \Veer\Models\UserList::where('sites_id','=', $siteId)
 					->where(function($query) use ($userid) {
@@ -952,7 +952,19 @@ class VeerDb {
 					
 		if($name == "[basket]")	$items->where('elements_type','=','Veer\Models\Product');
 		
-		return $items->sum('quantity');
+		return ($onlySum == true) ? $items->sum('quantity') : $items->get();
+	}
+	
+	/**
+	 * Query Builder: 
+	 * 
+	 * - who: Items Quantity
+	 * - with: 
+	 * - to whom: add2cart(), user.login | user/basket/add
+	 */
+	public function userCartShowQuery($siteId, $userid)
+	{
+		return $this->userLists($siteId, $userid, "[basket]", false);
 	}
 	
 	/**

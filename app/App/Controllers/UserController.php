@@ -419,8 +419,53 @@ class UserController extends \BaseController {
 		return Redirect::intended();	
 	}
 	
+	/**
+	 * show cart
+	 * @return type
+	 */
+	public function showCart()
+	{
+		$data = $this->veer->loadedComponents;
+                
+		$cart = app('veerdb')->route(\Auth::id());   
+		
+		// load(products) etc 
+		
+		foreach($cart as $entity)
+		{
+			if(isset($grouped[$entity->elements_id])) 
+			{
+				$grouped[$entity->elements_id]->quantity = $grouped[$entity->elements_id]->quantity + $entity->quantity;
+				
+				$attributes = json_decode($grouped[$entity->elements_id]->attributes);
+				$newAttributes = json_decode($entity->attributes);
+				$mergedAttributes = array_merge((array)$attributes, (array)$newAttributes);
+				
+				if(is_array($mergedAttributes) && count($mergedAttributes) > 0) { 
+					$grouped[$entity->elements_id]->attributes = json_encode($mergedAttributes); }
+			}
+			
+			else 
+			{
+				$grouped[$entity->elements_id] = $entity;
+			}
+		}
+		
+		echo "<pre>";
+		print_r($grouped);
+		echo "</pre>";
+		$view = view($this->template.'.cart', $data); 
+
+		return $view;  
+	}
+	
 }
 
 // TODO: Validator: показывать ошибки
 // TODO: регистрация пользователя по секретному коду без какой-либо формы (быстрая регистрация)
 // TODO: send email to user after successful registration
+
+// TODO: update cart
+// TODO: remove cart
+// TODO: calculate cart
+// TODO: make order?
