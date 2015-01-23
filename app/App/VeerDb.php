@@ -935,7 +935,7 @@ class VeerDb {
 	 * 
 	 * - who: Items Quantity
 	 * - with: 
-	 * - to whom: add2cart(), user.login | user/basket/add
+	 * - to whom: add2cart(), user.login | user/cart/add
 	 */
 	public function userLists($siteId, $userid, $name = "[basket]", $onlySum = true) 
 	{
@@ -958,9 +958,9 @@ class VeerDb {
 	/**
 	 * Query Builder: 
 	 * 
-	 * - who: Items Quantity
+	 * - who: Cart Entities
 	 * - with: 
-	 * - to whom: add2cart(), user.login | user/basket/add
+	 * - to whom: user/cart/
 	 */
 	public function userCartShowQuery($siteId, $userid)
 	{

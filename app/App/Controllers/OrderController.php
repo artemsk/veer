@@ -20,7 +20,10 @@ class OrderController extends \BaseController {
 	{
 		$data = $this->veer->loadedComponents;            
 
-		$view = view($this->template.'.secret-order', $data); 
+		$view = view($this->template.'.secret-order', array(
+			"data" => $data,
+			"template" => $data['template']
+		)); 
 
 		$this->view = $view; // to cache
 

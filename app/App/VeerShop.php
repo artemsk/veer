@@ -273,9 +273,9 @@ class VeerShop {
 	 * update or create new user book (or office address)
 	 * @param type $book
 	 */
-	public function updateOrNewBook($book)
+	public function updateOrNewBook($book, $pretend = false)
 	{
-		\Event::fire('router.filter: csrf');
+		if($pretend == false) \Event::fire('router.filter: csrf');
 		
 		\Eloquent::unguard();
 		
@@ -298,7 +298,7 @@ class VeerShop {
 		if(isset($book['fill'])) { $b->fill($book['fill']); }
 		$b->primary = array_get($book, 'checkboxes.primary', false) ? true : false;
 		$b->office_address = array_get($book, 'checkboxes.office_address', false) ? true : false;
-		$b->save();
+		if($pretend == false) $b->save();
 		
 		return $b;
 	}
@@ -316,7 +316,7 @@ class VeerShop {
 	 * @param $usersId
 	 * @return array
 	 */
-	public function addNewOrder($order, $usersId, $book = array())
+	public function addNewOrder($order, $usersId, $book = array(), $pretend = false)
 	{
 		$order->pin = false;
 		$order->close_time = null;
@@ -403,7 +403,7 @@ class VeerShop {
 
 		$book['fill']['users_id'] = $order->users_id;
 
-		$newBook = $this->updateOrNewBook($book);
+		$newBook = $this->updateOrNewBook($book, $pretend);
 
 		if (isset($newBook) && is_object($newBook)) {
 			$order->userbook_id = $newBook->id;
@@ -413,12 +413,16 @@ class VeerShop {
 		}
 
 		$order->hash = bcrypt($order->cluster . $order->cluster_oid . $order->users_id . $order->sites_id . str_random(16));
-		$order->save();
 		
-		$this->incrementOrdersCount($order->users_id);
-		
-		$secret = new \Veer\Models\Secret(array("secret" => str_random(64)));
-		$order->secrets()->save($secret);
+		if($pretend == false) 
+		{
+			$order->save();
+			
+			$this->incrementOrdersCount($order->users_id);
+			
+			$secret = new \Veer\Models\Secret(array("secret" => str_random(64)));
+			$order->secrets()->save($secret);
+		}
 		
 		return array($order, isset($checkDiscount) ? $checkDiscount : null);
 	}
@@ -483,7 +487,7 @@ class VeerShop {
 	/**
 	 * edit Order Content
 	 */
-	public function editOrderContent($content, $ordersProducts, $order)
+	public function editOrderContent($content, $ordersProducts, $order, $jsonSkip = false)
 	{
 		$productsId = array_get($ordersProducts, 'products_id');
 		$attributes = array_pull($ordersProducts, 'attributes');
@@ -492,7 +496,7 @@ class VeerShop {
 		
 		$content->orders_id = $order->id;
 		
-		$content->attributes = json_encode(explode(",", $attributes));
+		$content->attributes = ($jsonSkip == true) ? $attributes : json_encode(explode(",", $attributes));
 			
 		$content->quantity = array_pull($ordersProducts, 'quantity', 1);
 		if($content->quantity < 1) $content->quantity = 1;
@@ -525,6 +529,10 @@ class VeerShop {
 		if($content->products_id != array_get($ordersProducts, 'products_id') || !empty($content->attributes))
 		{
 			$product = \Veer\Models\Product::find(array_get($ordersProducts, 'products_id'));
+			
+			$shopCurrency = \Veer\Models\Configuration::where('sites_id','=',$order->sites_id)
+					->where('conf_key','=','SHOP_CURRENCY')->remember(0.5)->pluck('conf_val');
+			$shopCurrency = !empty($shopCurrency) ? $shopCurrency : null;
 		}
 		
 		// use attributes
@@ -534,17 +542,18 @@ class VeerShop {
 			if(is_array($attributesParsed)) {
 				foreach($attributesParsed as $attr) {
 					$content->price_per_one = 
-						$attr['pivot']['product_new_price'] > 0 ? $attr['pivot']['product_new_price'] : $content->price_per_one;
+						$attr['pivot']['product_new_price'] > 0 ? 
+							$this->currency(
+								$attr['pivot']['product_new_price'], 
+								$product['currency'], 
+								array("forced_currency" => $shopCurrency)) : 
+							$content->price_per_one;
 				}
 			}
 		}
 		
 		if($content->products_id != array_get($ordersProducts, 'products_id') && is_object($product))
 		{
-			$shopCurrency = \Veer\Models\Configuration::where('sites_id','=',$order->sites_id)
-					->where('conf_key','=','SHOP_CURRENCY')->pluck('conf_val');
-			$shopCurrency = !empty($shopCurrency) ? $shopCurrency : null;
-			
 			$content->products_id = $product->id;
 			$content->original_price = empty($content->original_price) ? 
 				$this->currency($product->price, $product->currency, array("forced_currency" => $shopCurrency)) : $content->original_price;
@@ -608,9 +617,9 @@ class VeerShop {
 	/**
 	 * recalculate order delivery
 	 */
-	public function recalculateOrderDelivery($order)
+	public function recalculateOrderDelivery($order, $delivery = null, $pretend = false)
 	{
-		$delivery = \Veer\Models\OrderShipping::find($order->delivery_method_id);
+		if(empty($delivery)) $delivery = \Veer\Models\OrderShipping::find($order->delivery_method_id);
 
 		if(!is_object($delivery)) return $order;
 		
@@ -681,7 +690,7 @@ class VeerShop {
 					$content->comments = \Lang::get('veeradmin.order.content.discount');
 					$content->price_per_one = $content->original_price;
 					$content->price = $content->original_price;
-					$content->save();
+					if($pretend == false) $content->save();
 
 					$order->content_price = $order->content_price + $content->price;
 				} 
@@ -780,9 +789,9 @@ class VeerShop {
 	 * recalculate Payment for Orders
 	 * @param type $order
 	 */
-	public function recalculateOrderPayment($order)
+	public function recalculateOrderPayment($order, $payment = null, $pretend = false)
 	{
-        $payment = \Veer\Models\OrderPayment::find($order->payment_method_id);
+        if(empty($payment)) $payment = \Veer\Models\OrderPayment::find($order->payment_method_id);
 
 		if(!is_object($payment)) return $order;
 		
@@ -830,7 +839,7 @@ class VeerShop {
 			$content->comments = \Lang::get('veeradmin.order.content.commission');
 			$content->price_per_one = $content->original_price;
 			$content->price = $content->original_price;
-			$content->save();
+			if($pretend == false) $content->save();
 
 			$order->content_price = $order->content_price + $content->price;
 		}
@@ -855,7 +864,7 @@ class VeerShop {
 					$content->comments = \Lang::get('veeradmin.order.content.discount');
 					$content->price_per_one = $content->original_price;
 					$content->price = $content->original_price;
-					$content->save();
+					if($pretend == false) $content->save();
 					
 					$order->content_price = $order->content_price + $content->price;
 				}
@@ -911,5 +920,50 @@ class VeerShop {
 		\Session::forget('roles_id');
 		\Session::forget('discounts_by_role_checked');
 		\Session::forget('discounts_by_role');
+	}
+	
+	
+	
+	
+	/**
+	 * basic order parameters
+	 */
+	public function basicOrderParameters($order)
+	{
+		$order->free = 0;
+		$order->close = 0;
+		$order->delivery_free = 0;
+		$order->delivery_hold = 0;
+		$order->payment_hold = 0;
+		$order->payment_done = 0;
+		$order->hidden = 0;
+		$order->archive = 0;
+		$order->progress = 5;
+		return $order;
+	}
+	
+	
+	
+	/**
+	 * Sum order prices & weight
+	 * @param type $param
+	 */
+	public function sumOrderPricesAndWeight($order)
+	{
+		$order->content_price = $order->orderContent->sum('price'); 
+		
+		$order->used_discount = ($order->orderContent->sum('original_price')) - ($order->orderContent->sum('price_per_one'));
+		
+		if($order->used_discount < 0) { $order->used_discount = 0; }		
+		
+		else 
+		{ 
+			$order->used_discount = ($order->content_price > 0) ? 
+				round(($order->used_discount / $order->orderContent->sum('price_per_one')) * 100, 2) : 0; 
+		}
+		
+		$order->weight = $order->orderContent->sum('weight');
+		
+		return $order;
 	}
 }
