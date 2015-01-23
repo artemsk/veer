@@ -679,19 +679,7 @@ trait Ecommerce {
 		}
 				
 		// sums price & weight
-		$order->content_price = $order->orderContent->sum('price'); 
-		
-		$order->used_discount = ($order->orderContent->sum('original_price')) - ($order->orderContent->sum('price_per_one'));
-		
-		if($order->used_discount < 0) { $order->used_discount = 0; }		
-		
-		else 
-		{ 
-			$order->used_discount = ($order->content_price > 0) ? 
-				round(($order->used_discount / $order->orderContent->sum('price_per_one')) * 100, 2) : 0; 
-		}
-		
-		$order->weight = $order->orderContent->sum('weight');
+		$order = app('veershop')->sumOrderPricesAndWeight($order);
 		
 		// recalculate delivery
 		if($action == "recalculate" || $action == "add")

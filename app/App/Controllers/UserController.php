@@ -248,7 +248,10 @@ class UserController extends \BaseController {
 	{
 		$data = $this->veer->loadedComponents;
                 
-		$view = view($this->template.'.login', $data); 
+		$view = view($this->template.'.login', array(
+			"data" => $data,
+			"template" => $data['template']
+		)); 
 
 		//$this->view = $view; // do not cache
 
@@ -370,7 +373,10 @@ class UserController extends \BaseController {
 	{
 		$data = $this->veer->loadedComponents;
                 
-		$view = view($this->template.'.register', $data); 
+		$view = view($this->template.'.register', array(
+			"data" => $data,
+			"template" => $data['template']
+		)); 
 
 		return $view;  
 	}
@@ -426,35 +432,115 @@ class UserController extends \BaseController {
 	public function showCart()
 	{
 		$data = $this->veer->loadedComponents;
-                
+        
+		// prepare products		
 		$cart = app('veerdb')->route(\Auth::id());   
 		
-		// load(products) etc 
+		$grouped = array();
 		
 		foreach($cart as $entity)
 		{
-			if(isset($grouped[$entity->elements_id])) 
+			$attributes_flag = empty($entity->attributes) ? 0 : 1;
+			$group_id = empty($entity->attributes) ? $entity->elements_id : $entity->id;
+			
+			if(isset($grouped[$attributes_flag . "." . $group_id])) 
 			{
-				$grouped[$entity->elements_id]->quantity = $grouped[$entity->elements_id]->quantity + $entity->quantity;
+				$grouped[$attributes_flag . "." . $group_id]->quantity = 
+					$grouped[$attributes_flag . "." . $group_id]->quantity + $entity->quantity;
 				
-				$attributes = json_decode($grouped[$entity->elements_id]->attributes);
+				$attributes = json_decode($grouped[$attributes_flag . "." . $group_id]->attributes);
 				$newAttributes = json_decode($entity->attributes);
 				$mergedAttributes = array_merge((array)$attributes, (array)$newAttributes);
 				
 				if(is_array($mergedAttributes) && count($mergedAttributes) > 0) { 
-					$grouped[$entity->elements_id]->attributes = json_encode($mergedAttributes); }
+					$grouped[$attributes_flag . "." . $group_id]->attributes = json_encode($mergedAttributes); }
 			}
 			
 			else 
 			{
-				$grouped[$entity->elements_id] = $entity;
+				$grouped[$attributes_flag . "." . $group_id] = $entity;
 			}
 		}
 		
-		echo "<pre>";
-		print_r($grouped);
-		echo "</pre>";
-		$view = view($this->template.'.cart', $data); 
+		// show user books
+		if(\Auth::id() > 0) $userbooks = \Auth::user()->books;
+		
+		// pre- order calculations
+		
+		$order = new \Veer\Models\Order;
+		
+		$order->sites_id = app('veer')->siteId;
+		$order->users_id = \Auth::id();
+		
+		app('veershop')->basicOrderParameters($order);
+		
+		list($order, $checkDiscount) = app('veershop')->addNewOrder($order, \Auth::id(), array(), true);
+		
+		foreach($grouped as $entity)
+		{
+			$order->orderContent->push(app('veershop')->editOrderContent(new \Veer\Models\OrderProduct, array(
+				"product" => 1,
+				"products_id" => $entity->elements_id,
+				"quantity" => $entity->quantity,
+				"attributes" => $entity->attributes
+			), $order, true));
+		}
+		
+		app('veershop')->sumOrderPricesAndWeight($order);
+		
+		$calculations = array();
+		
+		$saveContentPrice = $order->content_price;
+		$saveDeliveryPirce = $order->delivery_price;
+		
+		foreach(shipping(app('veer')->siteId) as $method)
+		{
+			$order->delivery_method_id = $method->id;
+			
+			app('veershop')->recalculateOrderDelivery($order, $method, true);	
+			
+			$calculations['shipping'][$method->id] = array(
+				"method" => $method->toArray(),
+				"delivery_price" => $order->delivery_price,
+				"delivery_hold" => $order->delivery_hold,
+				"delivery_free" => $order->delivery_free,
+				"content_price_change" => ($order->content_price-$saveContentPrice)
+			);
+			
+			$order->content_price = $saveContentPrice;
+			$order->delivery_price = $saveDeliveryPirce;
+		}
+		
+		foreach(payments(app('veer')->siteId) as $method)
+		{
+			$order->payment_method_id = $method->id;
+			
+			app('veershop')->recalculateOrderPayment($order, $method, true);
+			
+			$calculations['payment'][$method->id] = array(
+				"method" => $method->toArray(),
+				"payment_hold" => $order->payment_hold,
+				"payment_free" => $order->payment_free,
+				"delivery_price_change" => ($order->delivery_price-$saveDeliveryPirce),
+				"content_price_change" => ($order->content_price-$saveContentPrice)
+			);
+			
+			$order->content_price = $saveContentPrice;
+			$order->delivery_price = $saveDeliveryPirce;
+		}		
+			
+		// total
+		if($order->delivery_free == true) {	$order->price = $order->content_price; }
+		else { $order->price = $order->content_price + $order->delivery_price; }
+			
+		$view = view($this->template.'.cart', array(
+			"cart" => $grouped,
+			"books" => isset($userbooks) ? $userbooks : null,
+			"methods" => $calculations,
+			"order" => $order,
+			"data" => $data,
+			"template" => $data['template']
+		)); 
 
 		return $view;  
 	}
@@ -467,5 +553,5 @@ class UserController extends \BaseController {
 
 // TODO: update cart
 // TODO: remove cart
-// TODO: calculate cart
+// TODO: recalculate cart
 // TODO: make order?
