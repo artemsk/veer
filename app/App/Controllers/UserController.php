@@ -433,106 +433,16 @@ class UserController extends \BaseController {
 	{
 		$data = $this->veer->loadedComponents;
         
-		// prepare products		
-		$cart = app('veerdb')->route(\Auth::id());   
+		// prepare content	
+		$cart = app('veerdb')->make('user.cart.show', \Auth::id());   
 		
-		$grouped = array();
-		
-		foreach($cart as $entity)
-		{
-			$attributes_flag = empty($entity->attributes) ? 0 : 1;
-			$group_id = empty($entity->attributes) ? $entity->elements_id : $entity->id;
-			
-			if(isset($grouped[$attributes_flag . "." . $group_id])) 
-			{
-				$grouped[$attributes_flag . "." . $group_id]->quantity = 
-					$grouped[$attributes_flag . "." . $group_id]->quantity + $entity->quantity;
-				
-				$attributes = json_decode($grouped[$attributes_flag . "." . $group_id]->attributes);
-				$newAttributes = json_decode($entity->attributes);
-				$mergedAttributes = array_merge((array)$attributes, (array)$newAttributes);
-				
-				if(is_array($mergedAttributes) && count($mergedAttributes) > 0) { 
-					$grouped[$attributes_flag . "." . $group_id]->attributes = json_encode($mergedAttributes); }
-			}
-			
-			else 
-			{
-				$grouped[$attributes_flag . "." . $group_id] = $entity;
-			}
-		}
+		$grouped = app('veershop')->regroupShoppingCart($cart);
 		
 		// show user books
 		if(\Auth::id() > 0) $userbooks = \Auth::user()->books;
 		
-		// pre- order calculations
+		list($order, $checkDiscount, $calculations) = app('veershop')->prepareOrder($grouped);
 		
-		$order = new \Veer\Models\Order;
-		
-		$order->sites_id = app('veer')->siteId;
-		$order->users_id = \Auth::id();
-		
-		app('veershop')->basicOrderParameters($order);
-		
-		list($order, $checkDiscount) = app('veershop')->addNewOrder($order, \Auth::id(), array(), true);
-		
-		foreach($grouped as $entity)
-		{
-			$order->orderContent->push(app('veershop')->editOrderContent(new \Veer\Models\OrderProduct, array(
-				"product" => 1,
-				"products_id" => $entity->elements_id,
-				"quantity" => $entity->quantity,
-				"attributes" => $entity->attributes
-			), $order, true));
-		}
-		
-		app('veershop')->sumOrderPricesAndWeight($order);
-		
-		$calculations = array();
-		
-		$saveContentPrice = $order->content_price;
-		$saveDeliveryPirce = $order->delivery_price;
-		
-		foreach(shipping(app('veer')->siteId) as $method)
-		{
-			$order->delivery_method_id = $method->id;
-			
-			app('veershop')->recalculateOrderDelivery($order, $method, true);	
-			
-			$calculations['shipping'][$method->id] = array(
-				"method" => $method->toArray(),
-				"delivery_price" => $order->delivery_price,
-				"delivery_hold" => $order->delivery_hold,
-				"delivery_free" => $order->delivery_free,
-				"content_price_change" => ($order->content_price-$saveContentPrice)
-			);
-			
-			$order->content_price = $saveContentPrice;
-			$order->delivery_price = $saveDeliveryPirce;
-		}
-		
-		foreach(payments(app('veer')->siteId) as $method)
-		{
-			$order->payment_method_id = $method->id;
-			
-			app('veershop')->recalculateOrderPayment($order, $method, true);
-			
-			$calculations['payment'][$method->id] = array(
-				"method" => $method->toArray(),
-				"payment_hold" => $order->payment_hold,
-				"payment_free" => $order->payment_free,
-				"delivery_price_change" => ($order->delivery_price-$saveDeliveryPirce),
-				"content_price_change" => ($order->content_price-$saveContentPrice)
-			);
-			
-			$order->content_price = $saveContentPrice;
-			$order->delivery_price = $saveDeliveryPirce;
-		}		
-			
-		// total
-		if($order->delivery_free == true) {	$order->price = $order->content_price; }
-		else { $order->price = $order->content_price + $order->delivery_price; }
-			
 		$view = view($this->template.'.cart', array(
 			"cart" => $grouped,
 			"books" => isset($userbooks) ? $userbooks : null,
@@ -543,6 +453,70 @@ class UserController extends \BaseController {
 		)); 
 
 		return $view;  
+	}
+	
+	/**
+	 * update Cart
+	 * @return type
+	 */
+	public function updateCart()
+	{
+		\Event::fire('router.filter: csrf');
+		
+		if(Input::get('action') == "order") return $this->makeOrder();
+		
+		echo "<pre>";
+		print_r(Input::all());
+		echo "</pre>";
+	}
+	
+	/**
+	 * make Order
+	 */
+	protected function makeOrder()
+	{
+		echo \Illuminate\Support\Facades\Route::currentRouteName()."<br>";
+		
+		$data = $this->veer->loadedComponents;
+        
+		$cart = app('veerdb')->make('user.cart.show', \Auth::id());   
+		
+		$grouped = app('veershop')->regroupShoppingCart($cart);
+		
+		$book = null;
+		
+		$validator = \Validator::make($fill, array(
+				'email' => 'required_without:users_id',
+				'users_id' => 'required_without:email',
+		));
+		// cart>0
+		
+		
+		if(Input::get('userbook_id') != null) $book = Veer\Models\UserBook::find(Input::get('userbook_id'));
+		
+		if(Input::get('book.address') != null) $book = app('veershop')->updateOrNewBook(Input::get('book'));
+		
+		
+		list($order, $checkDiscount, $calculations) = app('veershop')->prepareOrder(
+			$grouped, $book, Input::get('shipping'), Input::get('payment'), true);
+		
+		echo "<pre>";
+		print_r($order);
+		echo "</pre>";
+		
+		$statusName = \Veer\Models\OrderStatus::where('id','=',$order->status_id)->pluck('name');
+			\Veer\Models\OrderHistory::create(array(
+				"orders_id" => $order->id,
+				"status_id" => $order->status_id,
+				"name" => !empty($statusName) ? $statusName : '',
+				"comments" => "",
+			));
+			
+		app('veershop')->changeUserDiscountStatus($checkDiscount);
+		
+		app('veershop')->sendEmailOrderNew($order);
+		
+		// clear cart
 	}
 	
 }

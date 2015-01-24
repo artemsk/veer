@@ -28,6 +28,7 @@ post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.log
 get('user/logout', array('uses' => 'UserController@logout', 'as' => 'user.logout'));
 
 get('user/cart', array('uses' => 'UserController@showCart', 'as' => 'user.cart.show'));
+post('user/cart', array('uses' => 'UserController@updateCart', 'as' => 'user.cart.update'));
 get('user/cart/add/{id?}', array('uses' => 'UserController@addToCart', 'as' => 'user.cart.add'));
 get('user/cart/remove/{cartId?}', array('uses' => 'UserController@removeFromCart', 'as' => 'user.cart.remove'));
 get('user/list/add/{type?}/{id?}', array('uses' => 'UserController@addToList', 'as' => 'user.list.add'));
