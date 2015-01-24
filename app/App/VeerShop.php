@@ -1108,12 +1108,16 @@ class VeerShop {
 		
 		foreach($cart as $entity)
 		{
-			$order->orderContent->push($this->editOrderContent(new \Veer\Models\OrderProduct, array(
+			$content = $this->editOrderContent(new \Veer\Models\OrderProduct, array(
 				"product" => 1,
 				"products_id" => $entity->elements_id,
 				"quantity" => $entity->quantity,
 				"attributes" => $entity->attributes
-			), $order, true));
+			), $order, true);
+			
+			$order->orderContent->push($content);
+			
+			if($pretend == false) $content->save();			
 		}
 		
 		$this->sumOrderPricesAndWeight($order);

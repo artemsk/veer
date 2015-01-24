@@ -495,8 +495,7 @@ class UserController extends \BaseController {
 		if(Input::get('book.address') != null) $book = app('veershop')->updateOrNewBook(Input::get('book'));
 		
 		list($order, $checkDiscount, $calculations) = app('veershop')->prepareOrder(
-			$grouped, $book, Input::get('shipping'), Input::get('payment'), false);
-		
+			$grouped, $book, Input::get('shipping_id'), Input::get('payment_id'), false);
 		
 		$statusName = \Veer\Models\OrderStatus::where('id','=',$order->status_id)->pluck('name');
 		
@@ -514,12 +513,9 @@ class UserController extends \BaseController {
 		//app('veershop')->sendEmailOrderNew($order);
 		
 		// clear cart
-		//app('veerdb')->userLists(app('veer')->siteId, Auth::id(), '[basket]', false)->delete();
+		app('veerdb')->userLists(app('veer')->siteId, Auth::id(), '[basket]', false)->delete();
 		
-		echo "<pre>";
-		print_r(DB::getQueryLog());
-		echo "</pre>";
-		
+		// view
 	}
 	
 }
@@ -531,4 +527,3 @@ class UserController extends \BaseController {
 // TODO: update cart
 // TODO: remove cart
 // TODO: recalculate cart
-// TODO: make order?
