@@ -952,7 +952,7 @@ class VeerDb {
 					
 		if($name == "[basket]")	$items->where('elements_type','=','Veer\Models\Product');
 		
-		return ($onlySum == true) ? $items->sum('quantity') : $items->get();
+		return ($onlySum == true) ? $items->sum('quantity') : $items;
 	}
 	
 	/**
@@ -964,7 +964,7 @@ class VeerDb {
 	 */
 	public function userCartShowQuery($siteId, $userid)
 	{
-		return $this->userLists($siteId, $userid, "[basket]", false);
+		return $this->userLists($siteId, $userid, "[basket]", false)->get();
 	}
 	
 	/**
