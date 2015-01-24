@@ -399,14 +399,17 @@ class VeerShop {
 			}
 		}
 
-		$book['fill']['users_id'] = $order->users_id;
+		if(!empty($book)) 
+		{
+			$book['fill']['users_id'] = $order->users_id;
 
-		$newBook = $this->updateOrNewBook($book, $pretend);
-
+			$newBook = $this->updateOrNewBook($book, $pretend);
+		}
+		
 		if (isset($newBook) && is_object($newBook)) {
 			$order->userbook_id = $newBook->id;
-			$order->country = $newBook->country;
-			$order->city = $newBook->city;
+			$order->country = !empty($newBook->country) ? $newBook->country : '';
+			$order->city = !empty($newBook->city) ? $newBook->city : '';
 			$order->address = trim($newBook->postcode . " " . $newBook->address);
 		}
 
@@ -941,6 +944,9 @@ class VeerShop {
 		$order->hidden = 0;
 		$order->archive = 0;
 		$order->progress = 5;
+		$order->country = '';
+		$order->city = '';
+		$order->address = '';
 		return $order;
 	}
 	
@@ -1093,12 +1099,12 @@ class VeerShop {
 		if(!empty($chosen_book) && is_object($chosen_book))
 		{
 			$order->userbook_id = $chosen_book->id;
-			$order->country = $chosen_book->country;
-			$order->city = $chosen_book->city;
+			$order->country = !empty($chosen_book->country) ? $chosen_book->country : '';
+			$order->city = !empty($chosen_book->city) ? $chosen_book->city : '';
 			$order->address = trim( $chosen_book->postcode . " " . $chosen_book->address );	
 		}
 			
-		list($order, $checkDiscount) = $this->addNewOrder($order, \Auth::id(), array(), $pretend); // book
+		list($order, $checkDiscount) = $this->addNewOrder($order, \Auth::id(), null, $pretend); // book
 		
 		foreach($cart as $entity)
 		{

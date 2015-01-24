@@ -475,48 +475,51 @@ class UserController extends \BaseController {
 	 */
 	protected function makeOrder()
 	{
-		echo \Illuminate\Support\Facades\Route::currentRouteName()."<br>";
-		
 		$data = $this->veer->loadedComponents;
         
 		$cart = app('veerdb')->make('user.cart.show', \Auth::id());   
 		
+		// rules
+		if((Auth::id() <= 0 && Input::get('email') == null) || $cart->count() <= 0) 
+		{ 
+			Session::flash('errorMessage', \Lang::get('veershop.order.error'));
+			return Redirect::route('user.cart.show');
+		}		
+		
 		$grouped = app('veershop')->regroupShoppingCart($cart);
 		
 		$book = null;
-		
-		$validator = \Validator::make($fill, array(
-				'email' => 'required_without:users_id',
-				'users_id' => 'required_without:email',
-		));
-		// cart>0
-		
-		
+					
 		if(Input::get('userbook_id') != null) $book = Veer\Models\UserBook::find(Input::get('userbook_id'));
 		
 		if(Input::get('book.address') != null) $book = app('veershop')->updateOrNewBook(Input::get('book'));
 		
-		
 		list($order, $checkDiscount, $calculations) = app('veershop')->prepareOrder(
-			$grouped, $book, Input::get('shipping'), Input::get('payment'), true);
+			$grouped, $book, Input::get('shipping'), Input::get('payment'), false);
 		
-		echo "<pre>";
-		print_r($order);
-		echo "</pre>";
 		
 		$statusName = \Veer\Models\OrderStatus::where('id','=',$order->status_id)->pluck('name');
-			\Veer\Models\OrderHistory::create(array(
-				"orders_id" => $order->id,
-				"status_id" => $order->status_id,
-				"name" => !empty($statusName) ? $statusName : '',
-				"comments" => "",
-			));
-			
-		app('veershop')->changeUserDiscountStatus($checkDiscount);
 		
-		app('veershop')->sendEmailOrderNew($order);
+		\Veer\Models\OrderHistory::create(array(
+			"orders_id" => $order->id,
+			"status_id" => $order->status_id,
+			"name" => !empty($statusName) ? $statusName : '',
+			"comments" => "",
+		));
+			
+		$order->save();
+		
+		if(isset($checkDiscount) && is_object($checkDiscount)) app('veershop')->changeUserDiscountStatus($checkDiscount);
+		
+		//app('veershop')->sendEmailOrderNew($order);
 		
 		// clear cart
+		//app('veerdb')->userLists(app('veer')->siteId, Auth::id(), '[basket]', false)->delete();
+		
+		echo "<pre>";
+		print_r(DB::getQueryLog());
+		echo "</pre>";
+		
 	}
 	
 }
