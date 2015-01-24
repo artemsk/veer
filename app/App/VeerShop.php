@@ -2,8 +2,6 @@
 
 use Carbon\Carbon;
 
-// TODO: empty current_user_role & current_user_discount* after logging out (flushRemembered)
-
 class VeerShop {
 	
 	protected $currency_symbol;
@@ -623,6 +621,8 @@ class VeerShop {
 
 		if(!is_object($delivery)) return $order;
 		
+		$order->delivery_method = $delivery->name;
+		
 		// change address if it's pickup
 		if ($delivery->delivery_type == "pickup" && !empty($delivery->address)) 
 		{
@@ -795,6 +795,8 @@ class VeerShop {
 
 		if(!is_object($payment)) return $order;
 		
+		$order->payment_method = $payment->name;
+		
 		// 1
 		switch ($payment->paying_time) 
 		{
@@ -966,4 +968,175 @@ class VeerShop {
 		
 		return $order;
 	}
+	
+	
+	
+	
+	/**
+	 * regroup shopping cart
+	 */
+	public function regroupShoppingCart($cart)
+	{
+		$grouped = array();
+		
+		foreach($cart as $entity)
+		{
+			$attributes_flag = empty($entity->attributes) ? 0 : 1;
+			$group_id = empty($entity->attributes) ? $entity->elements_id : $entity->id;
+			
+			if(isset($grouped[$attributes_flag . "." . $group_id])) 
+			{
+				$grouped[$attributes_flag . "." . $group_id]->quantity = 
+					$grouped[$attributes_flag . "." . $group_id]->quantity + $entity->quantity;
+				
+				$attributes = json_decode($grouped[$attributes_flag . "." . $group_id]->attributes);
+				$newAttributes = json_decode($entity->attributes);
+				$mergedAttributes = array_merge((array)$attributes, (array)$newAttributes);
+				
+				if(is_array($mergedAttributes) && count($mergedAttributes) > 0) { 
+					$grouped[$attributes_flag . "." . $group_id]->attributes = json_encode($mergedAttributes); }
+			}
+			
+			else 
+			{
+				$grouped[$attributes_flag . "." . $group_id] = $entity;
+			}
+		}
+		
+		return $grouped;
+	}
+	
+	
+	
+	/**
+	 * calculate every delivery for order
+	 * @param type $order
+	 * @param type $pretend
+	 * @return type
+	 */
+	public function calculateEveryDelivery($order, $pretend)
+	{
+		$saveContentPrice = $order->content_price;
+		$saveDeliveryPirce = $order->delivery_price;
+		$calculations = array();
+		
+		foreach(shipping(app('veer')->siteId) as $method)
+		{
+			$order->delivery_method_id = $method->id;
+			
+			$order = $this->recalculateOrderDelivery($order, $method, $pretend);	
+			
+			$calculations[$method->id] = array(
+				"method" => $method->toArray(),
+				"delivery_price" => $order->delivery_price,
+				"delivery_hold" => $order->delivery_hold,
+				"delivery_free" => $order->delivery_free,
+				"content_price_change" => ($order->content_price-$saveContentPrice)
+			);
+			
+			$order->content_price = $saveContentPrice;
+			$order->delivery_price = $saveDeliveryPirce;
+		}
+		
+		return $calculations;
+	}
+	
+	
+	
+	/**
+	 * calculate every payment for order
+	 */
+	public function calculateEveryPayment($order, $pretend)
+	{
+		$saveContentPrice = $order->content_price;
+		$saveDeliveryPirce = $order->delivery_price;
+		$calculations = array();
+		
+		// payments
+		foreach(payments(app('veer')->siteId) as $method)
+		{
+			$order->payment_method_id = $method->id;
+			
+			$order = $this->recalculateOrderPayment($order, $method, $pretend);
+			
+			$calculations[$method->id] = array(
+				"method" => $method->toArray(),
+				"payment_hold" => $order->payment_hold,
+				"payment_free" => $order->payment_free,
+				"delivery_price_change" => ($order->delivery_price-$saveDeliveryPirce),
+				"content_price_change" => ($order->content_price-$saveContentPrice)
+			);
+			
+			$order->content_price = $saveContentPrice;
+			$order->delivery_price = $saveDeliveryPirce;
+		}
+		
+		return $calculations;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param type $param
+	 */
+	public function prepareOrder($cart, $chosen_book = null, $chosen_shipping = null, $chosen_payment = null, $pretend = true)
+	{
+		// pre- order calculations		
+		$order = new \Veer\Models\Order;
+		
+		$order->sites_id = app('veer')->siteId;
+		$order->users_id = \Auth::id();
+		
+		$this->basicOrderParameters($order);
+		
+		if(!empty($chosen_book) && is_object($chosen_book))
+		{
+			$order->userbook_id = $chosen_book->id;
+			$order->country = $chosen_book->country;
+			$order->city = $chosen_book->city;
+			$order->address = trim( $chosen_book->postcode . " " . $chosen_book->address );	
+		}
+			
+		list($order, $checkDiscount) = $this->addNewOrder($order, \Auth::id(), array(), $pretend); // book
+		
+		foreach($cart as $entity)
+		{
+			$order->orderContent->push($this->editOrderContent(new \Veer\Models\OrderProduct, array(
+				"product" => 1,
+				"products_id" => $entity->elements_id,
+				"quantity" => $entity->quantity,
+				"attributes" => $entity->attributes
+			), $order, true));
+		}
+		
+		$this->sumOrderPricesAndWeight($order);
+		
+		$calculations = array();
+		
+		if(!empty($chosen_shipping)) 
+		{
+			$order->delivery_method_id = $chosen_shipping;
+			$order = $this->recalculateOrderDelivery($order, null, $pretend);
+		}
+		
+		else { $calculations['shipping'] = $this->calculateEveryDelivery($order, $pretend); } 
+		
+		if(!empty($chosen_payment)) 
+		{
+			$order->payment_method_id = $chosen_payment;
+			$order = $this->recalculateOrderPayment($order, null, $pretend);
+		}
+		
+		else { $calculations['payment']  = $this->calculateEveryPayment($order, $pretend); }		
+			
+		///////
+		
+		// total
+		if($order->delivery_free == true) {	$order->price = $order->content_price; }
+		else { $order->price = $order->content_price + $order->delivery_price; }
+		
+		return array($order,$checkDiscount,$calculations);
+	}
+	
 }
