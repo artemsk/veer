@@ -185,4 +185,12 @@ class OrderController extends \BaseController {
 	}
 	
 	
+	/**
+	 * Order was successful made
+	 */
+	public function success()
+	{
+		//
+	}
+	
 }

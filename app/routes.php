@@ -12,6 +12,7 @@ Route::resource('filter', 'FilterController', array('only' => array('index', 'sh
 Route::resource('image', 'ImageController', array('only' => array('show')));
 
 get('order/bills/{id?}/{lnk?}', array('uses' => 'OrderController@bills', 'as' => 'order.bills'));
+get('order/success', array('uses' => 'OrderController@success', 'as' => 'order.success'));
 Route::resource('order', 'OrderController', array('only' => array('index', 'show', 'store')));
 //
 Route::resource('page', 'PageController', array('only' => array('index', 'show')));
