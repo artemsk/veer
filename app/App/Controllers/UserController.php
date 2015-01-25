@@ -517,7 +517,7 @@ class UserController extends \BaseController {
 		
 		Session::put('successfulOrder', $order->id);
 		
-		Redirect::route('order.success');
+		return Redirect::route('order.success');
 	}
 	
 }
