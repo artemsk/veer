@@ -515,7 +515,9 @@ class UserController extends \BaseController {
 		// clear cart
 		app('veerdb')->userLists(app('veer')->siteId, Auth::id(), '[basket]', false)->delete();
 		
-		// view
+		Session::put('successfulOrder', $order->id);
+		
+		Redirect::route('order.success');
 	}
 	
 }
