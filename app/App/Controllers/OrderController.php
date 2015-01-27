@@ -25,7 +25,7 @@ class OrderController extends \BaseController {
 			"template" => $data['template']
 		)); 
 
-		$this->view = $view; // to cache
+		//$this->view = $view; // to cache
 
 		return $view;		
 	}
@@ -112,7 +112,7 @@ class OrderController extends \BaseController {
 			"template" => $data['template']
 		)); 
 
-		$this->view = $view; 
+		//$this->view = $view; 
 
 		return $view;
 	}
@@ -190,7 +190,30 @@ class OrderController extends \BaseController {
 	 */
 	public function success()
 	{
-		//
+		if(Session::has("successfulOrder"))
+		{		
+			$data = $this->veer->loadedComponents;            
+
+			$orders = app('veerdb')->make('order.show', Session::get("successfulOrder"), array('userId' => Auth::id(), 
+				'administrator' => administrator()));
+
+			if(is_object($orders))
+			{
+				$orders->load('user', 'userbook', 'userdiscount', 'status', 'delivery', 
+					'payment', 'status_history', 'products', 'bills', 'secrets');
+				// TODO: do we need to load all information?
+
+				$view = view($this->template.'.success-order', array(
+					"order" => $orders,
+					"data" => $data,
+					"template" => $data['template']
+				)); 
+
+				return $view;	
+			}
+		}
+		
+		return Redirect::route('index'); 
 	}
 	
 }
