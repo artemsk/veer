@@ -202,6 +202,7 @@ class OrderController extends \BaseController {
 				$orders->load('user', 'userbook', 'userdiscount', 'status', 'delivery', 
 					'payment', 'status_history', 'products', 'bills', 'secrets');
 				// TODO: do we need to load all information?
+				// TODO: downloads for digital products
 
 				$view = view($this->template.'.success-order', array(
 					"order" => $orders,
