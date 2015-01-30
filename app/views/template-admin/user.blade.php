@@ -307,5 +307,5 @@
 @if(isset($items->id))
 <div class="action-hover-box"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 @endif
-{{ Form::close() }}
+</form>
 @stop

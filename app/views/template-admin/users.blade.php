@@ -85,7 +85,7 @@
 		</div>
 		@endforeach	
 	</div>
-	{{ Form::close() }}
+	</form>
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
@@ -133,7 +133,7 @@ Ban"></textarea></p>
 			<p>{{ Form::submit('Add', array('name' => 'action', 'class' => 'form-control btn btn-danger')); }}</p>
 		</div>
 	</div>
-	{{ Form::close() }}	
+	</form>
 	
 </div>
 @stop

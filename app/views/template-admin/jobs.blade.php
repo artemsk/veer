@@ -25,7 +25,7 @@
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>
 			</div>
-			{{ Form::close() }}
+			</form>
 		</div>
 		@foreach($items['jobs'] as $item)	
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
@@ -50,7 +50,7 @@
 					
 				</div>
 			</div>
-			{{ Form::close() }}
+			</form>
 		</div>
 		@endforeach	
 		@foreach($items['failed'] as $item)	

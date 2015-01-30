@@ -29,7 +29,7 @@
 			</span>
 		</div>
 		<input type="hidden" name="siteid" value="{{ $item->id }}">
-	{{ Form::close() }}
+	</form>
 	
 	<div class="rowdelimiter"></div>
 	

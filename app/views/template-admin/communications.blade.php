@@ -96,7 +96,7 @@
 		@endif
 	@endforeach
 	</ul>
-	{{ Form::close() }}
+	</form>
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
@@ -111,6 +111,6 @@
 	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<label>Add message to anything as anybody</label>
 	@include($template.'.layout.form-communication')
-	{{ Form::close() }}
+	</form>
 </div>
 @stop

@@ -13,7 +13,7 @@
 {{ Form::password('password', array('class' => 'form-control veer-form')); }}<br/><br/>
 
 {{ Form::submit('Login', array('class' => 'btn btn-default btn-lg')); }}
-{{ Form::close() }}
+</form>
 				</div></div>
 		</div>
 	</section>

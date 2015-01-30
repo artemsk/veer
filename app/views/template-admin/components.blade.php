@@ -31,7 +31,7 @@
 				<input type="hidden" name="sort" value="{{ Input::get('sort', null) }}">
 				<input type="hidden" name="direction" value="{{ Input::get('direction', null) }}">
 			</div>
-			{{ Form::close() }}
+			</form>
 		</div>		
 		<div id="cardstock{{ $site->id }}">
 				@include($template.'.lists.components-cards', array('components' => $site->components, 'siteid' => $site->id))	

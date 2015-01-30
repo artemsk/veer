@@ -8,7 +8,7 @@
 
 <button type="submit" name="action" value="update" class="btn btn-default btn-block">Update</button>
 <button type="submit" name="action" value="order" class="btn btn-default btn-block">Make order</button>
-{{ Form::close() }}
+</form>
 				</div></div>
 		</div>
 	</section>

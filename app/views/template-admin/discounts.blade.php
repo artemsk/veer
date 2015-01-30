@@ -131,7 +131,7 @@
 	
 			<p class="sm-rowdelimiter"></p>
 		<button type="submit" name="updateGlobalDiscounts" value="update" class="btn btn-default">Update</button>
-	{{ Form::close() }}
+	</form>
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(

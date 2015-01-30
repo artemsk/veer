@@ -52,7 +52,7 @@
 	<div class="sm-rowdelimiter"></div>
 	@endforeach
 	</ul>
-	{{ Form::close() }}
+	</form>
 	
 	<div class="row">
 		<div class="text-center">
@@ -93,6 +93,6 @@
 	<p></p>
     @endfor
     <button type="submit" class="btn btn-default" name="addStatus" value="addStatus">Submit</button> 
-	{{ Form::close() }}
+	</form>
 </div>
 @stop

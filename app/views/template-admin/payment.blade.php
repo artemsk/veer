@@ -91,7 +91,7 @@ d:total">{{ $item->discount_conditions }}</textarea>
 			</div> 
 		</div>
 	</ul>	
-	{{ Form::close() }}
+	</form>
 	@endforeach
 	
 	<div class="row">
@@ -158,6 +158,6 @@ d:total"></textarea>
         </div> 
 	</div>
 	
-	{{ Form::close() }}
+	</form>
 </div>
 @stop

@@ -16,7 +16,7 @@
 	
 	@include($template.'.lists.orders', array('items' => $items))
 	
-	{{ Form::close() }}
+	</form>
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(

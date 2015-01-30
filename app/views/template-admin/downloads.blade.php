@@ -63,7 +63,7 @@
 						<p><input type="text" class="form-control" placeholder="Maximum Downloads" size=6 name="times"></p>
 						<p><input type="date" class="form-control" placeholder="Expiration Date" size=6 name="expiration_day"></p>
 						<p><button class="btn btn-info btn-xs" type="submit" name="action" value="makeRealLink.{{ $items[$item]->id }}">Make</button></p>
-						{{ Form::close() }}
+						</form>
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> make link</button>
 			@else
@@ -85,7 +85,7 @@
 						<p><input type="text" class="form-control" placeholder="Product Id" size=6 name="prdId"></p>
 						<p><input type="text" class="form-control" placeholder="Page Id" size=6 name="pgId"></p>
 						<p><button class="btn btn-success btn-xs" type="submit" name="action" value="copyFile.{{ $items[head($group[1])]->id }}">Add</button></p>
-						{{ Form::close() }}
+						</form>
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> product | page</button>		
 			<div class="rowdelimiter"></div>
@@ -93,7 +93,7 @@
 		@endforeach
 
 	</div>
-	{{ Form::close() }}
+	</form>
 	<div class="rowdelimiter"></div>
 	
 	<div class="row">
@@ -115,6 +115,6 @@
 			<p>{{ Form::submit('Update | Upload', array('class' => 'form-control btn btn-primary')); }}</p>
 		</div>
 	</div>
-	{{ Form::close() }}
+	</form>
 </div>
 @stop

@@ -49,7 +49,7 @@
 	<div class="rowdelimiter"></div>
 	@endforeach
 
-	{{ Form::close() }}
+	</form>
 	
 	<div class="row">
 		<div class="text-center">
@@ -82,6 +82,6 @@
 	</div>
 	@endif
 	</div>
-	{{ Form::close() }}
+	</form>
 </div>
 @stop

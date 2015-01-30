@@ -24,7 +24,7 @@
 				<input type="hidden" name="sort" value="{{ Input::get('sort', null) }}">
 				<input type="hidden" name="direction" value="{{ Input::get('direction', null) }}">				
 			</div>
-			{{ Form::close() }}
+			</form>
 		</div>		
 		<div id="cardstock{{ $site->id }}">
 				@include($template.'.lists.configuration-cards', array('configuration' => $site->configuration, 'siteid' => $site->id))	
