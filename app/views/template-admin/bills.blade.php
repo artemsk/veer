@@ -25,7 +25,7 @@
 				))->links() }}
 		</div>
 	</div>
-	{{ Form::close() }}
+	</form>
 	
 	<div class='rowdelimiter'></div>
 	<hr>
@@ -34,6 +34,6 @@
 	
 	@include($template.'.layout.form-bill')
 	
-	{{ Form::close() }}	
+	</form>
 </div>
 @stop

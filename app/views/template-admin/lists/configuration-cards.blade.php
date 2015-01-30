@@ -18,7 +18,7 @@
 					<input type="hidden" name="sort" value="{{ Input::get('sort', null) }}">
 					<input type="hidden" name="direction" value="{{ Input::get('direction', null) }}">								
 				</div>
-		{{ Form::close() }}
+		</form>
 			</div>
 		</div>
 @endforeach			

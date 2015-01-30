@@ -42,7 +42,7 @@
 		@if(!isset($skipUser)) {{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }} @endif
 		<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#bookModal{{ $item->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp;		
 		<button type="submit" name="deleteUserbook[{{ $item->id }}]" value="{{ $item->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
-		@if(!isset($skipUser)) {{ Form::close() }} @endif
+		@if(!isset($skipUser)) </form> @endif
 		@endif
 @if(!isset($skipOrder))
 	<div class="modal fade" id="bookModal{{ $item->id }}">
@@ -60,7 +60,7 @@
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="submit" name="action" value="updateUserbook" class="btn btn-primary">Save changes</button>
 				</div>
-				@if(!isset($skipUser)) {{ Form::close() }} @endif
+				@if(!isset($skipUser)) </form> @endif
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->

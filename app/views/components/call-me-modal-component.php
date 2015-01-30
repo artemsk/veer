@@ -6,7 +6,7 @@
 			<span class="input-group-btn">
 			<button class="btn btn-default" type="submit">Go!</button>
 			</span>
-			</div><?php echo Form::close(); ?>' data-html="true" data-title="Перезвоните мне">
+			</div></form>' data-html="true" data-title="Перезвоните мне">
 		Заказать звонок
 	</button>
 </div>

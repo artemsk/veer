@@ -30,7 +30,7 @@
 			
 	@endforeach
 	</ul>
-	{{ Form::close() }}
+	</form>
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array(
@@ -57,6 +57,6 @@
 			<button type="submit" name="action" value="addSearch" class="btn btn-default">Add</button>
         </div>  
     </div>
-	{{ Form::close() }}	
+	</form>
 </div>
 @stop

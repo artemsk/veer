@@ -18,7 +18,7 @@
 	
 	@include($template.'.lists.products', array('items' => $items))
 	
-	{{ Form::close() }}
+	</form>
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array('filter' => Input::get('filter', null), 'filter_id' => Input::get('filter_id', null)))->links() }}
@@ -50,7 +50,7 @@
 			<p>{{ Form::submit('Add', array('class' => 'form-control btn btn-danger')); }}</p>
 		</div>
 	</div>
-	{{ Form::close() }}	
+	</form>	
 	
 </div>
 @stop

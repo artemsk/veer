@@ -12,7 +12,7 @@
 	<label>Raw Sql</label>
 	<p><textarea class="form-control" name="freeFormSql" placeholder="Raw Sql [Update, Insert, Delete]"></textarea></p>
 	<button type="submit" class="btn btn-default" name="action" value="runRawSql">Run</button>
-	{{ Form::close() }}
+	</form>
 	
 	@if(array_get($items, 'trashed') != null)
 	<div class="rowdelimiter"></div>
@@ -26,7 +26,7 @@
 	<button type="submit" class="btn btn-default margin-bottom-button" name="button" value="{{ $table }}" data-resultdiv="#clearTrashed">Clear <strong>{{ $table }} {{ $trash }}</strong></button>&nbsp;
 	@endforeach
 	</div>
-	{{ Form::close() }}
+	</form>
 	@endif
 
 	<div class="rowdelimiter"></div>
@@ -38,7 +38,7 @@
 	<input type="hidden" name="actionButton" value="clearCache">
 	<button type="submit" class="btn btn-default margin-bottom-button" name="action" value="clearCache" data-resultdiv="#clearCache">Clear cache <strong>{{ array_get($items, 'cache') != null ? count($items['cache']) : null }}</strong></button>&nbsp;
 	</div>
-	{{ Form::close() }}
+	</form>
 
 	<div class="rowdelimiter"></div>
 	
@@ -49,7 +49,7 @@
 	<input type="hidden" name="actionButton" value="checkLatestVersion">
 	<p><button type="submit" class="btn btn-default" name="action" value="checkLatestVersion" data-resultdiv="#compareVersions">Check Version</button></p>
 	</div>
-	{{ Form::close() }}
+	</form>
 	</div>
 	
 	<div class="rowdelimiter"></div>
@@ -61,7 +61,7 @@
 	<input type="hidden" name="actionButton" value="sendPingEmail">
 	<p><button type="submit" class="btn btn-default" name="action" value="sendPingEmail" data-resultdiv="#sendPingEmail">Send Ping Email</button></p>
 	</div>
-	{{ Form::close() }}
+	</form>
 	</div>
 </div>
 @stop

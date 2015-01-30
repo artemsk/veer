@@ -109,7 +109,7 @@
 								 data-html="true" title="Searching current element" id="SearchField" name="SearchField">
 					  </div>
 					  <button type="submit" name="SearchButton" class="btn btn-default" value="Search">Search</button>
-				  {{ Form::close() }}
+				   </form>
 			  </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 	  </nav>

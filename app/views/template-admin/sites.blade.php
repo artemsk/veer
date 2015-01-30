@@ -74,5 +74,5 @@
 	<button type="submit" name="update" class="btn btn-default">Update</button>
 	<input type="hidden" name="_action" value="update">
 </div>
-{{ Form::close() }}
+</form>
 @stop

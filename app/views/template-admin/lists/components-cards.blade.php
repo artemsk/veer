@@ -21,7 +21,7 @@
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					<input type="hidden" name="siteid" value="{{ $siteid }}">	
 				</div>
-		{{ Form::close() }}
+		</form>
 			</div>
 		</div>
 @endforeach		

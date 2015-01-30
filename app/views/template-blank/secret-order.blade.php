@@ -8,5 +8,5 @@
 {{ Form::password('password'); }}<br/><br/>
 
 {{ Form::submit('Show'); }}
-{{ Form::close() }}
+</form>
 @stop

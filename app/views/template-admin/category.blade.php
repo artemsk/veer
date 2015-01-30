@@ -18,7 +18,7 @@
 						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
 						<input type="text" class="form-control" placeholder="Id" size=2 name="parentId">
 						<button class="btn btn-info" type="submit" name="action" value="saveParent"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-						{{ Form::close() }}
+						</form>
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>
 			</li>
@@ -34,7 +34,7 @@
 						<button class="btn btn-warning" type="submit" name="action" value="removeParent">
 						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 						<input type="hidden" name="lastCategoryId" value="{{ $category->id }}">
-						{{ Form::close() }}
+						</form>
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>&nbsp;
 				{{ link_to_route("admin.show", $category->title, array("categories", "category=".$category->id)) }}
@@ -58,7 +58,7 @@
 		<p><div class="text-right"><button type="submit" class="btn btn-default" name="action" value="updateCurrent">Update</button> 
 			&nbsp;<button type="submit" class="btn btn-danger" name="action" value="deleteCurrent">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div></p>
-		{{ Form::close() }}
+		</form>
     <br/>		
 	<div class="testajax"></div>	
 	<ul class="list-group sortable" data-parentid="{{ $items->id }}">
@@ -75,7 +75,7 @@
 						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 						<input type="hidden" name="lastCategoryId" value="{{ $items->id }}">
 						<input type="hidden" name="currentChildId" value="{{ $category->id }}">
-						{{ Form::close() }}
+						</form>
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>&nbsp;
 		<button type="button" class="btn btn-danger btn-xs category-delete" data-categoryid="{{ $category->id }}">
@@ -95,7 +95,7 @@
 			</span>
 		</div>
 	</li>
-	{{ Form::close() }}
+	</form>
 	
 	</ul>	
 	</div>
@@ -123,7 +123,7 @@
 		</div>
 	</div>	
 	@endif
-	{{ Form::close() }}
+	</form>
 	
 	{{ Form::open(array('url' => URL::full(), 'files' => false, 'method' => 'put')); }}	
 	<div class="rowdelimiter"></div>
@@ -150,7 +150,7 @@
 		</div>
 	</div>
 	@endif
-	{{ Form::close() }}
+	</form>
 	
 	{{ Form::open(array('url' => URL::full(), 'files' => false, 'method' => 'put')); }}	
 	<div class="rowdelimiter"></div>
@@ -177,7 +177,7 @@
 		</div>
 	</div>
 	@endif
-	{{ Form::close() }}
+	</form>
 	
 	@if(count($items->communications)>0)
 	<div class="rowdelimiter"></div>

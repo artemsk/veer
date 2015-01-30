@@ -32,6 +32,6 @@
 	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 	<label>Add users book</label>	
 	@include($template.'.layout.form-userbook')
-	{{ Form::close() }}
+	</form>
 </div>
 @stop

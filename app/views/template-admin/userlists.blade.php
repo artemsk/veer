@@ -60,7 +60,7 @@
 	</ul>		
 	@endforeach
 	
-	{{ Form::close() }}
+	</form>
 	
 	<div class="row">
 		<div class="text-center">
@@ -109,6 +109,6 @@
 			<button type="submit" name="action" value="addList" class="btn btn-default">Submit</button>
         </div>
     </div>
-	{{ Form::close() }}
+	</form>
 </div>
 @stop

@@ -70,7 +70,7 @@
 	</div>
 	<button type="submit" name="action" value="updateRoles" class="btn btn-default">Add | Update</button>	 
 	
-	{{ Form::close() }}
+	</form>
 	
 	<div class="row">
 		<div class="text-center">
