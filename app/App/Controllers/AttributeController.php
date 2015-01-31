@@ -2,6 +2,15 @@
 
 class AttributeController extends \BaseController {
 
+	protected $showAttribute;
+	
+	public function __construct(\Veer\Architecture\showAttribute $showAttribute)
+	{
+		parent::__construct();
+		
+		$this->showAttribute = $showAttribute;
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -9,7 +18,7 @@ class AttributeController extends \BaseController {
 	 */
 	public function index()
 	{
-        $attributes = ( new \Veer\Architecture\showAttribute )->getTopAttributesWithSite(
+        $attributes = $this->showAttribute->getTopAttributesWithSite(
 			app('veer')->siteId
 		); 
 		
@@ -47,34 +56,30 @@ class AttributeController extends \BaseController {
 	 * @return Response
 	 */
 	public function show($id, $childId = null)
-	{
-		$showAttribute = new \Veer\Architecture\showAttribute;
-		
-		$attribute = $showAttribute->getParentOrChildAttribute($id, $childId);
+	{		
+		$attribute = $this->showAttribute->getParentOrChildAttribute($id, $childId);
 		
 		if(!is_object($attribute)) { return Redirect::route('index'); }
 		
-		$data = $this->veer->loadedComponents;     
-
 		if(!empty($childId)) {
 			
 			$page_sort = get_paginator_and_sorting();
 
-			$products = $showAttribute->getProductsWithAttribute(app('veer')->siteId, $childId, $page_sort);
+			$products = $this->showAttribute->getProductsWithAttribute(app('veer')->siteId, $childId, $page_sort);
 
-			$pages = $showAttribute->getPagesWithAttribute(app('veer')->siteId, $childId, $page_sort);
+			$pages = $this->showAttribute->getPagesWithAttribute(app('veer')->siteId, $childId, $page_sort);
 			
-			$tags = $showAttribute->getTagsWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
+			$tags = $this->showAttribute->getTagsWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
 
-			$categories = $showAttribute->getCategoriesWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
-						
+			$categories = $this->showAttribute->getCategoriesWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
+
 			$view = view($this->template.'.attribute', array(
 				"attribute" => $attribute,
 				"products" => $products,
 				"pages" => $pages,
 				"tags" => $tags,
 				"categories" => $categories,
-				"data" => $data,
+				"data" => $this->veer->loadedComponents,
 				"template" => $this->template
 			));
 		
@@ -82,7 +87,7 @@ class AttributeController extends \BaseController {
 			
 			$view = view($this->template.'.attribute', array(
 				"attribute" => $attribute,
-				"data" => $data,
+				"data" => $this->veer->loadedComponents,
 				"template" => $this->template
 			));
 		}
