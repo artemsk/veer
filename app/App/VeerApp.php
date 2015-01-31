@@ -55,7 +55,12 @@ class VeerApp {
 	 * 
 	 */		
 	public $loadedComponents;	
-
+	
+	/**
+	 *  Work only with site-specific entities
+	 */
+	public $isSiteFiltered = true;
+	
 	/**
 	 * Construct the VeerApp.
 	 *
@@ -67,6 +72,15 @@ class VeerApp {
 		//
 	}
 
+	/**
+	 * is Site Filtered?
+	 * @return bool
+	 */
+	public function isSiteFiltered() 
+	{
+		return $this->isSiteFiltered;
+	}
+	
 	/**
 	 * Boot the VeerApp.
 	 *

@@ -9,45 +9,36 @@ class AttributeController extends \BaseController {
 	 */
 	public function index()
 	{
-        $attributes = app('veerdb')->route();   
+        $attributes = ( new \Veer\Architecture\showAttribute )->getTopAttributesWithSite(
+			app('veer')->siteId
+		); 
 		
 		if(!is_object($attributes)) { return Redirect::route('index'); }
                 
-		$data = $this->veer->loadedComponents;            
-
 		$view = view($this->template.'.attributes', array(
 			"attributes" => $attributes,
-			"data" => $data,
-			"template" => $data['template']
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
 		)); 
 
 		$this->view = $view; 
 
 		return $view;
 	}
-
-
+	
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		//
-	}
-
+	public function create() {}
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		//
-	}
-
+	public function store() {}
 
 	/**
 	 * Display the specified resource.
@@ -55,46 +46,28 @@ class AttributeController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($id, $childId = null)
 	{
-		$vdb = app('veerdb');
-
-		$attribute = $vdb->route($id);   
+		$showAttribute = new \Veer\Architecture\showAttribute;
+		
+		$attribute = $showAttribute->getParentOrChildAttribute($id, $childId);
 		
 		if(!is_object($attribute)) { return Redirect::route('index'); }
 		
 		$data = $this->veer->loadedComponents;     
 
-		if($vdb->data['parent_flag'] != 1) {
+		if(!empty($childId)) {
 			
-			$paginator_and_sorting = get_paginator_and_sorting();
+			$page_sort = get_paginator_and_sorting();
 
-			$products = $vdb->attributeOnlyProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
+			$products = $showAttribute->getProductsWithAttribute(app('veer')->siteId, $childId, $page_sort);
 
-			$pages = $vdb->attributeOnlyPagesQuery($this->veer->siteId, $id, $paginator_and_sorting);
+			$pages = $showAttribute->getPagesWithAttribute(app('veer')->siteId, $childId, $page_sort);
 			
-			$siteId = $this->veer->siteId;
-			
-			$tags = \Veer\Models\Tag::whereHas('products', function($query) use($id, $siteId, $attribute) {
-                    $query->siteValidation($siteId)->checked()->whereHas('attributes', function($q) use ($id, $attribute) {
-							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
-					});
-                })->orWhereHas('pages', function($query) use($id, $siteId, $attribute) {
-                    $query->siteValidation($siteId)->excludeHidden()->whereHas('attributes', function($q) use ($id, $attribute) {
-							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
-					});
-                })->remember(5)->get();		
-				
-			$categories = \Veer\Models\Category::whereHas('products', function($query) use($id, $siteId, $attribute) {
-                    $query->siteValidation($siteId)->checked()->whereHas('attributes', function($q) use ($id, $attribute) {
-							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
-					});
-                })->orWhereHas('pages', function($query) use($id, $siteId, $attribute) {
-                    $query->siteValidation($siteId)->excludeHidden()->whereHas('attributes', function($q) use ($id, $attribute) {
-							$q->where('name','=',$attribute['name'])->where('val','=',$attribute['val']);
-					});
-                })->remember(5)->get();	
-				
+			$tags = $showAttribute->getTagsWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
+
+			$categories = $showAttribute->getCategoriesWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
+						
 			$view = view($this->template.'.attribute', array(
 				"attribute" => $attribute,
 				"products" => $products,
@@ -102,7 +75,7 @@ class AttributeController extends \BaseController {
 				"tags" => $tags,
 				"categories" => $categories,
 				"data" => $data,
-				"template" => $data['template']
+				"template" => $this->template
 			));
 		
 		} else {
@@ -110,15 +83,14 @@ class AttributeController extends \BaseController {
 			$view = view($this->template.'.attribute', array(
 				"attribute" => $attribute,
 				"data" => $data,
-				"template" => $data['template']
+				"template" => $this->template
 			));
 		}
-				
+			
 		$this->view = $view; 
 
 		return $view;
 	}
-
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -126,11 +98,7 @@ class AttributeController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
-		//
-	}
-
+	public function edit($id) {}
 
 	/**
 	 * Update the specified resource in storage.
@@ -138,11 +106,7 @@ class AttributeController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		//
-	}
-
+	public function update($id) {}
 
 	/**
 	 * Remove the specified resource from storage.
@@ -150,10 +114,6 @@ class AttributeController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
-	}
-
+	public function destroy($id) {}
 
 }

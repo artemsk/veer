@@ -28,42 +28,7 @@ class Show {
 				
 				); // elements separately		
 	}
-	
-	/**
-	 * Show Attributes
-	 */
-	public function showAttributes( $filters = array() ) 
-	{	
-		$items = \Veer\Models\Attribute::orderBy('name')
-			->with('pages', 'products')->paginate(100);
-				
-		foreach($items as $key => $item) 
-		{
-			$items_grouped[$item->name][$key] = $key;
-			
-			$items_counted[$item->name]['prd'] = 
-				( isset($items_counted[$item->name]['prd']) ? 
-					$items_counted[$item->name]['prd'] : 0 ) + 
-				($item->products->count());
-			
-			$items_counted[$item->name]['pg'] = 
-				( isset($items_counted[$item->name]['pg']) ? 
-				$items_counted[$item->name]['pg'] : 0 ) + 
-				($item->pages->count()); 
-		}
-
-		$items['grouped'] = array();
 		
-		if(isset($items_grouped)) 
-		{
-			$items['grouped'] = $items_grouped;
-			
-			$items['counted'] = $items_counted;				
-		}
-		
-		return $items;
-	}	
-	
 	/**
 	 * Show Tags
 	 */

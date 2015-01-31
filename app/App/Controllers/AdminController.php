@@ -2,7 +2,6 @@
 
 class AdminController extends \BaseController {
 
-	
 	public function __construct()
 	{
 		parent::__construct();
@@ -26,6 +25,8 @@ class AdminController extends \BaseController {
         });
 		
 		$this->template = config('veer.template-admin');
+		
+		app('veer')->isSiteFiltered = false;
 	}
 	
 	
@@ -77,6 +78,11 @@ class AdminController extends \BaseController {
 		}
 		
 		switch ($t) {
+			case "attributes":
+				$items = ( new \Veer\Architecture\showAttribute )->getUngroupedAttributes();
+				$view = $t;
+				break;
+			
 			case "categories":		
 				$category = Input::get('category');
 				$image = Input::get('image');

@@ -4,10 +4,14 @@
  * + sort, sort_directons, + more_pages
  */
 
-get('/404',array('uses' => 'IndexController@show404', 'as' => '404'));
+get('/404', array('uses' => 'IndexController@show404', 'as' => '404'));
 Route::resource('/', 'IndexController', array('only' => array('index')));
 Route::resource('category', 'CategoryController', array('only' => array('index', 'show')));
-Route::resource('attribute', 'AttributeController', array('only' => array('index', 'show')));
+
+get('/attribute', array('uses' => 'AttributeController@index', 'as' => 'attribute.index'));
+get('/attribute/{parentId?}/{childId?}', array('uses' => 'AttributeController@show', 'as' => 'attribute.show'));
+
+
 Route::resource('filter', 'FilterController', array('only' => array('index', 'show')));
 Route::resource('image', 'ImageController', array('only' => array('show')));
 
