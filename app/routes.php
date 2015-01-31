@@ -48,3 +48,15 @@ Route::resource('user', 'UserController', array('only' => array('index', 'show')
 get('download/{lnk?}', array('uses' => 'DownloadController@download', 'as' => 'download.link'));
 
 Route::resource('admin', 'AdminController', array('only' => array('index', 'show', 'update')));
+
+get('/information', function() {
+	
+	echo count(\Illuminate\Support\Facades\DB::getQueryLog()). "<br>";;
+    echo round(microtime(true) - LARAVEL_START, 4)."<br>";
+	echo number_format(memory_get_usage())."<br><br>";
+	
+	echo app_path()."<br>";
+	echo base_path()."<br>";
+	echo public_path()."<br>";
+	echo storage_path()."<br>";
+});
