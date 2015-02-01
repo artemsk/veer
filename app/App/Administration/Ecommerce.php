@@ -341,7 +341,7 @@ trait Ecommerce {
 		
 		$func_name = Input::get('payment.fill.func_name');
 		
-		if(!empty($func_name) && !class_exists('\\Veer\\Ecommerce\\' . $func_name)) 
+		if(!empty($func_name) && !class_exists('\\Veer\\Components\\Ecommerce\\' . $func_name)) 
 		{
 			return Event::fire('veer.message.center', \Lang::get('veeradmin.payment.error'));
 		}
@@ -409,7 +409,7 @@ trait Ecommerce {
 		
 		$func_name = Input::get('shipping.fill.func_name');
 		
-		if(!empty($func_name) && !class_exists('\\Veer\\Ecommerce\\' . $func_name)) 
+		if(!empty($func_name) && !class_exists('\\Veer\\Components\\Ecommerce\\' . $func_name)) 
 		{
 			return Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.error'));
 		}

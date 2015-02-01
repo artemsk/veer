@@ -656,9 +656,9 @@ class VeerShop {
 		}
 		
 		// 3 calculator
-		if (!empty($delivery->func_name) && class_exists('\\Veer\\Ecommerce\\' . $delivery->func_name)) 
+		if (!empty($delivery->func_name) && class_exists('\\Veer\\Components\\Ecommerce\\' . $delivery->func_name)) 
 		{
-			$class = '\\Veer\\Ecommerce\\' . $delivery->func_name;
+			$class = '\\Veer\\Components\\Ecommerce\\' . $delivery->func_name;
 
 			$deliveryFunc = new $class;
 
@@ -813,9 +813,9 @@ class VeerShop {
 		}
 		
 		// 2 calculator
-		if (!empty($payment->func_name) && class_exists('\\Veer\\Ecommerce\\' . $payment->func_name)) 
+		if (!empty($payment->func_name) && class_exists('\\Veer\\Components\\Ecommerce\\' . $payment->func_name)) 
 		{
-			$class = '\\Veer\\Ecommerce\\' . $payment->func_name;
+			$class = '\\Veer\\Components\\Ecommerce\\' . $payment->func_name;
 
 			$paymentFunc = new $class;
 
