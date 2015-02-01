@@ -24,6 +24,7 @@ class AdminController extends \BaseController {
 			app('veer')->loadedComponents['template'] = app('veer')->template = config('veer.template-admin');			
         });
 		
+		// inject? 
 		$this->template = config('veer.template-admin');
 		
 		app('veer')->isSiteFiltered = false;

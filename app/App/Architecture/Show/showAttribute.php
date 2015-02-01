@@ -116,7 +116,7 @@ class showAttribute {
 	 * - with: 
 	 * - to whom: make() | attribute/{id[0].id[1]}
 	 */
-	public function getParentOrChildAttribute($id, $childId = null)
+	public function getAttribute($id, $childId = null)
 	{
 		if (empty($childId)) 
 		{

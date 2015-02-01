@@ -56,7 +56,7 @@ class AttributeController extends \BaseController {
 	 */
 	public function show($id, $childId = null)
 	{		
-		$attribute = $this->showAttribute->getParentOrChildAttribute($id, $childId);
+		$attribute = $this->showAttribute->getAttribute($id, $childId);
 		
 		if(!is_object($attribute)) { return Redirect::route('index'); }
 		
