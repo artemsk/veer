@@ -57,6 +57,11 @@ class VeerApp {
 	public $loadedComponents;	
 	
 	/**
+	 *  Template variable
+	 */
+	public $template;
+	
+	/**
 	 *  Work only with site-specific entities
 	 */
 	public $isSiteFiltered = true;
@@ -168,6 +173,27 @@ class VeerApp {
 		$this->siteConfig = $siteConfig;
 	}
 
+	/**
+	 * Load route components:
+	 * methods (immediate actions), events, queues etc.
+	 * @param type $param
+	 */
+	public function routePrepare($routeName)
+	{
+		$this->loadedComponents['template'] = $this->template =  
+			array_get($this->siteConfig, 'TEMPLATE', config('veer.template'));
+				
+		$data = $this->registerComponents($routeName);
+
+		if($this->loadedComponents) {
+			$this->loadedComponents = array_merge($this->loadedComponents, $data);
+		} else {
+			$this->loadedComponents = $data;
+		}
+
+		$this->statistics();
+	}
+	
 	/**
 	 * Register components & events based on current route name & site. It allows
 	 * us to have different components and actions for different routes [and events 
