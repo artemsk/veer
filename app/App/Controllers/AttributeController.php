@@ -53,7 +53,6 @@ class AttributeController extends \BaseController {
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
-	 * @return Response
 	 */
 	public function show($id, $childId = null)
 	{		
@@ -61,37 +60,27 @@ class AttributeController extends \BaseController {
 		
 		if(!is_object($attribute)) { return Redirect::route('index'); }
 		
-		if(!empty($childId)) {
-			
+		$data = array(
+			"attribute" => $attribute,
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
+		);
+		
+		if(!empty($childId)) 
+		{	
 			$page_sort = get_paginator_and_sorting();
 
-			$products = $this->showAttribute->getProductsWithAttribute(app('veer')->siteId, $childId, $page_sort);
+			array_set($data, 'products', $this->showAttribute->getProductsWithAttribute(app('veer')->siteId, $childId, $page_sort));
 
-			$pages = $this->showAttribute->getPagesWithAttribute(app('veer')->siteId, $childId, $page_sort);
+			array_set($data, 'pages', $this->showAttribute->getPagesWithAttribute(app('veer')->siteId, $childId, $page_sort));
 			
-			$tags = $this->showAttribute->getTagsWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
+			array_set($data, 'tags', $this->showAttribute->getTagsWithAttribute($attribute->name, $attribute->val, app('veer')->siteId));	
 
-			$categories = $this->showAttribute->getCategoriesWithAttribute($attribute->name, $attribute->val, app('veer')->siteId);	
+			array_set($data, 'categories', $this->showAttribute->getCategoriesWithAttribute($attribute->name, $attribute->val, app('veer')->siteId));
+		} 
+			
+		$view = view($this->template.'.attribute', $data);
 
-			$view = view($this->template.'.attribute', array(
-				"attribute" => $attribute,
-				"products" => $products,
-				"pages" => $pages,
-				"tags" => $tags,
-				"categories" => $categories,
-				"data" => $this->veer->loadedComponents,
-				"template" => $this->template
-			));
-		
-		} else {
-			
-			$view = view($this->template.'.attribute', array(
-				"attribute" => $attribute,
-				"data" => $this->veer->loadedComponents,
-				"template" => $this->template
-			));
-		}
-			
 		$this->view = $view; 
 
 		return $view;
