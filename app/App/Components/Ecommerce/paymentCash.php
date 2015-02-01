@@ -1,6 +1,6 @@
-<?php namespace Veer\Ecommerce;
+<?php namespace Veer\Components\Ecommerce;
 
-class shippingCourier {
+class paymentCash {
 	
 	public $title = "";
 	
@@ -12,7 +12,7 @@ class shippingCourier {
 		//
 	}
 	
-	public function fire($order, $delivery)
+	public function fire($order, $payment)
 	{
 		//
 	}

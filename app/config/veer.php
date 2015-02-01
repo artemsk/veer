@@ -49,7 +49,7 @@ return array(
     
         'queues_path' => "app/App/Queues",  	
 	
-		'ecommerce_path' => "app/App/Ecommerce",  
+		'ecommerce_path' => "app/App/Components/Ecommerce",  
     
     /*
 	|--------------------------------------------------------------------------

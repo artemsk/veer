@@ -66,7 +66,7 @@ d:total">{{ $item->discount_conditions }}</textarea>
 					<input type="text" class="form-control input-lg" name="payment[fill][func_name]" 
 						   placeholder="Class | function in ../Ecommerce/" value="{{ $item->func_name }}">
 					</strong>
-					@if(!empty($item->func_name) && !class_exists('\\Veer\\Ecommerce\\' . $item->func_name)) 
+					@if(!empty($item->func_name) && !class_exists('\\Veer\\Components\\Ecommerce\\' . $item->func_name)) 
 					<span class='label label-danger'>Class doesn't exists</span>
 					@endif
 				</div>
