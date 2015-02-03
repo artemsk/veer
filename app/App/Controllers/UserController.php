@@ -8,7 +8,9 @@ class UserController extends \BaseController {
 	{
 		parent::__construct();
 		
-		$this->beforeFilter('auth', array('only' => array('index', 'show')));
+		$this->beforeFilter('guest', array('only' => array('login', 'register')));
+		
+		$this->beforeFilter('auth', array('only' => array('index', 'show', 'logout')));
 	}
 	
 	
@@ -248,7 +250,11 @@ class UserController extends \BaseController {
 	{
 		$data = $this->veer->loadedComponents;
                 
-		$view = view($this->template.'.login', array(
+		$viewLink = $this->template.'.login';
+		
+		if(!\View::exists($viewLink)) $viewLink = config('veer.template').'.login';
+		
+		$view = view($viewLink, array(
 			"data" => $data,
 			"template" => $data['template']
 		)); 
