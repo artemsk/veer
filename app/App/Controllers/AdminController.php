@@ -6,7 +6,7 @@ class AdminController extends \BaseController {
 	{
 		parent::__construct();
 		
-		$this->beforeFilter('auth.basic');
+		$this->beforeFilter('auth');
 		
 		$this->beforeFilter(function()
         {
