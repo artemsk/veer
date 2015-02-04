@@ -75,7 +75,7 @@ class FirstThingCommand extends Command {
 		$user->sites_id = $site->id;
 		$user->save();
 		
-		$admin = new Veer\Models\UserAdmin;
+		$admin = new \Veer\Models\UserAdmin;
         $admin->save();
         $user->administrator()->save($admin); 
 		
