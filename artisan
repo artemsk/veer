@@ -1,27 +1,51 @@
 #!/usr/bin/env php
 <?php
 
-define('LARAVEL_START', microtime(true));
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader
+| for our application. We just need to utilize it! We'll require it
+| into the script here so that we do not have to worry about the
+| loading of any our classes "manually". Feels great to relax.
+|
+*/
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/bootstrap/autoload.php';
 
-Patchwork\Utf8\Bootup::initMbstring();
+$app = require_once __DIR__.'/bootstrap/app.php';
 
-Illuminate\Support\ClassLoader::register();
+/*
+|--------------------------------------------------------------------------
+| Run The Artisan Application
+|--------------------------------------------------------------------------
+|
+| When we run the console application, the current CLI command will be
+| executed in this console and the response sent back to a terminal
+| or another output device for the developers. Here goes nothing!
+|
+*/
 
-if (is_dir($workbench = __DIR__.'/workbench'))
-{
-	Illuminate\Workbench\Starter::start($workbench);
-}
+$kernel = $app->make('Illuminate\Contracts\Console\Kernel');
 
-$app = require_once __DIR__.'/start.php';
+$status = $kernel->handle(
+	$input = new Symfony\Component\Console\Input\ArgvInput,
+	new Symfony\Component\Console\Output\ConsoleOutput
+);
 
-$app->setRequestForConsoleEnvironment();
+/*
+|--------------------------------------------------------------------------
+| Shutdown The Application
+|--------------------------------------------------------------------------
+|
+| Once Artisan has finished running. We will fire off the shutdown events
+| so that any final work may be done by the application before we shut
+| down the process. This is the last thing to happen to the request.
+|
+*/
 
-$artisan = Illuminate\Console\Application::start($app);
-
-$status = $artisan->run();
-
-$app->shutdown();
+$kernel->terminate($input, $status);
 
 exit($status);

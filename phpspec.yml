@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Veer
+        psr4_prefix: Veer
+        src_path: app
