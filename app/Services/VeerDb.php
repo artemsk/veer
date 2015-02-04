@@ -32,7 +32,7 @@ use Veer\Models\User;    //b
  * 
  *   methods+: search, filter, [sort]new, [sort]ordered, [sort]viewed, [array]products
  * 
- *   not-used-here [ cache, components, configuration, failed_jobs, migrations, password_reminders ] 
+ *   not-used-here [ cache, components, configuration, failed_jobs, migrations, password_resets ] 
  * 
  * @return object
  */
