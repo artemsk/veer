@@ -15,7 +15,7 @@
 			<li><button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Parent category" 
 						data-content='
 						<div class="form-inline">
-						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="text" class="form-control" placeholder="Id" size=2 name="parentId">
 						<button class="btn btn-info" type="submit" name="action" value="saveParent"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 						</form>
@@ -27,7 +27,7 @@
 			<li><button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Replace parent category" 
 						data-content='
 						<div class="form-inline">
-						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="text" class="form-control" placeholder="Id" size=2 name="parentId" value="{{ $category->id }}">
 						<button class="btn btn-info" type="submit" name="action" value="updateParent">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
@@ -42,7 +42,9 @@
 			@endforeach
 		</ol>
 
-		{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+		<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+		<input name="_method" type="hidden" value="PUT">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="row">
 			<div class="col-sm-9">
 				<h2><input type="text" class="form-control admin-form" placeholder="Title" name="title" value="{{ $items->title }}"></h2>
@@ -67,7 +69,7 @@
 		<span class="badge">{{ $category->views }}</span>
 		<button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Replace parent category" data-content='
 						<div class="form-inline">
-						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="text" class="form-control" placeholder="Id" size=2 name="parentId" value="{{ $items->id }}">
 						<button class="btn btn-info" type="submit" name="action" value="updateInChild">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
@@ -86,7 +88,9 @@
 		</small>
 		</li>	
 	@endforeach
-	{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+		<input name="_method" type="hidden" value="PUT">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<li class="list-group-item">
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Title or :Existing-category-ID" name="child">
@@ -101,7 +105,10 @@
 	</div>
 	</div>
 
-	{{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+		<input name="_method" type="hidden" value="PUT">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+
 	<div class="rowdelimiter"></div>
 	<h3>Images</h3>
 	<div class="row">
@@ -125,7 +132,9 @@
 	@endif
 	</form>
 	
-	{{ Form::open(array('url' => URL::full(), 'files' => false, 'method' => 'put')); }}	
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+		<input name="_method" type="hidden" value="PUT">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="rowdelimiter"></div>
 	<h3>Products</h3>
 	<div class="row">
@@ -152,7 +161,9 @@
 	@endif
 	</form>
 	
-	{{ Form::open(array('url' => URL::full(), 'files' => false, 'method' => 'put')); }}	
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+		<input name="_method" type="hidden" value="PUT">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="rowdelimiter"></div>
 	<h3>Pages</h3>
 	<div class="row">

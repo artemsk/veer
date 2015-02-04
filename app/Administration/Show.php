@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Event;
 
 class Show {
 	
+	use \Veer\Services\Show\CommonTraits;
+	
 	/* request from user */
 	public $userRequest = false;
 	
@@ -616,19 +618,7 @@ class Show {
 		
 		return $items;		
 	}
-	
-	/*
-	 * Images with Elements -> CommonTrait
-	 */
-	protected function loadImagesWithElements($items, $skipWith = false)
-	{
-		return $skipWith === false ? $items->load(array('images' => function($q)
-			{
-				$q->with('pages', 'products', 'categories', 'users');
-			})) 
-				: $items->load('images');
-	}
-	
+		
 	/**
 	 * Site with Site title
 	 */
