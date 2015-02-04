@@ -64,7 +64,7 @@ class VeerApp {
 	/**
 	 *  Work only with site-specific entities
 	 */
-	public $isSiteFiltered = true;
+	public $isBoundSite = true;
 		
 	
 	public $cachingQueries;
@@ -85,9 +85,9 @@ class VeerApp {
 	 * is Site Filtered?
 	 * @return bool
 	 */
-	public function isSiteFiltered() 
+	public function isBoundSite() 
 	{
-		return $this->isSiteFiltered;
+		return $this->isBoundSite;
 	}
 	
 	/**

@@ -170,96 +170,10 @@ class Show {
 
 		return $items;
 	}	
-	
-	/**
-	 * Show Categories
-	 */
-	public function showCategories($category = null, $image = null) 
-	{	
-		if($category == null || $image != null) 
-		{
-			return $this->showManyCategories($image);	
-		} 		
 		
-		return $this->showOneCategory($category);
-	}		
 	
-	/**
-	 * show One Category
-	 */
-	public function showOneCategory($category, $options = array()) 
-	{
-		$items = \Veer\Models\Category::where('id','=',$category)
-			->with(array(
-			'parentcategories' => function ($query) 
-			{ 
-				$query->orderBy('manual_sort','asc'); 
-			},
-			'subcategories' => function ($query) 
-			{ 
-				$query->orderBy('manual_sort','asc')
-					->with('pages', 'products', 'subcategories'); 
-			}))
-				->first();
-
-		if(is_object($items)) 
-		{
-			$items->load('products', 'communications');
-
-			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
-			
-			$items->load(array('pages' => function($q) {
-				$q->orderBy('manual_order', 'asc');
-			}));
-
-			$items['site_title'] = 
-				\Veer\Models\Configuration::where('sites_id','=',$items->sites_id)
-				->where('conf_key','=','SITE_TITLE')
-				->pluck('conf_val');
-		}	
-		
-		return $items;
-	}
 	
-	/**
-	 * show Many Categories
-	 * @params filter
-	 */
-	public function showManyCategories($image)
-	{
-		if(!empty($image)) 
-		{
-			$items = \Veer\Models\Site::with(
-				array('categories' => function($query) use ($image) 
-				{
-					$query->whereHas('images',function($q) use ($image) 
-					{
-						$q->where('images_id','=',$image);					
-					})
-					->with('products', 'pages', 'subcategories');
-				}))
-					->orderBy('manual_sort','asc')
-					->get();	
-
-			$items['filtered'] = "images";
-			
-			$items['filtered_id'] = $image;
-
-			return $items;
-		} 
-
-		$items = \Veer\Models\Site::with(
-			array('categories' => function($query) 
-			{
-				$query->has('parentcategories', '<', 1)
-					->orderBy('manual_sort','asc')
-					->with('pages', 'products', 'subcategories');
-			}))
-				->orderBy('manual_sort','asc');
-
-		return !$this->userRequest ? $items->get() : $items->find($this->userRequest);
-		// TODO: later will try to unite veerdb & show ?
-	}
+	
 	
 	/**
 	 * Show Products
@@ -704,7 +618,7 @@ class Show {
 	}
 	
 	/*
-	 * Images with Elements
+	 * Images with Elements -> CommonTrait
 	 */
 	protected function loadImagesWithElements($items, $skipWith = false)
 	{

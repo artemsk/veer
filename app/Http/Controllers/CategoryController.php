@@ -49,52 +49,24 @@ class CategoryController extends Controller {
 	 */
 	public function show($id)
 	{	
-		$vdb = app('veerdb');
-
-		$category = $this->showCategory->getCategory(app('veer')->siteId, $id);
+		$category = $this->showCategory->getCategory($id, app('veer')->siteId);
 
 		if(!is_object($category)) { return Redirect::route('index'); }
 		
-		$paginator_and_sorting = get_paginator_and_sorting();
-		
-		$products = $vdb->categoryOnlyProductsQuery($id, $paginator_and_sorting);
-
-		$pages = $vdb->categoryOnlyPagesQuery($id, $paginator_and_sorting);
-
 		$category->increment('views');	
 
         $category->load('images');
-        
-        $tags = \Veer\Models\Tag::whereHas('products', function($query) use($id) {
-                    $query->checked()->whereHas('categories', function($q) use ($id) {
-							$q->where('categories_id','=',$id);
-					});
-                })->orWhereHas('pages', function($query) use($id) {
-                    $query->excludeHidden()->whereHas('categories', function($q) use ($id) {
-							$q->where('categories_id','=',$id);
-					});
-                })->get(); // TODO: remember 5
-				 
-        $attributes = \Veer\Models\Attribute::whereHas('pages', function($query) use($id) {
-                    $query->excludeHidden()->whereHas('categories', function($q) use ($id) {
-							$q->where('categories_id','=',$id);
-					});
-				})->orWhereHas('products', function($query) use($id) {
-                    $query->checked()->whereHas('categories', function($q) use ($id) {
-							$q->where('categories_id','=',$id);
-					});
-                })->get(); 		
-				
-		$data = $this->veer->loadedComponents;            
-
+		
+		$paginator_and_sorting = get_paginator_and_sorting();
+		
 		$view = view($this->template.'.category', array(
 			"category" => $category,
-			"products" => $products,
-			"pages" => $pages,
-			"tags" => $tags,
-			"attributes" => $attributes,
-			"data" => $data,
-			"template" => $data['template']
+			"products" => $this->showCategory->getProductsWithCategory($id, $paginator_and_sorting),
+			"pages" => $this->showCategory->getPagesWithCategory($id, $paginator_and_sorting),
+			"tags" => $this->showCategory->getTagsWithCategory($id),
+			"attributes" => $this->showCategory->getAttributesWithCategory($id),
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
 		)); 
 
 		$this->view = $view; 

@@ -12,7 +12,7 @@ class Attribute {
 	 */
 	public function handle($siteId = null, $paginateItems = 100)
 	{
-		return app('veer')->isSiteFiltered ? 
+		return !empty($siteId) ? 
 			  $this->getTopAttributesWithSite($siteId) 
 			: $this->getUngroupedAttributes($paginateItems);
 	}
@@ -64,7 +64,9 @@ class Attribute {
 	 */
 	public function getUngroupedAttributes($paginateItems = 100)
 	{
-		$items = $this->query()->paginate($paginateItems);		
+		$items = $this->query();
+			
+		$items = $paginateItems < 0 ? $items->get() : $items->paginate($paginateItems);		
 		
 		$iteratedItems = $this->iterateAttributes($items);
 		

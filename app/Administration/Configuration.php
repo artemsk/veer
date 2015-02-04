@@ -15,7 +15,7 @@ trait Configuration {
 	{		
 		$cache = \Illuminate\Support\Facades\DB::table("cache")->get();
 		$migrations = \Illuminate\Support\Facades\DB::table("migrations")->get();
-		$reminders = \Illuminate\Support\Facades\DB::table("password_reminders")->get();	
+		$reminders = \Illuminate\Support\Facades\DB::table("password_resets")->get();	
 
 		if(config('database.default') == 'mysql') {
 			$trashed = $this->trashedElements(); }

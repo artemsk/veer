@@ -5,7 +5,7 @@
 	@else
 	<li><a href="{{ route("admin.show", "sites") }}">Sites</a></li>
 	@endif
-	@if($place == "categories" && (isset($items['filtered'])) || $place == "category") 
+	@if($place == "categories" && (isset(app('veeradmin')->filtered)) || $place == "category") 
 	<li><strong><a href="{{ route("admin.show", "categories") }}">Categories</a></strong></li>
 	@elseif($place == "categories")
 	<li class="active">Categories</li>	

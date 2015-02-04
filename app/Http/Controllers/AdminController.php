@@ -15,7 +15,7 @@ class AdminController extends Controller {
 				 
 		app('veer')->loadedComponents['template'] = app('veer')->template = $this->template = config('veer.template-admin');			
 
-		app('veer')->isSiteFiltered = false;
+		app('veer')->isBoundSite = false;
 	}
 	
 	
@@ -74,8 +74,14 @@ class AdminController extends Controller {
 			
 			case "categories":		
 				$category = Input::get('category');
-				$image = Input::get('image');
-				$items = app('veeradmin')->showCategories($category, $image);
+				$imageFilter = Input::get('image');
+				
+				if(empty($category)) {
+					$items = ( new \Veer\Services\Show\Category )->getAllCategories($imageFilter);	
+				} else {
+					$items = ( new \Veer\Services\Show\Category )->getCategoryAdvanced($category);	
+				}
+							
 				$view = empty($category) ? "categories" : "category";
 				break;
 

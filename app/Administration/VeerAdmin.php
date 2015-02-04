@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Event;
 class VeerAdmin extends Show {
 
 	use Configuration, Structure, Ecommerce, Users;
+
+	public $filtered = null;
+	
+	public $filtered_id = null;
 	
 	/*
 	 *  

@@ -1,25 +1,17 @@
 <?php namespace Veer\Services\Show;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- * Description of showCategory
- *
- * @author Jerry
- */
 class Category {
+	
+	use CommonTraits;
 	
 	/**
 	 * handle
 	 */
 	public function handle($siteId = null, $paginateItems = 100)
 	{
-		return app('veer')->isSiteFiltered ? 
+		return !empty($siteId) ? 
 			  $this->getTopCategoriesWithSite($siteId) 
-			: $this->getUngroupedAttributes($paginateItems);
+			: $this->getCategoriesWithoutSite($paginateItems);
 	}
 	
 	/**
@@ -44,19 +36,34 @@ class Category {
 	 * - with: Parent & Sub Categories
 	 * - to whom: make() | category/{id}
 	 */
-	public function getCategory($siteId, $id)
+	public function getCategory($id, $siteId = null)
 	{
-		return \Veer\Models\Category::where('sites_id', '=', $siteId)->where('id', '=', $id)->
-			with(array(
-				'subcategories' => function($query) use ($siteId) {
+		if(!empty($siteId))
+		{
+			return \Veer\Models\Category::where('sites_id', '=', $siteId)->where('id', '=', $id)->
+				with(array(
+					'subcategories' => function($query) use ($siteId) {
 
-				$query->where('sites_id', '=', $siteId);
+					$query->where('sites_id', '=', $siteId);
+				},
+					'parentcategories' => function($query) use ($siteId) 
+				{
+					$query->where('sites_id', '=', $siteId);
+				}
+				))->first(); 
+		}
+		
+		return \Veer\Models\Category::where('id','=',$id)->with(array(
+			'parentcategories' => function ($query) 
+			{ 
+				$query->orderBy('manual_sort','asc'); 
 			},
-				'parentcategories' => function($query) use ($siteId) 
-			{
-				$query->where('sites_id', '=', $siteId);
-			}
-			))->first(); 
+			'subcategories' => function ($query) 
+			{ 
+				$query->orderBy('manual_sort','asc')
+					->with('pages', 'products', 'subcategories'); 
+			}))
+				->first();
 	}
 	
 	
@@ -67,9 +74,10 @@ class Category {
 	 * - with: Images
 	 * - to whom: 1 Category | category/{id}
 	 */
-	public function categoryOnlyProductsQuery($id, $queryParams)
+	public function getProductsWithCategory($id, $queryParams)
 	{
-		return Product::whereHas('categories', function($q) use($id) {
+		return \Veer\Models\Product::whereHas('categories', function($q) use($id) 
+			{
 				$q->where('categories_id', '=', $id);
 			})->with(array('images' => function($query) {
 
@@ -88,19 +96,124 @@ class Category {
 	 * - with: Images
 	 * - to whom: 1 Category | category/{id}
 	 */
-	public function categoryOnlyPagesQuery($id, $queryParams)
+	public function getPagesWithCategory($id, $queryParams)
 	{
-		return Page::whereHas('categories', function($q) use($id) {
+		return \Veer\Models\Page::whereHas('categories', function($q) use($id) 
+			{
+				$q->where('categories_id', '=', $id);
+			})->with(array('images' => function($query) {
 
-					$q->where('categories_id', '=', $id);
-				})->with(array('images' => function($query) {
-
-					$query->orderBy('id', 'asc')->take(1);
-				}))->excludeHidden()
-				->orderBy('created_at', 'desc')
-				->take($queryParams['take_pages'])
-				->skip($queryParams['skip_pages'])
-				->get();
+				$query->orderBy('id', 'asc')->take(1);
+			}))->excludeHidden()
+			->orderBy('created_at', 'desc')
+			->take($queryParams['take_pages'])
+			->skip($queryParams['skip_pages'])
+			->get();
 	}
 	
+	public function getModelWithCategory($model, $id)
+	{
+		app('veer')->cachingQueries->make(
+			$model::whereHas('products', function($query) use($id) 
+			{
+				$query->checked()->whereHas('categories', function($q) use ($id) {
+							$q->where('categories_id','=',$id);
+					});
+			})->orWhereHas('pages', function($query) use($id) 
+			{
+				 $query->excludeHidden()->whereHas('categories', function($q) use ($id) {
+							$q->where('categories_id','=',$id);
+					});
+			}));
+			
+		return app('veer')->cachingQueries->remember(5, 'get'); 	
+	}
+	
+	
+	public function getTagsWithCategory($id)
+	{
+		return $this->getModelWithCategory("\Veer\Models\Tag", $id);		
+	}	
+	
+	
+	public function getAttributesWithCategory($id)
+	{
+		return $this->getModelWithCategory("\Veer\Models\Attribute", $id);	
+	}
+	
+
+	/* all or filtered categories or one category */
+	public function getCategoriesWithoutSite($category = null, $image = null) 
+	{	
+		if($category == null || $image != null) 
+		{
+			return $this->getAllCategories($image);	
+		} 		
+		
+		return $this->getCategoryAdvanced($category);
+	}	
+	
+	
+	/**
+	 * show Many Categories
+	 * @params filter
+	 */
+	public function getAllCategories($imageFilter = null)
+	{
+		if(!empty($imageFilter)) 
+		{
+			$items = $this->filterCategoryByImage($imageFilter);
+
+			app('veeradmin')->filtered = "images";
+			
+			app('veeradmin')->filtered_id  = $imageFilter;
+		} 
+
+		else 
+		{
+			$items = \Veer\Models\Site::with(array('categories' => function($query) 
+				{
+					$query->has('parentcategories', '<', 1)
+						->orderBy('manual_sort','asc')
+						->with('pages', 'products', 'subcategories');
+				}));
+		}
+				
+		return $items->orderBy('manual_sort','asc')->get();
+	}	
+	
+	
+	protected function filterCategoryByImage($imageFilter = null)
+	{
+		return \Veer\Models\Site::with(array('categories' => function($query) use ($imageFilter) 
+		{
+			$query->whereHas('images',function($q) use ($imageFilter) 
+			{
+				$q->where('images_id','=',$imageFilter);					
+			})
+			->with('products', 'pages', 'subcategories');
+		}));	
+	}
+	
+	
+	/* get Category Advanced */
+	public function getCategoryAdvanced($category, $options = array()) 
+	{
+		$items = $this->getCategory($category, null);
+
+		if(is_object($items)) 
+		{
+			$items->load('products', 'communications');
+
+			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
+			
+			$items->load(array('pages' => function($q) {
+				$q->orderBy('manual_order', 'asc');
+			}));
+
+			$items->site_title = db_parameter('SITE_TITLE', null, $items->sites_id);
+		}	
+		
+		return $items;
+	}
 }

@@ -117,7 +117,7 @@ trait Structure {
 			$sorting['relationship'] = "categories";
 			
 			if(isset($sorting['parentid'])) {			
-				$oldsorting = $this->showCategories(null, Input::get('image',null));
+				$oldsorting = (new \Veer\Services\Show\Category)->getAllCategories(Input::get('image',null));
 				if(is_object($oldsorting)) {					
 					foreach ($this->sortElements($oldsorting, $sorting) as $sort => $id) {
 						\Veer\Models\Category::where('id', '=', $id)->update(array('manual_sort' => $sort));
@@ -316,7 +316,7 @@ trait Structure {
 			$all['relationship'] = "subcategories";
 			
 			if(isset($all['parentid'])) {			
-				$oldsorting[0] = $this->showCategories($all['parentid']);
+				$oldsorting[0] = (new \Veer\Services\Show\Category)->getCategoryAdvanced($all['parentid']);
 				if(is_object($oldsorting[0])) {					
 					foreach ($this->sortElements($oldsorting, $all) as $sort => $id) {
 						\Veer\Models\Category::where('id', '=', $id)->update(array('manual_sort' => $sort));
