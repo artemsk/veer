@@ -89,36 +89,17 @@ class Category {
 	public function withPages($id, $queryParams = null)
 	{
 		return $this->getElementsWhereHasModel('pages', 'categories', $id, null, $queryParams);
-	}
-	
-	public function getModelWithCategory($model, $id)
-	{
-		app('veer')->cachingQueries->make(
-			$model::whereHas('products', function($query) use($id) 
-			{
-				$query->checked()->whereHas('categories', function($q) use ($id) {
-							$q->where('categories_id','=',$id);
-					});
-			})->orWhereHas('pages', function($query) use($id) 
-			{
-				 $query->excludeHidden()->whereHas('categories', function($q) use ($id) {
-							$q->where('categories_id','=',$id);
-					});
-			}));
-			
-		return app('veer')->cachingQueries->remember(5, 'get');
-	}
-	
+	}	
 	
 	public function withTags($id)
 	{
-		return $this->getModelWithCategory("\Veer\Models\Tag", $id);		
+		return $this->withModels('\Veer\Models\Tag', 'categories', $id);	
 	}	
 	
 	
 	public function withAttributes($id)
 	{
-		return $this->getModelWithCategory("\Veer\Models\Attribute", $id);	
+		return $this->withModels('\Veer\Models\Attribute', 'categories', $id);		
 	}
 	
 

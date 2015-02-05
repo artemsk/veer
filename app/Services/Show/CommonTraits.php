@@ -53,4 +53,24 @@ trait CommonTraits {
 		return $items->get();		
 	}		
 
+	
+	public function withModels($model, $table, $id, $siteId = null)
+	{
+		app('veer')->cachingQueries->make(
+			$model::whereHas('products', function($query) use($id, $table, $siteId) 
+			{
+				if(!empty($siteId)) $query->siteValidation($siteId);
+				$query->checked()->whereHas($table, function($q) use ($id, $table) {
+							$q->where($table.'_id','=',$id);
+					});
+			})->orWhereHas('pages', function($query) use($id, $table, $siteId) 
+			{
+				 if(!empty($siteId)) $query->siteValidation($siteId);
+				 $query->excludeHidden()->whereHas($table, function($q) use ($id, $table) {
+							$q->where($table.'_id','=',$id);
+					});
+			}));
+			
+		return app('veer')->cachingQueries->remember(5, 'get');
+	}
 }
