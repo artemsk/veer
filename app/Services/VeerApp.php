@@ -12,13 +12,13 @@ class VeerApp {
 	 *  Veer Layer.
 	 * 
 	 */
-	const VEERVERSION = 'v1.0.0';
+	const VEERVERSION = 'v1.1.2';
 
 	/** 
 	 * Veer Core Url
 	 * 
 	 */
-	const VEERCOREURL = 'https://api.github.com/repos/artemsk/veer-core';
+	const VEERCOREURL = 'https://api.github.com/repos/artemsk/veer';
 	
 	/**
 	 *  Booted?
@@ -66,7 +66,9 @@ class VeerApp {
 	 */
 	public $isBoundSite = true;
 		
-	
+	/**
+	 *  Cached Queries
+	 */
 	public $cachingQueries;
 	
 	/**
@@ -97,7 +99,7 @@ class VeerApp {
 	 */
 	public function run()
 	{		
-		\DB::enableQueryLog();
+		\DB::enableQueryLog(); // TODO: remove
 		
 		$this->booted = true;
 
@@ -178,9 +180,7 @@ class VeerApp {
 
 		$this->cachingQueries->make(\Veer\Models\Configuration::where('sites_id', '=', $siteDb->id));
 		
-		$siteConfig = $this->cachingQueries->lists('conf_val', 'conf_key', 1440);
-
-		$this->siteConfig = $siteConfig;
+		$this->siteConfig = $this->cachingQueries->lists('conf_val', 'conf_key', 1440);
 	}
 
 	/**

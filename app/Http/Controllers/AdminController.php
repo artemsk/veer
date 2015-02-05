@@ -84,6 +84,22 @@ class AdminController extends Controller {
 				$items = ( new \Veer\Services\Show\Image )->getImages(array(Input::get('filter') =>  Input::get('filter_id')));
 				break;
 			
+			case "sites":
+				$items = ( new \Veer\Services\Show\Site )->getSites();
+				break;
+			
+			case "configuration":	
+				$items = ( new \Veer\Services\Show\Site )->getConfiguration(Input::get('site'));
+				break;	
+			
+			case "components":	
+				$items = ( new \Veer\Services\Show\Site )->getComponents(Input::get('site'));
+				break;				
+			
+			case "secrets":	
+				$items = ( new \Veer\Services\Show\Site )->getSecrets();
+				break;	
+			
 			case "categories":		
 				$category = Input::get('category');
 				$imageFilter = Input::get('image');
@@ -125,14 +141,6 @@ class AdminController extends Controller {
 				$view = empty($page) ? "pages" : "page";
 				break;				
 				
-			case "configuration":	
-				$items = app('veeradmin')->showConfiguration(Input::get('site'));
-				break;				
-			
-			case "components":	
-				$items = app('veeradmin')->showComponents(Input::get('site'));
-				break;	
-			
 			case "lists":
 				$items = app('veeradmin')->showLists(array(
 					Input::get('filter') =>  Input::get('filter_id'),

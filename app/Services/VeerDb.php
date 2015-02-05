@@ -43,9 +43,7 @@ class VeerDb {
 	public $show;
 
 	function __construct($method = null, $id = null, $params = null)
-	{
-		//$this->show = new Administration\Show();
-		
+	{	
 		if ($method != null) {
 
 			$this->data = $this->make($method, $id, $params);
@@ -107,15 +105,6 @@ class VeerDb {
 	}
 
 
-	
-
-	/**
-	 * Query Builder: Index/Home Page
-	 */
-	public function indexQuery($siteId, $id, $queryParams)
-	{
-		// 
-	}
 
 	/**
 	 * Query Builder: 
