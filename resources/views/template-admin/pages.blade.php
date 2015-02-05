@@ -5,12 +5,12 @@
 	@include($template.'.layout.breadcrumb-structure', array('place' => 'pages'))
 
 <h1>Pages: 
-@if(!empty($items['filtered'])) 
- filtered by {{ $items['filtered'] }} <a href="{{ route("admin.show", array(array_pull($items, 'filtered'))) }}">
-	 #{{ array_pull($items, 'filtered_id') }}</a> 
+@if(!empty($data['filtered_id'])) 
+ filtered by {{ $data['filtered'] }} <a href="{{ route("admin.show", array(array_pull($data, 'filtered'))) }}">
+	 #{{ array_pull($data, 'filtered_id') }}</a> 
  
  @else
- {{ array_pull($items, 'counted') }} <small>| <a href="{{ route("admin.show", array("pages", "filter" => "unused")) }}">unused</a></small> 
+ {{ array_pull($data, 'counted') }} <small>| <a href="{{ route("admin.show", array("pages", "filter" => "unused")) }}">unused</a></small> 
 @endif	
 <a class="btn btn-default" href="{{ route("admin.show", array("pages", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>

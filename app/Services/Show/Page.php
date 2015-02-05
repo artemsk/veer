@@ -2,7 +2,7 @@
 
 class Page {
 	
-	use \Veer\Services\Traits\CommonTraits;
+	use \Veer\Services\Traits\CommonTraits, \Veer\Services\Traits\EntityTraits;
 	
 	/**
 	 * Query Builder: 
@@ -117,6 +117,7 @@ class Page {
 		return $this->getCategoriesWhereHasElements('pages', $id, $siteId);
 	}
 
+	/* get page advanced */
 	public function getPageAdvanced($page, $options = array())
 	{
 		if($page == "new") return new \stdClass(); 

@@ -134,18 +134,20 @@ class AdminController extends Controller {
 			case "products":		
 				$product = Input::get('id');
 				
-				$items = app('veeradmin')->showProducts($product, array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				
+				if(empty($product)) {
+					$items = ( new \Veer\Services\Show\Product )->getAllProducts(array(
+						Input::get('filter') =>  Input::get('filter_id'),
+					));
+					$view = "products";
+				} else {
+					$items =( new \Veer\Services\Show\Product )->getProductAdvanced($product);
+					$view = "product";
+				}
+								
 				if(is_object($items)) {
 					$items->fromCategory = Input::get('category'); 
 				}
-				
-				$view = empty($product) ? "products" : "product";
-				break;		
-
-							
+				break;			
 				
 			case "lists":
 				$items = app('veeradmin')->showLists(array(
