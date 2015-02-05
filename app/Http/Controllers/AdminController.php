@@ -106,12 +106,30 @@ class AdminController extends Controller {
 				
 				if(empty($category)) {
 					$items = ( new \Veer\Services\Show\Category )->getAllCategories($imageFilter);	
+					$view = "categories";
 				} else {
 					$items = ( new \Veer\Services\Show\Category )->getCategoryAdvanced($category);	
-				}
-							
-				$view = empty($category) ? "categories" : "category";
+					$view = "category"; 
+				}		
 				break;
+				
+			case "pages":		
+				$page = Input::get('id');
+				
+				if(empty($page)) {
+					$items = ( new \Veer\Services\Show\Page )->getAllPages(array(
+						Input::get('filter') =>  Input::get('filter_id'),
+					));
+					$view = "pages";
+				} else {
+					$items =( new \Veer\Services\Show\Page )->getPageAdvanced($page);
+					$view = "page";
+				}
+
+				if(is_object($items)) {
+					$items->fromCategory = Input::get('category'); 
+				}
+				break;	
 
 			case "products":		
 				$product = Input::get('id');
@@ -127,19 +145,7 @@ class AdminController extends Controller {
 				$view = empty($product) ? "products" : "product";
 				break;		
 
-			case "pages":		
-				$page = Input::get('id');
-				
-				$items = app('veeradmin')->showPages($page, array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-
-				if(is_object($items)) {
-					$items->fromCategory = Input::get('category'); 
-				}
-								
-				$view = empty($page) ? "pages" : "page";
-				break;				
+							
 				
 			case "lists":
 				$items = app('veeradmin')->showLists(array(
