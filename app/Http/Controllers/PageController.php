@@ -23,21 +23,11 @@ class PageController extends Controller {
 	{
 		$pages = $this->showPage->getPagesWithSite(app('veer')->siteId);  
 				
-		if(!is_object($pages)) { return Redirect::route('index'); }
-		
 		$pages->load('categories', 'user');
 		
-		$view = view($this->template.'.pages', array(
-			"pages" => $pages,
-			"data" => $this->veer->loadedComponents,
-			"template" => $this->template
-		)); 
-
-		$this->view = $view; 
-
+		return $this->viewIndex('pages', $pages);
+		
 		// TODO: number of comments?
-
-		return $view;
 	}
 
 	/**

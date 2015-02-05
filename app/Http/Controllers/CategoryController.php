@@ -27,17 +27,7 @@ class CategoryController extends Controller {
 			app('veer')->siteId
 		);
 				
-		if(!is_object($categories)) { return Redirect::route('index'); }
-		
-		$view = view($this->template.'.categories', array(
-			"categories" => $categories,
-			"data" => $this->veer->loadedComponents,
-			"template" => $this->template
-		)); 
-
-		$this->view = $view; 
-
-		return $view;
+		return $this->viewIndex('categories', $categories);
 	}
 
 
