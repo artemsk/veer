@@ -32,19 +32,6 @@ class Show {
 	}
 		
 	/**
-	 * Show Tags
-	 */
-	public function showTags( $filters = array() ) 
-	{	
-		$items = \Veer\Models\Tag::orderBy('name', 'asc')
-			->with('pages', 'products')->paginate(50);	
-		
-		$items['counted'] = \Veer\Models\Tag::count();
-
-		return $items;
-	}	
-	
-	/**
 	 * Show Downloads
 	 */
 	public function showDownloads( $filters = array() ) 

@@ -66,10 +66,15 @@ class AdminController extends Controller {
 			if(is_object($search)) { return $search; }
 		}
 		
+		$view = $t;
+		
 		switch ($t) {
 			case "attributes":
 				$items = ( new \Veer\Services\Show\Attribute )->getUngroupedAttributes();
-				$view = $t;
+				break;
+			
+			case "tags":
+				$items = ( new \Veer\Services\Show\Tag )->getTagsWithoutSite();
 				break;
 			
 			case "categories":		
@@ -115,12 +120,10 @@ class AdminController extends Controller {
 				
 			case "configuration":	
 				$items = app('veeradmin')->showConfiguration(Input::get('site'));
-				$view = "configuration";
 				break;				
 			
 			case "components":	
 				$items = app('veeradmin')->showComponents(Input::get('site'));
-				$view = "components";
 				break;	
 			
 			case "lists":
@@ -151,7 +154,6 @@ class AdminController extends Controller {
 					Input::get('filter') =>  Input::get('filter_id'),
 				));				
 				app('veer')->setUnreadTimestamp('communications');				
-				$view = "communications";
 				break;
 			
 			case "comments":
@@ -159,19 +161,16 @@ class AdminController extends Controller {
 					Input::get('filter') =>  Input::get('filter_id'),
 				));				
 				app('veer')->setUnreadTimestamp('comments');				
-				$view = "comments";
 				break;
 			
 			case "restore":
 				app('veeradmin')->restore(Input::get('type'), Input::get('id'));
 				return back();
-				break;
 			
 			default:
 				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
-				$view = $t;
 				break;
 		}
 
