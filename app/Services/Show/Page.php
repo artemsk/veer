@@ -2,7 +2,7 @@
 
 class Page {
 	
-	use CommonTraits;
+	use \Veer\Services\Traits\CommonTraits, \Veer\Services\Traits\CommentTraits;
 	
 	/**
 	 * Query Builder: 
