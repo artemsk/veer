@@ -5,6 +5,14 @@ class Site {
 	protected $site = null;
 		
 	/**
+	 * handle
+	 */
+	public function handle()
+	{
+		return $this->getSites();
+	}
+	
+	/**
 	 * get Sites
 	 */
 	public function getSites() 
