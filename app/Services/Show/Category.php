@@ -2,7 +2,7 @@
 
 class Category {
 	
-	use CommonTraits;
+	use \Veer\Services\Traits\CommonTraits;
 	
 	/**
 	 * handle

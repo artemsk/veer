@@ -18,7 +18,6 @@ class PageController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
 	 */
 	public function index()
 	{
@@ -45,7 +44,6 @@ class PageController extends Controller {
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
-	 * @return Response
 	 */
 	public function show($id)
 	{		
@@ -67,14 +65,7 @@ class PageController extends Controller {
 
 		$page->load('images', 'tags', 'attributes', 'downloads', 'userlists', 'user');
 		
-		if($page->show_comments == 1) { 
-			if(db_parameter('COMMENTS_SYSTEM') == "disqus") { 
-				$this->veer->loadedComponents['comments_disqus'] = view('components.disqus', array("identifier" => "page".$page->id));
-			} else {
-				$page->load('comments');
-				$this->veer->loadedComponents['comments_own'] = $page->comments->toArray();
-			}
-		}	
+		if($page->show_comments == 1) $this->showPage->loadComments($page, 'page');
 
 		$paginator_and_sorting = get_paginator_and_sorting();
 		
@@ -88,14 +79,15 @@ class PageController extends Controller {
 			"template" => $this->template
 		); 
 					
-		$blade_path = app_path() . '/views/' . $this->template. '/pages/' . $id . '.blade.php';
+		$blade_path = $this->template. '.pages.' . $id;
+				
+		$viewLink = $this->template . '.page';
 		
-		if($page->original == 1 && \File::exists( $blade_path )) { // page with special design           
-			$view = view($this->template.'.pages.'.$id, $data);
-		} else {
-			$view = view($this->template.'.page', $data);
-		} 
-
+		// page with special design 
+		if($page->original == 1 && view()->exists($blade_path)) $viewLink = $blade_path;
+		
+		$view = view($viewLink, $data);
+		
 		$this->view = $view; 
 
 		return $view;			   

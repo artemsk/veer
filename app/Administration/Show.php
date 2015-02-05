@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Event;
 
 class Show {
 	
-	use \Veer\Services\Show\CommonTraits;
+	use \Veer\Services\Traits\CommonTraits;
 	
 	/* request from user */
 	public $userRequest = false;

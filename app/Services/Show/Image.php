@@ -2,16 +2,14 @@
 
 class Image {
 
-	use CommonTraits;
+	use \Veer\Services\Traits\CommonTraits;
 	
 	/**
 	 * handle
 	 */
-	public function handle($siteId = null, $paginateItems = 25)
+	public function handle($paginateItems = 25)
 	{
-		return !empty($siteId) ? 
-			  $this->getImageWithSite($siteId) 
-			: $this->getImages(array(), $paginateItems);
+		return $this->getImages(array(), $paginateItems);
 	}
 	
 	/**

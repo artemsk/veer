@@ -1,4 +1,4 @@
-<?php namespace Veer\Services\Show;
+<?php namespace Veer\Services\Traits;
 
 trait CommonTraits {
 	
