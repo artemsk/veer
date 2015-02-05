@@ -106,7 +106,8 @@ trait Configuration {
 
 			// for ajax calls
 			if(app('request')->ajax()) {
-				$items = $this->showConfiguration($siteid, array('id','desc'));
+				
+				$items = ( new \Veer\Services\Show\Site )->getConfiguration($siteid, array('id','desc'));
 
 				return view(app('veer')->template.'.lists.configuration-cards', array(
 					"configuration" => $items[0]->configuration,
@@ -161,7 +162,7 @@ trait Configuration {
 
 			// for ajax calls
 			if(app('request')->ajax()) {
-				$items = $this->showComponents($siteid, array('id','desc'));
+				$items = ( new \Veer\Services\Show\Site )->getComponents($siteid, array('id','desc'));
 				
 				return view(app('veer')->template.'.lists.components-cards', array(
 					"components" => $items[0]->components,

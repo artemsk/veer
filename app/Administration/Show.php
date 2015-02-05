@@ -16,21 +16,7 @@ class Show {
 	/* */
 	public $counted = null;
 	
-	/**
-	 * Show Sites
-	 */
-	public function showSites( $filters = array() ) 
-	{	
-		return \Veer\Models\Site::orderBy('manual_sort','asc')
-			->get()->load(
-				
-				'subsites', 'categories', 'components', 'configuration', 
-				'users', 'discounts', 'userlists', 'orders', 'delivery', 
-				'payment', 'communications', 'roles', 'parentsite'
-				
-				); // elements separately		
-	}
-			
+		
 	/*
 	 * build filter query on models with elements
 	 */
@@ -350,90 +336,6 @@ class Show {
 			
 		return $items;
 	}
-	
-	/**
-	 * Show Configurations
-	 */
-	public function showConfiguration($siteId = null, $orderBy = array('id', 'desc')) 
-	{	
-		if(Input::get('sort', null)) 
-		{ 
-			$orderBy[0] = Input::get('sort');
-		}
-		
-		if(Input::get('direction', null)) 
-		{ 
-			$orderBy[1] = Input::get('direction'); 
-		}
-		
-		if($siteId == null) 
-		{
-			return \Veer\Models\Site::where('id','>',0)
-				->with(
-					array('configuration' => function($query) use ($orderBy) 
-					{
-						$query->orderBy($orderBy[0], $orderBy[1]);
-					}))
-				->get();
-		}
-		
-		$items[0] = \Veer\Models\Site::with(
-			array('configuration' => function($query) use ($orderBy) 
-			{
-				$query->orderBy($orderBy[0], $orderBy[1]);
-			}))
-				->find($siteId); 
-			
-		return $items;
-	}
-	
-	/**
-	 * Show Components
-	 */
-	public function showComponents($siteId = null, $orderBy = array('id', 'desc')) 
-	{	
-		if(Input::get('sort', null)) 
-		{ 
-			$orderBy[0] = Input::get('sort');
-		}
-		
-		if(Input::get('direction', null)) 
-		{ 
-			$orderBy[1] = Input::get('direction');
-		}
-	
-		if($siteId == null) {
-			return \Veer\Models\Site::where('id','>',0)
-				->with(
-					array('components' => function($query) use ($orderBy) 
-					{
-						$query->orderBy('sites_id')
-							->orderBy($orderBy[0], $orderBy[1]);
-					}))
-				->get();
-		}
-		
-		$items = \Veer\Models\Site::with(
-			array('components' => function($query) use ($orderBy) 
-			{
-				$query->orderBy('sites_id')->orderBy($orderBy[0], $orderBy[1]);
-			}))
-				->find($siteId); 
-			
-		return array($items);
-	}	
-	
-	/**
-	 * Show Secrets
-	 */
-	public function showSecrets( $filters = array() ) 
-	{		
-		$items = \Veer\Models\Secret::all();
-		
-		$items->sortByDesc('created_at');
-			
-		return $items;
-	}	
 	
 	/**
 	 * Show Jobs

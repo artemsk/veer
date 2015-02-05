@@ -44,18 +44,18 @@
 		</tr>
 		<tr class="active">
 			<td colspan="9"><small>
-				<a href="{{ route("admin.show", array("categories", "#site".$item->id)) }}">{{ $item->categories->count() }} categories</a>, 
-				<a href="{{ route("admin.show", array("components", "site" => $item->id)) }}">{{ $item->components->count() }} components</a>, 
-				<a href="{{ route("admin.show", array("configuration", "site" => $item->id)) }}">{{ $item->configuration->count() }} confs</a>, 
-				<a href="{{ route("admin.show", array("users", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->users->count() }} users</a>, 
-				<a href="{{ route("admin.show", array("discounts", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->discounts->count() }} discounts</a>, 
-				<a href="{{ route("admin.show", array("lists", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->userlists->count() }} lists</a>, 
-				<a href="{{ route("admin.show", array("orders", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->orders->count() }} orders</a>, 
-				<a href="{{ route("admin.show", array("shipping", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->delivery->count() }} shipping</a>, 
-				<a href="{{ route("admin.show", array("payment", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->payment->count() }} payment</a>, 
-				<a href="{{ route("admin.show", array("communications", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->communications->count() }} messages</a>, 
-				<a href="{{ route("admin.show", array("roles", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->roles->count() }} roles</a>, 
-				{{ $item->elements()->count() }} <a href="{{ route("admin.show", array("products", "filter" => "site", "filter_id" => $item->id)) }}">products</a> & <a href="{{ route("admin.show", array("pages", "filter" => "site", "filter_id" => $item->id)) }}">pages</a>, {{ $item->subsites->count() }} sub-sites</small></td>
+				<a href="{{ route("admin.show", array("categories", "#site".$item->id)) }}">{{ $item->categories()->count() }} categories</a>, 
+				<a href="{{ route("admin.show", array("components", "site" => $item->id)) }}">{{ $item->components()->count() }} components</a>, 
+				<a href="{{ route("admin.show", array("configuration", "site" => $item->id)) }}">{{ $item->configuration()->count() }} confs</a>, 
+				<a href="{{ route("admin.show", array("users", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->users()->count() }} users</a>, 
+				<a href="{{ route("admin.show", array("discounts", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->discounts()->count() }} discounts</a>, 
+				<a href="{{ route("admin.show", array("lists", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->userlists()->count() }} lists</a>, 
+				<a href="{{ route("admin.show", array("orders", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->orders()->count() }} orders</a>, 
+				<a href="{{ route("admin.show", array("shipping", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->delivery()->count() }} shipping</a>, 
+				<a href="{{ route("admin.show", array("payment", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->payment()->count() }} payment</a>, 
+				<a href="{{ route("admin.show", array("communications", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->communications()->count() }} messages</a>, 
+				<a href="{{ route("admin.show", array("roles", "filter" => "site", "filter_id" => $item->id)) }}">{{ $item->roles()->count() }} roles</a>, 
+				{{ $item->elements()->count() }} <a href="{{ route("admin.show", array("products", "filter" => "site", "filter_id" => $item->id)) }}">products</a> & <a href="{{ route("admin.show", array("pages", "filter" => "site", "filter_id" => $item->id)) }}">pages</a>, {{ $item->subsites()->count() }} sub-sites</small></td>
         </tr>
 	@endforeach
 		<tr>
