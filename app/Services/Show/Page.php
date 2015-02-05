@@ -2,7 +2,7 @@
 
 class Page {
 	
-	use \Veer\Services\Traits\CommonTraits, \Veer\Services\Traits\CommentTraits;
+	use \Veer\Services\Traits\CommonTraits;
 	
 	/**
 	 * Query Builder: 
@@ -114,14 +114,7 @@ class Page {
 	 */
 	public function withCategories($siteId, $id)
 	{
-		return \Veer\Models\Category::whereHas('pages', function($q) use($id) {
-					$q->where('elements_id', '=', $id);
-				})
-				->where('sites_id', '=', $siteId)
-				->with(array('images' => function($query) {
-					$query->orderBy('id', 'asc')->take(1);
-				}
-				))->orderBy('created_at', 'desc')->get();
+		return $this->getCategoriesWhereHasElements('pages', $id, $siteId);
 	}
 
 	public function getPageAdvanced($page, $options = array())

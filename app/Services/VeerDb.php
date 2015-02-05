@@ -9,33 +9,6 @@ use Veer\Models\Page;    //a
 use Veer\Models\Order;   //b
 use Veer\Models\User;    //b
 
-/**
- * 
- * Veer @VeerDb !essential
- * 
- * - collect product & pages for category/tag/attribute/search etc. 
- *   is used everywhere: 
- * 
- *   pages & products
- *   no-conditions [ tags, attributes, comments*, downloads, searches 
- *                   [[ users_**, communications* ]], [[ orders_** ]] ]  
- *  
- *   conditions [ products|sub|parent ~ categories|sites|hide|to_show ] {pages_products} [1]
- *              [ pages|sub|parent ~ categories|sites|hidden ] {pages_products} [2]
- *              [ categories|sub|parent ~ sites ] [3]
- *             *[ orders ~ users|sites|hidden ]
- *         auth*[ users ~ sites|banned ] [ users_admin ~ users|banned ]
- *             *[ users_discounts ~ users|sites|status ]
- *              [ sites ~ ]
- * 
- *   no-conditions special [ images ]
- * 
- *   methods+: search, filter, [sort]new, [sort]ordered, [sort]viewed, [array]products
- * 
- *   not-used-here [ cache, components, configuration, failed_jobs, migrations, password_resets ] 
- * 
- * @return object
- */
 class VeerDb {
 
 	public $data;
@@ -390,26 +363,6 @@ class VeerDb {
 		}
 
 		return $p;
-	}
-
-	
-
-	/**
-	 * @parseFilterStr - parse configuration[FILTER_ATTRS]
-	 * 
-	 * @params $parseStr  key|value\n
-	 * @return $preloaded
-	 */
-	public function parseFilterStr($parseStr)
-	{
-		if ($parseStr != "") {
-			$preloaded = explode('\n', $parseStr);
-			foreach ($preloaded as $v) {
-				$filterPair = explode('|', $v);
-				$filterPair[2] = Attribute::where('name', '=', trim($filterPair[0]))->select('id')->first();
-			}
-			return $filterPair;
-		}
 	}
 
 }
