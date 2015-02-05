@@ -61,10 +61,10 @@ class CategoryController extends Controller {
 		
 		$view = view($this->template.'.category', array(
 			"category" => $category,
-			"products" => $this->showCategory->getProductsWithCategory($id, $paginator_and_sorting),
-			"pages" => $this->showCategory->getPagesWithCategory($id, $paginator_and_sorting),
-			"tags" => $this->showCategory->getTagsWithCategory($id),
-			"attributes" => $this->showCategory->getAttributesWithCategory($id),
+			"products" => $this->showCategory->withProducts($id, $paginator_and_sorting),
+			"pages" => $this->showCategory->withPages($id, $paginator_and_sorting),
+			"tags" => $this->showCategory->withTags($id),
+			"attributes" => $this->showCategory->withAttributes($id),
 			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		)); 

@@ -15,4 +15,42 @@ trait CommonTraits {
 	}
 	
 	
+	
+	/**
+	 * Query Builder: 
+	 * 
+	 * - who: Many Products | Pages
+	 * - with: Images
+	 * - to whom: 1 Attribute, category
+	 */
+	public function getElementsWhereHasModel($type, $table, $id, $siteId = null, $queryParams = null)
+	{
+		if($type == "products") $model = '\Veer\Models\Product';
+		else $model = '\Veer\Models\Page';
+		
+		$items = $model::whereHas($table, function($q) use($id, $table) {
+					$q->where($table.'_id', '=', $id);
+				})
+				->with(array('images' => function($query) {
+					$query->orderBy('id', 'asc')->take(1);
+				}
+				));
+	
+		if(!empty($siteId)) $items = $items->sitevalidation($siteId);
+		
+		if($type == "products") { 
+			$items = $items->checked()->orderBy( array_get($queryParams, 'sort', 'created_at'), 
+				array_get($queryParams, 'direction', 'desc'))
+				->take(array_get($queryParams, 'take', 25))->skip(array_get($queryParams, 'skip', 0));
+		}
+		
+		if($type == "pages") { 
+			$items = $items->excludeHidden()->orderBy( array_get($queryParams, 'sort_pages', 'created_at'), 
+				array_get($queryParams, 'direction_pages', 'desc'))
+				->take(array_get($queryParams, 'take_pages', 25))->skip(array_get($queryParams, 'skip_pages', 0));
+		}
+		
+		return $items->get();		
+	}		
+
 }

@@ -59,13 +59,13 @@ class AttributeController extends Controller {
 		{	
 			$page_sort = get_paginator_and_sorting();
 
-			array_set($data, 'products', $this->showAttribute->getProductsWithAttribute(app('veer')->siteId, $childId, $page_sort));
+			array_set($data, 'products', $this->showAttribute->withProducts(app('veer')->siteId, $childId, $page_sort));
 
-			array_set($data, 'pages', $this->showAttribute->getPagesWithAttribute(app('veer')->siteId, $childId, $page_sort));
+			array_set($data, 'pages', $this->showAttribute->withPages(app('veer')->siteId, $childId, $page_sort));
 			
-			array_set($data, 'tags', $this->showAttribute->getTagsWithAttribute($attribute->name, $attribute->val, app('veer')->siteId));	
+			array_set($data, 'tags', $this->showAttribute->withTags($attribute->name, $attribute->val, app('veer')->siteId));	
 
-			array_set($data, 'categories', $this->showAttribute->getCategoriesWithAttribute($attribute->name, $attribute->val, app('veer')->siteId));
+			array_set($data, 'categories', $this->showAttribute->withCategories($attribute->name, $attribute->val, app('veer')->siteId));
 		} 
 			
 		$view = view($this->template.'.attribute', $data);

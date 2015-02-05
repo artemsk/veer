@@ -2,6 +2,8 @@
 
 class Attribute {
 	
+	use CommonTraits;
+	
 	public function __construct()
 	{
 		//
@@ -140,22 +142,9 @@ class Attribute {
 	 * - with: Images
 	 * - to whom: 1 Attribute | attribute/{id[0]/id[1]}
 	 */
-	public function getPagesWithAttribute($siteId, $attributeId, $queryParams)
+	public function withPages($siteId, $attributeId, $queryParams = null)
 	{
-		return \Veer\Models\Page::whereHas('attributes', function($q) use($attributeId) 
-			{
-				$q->where('attributes_id', '=', $attributeId);
-			})
-			->with(array('images' => function($query) 
-			{
-				$query->orderBy('id', 'asc')->take(1);
-			}
-			))->sitevalidation($siteId)
-			->excludeHidden()
-			->orderBy('created_at', 'desc')
-			->take($queryParams['take_pages'])
-			->skip($queryParams['skip_pages'])
-			->get();
+		return $this->getElementsWhereHasModel('pages', 'attributes', $attributeId, $siteId, $queryParams);
 	}	
 	
 	
@@ -166,20 +155,9 @@ class Attribute {
 	 * - with: Images
 	 * - to whom: 1 Attribute | attribute/{id[0]/id[1]}
 	 */
-	public function getProductsWithAttribute($siteId, $attributeId, $queryParams)
+	public function withProducts($siteId, $attributeId, $queryParams = null)
 	{
-		return \Veer\Models\Product::whereHas('attributes', function($q) use($attributeId) {
-					$q->where('attributes_id', '=', $attributeId);
-				})
-				->with(array('images' => function($query) {
-					$query->orderBy('id', 'asc')->take(1);
-				}
-				))->sitevalidation($siteId)
-				->checked()
-				->orderBy($queryParams['sort'], $queryParams['direction'])
-				->take($queryParams['take'])
-				->skip($queryParams['skip'])
-				->get();
+		return $this->getElementsWhereHasModel('products', 'attributes', $attributeId, $siteId, $queryParams);
 	}	
 	
 	
@@ -208,13 +186,13 @@ class Attribute {
 	}
 	
 	
-	public function getTagsWithAttribute($attributeName, $attributeVal, $siteId)
+	public function withTags($attributeName, $attributeVal, $siteId)
 	{
 		return $this->getModelWithAttribute("\Veer\Models\Tag", $attributeName, $attributeVal, $siteId);		
 	}	
 	
 	
-	public function getCategoriesWithAttribute($attributeName, $attributeVal, $siteId)
+	public function withCategories($attributeName, $attributeVal, $siteId)
 	{
 		return $this->getModelWithAttribute("\Veer\Models\Category", $attributeName, $attributeVal, $siteId);	
 	}
