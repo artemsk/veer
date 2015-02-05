@@ -84,7 +84,7 @@ class PageController extends Controller {
 		$viewLink = $this->template . '.page';
 		
 		// page with special design 
-		if($page->original == 1 && view()->exists($blade_path)) $viewLink = $blade_path;
+		if($page->original == 1 && \View::exists($blade_path)) $viewLink = $blade_path;
 		
 		$view = view($viewLink, $data);
 		
