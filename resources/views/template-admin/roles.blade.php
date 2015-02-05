@@ -10,7 +10,7 @@
 </h1>
 <br/>
 <div class="container">
-	{{ Form::open(array('method' => 'put', 'files' => false)); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="list-group">
 		@foreach($items as $item)
 		<div class="list-group-item row">

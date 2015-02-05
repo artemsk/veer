@@ -7,7 +7,9 @@
 <h1>Attributes: {{ count($items['grouped']) }} @if(count($items)>2) with {{ count($items)-2 }} values @endif</h1>
 <br/>
 <div class="container">
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+	<input name="_method" type="hidden" value="PUT">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	@foreach ($items['grouped'] as $name => $item)
 	<div class="row">
         <div class="col-sm-12">	
@@ -57,7 +59,7 @@
 		</div>
 	</div>
 	
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="row">		
 	<div class="col-sm-3">
 		<div class="attribute-form">

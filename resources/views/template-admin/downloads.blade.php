@@ -8,7 +8,7 @@
 <br/>
 <div class="container">
 	
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="row">
 		@foreach ($items['regrouped'] as $g => $group) 
 		@if(round($items['index'][$g]/4) == ($items['index'][$g]/4)) <div class="clearfix"></div> @endif
@@ -59,7 +59,9 @@
 			<button type="button" name="action" value="makeRealLink.{{ $items[$item]->id }}" class="btn btn-info btn-xs" data-toggle="popover" title="Add New" 
 						data-content='
 						<div class="form-inline">
-						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+						<input name="_method" type="hidden" value="PUT">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<p><input type="text" class="form-control" placeholder="Maximum Downloads" size=6 name="times"></p>
 						<p><input type="date" class="form-control" placeholder="Expiration Date" size=6 name="expiration_day"></p>
 						<p><button class="btn btn-info btn-xs" type="submit" name="action" value="makeRealLink.{{ $items[$item]->id }}">Make</button></p>
@@ -81,7 +83,9 @@
 			<button type="button" class="btn btn-success btn-xs" data-toggle="popover" title="Add New" 
 						data-content='
 						<div class="form-inline">
-						{{ Form::open(array('url' => URL::full(), 'method' => 'put')); }}
+						<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+						<input name="_method" type="hidden" value="PUT">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<p><input type="text" class="form-control" placeholder="Product Id" size=6 name="prdId"></p>
 						<p><input type="text" class="form-control" placeholder="Page Id" size=6 name="pgId"></p>
 						<p><button class="btn btn-success btn-xs" type="submit" name="action" value="copyFile.{{ $items[head($group[1])]->id }}">Add</button></p>
@@ -104,7 +108,9 @@
 	
 	<hr>
 		
-	{{ Form::open(array('method' => 'put', 'files' => true)); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+	<input name="_method" type="hidden" value="PUT">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="row">
 		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="uploadFiles"  multiple=false></p></div>
 	</div>	
@@ -112,7 +118,7 @@
 		<div class="col-sm-4">
 			<textarea class="form-control" name="attachFiles" placeholder="ID|NEW/blank [:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new files with products & pages. Example: 4:2,3:1 or :1:4,5,6 "></textarea>
 			<p></p>
-			<p>{{ Form::submit('Update | Upload', array('class' => 'form-control btn btn-primary')); }}</p>
+			<p><input class="form-control btn btn-primary" type="submit" value="Update | Upload"></p>
 		</div>
 	</div>
 	</form>

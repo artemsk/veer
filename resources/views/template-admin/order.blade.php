@@ -4,7 +4,9 @@
 	
 	@include($template.'.layout.breadcrumb-order', array('place' => 'order'))
 	
-{{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+<input name="_method" type="hidden" value="PUT">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
 <h1>Order #@if(isset($items->cluster)){{ app('veershop')->getOrderId($items->cluster, $items->cluster_oid) }} @else — @endif<small>
 	@if(isset($items->site) && is_object($items->site))~ {{ $items->site->configuration->first()->conf_val or $items->site->url; }} @endif
 	@if(isset($items->status) && is_object($items->status))<span class="label" style="background-color: {{ $items->status->color }}">

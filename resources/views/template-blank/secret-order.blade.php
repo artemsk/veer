@@ -2,11 +2,12 @@
 
 @section('body')
 <br/><br/>
-{{ Form::open(array('route' => 'order.store')) }}
+<form method="POST" action="{{ route('order.store') }}" accept-charset="UTF-8">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
     
-{{ Form::label('password', 'Secret Code'); }}<br/>
-{{ Form::password('password'); }}<br/><br/>
+<label for="password">Secret Code</label><br/>
+<input name="password" type="password" value="" id="password"><br/><br/>
 
-{{ Form::submit('Show'); }}
+<input type="submit" value="Show">
 </form>
 @stop

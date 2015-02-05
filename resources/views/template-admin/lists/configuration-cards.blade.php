@@ -1,7 +1,7 @@
 @foreach($configuration as $item)
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
 			<div class="thumbnail" id="card{{$item->id}}">		
-		{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}
+		<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="veer-form-submit-configuration"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<div class="caption"><small>#{{$item->id}}</small>
 					<p><strong><input name="configuration[{{$item->id}}][key]" type="text" class="form-control admin-form text-center" 
 									  placeholder="Key" value="{{ $item->conf_key }}"></strong></p>

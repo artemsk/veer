@@ -10,7 +10,7 @@
 	<div class="row">
 	<div class="col-md-12">
 		<ol class="breadcrumb">
-			<li>{{ link_to_route("admin.show", empty($items->site_title) ? "Categories" : $items->site_title, array("categories","#site".$items->sites_id)) }}</li>
+			<li><a href="{{ route("admin.show", array("categories","#site".$items->sites_id)) }}">{{ empty($items->site_title) ? "Categories" : $items->site_title }}</a></li>
 			@if (count($items->parentcategories)<=0) 
 			<li><button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Parent category" 
 						data-content='
@@ -37,7 +37,7 @@
 						</form>
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>&nbsp;
-				{{ link_to_route("admin.show", $category->title, array("categories", "category=".$category->id)) }}
+					<a href="{{ route("admin.show", array("categories", "category=".$category->id)) }}">{{ $category->title }}</a>
 			</li>
 			@endforeach
 		</ol>

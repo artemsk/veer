@@ -11,7 +11,7 @@
 		| <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "wait")) }}">wait</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "active")) }}">active</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "expired")) }}">expired</a> <a href="{{ route("admin.show", array("discounts", "filter" => "status", "filter_id" => "canceled")) }}">canceled</a></small></h1>
 <br/>
 <div class="container">
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="row">
 	@foreach($items as $key => $item)
 	@if(round($key/4) == ($key/4)) <div class="clearfix"></div> @endif	

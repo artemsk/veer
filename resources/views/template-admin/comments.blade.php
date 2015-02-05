@@ -9,7 +9,7 @@
 	@endif </small></h1>
 <br/>
 <div class="container">
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="list-group">
 		@foreach ($items as $key => $item) 
 		<div class="list-group-item bordered-row">
@@ -78,7 +78,7 @@
 	
 	<div class='rowdelimiter'></div>
 	<hr>
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<label>Add comment to anything as anybody</label>
 	<div class="row">
 		<div class="col-md-6">             
@@ -93,17 +93,17 @@
 			</div>            
 			<div class="radio">
 				<label>
-					{{ Form::radio('vote', 'Yes') }} Yes <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					<input name="vote" type="radio" value="Yes"> Yes <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 				</label>
 			</div>
 			<div class="radio">
 				<label>
-				{{ Form::radio('vote', 'No') }} No <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+				<input name="vote" type="radio" value="No"> No <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 				</label>
 			</div>
 			<div class="radio">	
 				<label>
-				{{ Form::radio('vote', 'Blank') }} Do not vote
+				<input name="vote" type="radio" value="Blank"> Do not vote
 				</label>
 			</div>   
 		</div> 

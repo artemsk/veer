@@ -10,7 +10,9 @@
 
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}
+			<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="veer-form-submit-configuration">
+			<input name="_method" type="hidden" value="PUT">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="thumbnail" id="cardnewsecret">
 				<div class="caption"><p><small>NEW JOB</small></p>
 					<strong><p><input type="text" class="form-control text-center" name="jobs[new][classname]"
@@ -29,7 +31,9 @@
 		</div>
 		@foreach($items['jobs'] as $item)	
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}	
+			<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="veer-form-submit-configuration">
+			<input name="_method" type="hidden" value="PUT">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="thumbnail" id="card{{$item->id}}">
 				<div class="caption"><small>#{{$item->id}} —
 							{{ \Carbon\Carbon::parse($item->updated_at)->format("m/d") }}</small>					

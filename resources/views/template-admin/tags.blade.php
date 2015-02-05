@@ -6,7 +6,7 @@
 
 <h1>Tags: {{ array_pull($data, 'counted') }}</h1>
 <br/>
-{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="container">
 
 	<div class="row">

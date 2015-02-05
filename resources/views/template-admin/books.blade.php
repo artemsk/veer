@@ -29,7 +29,7 @@
 	
 	<div class='rowdelimiter'></div>
 	<hr>
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<label>Add users book</label>	
 	@include($template.'.layout.form-userbook')
 	</form>

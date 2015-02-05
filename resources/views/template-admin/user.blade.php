@@ -8,7 +8,9 @@
 		&nbsp; <nobr><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> {{ $items->logons_count or '—' }}</nobr>
 		&nbsp; <nobr><span class="glyphicon glyphicon-glass" aria-hidden="true"></span> {{ $items->orders_count or '—' }}</nobr></small></h1>
 <br/>
-{{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+<input name="_method" type="hidden" value="PUT">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="container">
 
 	<div class="row">

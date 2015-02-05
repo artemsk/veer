@@ -11,7 +11,9 @@
 	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('configuration', "sort" => "conf_key", "direction" => "asc")) }}">keys</a> | <a href="{{ route('admin.show', array('configuration', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">			
-			{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'veer-form-submit-configuration')); }}
+			<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="veer-form-submit-configuration">
+			<input name="_method" type="hidden" value="PUT">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">			
 			<div class="thumbnail newcard" id="cardnew{{ $site->id }}" >
 				<div class="caption"><small>NEW CARD</small>
 					<p><strong><input type="text" name="new[{{ $site->id}}][key]" class="form-control admin-form text-center newkey" 

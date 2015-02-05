@@ -39,7 +39,10 @@
 		@endif
 		@if(!isset($skipOrder))
 		<p></p>
-		@if(!isset($skipUser)) {{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }} @endif
+		@if(!isset($skipUser)) 	
+		<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+		<input name="_method" type="hidden" value="PUT">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">@endif
 		<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#bookModal{{ $item->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp;		
 		<button type="submit" name="deleteUserbook[{{ $item->id }}]" value="{{ $item->id }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
 		@if(!isset($skipUser)) </form> @endif
@@ -52,7 +55,10 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title">Edit user's book</h4>
 				</div>
-				@if(!isset($skipUser)) {{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }} @endif
+				@if(!isset($skipUser)) 	
+				<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+				<input name="_method" type="hidden" value="PUT">
+				<input type="hidden" name="_token" value="{{ csrf_token() }}">@endif
 				<div class="modal-body">
 					@include($template.'.layout.form-userbook', array('item' =>$item, 'skipSubmit' => true))
 				</div>

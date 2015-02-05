@@ -7,7 +7,9 @@
 <h1>Page #{{ $items->id or '—' }} <small>
 		&nbsp; <nobr><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $items->views or '—' }}</nobr></small></h1>
 <br/>
-{{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+<input name="_method" type="hidden" value="PUT">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="container">
 
 	<div class="row">

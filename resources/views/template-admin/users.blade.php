@@ -12,7 +12,7 @@
 									   href="{{ route("admin.show", array("users", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="row">
 		@foreach($items as $key => $item)	
 		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif		
@@ -99,7 +99,7 @@
 	
 	<div class='rowdelimiter'></div>
 	<hr>
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<label>Quick form: Add user</label>
 	<div class="row">
 		<div class="col-sm-4"><p><input type="email" class="form-control" placeholder="Email" name="email"></p></div>
@@ -130,7 +130,7 @@ Restrict orders |
 Ban"></textarea></p>			
 		</div>
 		<div class="col-sm-6">
-			<p>{{ Form::submit('Add', array('name' => 'action', 'class' => 'form-control btn btn-danger')); }}</p>
+			<p><input class="form-control btn btn-danger" type="submit" name="action" value="Add"></p>
 		</div>
 	</div>
 	</form>

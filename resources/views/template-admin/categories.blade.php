@@ -21,7 +21,9 @@
 	<div class="categories-list-{{ $item->id}} ">			
 			@include($template.'.lists.categories-category', array('categories' => $item->categories, 'siteid' => $item->id))				
 	</div>
-	{{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'category-add', 'data-siteid' => $item->id)); }}	
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="category-add" data-siteid="{{ $item->id }}">
+	<input name="_method" type="hidden" value="PUT">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Title" name="newcategory">
 			<span class="input-group-btn">

@@ -15,7 +15,9 @@
 <a class="btn btn-default" href="{{ route("admin.show", array("pages", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>
 <div class="container">
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put', 'files' => false)); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+	<input name="_method" type="hidden" value="PUT">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	
 	@include($template.'.lists.pages', array('items' => $items))
 	
@@ -28,7 +30,9 @@
 	
 	<div class='rowdelimiter'></div>
 	<hr>
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put', 'files' => true)); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+	<input name="_method" type="hidden" value="PUT">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<label>Quick form: Add page</label>
 	<div class="row">
 		<div class="col-sm-4"><p><input type="text" class="form-control" placeholder="Title" name="title"></p></div>
@@ -45,7 +49,7 @@
 			<textarea class="form-control" placeholder="@{{Small txt}} Txt" rows="10" name="txt"></textarea></p>			
 		</div>
 		<div class="col-sm-6">
-			<p>{{ Form::submit('Add', array('class' => 'form-control btn btn-danger')); }}</p>
+			<p><input class="form-control btn btn-danger" type="submit" value="Add"></p>
 		</div>
 	</div>
 	</form>	

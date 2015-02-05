@@ -11,7 +11,7 @@
 <div class="container">
 	
 	@foreach($items as $item)
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<h3>#{{ $item->id }}</h3>
 	<ul class="list-group">
 		<div class="row list-group-item">
@@ -118,7 +118,7 @@ d:total|delivery">{{ $item->discount_conditions }}</textarea>
 	
 	<div class='rowdelimiter'></div>
 	<hr>
-	{{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
+	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<label>Add new shipping method</label>
 	<div class="row">
         <div class="col-md-4">

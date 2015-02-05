@@ -4,15 +4,16 @@
     <section class="slide-2">
         <div class="content container">
 			<div class="row"><div class="col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
-{{ Form::open(array('route' => 'user.login.post')) }}
+<form method="POST" action="{{ route('user.login.post') }}" accept-charset="UTF-8">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
     
-{{ Form::label('email', 'E-Mail Address'); }}<br/>
-{{ Form::email('email', '', array('class' => 'form-control veer-form')); }}<br/><br/>
+<label for="email">Email Address</label><br/>
+<input class="form-control veer-form" name="email" type="email" value="" id="email" placeholder="Email"><br/><br/>
 
-{{ Form::label('password', 'Password'); }}<br/>
-{{ Form::password('password', array('class' => 'form-control veer-form')); }}<br/><br/>
+<label for="password">Password</label><br/>
+<input class="form-control veer-form" name="password" type="password" value="" id="password"><br/><br/>
 
-{{ Form::submit('Login', array('class' => 'btn btn-default btn-lg')); }}
+<input class="btn btn-default btn-lg" type="submit" value="Login">
 </form>
 				</div></div>
 		</div>
