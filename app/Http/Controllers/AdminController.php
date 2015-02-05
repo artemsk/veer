@@ -53,7 +53,6 @@ class AdminController extends Controller {
 	 * Display the specified resource.
 	 *
 	 * @param  int  $t
-	 * @return Response
 	 */
 	public function show($t)
 	{		
@@ -79,6 +78,10 @@ class AdminController extends Controller {
 			
 			case "downloads":
 				$items = ( new \Veer\Services\Show\Download )->getDownloads();
+				break;
+			
+			case "images":
+				$items = ( new \Veer\Services\Show\Image )->getImages(array(Input::get('filter') =>  Input::get('filter_id')));
 				break;
 			
 			case "categories":		
