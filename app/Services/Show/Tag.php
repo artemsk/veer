@@ -1,10 +1,19 @@
 <?php namespace Veer\Services\Show;
 
-
 class Tag {
 
 	use CommonTraits;
 		
+	/**
+	 * handle
+	 */
+	public function handle($siteId = null, $paginateItems = 50)
+	{
+		return !empty($siteId) ? 
+			  $this->getTagsWithSite($siteId) 
+			: $this->getTagsWithoutSite($paginateItems);
+	}
+	
 	/**
 	 * Query Builder: 
 	 * 
@@ -29,45 +38,6 @@ class Tag {
 	}
 	
 	/**
-	 * Query Builder: 
-	 * 
-	 * - who: 1 Tag
-	 * - with: 
-	 * - to whom: make() | tag/{id}
-	 */
-	public function getTag($id)
-	{
-		return \Veer\Models\Tag::where('id', '=', $id)->first();
-	}
-	
-	
-	/**
-	 * Query Builder: 
-	 * 
-	 * - who: Many Pages 
-	 * - with: Images
-	 * - to whom: 1 Tag | tag/{id}
-	 */
-	public function withPages($siteId, $id, $queryParams = null)
-	{
-		return $this->getElementsWhereHasModel('pages', 'tags', $id, $siteId, $queryParams);
-	}	
-	
-	
-	/**
-	 * Query Builder: 
-	 * 
-	 * - who: Many Products 
-	 * - with: Images
-	 * - to whom: 1 Tag | tag/{id}
-	 */
-	public function withProducts($siteId, $id, $queryParams = null)
-	{
-		return $this->getElementsWhereHasModel('products', 'tags', $id, $siteId, $queryParams);
-	}	
-		
-	
-	/**
 	 * Show Tags
 	 */
 	public function getTagsWithoutSite($paginateItems = 50) 
@@ -80,12 +50,46 @@ class Tag {
 		return $items;
 	}	
 	
+	/**
+	 * Query Builder: 
+	 * 
+	 * - who: 1 Tag
+	 * - with: 
+	 * - to whom: make() | tag/{id}
+	 */
+	public function getTag($id)
+	{
+		return \Veer\Models\Tag::where('id', '=', $id)->first();
+	}	
+	
+	/**
+	 * Query Builder: 
+	 * 
+	 * - who: Many Pages 
+	 * - with: Images
+	 * - to whom: 1 Tag | tag/{id}
+	 */
+	public function withPages($siteId, $id, $queryParams = null)
+	{
+		return $this->getElementsWhereHasModel('pages', 'tags', $id, $siteId, $queryParams);
+	}		
+	
+	/**
+	 * Query Builder: 
+	 * 
+	 * - who: Many Products 
+	 * - with: Images
+	 * - to whom: 1 Tag | tag/{id}
+	 */
+	public function withProducts($siteId, $id, $queryParams = null)
+	{
+		return $this->getElementsWhereHasModel('products', 'tags', $id, $siteId, $queryParams);
+	}			
 	
 	public function withAttributes($id, $siteId)
 	{
 		return $this->withModels('\Veer\Models\Attribute', 'tags', $id, $siteId);			
-	}	
-	
+	}		
 	
 	public function withCategories($id, $siteId)
 	{

@@ -3,11 +3,6 @@
 class Attribute {
 	
 	use CommonTraits;
-	
-	public function __construct()
-	{
-		//
-	}
 		
 	/**
 	 * handle

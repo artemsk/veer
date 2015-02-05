@@ -30,53 +30,7 @@ class Show {
 				
 				); // elements separately		
 	}
-		
-	/**
-	 * Show Downloads
-	 */
-	public function showDownloads( $filters = array() ) 
-	{	
-		$items = \Veer\Models\Download::orderBy('fname','desc')
-			->orderBy('id', 'desc')
-			->with('elements')
-			->paginate(50);	
-		
-		$items_temporary = 
-			\Veer\Models\Download::where('original','=',0)->count();
-		
-		$items_counted = 
-			\Veer\Models\Download::count(\Illuminate\Support\Facades\DB::raw(
-				'DISTINCT fname'
-			));
-		
-		foreach($items as $key => $item) 
-		{
-			$items_regrouped[$item->fname][$item->original][$key]=$key;
-		}
-		
-		if(isset($items_regrouped)) 
-		{ 
-			$i = 0;
 			
-			foreach($items_regrouped as $key => $item) 
-			{ 
-				$items_index[$key] = $i; 
-				
-				$i++; 
-			}
-		}
-		
-		$items['temporary'] = $items_temporary;
-		
-		$items['counted'] = $items_counted;
-		
-		$items['regrouped'] = isset($items_regrouped) ? $items_regrouped : array();
-		
-		$items['index'] = isset($items_index) ? $items_index : array();
-		
-		return $items;
-	}	
-	
 	/*
 	 * build filter query on models with elements
 	 */
