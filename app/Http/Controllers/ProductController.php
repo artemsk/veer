@@ -1,13 +1,17 @@
 <?php namespace Veer\Http\Controllers;
 
 use Veer\Http\Controllers\Controller;
+use Veer\Services\Show\Product as ShowProduct;
 
 class ProductController extends Controller {
 
-	public function __construct()
+	protected $showProduct;
+	
+	public function __construct(ShowProduct $showProduct)
 	{
 		parent::__construct();
-
+		
+		$this->showProduct = $showProduct;
 	}
 	
 	/**
@@ -17,9 +21,17 @@ class ProductController extends Controller {
 	 */
 	public function index()
 	{
-		return $this->show('new');
+		return $this->showProductLists('new');
 	}
 
+	/* product lists: new, viewed, ordered */
+	public function showProductLists($type)
+	{
+		$products = $this->showProduct->getProductLists($type, app('veer')->siteId);
+			
+		return $this->viewIndex('products', $products);
+	}
+	
 	/**
 	 * Display the specified resource.
 	 *
@@ -28,72 +40,34 @@ class ProductController extends Controller {
 	 */
 	public function show($id)
 	{
+		if(in_array($id, array('new', 'ordered', 'viewed'))) return $this->showProductLists($id);
+		
 		// TODO: queryParams -> sort, filter
+
+		$product = $this->showProduct->getProduct($id, app('veer')->siteId);
 		
-		$method = \Route::currentRouteName();
-
-		if(in_array($id, array('new', 'ordered', 'viewed'))) {
-
-			$method = "sortingProducts";                  
-		} 
-
-		$vdb = app('veerdb');
-
-		$product = $vdb->make($method, $id);                 
-
-		if(!is_object($product)) { return $this->show('new'); }
+		if(!is_object($product)) { return $this->showProductLists('new'); }
 		
-		if($method != "sortingProducts") {
-			
-			$paginator_and_sorting = get_paginator_and_sorting();
-
-				$sub = $vdb->productOnlySubProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
-
-				$parent = $vdb->productOnlyParentProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
-
-				$categories = $vdb->productOnlyCategoriesQuery($this->veer->siteId, $id, $paginator_and_sorting);
-
-				$pages = $vdb->productOnlyPagesQuery($this->veer->siteId, $id, $paginator_and_sorting);
-
-			$product->increment('viewed');	
-
-			$product->load('images', 'tags', 'attributes', 'downloads', 'userlists');
-
-			// TODO: connected?=sub/parent new? ordered? viewed?
-
-			// TODO: groups
-
-			if(db_parameter('COMMENTS_SYSTEM') == "disqus") { 
-				$this->veer->loadedComponents['comments_disqus'] = view('components.disqus', array("identifier" => "product".$product->id));
-			} else {
-				$product->load('comments');
-				$this->veer->loadedComponents['comments_own'] = $product->comments->toArray();
-			}
-
-			$data = array(
-				"product" => $product,
-				"subproducts" => $sub,
-				"parentproducts" => $parent,
-				"pages" => $pages,
-				"categories" => $categories,
-				"data" => $this->veer->loadedComponents,
-				"template" => $this->template
-			); 
-			
-			$view = view($this->template.'.product', $data);
-
-		} else {
-			
-			$data = array(
-				"products" => $product,
-				"data" => $this->veer->loadedComponents,
-				"template" => $this->template
-			); 
-			
-			$view = view($this->template.'.products', $data);
-			
-		}
+		$product->increment('viewed');	
 		
+		$product->load('images', 'tags', 'attributes', 'downloads', 'userlists');
+		
+		$this->showProduct->loadComments($product, 'product');
+		
+		$paginator_and_sorting = get_paginator_and_sorting();
+
+		$data = array(
+			"product" => $product,
+			"subproducts" => $this->showProduct->withChildProducts(app('veer')->siteId, $id, $paginator_and_sorting),
+			"parentproducts" => $this->showProduct->withParentProducts(app('veer')->siteId, $id, $paginator_and_sorting),
+			"pages" => $this->showProduct->withPages(app('veer')->siteId, $id, $paginator_and_sorting),
+			"categories" => $this->showProduct->withCategories(app('veer')->siteId, $id, $paginator_and_sorting),
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
+		); 	
+	
+		$view = view($this->template.'.product', $data);
+
 		$this->view = $view; 
 
 		return $view;	

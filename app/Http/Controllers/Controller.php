@@ -57,7 +57,7 @@ abstract class Controller extends BaseController {
 	}     
 	
 	/**
-	 * Common Index page for entities
+	 * common index view generator
 	 */
 	protected function viewIndex($type, $object)
 	{		

@@ -47,7 +47,7 @@ class PageController extends Controller {
             return \Response::make($external_content, 200)->header('Content-type','text/html');
         }
 		
-		$page = $this->showPage->getPage($id);                 
+		$page = $this->showPage->getPage($id, app('veer')->siteId);                 
 
 		if(!is_object($page)) { return Redirect::route('page.index'); }
 		
