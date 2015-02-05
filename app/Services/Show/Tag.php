@@ -81,34 +81,15 @@ class Tag {
 	}	
 	
 	
-	public function getModelWithTag($model, $id, $siteId)
-	{
-		app('veer')->cachingQueries->make(
-			$model::whereHas('products', function($query) use($id, $siteId) 
-			{
-				$query->siteValidation($siteId)->checked()->whereHas('tags', function($q) use ($id) {
-						$q->where('tags_id','=',$id);
-				});
-			})->orWhereHas('pages', function($query) use($id, $siteId) 
-			{
-				$query->siteValidation($siteId)->excludeHidden()->whereHas('tags', function($q) use ($id) {
-						$q->where('tags_id','=',$id);
-				});
-			}));
-			
-		return app('veer')->cachingQueries->remember(5, 'get'); 	
-	}
-
-	
 	public function withAttributes($id, $siteId)
 	{
-		return $this->getModelWithTag("\Veer\Models\Attribute", $id, $siteId);		
+		return $this->withModels('\Veer\Models\Attribute', 'tags', $id, $siteId);			
 	}	
 	
 	
 	public function withCategories($id, $siteId)
 	{
-		return $this->getModelWithTag("\Veer\Models\Category", $id, $siteId);	
+		return $this->withModels('\Veer\Models\Category', 'tags', $id, $siteId);			
 	}	
 	
 }
