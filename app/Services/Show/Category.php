@@ -74,19 +74,9 @@ class Category {
 	 * - with: Images
 	 * - to whom: 1 Category | category/{id}
 	 */
-	public function getProductsWithCategory($id, $queryParams)
+	public function withProducts($id, $queryParams = null)
 	{
-		return \Veer\Models\Product::whereHas('categories', function($q) use($id) 
-			{
-				$q->where('categories_id', '=', $id);
-			})->with(array('images' => function($query) {
-
-				$query->orderBy('id', 'asc')->take(1);
-			}))->checked()
-			->orderBy($queryParams['sort'], $queryParams['direction'])
-			->take($queryParams['take'])
-			->skip($queryParams['skip'])
-			->get();
+		return $this->getElementsWhereHasModel('products', 'categories', $id, null, $queryParams);
 	}
 
 	/**
@@ -96,19 +86,9 @@ class Category {
 	 * - with: Images
 	 * - to whom: 1 Category | category/{id}
 	 */
-	public function getPagesWithCategory($id, $queryParams)
+	public function withPages($id, $queryParams = null)
 	{
-		return \Veer\Models\Page::whereHas('categories', function($q) use($id) 
-			{
-				$q->where('categories_id', '=', $id);
-			})->with(array('images' => function($query) {
-
-				$query->orderBy('id', 'asc')->take(1);
-			}))->excludeHidden()
-			->orderBy('created_at', 'desc')
-			->take($queryParams['take_pages'])
-			->skip($queryParams['skip_pages'])
-			->get();
+		return $this->getElementsWhereHasModel('pages', 'categories', $id, null, $queryParams);
 	}
 	
 	public function getModelWithCategory($model, $id)
@@ -126,17 +106,17 @@ class Category {
 					});
 			}));
 			
-		return app('veer')->cachingQueries->remember(5, 'get'); 	
+		return app('veer')->cachingQueries->remember(5, 'get');
 	}
 	
 	
-	public function getTagsWithCategory($id)
+	public function withTags($id)
 	{
 		return $this->getModelWithCategory("\Veer\Models\Tag", $id);		
 	}	
 	
 	
-	public function getAttributesWithCategory($id)
+	public function withAttributes($id)
 	{
 		return $this->getModelWithCategory("\Veer\Models\Attribute", $id);	
 	}
