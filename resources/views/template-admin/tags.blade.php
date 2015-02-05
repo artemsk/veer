@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-elements', array('place' => 'tags'))
 
-<h1>Tags: {{ array_pull($items, 'counted') }}</h1>
+<h1>Tags: {{ array_pull($data, 'counted') }}</h1>
 <br/>
 {{ Form::open(array('url'=> URL::full(), 'method' => 'put')); }}
 <div class="container">

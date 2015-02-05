@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-elements', array('place' => 'downloads'))
 	
-<h1>Downloads: {{ $items['counted'] }} files, {{ $items['temporary'] }} active downloads</h1>
+<h1>Downloads: {{ array_get($data, 'counted') }} files, {{ array_get($data, 'temporary') }} active downloads</h1>
 <br/>
 <div class="container">
 	

@@ -93,13 +93,13 @@ class Category {
 	
 	public function withTags($id)
 	{
-		return $this->withModels('\Veer\Models\Tag', 'categories', $id);	
+		return $this->withModels('\Veer\Models\Tag', 'categories', $id);
 	}	
 	
 	
 	public function withAttributes($id)
 	{
-		return $this->withModels('\Veer\Models\Attribute', 'categories', $id);		
+		return $this->withModels('\Veer\Models\Attribute', 'categories', $id);	
 	}
 	
 

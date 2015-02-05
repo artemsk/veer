@@ -14,8 +14,6 @@ trait CommonTraits {
 				: $items->load('images');
 	}
 	
-	
-	
 	/**
 	 * Query Builder: 
 	 * 
@@ -53,7 +51,7 @@ trait CommonTraits {
 		return $items->get();		
 	}		
 
-	
+	/* with models */
 	public function withModels($model, $table, $id, $siteId = null)
 	{
 		app('veer')->cachingQueries->make(

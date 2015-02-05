@@ -77,6 +77,10 @@ class AdminController extends Controller {
 				$items = ( new \Veer\Services\Show\Tag )->getTagsWithoutSite();
 				break;
 			
+			case "downloads":
+				$items = ( new \Veer\Services\Show\Download )->getDownloads();
+				break;
+			
 			case "categories":		
 				$category = Input::get('category');
 				$imageFilter = Input::get('image');
@@ -175,10 +179,10 @@ class AdminController extends Controller {
 		}
 
 		if(isset($items) && isset($view)) {
-			return view(app('veer')->template.'.'.$view, array(
+			return view($this->template.'.'.$view, array(
 				"items" => $items,
 				"data" => app('veer')->loadedComponents,
-				"template" => app('veer')->template
+				"template" => $this->template
 			));
 		}
 
