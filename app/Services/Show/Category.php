@@ -144,9 +144,9 @@ class Category {
 		{
 			$items = $this->filterCategoryByImage($imageFilter);
 
-			app('veeradmin')->filtered = "images";
+			app('veer')->loadedComponents['filtered'] = "images";
 			
-			app('veeradmin')->filtered_id  = $imageFilter;
+			app('veer')->loadedComponents['filtered_id']  = $imageFilter;
 		} 
 
 		else 
