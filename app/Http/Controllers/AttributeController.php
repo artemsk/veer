@@ -25,17 +25,7 @@ class AttributeController extends Controller {
 			app('veer')->siteId
 		); 
 		
-		if(!is_object($attributes)) { return \Redirect::route('index'); }
-                
-		$view = view($this->template.'.attributes', array(
-			"attributes" => $attributes,
-			"data" => $this->veer->loadedComponents,
-			"template" => $this->template
-		)); 
-
-		$this->view = $view; 
-
-		return $view;
+		return $this->viewIndex('attributes', $attributes);
 	}
 	
 	/**

@@ -26,17 +26,7 @@ class TagController extends Controller {
 			app('veer')->siteId
 		);    
 
-		if(!is_object($tags)) { return Redirect::route('index'); }
-		
-		$view = view($this->template.'.tags', array(
-			"tags" => $tags,
-			"data" => $this->veer->loadedComponents,
-			"template" => $this->template
-		)); 
-
-		$this->view = $view; 
-
-		return $view;
+		return $this->viewIndex('tags', $tags);
 	}
 
 	/**

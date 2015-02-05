@@ -56,4 +56,21 @@ abstract class Controller extends BaseController {
 		}
 	}     
 	
+	/**
+	 * Common Index page for entities
+	 */
+	protected function viewIndex($type, $object)
+	{		
+		if(!is_object($object)) { return \Redirect::route('index'); }
+                
+		$view = view($this->template . '.' . $type, array(
+			$type => $object,
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
+		)); 
+
+		$this->view = $view; 
+
+		return $view;
+	}
 }
