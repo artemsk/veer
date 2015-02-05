@@ -2,7 +2,7 @@
 
 class Product {
 
-	use \Veer\Services\Traits\CommonTraits, \Veer\Services\Traits\CommentTraits;
+	use \Veer\Services\Traits\CommonTraits;
 	
 	/**
 	 * Query Builder: 
@@ -95,16 +95,9 @@ class Product {
 	 * - with: Images
 	 * - to whom: 1 Product | product/{id}
 	 */
-	public function withCategories($siteId, $id, $queryParams = null)
+	public function withCategories($siteId, $id)
 	{
-		return \Veer\Models\Category::whereHas('products', function($q) use($id) {
-				$q->where('elements_id', '=', $id);
-			})
-			->where('sites_id', '=', $siteId)
-			->with(array('images' => function($query) {
-				$query->orderBy('id', 'asc')->take(1);
-			}
-			))->orderBy('created_at', 'desc')->get();			
+		return $this->getCategoriesWhereHasElements('products', $id, $siteId);		
 	}
 	
 	

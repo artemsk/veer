@@ -61,10 +61,10 @@ class ProductController extends Controller {
 			"subproducts" => $this->showProduct->withChildProducts(app('veer')->siteId, $id, $paginator_and_sorting),
 			"parentproducts" => $this->showProduct->withParentProducts(app('veer')->siteId, $id, $paginator_and_sorting),
 			"pages" => $this->showProduct->withPages(app('veer')->siteId, $id, $paginator_and_sorting),
-			"categories" => $this->showProduct->withCategories(app('veer')->siteId, $id, $paginator_and_sorting),
+			"categories" => $this->showProduct->withCategories(app('veer')->siteId, $id),
 			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
-		); 	
+		);
 	
 		$view = view($this->template.'.product', $data);
 
