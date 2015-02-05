@@ -12,7 +12,9 @@
 	@endif
 	</h1>
 <br/>
-{{ Form::open(array('url'=> URL::full(), 'method' => 'put', 'files' => true)); }}
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+<input name="_method" type="hidden" value="PUT">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="container">
 
 	@include($template.'.lists.images', array('items' => $items))
@@ -36,7 +38,7 @@
 		<div class="col-sm-4">
 			<textarea class="form-control" name="attachImages" placeholder="ID|NEW [:id:id:id:id]" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Connect existing|new images with products, pages, categories, users. Example: 4:2,3:1 or NEW:1:4,5,6 "></textarea>
 			<p></p>
-			<p>{{ Form::submit('Update', array('class' => 'form-control btn btn-primary')); }}</p>
+			<p><input class="form-control btn btn-primary" type="submit" value="Update"></p>
 		</div>
 	</div>	
 </div>

@@ -103,7 +103,9 @@
 						  </ul>
 					  </li>					  
 				  </ul>
-				  {{ Form::open(array('method' => 'put', 'files' => false, 'class' => 'navbar-form navbar-left', 'role' => 'search')); }}
+				  <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="navbar-form navbar-left" role="search">
+					<input name="_method" type="hidden" value="PUT">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					  <div class="form-group">
 						  <input type="text" class="form-control" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom" 
 								 data-html="true" title="Searching current element" id="SearchField" name="SearchField">

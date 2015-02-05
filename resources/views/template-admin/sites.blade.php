@@ -5,7 +5,7 @@
 	@include($template.'.layout.breadcrumb-structure', array('place' => 'sites'))
 	
 <h1>Sites</h1>
-{{ Form::open(array('method' => 'put', 'files' => false)); }}
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="table-responsive">
     <table class="table table-hover">
       <thead>

@@ -8,7 +8,9 @@
 		&nbsp; <nobr><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $items->viewed or '—' }}</nobr>
 		&nbsp; <nobr><span class="glyphicon glyphicon-fire danger-icon" aria-hidden="true"></span> {{ $items->ordered or '—' }}</nobr></small></h1>
 <br/>
-{{ Form::open(array('url' => URL::full(), 'files' => true, 'method' => 'put')); }}
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+<input name="_method" type="hidden" value="PUT">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6"><p><input type="text" class="form-control" name="fill[url]" placeholder="Clean Url" value="{{ $items->url or null }}"></p></div>

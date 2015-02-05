@@ -145,7 +145,6 @@ return [
 		'Veer\Providers\EventServiceProvider',
 		'Veer\Providers\RouteServiceProvider',
 
-		'Illuminate\Html\HtmlServiceProvider',
 		'Artemsk\Queuedb\QueuedbServiceProvider',
 		'Veer\Providers\VeerServiceProvider',
 		'Veer\Providers\VeerAdminServiceProvider',
@@ -197,10 +196,7 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-
-		'Form'      => 'Illuminate\Html\FormFacade',
-        'Html'      => 'Illuminate\Html\HtmlFacade',
-
+		
 	],
 
 ];
