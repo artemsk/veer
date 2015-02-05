@@ -85,38 +85,6 @@ class Show {
 		return $items;
 	}	
 	
-	/**
-	 * Show Images
-	 */
-	public function showImages( $filters = array() ) 
-	{	
-		if(key($filters) == "unused") 
-		{
-			$items = \Veer\Models\Image::orderBy('id', 'desc')
-				->has('pages','<',1)
-				->has('products','<',1)
-				->has('categories','<',1)
-				->has('users','<',1)
-				->paginate(25);	
-		} 
-		
-		else 
-		{
-			$items = \Veer\Models\Image::orderBy('id', 'desc')
-				->with(
-					'pages', 'products', 'categories', 'users'
-					)
-				->paginate(25);	
-		}
-		
-		$items['counted'] = \Veer\Models\Image::count();
-
-		return $items;
-	}	
-		
-	
-	
-	
 	
 	/**
 	 * Show Products

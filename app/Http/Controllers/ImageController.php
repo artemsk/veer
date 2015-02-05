@@ -2,20 +2,19 @@
 
 use Veer\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
+use Veer\Services\Show\Image as ShowImage;
 
 class ImageController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
+	protected $showImage;
+	
+	public function __construct(ShowImage $showImage)
 	{
-            return Redirect::route('index');
+		parent::__construct();
+		
+		$this->showImage = $showImage;
 	}
-
-
+	
 	/**
 	 * Display the specified resource.
 	 *
@@ -24,29 +23,19 @@ class ImageController extends Controller {
 	 */
 	public function show($id)
 	{
-		$vdb = app('veerdb');    
-		
-		$image = $vdb->route($id); 
+		$image = $this->showImage->getImageWithSite(app('veer')->siteId, $id);
 			
 		if(!is_object($image)) { return Redirect::route('index'); }
 		
 		$paginator_and_sorting = get_paginator_and_sorting();
-
-		$products = $vdb->imageOnlyProductsQuery($this->veer->siteId, $id, $paginator_and_sorting);
-
-		$pages = $vdb->imageOnlyPagesQuery($this->veer->siteId, $id, $paginator_and_sorting);
-
-		$categories = $vdb->imageOnlyCategoriesQuery($this->veer->siteId, $id);
 		
-		$data = $this->veer->loadedComponents;            
-
 		$view = view($this->template.'.category', array(
 			"image" => $image,
-			"products" => $products,
-			"pages" => $pages,
-			"categories" => $categories,
-			"data" => $data,
-			"template" => $data['template']
+			"products" => $this->showImage->withProducts(app('veer')->siteId, $id, $paginator_and_sorting),
+			"pages" => $this->showImage->withPages(app('veer')->siteId, $id, $paginator_and_sorting),
+			"categories" => $this->showImage->withCategories(app('veer')->siteId, $id),
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
 		)); 
 
 		$this->view = $view; 

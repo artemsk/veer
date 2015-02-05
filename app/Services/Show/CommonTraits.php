@@ -28,12 +28,14 @@ trait CommonTraits {
 		
 		$items = $model::whereHas($table, function($q) use($id, $table) {
 					$q->where($table.'_id', '=', $id);
-				})
-				->with(array('images' => function($query) {
+				});
+				
+		if($table != "images") {
+			$items = $items->with(array('images' => function($query) {
 					$query->orderBy('id', 'asc')->take(1);
-				}
-				));
-	
+			}));
+		}
+		
 		if(!empty($siteId)) $items = $items->sitevalidation($siteId);
 		
 		if($type == "products") { 
