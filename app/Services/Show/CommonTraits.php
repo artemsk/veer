@@ -26,8 +26,12 @@ trait CommonTraits {
 		if($type == "products") $model = '\Veer\Models\Product';
 		else $model = '\Veer\Models\Page';
 		
-		$items = $model::whereHas($table, function($q) use($id, $table) {
-					$q->where($table.'_id', '=', $id);
+		$table_field = $table;
+		
+		if(is_array($table)) list($table, $table_field) = $table;
+		
+		$items = $model::whereHas($table, function($q) use($id, $table_field) {
+					$q->where($table_field.'_id', '=', $id);
 				});
 				
 		if($table != "images") {

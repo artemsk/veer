@@ -5,6 +5,16 @@ class Image {
 	use CommonTraits;
 	
 	/**
+	 * handle
+	 */
+	public function handle($siteId = null, $paginateItems = 25)
+	{
+		return !empty($siteId) ? 
+			  $this->getImageWithSite($siteId) 
+			: $this->getImages(array(), $paginateItems);
+	}
+	
+	/**
 	 * Query Builder: 
 	 * 
 	 * - who: 1 Image
