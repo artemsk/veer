@@ -2,102 +2,76 @@
 
 use Veer\Http\Controllers\Controller;
 use Veer\Models\UserList;
+use Veer\Services\Show\User as ShowUser;
 
 class UserController extends Controller {
 
-	public function __construct()
+	protected $showUser;
+		
+	public function __construct(ShowUser $showUser)
 	{
 		parent::__construct();
 		
 		$this->middleware('guest', array('only' => array('login', 'register')));
 		
-		$this->middleware('auth', array('only' => array('index', 'show', 'logout')));	
-	}
+		$this->middleware('auth', array('only' => array('index', 'show', 'logout')));
+		
+		$this->showUser = $showUser;
+	}	
 	
-	
-	/**
+	/*
 	 * Display a listing of the resource.
-	 *
-	 * @return Response
 	 */
 	public function index()
 	{
-		$user = app('veerdb')->route(\Auth::id());
+		$user = $this->showUser->getUserWithSite(app('veer')->siteId, \Auth::id());
 
-		if(!is_object($user)) { return \Redirect::route('index'); }
-		
-		return $this->showUser($user);
+		return $this->showingUser($user);
 	}
 
-
-
-	/**
+	/*
 	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
 	 */
 	public function show($id)
 	{
-		$administrator = administrator();
+		if(administrator() == false) { return $this->index(); }
 		
-		if($administrator == false) { return $this->index(); }
+		$user = $this->showUser->getUserWithSite(app('veer')->siteId, $id);
 		
-		$user = app('veerdb')->make('user.index', $id);
-		
-		if(!is_object($user)) { return \Redirect::route('index'); }
-		
-		return $this->showUser($user);	
+		return $this->showingUser($user);	
 	}
 
-	
 	/**
 	 * Display User page
-	 *
-	 * @param  int  $iuser
-	 * @return Response
 	 */
-	protected function showUser($user) {
+	protected function showingUser($user) 
+	{	
+		if(!is_object($user)) { return \Redirect::route('index'); }
 		
 		$user->load("role", "comments", "books", "discounts", "userlists", "orders", 
 			"bills", "communications", "administrator", "searches", "pages");
 
 		// TODO: разбить на отдельные страницы
 		
-		$data = $this->veer->loadedComponents;            
-
-		$view = view($this->template.'.user', array(
-			"user" => $user,
-			"data" => $data,
-			"template" => $data['template']
-		)); 
-
-		$this->view = $view; 
-
-		return $view;		
+		return $this->viewIndex('user', $user, false);	
 	}	
 
 	// TODO: делать для пользователя статистику на основе заказов/комментариев/лайков/посещений? - свойства, слова, товары, разделы и тд
-	
 
 	/**
 	 * Add product to shopping cart
-	 *
-	 * @return Response
 	 */
 	public function addToCart($id = null)
 	{
-		if(isset($id)) {
+		if(!empty($id)) {
 			
 			$product = \Veer\Models\Product::sitevalidation(app('veer')->siteId)
 				->where('id','=',$id)->checked()->first();
 			if(is_object($product)) 
 			{	
-				$userid = \Illuminate\Support\Facades\Auth::id();
-					
-				$this->savingEntity($product, $userid);
+				$this->savingEntity($product, \Auth::id());
 				
-				$items = app('veerdb')->userLists(app('veer')->siteId, $userid);
+				$items = $this->showUser->getUserLists(app('veer')->siteId, \Auth::id(), app('session')->getId());
 				
 				\Session::put('shopping_cart_items',$items);
 			}
@@ -106,17 +80,12 @@ class UserController extends Controller {
 		return stored();
 	}	
 	
-	
 	/**
 	 * Add page or product to user list
-	 *
-	 * @return Response
 	 */
 	public function addToList($type = null, $id = null)
 	{
-		$userid = \Illuminate\Support\Facades\Auth::id();
-		
-		if(isset($id))
+		if(!empty($id))
 		{
 			switch ($type) {
 				case "product": $e = \Veer\Models\Product::sitevalidation(app('veer')->siteId)
@@ -125,16 +94,14 @@ class UserController extends Controller {
 					->where('id','=',$id)->excludeHidden()->first(); break;
 			}
 			
-			if(is_object($e)) $this->savingEntity($e, $userid, \Input::get('name','[basket]'));
+			if(is_object($e)) $this->savingEntity($e, \Auth::id(), \Input::get('name','[basket]'));
 		}
 		
-		return  app('veerdb')->userLists(app('veer')->siteId, $userid, \Input::get('name','[basket]'));
+		return $this->showUser->getUserLists(app('veer')->siteId, \Auth::id(), app('session')->getId(), \Input::get('name','[basket]'));
 	}	
-	
 	
 	/**
 	 * saving Entity to db
-	 * @param type $e
 	 */
 	protected function savingEntity($e, $userid, $name = "[basket]")
 	{		
@@ -152,7 +119,6 @@ class UserController extends Controller {
 		$e->userlists()->save($cart);  // another query
 	}
 	
-	
 	/**
 	 * remove Entity from Cart
 	 */
@@ -160,18 +126,17 @@ class UserController extends Controller {
 	{
 		$this->removeFromList($cartId);
 		
-		$items = app('veerdb')->userLists(app('veer')->siteId, \Auth::id());
+		$items = $this->showUser->getUserLists(app('veer')->siteId, \Auth::id(), app('session')->getId());
 				
 		\Session::put('shopping_cart_items',$items);
 	}
-	
 	
 	/**
 	 * remove Entity from List
 	 */
 	public function removeFromList($listId)
 	{
-		$userid = \Illuminate\Support\Facades\Auth::id();
+		$userid = \Auth::id();
 		
 		\Veer\Models\UserList::where('sites_id','=', app('veer')->siteId)
 			->where(function($query) use ($userid) {
@@ -183,33 +148,26 @@ class UserController extends Controller {
 					->where('session_id','=', app('session')->getId());							
 				}
 		})->where('id','=', $listId)->delete();	
-	}
-	
+	}	
 	
 	/**
 	 * Login Form
-	 *
-	 * @return Response
 	 */
 	public function login()
 	{
-		$data = $this->veer->loadedComponents;
-        
 		$viewLink = $this->template.'.login';
 		
 		if(!\View::exists($viewLink)) $viewLink = config('veer.template').'.login';
 		
 		$view = view($viewLink, array(
-			"data" => $data,
-			"template" => $data['template']
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
 		)); 
 
-		//$this->view = $view; // do not cache
-
+		/* do not cache: $this->view = $view; */
 		return $view;  
 	}
 
-	
 	/**
 	 * Logout
 	 */
@@ -221,20 +179,20 @@ class UserController extends Controller {
 		
 		if(!app('request')->ajax()) return \Redirect::route('index'); 
 	}
-	
 
 	/**
 	 * Login Post
-	 *
-	 * @return Response
 	 */
 	public function loginPost()
 	{
 		$save_old_session_id = \Session::getId();
 			
-        if (\Auth::attempt(array('email' => \Input::get('email'), 'password' => \Input::get('password'), 
-			'banned' => 0, 'sites_id' => app('veer')->siteId)))
-        {
+        if (\Auth::attempt(array(
+			'email' => \Input::get('email'), 
+			'password' => \Input::get('password'), 
+			'banned' => 0, 
+			'sites_id' => app('veer')->siteId))) 
+		{	
 			\Auth::user()->increment('logons_count');
 			
 			\Session::put('roles_id', \Auth::user()->roles_id);
@@ -242,9 +200,11 @@ class UserController extends Controller {
 			\Veer\Models\UserList::where('session_id','=',$save_old_session_id)->update(array('users_id' => \Auth::id()));
 			
 			\Session::put('shopping_cart_items', 
-				app('veerdb')->userLists(app('veer')->siteId, \Auth::id()));
+				$this->showUser->getUserLists(app('veer')->siteId, \Auth::id(), app('session')->getId())
+			);
 					
-			if(administrator() == true) {
+			if(administrator() == true) 
+			{
 				\Veer\Models\UserAdmin::where('id','=',app('veer')->administrator_credentials['id'])->
 					update(array(
 						"sess_id" => \Session::getId(),
@@ -257,10 +217,9 @@ class UserController extends Controller {
 			return \Redirect::intended();
         } 
 		
-		return $this->login();
+		return $this->login(); // TODO: withErrors()
 	}        
      
-	
 	/**
 	 * add Comment
 	 */
@@ -284,7 +243,6 @@ class UserController extends Controller {
 		return (int)$added;
 	}
         
-	
 	/**
 	 * add Communication
 	 */
@@ -315,23 +273,14 @@ class UserController extends Controller {
 		
 		return (int)$added;
 	}
-	
-	
+
 	/**
 	 * register
 	 */
 	public function register()
 	{
-		$data = $this->veer->loadedComponents;
-                
-		$view = view($this->template.'.register', array(
-			"data" => $data,
-			"template" => $data['template']
-		)); 
-
-		return $view;  
+		return $this->viewIndex('register', null, false);
 	}
-	
 	
 	/**
 	 * register Post
@@ -378,14 +327,11 @@ class UserController extends Controller {
 	
 	/**
 	 * show cart
-	 * @return type
 	 */
 	public function showCart()
 	{
-		$data = $this->veer->loadedComponents;
-        
 		// prepare content	
-		$cart = app('veerdb')->make('user.cart.show', \Auth::id());   
+		$cart = $this->showUser->getUserCart(app('veer')->siteId, \Auth::id(), app('session')->getId());   
 		
 		$grouped = app('veershop')->regroupShoppingCart($cart);
 		
@@ -399,8 +345,8 @@ class UserController extends Controller {
 			"books" => isset($userbooks) ? $userbooks : null,
 			"methods" => $calculations,
 			"order" => $order,
-			"data" => $data,
-			"template" => $data['template']
+			"data" => $this->veer->loadedComponents,
+			"template" => $this->template
 		)); 
 
 		return $view;  
@@ -408,7 +354,6 @@ class UserController extends Controller {
 	
 	/**
 	 * update Cart
-	 * @return type
 	 */
 	public function updateCart()
 	{
@@ -422,9 +367,7 @@ class UserController extends Controller {
 	 */
 	protected function makeOrder()
 	{
-		$data = $this->veer->loadedComponents;
-        
-		$cart = app('veerdb')->make('user.cart.show', \Auth::id());   
+		$cart = $this->showUser->getUserCart(app('veer')->siteId, \Auth::id(), app('session')->getId());  
 		
 		// rules
 		if((\Auth::id() <= 0 && \Input::get('email') == null) || $cart->count() <= 0) 
@@ -460,13 +403,12 @@ class UserController extends Controller {
 		//app('veershop')->sendEmailOrderNew($order);
 		
 		// clear cart
-		app('veerdb')->userLists(app('veer')->siteId, \Auth::id(), '[basket]', false)->delete();
+		$this->showUser->getUserLists(app('veer')->siteId, \Auth::id(), app('session')->getId(), '[basket]', false)->delete();
 		
 		\Session::put('successfulOrder', $order->id);
 		
 		return \Redirect::route('order.success');
 	}
-	
 }
 
 // TODO: Validator: показывать ошибки

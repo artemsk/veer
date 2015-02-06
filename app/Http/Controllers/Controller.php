@@ -59,9 +59,9 @@ abstract class Controller extends BaseController {
 	/**
 	 * common index view generator
 	 */
-	protected function viewIndex($type, $object)
+	protected function viewIndex($type, $object, $check = true)
 	{		
-		if(!is_object($object)) { return \Redirect::route('index'); }
+		if(!is_object($object) && $check) { return \Redirect::route('index'); }
                 
 		$view = view($this->template . '.' . $type, array(
 			$type => $object,
