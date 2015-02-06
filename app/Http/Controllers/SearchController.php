@@ -2,24 +2,29 @@
 
 use Veer\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
+use Veer\Services\Show\Search as ShowSearch;
 
 class SearchController extends Controller {
 
+	protected $showSearch;
+	
+	public function __construct(ShowSearch $showSearch)
+	{
+		parent::__construct();		
+		
+		$this->showSearch = $showSearch;
+	}
+	
 	/**
 	 * Display a listing of the resource.
-	 *
-	 * @return Response
 	 */
 	public function index()
 	{
 		return Redirect::route('index'); // TODO: configuration - set template page or redirect ( & same for search)
 	}
 
-
 	/**
 	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
 	 */
 	public function store()
 	{            
@@ -45,12 +50,8 @@ class SearchController extends Controller {
 		return $this->index(); 			
 	}
 
-
 	/**
 	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
 	 */
 	public function show($id)
 	{
@@ -70,12 +71,9 @@ class SearchController extends Controller {
 		     
 		return $this->results($searched);		
 	}
-
 	
 	/**
 	 * Show results for search.show & search.store
-	 * @param type $searched
-	 * @return type
 	 */
 	protected function results($searched) 
 	{	
