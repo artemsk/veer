@@ -161,7 +161,22 @@ class AdminController extends Controller {
 					$items =( new \Veer\Services\Show\User )->getUserAdvanced($user);
 					$view = "user";
 				}
-				break;					
+				break;		
+				
+			case "orders":
+				$order = Input::get('id');
+				
+				if(empty($order)) {
+					$items = ( new \Veer\Services\Show\Order )->getAllOrders(array(
+						Input::get('filter') =>  Input::get('filter_id'),
+					));
+					$view = "orders";
+				} else {
+					$items =( new \Veer\Services\Show\Order )->getOrderAdvanced($order);
+					$view = "order";
+				}
+				
+				break;		
 				
 			case "lists":
 				$items = app('veeradmin')->showLists(array(
@@ -170,13 +185,7 @@ class AdminController extends Controller {
 				$view = "userlists";
 				break;		
 			
-			case "orders":
-				$order = Input::get('id');
-				$items = app('veeradmin')->showOrders($order, array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				$view = empty($order) ? "orders" : "order";
-				break;	
+
 			
 			case "communications":
 				$items = app('veeradmin')->showCommunications(array(

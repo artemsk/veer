@@ -61,5 +61,35 @@ trait HelperTraits {
 		
 		return $files;
 	}
+
 	
+	/*
+	 * build filter query on models with elements
+	 */
+	protected function buildFilterWithElementsQuery($filters, $model, $pluralize = true, $field = null)
+	{
+		if(head($filters) != null) return $this->createFilterQuery($filters, $model, $pluralize, $field);
+		
+		return $model::select();
+	}
+	
+	protected function createFilterQuery($filters, $model, $pluralize, $field)
+	{
+		$type = key($filters);  
+		
+		$filter_id = head($filters);
+		
+		$special_types = array("pages", "products", "categories");
+		
+		if(in_array($type, $special_types)) {
+			return $model::where('elements_type', '=', elements($type))->where('elements_id','=', $filter_id);
+		}
+
+		return $model::whereHas($type, function($query) use ($filter_id, $type, $pluralize, $field) 
+			{			
+				if (!empty($field)) $query->where($field, '=', $filter_id); 
+				
+				else $query->where(($pluralize) ? str_plural($type) . '_id' : $type . '_id', '=', $filter_id); 
+			});
+	}
 }
