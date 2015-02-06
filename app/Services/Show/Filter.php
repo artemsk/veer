@@ -94,7 +94,7 @@ class Filter {
 		});
 	}
 	
-	protected function withModels($model, $products = array(), $pages = array())
+	protected function withModels($model, $products, $pages)
 	{
 		$items = $model::select();
 		
