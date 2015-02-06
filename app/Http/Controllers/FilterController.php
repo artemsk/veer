@@ -45,8 +45,6 @@ class FilterController extends Controller {
 
 		$this->view = $view; 
 			
-		dd($view);
-		
 		return $view;
 	}
 
