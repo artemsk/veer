@@ -55,7 +55,7 @@ class Filter {
 			{
 				if ($k <= 0 || $filter <= 0) continue; // skip category
 					
-				$a[$k] = Attribute::find($filter)->toArray();
+				$a[$k] = \Veer\Models\Attribute::find($filter)->toArray();
 			}
 		}
 		
