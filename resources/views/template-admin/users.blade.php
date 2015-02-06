@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-user', array('place' => 'users'))
 
-<h1>Users :{{ array_pull($items, 'counted') }} <small>
+<h1>Users :{{ array_pull($data, 'counted') }} <small>
 	@if(Input::get('filter',null) != null) 
 	filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong> | 
 	@endif		
