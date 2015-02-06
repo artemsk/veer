@@ -32,6 +32,12 @@ class CachingQueries  {
 		return md5('veercachesql'.$this->query->toSql().serialize($this->query->getBindings()));
 	}
 	
+	/* generate cache key from external query */
+	public function generateCacheKeyExternal($object)
+	{
+		return md5('veercachesql'.$object->toSql().serialize($object->getBindings()));
+	}
+	
 	/* get cache key */
 	public function getCacheKey($key = null)
 	{

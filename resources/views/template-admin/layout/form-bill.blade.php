@@ -37,8 +37,8 @@
 		</div>
 		<div class="form-group">
 			<select class="form-control" name="billCreate[template]">
-				@if(!empty(app('veeradmin')->billsTypes))
-                @foreach(app('veeradmin')->billsTypes as $templ)
+				@if(isset($data['billsTypes']))
+                @foreach($data['billsTypes'] as $templ)
 				<option value="{{ $templ }}">{{ $templ }}</option>
 				@endforeach
 				@endif

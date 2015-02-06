@@ -5,14 +5,11 @@ use Illuminate\Support\Facades\Event;
 
 class Show {
 	
-	use \Veer\Services\Traits\CommonTraits;
+	use \Veer\Services\Traits\CommonTraits, \Veer\Services\Traits\HelperTraits;
 	
 	/* request from user */
 	public $userRequest = false;
-	
-	/* contents of bills types */
-	public $billsTypes = null;
-	
+		
 	/* */
 	public $counted = null;
 	
@@ -98,160 +95,6 @@ class Show {
 		);
 	}	
 	
-	/**
-	 * show Users Filtered
-	 */
-	protected function showUsersFiltered($filter_id, $type)
-	{
-		return \Veer\Models\User::whereHas($type, function($query) use ($filter_id, $type) 
-		{
-			$query->where( str_plural($type).'_id', '=', $filter_id );
-		});
-	}
-	
-	/**
-	* check if filter is active and get items 
-	*/
-	protected function isUsersFiltered($filters, $orderBy)
-	{
-		foreach($filters as $type => $filter_id)
-		{
-			if(!empty($filter_id)) 
-			{ 
-				$items = $this->showUsersFiltered($filter_id, $type);  
-			}	
-		}		
-		
-		if(!isset($items)) 
-		{ 
-			$items = \Veer\Models\User::select(); 
-		} 
-		
-		return $items->orderBy($orderBy[0], $orderBy[1]);
-	}
-	
-	/**
-	 * show Users
-	 */
-	public function showUsers($userId = null, $filters = array(), $orderBy = array('created_at', 'desc'))
-	{
-		if(!empty($userId)) 
-		{			
-			if($userId == "new") { return new \stdClass(); }
-			
-			return $this->showOneUser($userId);
-		}
-		
-		if(Input::get('sort', null)) 
-		{ 
-			$orderBy[0] = Input::get('sort'); 
-		}
-		
-		if(Input::get('direction', null)) 
-		{ 
-			$orderBy[1] = Input::get('direction'); 
-		}
-		
-		$items = $this->isUsersFiltered($filters, $orderBy)->with(
-			'role', 'comments', 'communications',
-			'administrator', 'pages', 'images'
-			)
-			->with($this->loadSiteTitle())
-			->paginate(25);
-			
-		$items['counted'] = \Veer\Models\User::count();
-		
-		return $items;		
-	}
-		
-	/**
-	 * Site with Site title
-	 */
-	protected function loadSiteTitle($items = null)
-	{
-		$siteWithTitle = array('site' => function($q) 
-			{ // TODO: remember 0.5
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE'); // TODO: remember 5
-				}));
-			});
-			
-		return !empty($items) ? $items->load($siteWithTitle) : $siteWithTitle;
-	}
-	
-	/**
-	 * show One User
-	 * @param type $user
-	 */
-	public function showOneUser($user, $options = array())
-	{
-		$items = \Veer\Models\User::find($user);
-			
-		if(is_object($items)) 
-		{
-			$items->load(
-				'role', 'administrator', 'pages'
-			);
-			
-			$this->loadSiteTitle($items);
-					
-			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
-			
-			$items->load(array(
-				'books' => function($q)
-					{
-						$q->with('orders');
-					}, 
-				'orders' => function($q) 
-					{
-						$q->with('userbook', 'userdiscount', 'status', 'delivery', 'payment', 'downloads')
-						->with($this->loadSiteTitle())
-						->with(array('bills' => function($query) 
-						{
-							$query->with('status');
-						}));
-					},
-				'discounts' => function($q)
-					{
-						$q->with('orders')->with($this->loadSiteTitle());
-					},
-				'bills' => function($q)
-					{
-						$q->with('status', 'payment');
-					}));
-			
-			$items['files'] = $this->getOrderDownloads($items->orders);
-					
-			$items['basket'] = $items->userlists()->where('name','=','[basket]')->count();
-			
-			$items['lists'] = $items->userlists()->where('name','!=','[basket]')->count();	
-			
-			if(empty($this->billsTypes)) $this->getExistingBillTemplates();
-		}	
-		
-		return $items;
-	}
-
-	/**
-	 * only downloads for order
-	 * (will take through products)
-	 */
-	public function getOrderDownloads($orders = array())
-	{
-		$files = array();
-		
-		foreach($orders as $o)
-		{
-			foreach($o->downloads as $file)
-			{
-				$file->elements_type == elements('product') 
-					? array_push($files, $file) : null;
-			}
-		}
-		
-		return $files;
-	}
 	
 	/**
 	 * show Users Books
@@ -752,20 +595,6 @@ class Show {
 			)->paginate(50);
 	}	
 			
-	
-	/**
-	 * Get Existing Bill Templates
-	 */
-	public function getExistingBillTemplates()
-	{
-		$billsTypes = \File::allFiles(base_path()."/resources/views/components/bills");
-		
-		foreach(isset($billsTypes) ? $billsTypes : array() as $billFile)
-		{
-			$this->billsTypes[ array_get(pathinfo($billFile), 'filename') ] = array_get(pathinfo($billFile), 'filename');
-		}	
-	}
-	
 	
 	/** 
 	 * Search
