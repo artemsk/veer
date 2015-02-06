@@ -2,6 +2,8 @@
 
 class Search {
 
+	use \Veer\Services\Traits\FilterTraits;
+	
 	/**
 	 * Query Builder: 
 	 * 
@@ -9,53 +11,43 @@ class Search {
 	 * - with: Images
 	 * - to whom: make() | search/{id} or $_POST
 	 */
-	public function searchStoreQuery($siteId, $id, $queryParams)
+	public function getSearchResultsWithSite($siteId, $q, $queryParams = array())
 	{
-		$p = null;
+		$p = array('products' => array(), 'pages' => array());
+		
+		$qq = explode(' ', $q);
 
-		$q = explode(' ', $queryParams['q']);
+		$p['products'] = $this->searchModel('\Veer\Models\Product', 
+			array_get($queryParams, 'search_field_product', 'title'), $qq, $siteId, $queryParams);
 
-		$field = $queryParams['search_field_product'];
-
-		$p['products'] = Product::siteValidation($siteId)
-			->whereNested(function($query) use ($q, $field) {
-				foreach ($q as $word) {
-					$query->where(function($queryNested) use ($word, $field) {
-						$queryNested->where($field, '=', $word)
-						->orWhere($field, 'like', $word . '%%%')
-						->orWhere($field, 'like', '%%%' . $word)
-						->orWhere($field, 'like', '%%%' . $word . '%%%');
-					});
-				}
-			})->with(array('images' => function($query) {
-				$query->orderBy('id', 'desc')->take(1);
-			}
-			))->checked()
-			->orderBy($queryParams['sort'], $queryParams['direction'])
-			->take($queryParams['take'])
-			->skip($queryParams['skip'])
-			->get();
-
-		$field = $queryParams['search_field_page'];
-
-		$p['pages'] = Page::siteValidation($siteId)
-			->whereNested(function($query) use ($q, $field) {
-				foreach ($q as $word) {
-					$query->where(function($queryNested) use ($word, $field) {
-						$queryNested->where($field, '=', $word)
-						->orWhere($field, 'like', $word . '%%%')
-						->orWhere($field, 'like', '%%%' . $word)
-						->orWhere($field, 'like', '%%%' . $word . '%%%');
-					});
-				}
-			})->with(array('images' => function($query) {
-				$query->orderBy('id', 'desc')->take(1);
-			}
-			))->excludeHidden()
-			->orderBy('created_at', 'desc')
-			->take($queryParams['take_pages'])
-			->skip($queryParams['skip_pages'])
-			->get();
+		$p['pages'] = $this->searchModel('\Veer\Models\Page', 
+			array_get($queryParams, 'search_field_page', 'title'), $qq, $siteId, $queryParams);
+		
 		return $p;
+	}
+	
+	/* search model */
+	protected function searchModel($model, $field, $q, $siteId = null, $queryParams = array())
+	{
+		$results = $model::whereNested(function($query) use ($q, $field) {
+				foreach ($q as $word) {
+					$query->where(function($queryNested) use ($word, $field) {
+						$queryNested->where($field, '=', $word)
+							->orWhere($field, 'like', $word . '%%%')
+							->orWhere($field, 'like', '%%%' . $word)
+							->orWhere($field, 'like', '%%%' . $word . '%%%');
+					});
+				}
+			})->with(array('images' => function($query) {
+			$query->orderBy('id', 'desc')->take(1);
+		}));
+
+		if(!empty($siteId) && $model == '\Veer\Models\Product') $results->checked()->siteValidation($siteId);
+		
+		if(!empty($siteId) && $model == '\Veer\Models\Page') $results->excludeHidden()->siteValidation($siteId);
+		
+		return $results->orderBy(array_get($queryParams, 'sort', 'created_at'), array_get($queryParams, 'direction', 'desc'))
+			->take(array_get($queryParams, 'take', 25))
+			->skip(array_get($queryParams, 'skip', 0))->get();
 	}
 }
