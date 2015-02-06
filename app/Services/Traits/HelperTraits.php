@@ -32,7 +32,7 @@ trait HelperTraits {
 	/**
 	 * Get Existing Bill Templates
 	 */
-	public function getExistingBillTemplates()
+	protected function getExistingBillTemplates()
 	{
 		$billsTypes = \File::allFiles(base_path()."/resources/views/components/bills");
 		
@@ -40,6 +40,26 @@ trait HelperTraits {
 		{
 			app('veer')->loadedComponents['billsTypes'][ array_get(pathinfo($billFile), 'filename') ] = array_get(pathinfo($billFile), 'filename');
 		}	
+	}
+	
+	/**
+	 * only downloads for order
+	 * (will take only products)
+	 */
+	protected function getOrderDownloads($orders = array())
+	{
+		$files = array();
+		
+		foreach($orders as $o)
+		{
+			foreach($o->downloads as $file)
+			{
+				$file->elements_type == elements('product') 
+					? array_push($files, $file) : null;
+			}
+		}
+		
+		return $files;
 	}
 	
 }

@@ -113,37 +113,12 @@ class User {
 		$items = \Veer\Models\User::find($user);
 			
 		if(is_object($items)) 
-		{
-			$items->load(
-				'role', 'administrator', 'pages'
-			);
+		{	
+			$this->loadUserRelations($items);
 			
 			$this->loadSiteTitle($items);
 					
 			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
-			
-			$items->load(array(
-				'books' => function($q)
-					{
-						$q->with('orders');
-					}, 
-				'orders' => function($q) 
-					{
-						$q->with('userbook', 'userdiscount', 'status', 'delivery', 'payment', 'downloads')
-						->with($this->loadSiteTitle())
-						->with(array('bills' => function($query) 
-						{
-							$query->with('status');
-						}));
-					},
-				'discounts' => function($q)
-					{
-						$q->with('orders')->with($this->loadSiteTitle());
-					},
-				'bills' => function($q)
-					{
-						$q->with('status', 'payment');
-					}));
 			
 			$items['files'] = $this->getOrderDownloads($items->orders);
 					
@@ -157,23 +132,22 @@ class User {
 		return $items;
 	}
 
-	/**
-	 * only downloads for order
-	 * (will take through products)
-	 */
-	public function getOrderDownloads($orders = array())
+	/* user relations */
+	protected function loadUserRelations($items)
 	{
-		$files = array();
+		$items->load('role', 'administrator', 'pages');
 		
-		foreach($orders as $o)
-		{
-			foreach($o->downloads as $file)
-			{
-				$file->elements_type == elements('product') 
-					? array_push($files, $file) : null;
-			}
-		}
-		
-		return $files;
+		$items->load(array(
+		'books' => function($q) { $q->with('orders'); },
+
+		'orders' => function($q) { $q->with('userbook', 'userdiscount', 'status', 'delivery', 'payment', 'downloads')
+			->with($this->loadSiteTitle())
+			->with(array('bills' => function($query) { $query->with('status'); }));
+		},
+
+		'discounts' => function($q) { $q->with('orders')->with($this->loadSiteTitle()); },
+
+		'bills' => function($q) { $q->with('status', 'payment'); }));
 	}
+	
 }
