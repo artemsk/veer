@@ -14,8 +14,6 @@ class VeerServiceProvider extends ServiceProvider {
 		if ( !($this->app->runningInConsole()) ) {
 			$this->app['veer']->run();	
 		}
-		
-		//$this->commands('command.veer.install');
 	}
 
 	/**
@@ -25,11 +23,7 @@ class VeerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//$this->registerCommands($this->app);
-		
 		$this->registerVeerApp();
-		
-		$this->registerVeerQueryBuilder();
 		
 		$this->registerVeerShop();
 	}
@@ -45,16 +39,6 @@ class VeerServiceProvider extends ServiceProvider {
 		$this->app->bindShared('veer', function() { return new \Veer\Services\VeerApp; });
 	}
 	
-	/**
-	 * Register the Veer Query Builder
-	 *
-	 * @return void
-	 */	
-	public function registerVeerQueryBuilder()
-	{
-		$this->app->bindShared('veerdb', function() { return new \Veer\Services\VeerDb; });
-	}
-
 	/**
 	 * Register the Veer Shop
 	 *
@@ -72,20 +56,7 @@ class VeerServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('veer', 'veerdb', 'veershop'); //, 'command.veer.install');
+		return array('veer', 'veershop'); //, 'command.veer.install');
 	}	
 	
-	/**
-	 * 
-	 *
-	 * @return void
-	 */	
-    protected function registerCommands($app)
-    {
-        $app['command.veer.install'] = $app->share(function ($app) {
-             return new \Veer\Console\Commands\FirstThingCommand();
-        });	
-    }	
-	
-
 }

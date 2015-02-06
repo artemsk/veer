@@ -134,5 +134,27 @@ class Product {
 	{			
 		return $this->getAllEntities('\Veer\Models\Product', $filters, $paginateItems);
 	}	
+	
+	
+	/**
+	 * Query Builder: 
+	 * 
+	 * - who: List of Products in/across Sites 
+	 * - with: Images
+	 * - to whom: ? | ?
+	 */
+	public function getConnectedProducts($id, $siteId = null)
+	{
+		$p = \Veer\Models\Product::whereIn('id', $id)
+			->with(array('images' => function($query) {
+				$query->orderBy('id', 'asc')->take(1);
+			}))
+			->checked();
+
+		if(!empty($siteId)) $p->sitevalidation($siteId);	
+			
+		return $p->get();
+	}
+	
 
 }
