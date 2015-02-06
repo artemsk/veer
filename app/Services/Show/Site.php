@@ -2,6 +2,8 @@
 
 class Site {
 	
+	use \Veer\Services\Traits\SortingTraits;
+	
 	protected $site = null;
 		
 	/**
@@ -35,16 +37,7 @@ class Site {
 	{
 		$this->site = empty($id) ? app('veer')->siteId : $id;
 	}
-	
-	protected function replaceSortingBy($orderBy)
-	{
-		if(\Input::get('sort', null)) $orderBy[0] = \Input::get('sort');
 		
-		if(\Input::get('direction', null)) $orderBy[1] = \Input::get('direction'); 
-		
-		return $orderBy;
-	}
-	
 	/**
 	 * 
 	 */
