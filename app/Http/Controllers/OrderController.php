@@ -28,7 +28,7 @@ class OrderController extends Controller {
 		return view($this->template.'.secret-order', array(
 			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
-		)); 	
+		));
 	}
 	
 	/**
@@ -151,7 +151,7 @@ class OrderController extends Controller {
 					"order" => $orders,
 					"data" => $this->veer->loadedComponents,
 					"template" => $this->template
-				)); 	
+				));
 			}
 		}
 		
