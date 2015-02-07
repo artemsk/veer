@@ -3,11 +3,11 @@ namespace Veer\Components;
 
 class indexPages {   
     
-	public $data = array();
+	public $data;
 	
     function __construct($params = null) {
         
-		$this->data = 1;
+		$this->data = true;
 		
     }    
     
