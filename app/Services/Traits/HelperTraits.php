@@ -2,9 +2,6 @@
 
 trait HelperTraits {
 
-	/* contents of bills types */
-	public $billsTypes = null;
-	
 	/**
 	 * Site with Site title
 	 */

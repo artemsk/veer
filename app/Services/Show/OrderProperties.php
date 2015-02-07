@@ -1,5 +1,7 @@
 <?php namespace Veer\Services\Show;
 
+use Illuminate\Support\Facades\Input;
+
 class OrderProperties {
 	
 	use \Veer\Services\Traits\HelperTraits;
@@ -41,7 +43,7 @@ class OrderProperties {
 			$items = \Veer\Models\OrderBill::where($type, '=', array_get($filters, $type, 0));
 		}
 		
-		if(empty($this->billsTypes)) $this->getExistingBillTemplates();
+		if(empty(app('veer')->loadedComponents['billsTypes'])) $this->getExistingBillTemplates();
 
 		return $items->orderBy($orderBy[0], $orderBy[1])
 			->with(

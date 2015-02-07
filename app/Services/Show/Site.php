@@ -85,14 +85,13 @@ class Site {
 	/**
 	 * Show Jobs
 	 */
-	public function showJobs( $filters = array() ) 
+	public function getQdbJobs( $filters = array() ) 
 	{		
 		$items = \Artemsk\Queuedb\Job::all();
 		
 		$items->sortBy('scheduled_at');
 		
-		$items_failed = 
-			\Illuminate\Support\Facades\DB::table("failed_jobs")->get();
+		$items_failed = \DB::table("failed_jobs")->get();
 		
 		$statuses = array(
 			\Artemsk\Queuedb\Job::STATUS_OPEN => "Open",
