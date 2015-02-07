@@ -136,9 +136,7 @@ class UserProperties {
 	{
 		$this->setUnreadTimestamp('communications');
 		
-		$type = key($filters);
-		
-		$items = $this->filterCommunications($type, $filters);		
+		$items = $this->filterCommunications(key($filters), $filters);		
 		
 		$items = $items->orderBy('created_at', 'desc')
 			->with('user', 'elements')

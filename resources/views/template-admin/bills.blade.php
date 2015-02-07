@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-order', array('place' => 'bills'))
 
-<h1>Bills <small>
+<h1>Bills :{{ $items->total() }}<small>
 		@if(Input::get('filter',null) != null) 
 			filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong> | 
 		@endif

@@ -216,33 +216,31 @@ class AdminController extends Controller {
 				break;	
 			
 			case "bills":
-				$items = ( new \Veer\Services\Show\OrderProperties )->showBills(array(
+				$items = ( new \Veer\Services\Show\OrderProperties )->getBills(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				break;
 			
 			case "discounts":
-				$items = ( new \Veer\Services\Show\OrderProperties )->showDiscounts(array(
+				$items = ( new \Veer\Services\Show\OrderProperties )->getDiscounts(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				break;
 			
 			case "shipping":
-				$items = ( new \Veer\Services\Show\OrderProperties )->showShipping(array(
+				$items = ( new \Veer\Services\Show\OrderProperties )->getShipping(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				break;
 			
 			case "payment":
-				$items = ( new \Veer\Services\Show\OrderProperties )->showPayment(array(
+				$items = ( new \Veer\Services\Show\OrderProperties )->getPayment(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				break;
 			
 			case "statuses":
-				$items = ( new \Veer\Services\Show\OrderProperties )->showStatuses(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
+				$items = ( new \Veer\Services\Show\OrderProperties )->getStatuses();
 				break;
 			
 			case "jobs":
