@@ -5,7 +5,9 @@ class Attribute {
 	use \Veer\Services\Traits\CommonTraits;
 		
 	/**
-	 * handle
+	 * Handle.
+	 *
+	 * @return Collection|array
 	 */
 	public function handle($siteId = null, $paginateItems = 100)
 	{
@@ -15,31 +17,28 @@ class Attribute {
 	}
 		
 	/**
-	 * Query Builder: 
+	 * Make query within site.
 	 * 
-	 * - who: Many Attributes
-	 * - with: 
-	 * - to whom: make() | attribute/{blank}
-	 *
-	 * We should include the same statement twice as "OR" operator always has 
-	 * priority over "AND". Methods checked() & excludehidden() ignored. Cached for 5 minutes.
+	 * 
 	 */
 	protected function queryWithSite($siteId)
 	{		
 		return \Veer\Models\Attribute::withTrashed()->whereHas('products', function($q) use($siteId) {
-					$q->sitevalidation($siteId);
-				})
-				->whereRaw('`attributes`.`deleted_at` is null')
-				->orWhereHas('pages', function($q) use($siteId) {
-					$q->sitevalidation($siteId);
-				})
-				->whereRaw('`attributes`.`deleted_at` is null')
-				->select('name', 'id')
-				->groupBy('name');
+				$q->sitevalidation($siteId);
+			})
+			->whereRaw('`attributes`.`deleted_at` is null')
+			->orWhereHas('pages', function($q) use($siteId) {
+				$q->sitevalidation($siteId);
+			})
+			->whereRaw('`attributes`.`deleted_at` is null')
+			->select('name', 'id')
+			->groupBy('name');
 	}
 	
 	/**
-	 * general query
+	 * Make general query.
+	 * 
+	 * 
 	 */
 	protected function query()
 	{
@@ -47,7 +46,9 @@ class Attribute {
 	}
 	
 	/**
-	 * getter
+	 * Get top attributes within site.
+	 * 
+	 * 
 	 */
 	public function getTopAttributesWithSite($siteId)
 	{
@@ -57,7 +58,9 @@ class Attribute {
 	}
 	
 	/**
-	 * getter
+	 * Get all attributes.
+	 * 
+	 * 
 	 */
 	public function getUngroupedAttributes($paginateItems = 100)
 	{
@@ -75,7 +78,9 @@ class Attribute {
 	}
 	
 	/**
-	 * iterate & group & count attributes
+	 * Iterate attributes.
+	 * 
+	 * 
 	 */
 	public function iterateAttributes($items)
 	{
@@ -99,13 +104,10 @@ class Attribute {
 		return $iterated;
 	}
 	
-	
 	/**
-	 * Query Builder: 
+	 * Get attribute.
 	 * 
-	 * - who: 1 Attribute (Name or Value) 
-	 * - with: 
-	 * - to whom: make() | attribute/{id[0].id[1]}
+	 * 
 	 */
 	public function getAttribute($id, $childId = null)
 	{
@@ -129,34 +131,32 @@ class Attribute {
 		return $p;
 	}
 	
-	
 	/**
-	 * Query Builder: 
+	 * Get pages associated with attribute.
 	 * 
-	 * - who: Many Pages
-	 * - with: Images
-	 * - to whom: 1 Attribute | attribute/{id[0]/id[1]}
+	 * 
 	 */
 	public function withPages($siteId, $attributeId, $queryParams = null)
 	{
 		return $this->getElementsWhereHasModel('pages', 'attributes', $attributeId, $siteId, $queryParams);
 	}	
 	
-	
 	/**
-	 * Query Builder: 
+	 * Get products associated with attribute.
 	 * 
-	 * - who: Many Products
-	 * - with: Images
-	 * - to whom: 1 Attribute | attribute/{id[0]/id[1]}
+	 * 
 	 */
 	public function withProducts($siteId, $attributeId, $queryParams = null)
 	{
 		return $this->getElementsWhereHasModel('products', 'attributes', $attributeId, $siteId, $queryParams);
 	}	
 	
-	
-	public function getModelWithAttribute($model, $attributeName, $attributeVal, $siteId)
+	/**
+	 * Get other models associated with attribute
+	 * 
+	 * 
+	 */
+	protected function getModelWithAttribute($model, $attributeName, $attributeVal, $siteId)
 	{
 		app('veer')->cachingQueries->make(
 			$model::whereHas('products', function($query) use($attributeName, $attributeVal, $siteId) 
@@ -180,13 +180,21 @@ class Attribute {
 		return app('veer')->cachingQueries->remember(5, 'get'); 	
 	}
 	
-	
+	/**
+	 * Get tags associated with attribute.
+	 * 
+	 * 
+	 */
 	public function withTags($attributeName, $attributeVal, $siteId)
 	{
 		return $this->getModelWithAttribute("\Veer\Models\Tag", $attributeName, $attributeVal, $siteId);		
 	}	
 	
-	
+	/**
+	 * Get categories associated with attribute
+	 * 
+	 * 
+	 */	
 	public function withCategories($attributeName, $attributeVal, $siteId)
 	{
 		return $this->getModelWithAttribute("\Veer\Models\Category", $attributeName, $attributeVal, $siteId);	
