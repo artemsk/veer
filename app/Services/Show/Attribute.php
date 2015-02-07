@@ -108,6 +108,7 @@ class Attribute {
 	 * Get attribute.
 	 * 
 	 * 
+	 * @param integer $id
 	 */
 	public function getAttribute($id, $childId = null)
 	{
@@ -135,6 +136,7 @@ class Attribute {
 	 * Get pages associated with attribute.
 	 * 
 	 * 
+	 * @param string $queryParams
 	 */
 	public function withPages($siteId, $attributeId, $queryParams = null)
 	{
@@ -145,6 +147,7 @@ class Attribute {
 	 * Get products associated with attribute.
 	 * 
 	 * 
+	 * @param string $queryParams
 	 */
 	public function withProducts($siteId, $attributeId, $queryParams = null)
 	{
@@ -155,6 +158,7 @@ class Attribute {
 	 * Get other models associated with attribute
 	 * 
 	 * 
+	 * @param string $model
 	 */
 	protected function getModelWithAttribute($model, $attributeName, $attributeVal, $siteId)
 	{
