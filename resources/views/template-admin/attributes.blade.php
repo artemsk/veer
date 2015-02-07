@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-elements', array('place' => 'attributes'))
 
-<h1>Attributes: {{ count($items['grouped']) }} @if(count($items)>2) with {{ count($items)-2 }} values @endif</h1>
+<h1>Attributes: {{ count($items['grouped']) }} with {{ $items->total() }} values</h1>
 <br/>
 <div class="container">
 	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">

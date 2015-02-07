@@ -23,28 +23,17 @@ class UserProperties {
 	/**
 	 * show Users Books
 	 */
-	public function showBooks($filters = array())
+	public function getBooks($filters = array(), $paginateItems = 25)
 	{
 		$type = key($filters);
 		
-		if($type == "orders") 
-		{
-			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserBook", $pluralize = false, "userbook_id");
-		}
+		if($type == "orders") $items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserBook", $pluralize = false, "userbook_id");
+				
+		else $items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserBook");
 		
-		else
-		{
-			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserBook");
-		}
-		
-		$items = $items->orderBy('created_at','desc')
+		return $items->orderBy('created_at','desc')
 			->with('user', 'orders')
-			->paginate(25);
-		
-		$items['counted'] =
-			\Veer\Models\UserBook::count();
-		
-		return $items;
+			->paginate($paginateItems);
 	}	
 	
 	/**

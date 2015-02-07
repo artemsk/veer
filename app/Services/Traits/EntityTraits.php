@@ -56,9 +56,7 @@ trait EntityTraits {
 		}
 		
 		if(!empty($type)) app('veer')->loadedComponents['filtered'] = $type; 
-		
-		else app('veer')->loadedComponents['counted'] = $model::count(); 
-				
+						
 		if(!empty($filter_id)) app('veer')->loadedComponents['filtered_id'] = $this->replaceFilterId($type, $filter_id); 
 		
 		return $items->orderBy('id','desc')->paginate($paginateItems);	

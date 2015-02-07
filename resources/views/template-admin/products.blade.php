@@ -4,12 +4,12 @@
 
 	@include($template.'.layout.breadcrumb-structure', array('place' => 'products'))
 
-<h1>Products: 
+<h1>Products: {{ $items->total() }}
 @if(!empty($data['filtered_id'])) 
  filtered by {{ $data['filtered'] }} <a href="{{ route("admin.show", array(array_pull($data, 'filtered'))) }}">
 	 #{{ array_pull($data, 'filtered_id') }}</a> 
  @else
- {{ array_pull($data, 'counted') }} <small>| <a href="{{ route("admin.show", array("products", "filter" => "unused")) }}">unused</a></small> 
+ <small>| <a href="{{ route("admin.show", array("products", "filter" => "unused")) }}">unused</a></small> 
 @endif	
  <a class="btn btn-default" href="{{ route("admin.show", array("products", "id" => "new")) }}" role="button">Add</a></h1>
 <br/>

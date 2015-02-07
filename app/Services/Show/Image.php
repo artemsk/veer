@@ -109,9 +109,7 @@ class Image {
 	 * Show Images
 	 */
 	public function getImages( $filters = array(), $paginateItems = 25 ) 
-	{	
-		app('veer')->loadedComponents['counted'] = \Veer\Models\Image::count();
-		
+	{			
 		$items = key($filters) == "unused" ? $this->getUnusedImages() : $this->getAllImages();
 
 		return $items->paginate($paginateItems);
