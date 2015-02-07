@@ -51,14 +51,7 @@ class Handler extends ExceptionHandler {
 		
 		if($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) return response("Be right back!", 503);
 		
-		if ($this->isHttpException($e))
-		{
-			return $this->renderHttpException($e);
-		}
-		else
-		{
-			return parent::render($request, $e);
-		}
+		return parent::render($request, $e);
 	}
 	
 	/**
