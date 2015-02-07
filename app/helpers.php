@@ -328,3 +328,18 @@ if (!function_exists('parse_form_date')) {
 		return ((int)array_get($parseDate, 2, 0) <= 0) ? now() : \Carbon\Carbon::parse($d);	
 	}
 }
+
+
+
+
+if (!function_exists('unread')) {
+
+	/**
+	 * Show unread elements
+	 * @return object
+	 */
+	function unread($model = 'comment')
+	{ 
+		return Veer\Services\Show\UserProperties::showUnreadNumbers($model);
+	}
+}

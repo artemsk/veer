@@ -82,4 +82,31 @@ class Site {
 		return \Veer\Models\Secret::orderBy('created_at', 'desc')->get();
 	}		
 	
+	/**
+	 * Show Jobs
+	 */
+	public function showJobs( $filters = array() ) 
+	{		
+		$items = \Artemsk\Queuedb\Job::all();
+		
+		$items->sortBy('scheduled_at');
+		
+		$items_failed = 
+			\Illuminate\Support\Facades\DB::table("failed_jobs")->get();
+		
+		$statuses = array(
+			\Artemsk\Queuedb\Job::STATUS_OPEN => "Open",
+			\Artemsk\Queuedb\Job::STATUS_WAITING => "Waiting",
+			\Artemsk\Queuedb\Job::STATUS_STARTED => "Started",
+			\Artemsk\Queuedb\Job::STATUS_FINISHED => "Finished",
+			\Artemsk\Queuedb\Job::STATUS_FAILED => "Failed"
+		);
+			
+		return array(
+			'jobs' => $items, 
+			'failed' => $items_failed, 
+			'statuses' => $statuses
+		);
+	}	
+	
 }
