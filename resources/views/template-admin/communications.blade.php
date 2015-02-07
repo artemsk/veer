@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-user', array('place' => 'communications'))
 
-<h1>Communications :{{ array_pull($items, 'counted', 0) }} <small>unread: {{ array_pull($items, 'counted_unread', 0) }} 
+<h1>Communications :{{ $items->total() }} <small>unread: {{ unread('communication') }} 
 	@if(Input::get('filter',null) != null) 
 	| filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
 	@endif
@@ -82,8 +82,8 @@
 		</div>
 		<ul class="list-group">
 			<li class="list-group-item">
-				@if(isset($items['recipients'][$key])) 
-					@foreach($items['recipients'][$key] as $r)
+				@if(isset($data['recipients'][$key])) 
+					@foreach($data['recipients'][$key] as $r)
 					<a href="{{ route('admin.show', array("users", "id" => empty($r->id) ? '' : $r->id)) }}">
 						{{ '@' }}{{ $r->username or '?' }}</a>
 					@endforeach

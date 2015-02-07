@@ -185,34 +185,32 @@ class AdminController extends Controller {
 				break;
 				
 			case "lists":
-				$items = ( new \Veer\Services\Show\UserProperties )->showLists(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->getLists(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				$view = "userlists";
 				break;		
 			
 			case "searches":
-				$items = ( new \Veer\Services\Show\UserProperties )->showSearches(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->getSearches(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				break;	
 			
 			case "communications":
-				$items = ( new \Veer\Services\Show\UserProperties )->showCommunications(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->getCommunications(array(
 					Input::get('filter') =>  Input::get('filter_id'),
-				));				
-				app('veer')->setUnreadTimestamp('communications'); // TODO: !!				
+				));							
 				break;
 			
 			case "comments":
-				$items = ( new \Veer\Services\Show\UserProperties )->showComments(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->getComments(array(
 					Input::get('filter') =>  Input::get('filter_id'),
-				));				
-				app('veer')->setUnreadTimestamp('comments');				
+				));							
 				break;
 			
 			case "roles":
-				$items = ( new \Veer\Services\Show\UserProperties )->showRoles(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->getRoles(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				break;	
