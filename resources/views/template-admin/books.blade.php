@@ -8,10 +8,9 @@
 	@if(Input::get('filter',null) != null) <small>
 			filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
 	</small>
-			{{ array_pull($items, 'counted', 0) ? '' : '' }}
-	@else
-	:{{ array_pull($items, 'counted', 0) }}
 	@endif
+	:{{ $items->total() }}
+	
 	<small> | users addresses</small></h1>
 <br/>
 <div class="container">

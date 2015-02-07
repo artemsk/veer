@@ -42,12 +42,8 @@ class Tag {
 	 */
 	public function getTagsWithoutSite($paginateItems = 50) 
 	{	
-		$items = \Veer\Models\Tag::orderBy('name', 'asc')
+		return \Veer\Models\Tag::orderBy('name', 'asc')
 			->with('pages', 'products')->paginate($paginateItems);	
-		
-		app('veer')->loadedComponents['counted'] = \Veer\Models\Tag::count();
-
-		return $items;
 	}	
 	
 	/**

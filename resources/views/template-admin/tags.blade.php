@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-elements', array('place' => 'tags'))
 
-<h1>Tags: {{ array_pull($data, 'counted') }}</h1>
+<h1>Tags: {{ $items->total() }}</h1>
 <br/>
 <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="container">

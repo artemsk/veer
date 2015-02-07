@@ -65,16 +65,12 @@ class User {
 	{
 		$orderBy = $this->replaceSortingBy($orderBy);
 		
-		$items = $this->isUsersFiltered($filters, $orderBy)->with(
+		return $this->isUsersFiltered($filters, $orderBy)->with(
 			'role', 'comments', 'communications',
 			'administrator', 'pages', 'images'
 			)
 			->with($this->loadSiteTitle())
-			->paginate($paginateItems);
-			
-		app('veer')->loadedComponents['counted'] = \Veer\Models\User::count();
-		
-		return $items;		
+			->paginate($paginateItems);	
 	}
 	
 	/**

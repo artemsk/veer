@@ -46,7 +46,7 @@ class Order {
 	/**
 	 * show Orders
 	 */
-	public function getAllOrders( $filters = array(), $orderBy = array('created_at', 'desc') )
+	public function getAllOrders( $filters = array(), $orderBy = array('created_at', 'desc'), $paginateItems = 35 )
 	{		
 		$orderBy = $this->replaceSortingBy($orderBy);
 				
@@ -58,15 +58,13 @@ class Order {
 		
 		if(\Input::get('sort') == null) { $items = $items->orderBy('pin', 'desc'); }
 		
-		app('veer')->loadedComponents['counted']['active'] = \Veer\Models\Order::where('archive', '!=', true)->count();
-		
 		app('veer')->loadedComponents['counted']['archived'] = \Veer\Models\Order::where('archive', '=', true)->count();
 		
 		return $items->orderBy($orderBy[0], $orderBy[1])
 			->with('user', 'userbook', 'userdiscount', 'status', 'delivery', 'payment')
 			->with($this->loadSiteTitle())
 			->with(array('bills' => function($q) { $q->with('status'); }))
-			->paginate(50);	
+			->paginate($paginateItems);	
 	}
 	
 	protected function filterOrders($type, $filters)

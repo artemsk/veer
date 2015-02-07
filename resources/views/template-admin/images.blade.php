@@ -6,9 +6,9 @@
 	
 <h1>Images: 
 	@if(Input::get('filter', null) == 'unused')
-	<a href="{{ route("admin.show", "images") }}">{{ array_pull($data, 'counted') }}</a> <small>| unused</small>
+	<a href="{{ route("admin.show", "images") }}">{{ $items->count() }}</a> <small>| unused</small>
 	@else
-	{{ array_pull($data, 'counted') }} <small>| <a href="{{ route("admin.show", array("images", "filter" => "unused")) }}">unused</a></small>
+	{{ $items->count() }} <small>| <a href="{{ route("admin.show", array("images", "filter" => "unused")) }}">unused</a></small>
 	@endif
 	</h1>
 <br/>

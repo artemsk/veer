@@ -179,7 +179,7 @@ class AdminController extends Controller {
 				break;		
 				
 			case "books":
-				$items = ( new \Veer\Services\Show\UserProperties )->showBooks(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->getBooks(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				break;
