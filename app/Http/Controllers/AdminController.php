@@ -178,27 +178,79 @@ class AdminController extends Controller {
 				
 				break;		
 				
+			case "books":
+				$items = ( new \Veer\Services\Show\UserProperties )->showBooks(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;
+				
 			case "lists":
-				$items = app('veeradmin')->showLists(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->showLists(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));
 				$view = "userlists";
 				break;		
 			
-
+			case "searches":
+				$items = ( new \Veer\Services\Show\UserProperties )->showSearches(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;	
 			
 			case "communications":
-				$items = app('veeradmin')->showCommunications(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->showCommunications(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));				
-				app('veer')->setUnreadTimestamp('communications');				
+				app('veer')->setUnreadTimestamp('communications'); // TODO: !!				
 				break;
 			
 			case "comments":
-				$items = app('veeradmin')->showComments(array(
+				$items = ( new \Veer\Services\Show\UserProperties )->showComments(array(
 					Input::get('filter') =>  Input::get('filter_id'),
 				));				
 				app('veer')->setUnreadTimestamp('comments');				
+				break;
+			
+			case "roles":
+				$items = ( new \Veer\Services\Show\UserProperties )->showRoles(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;	
+			
+			case "bills":
+				$items = ( new \Veer\Services\Show\OrderProperties )->showBills(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;
+			
+			case "discounts":
+				$items = ( new \Veer\Services\Show\OrderProperties )->showDiscounts(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;
+			
+			case "shipping":
+				$items = ( new \Veer\Services\Show\OrderProperties )->showShipping(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;
+			
+			case "payment":
+				$items = ( new \Veer\Services\Show\OrderProperties )->showPayment(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;
+			
+			case "statuses":
+				$items = ( new \Veer\Services\Show\OrderProperties )->showStatuses(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
+				break;
+			
+			case "jobs":
+			$items = ( new \Veer\Services\Show\Site )->getQdbJobs(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				));
 				break;
 			
 			case "restore":

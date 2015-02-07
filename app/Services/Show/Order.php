@@ -52,24 +52,7 @@ class Order {
 				
 		$type = key($filters);
 		
-		$fields = array("userbook" => "userbook_id", 
-			"userdiscount" => "userdiscount_id", 
-			"status" => "status_id",
-			"delivery" => "delivery_method_id",
-			"payment" => "payment_method_id",
-			"status_history" => "status_id",
-			"site" => null,
-			"user" => null);
-		
-		if(array_key_exists($type, $fields) || empty($type)) 
-		{
-			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Order", 
-				$this->getPluralizeValue($type), array_get($fields, $type));
-		}
-				
-		elseif($type == "products") $items = $this->filterOrderByProducts(head($filters));
-		
-		else $items = \Veer\Models\Order::where($type, '=', head($filters));
+		$items = $this->filterOrders($type, $filters);
 		
 		if($type != "archive") $items = $items->where('archive', '!=', true);
 		
@@ -84,6 +67,28 @@ class Order {
 			->with($this->loadSiteTitle())
 			->with(array('bills' => function($q) { $q->with('status'); }))
 			->paginate(50);	
+	}
+	
+	protected function filterOrders($type, $filters)
+	{
+		$fields = array("userbook" => "userbook_id", 
+			"userdiscount" => "userdiscount_id", 
+			"status" => "status_id",
+			"delivery" => "delivery_method_id",
+			"payment" => "payment_method_id",
+			"status_history" => "status_id",
+			"site" => null,
+			"user" => null);
+		
+		if(array_key_exists($type, $fields) || empty($type)) 
+		{
+			return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Order", 
+				$this->getPluralizeValue($type), array_get($fields, $type));
+		}
+				
+		if($type == "products") return $this->filterOrderByProducts(head($filters));
+		
+		return \Veer\Models\Order::where($type, '=', head($filters));
 	}
 	
 	protected function filterOrderByProducts($filter_id)
@@ -112,55 +117,38 @@ class Order {
 			
 		if(is_object($items)) 
 		{
-			$items->load(
-				'status', 'delivery', 'payment', 'secrets', 'orderContent'
-			);
-			// do not load 'downloads' because we have products->with(downloads)
+			$this->loadOrderRelations($items);
 			
 			$this->loadSiteTitle($items);
 					
-			$items->load(array(
-				'user' => function($q)
-					{
-						$q->with('role', 'administrator');
-					},
-				'userbook' => function($q)
-					{
-						$q->with('orders');
-					}, 
-				'userdiscount' => function($q)
-					{
-						$q->with('orders');
-					},
-				'bills' => function($q)
-					{
-						$q->with('status', 'payment');
-					},
-				'products' => function($q)
-					{
-						$q->with('images', 'categories', 'tags', 'attributes', 'downloads');
-					},
-				'status_history' => function($q)
-					{
-						$q->withTrashed();
-					}));
+			if(is_object($items->products)) $items->products = $this->regroupOrderProducts($items->products);
+			
+			if(is_object($items->orderContent)) $items->orderContent = $this->orderContentParse($items->orderContent, $items->products);
 		}	
 		
-		$regroupedProducts = array();
-		
-		if(is_object($items->products))
-		{
-			$regroupedProducts = $items->products = $this->regroupOrderProducts($items->products);
-		}
-		
-		if(is_object($items->orderContent))
-		{
-			$items->orderContent = $this->orderContentParse($items->orderContent, $regroupedProducts);
-		}
-		
-		if(empty($this->billsTypes)) $this->getExistingBillTemplates();
+		if(empty(app('veer')->loadedComponents['billsTypes'])) $this->getExistingBillTemplates();
 		
 		return $items;
+	}
+	
+	/* user relations */
+	protected function loadOrderRelations($items)
+	{
+		// do not load 'downloads' because we have products->with(downloads)
+		$items->load('status', 'delivery', 'payment', 'secrets', 'orderContent');
+		
+		$items->load(array(
+			'user' => function($q) { $q->with('role', 'administrator'); },
+
+			'userbook' => function($q) { $q->with('orders'); }, 
+
+			'userdiscount' => function($q) { $q->with('orders'); },
+
+			'bills' => function($q) { $q->with('status', 'payment'); },
+
+			'products' => function($q) { $q->with('images', 'categories', 'tags', 'attributes', 'downloads'); },
+
+			'status_history' => function($q) { $q->withTrashed(); }));		
 	}
 	
 	/**
@@ -170,10 +158,7 @@ class Order {
 	{
 		$regrouped = array();
 		
-		foreach($products as $p)
-		{
-			array_set($regrouped, $p->pivot->id, $p);
-		}
+		foreach($products as $p) { array_set($regrouped, $p->pivot->id, $p); }
 		
 		return $regrouped;
 	}
@@ -181,55 +166,32 @@ class Order {
 	/** 
 	 * parse order content's attributes and make elements summary (cloud)
 	 */
-	protected function orderContentParse($content, $products = array(), $skipStats = false)
+	protected function orderContentParse($content, $products)
 	{
-		$downloads =
-		$categoriesCloud = 
-		$tagsCloud = 
-		$attributesCloud = array();
-		
 		foreach($content as $key => $p)
 		{
 			if( array_get($products, $p->id) != null)
 			{
-				if(!empty($p->attributes)) 
-				{
-					$p->attributesParsed = app('veershop')->parseAttributes($p->attributes, $p->id, $products[$p->id]);
-				}
-				
+				if(!empty($p->attributes)) $p->attributesParsed = app('veershop')->parseAttributes($p->attributes, $p->id, $products[$p->id]);
+
 				foreach(!empty($products[$p->id]->downloads) ? $products[$p->id]->downloads : array() as $c)
 				{
 						$downloads[] = $c;
-				}
-					
-				if($skipStats === false) 
-				{	
-					foreach(!empty($products[$p->id]->categories) ? $products[$p->id]->categories : array() as $c)
-					{
-						$categoriesCloud['t'][$c->id] = $c->title;
-						//$categoriesCloud['q'][$c->id] = isset($categoriesCloud['q'][$c->id]) ? ($categoriesCloud['q'][$c->id] + 1) : 1; 
-					}
+				}	
 
-					foreach(!empty($products[$p->id]->tags) ? $products[$p->id]->tags : array() as $c)
+				foreach(array("categories", "tags", "attributes") as $cloudType)
+				{
+					foreach(!empty($products[$p->id]->{$cloudType}) ? $products[$p->id]->{$cloudType} : array() as $c)
 					{
-						$tagsCloud['t'][$c->id] = $c->name;
-						//$tagsCloud['q'][$c->id] = isset($tagsCloud['q'][$c->id]) ? ($tagsCloud['q'][$c->id] + 1) : 1;
-					}	
-
-					foreach(!empty($products[$p->id]->attributes) ? $products[$p->id]->attributes : array() as $c)
-					{
-						$attributesCloud['t'][$c->id] = $c->name.":".$c->val;
-						//$attributesCloud['q'][$c->id] = isset($attributesCloud['q'][$c->id]) ? ($attributesCloud['q'][$c->id] + 1) : 1;
-						// TODO: how to count values properly
+						$bigCloud[$cloudType]['t'][$c->id] = $c->title;
+						//$bigCloud['q'][$c->id] = isset($categoriesCloud['q'][$c->id]) ? ($categoriesCloud['q'][$c->id] + 1) : 1; 
 					}
-				}
+				}				
 			} 
 		}
 		
-		return array('content' => $content, 'downloads' => $downloads, 'statistics' => array(
-			"categories" => $categoriesCloud,
-			"tags" => $tagsCloud,
-			"attributes" => $attributesCloud
-		));
+		return array('content' => $content, 'downloads' => isset($downloads) ? $downloads : array(), 
+											'statistics' => isset($bigCloud) ? $bigCloud : array());
 	}
+	
 }
