@@ -5,7 +5,9 @@ class Category {
 	use \Veer\Services\Traits\CommonTraits;
 	
 	/**
-	 * handle
+	 * Handle.
+	 * 
+	 * 
 	 */
 	public function handle($siteId = null, $paginateItems = 100)
 	{
@@ -15,11 +17,9 @@ class Category {
 	}
 	
 	/**
-	 * Query Builder: 
+	 * Get top categories within site.
 	 * 
-	 * - who: Many Top Level Categories 
-	 * - with: Images
-	 * - to whom: make() | category/{blank}
+	 * 
 	 */
 	public function getTopCategoriesWithSite($siteId)
 	{
@@ -30,11 +30,9 @@ class Category {
 	}
 	
 	/**
-	 * Query Builder: 
+	 * Get category.
 	 * 
-	 * - who: 1 Category 
-	 * - with: Parent & Sub Categories
-	 * - to whom: make() | category/{id}
+	 * 
 	 */
 	public function getCategory($id, $siteId = null)
 	{
@@ -66,13 +64,10 @@ class Category {
 				->first();
 	}
 	
-	
 	/**
-	 * Query Builder: 
+	 * Get products associated with category.
 	 * 
-	 * - who: Many Products
-	 * - with: Images
-	 * - to whom: 1 Category | category/{id}
+	 * 
 	 */
 	public function withProducts($id, $queryParams = null)
 	{
@@ -80,30 +75,40 @@ class Category {
 	}
 
 	/**
-	 * Query Builder: 
+	 * Get pases associated with category.
 	 * 
-	 * - who: Many Pages 
-	 * - with: Images
-	 * - to whom: 1 Category | category/{id}
+	 * 
 	 */
 	public function withPages($id, $queryParams = null)
 	{
 		return $this->getElementsWhereHasModel('pages', 'categories', $id, null, $queryParams);
 	}	
 	
+	/**
+	 * Get tags associated with category.
+	 * 
+	 * 
+	 */	
 	public function withTags($id)
 	{
 		return $this->withModels('\Veer\Models\Tag', 'categories', $id);
 	}	
 	
-	
+	/**
+	 * Get attributes associated with category.
+	 * 
+	 * 
+	 */	
 	public function withAttributes($id)
 	{
 		return $this->withModels('\Veer\Models\Attribute', 'categories', $id);	
 	}
 	
-
-	/* all or filtered categories or one category */
+	/**
+	 * Get general categories.
+	 * 
+	 * 
+	 */
 	public function getCategoriesWithoutSite($category = null, $image = null) 
 	{	
 		if($category == null || $image != null) 
@@ -114,10 +119,10 @@ class Category {
 		return $this->getCategoryAdvanced($category);
 	}	
 	
-	
 	/**
-	 * show Many Categories
-	 * @params filter
+	 * Get all categories.
+	 * 
+	 * 
 	 */
 	public function getAllCategories($imageFilter = null)
 	{
@@ -143,7 +148,11 @@ class Category {
 		return $items->orderBy('manual_sort','asc')->get();
 	}	
 	
-	
+	/**
+	 * Filter category by image.
+	 * 
+	 * 
+	 */
 	protected function filterCategoryByImage($imageFilter = null)
 	{
 		return \Veer\Models\Site::with(array('categories' => function($query) use ($imageFilter) 
@@ -156,8 +165,11 @@ class Category {
 		}));	
 	}
 	
-	
-	/* get Category Advanced */
+	/**
+	 * Get category.
+	 * 
+	 * 
+	 */
 	public function getCategoryAdvanced($category, $options = array()) 
 	{
 		$items = $this->getCategory($category, null);
