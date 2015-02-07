@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-user', array('place' => 'comments'))
 	
-<h1>Comments: {{ array_pull($items, 'counted') }} <small>unread: {{ array_pull($items, 'counted_unread', 0) }} @if(Input::get('filter',null) != null) 
+<h1>Comments: {{ $items->total() }} <small>unread: {{ unread('comment') }} @if(Input::get('filter',null) != null) 
 	| filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong>
 	@endif </small></h1>
 <br/>

@@ -11,13 +11,25 @@ class UserProperties {
 	{
 		$modelFull = "\\" . elements( str_singular($model) );
 			
-		$numbers = $modelFull::where('created_at', '>=', app('veer')->getUnreadTimestamp( str_plural($model) ));
+		$numbers = $modelFull::where('created_at', '>=', self::getUnreadTimestamp( str_plural($model) ));
 		
 		if (!empty($raw)) { $numbers->whereRaw($raw); }
 		
 		$numbers = app('veer')->cachingQueries->makeAndRemember($numbers, 'count', $period, null, 'unreadNumbers'.$model);
 		
 		return $numbers > 0 ? $numbers : null;		
+	}
+	
+	/*
+	 * Get unread timestamps
+	 * for user & elements
+	 * 
+	 */
+	static protected function getUnreadTimestamp($type)
+	{
+		$cacheName = "unread." . $type . "." . \Auth::id();
+		
+		return \Cache::get($cacheName, date('Y-m-d 0:0:00', time()));
 	}
 	
 	/**
@@ -39,14 +51,34 @@ class UserProperties {
 	/**
 	 * show Users Lists
 	 */
-	public function showLists($filters = array())
+	public function getLists($filters = array(), $paginateItems = 50)
 	{
 		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserList")
 			->orderBy('name','asc')
 			->orderBy('created_at','desc')
 			->with('user', 'elements')
 			->with($this->loadSiteTitle())
-			->paginate(50);
+			->paginate($paginateItems);
+		
+		list($itemsRegroup, $itemsUsers) = $this->iterateLists($items);
+		
+		$items['regrouped'] = isset($itemsRegroup) ? $itemsRegroup : array();
+		
+		$items['users'] = isset($itemsUsers) ? $itemsUsers : array();
+		
+		$items['basket'] = \Veer\Models\UserList::where('name','=','[basket]')->count();
+		
+		$items['lists'] = \Veer\Models\UserList::where('name','!=','[basket]')->count();
+
+		return $items;
+	}
+	
+	/* regroup lists & collect users */
+	protected function iterateLists($items)
+	{
+		$itemsRegroup = [];
+		
+		$itemsUsers = [];
 		
 		foreach($items as $key => $item)
 		{
@@ -58,102 +90,86 @@ class UserProperties {
 			}
 		}
 		
-		$items['regrouped'] = isset($itemsRegroup) ? $itemsRegroup : array();
-		
-		$items['users'] = isset($itemsUsers) ? $itemsUsers : array();
-		
-		$items['basket'] = 
-			\Veer\Models\UserList::where('name','=','[basket]')->count();
-		
-		$items['lists'] = 
-			\Veer\Models\UserList::where('name','!=','[basket]')->count();
-
-		return $items;
+		return array($itemsRegroup, $itemsUsers);
 	}
-	
 	
 	/**
 	 * show Searches
 	 */
-	public function showSearches($filters = array())
+	public function getSearches($filters = array(), $paginateItems = 50)
 	{
-		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Search")
+		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Search")
 			->orderBy('times', 'desc')
 			->orderBy('created_at', 'desc')
 			->with('users')
-			->paginate(50);
-		
-		$items['counted'] = 
-			\Veer\Models\Search::count();
-		
-		return $items;
+			->paginate($paginateItems);
 	}	
 	
+	/*
+	 * Set unread timestamps
+	 * 
+	 */
+	protected function setUnreadTimestamp($type)
+	{
+		$cacheName = "unread." . $type . "." . \Auth::id();
+
+		\Cache::forever($cacheName, now());
+	}
 	
 	/**
 	 * Show Comments
 	 */
-	public function showComments($filters = array()) 
+	public function getComments($filters = array(), $paginateItems = 50) 
 	{		
-		$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Comment")->orderBy('id','desc')
+		$this->setUnreadTimestamp('comments');
+		
+		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Comment")->orderBy('id','desc')
 			->with('elements')
-			->paginate(50); 
+			->paginate($paginateItems); 
 			// users -> only for user's page
-				
-		$items['counted'] = \Veer\Models\Comment::count();
-		
-		$items['counted_unread'] = self::showUnreadNumbers("comment");
-		
-		return $items;
 	}	
-	
 	
 	/**
 	 * show Communications
 	 */
-	public function showCommunications($filters = array())
+	public function getCommunications($filters = array(), $paginateItems = 25)
 	{
+		$this->setUnreadTimestamp('communications');
+		
 		$type = key($filters);
 		
-		if($type != "type" && $type != "url" && $type != "order")
-		{
-			$items = $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Communication");
-		} 
-		
-		elseif($type == "order")
-		{
-			$items = \Veer\Models\Communication::where('elements_type', '=', elements($type))
-				->where('elements_id','=', head($filters));
-		}
-		
-		else
-		{
-			$items = \Veer\Models\Communication::where($type, '=', array_get($filters, $type, 0));
-		}
+		$items = $this->filterCommunications($type, $filters);		
 		
 		$items = $items->orderBy('created_at', 'desc')
 			->with('user', 'elements')
 			->with($this->loadSiteTitle())
-			->paginate(25);
+			->paginate($paginateItems);
 			
-		foreach($items as $key => $item)
-		{
-			$itemsUsers[$key] = $this->parseCommunicationRecipients($item->recipients);
-		}
+		foreach($items as $key => $item) $itemsUsers[$key] = $this->parseCommunicationRecipients($item->recipients);
 		
-		$items['recipients'] = isset($itemsUsers) ? $itemsUsers : array();
-		
-		$items['counted'] = 
-			\Veer\Models\Communication::count();
-		
-		$items['counted_unread'] = self::showUnreadNumbers("communication");
+		app('veer')->loadedComponents['recipients'] = isset($itemsUsers) ? $itemsUsers : array();
 		
 		return $items;		
 	}	
 	
+	protected function filterCommunications($type, $filters)
+	{			
+		if(!in_array($type, array("type", "url", "order")))
+		{
+			return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Communication");
+		} 
+		
+		if($type == "order")
+		{
+			return \Veer\Models\Communication::where('elements_type', '=', elements($type))
+				->where('elements_id','=', head($filters));
+		}
+		
+		return \Veer\Models\Communication::where($type, '=', array_get($filters, $type, 0));
+	}
+		
 	/**
 	 * parse communications
-	 * @param string $recipients
 	 */
 	protected function parseCommunicationRecipients($recipients)
 	{
@@ -167,10 +183,7 @@ class UserProperties {
 	
 		$itemsUsers = array();
 		
-		foreach($getUsers as $user) 
-		{
-			$itemsUsers[$user->id] = $user;
-		}
+		foreach($getUsers as $user) $itemsUsers[$user->id] = $user;
 		
 		return $itemsUsers;
 	}
@@ -178,13 +191,13 @@ class UserProperties {
 	/**
 	 * show Roles
 	 */
-	public function showRoles( $filters = array() )
+	public function getRoles( $filters = array(), $paginateItems = 50 )
 	{
-		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserRole")->orderBy('sites_id', 'asc')
+		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\UserRole")
+			->orderBy('sites_id', 'asc')
 			->with('users')
 			->with($this->loadSiteTitle())
-			->paginate(50);
+			->paginate($paginateItems);
 	}
-	
 	
 }

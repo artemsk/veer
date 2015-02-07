@@ -507,29 +507,6 @@ class VeerApp {
 		return array( trim($m), $emailsCollection, $usernamesCollection );
 	}
 	
-	/*
-	 * Get unread timestamps
-	 * for user & elements
-	 * 
-	 */
-	public function getUnreadTimestamp($type)
-	{
-		$cacheName = "unread." . $type . "." . \Auth::id();
-		
-		return \Cache::get($cacheName, date('Y-m-d 0:0:00', time()));
-	}
-	
-	/*
-	 * Set unread timestamps
-	 * 
-	 */
-	public function setUnreadTimestamp($type)
-	{
-		$cacheName = "unread." . $type . "." . \Auth::id();
-
-		\Cache::forever($cacheName, now());
-	}
-	
 	/**
 	 * Sending mails queue
 	 * 
