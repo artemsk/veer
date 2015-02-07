@@ -60,7 +60,7 @@ class AdminController extends Controller {
 		
 		if(Input::has('SearchField')) 
 		{ 
-			$search = app('veeradmin')->search($t);
+			$search = ( new \Veer\Services\Show\Search )->searchAdmin($t);
 		
 			if(is_object($search)) { return $search; }
 		}
