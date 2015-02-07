@@ -31,7 +31,7 @@ if ( ! function_exists('sanitize_url'))
 	 *
 	 * @return string
 	 */
-	function sanitize_url($url = '', $more = false)
+	function sanitize_url($url = '')
 	{
                 return strtr( $url, 
                 array( "http://" => "",
@@ -83,8 +83,6 @@ if ( ! function_exists('db_parameter'))
 	/**
 	 * Trying to get paramter from Veer instance
 	 *
-         * @param parameter name
-	 * @return result
 	 */
 	function db_parameter($param = null, $default = null, $getFromDbSiteId = null)
 	{
@@ -118,7 +116,7 @@ if ( ! function_exists('db_parameter_not_found'))
 	/**
 	 * Log::error if db parameter not found
 	 *
-         * @param parameter name
+	 * @param parameter name
 	 * @return null
 	 */
 	function db_parameter_not_found($param = null, $default = null)
@@ -196,7 +194,6 @@ if ( ! function_exists('stored'))
 	/**
 	 * Get shopping cart value from session
 	 *
-	 * @return Session: shopping_cart_items
 	 */
 	function stored()
 	{

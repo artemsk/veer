@@ -7,6 +7,8 @@ class indexPages {
 	
     function __construct($params = null) {
         
+		$this->data = 1;
+		
     }    
     
     

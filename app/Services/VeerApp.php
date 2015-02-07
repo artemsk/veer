@@ -79,7 +79,6 @@ class VeerApp {
 	 */
 	public function __construct()
 	{
-		//
 		$this->cachingQueries = new CachingQueries;
 	}
 
@@ -115,20 +114,10 @@ class VeerApp {
 	 * Get Site Url with some cleaning. 
 	 * Mirrors/sites should be on the same level as Veer directory.
 	 *
-	 * @return $url
+	 * @return string $url
 	 */
 	protected function siteUrl()
-	{ 
-		/* Preserve old method for history: 
-		[1] "http://" . strtr(Request::header('host') . Request::server('PHP_SELF')
-		
-		[2] $segments = explode('/', Request::server('REQUEST_URI'));		
-		$segments = array_values(array_filter($segments, function($v) { return $v != ''; }));		
-		$url = Request::getSchemeAndHttpHost() . 
-			(empty($segments[0]) ? null : "/" . $segments[0]). 
-			(empty($segments[1]) ? null : "/" . $segments[1]);
-		*/
-		
+	{ 		
 		$url = strtr(url(), array(
 				"www." => "",
 				"index.php/" => "",
@@ -147,8 +136,8 @@ class VeerApp {
 	 * Because of caching turning on/off and other changes
 	 * come to effect after cleaning cache only.
 	 *
-	 * @param $siteUrl
-	 * @return $siteDb
+	 * @param string $siteUrl
+	 * @return \Veer\Models\Site $siteDb
 	 */
 	protected function isSiteAvailable($siteUrl)
 	{
@@ -168,7 +157,6 @@ class VeerApp {
 	/**
 	 * Loading site's configuration from database
 	 *
-	 * @param $siteDb
 	 * @return void
 	 */
 	protected function saveConfiguration($siteDb)
@@ -186,20 +174,13 @@ class VeerApp {
 	/**
 	 * Load route components:
 	 * methods (immediate actions), events, queues etc.
-	 * @param type $param
 	 */
 	public function routePrepare($routeName)
 	{
 		$this->loadedComponents['template'] = $this->template =  
 			array_get($this->siteConfig, 'TEMPLATE', config('veer.template'));
 				
-		$data = $this->registerComponents($routeName);
-
-		if($this->loadedComponents) {
-			$this->loadedComponents = array_merge($this->loadedComponents, $data);
-		} else {
-			$this->loadedComponents = $data;
-		}
+		$this->registerComponents($routeName);
 
 		$this->statistics();
 	}
@@ -208,9 +189,6 @@ class VeerApp {
 	 * Register components & events based on current route name & site. It allows
 	 * us to have different components and actions for different routes [and events 
 	 * on different sites].
-	 *
-	 * @param $routeName
-	 * @return $data
 	 */
 	public function registerComponents($routeName, $params = null)
 	{
@@ -218,41 +196,34 @@ class VeerApp {
 		
 		$c = $this->cachingQueries->remember(1, 'get'); 
 				
-		$data = array(); 
-		$data['output'] = array();
-
-		foreach ($c as $component) {
-			switch ($component->components_type) {
-
-				case "functions":
-					$data['function_'.$component->components_src] = $this->loadComponentClass($component->components_src, $params);
-					if(is_object($data['function_'.$component->components_src])) { 
-						$data['output'] = array_merge($data['output'], (array)object_get($data['function_'.$component->components_src], 'data'));
-						// now you have outputed data for templates.
-					}
-					break;
-
-				case "events":
-					$data['event_'.$component->components_src] = $this->loadComponentClass($component->components_src, $params, 'event');
-					if(class_exists("\Veer\Events\\" . $component->components_src, false)) { 
-						\Illuminate\Support\Facades\Event::subscribe("\Veer\Events\\" . $component->components_src); 
-						// now you can fire these events in templates etc.
-					}						
-					break;
-				
-				case "pages";
-					$data['page_' . $component->components_src] = \Veer\Models\Page::find($component->components_src); 
-					// do not perfom sitevalidation as a rule exception (?)
-					break;
-
-				default:
-					break;
-			}
+		foreach ($c as $component) 
+		{	
+			 $this->{camel_case('register '.$component->components_type)}($component->components_src, $params);
 		}
-
-		return $data;
 	}
 
+	protected function registerFunctions($src, $params)
+	{
+		$this->loadedComponents['function_' . $src] = $this->loadComponentClass($src, $params);
+	}
+	
+	protected function registerEvents($src, $params)
+	{
+		$this->loadComponentClass($src, $params, 'event');
+		
+		if(class_exists("\Veer\Events\\" . $src, false)) { 
+			\Illuminate\Support\Facades\Event::subscribe("\Veer\Events\\" . $src); 
+			
+			$this->loadedComponents['event_' . $src] = true;
+			// now you can fire these events in templates etc.
+		}	
+	}
+	
+	protected function registerPages($src)
+	{
+		$this->loadedComponents['page_' . $src] = \Veer\Models\Page::find($src); 
+	}
+	
 	/**
 	 * Loading custom classes for components; event subscribers; queues
 	 *
