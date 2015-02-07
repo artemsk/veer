@@ -103,9 +103,8 @@ class Order {
 	
 	/**
 	 * show One order
-	 * @param type $order
 	 */
-	public function showOneOrder($order)
+	public function getOrderAdvanced($order)
 	{
 		if($order == "new") { return new \stdClass(); }
 		
@@ -181,10 +180,8 @@ class Order {
 	
 	/** 
 	 * parse order content's attributes and make elements summary (cloud)
-	 * @param type $content
-	 * @param type $products
 	 */
-	protected function orderContentParse($content, $products = null, $skipStats = false)
+	protected function orderContentParse($content, $products = array(), $skipStats = false)
 	{
 		$downloads =
 		$categoriesCloud = 
@@ -193,7 +190,7 @@ class Order {
 		
 		foreach($content as $key => $p)
 		{
-			if( array_get($products, $p->id, null) != null)
+			if( array_get($products, $p->id) != null)
 			{
 				if(!empty($p->attributes)) 
 				{

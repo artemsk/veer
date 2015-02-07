@@ -34,7 +34,7 @@
 	<li class="active">Comments</li>
 	@else
 	<li><a href="{{ route("admin.show", "comments") }}">Comments</a>
-		<span class="badge">{{ app('veeradmin')->showUnreadNumbers('comment') }}</span>
+		<span class="badge">{{ unread('comment') }}</span>
 	</li>
 	@endif
 	@if((Input::get('filter',null) != null && $place == "communications")) 
@@ -43,7 +43,7 @@
 	<li class="active">Communications</li>
 	@else
 	<li><a href="{{ route("admin.show", "communications") }}">Communications</a>
-		<span class="badge">{{ app('veeradmin')->showUnreadNumbers('communication') }}</span>
+		<span class="badge">{{ unread('communication') }}</span>
 	</li>
 	@endif	
 	@if((Input::get('filter',null) != null && $place == "roles")) 
