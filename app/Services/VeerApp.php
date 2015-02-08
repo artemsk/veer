@@ -319,11 +319,11 @@ class VeerApp {
 	 */
 	public function tracking()
 	{ 
-		!(config('veer.history_refs')) ? : $this->trackingReferrals();
+		if(config('veer.history_refs')) $this->trackingReferrals();
 
-		!(config('veer.history_urls')) ? : $this->trackingUrls();
+		if(config('veer.history_urls')) $this->trackingUrls();
 
-		!(config('veer.history_ips')) ? : $this->trackingIps();		
+		if(config('veer.history_ips')) $this->trackingIps();		
 	}
 	
 	/**
@@ -383,7 +383,7 @@ class VeerApp {
 	 * 
 	 * @todo universal|laravel queries
 	 */
-	public function queues() 	
+	public function queues()
 	{
 		if(config('queue.default') == "qdb" && !\Cache::has('queue_checked')) { 
 		
@@ -392,12 +392,8 @@ class VeerApp {
 			->orderBy('scheduled_at', 'asc')
 			->first();
 		
-		if(is_object($item)) {		
+		if(is_object($item)) { (new QdbJob(app(), $item))->fire(); }
 		
-			$job = new QdbJob(app(), $item);
-
-				$job->fire(); 
-		}
 		\Cache::put('queue_checked', true, config('veer.repeatjob'));	
 	    }		
 	}
