@@ -17,7 +17,7 @@ class VeerApp {
 	const VEERVERSION = 'v1.1.4';
 
 	/** 
-	 * Veer Core Url
+	 * Veer Core Url.
 	 * 
 	 */
 	const VEERCOREURL = 'https://api.github.com/repos/artemsk/veer';
@@ -29,7 +29,7 @@ class VeerApp {
 	public $booted = false;
 	
 	/**
-	 *  Current url 
+	 *  Current url. 
 	 * 
 	 */	
 	public $siteId;	
@@ -41,35 +41,35 @@ class VeerApp {
 	public $siteUrl;	
 
 	/**
-	 *  Database dynamic configuration
+	 *  Database dynamic configuration.
 	 * 
 	 */	
 	public $siteConfig = array();	
 
 	/**
-	 *  Statistics
+	 *  Statistics.
 	 * 
 	 */		
 	public $statistics;
 	
 	/**
-	 *  Loaded components for current route
+	 *  Loaded components for current route.
 	 * 
 	 */		
 	public $loadedComponents;	
 	
 	/**
-	 *  Template variable
+	 *  Template variable.
 	 */
 	public $template;
 	
 	/**
-	 *  Work only with site-specific entities
+	 *  Work only with site-specific entities.
 	 */
 	public $isBoundSite = true;
 		
 	/**
-	 *  Cached Queries
+	 *  Cached Queries.
 	 */
 	public $cachingQueries;
 	
@@ -77,7 +77,7 @@ class VeerApp {
 	 * Construct the VeerApp.
 	 *
 	 * 
-	 * @return void
+	 * 
 	 */
 	public function __construct()
 	{
@@ -86,7 +86,9 @@ class VeerApp {
 
 	/**
 	 * is Site Filtered?
-	 * @return bool
+	 *
+	 * 
+	 * 
 	 */
 	public function isBoundSite() 
 	{
@@ -96,7 +98,8 @@ class VeerApp {
 	/**
 	 * Boot the VeerApp.
 	 *
-	 * @return void
+	 *
+	 * 
 	 */
 	public function run()
 	{		
@@ -111,11 +114,11 @@ class VeerApp {
 		$this->saveConfiguration($siteDb);	
 	}
 		
-	
 	/**
 	 * Get Site Url with some cleaning. 
 	 * Mirrors/sites should be on the same level as Veer directory.
 	 *
+	 * 
 	 * @return string $url
 	 */
 	protected function siteUrl()
@@ -134,7 +137,7 @@ class VeerApp {
 	}
 
 	/**
-	 * Check if this site's url exists in database & return its id
+	 * Check if this site's url exists in database & return its id.
 	 * Because of caching turning on/off and other changes
 	 * come to effect after cleaning cache only.
 	 *
@@ -157,9 +160,10 @@ class VeerApp {
 	}
 
 	/**
-	 * Loading site's configuration from database
+	 * Loading site's configuration from database.
 	 *
-	 * @return void
+	 * 
+	 *
 	 */
 	protected function saveConfiguration($siteDb)
 	{
@@ -176,6 +180,8 @@ class VeerApp {
 	/**
 	 * Load route components:
 	 * methods (immediate actions), events, queues etc.
+	 * 
+	 * 
 	 */
 	public function routePrepare($routeName)
 	{
@@ -191,6 +197,8 @@ class VeerApp {
 	 * Register components & events based on current route name & site. It allows
 	 * us to have different components and actions for different routes [and events 
 	 * on different sites].
+	 * 
+	 * 
 	 */
 	public function registerComponents($routeName, $params = null)
 	{
@@ -204,11 +212,23 @@ class VeerApp {
 		}
 	}
 
+	/**
+	 * Register Functions.
+	 * 
+	 * @param string $src
+	 * @param mixed $params
+	 */
 	protected function registerFunctions($src, $params)
 	{
 		$this->loadedComponents['function_' . $src] = $this->loadComponentClass($src, $params);
 	}
 	
+	/**
+	 * Register Events.
+	 * 
+	 * @param string $src
+	 * @param mixed $params
+	 */
 	protected function registerEvents($src, $params)
 	{
 		$this->loadComponentClass($src, $params, 'events');
@@ -221,15 +241,23 @@ class VeerApp {
 		}	
 	}
 	
+	/**
+	 * Register Pages
+	 * 
+	 * 
+	 * @param string $src
+	 */
 	protected function registerPages($src)
 	{
 		$this->loadedComponents['page_' . $src] = \Veer\Models\Page::find($src); 
 	}
 	
 	/**
-	 * Loading custom classes for components; event subscribers; queues
+	 * Loading custom classes for components, event subscribers.
+	 * 
+	 * 
 	 */
-	public function loadComponentClass($className, $params = null, $type = "components")
+	protected function loadComponentClass($className, $params = null, $type = "components")
 	{ 
 		/* Another vendor's component */
 		if (starts_with($className, '\\')) return $this->instantiateClass($className, $params, $type);
@@ -241,6 +269,11 @@ class VeerApp {
 		return $this->instantiateClass($classFullName, $params, $type);
 	}
 
+	/**
+	 * Get path for components and require them.
+	 * 
+	 * 
+	 */
 	protected function loadClassFromPath($className, $type)
 	{
 		$pathComponent = base_path() . "/". config("veer." . $type . "_path") . "/" . $className . ".php";
@@ -248,6 +281,11 @@ class VeerApp {
 		if (file_exists($pathComponent)) { require $pathComponent; } 
 	}
 	
+	/**
+	 * Instantiate class.
+	 * 
+	 * 
+	 */
 	protected function instantiateClass($classFullName, $params = null, $type = null)
 	{
 		if (class_exists($classFullName, false) && $type == "components") 
@@ -257,9 +295,9 @@ class VeerApp {
 	}
 	
 	/**
-	 * Collecting statistics
+	 * Collecting statistics.
 	 *
-	 * @return void
+	 * 
 	 */
 	public function statistics()
 	{ 
@@ -269,17 +307,15 @@ class VeerApp {
 
 		$this->statistics['memory'] = number_format(memory_get_usage());
 		
-		$this->statistics['mem.veer'] = number_format(memory_get_usage()-7125344); // ~initial memory used 
-
 		$this->statistics['version'] = self::VEERVERSION;
 
 		return $this->statistics;		
 	}
 
 	/**
-	 * Tracking user's behavior
+	 * Tracking user's behavior.
 	 *
-	 * @return void
+	 * 
 	 */
 	public function tracking()
 	{ 
@@ -291,58 +327,61 @@ class VeerApp {
 	}
 	
 	/**
-	 * Tracking Referals
+	 * Tracking Referals.
 	 *
-	 * @params
-	 * @return void
+	 * 
 	 */
 	protected function trackingReferrals()
 	{
-		$past = \Illuminate\Support\Facades\URL::previous();
+		$past = \URL::previous();
 		
-		if(!str_contains($past, url())) { 			
-			$f = date('Y.W', time());
-			File::append(config('veer.history_path') . 
-				'/referrals.' . $f . '.txt', $past . "\r\n" );
-		}
+		if(!str_contains($past, url())) $this->trackingToFile('referrals', array($past));
 	}
 	
 	/**
-	 * Tracking Urls for Auth.User
-	 *
-	 * @params
-	 * @return void
+	 * Tracking Urls for Auth.User.
+	 * 
+	 * 
 	 */
 	protected function trackingUrls()
 	{
 		if(!auth_check_session()) { return; }
 		
-		$f = date('Y.W', time());
-		File::append(config('veer.history_path') . '/urls.' . $f . '.txt', 
-			\Illuminate\Support\Facades\Auth::id(). '|' . app('url')->current() . '|' .
-			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
+		$this->trackingToFile('urls', array(
+			\Auth::id(), app('url')->current(), \Route::currentRouteName()
+		));
 	}
 	
 	/**
 	 * Tracking Ips - use for Debugging.
-	 *
-	 * @params
-	 * @return void
+	 * 
+	 * 
 	 */
 	protected function trackingIps()
 	{
-		$f = date('Y.W', time());
-		File::append(config('veer.history_path') . '/ips.' . $f . '.txt', 
-		\Illuminate\Support\Facades\Request::getClientIp(). '|' . url() . '|' .
-			\Illuminate\Support\Facades\Route::currentRouteName() . "\r\n" );
+		$this->trackingToFile('ips', array(
+			\Request::getClientIp(), url(), \Route::currentRouteName()
+		));
 	}	
 
 	/**
-	 * Running Queues: one job per request per minute (value from configuration).
-	 * Only for 'qdb' driver as default
+	 * Appending statistics to file.
+	 * 
 	 *
-	 * @params
-	 * @return void
+	 */
+	protected function trackingToFile($type, $data)
+	{
+		\File::append(config('veer.history_path') . '/' . $type . '.' . date('Y.W', time()) . '.txt',
+			implode('|', $data) . "\r\n"
+		);
+	}
+	
+	/**
+	 * Running Queues: one job per request per minute (value from configuration).
+	 * Only for 'qdb' driver as default.
+	 *
+	 * 
+	 * @todo universal|laravel queries
 	 */
 	public function queues() 	
 	{

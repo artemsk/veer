@@ -26,8 +26,7 @@ class ShutdownMiddleware implements TerminableMiddleware {
 			
 			if($timeToLoad > config('veer.loadingtime')) {
 
-				$recollect = app('veer')->statistics();
-				\Log::alert('Slowness detected: ' . $timeToLoad . ': ', $recollect);
+				\Log::alert('Slowness detected: ' . $timeToLoad . ': ', app('veer')->statistics());
 				info('Queries: ', \DB::getQueryLog());
 			}
 
