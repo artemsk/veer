@@ -232,7 +232,7 @@ if (!function_exists('elements')) {
 	 */
 	function elements($type = "page")
 	{
-		return "Veer\Models\\" . mb_strtoupper($type[0]) . substr( str_singular($type), 1);
+		return "Veer\Models\\" . ucfirst( str_singular($type) );
 	}
 
 }
