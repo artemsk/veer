@@ -33,7 +33,7 @@ class QdbCommand extends Command {
 		
 		if(count($item)>0) { 
 			
-		$job = new QdbJob($this->laravel, $item);
+		$job = new QdbJob(app(), $item);
 
 		$job->fire();
 		

@@ -8,14 +8,12 @@ class QdbJob extends \Illuminate\Queue\Jobs\SyncJob {
 	/**
 	 * The class name of the job.
 	 *
-	 * @var string
 	 */
 	protected $job;
 
 	/**
 	 * The queue message data.
 	 *
-	 * @var string
 	 */
 	protected $payload;
 	
