@@ -4,7 +4,7 @@ use Veer\Commands\Command;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 
-class HttpQueueWorker extends Command implements SelfHandling {
+class HttpQueueWorkerCommand extends Command implements SelfHandling {
 
 	protected $driverMethod;
 	

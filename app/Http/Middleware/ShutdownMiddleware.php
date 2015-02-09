@@ -30,9 +30,9 @@ class ShutdownMiddleware implements TerminableMiddleware {
 				info('Queries: ', \DB::getQueryLog());
 			}
 
-			app('veer')->tracking();
+			(new \Veer\Commands\TrackingUserCommand())->handle();
 
-			(new \Veer\Commands\HttpQueueWorker(config('queue.default')))->handle(); 		
+			(new \Veer\Commands\HttpQueueWorkerCommand(config('queue.default')))->handle(); 		
 		} 
 	}
 	
