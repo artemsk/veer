@@ -32,7 +32,7 @@ class ShutdownMiddleware implements TerminableMiddleware {
 
 			app('veer')->tracking();
 
-			if(config('queue.default') == 'qdb') { app('veer')->queues(); }		
+			(new \Veer\Commands\HttpQueueWorker(config('queue.default')))->handle(); 		
 		} 
 	}
 	

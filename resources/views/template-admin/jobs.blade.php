@@ -37,8 +37,8 @@
 			<div class="thumbnail" id="card{{$item->id}}">
 				<div class="caption"><small>#{{$item->id}} —
 							{{ \Carbon\Carbon::parse($item->updated_at)->format("m/d") }}</small>					
-					<strong><p>{{ $items['statuses'][$item->status] }} : {{ $item->times }}</p></strong>	
-					<p>scheduled at:<br/>{{ $item->scheduled_at }}</p>	
+					<strong><p>{{ $items['statuses'][$item->status] }} : {{ $item->attempts }}</p></strong>	
+					<p>scheduled at:<br/>{{ $item->available_at }}</p>	
 					<p>updated at:<br/>{{ $item->updated_at }}</p>	
 					<p><textarea name="payload" class="form-control" rows="5">{{ $item->payload }}</textarea></p>	
 					@if($items['statuses'][$item->status] != 'Started')

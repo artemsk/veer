@@ -87,18 +87,18 @@ class Site {
 	 */
 	public function getQdbJobs( $filters = array() ) 
 	{		
-		$items = \Artemsk\Queuedb\Job::all();
+		$items = \Veer\Services\Queuedb\Job::all();
 		
-		$items->sortBy('scheduled_at');
+		$items->sortBy('available_at');
 		
 		$items_failed = \DB::table("failed_jobs")->get();
 		
 		$statuses = array(
-			\Artemsk\Queuedb\Job::STATUS_OPEN => "Open",
-			\Artemsk\Queuedb\Job::STATUS_WAITING => "Waiting",
-			\Artemsk\Queuedb\Job::STATUS_STARTED => "Started",
-			\Artemsk\Queuedb\Job::STATUS_FINISHED => "Finished",
-			\Artemsk\Queuedb\Job::STATUS_FAILED => "Failed"
+			\Veer\Services\Queuedb\Job::STATUS_OPEN => "Open",
+			\Veer\Services\Queuedb\Job::STATUS_WAITING => "Waiting",
+			\Veer\Services\Queuedb\Job::STATUS_STARTED => "Started",
+			\Veer\Services\Queuedb\Job::STATUS_FINISHED => "Finished",
+			\Veer\Services\Queuedb\Job::STATUS_FAILED => "Failed"
 		);
 			
 		return array(

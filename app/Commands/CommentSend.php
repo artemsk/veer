@@ -9,7 +9,6 @@ class CommentSend extends Command implements SelfHandling {
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -19,7 +18,6 @@ class CommentSend extends Command implements SelfHandling {
 	/**
 	 * Execute the command.
 	 *
-	 * @return void
 	 */
 	public function handle()
 	{

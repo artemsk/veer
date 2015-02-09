@@ -13,7 +13,6 @@ class HttpQueueWorker extends Command implements SelfHandling {
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
 	 */
 	public function __construct($driver)
 	{
@@ -23,7 +22,6 @@ class HttpQueueWorker extends Command implements SelfHandling {
 	/**
 	 * Execute the command.
 	 *
-	 * @return void
 	 */
 	public function handle()
 	{
@@ -39,7 +37,7 @@ class HttpQueueWorker extends Command implements SelfHandling {
 		
 		if(is_object($this->getQdbJob()))
 		{
-			(new \Artemsk\Queuedb\QdbJob(app(), $this->activeJob))->fire();
+			(new \Veer\Services\Queuedb\QdbJob(app(), $this->activeJob))->fire();
 		}
 		
 		$this->setChecked(config('veer.repeatjob'));
@@ -66,9 +64,9 @@ class HttpQueueWorker extends Command implements SelfHandling {
 	 */
 	protected function getQdbJob()
 	{
-		$this->activeJob = \Artemsk\Queuedb\Job::where('status','<=','1')
-			->where('scheduled_at','<=',date('Y-m-d H:i:00', time()))
-			->orderBy('scheduled_at', 'asc')
+		$this->activeJob = \Veer\Services\Queuedb\Job::where('status','<=','1')
+			->where('available_at','<=',date('Y-m-d H:i:00', time()))
+			->orderBy('available_at', 'asc')
 			->first();
 		
 		return $this->activeJob;

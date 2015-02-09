@@ -1,8 +1,6 @@
 <?php namespace Veer\Services;
 	
 use Illuminate\Support\Facades\Config;
-use Artemsk\Queuedb\Job;
-use Artemsk\Queuedb\QdbJob;
 use Veer\Models\Component;
 
 class VeerApp {
@@ -373,18 +371,6 @@ class VeerApp {
 		\File::append(config('veer.history_path') . '/' . $type . '.' . date('Y.W', time()) . '.txt',
 			implode('|', $data) . "\r\n"
 		);
-	}
-	
-	/**
-	 * Running Queues: one job per request per minute (value from configuration).
-	 * Only for 'qdb' driver as default.
-	 *
-	 * 
-	 * @todo universal|laravel queries
-	 */
-	public function queues()
-	{
-		(new \Veer\Commands\HttpQueueWorker(config('queue.default')))->handle();
 	}
 	
 }

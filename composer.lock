@@ -4,42 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fa999e927ab3c17288643ccdc45270ca",
+    "hash": "3597746a434838f494ea5f887a6d60ac",
     "packages": [
-        {
-            "name": "artemsk/queuedb",
-            "version": "0.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/artemsk/queuedb.git",
-                "reference": "103015b0204c0afeb7954606e3da96dc4fd61584"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/artemsk/queuedb/zipball/103015b0204c0afeb7954606e3da96dc4fd61584",
-                "reference": "103015b0204c0afeb7954606e3da96dc4fd61584",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "*",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Artemsk\\Queuedb": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Artyom Troshin",
-                    "email": "garcia82@yandex.ru"
-                }
-            ],
-            "description": "Simple Sync Queue driver for Database and delaying",
-            "time": "2015-02-03 00:11:56"
-        },
         {
             "name": "classpreloader/classpreloader",
             "version": "1.2.0",

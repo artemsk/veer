@@ -145,7 +145,7 @@ return [
 		'Veer\Providers\EventServiceProvider',
 		'Veer\Providers\RouteServiceProvider',
 
-		'Artemsk\Queuedb\QueuedbServiceProvider',
+		'Veer\Services\Queuedb\QueuedbServiceProvider',
 		'Veer\Providers\VeerServiceProvider',
 		'Veer\Providers\VeerAdminServiceProvider',
 

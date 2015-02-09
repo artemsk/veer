@@ -230,7 +230,7 @@ trait Configuration {
 		
 		if(!empty($delete)) {
 			
-			\Artemsk\Queuedb\Job::destroy(head(array_keys($delete)));
+			\Veer\Services\Queuedb\Job::destroy(head(array_keys($delete)));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.jobs.delete'));
 			$this->action_performed[] = "DELETE job";
 		}
@@ -254,8 +254,8 @@ trait Configuration {
 		
 		if(!empty($pause)) {
 			
-			\Artemsk\Queuedb\Job::where('id','=', head(array_keys($pause)) )
-				->update(array('status' => \Artemsk\Queuedb\Job::STATUS_FINISHED));	
+			\Veer\Services\Queuedb\Job::where('id','=', head(array_keys($pause)) )
+				->update(array('status' => \Veer\Services\Queuedb\Job::STATUS_FINISHED));	
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.jobs.pause'));
 			$this->action_performed[] = "PAUSE job";
@@ -303,15 +303,15 @@ trait Configuration {
 	 */
 	protected function runJob($jobid, $payload)
 	{
-		$item = \Artemsk\Queuedb\Job::where('id','=',$jobid)->first();	
+		$item = \Veer\Services\Queuedb\Job::where('id','=',$jobid)->first();	
 
 		if(is_object($item)) {						
 			$item->payload = $payload;
-			$item->status = \Artemsk\Queuedb\Job::STATUS_OPEN;
-			$item->scheduled_at = now();
+			$item->status = \Veer\Services\Queuedb\Job::STATUS_OPEN;
+			$item->available_at = now();
 			$item->save();
 
-			$job = new \Artemsk\Queuedb\QdbJob(app(), $item);
+			$job = new \Veer\Services\Queuedb\QdbJob(app(), $item);
 			$job->fire();
 		}			
 	}
