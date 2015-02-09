@@ -1,7 +1,6 @@
 <?php namespace Veer\Services;
 	
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
 use Artemsk\Queuedb\Job;
 use Artemsk\Queuedb\QdbJob;
 use Veer\Models\Component;
@@ -385,17 +384,7 @@ class VeerApp {
 	 */
 	public function queues()
 	{
-		if(config('queue.default') == "qdb" && !\Cache::has('queue_checked')) { 
-		
-		$item = Job::where('status','<=','1')
-			->where('scheduled_at','<=',date('Y-m-d H:i:00', time()))
-			->orderBy('scheduled_at', 'asc')
-			->first();
-		
-		if(is_object($item)) { (new QdbJob(app(), $item))->fire(); }
-		
-		\Cache::put('queue_checked', true, config('veer.repeatjob'));	
-	    }		
+		(new \Veer\Commands\HttpQueueWorker(config('queue.default')))->handle();
 	}
 	
 }
