@@ -35,11 +35,7 @@ class CommentSendCommand extends Command implements SelfHandling {
 		
 		if(array_get($this->data, 'fill.txt') == null) return false;
 		
-		array_set_empty($this->data, 'fill.users_id', \Auth::id());
-		
-		$this->getAuthorName();
-		
-		$this->getVotes();
+		$this->getParameters();
 		
 		\Eloquent::unguard();
 		
@@ -53,14 +49,20 @@ class CommentSendCommand extends Command implements SelfHandling {
 		
 		$comment->save();
 		
-		if(!empty($emails) || !empty($recipients))
-		{
-			$this->message2mail($comment, $emails, $recipients, 'comment');
-		}
+		$this->message2mail($comment, $emails, $recipients, 'comment');
 		
-		return true;
+		return $comment->id;
 	}
 
+	protected function getParameters()
+	{
+		array_set_empty($this->data, 'fill.users_id', \Auth::id());
+		
+		$this->getAuthorName();
+		
+		$this->getVotes();
+	}
+	
 	protected function getAuthorName()
 	{
 		if(array_get($this->data, 'fill.users_id') != null)

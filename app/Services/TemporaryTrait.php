@@ -124,6 +124,8 @@ trait TemporaryTrait {
 	 */
 	protected function message2mail($object, $emails = null, $recipients = null, $type = "communication")
 	{		
+		if(empty($emails) && empty($recipients)) return false;
+		
 		$place = $link = $subject = null;
 		
 		if($type == "communication") {
