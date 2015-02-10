@@ -3,6 +3,17 @@
 trait TemporaryTrait {
 	//put your code here
 	
+	protected function getMessagingSource($object, $connected = null)
+	{
+		if(!empty($connected))
+		{
+			list($model, $id) = explode(":", $connected);
+			
+			$object->elements_type = elements($model);			
+			$object->elements_id = $id;
+		}
+	}
+	
 	/**
 	 * Communications Send
 	 * 
@@ -40,16 +51,8 @@ trait TemporaryTrait {
 		$message->intranet = array_get($all, 'checkboxes.intranet', 
 			array_get($options, 'checkboxes.intranet', false)) ? true : false;
 		
-		$connected = array_get($all, 'connected') ;
-		
-		if(!empty($connected))
-		{
-			list($model, $id) = explode(":", $connected);
-			
-			$message->elements_type = elements($model);			
-			$message->elements_id = $id;
-		}
-		
+		$this->getMessagingSource($message, array_get($all, 'connected'));
+				
 		if(array_get($all, 'fill.url') != null || empty($message->elements_id))
 		{
 			if(array_get($all, 'fill.url') == null) array_set($all, 'fill.url', app('url')->current());

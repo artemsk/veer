@@ -47,9 +47,9 @@ class CommentSendCommand extends Command implements SelfHandling {
 		$comment->fill( array_get($this->data, 'fill') );
 		$comment->hidden = array_get($this->options, 'checkboxes.hidden', false);	
 		
-		$this->getCommentSource($comment, array_get($this->data, 'connected'));
+		$this->getMessagingSource($comment, array_get($this->data, 'connected'));
 			
-		list($text, $emails, $recipients) = $this->parseMessage( array_get($this->data, 'fill.txt') );
+		list(, $emails, $recipients) = $this->parseMessage( array_get($this->data, 'fill.txt') );
 		
 		$comment->save();
 		
@@ -74,17 +74,6 @@ class CommentSendCommand extends Command implements SelfHandling {
 		if(array_get($this->data, 'vote') == "Yes") array_set($this->data, 'fill.vote_y', true);
 		
 		if(array_get($this->data, 'vote') == "No") array_set($this->data, 'fill.vote_n', true);
-	}
-	
-	protected function getCommentSource($comment, $connected = null)
-	{
-		if(!empty($connected))
-		{
-			list($model, $id) = explode(":", $connected);
-			
-			$comment->elements_type = elements($model);			
-			$comment->elements_id = $id;
-		}
 	}
 	
 }
