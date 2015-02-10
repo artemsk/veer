@@ -729,7 +729,7 @@ trait Ecommerce {
 		// communications
 		if(Input::has('sendMessageToUser'))
 		{
-			app('veer')->communicationsSend(Input::get('communication', array()));
+			(new \Veer\Commands\CommunicationSendCommand(Input::get('communication')))->handle();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
 			$this->action_performed[] = "SEND message to user";
 		}	

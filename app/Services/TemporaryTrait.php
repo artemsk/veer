@@ -13,68 +13,7 @@ trait TemporaryTrait {
 			$object->elements_id = $id;
 		}
 	}
-	
-	/**
-	 * Communications Send
-	 * 
-	 * @return bool
-	 */
-	public function communicationsSend( $all, $options = array() )
-	{
-		\Event::fire('router.filter: csrf');
 		
-		if(array_get($all, 'message') == null) return false;
-		
-		\Eloquent::unguard();
-		
-		if(array_get($all, 'fill.users_id') == null) array_set($all, 'fill.users_id', \Auth::id());		
-		if(array_get($all, 'fill.sites_id') == null) array_set($all, 'fill.sites_id', app('veer')->siteId);		
-		
-		if(array_get($all, 'fill.users_id') != null)
-		{
-			if(array_get($all, 'fill.sender') == null) array_set($all, 'fill.sender', \Auth::user()->username);			
-			if(array_get($all, 'fill.sender_phone') == null) array_set($all, 'fill.sender_phone', \Auth::user()->phone);			
-			if(array_get($all, 'fill.sender_email') == null) array_set($all, 'fill.sender_email', \Auth::user()->email);
-		}
-		
-		$message = new \Veer\Models\Communication;
-		
-		$message->public = array_get($all, 'checkboxes.public', 
-			array_get($options, 'checkboxes.public', false)) ? true : false;
-		
-		$message->email_notify = array_get($all, 'checkboxes.email_notify', 
-			array_get($options, 'checkboxes.email_notify', false)) ? true : false;
-		
-		$message->hidden = array_get($all, 'checkboxes.hidden', 
-			array_get($options, 'checkboxes.hidden', false)) ? true : false;
-		
-		$message->intranet = array_get($all, 'checkboxes.intranet', 
-			array_get($options, 'checkboxes.intranet', false)) ? true : false;
-		
-		$this->getMessagingSource($message, array_get($all, 'connected'));
-				
-		if(array_get($all, 'fill.url') != null || empty($message->elements_id))
-		{
-			if(array_get($all, 'fill.url') == null) array_set($all, 'fill.url', app('url')->current());
-		}
-		
-		$message->fill( array_get($all, 'fill') );
-	
-		list($text, $emails, $recipients) = $this->parseMessage( array_get($all, 'message') );
-		
-		$message->message = $text;
-		$message->recipients = json_encode($recipients);
-		
-		$message->save();
-		
-		if($message->email_notify == true || !empty($emails))
-		{
-			$this->message2mail($message, $emails, $recipients);
-		}
-		
-		return true;
-	}
-	
 	/**
 	 * Parse message
 	 * 

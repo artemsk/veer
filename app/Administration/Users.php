@@ -104,9 +104,9 @@ trait Users {
 	{
 		if(Input::get('action') == "addMessage")
 		{
-			return app('veer')->communicationsSend(Input::get('communication', array()));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.new'));
 			$this->action_performed[] = "NEW communication";
+			return (new \Veer\Commands\CommunicationSendCommand(Input::get('communication')))->handle();
 		}
 		
 		if(Input::has('hideMessage'))
@@ -614,7 +614,7 @@ trait Users {
 		// communications
 		if(Input::has('sendMessageToUser'))
 		{
-			app('veer')->communicationsSend(Input::get('communication', array()));
+			(new \Veer\Commands\CommunicationSendCommand(Input::get('communication')))->handle();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
 			$this->action_performed[] = "SEND message to user";
 		}

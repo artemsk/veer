@@ -122,7 +122,7 @@ class UserProperties {
 	public function getComments($filters = array(), $paginateItems = 50) 
 	{		
 		$this->setUnreadTimestamp('comments');
-		
+
 		return $this->buildFilterWithElementsQuery($filters, "\Veer\Models\Comment")->orderBy('id','desc')
 			->with('elements')
 			->paginate($paginateItems); 

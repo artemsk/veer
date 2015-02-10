@@ -268,7 +268,7 @@ class UserController extends Controller {
 			array_set($data, 'communication.checkboxes.hidden', db_parameter('NEW_COMMUNICATION_HIDDEN', false));
 			array_set($data, 'communication.checkboxes.intranet', db_parameter('NEW_COMMUNICATION_INTRANET', false));
 
-			$added = app('veer')->communicationsSend( array_get($data, 'communication') );
+			$added = (new \Veer\Commands\CommunicationSendCommand( array_get($data, 'communication') ))->handle();
 		}
 		
 		return (int)$added;

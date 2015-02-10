@@ -34,44 +34,53 @@ class CommentSendCommand extends Command implements SelfHandling {
 		\Event::fire('router.filter: csrf');
 		
 		if(array_get($this->data, 'fill.txt') == null) return false;
-		
-		$this->getParameters();
-		
-		\Eloquent::unguard();
-		
-		$comment = new \Veer\Models\Comment;
-		$comment->fill( array_get($this->data, 'fill') );
-		$comment->hidden = array_get($this->options, 'checkboxes.hidden', false);	
-		
-		$this->getMessagingSource($comment, array_get($this->data, 'connected'));
 			
-		list(, $emails, $recipients) = $this->parseMessage( array_get($this->data, 'fill.txt') );
+		$comment = $this->saveComment();
 		
-		$comment->save();
+		list(, $emails, $recipients) = $this->parseMessage( array_get($this->data, 'fill.txt') );
 		
 		$this->message2mail($comment, $emails, $recipients, 'comment');
 		
 		return $comment->id;
 	}
 
-	protected function getParameters()
+	protected function saveComment()
+	{
+		\Eloquent::unguard();
+		
+		$comment = new \Veer\Models\Comment;
+		
+		$this->setParameters();
+		
+		$comment->fill( array_get($this->data, 'fill') );
+		
+		$comment->hidden = array_get($this->options, 'checkboxes.hidden', false);		
+		
+		$this->getMessagingSource($comment, array_get($this->data, 'connected'));
+		
+		$comment->save();
+		
+		return $comment;
+	}
+	
+	protected function setParameters()
 	{
 		array_set_empty($this->data, 'fill.users_id', \Auth::id());
 		
-		$this->getAuthorName();
+		$this->setAuthorName(array_get($this->data, 'fill.users_id'));
 		
-		$this->getVotes();
+		$this->setVotes();
 	}
 	
-	protected function getAuthorName()
+	protected function setAuthorName($userId)
 	{
-		if(array_get($this->data, 'fill.users_id') != null)
+		if(!empty($userId))
 		{
 			array_set_empty($this->data, 'fill.author', \Auth::user()->username);		
 		}
 	}
 	
-	protected function getVotes()
+	protected function setVotes()
 	{
 		if(array_get($this->data, 'vote') == "Yes") array_set($this->data, 'fill.vote_y', true);
 		
