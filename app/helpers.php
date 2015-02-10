@@ -337,6 +337,36 @@ if (!function_exists('unread')) {
 	 */
 	function unread($model = 'comment')
 	{ 
-		return Veer\Services\Show\UserProperties::showUnreadNumbers($model);
+		return \Veer\Services\Show\UserProperties::showUnreadNumbers($model);
+	}
+}
+
+
+
+
+if (!function_exists('array_set_empty')) {
+
+	/**
+	 */
+	function array_set_empty(&$array, $key, $default = null)
+	{ 
+		$value = array_get($array, $key);
+		
+		return !empty($value) ?: array_set($array, $key, $default);
+	}
+}
+
+
+
+
+if (!function_exists('array_set_if')) {
+
+	/**
+	 */
+	function array_set_if($condition, &$array, $key, $default = null)
+	{ 
+		$value = array_get($array, $key);
+		
+		return $value != $condition ?: array_set($array, $key, $default);
 	}
 }

@@ -237,7 +237,7 @@ class UserController extends Controller {
 
 			array_set($options, 'checkboxes.hidden', db_parameter('NEW_COMMENT_HIDDEN', false));
 
-			$added = app('veer')->commentsSend($data, $options);
+			$added = (new \Veer\Commands\CommentSendCommand($data, $options))->handle();
 		}
 
 		return (int)$added;
