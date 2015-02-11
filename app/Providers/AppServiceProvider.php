@@ -27,7 +27,6 @@ class AppServiceProvider extends ServiceProvider {
 	{
 		$this->app->bind(
 			'Illuminate\Contracts\Auth\Registrar'
-		//	'Veer\Services\Registrar'
 		);
 
 		\Blade::setRawTags('{{', '}}');

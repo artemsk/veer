@@ -155,13 +155,13 @@ class UserController extends Controller {
 	 */
 	public function login()
 	{
-		$viewLink = $this->template.'.login';
+		$existingTemplate = $this->template;
 		
-		if(!\View::exists($viewLink)) $viewLink = config('veer.template').'.login';
+		if(!\View::exists($existingTemplate.'.login')) $existingTemplate = config('veer.template');
 		
-		$view = view($viewLink, array(
+		$view = view($existingTemplate.'.login', array(
 			"data" => $this->veer->loadedComponents,
-			"template" => $this->template
+			"template" => $existingTemplate
 		)); 
 
 		/* do not cache: $this->view = $view; */
