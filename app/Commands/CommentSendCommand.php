@@ -56,7 +56,7 @@ class CommentSendCommand extends Command implements SelfHandling {
 		
 		$comment->hidden = array_get($this->options, 'checkboxes.hidden', false);		
 		
-		$this->getMessagingSource($comment, array_get($this->data, 'connected'));
+		$this->setMessagingSource($comment, array_get($this->data, 'connected'));
 		
 		$comment->save();
 		

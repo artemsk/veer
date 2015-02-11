@@ -3,7 +3,7 @@
 trait TemporaryTrait {
 	//put your code here
 	
-	protected function getMessagingSource($object, $connected = null)
+	protected function setMessagingSource($object, $connected = null)
 	{
 		if(!empty($connected))
 		{

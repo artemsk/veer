@@ -53,7 +53,7 @@ class CommunicationSendCommand extends Command implements SelfHandling {
 
 		$this->setParameters($message);
 		
-		$this->getMessagingSource($message, array_get($this->data, 'connected'));
+		$this->setMessagingSource($message, array_get($this->data, 'connected'));
 				
 		$message->fill( array_get($this->data, 'fill') );
 	
