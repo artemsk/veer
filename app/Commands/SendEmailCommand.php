@@ -21,7 +21,6 @@ class SendEmailCommand extends Command implements SelfHandling {
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
 	 */
 	public function __construct($view, $data, $subject = null, $to = null, $from = null, $siteId = null )
 	{
@@ -39,7 +38,6 @@ class SendEmailCommand extends Command implements SelfHandling {
 	/**
 	 * Execute the command.
 	 *
-	 * @return void
 	 */
 	public function handle()
 	{

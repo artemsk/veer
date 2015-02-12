@@ -5,8 +5,6 @@ use Veer\Models\Component;
 
 class VeerApp {
 
-	use TemporaryTrait;
-	
 	/**
 	 *  Veer Layer.
 	 * 
