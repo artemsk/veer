@@ -6,7 +6,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 
 class CommentSendCommand extends Command implements SelfHandling {
 
-	use \Veer\Services\TemporaryTrait;
+	use \Veer\Services\TemporaryTrait, \Veer\Services\Traits\MessageTraits;
 	
 	protected $data;
 	

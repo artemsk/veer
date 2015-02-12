@@ -142,7 +142,7 @@ class UserProperties {
 			->with('user', 'elements')
 			->with($this->loadSiteTitle())
 			->paginate($paginateItems);
-			
+
 		foreach($items as $key => $item) $itemsUsers[$key] = $this->parseCommunicationRecipients($item->recipients);
 		
 		app('veer')->loadedComponents['recipients'] = isset($itemsUsers) ? $itemsUsers : array();

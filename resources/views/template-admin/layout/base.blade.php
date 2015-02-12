@@ -126,7 +126,7 @@
 		<div class="container-fluid footer">
 			<div class="row">
 				 <div class="col-sm-6">					 
-					 <?php app('veer')->statistics(); ?>
+					 <?php app('veer')->statistics(); // TODO: remove from here? ?>
 					 <p>Veer :: version <strong>{{ $app['veer']->statistics['version'] }}</strong> <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> loading time <strong>{{ $app['veer']->statistics['loading'] }}</strong> memory usage <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
 				 </div>
 				 <div class="col-sm-3 text-center">

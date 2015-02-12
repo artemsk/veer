@@ -6,7 +6,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 
 class CommunicationSendCommand extends Command implements SelfHandling {
 
-	use \Veer\Services\TemporaryTrait;
+	use \Veer\Services\TemporaryTrait, \Veer\Services\Traits\MessageTraits;
 	
 	protected $data;
 	
@@ -45,6 +45,10 @@ class CommunicationSendCommand extends Command implements SelfHandling {
 		return $message->id;
 	}
 
+	/*
+	 * saving Communication to db
+	 * 
+	 */
 	protected function saveCommunication($text, $recipients)
 	{
 		\Eloquent::unguard();
@@ -66,6 +70,10 @@ class CommunicationSendCommand extends Command implements SelfHandling {
 		return $message;
 	}
 	
+	/*
+	 * set parameters
+	 * 
+	 */
 	protected function setParameters($message)
 	{
 		$this->setAuthorName( array_get($this->data, 'fill.users_id') );
@@ -88,6 +96,10 @@ class CommunicationSendCommand extends Command implements SelfHandling {
 		$message->intranet = $this->checkboxesValidate('checkboxes.intranet');
 	}
 	
+	/*
+	 * get checkboxes values right
+	 * 
+	 */
 	protected function checkboxesValidate($key)
 	{
 		$checkboxDefault = array_get($this->options, $key, false);
@@ -95,6 +107,10 @@ class CommunicationSendCommand extends Command implements SelfHandling {
 		return array_get($this->data, $key, $checkboxDefault) ? true : false;
 	}
 	
+	/*
+	 * set author name and data
+	 * 
+	 */
 	protected function setAuthorName($userId)
 	{
 		if(!empty($userId))
@@ -104,4 +120,5 @@ class CommunicationSendCommand extends Command implements SelfHandling {
 			array_set_empty($this->data, 'fill.sender_email', \Auth::user()->email);	
 		}
 	}
+	
 }

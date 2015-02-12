@@ -1,61 +1,6 @@
 <?php namespace Veer\Services;
 
 trait TemporaryTrait {
-	//put your code here
-	
-	protected function setMessagingSource($object, $connected = null)
-	{
-		if(!empty($connected))
-		{
-			list($model, $id) = explode(":", $connected);
-			
-			$object->elements_type = elements($model);			
-			$object->elements_id = $id;
-		}
-	}
-		
-	/**
-	 * Parse message
-	 * 
-	 * @param type $m
-	 * @return string
-	 */
-	protected function parseMessage($m)
-	{
-		$emailsCollection = $usernamesCollection = array();
-		
-		$usernames = "/(@[^\\s]+)\\b/i"; 		
-		$emails = "/(\\[[^\\s]+\\])/i"; 
-		
-		preg_match_all($emails, $m, $matches);
-		
-		$m = preg_replace($emails, "", $m);
-		
-		foreach($matches[0] as $match)
-		{
-			$emailsCollection[] = substr($match, 1, -1);
-		}
-		
-		preg_match_all($usernames, $m, $matches);
-		
-		$m = preg_replace($usernames, "", $m);
-		
-		foreach($matches[0] as $match)
-		{ 
-			if(starts_with($match, "@:")) { $userId = substr($match, 2); }
-			
-			else
-			{
-				$userId = \Veer\Models\User::where('username','=', substr($match, 1))->pluck('id');
-			}
-			
-			if(!empty($userId)) $usernamesCollection[] = $userId;
-		}
-		
-		$m = preg_replace("/(\\s+)/i", " ", $m);
-		
-		return array( trim($m), $emailsCollection, $usernamesCollection );
-	}
 	
 	/**
 	 * Sending mails queue
@@ -128,7 +73,7 @@ trait TemporaryTrait {
 			foreach($recipients as $userId)
 			{
 				$email = \Veer\Models\User::where('id','=',$userId)->pluck('email');
-				if(!empty($email)) array_push($emails, $email);
+				if(!empty($email)) $emails[] = $email;
 			}
 		}
 		
