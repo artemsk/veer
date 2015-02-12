@@ -194,8 +194,9 @@ trait Ecommerce {
 		$data['link'] = $order->site->url . "/order/bills/" . $b->id . "/" . $b->link;
 				
 		$subject = \Lang::get('veeradmin.emails.bill.new.subject', array('oid' => $data['orders_id']));
-		$from = app('veer')->getEmailFrom($order->sites_id);
-		app('veer')->basicEmailSendQueue('emails.bill-create', $data, $from, $order->email, $subject);
+
+		(new \Veer\Commands\SendEmailCommand('emails.bill-create', 
+			$data, $subject, $order->email, null, $order->sites_id))->handle();
 	}
 	
 	
@@ -213,11 +214,10 @@ trait Ecommerce {
 		$data_array['status'] = array_get($options, 'history');
 		$data_array['link'] = $data->site->url . "/order/" . $orderId;
 
-		$email = $data->email;
 		$subject = \Lang::get('veeradmin.emails.order.subject', array('oid' => $data_array['orders_id']));
-		$from = app('veer')->getEmailFrom($data->sites_id);
 
-		if(!empty($email)) app('veer')->basicEmailSendQueue('emails.order-status', $data_array, $from, $email, $subject);
+		if(!empty($data->email)) { (new \Veer\Commands\SendEmailCommand('emails.order-status', 
+			$data_array, $subject, $data->email, null, $data->sites_id))->handle(); }
 	}
 	
 	
@@ -756,11 +756,13 @@ trait Ecommerce {
 		$data['orders_id'] = app('veershop')->getOrderId($order->cluster, $order->cluster_oid);
 		$data['link'] = $order->site->url . "/order/" . $order->id;
 		
-		$email = $order->email;
 		$subject = \Lang::get('veeradmin.emails.order.new.subject', array('oid' => $data['orders_id']));
-		$from = app('veer')->getEmailFrom($order->id);
 
-		if(!empty($email)) app('veer')->basicEmailSendQueue('emails.order-new', $data, $from, $email, $subject);
+		if(!empty($order->email)) 
+		{ 
+			(new \Veer\Commands\SendEmailCommand('emails.order-new', 
+				$data, $subject, $order->email, null, $order->sites_id))->handle();
+		}
 	}
 	
 	

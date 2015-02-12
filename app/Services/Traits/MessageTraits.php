@@ -44,9 +44,11 @@ trait MessageTraits {
 	 */
 	protected function getEmailsCollection($matches)
 	{
+		$emailsCollection = null;
+		
 		foreach($matches[0] as $match) { $emailsCollection[] = substr($match, 1, -1); }
 		
-		return isset($emailsCollection) ? $emailsCollection : null;
+		return $emailsCollection;
 	}
 	
 	/**
@@ -55,6 +57,8 @@ trait MessageTraits {
 	 */
 	protected function getUsernamesCollection($matches)
 	{
+		$usernamesCollection = null;
+		
 		foreach($matches[0] as $match)
 		{ 
 			$userId = $this->getUserId($match);

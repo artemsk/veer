@@ -44,6 +44,10 @@ class CommentSendCommand extends Command implements SelfHandling {
 		return $comment->id;
 	}
 
+	/**
+	 * save comment to db
+	 * 
+	 */
 	protected function saveComment()
 	{
 		\Eloquent::unguard();
@@ -63,6 +67,10 @@ class CommentSendCommand extends Command implements SelfHandling {
 		return $comment;
 	}
 	
+	/*
+	 * set parameters
+	 * 
+	 */
 	protected function setParameters()
 	{
 		array_set_empty($this->data, 'fill.users_id', \Auth::id());
@@ -72,6 +80,9 @@ class CommentSendCommand extends Command implements SelfHandling {
 		$this->setVotes();
 	}
 	
+	/*
+	 * set author name
+	 */
 	protected function setAuthorName($userId)
 	{
 		if(!empty($userId))
@@ -80,6 +91,9 @@ class CommentSendCommand extends Command implements SelfHandling {
 		}
 	}
 	
+	/*
+	 * set votes
+	 */
 	protected function setVotes()
 	{
 		if(array_get($this->data, 'vote') == "Yes") array_set($this->data, 'fill.vote_y', true);

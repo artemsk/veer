@@ -66,8 +66,6 @@ trait TemporaryTrait {
 			"link" => $link
 		);
 		
-		$from = $this->getEmailFrom($object->sites_id);
-		
 		if(is_array($recipients))
 		{
 			foreach($recipients as $userId)
@@ -79,40 +77,9 @@ trait TemporaryTrait {
 		
 		if(is_array($emails))
 		{
-			foreach(array_unique($emails) as $email)
-			{
-				$this->basicEmailSendQueue('emails.'.str_plural($type), $data, $from, $email, $subject);
-			}
+			(new \Veer\Commands\SendEmailCommand( 'emails.'.str_plural($type), 
+				$data, $subject, array_unique($emails), null, $object->sites_id))->handle();
 		}
-	}
-	
-	/**
-	 * Get 'From' field values for specific site
-	 */
-	public function getEmailFrom($siteId = null)
-	{
-		return array(
-			"address" => db_parameter("EMAIL_ADDRESS", config("mail.from.address"), $siteId),
-			"name" => db_parameter("EMAIL_NAME", config("mail.from.name"), $siteId)
-		);
-	}
-	
-	
-	/**
-	 * Basic Email Send Queue
-	 */
-	public function basicEmailSendQueue($view, $data, $from = null, $to = null, $subject = null)
-	{
-		if(empty($to)) return false;
-		
-		\Mail::queue($view, $data, function($message) use ($from, $to, $subject)
-		{
-			if(!empty($from)) $message->from($from['address'], $from['name']);
-			$message->to($to);
-			if(!empty($subject)) $message->subject($subject);
-		});
-		
-		return true;
 	}
 	
 }
