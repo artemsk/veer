@@ -1,7 +1,5 @@
 <?php namespace Veer\Components;
 
-use Veer\Models\Product;
-
 /**
  * 
  * Veer.Components @indexProducts
