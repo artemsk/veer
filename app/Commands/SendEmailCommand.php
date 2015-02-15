@@ -23,7 +23,7 @@ class SendEmailCommand extends Command implements SelfHandling {
 	 *
 	 */
 	public function __construct($view, $data, $subject = null, $to = null, $from = null, $siteId = null )
-	{	
+	{
 		$this->view = $view;
 		
 		$this->data = $data;

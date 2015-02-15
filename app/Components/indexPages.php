@@ -16,21 +16,13 @@ use Veer\Models\Page;
 
 class indexPages {   
     
-    public $data = array();
+	use \Veer\Services\Traits\EntityTraits;
+	
+    public $data;
     
     function __construct() {
         
-        $v = app('veer');
-        
-        $siteId = $v->siteId;
-        $homeId = db_parameter('CATEGORY_HOME');     
-        
-        $this->data = Page::homepages($siteId, $homeId)->checked()->with(
-			array( 'categories' => function($query) use ($siteId, $homeId) {
-					$query->where('sites_id','=',$siteId)->where('categories.id','!=',$homeId);
-				}))->with(array('images' => function($query) {
-					$query->orderBy('id','asc')->take(1);
-				}))->with('user')->get();                                         
+        $this->data = $this->getHomeEntities('\Veer\Models\Page', app('veer')->siteId, db_parameter('CATEGORY_HOME'));                                    
     }  
-          
+                 
 }
