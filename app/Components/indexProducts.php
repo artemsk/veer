@@ -20,7 +20,7 @@ class indexProducts {
     
     function __construct() {
         
-        $this->data = $this->getHomeEntities('\Veer\Models\Product', app('veer')->siteId, db_parameter('CATEGORY_HOME'));                                    
+        $this->data = $this->getHomeEntities('\Veer\Models\Product', app('veer')->siteId, db_parameter('CATEGORY_HOME'))->get();                                    
     }  
           
 }
