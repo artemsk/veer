@@ -14,7 +14,7 @@
 
 class indexProducts {   
     
-	use \Veer\Services\Traits\EntityTraits;
+	use \Veer\Services\Traits\HomeTraits;
 	
     public $data;
     
