@@ -244,7 +244,7 @@ class VeerApp {
 	 */
 	protected function registerPages($src)
 	{
-		$this->loadedComponents['page_' . $src] = \Veer\Models\Page::find($src); 
+		$this->loadedComponents['page'][$src] = \Veer\Models\Page::find($src); 
 	}
 	
 	/**
