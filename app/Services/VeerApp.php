@@ -215,7 +215,7 @@ class VeerApp {
 	 */
 	protected function registerFunctions($src, $params)
 	{
-		$this->loadedComponents['function_' . $src] = $this->loadComponentClass($src, $params);
+		$this->loadedComponents['function'][$src] = $this->loadComponentClass($src, $params);
 	}
 	
 	/**
@@ -231,7 +231,7 @@ class VeerApp {
 		if(class_exists("\Veer\Events\\" . $src, false)) { 
 			\Illuminate\Support\Facades\Event::subscribe("\Veer\Events\\" . $src); 
 			
-			$this->loadedComponents['event_' . $src] = true;
+			$this->loadedComponents['event'][$src] = true;
 			// now you can fire these events in templates etc.
 		}	
 	}
