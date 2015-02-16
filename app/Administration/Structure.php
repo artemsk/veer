@@ -771,7 +771,7 @@ trait Structure {
 			str_random(10) . "." . Input::file($file)->getClientOriginalExtension();
 
 		if($type == "image") {
-			Input::file($file)->move( base_path() . "/" . config('veer.images_path'), $fname);
+			Input::file($file)->move( base_path() . "/public/" . config('veer.images_path'), $fname);
 			$new = new \Veer\Models\Image; 
 			$new->img = $fname;
 			$new->save();
@@ -780,7 +780,7 @@ trait Structure {
 		} 
 		
 		if($type == "file") {
-			Input::file($file)->move( base_path() . "/" . config('veer.downloads_path'), $fname);
+			Input::file($file)->move( base_path() . "/public/" . config('veer.downloads_path'), $fname);
 			$new = new \Veer\Models\Download; 
 			$new->original = 1;
 			$new->fname= $fname;

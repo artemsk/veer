@@ -25,7 +25,7 @@ class Category {
 	{
 		return \Veer\Models\Category::where('sites_id', '=', $siteId)->has('parentcategories', '<', 1)
 				->with(array('images' => function($query) {
-					$query->orderBy('id', 'desc')->take(1);
+					$query->orderBy('id', 'desc');
 				}))->get();
 	}
 	

@@ -36,7 +36,7 @@ trait CommonTraits {
 				
 		if($table != "images") {
 			$items = $items->with(array('images' => function($query) {
-					$query->orderBy('id', 'asc')->take(1);
+					$query->orderBy('id', 'asc');
 			}));
 		}
 		

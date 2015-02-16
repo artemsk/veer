@@ -9,11 +9,11 @@ trait HomeTraits {
 				array('categories' => function($query) use ($siteId, $homeId) {
 					$query->where('sites_id', '=', $siteId)->where('categories.id', '!=', $homeId);
 				}))->with(array('images' => function($query) {
-			$query->orderBy('id', 'asc')->take(1);
+			$query->orderBy('id', 'asc');
 		}));
 
 		if ($model == "\Veer\Models\Page") {
-			$items->excludeHidden()->with('user');
+			$items->excludeHidden();
 		} else {
 			$items->checked();
 		}

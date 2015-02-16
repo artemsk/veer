@@ -20,7 +20,7 @@ class Page {
 			->take(array_get($queryParams, 'take_pages', 15))
 			->skip(array_get($queryParams, 'skip_pages', 0))
 			->with(array('images' => function($query) {
-				$query->orderBy('id', 'desc')->take(1);
+				$query->orderBy('id', 'desc');
 			}
 			), 'categories')->get();
 	}

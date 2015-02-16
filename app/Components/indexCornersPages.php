@@ -23,8 +23,8 @@ class indexCornersPages {
     function __construct($params = null) {
         
 		$e = $this->getHomeEntities('\Veer\Models\Page', app('veer')->siteId, db_parameter('CATEGORY_HOME'))
-			->with('attributes')
-			->select('id', 'title', 'small_txt', 'views', 'created_at')
+			->with('attributes', 'user')
+			->select('id', 'title', 'small_txt', 'views', 'created_at', 'users_id')
 			->paginate($this->itemsPerPage);
 
 		if(count($e) <= 0) return null;
@@ -67,7 +67,7 @@ class indexCornersPages {
 		
 		if($future <= 24) 
 		{ 	
-			$this->makeRow($future, $keyOne, $takeOne);
+			$this->makeRow($future, $keyOne);
 			goto a;
 		}
 		
@@ -76,9 +76,9 @@ class indexCornersPages {
 	}
     
 	/* make row */
-	protected function makeRow($future, $keyOne, $takeOne)
+	protected function makeRow($future, $keyOne)
 	{
-		$this->working_data['makeRow'][$this->currentRow][$keyOne] = $takeOne;
+		$this->working_data['makeRow'][$this->currentRow][] = $keyOne;
 			
 		if($future == 24) { $this->nextRow(); } 
 		
@@ -95,7 +95,7 @@ class indexCornersPages {
 
 		if(!empty($take6))
 		{
-			$this->working_data['makeRow'][$this->currentRow][$take6] = 6;
+			$this->working_data['makeRow'][$this->currentRow][] = $take6;
 			array_pull($this->working_data['only6'], $take6);
 		}
 

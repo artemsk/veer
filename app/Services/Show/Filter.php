@@ -72,7 +72,7 @@ class Filter {
 	
 		$this->collectWithAttributes($entity, $attributes);
 	
-		$entity->with(array('images' => function($query) { $query->orderBy('id', 'desc')->take(1); }));
+		$entity->with(array('images' => function($query) { $query->orderBy('id', 'desc'); }));
 	
 		if($model == '\Veer\Models\Product') $entity->checked();
 		

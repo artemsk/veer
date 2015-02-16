@@ -10,7 +10,7 @@ trait EntityTraits {
 			})
 			->where('sites_id', '=', $siteId)
 			->with(array('images' => function($query) {
-				$query->orderBy('id', 'asc')->take(1);
+				$query->orderBy('id', 'asc');
 			}
 			))->orderBy('created_at', 'desc')->get();	
 	}
