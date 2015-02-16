@@ -144,6 +144,7 @@ body {
 .type-5-category, .type-6-category {
     font-size: 13px;
     opacity: 0.7;
+    text-transform: uppercase;
 }
 
 .type-5-image {
@@ -209,6 +210,10 @@ body {
     text-transform: none;
     margin-left: 5px;
     font-style: italic;
+}
+
+.type-10-image {
+    max-height: 211px;
 }
 
 /* mini blocks */

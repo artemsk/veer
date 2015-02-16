@@ -13,6 +13,7 @@
 
 get('/404', array('uses' => 'IndexController@show404', 'as' => '404'));
 get("/", array('uses' => 'IndexController@index', 'as' => 'index'));
+post("/", array('uses' => 'IndexController@index', 'as' => 'index.post'));
 
 get('user/register', array('uses' => 'UserController@register', 'as' => 'user.register'));
 post('user/register', array('uses' => 'UserController@registerPost', 'as' => 'user.register.post'));

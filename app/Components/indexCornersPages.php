@@ -25,7 +25,7 @@ class indexCornersPages {
 		$e = $this->getHomeEntities('\Veer\Models\Page', app('veer')->siteId, db_parameter('CATEGORY_HOME'))
 			->with('attributes', 'user')
 			->select('id', 'title', 'small_txt', 'views', 'created_at', 'users_id')
-			->paginate($this->itemsPerPage);
+			->orderBy('manual_order', 'asc')->paginate($this->itemsPerPage);
 
 		if(count($e) <= 0) return null;
 		
