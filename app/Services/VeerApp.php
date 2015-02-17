@@ -64,6 +64,16 @@ class VeerApp {
 	public $isBoundSite = true;
 		
 	/**
+	 * Ajax return boolean
+	 */
+	public $forceEarlyResponse = false;
+	
+	/**
+	 * Early View container
+	 */
+	public $earlyResponseContainer;
+	
+	/**
 	 *  Cached Queries.
 	 */
 	public $cachingQueries;

@@ -29,7 +29,8 @@ class Kernel extends HttpKernel {
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'Veer\Http\Middleware\RedirectIfAuthenticated',
 		'csrf' => 'Veer\Http\Middleware\VerifyCsrfToken',
-		'auth.admin' => 'Veer\Http\Middleware\AuthenticateAdministrator',		
+		'auth.admin' => 'Veer\Http\Middleware\AuthenticateAdministrator',
+		'early.view' => 'Veer\Http\Middleware\EarlyResponseMiddleware',
 	];
 
 }

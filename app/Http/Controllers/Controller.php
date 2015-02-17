@@ -25,6 +25,8 @@ abstract class Controller extends BaseController {
 		$this->veer->routePrepare(\Route::currentRouteName());
 		
 		$this->template = $this->veer->template;
+		
+		$this->middleware('early.view');
 	}
 
 	

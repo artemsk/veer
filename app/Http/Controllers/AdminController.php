@@ -32,23 +32,6 @@ class AdminController extends Controller {
 		));			
 	}
 
-	
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create() {}
-	
-	
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store() {}
-
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -65,199 +48,23 @@ class AdminController extends Controller {
 			if(is_object($search)) { return $search; }
 		}
 		
+		$show = array("attributes", "tags", "downloads", "images", "sites",
+			"configuration", "components", "secrets", "categories", "pages",
+			"products", "users", "orders", "books", "lists", "searches",
+			"communications", "comments", "roles", "bills", "discounts",
+			"shipping", "payment", "statuses", "jobs", "etc");
+		
 		$view = $t;
 		
-		switch ($t) {
-			case "attributes":
-				$items = ( new \Veer\Services\Show\Attribute )->getUngroupedAttributes();
-				break;
+		if(in_array($t, $show)) {
+			list($items, $view) = $this->{'showAdmin'.ucfirst($t)}($t);
+		}
+		
+		elseif($t == "restore") {
 			
-			case "tags":
-				$items = ( new \Veer\Services\Show\Tag )->getTagsWithoutSite();
-				break;
-			
-			case "downloads":
-				$items = ( new \Veer\Services\Show\Download )->getDownloads();
-				break;
-			
-			case "images":
-				$items = ( new \Veer\Services\Show\Image )->getImages(array(Input::get('filter') =>  Input::get('filter_id')));
-				break;
-			
-			case "sites":
-				$items = ( new \Veer\Services\Show\Site )->getSites();
-				break;
-			
-			case "configuration":	
-				$items = ( new \Veer\Services\Show\Site )->getConfiguration(Input::get('site'));
-				break;	
-			
-			case "components":	
-				$items = ( new \Veer\Services\Show\Site )->getComponents(Input::get('site'));
-				break;				
-			
-			case "secrets":	
-				$items = ( new \Veer\Services\Show\Site )->getSecrets();
-				break;	
-			
-			case "categories":		
-				$category = Input::get('category');
-				$imageFilter = Input::get('image');
-				
-				if(empty($category)) {
-					$items = ( new \Veer\Services\Show\Category )->getAllCategories($imageFilter);	
-					$view = "categories";
-				} else {
-					$items = ( new \Veer\Services\Show\Category )->getCategoryAdvanced($category);	
-					$view = "category"; 
-				}		
-				break;
-				
-			case "pages":		
-				$page = Input::get('id');
-				
-				if(empty($page)) {
-					$items = ( new \Veer\Services\Show\Page )->getAllPages(array(
-						Input::get('filter') =>  Input::get('filter_id'),
-					));
-					$view = "pages";
-				} else {
-					$items =( new \Veer\Services\Show\Page )->getPageAdvanced($page);
-					$view = "page";
-				}
-
-				if(is_object($items)) {
-					$items->fromCategory = Input::get('category'); 
-				}
-				break;	
-
-			case "products":		
-				$product = Input::get('id');
-				
-				if(empty($product)) {
-					$items = ( new \Veer\Services\Show\Product )->getAllProducts(array(
-						Input::get('filter') =>  Input::get('filter_id'),
-					));
-					$view = "products";
-				} else {
-					$items =( new \Veer\Services\Show\Product )->getProductAdvanced($product);
-					$view = "product";
-				}
-								
-				if(is_object($items)) {
-					$items->fromCategory = Input::get('category'); 
-				}
-				break;		
-				
-			case "users":
-				$user = Input::get('id');
-				
-				if(empty($user)) {
-					$items = ( new \Veer\Services\Show\User )->getAllUsers(array(
-						Input::get('filter') =>  Input::get('filter_id'),
-					));
-					$view = "users";
-				} else {
-					$items =( new \Veer\Services\Show\User )->getUserAdvanced($user);
-					$view = "user";
-				}
-				break;		
-				
-			case "orders":
-				$order = Input::get('id');
-				
-				if(empty($order)) {
-					$items = ( new \Veer\Services\Show\Order )->getAllOrders(array(
-						Input::get('filter') =>  Input::get('filter_id'),
-					));
-					$view = "orders";
-				} else {
-					$items =( new \Veer\Services\Show\Order )->getOrderAdvanced($order);
-					$view = "order";
-				}
-				
-				break;		
-				
-			case "books":
-				$items = ( new \Veer\Services\Show\UserProperties )->getBooks(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;
-				
-			case "lists":
-				$items = ( new \Veer\Services\Show\UserProperties )->getLists(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				$view = "userlists";
-				break;		
-			
-			case "searches":
-				$items = ( new \Veer\Services\Show\UserProperties )->getSearches(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;	
-			
-			case "communications":
-				$items = ( new \Veer\Services\Show\UserProperties )->getCommunications(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));							
-				break;
-			
-			case "comments":
-				$items = ( new \Veer\Services\Show\UserProperties )->getComments(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));							
-				break;
-			
-			case "roles":
-				$items = ( new \Veer\Services\Show\UserProperties )->getRoles(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;	
-			
-			case "bills":
-				$items = ( new \Veer\Services\Show\OrderProperties )->getBills(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;
-			
-			case "discounts":
-				$items = ( new \Veer\Services\Show\OrderProperties )->getDiscounts(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;
-			
-			case "shipping":
-				$items = ( new \Veer\Services\Show\OrderProperties )->getShipping(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;
-			
-			case "payment":
-				$items = ( new \Veer\Services\Show\OrderProperties )->getPayment(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;
-			
-			case "statuses":
-				$items = ( new \Veer\Services\Show\OrderProperties )->getStatuses();
-				break;
-			
-			case "jobs":
-			$items = ( new \Veer\Services\Show\Site )->getQdbJobs(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;
-			
-			case "restore":
-				app('veeradmin')->restore(Input::get('type'), Input::get('id'));
-				return back();
-			
-			default:
-				$items = app('veeradmin')->{'show' . strtoupper($t[0]) . substr($t, 1)}(array(
-					Input::get('filter') =>  Input::get('filter_id'),
-				));
-				break;
+			app('veeradmin')->restore(Input::get('type'), Input::get('id'));
+			return back();
+					
 		}
 
 		if(isset($items) && isset($view)) {
@@ -270,15 +77,290 @@ class AdminController extends Controller {
 
 	}
 
+	
+	protected function showAdminAttributes($t)
+	{
+		return array(
+			( new \Veer\Services\Show\Attribute )->getUngroupedAttributes(),
+			$t
+		);
+	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id) {}
+	protected function showAdminSites($t)
+	{
+		return array(
+			( new \Veer\Services\Show\Site )->getSites(),
+			$t
+		);
+	}
+	
+	protected function showAdminCategories()
+	{	
+		$category = Input::get('category');
+		$imageFilter = Input::get('image');
 
+		if(empty($category)) {
+			$items = ( new \Veer\Services\Show\Category )->getAllCategories($imageFilter);	
+			$view = "categories";
+		} else {
+			$items = ( new \Veer\Services\Show\Category )->getCategoryAdvanced($category);	
+			$view = "category"; 
+		}		
+		
+		return array($items, $view);
+	}
+	
+	protected function showAdminPages()
+	{
+		$page = Input::get('id');
+				
+		if(empty($page)) {
+			$items = ( new \Veer\Services\Show\Page )->getAllPages(array(
+				Input::get('filter') =>  Input::get('filter_id'),
+			));
+			$view = "pages";
+		} else {
+			$items =( new \Veer\Services\Show\Page )->getPageAdvanced($page);
+			$view = "page";
+		}
+
+		if(is_object($items)) {
+			$items->fromCategory = Input::get('category'); 
+		}
+		
+		return array($items, $view);
+	}
+	
+	protected function showAdminProducts()
+	{
+		$product = Input::get('id');
+
+		if(empty($product)) {
+			$items = ( new \Veer\Services\Show\Product )->getAllProducts(array(
+				Input::get('filter') =>  Input::get('filter_id'),
+			));
+			$view = "products";
+		} else {
+			$items =( new \Veer\Services\Show\Product )->getProductAdvanced($product);
+			$view = "product";
+		}
+
+		if(is_object($items)) {
+			$items->fromCategory = Input::get('category'); 
+		}
+		
+		return array($items, $view);
+	}
+	
+	protected function showAdminImages($t)
+	{
+		return array(
+			( new \Veer\Services\Show\Image )->getImages(array(Input::get('filter') =>  Input::get('filter_id'))), 
+			$t
+		);
+	}
+	
+	protected function showAdminTags($t)
+	{
+		return array(
+			( new \Veer\Services\Show\Tag )->getTagsWithoutSite(), 
+			$t
+		);
+	}
+	
+	protected function showAdminDownloads($t)
+	{
+		return array(
+			( new \Veer\Services\Show\Download )->getDownloads(), 
+			$t
+		);
+	}	
+	
+	protected function showAdminComments($t)
+	{
+		return array(
+			( new \Veer\Services\Show\UserProperties )->getComments(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+			)), 
+			$t
+		);
+	}
+	
+	protected function showAdminUsers()
+	{
+		$user = Input::get('id');
+				
+		if(empty($user)) {
+			$items = ( new \Veer\Services\Show\User )->getAllUsers(array(
+				Input::get('filter') =>  Input::get('filter_id'),
+			));
+			$view = "users";
+		} else {
+			$items =( new \Veer\Services\Show\User )->getUserAdvanced($user);
+			$view = "user";
+		}
+		
+		return array($items, $view);
+	}
+	
+	protected function showAdminBooks($t)
+	{
+		return array(
+			( new \Veer\Services\Show\UserProperties )->getBooks(array(
+				Input::get('filter') =>  Input::get('filter_id'),
+			)),
+			$t
+		);		
+	}
+	
+	protected function showAdminLists()
+	{
+		return array(
+			( new \Veer\Services\Show\UserProperties )->getLists(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+			)),
+			"userlists"
+		);		
+	}
+	
+	protected function showAdminSearches($t)
+	{
+		return array(
+			( new \Veer\Services\Show\UserProperties )->getSearches(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}
+	
+	protected function showAdminCommunications($t)
+	{
+		return array(
+			( new \Veer\Services\Show\UserProperties )->getCommunications(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}
+	
+	protected function showAdminRoles($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\UserProperties )->getRoles(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}
+	
+	protected function showAdminOrders()
+	{
+		$order = Input::get('id');
+				
+		if(empty($order)) {
+			$items = ( new \Veer\Services\Show\Order )->getAllOrders(array(
+				Input::get('filter') =>  Input::get('filter_id'),
+			));
+			$view = "orders";
+		} else {
+			$items =( new \Veer\Services\Show\Order )->getOrderAdvanced($order);
+			$view = "order";
+		}
+		
+		return array($items, $view);
+	}
+	
+	protected function showAdminBills($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\OrderProperties )->getBills(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}	
+	
+	protected function showAdminDiscounts($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\OrderProperties )->getDiscounts(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}	
+	
+	protected function showAdminShipping($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\OrderProperties )->getShipping(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}
+	
+	protected function showAdminPayment($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\OrderProperties )->getPayment(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}	
+	
+	protected function showAdminStatuses($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\OrderProperties )->getStatuses(),
+			$t
+		);
+	}	
+
+	protected function showAdminConfiguration($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\Site )->getConfiguration(Input::get('site')),
+			$t
+		);
+	}	
+	
+	protected function showAdminComponents($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\Site )->getComponents(Input::get('site')),
+			$t
+		);
+	}
+	
+	protected function showAdminSecrets($t)
+	{
+		return array(
+		 $items = ( new \Veer\Services\Show\Site )->getSecrets(),
+			$t
+		);
+	}	
+	
+	protected function showAdminJobs($t)
+	{
+		return array(
+		 ( new \Veer\Services\Show\Site )->getQdbJobs(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}	
+	
+	protected function showAdminEtc($t)
+	{
+		return array(
+		 app('veeradmin')->{'show' . ucfirst($t)}(array(
+					Input::get('filter') =>  Input::get('filter_id'),
+				)),
+			$t
+		);
+	}
 	
 	/**
 	 * Update the specified resource in storage.
@@ -301,15 +383,5 @@ class AdminController extends Controller {
 			
 		return $data;
 	}
-
-	
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id) {}
-
 
 }
