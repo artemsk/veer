@@ -20,7 +20,7 @@ class indexCornersPages {
 	
 	protected $working_data;
 	
-    function __construct($params = null) {
+    public function __construct() {
         
 		$e = $this->getHomeEntities('\Veer\Models\Page', app('veer')->siteId, db_parameter('CATEGORY_HOME'))
 			->with('attributes', 'user')

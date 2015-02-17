@@ -21,7 +21,7 @@ trait CommonTraits {
 	 * - with: Images
 	 * - to whom: 1 Attribute, category
 	 */
-	public function getElementsWhereHasModel($type, $table, $id, $siteId = null, $queryParams = null)
+	public function getElementsWhereHasModel($type, $table, $id, $siteId = null, $queryParams = null, $returnBuilder = false)
 	{
 		if($type == "products") $model = '\Veer\Models\Product';
 		else $model = '\Veer\Models\Page';
@@ -54,7 +54,7 @@ trait CommonTraits {
 				->take(array_get($queryParams, 'take_pages', 25))->skip(array_get($queryParams, 'skip_pages', 0));
 		}
 		
-		return $items->get();		
+		return $returnBuilder === true ? $items : $items->get();		
 	}		
 
 	/* with models */

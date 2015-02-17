@@ -2,7 +2,7 @@
 
 /**
  * 
- * Veer.Components @indexProducts
+ * Veer.Components @homeProducts
  * 
  * - collect product for specific category; 
  *   should be used for index page.
@@ -12,13 +12,13 @@
  * 
  */
 
-class indexProducts {   
+class homeProducts {   
     
 	use \Veer\Services\Traits\HomeTraits;
 	
     public $data;
     
-    function __construct() {
+    public function __construct() {
         
         $this->data = $this->getHomeEntities('\Veer\Models\Product', app('veer')->siteId, db_parameter('CATEGORY_HOME'))->get();                                    
     }  

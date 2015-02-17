@@ -238,6 +238,10 @@ h3 > .thinner {
     font-weight: 300;
 }
 
+.digest-title {
+    text-transform: uppercase;
+}
+
 /* foot */
 
 .footer {
@@ -290,4 +294,15 @@ h3 > .thinner {
 #slide-1 .bcg {
     /*background-image:url();*/
     background-color: #ccc;
+}
+
+/* show more */
+.show-more {
+    text-transform: uppercase;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 11px;
+    padding: 10px;
 }

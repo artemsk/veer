@@ -2,7 +2,7 @@
 
 /**
  * 
- * Veer.Components @indexPages
+ * Veer.Components @homePages
  * 
  * - collect pgaes for specific category; 
  *   should be used for index page.
@@ -12,13 +12,13 @@
  * 
  */
 
-class indexPages {   
+class homePages {   
     
 	use \Veer\Services\Traits\HomeTraits;
 	
     public $data;
     
-    function __construct() {
+    public function __construct() {
         
         $this->data = $this->getHomeEntities('\Veer\Models\Page', app('veer')->siteId, db_parameter('CATEGORY_HOME'))->get();                                    
     }  
