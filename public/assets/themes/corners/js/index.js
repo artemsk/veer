@@ -79,17 +79,3 @@ function turningOnOffParallax() {
 
 $(window).ready(turningOnOffParallax);
 //$(window).resize(turningOnOffParallax);
-
-$('.pagination-button').click(function(event) {
-        event.preventDefault();
-        
-        var insertDataDiv = '#showMoreData' + $(this).attr('data-page');
-
-        $.ajax({
-            type: 'GET',
-            url: $(this).attr('href'),
-            success: function(results) { 
-               $(insertDataDiv).html(results);                
-            },
-        });  
-});
