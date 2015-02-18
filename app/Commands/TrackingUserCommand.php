@@ -73,7 +73,7 @@ class TrackingUserCommand extends Command implements SelfHandling {
 	 */
 	protected function trackingToFile($type, $data)
 	{
-		\File::append(config('veer.history_path') . '/' . $type . '.' . date('Y.W', time()) . '.txt',
+		app('files')->append(config('veer.history_path') . '/' . $type . '.' . date('Y.W', time()) . '.txt',
 			implode('|', $data) . "\r\n"
 		);
 	}	

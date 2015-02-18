@@ -43,20 +43,7 @@ abstract class Controller extends BaseController {
 			$expiresAt = now(24, 'hours'); 
 			\Cache::has($cache_url) ?: \Cache::add($cache_url, $this->view->__toString(), $expiresAt);
 		}
-	}
-
-	/**
-	 * Setup the layout used by the controller.
-	 *
-	 * @return void
-	 */
-	protected function setupLayout()
-	{
-		if ( ! is_null($this->layout))
-		{
-			$this->layout = \View::make($this->layout);
-		}
-	}     
+	} 
 	
 	/**
 	 * common index view generator
