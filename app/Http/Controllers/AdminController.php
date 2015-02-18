@@ -48,7 +48,7 @@ class AdminController extends Controller {
 			if(is_object($search)) { return $search; }
 		}
 		
-		$show = array("attributes", "tags", "downloads", "images", "sites",
+		$show = array("attributes", "tags", "downloads",
 			"configuration", "components", "secrets", "categories", "pages",
 			"products", "users", "orders", "books", "lists", "searches",
 			"communications", "comments", "roles", "bills", "discounts",
@@ -66,6 +66,14 @@ class AdminController extends Controller {
 			return back();
 					
 		}
+		
+		else {	
+			$className = '\Veer\Services\Show\\'.str_singular(ucfirst($t));
+			
+			$items = ( new $className )->{'get'.ucfirst($t)}(
+				array(Input::get('filter') =>  Input::get('filter_id'))
+			);
+		}
 
 		if(isset($items) && isset($view)) {
 			return view($this->template.'.'.$view, array(
@@ -82,14 +90,6 @@ class AdminController extends Controller {
 	{
 		return array(
 			( new \Veer\Services\Show\Attribute )->getUngroupedAttributes(),
-			$t
-		);
-	}
-
-	protected function showAdminSites($t)
-	{
-		return array(
-			( new \Veer\Services\Show\Site )->getSites(),
 			$t
 		);
 	}
@@ -151,15 +151,7 @@ class AdminController extends Controller {
 		
 		return array($items, $view);
 	}
-	
-	protected function showAdminImages($t)
-	{
-		return array(
-			( new \Veer\Services\Show\Image )->getImages(array(Input::get('filter') =>  Input::get('filter_id'))), 
-			$t
-		);
-	}
-	
+		
 	protected function showAdminTags($t)
 	{
 		return array(
@@ -168,6 +160,7 @@ class AdminController extends Controller {
 		);
 	}
 	
+	/* 3 */
 	protected function showAdminDownloads($t)
 	{
 		return array(
@@ -176,6 +169,7 @@ class AdminController extends Controller {
 		);
 	}	
 	
+	/* 4 */
 	protected function showAdminComments($t)
 	{
 		return array(
@@ -203,6 +197,7 @@ class AdminController extends Controller {
 		return array($items, $view);
 	}
 	
+	/* 5 */
 	protected function showAdminBooks($t)
 	{
 		return array(
@@ -213,6 +208,7 @@ class AdminController extends Controller {
 		);		
 	}
 	
+	/* 6 */
 	protected function showAdminLists()
 	{
 		return array(
@@ -223,6 +219,7 @@ class AdminController extends Controller {
 		);		
 	}
 	
+	/* 7 */
 	protected function showAdminSearches($t)
 	{
 		return array(
@@ -233,6 +230,7 @@ class AdminController extends Controller {
 		);
 	}
 	
+	/* 8 */
 	protected function showAdminCommunications($t)
 	{
 		return array(
@@ -243,6 +241,7 @@ class AdminController extends Controller {
 		);
 	}
 	
+	/* 9 */
 	protected function showAdminRoles($t)
 	{
 		return array(
@@ -270,6 +269,7 @@ class AdminController extends Controller {
 		return array($items, $view);
 	}
 	
+	/* 11 */
 	protected function showAdminBills($t)
 	{
 		return array(
@@ -280,6 +280,7 @@ class AdminController extends Controller {
 		);
 	}	
 	
+	/* 12 */
 	protected function showAdminDiscounts($t)
 	{
 		return array(
@@ -290,6 +291,7 @@ class AdminController extends Controller {
 		);
 	}	
 	
+	/* 13 */
 	protected function showAdminShipping($t)
 	{
 		return array(
@@ -300,6 +302,7 @@ class AdminController extends Controller {
 		);
 	}
 	
+	/* 14 */
 	protected function showAdminPayment($t)
 	{
 		return array(
@@ -310,6 +313,7 @@ class AdminController extends Controller {
 		);
 	}	
 	
+	/* 15 */
 	protected function showAdminStatuses($t)
 	{
 		return array(
@@ -318,6 +322,7 @@ class AdminController extends Controller {
 		);
 	}	
 
+	/* 16 */
 	protected function showAdminConfiguration($t)
 	{
 		return array(
@@ -326,6 +331,7 @@ class AdminController extends Controller {
 		);
 	}	
 	
+	/* 17 */
 	protected function showAdminComponents($t)
 	{
 		return array(
@@ -334,6 +340,7 @@ class AdminController extends Controller {
 		);
 	}
 	
+	/* 18 */
 	protected function showAdminSecrets($t)
 	{
 		return array(
