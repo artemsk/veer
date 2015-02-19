@@ -58,10 +58,10 @@ class ProductController extends Controller {
 
 		$data = array(
 			"product" => $product,
-			"subproducts" => $this->showProduct->withChildProducts(app('veer')->siteId, $id, $paginator_and_sorting),
-			"parentproducts" => $this->showProduct->withParentProducts(app('veer')->siteId, $id, $paginator_and_sorting),
-			"pages" => $this->showProduct->withPages(app('veer')->siteId, $id, $paginator_and_sorting),
-			"categories" => $this->showProduct->withCategories(app('veer')->siteId, $id),
+			"subproducts" => $this->showProduct->withChildProducts(app('veer')->siteId, $product->id, $paginator_and_sorting),
+			"parentproducts" => $this->showProduct->withParentProducts(app('veer')->siteId, $product->id, $paginator_and_sorting),
+			"pages" => $this->showProduct->withPages(app('veer')->siteId, $product->id, $paginator_and_sorting),
+			"categories" => $this->showProduct->withCategories(app('veer')->siteId, $product->id),
 			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		);

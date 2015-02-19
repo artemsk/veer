@@ -61,10 +61,10 @@ class PageController extends Controller {
 		
 		$data = array(
 			"page" => $page,
-			"subpages" => $this->showPage->withChildPages(app('veer')->siteId, $id, $paginator_and_sorting),
-			"parentpages" => $this->showPage->withParentPages(app('veer')->siteId, $id, $paginator_and_sorting),
-			"products" => $this->showPage->withProducts(app('veer')->siteId, $id, $paginator_and_sorting),
-			"categories" => $this->showPage->withCategories(app('veer')->siteId, $id),
+			"subpages" => $this->showPage->withChildPages(app('veer')->siteId, $page->id, $paginator_and_sorting),
+			"parentpages" => $this->showPage->withParentPages(app('veer')->siteId, $page->id, $paginator_and_sorting),
+			"products" => $this->showPage->withProducts(app('veer')->siteId, $page->id, $paginator_and_sorting),
+			"categories" => $this->showPage->withCategories(app('veer')->siteId, $page->id),
 			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		); 
