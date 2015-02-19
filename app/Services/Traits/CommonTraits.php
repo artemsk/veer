@@ -7,11 +7,12 @@ trait CommonTraits {
 	 */
 	public function loadImagesWithElements($items, $skipWith = false)
 	{
-		return $skipWith === false ? $items->load(array('images' => function($q)
+		return $items->load(array('images' => function($q) use ($skipWith)
 			{
-				$q->with('pages', 'products', 'categories', 'users');
-			})) 
-				: $items->load('images');
+				if($skipWith === false) $q->with('pages', 'products', 'categories', 'users');
+				
+				$q->orderBy('pivot_id', 'asc');
+			}));
 	}
 	
 	/**
@@ -36,7 +37,7 @@ trait CommonTraits {
 				
 		if($table != "images") {
 			$items = $items->with(array('images' => function($query) {
-					$query->orderBy('id', 'asc');
+					$query->orderBy('pivot_id', 'asc');
 			}));
 		}
 		

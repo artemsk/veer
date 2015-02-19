@@ -45,7 +45,9 @@ class CategoryController extends Controller {
 		
 		$category->increment('views');	
 
-        $category->load('images');
+        $category->load(array('images' => function($q) {
+			return $q->orderBy('pivot_id', 'asc');
+		}));
 		
 		$paginator_and_sorting = get_paginator_and_sorting();
 		

@@ -50,6 +50,10 @@ class UserController extends Controller {
 		
 		$user->load("role", "comments", "books", "discounts", "userlists", "orders", 
 			"bills", "communications", "administrator", "searches", "pages");
+		
+		$user->load(array('images' => function($q) {
+			return $q->orderBy('pivot_id', 'asc');
+		}));
 
 		// TODO: разбить на отдельные страницы
 		

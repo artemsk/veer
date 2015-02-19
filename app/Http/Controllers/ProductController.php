@@ -50,7 +50,9 @@ class ProductController extends Controller {
 		
 		$product->increment('viewed');	
 		
-		$product->load('images', 'tags', 'attributes', 'downloads', 'userlists');
+		$product->load(array('images' => function($q) {
+			return $q->orderBy('pivot_id', 'asc');
+		}, 'tags', 'attributes', 'downloads', 'userlists'));
 		
 		$this->showProduct->loadComments($product, 'product');
 		

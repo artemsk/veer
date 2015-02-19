@@ -67,8 +67,9 @@ class User {
 		
 		return $this->isUsersFiltered($filters, $orderBy)->with(
 			'role', 'comments', 'communications',
-			'administrator', 'pages', 'images'
-			)
+			'administrator', 'pages')->with(array('images' => function($q) {
+				return $q->orderBy('pivot_id', 'asc');
+			}))
 			->with($this->loadSiteTitle())
 			->paginate($paginateItems);	
 	}

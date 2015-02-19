@@ -24,7 +24,7 @@ class Product {
 		);
 		
 		$items->with(array('images' => function($query) {
-			$query->orderBy('id', 'asc');
+			$query->orderBy('pivot_id', 'asc');
 		}))->orderBy( array_get($typeSorting, $type, 'created_at'), 'desc');
 		
 		return $items->take(array_get($queryParams, 'take', 15))
@@ -147,7 +147,7 @@ class Product {
 	{
 		$p = \Veer\Models\Product::whereIn('id', $id)
 			->with(array('images' => function($query) {
-				$query->orderBy('id', 'asc');
+				$query->orderBy('pivot_id', 'asc');
 			}))
 			->checked();
 

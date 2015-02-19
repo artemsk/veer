@@ -53,7 +53,9 @@ class PageController extends Controller {
 		
 		$page->increment('views');	
 
-		$page->load('images', 'tags', 'attributes', 'downloads', 'userlists', 'user');
+		$page->load(array('images' => function($q) {
+			return $q->orderBy('pivot_id', 'asc');
+		}, 'tags', 'attributes', 'downloads', 'userlists', 'user'));
 		
 		if($page->show_comments == 1) $this->showPage->loadComments($page, 'page');
 

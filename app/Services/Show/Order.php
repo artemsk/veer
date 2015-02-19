@@ -144,7 +144,7 @@ class Order {
 
 			'bills' => function($q) { $q->with('status', 'payment'); },
 
-			'products' => function($q) { $q->with('images', 'categories', 'tags', 'attributes', 'downloads'); },
+			'products' => function($q) { $q->with('images', 'categories', 'tags', 'attributes', 'downloads'); }, // TODO: sort images in orders?
 
 			'status_history' => function($q) { $q->withTrashed(); }));		
 	}

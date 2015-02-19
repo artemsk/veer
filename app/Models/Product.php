@@ -57,7 +57,7 @@ class Product extends \Eloquent {
     } 
     
     public function images() {
-        return $this->morphToMany('\Veer\Models\Image', 'elements', 'images_connect', 'elements_id', 'images_id');
+        return $this->morphToMany('\Veer\Models\Image', 'elements', 'images_connect', 'elements_id', 'images_id')->withPivot('id');
     } 
     
     public function orders() {

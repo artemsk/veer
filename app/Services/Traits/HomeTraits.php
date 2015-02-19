@@ -9,7 +9,7 @@ trait HomeTraits {
 				array('categories' => function($query) use ($siteId, $homeId) {
 					$query->where('sites_id', '=', $siteId)->where('categories.id', '!=', $homeId);
 				}))->with(array('images' => function($query) {
-			$query->orderBy('id', 'asc');
+			$query->orderBy('pivot_id', 'asc');
 		}));
 
 		if ($model == "\Veer\Models\Page") {

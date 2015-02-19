@@ -10,7 +10,7 @@ trait EntityTraits {
 			})
 			->where('sites_id', '=', $siteId)
 			->with(array('images' => function($query) {
-				$query->orderBy('id', 'asc');
+				$query->orderBy('pivot_id', 'asc');
 			}
 			))->orderBy('created_at', 'desc')->get();	
 	}
@@ -48,12 +48,12 @@ trait EntityTraits {
 		
 		if(!isset($items)) $items = $model::select();
 		
-		if($model == "\Veer\Models\Page") {
-			$items->with('images', 'categories', 'user', 'subpages', 'comments');
-		} else {
-			$items->with('images', 'categories');
-		}
+		$items->with(array('images' => function($q) {
+			$q->orderBy('pivot_id', 'asc');
+		}, 'categories'));
 		
+		if($model == "\Veer\Models\Page") $items->with('user', 'subpages', 'comments');
+		 
 		if(!empty($type)) app('veer')->loadedComponents['filtered'] = $type; 
 						
 		if(!empty($filter_id)) app('veer')->loadedComponents['filtered_id'] = $this->replaceFilterId($type, $filter_id); 

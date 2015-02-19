@@ -41,7 +41,7 @@ class Search {
 					});
 				}
 			})->with(array('images' => function($query) {
-			$query->orderBy('id', 'desc');
+			$query->orderBy('pivot_id', 'asc');
 		}));
 
 		if(!empty($siteId) && $model == '\Veer\Models\Product') $results->checked()->siteValidation($siteId);
