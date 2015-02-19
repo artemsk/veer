@@ -167,3 +167,11 @@
             },
           }); 
     });
+    
+    
+    
+   /*  $('.sortableImages').sortable().bind('sortupdate', function(e, ui) {
+         console.log(ui.oldindex + " " + ui.item.index());
+            
+        });
+        */

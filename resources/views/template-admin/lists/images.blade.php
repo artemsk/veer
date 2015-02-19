@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row sortableImages">
 		@foreach($items as $key => $item)	
 		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif	
 		<div class="col-lg-2 col-md-2 col-sm-3 text-center">

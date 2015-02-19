@@ -12,9 +12,9 @@ class indexCornersForm {
 			"contactName" => "required",
 		));
 		
-		if($validate->fails()) return $this->failedForm($validate);
+		if($validate->fails()) $this->failedForm($validate);
 		
-		$this->storeEmails();
+		else $this->storeEmails();
 	}
 	
 	/* save fail messages */
