@@ -50,6 +50,8 @@ class indexCornersPages {
 			if($this->working_data['full'][$key] == 6) $this->working_data['only6'][$key] = $key;
 			
 			$item->designType = array_get($itemParams, 'designType', $this->default_type);
+			
+			$item->bgColor = array_get($itemParams, 'bgColor');
 		}
 		
 		return $e;
@@ -99,6 +101,7 @@ class indexCornersPages {
 		{
 			$this->working_data['makeRow'][$this->currentRow][] = $take6;
 			array_pull($this->working_data['only6'], $take6);
+			array_pull($this->working_data['full'], $take6);
 		}
 
 		$this->nextRow();

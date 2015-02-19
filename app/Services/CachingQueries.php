@@ -45,18 +45,18 @@ class CachingQueries  {
 	}
 	
 	/* lists method */
-	public function lists($column, $key = null, $minutes = -1)
+	public function lists($column, $key = null, $minutes = -1, $cacheKey = null)
 	{
 		if($minutes > 0)
 		{
 			return $this->cacheRemember($minutes, function() use ($column, $key) {
 				return $this->query->lists($column, $key);
-			}, $key);
+			}, $cacheKey);
 		}
 		
 		return $this->cacheRememberForever(function() use ($column, $key) {
 				return $this->query->lists($column, $key);
-		}, $key);
+		}, $cacheKey);
 	}	
 	
 	/* remember */
