@@ -14,15 +14,16 @@ class categoryCornersPages extends indexCornersPages {
 		
 		$category = (new \Veer\Services\Show\Category )->getCategory($this->category, app('veer')->siteId);
 
-		if(!is_object($category)) { return \Redirect::route('index'); }
-		
-		$category->increment('views');	
+		if(is_object($category)) 
+		{	
+			$category->increment('views');	
 
-        $category->load(array('images' => function($q) {
-			return $q->orderBy('pivot_id', 'asc');
-		}));
-		
-		if(app('veer')->forceEarlyResponse === false) $this->categoryEarlyResponse($category);
+			$category->load(array('images' => function($q) {
+				return $q->orderBy('pivot_id', 'asc');
+			}));
+
+			if(app('veer')->forceEarlyResponse === false) $this->categoryEarlyResponse($category);
+		}
     }    
 	
 	protected function categoryEarlyResponse($category)
