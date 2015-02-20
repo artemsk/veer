@@ -764,40 +764,44 @@ trait Structure {
 	 * @param type $prefix
 	 * @param type $message
 	 */
-	public function upload($type, $file, $id, $relationOrObject, $prefix = null, $message = null, $skipRelation = false) 
+	public function upload($type, $files, $id, $relationOrObject, $prefix = null, $message = null, $skipRelation = false) 
 	{
 		$newId = null;
-		$fname = $prefix. $id. "_" . date('YmdHis',time()) .
-			str_random(10) . "." . Input::file($file)->getClientOriginalExtension();
-
-		if($type == "image") {
-			Input::file($file)->move( base_path() . "/public/" . config('veer.images_path'), $fname);
-			$new = new \Veer\Models\Image; 
-			$new->img = $fname;
-			$new->save();
-			if(!$skipRelation) { $new->{$relationOrObject}()->attach($id); }
-			$newId = $new->id;
-		} 
 		
-		if($type == "file") {
-			Input::file($file)->move( base_path() . "/public/" . config('veer.downloads_path'), $fname);
-			$new = new \Veer\Models\Download; 
-			$new->original = 1;
-			$new->fname= $fname;
-			$new->expires = 0;
-			$new->expiration_day = 0;
-			$new->expiration_times = 0;
-			$new->downloads = 0;
-			if(!$skipRelation) { $relationOrObject->downloads()->save($new); } else {
+		foreach(is_array(Input::file($files))? Input::file($files) : array(Input::file($files)) as $file)
+		{
+			$fname = $prefix. $id. "_" . date('YmdHis',time()) . str_random(10) . "." . $file->getClientOriginalExtension();
+			
+			if($type == "image") {
+				$file->move( base_path() . "/public/" . config('veer.images_path'), $fname);
+				$new = new \Veer\Models\Image; 
+				$new->img = $fname;
 				$new->save();
+				if(!$skipRelation) { $new->{$relationOrObject}()->attach($id); }
+				$newId = $new->id;
+			} 
+			
+			if($type == "file") {
+				$file->move( base_path() . "/public/" . config('veer.downloads_path'), $fname);
+				$new = new \Veer\Models\Download; 
+				$new->original = 1;
+				$new->fname= $fname;
+				$new->expires = 0;
+				$new->expiration_day = 0;
+				$new->expiration_times = 0;
+				$new->downloads = 0;
+				if(!$skipRelation) { $relationOrObject->downloads()->save($new); } else {
+					$new->save();
+				}
+				$newId = $new->id;
 			}
-			$newId = $new->id;
 		}
-				
+		
 		if(!empty($message)) {
 			Event::fire('veer.message.center', $message['language']);
 			$this->action_performed[] = $message['action'];
-		}
+		}	
+
 		return $newId;
 	}
 	

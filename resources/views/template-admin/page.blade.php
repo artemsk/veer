@@ -156,7 +156,7 @@
 				<h3><strong>Images</strong></h3>
 				<div class="row">
 					<div class="col-md-6">
-						<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage" multiple=false>
+						<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
 					</div>
 					<div class="col-md-6">
 						<input class="form-control" name="attachImages" placeholder=":Existing Images IDs[,]">
@@ -170,7 +170,7 @@
 				<h3><strong>Files</strong></h3>
 				<div class="row">
 					<div class="col-md-6">
-						<input class="input-files-enhance" type="file" id="InFile2" name="uploadFiles" multiple=false>
+						<input class="input-files-enhance" type="file" id="InFile2" name="uploadFiles[]" multiple=true>
 					</div>
 					<div class="col-md-6">
 						<input class="form-control" name="attachFiles" placeholder=":Existing Files IDs[,]">

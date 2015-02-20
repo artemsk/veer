@@ -38,13 +38,13 @@
 		<div class="col-sm-3"><p><input type="text" name="prices" class="form-control" 
 										placeholder="Prices [price:sales:whole:base:currency]"></p></div>
 		<div class="col-sm-3"><p><input type="text" name="categories"class="form-control" placeholder="Categories Id [,]"></p></div>
-		<div class="col-sm-3"><p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage" multiple=false>Image</p></div>
+		<div class="col-sm-3"><p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>Image</p></div>
 	</div>	
 	<div class="xs-rowdelimiter"></div>
 	<div class="row">
 		<div class="col-sm-6"><p><input type="text" name="fill[url]" class="form-control" placeholder="[Url]"></p></div>
 		<div class="col-sm-3"><p><input type="text" name="options" class="form-control" placeholder="[Qty:weight:score:star:production code]"></p></div>
-		<div class="col-sm-3"><p><input class="input-files-enhance" type="file" id="InFile2" name="uploadFile" multiple=false>Digital product</p></div>
+		<div class="col-sm-3"><p><input class="input-files-enhance" type="file" id="InFile2" name="uploadFile[]" multiple=true>Digital product</p></div>
 	</div>	
 	<div class="row">
 		<div class="col-sm-6"><p>

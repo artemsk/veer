@@ -126,7 +126,7 @@
 			<h3>Images</h3>
 			<div class="row">
 				<div class="col-md-6">
-					<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage" multiple=false>
+					<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
 				</div>
 				<div class="col-md-6">
 					<input class="form-control" name="attachImages" placeholder=":Existing Images IDs[,]">
