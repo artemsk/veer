@@ -378,11 +378,13 @@ if (!function_exists('paragraphs')) {
 
 	/**
 	 */
-	function paragraphs($text)
-	{ 		
-		$paragraphs = preg_split('#<p([^>])*>#',strtr( $text, array(
-			"</p>" => "")));
+	function paragraphs($text, $delimiter = null)
+	{ 	
+		if(!empty($delimiter)) return explode($delimiter, $text);
 		
+		else $paragraphs = preg_split('#<p([^>])*>#',strtr( $text, array(
+			"</p>" => "")));
+
 		return array_filter($paragraphs, 'strlen');
 	}
 }

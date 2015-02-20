@@ -758,7 +758,7 @@ trait Structure {
 	
 	/**
 	 * upload Image
-	 * @param type $file
+	 * @param type $files
 	 * @param type $id
 	 * @param type $relation|$object
 	 * @param type $prefix
