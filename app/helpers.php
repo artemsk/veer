@@ -370,3 +370,18 @@ if (!function_exists('array_set_if')) {
 		return $value != $condition ?: array_set($array, $key, $default);
 	}
 }
+
+
+
+
+if (!function_exists('paragraphs')) {
+
+	/**
+	 */
+	function paragraphs($text)
+	{ 
+		$paragraphs = preg_split('#<p([^>])*>#',strtr($text, array("</p>" => "")));
+		
+		return array_filter($paragraphs, 'strlen');
+	}
+}

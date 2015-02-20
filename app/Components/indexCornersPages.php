@@ -14,6 +14,8 @@ class indexCornersPages {
 	public $autoSort = true;
 
 	/* */
+	protected $category;
+	
 	protected $sumRow = 0;
 	
 	protected $currentRow = 0;
@@ -22,7 +24,20 @@ class indexCornersPages {
 	
     public function __construct() {
         
-		$e = $this->getHomeEntities('\Veer\Models\Page', app('veer')->siteId, db_parameter('CATEGORY_HOME'))
+		$this->category = db_parameter('CATEGORY_HOME');
+		
+		if(starts_with("index", \Route::currentRouteName())) $this->createListOfPages();
+    }    
+    
+	public function setCategory($category)
+	{
+		$this->category = $category;
+	}
+	
+	/* create list of pages */
+	public function createListOfPages()
+	{
+		$e = $this->getHomeEntities('\Veer\Models\Page', app('veer')->siteId, $this->category)
 			->with('attributes', 'user')
 			->select('id', 'url', 'title', 'small_txt', 'views', 'created_at', 'users_id')
 			->orderBy('manual_order', 'asc')->simplePaginate($this->itemsPerPage);
@@ -36,8 +51,8 @@ class indexCornersPages {
 		$this->data['gridSort'] = array_get($this->working_data, 'makeRow');
 		
 		if(app('request')->ajax()) $this->earlyResponse();
-    }    
-    
+	}
+	
 	/* get grid attributes of items */
 	protected function getAttributes($e)
 	{
@@ -58,7 +73,7 @@ class indexCornersPages {
 	}
 	
 	/* create 24-grid of 6 & 12 elements */
-	public function makeGrid()
+	protected function makeGrid()
 	{ 
 		a:
 		reset($this->working_data['full']);	
