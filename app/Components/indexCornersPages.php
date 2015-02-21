@@ -26,7 +26,7 @@ class indexCornersPages {
         
 		$this->category = db_parameter('CATEGORY_HOME');
 		
-		if(starts_with("index", \Route::currentRouteName())) $this->createListOfPages();
+		if(starts_with(\Route::currentRouteName(), "index")) $this->createListOfPages();
     }    
     
 	public function setCategory($category)
@@ -41,7 +41,7 @@ class indexCornersPages {
 			->with('attributes', 'user')
 			->select('id', 'url', 'title', 'small_txt', 'views', 'created_at', 'users_id')
 			->orderBy('manual_order', 'asc')->simplePaginate($this->itemsPerPage);
-
+		
 		if(count($e) <= 0) return null;
 		
 		$this->data['items'] = $this->getAttributes($e);
