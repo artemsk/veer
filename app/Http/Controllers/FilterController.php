@@ -33,7 +33,7 @@ class FilterController extends Controller {
 		
 		$filtered = $this->showFilter->getFilter(app('veer')->siteId, $id);       		
 		
-		$view = view($this->template.'.filter', array(
+		$view = viewx($this->template.'.filter', array(
 			"products" => $filtered['products'],
 			"pages" => $filtered['pages'],
 			"categories" => $this->showFilter->withCategories($filtered['products'], $filtered['pages']),			

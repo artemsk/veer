@@ -143,7 +143,7 @@ class Search {
 		
 		if(isset($items) && is_object($items))
 		{
-			return view(app('veer')->template.'.'.$view, array(
+			return viewx(app('veer')->template.'.'.$view, array(
 				"items" => $items,
 				"data" => app('veer')->loadedComponents,
 				"template" => app('veer')->template

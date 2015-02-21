@@ -15,7 +15,7 @@ class IndexController extends Controller {
 
 		$data = $this->veer->loadedComponents;            
 
-		$view = view($this->template.'.home', array(
+		$view = viewx($this->template.'.home', array(
 			"data" => $data,
 			"template" => $data['template']
 			)); 

@@ -51,7 +51,7 @@ class CategoryController extends Controller {
 		
 		$paginator_and_sorting = get_paginator_and_sorting();
 		
-		$view = view($this->template.'.category', array(
+		$view = viewx($this->template.'.category', array(
 			"category" => $category,
 			"products" => $this->showCategory->withProducts($id, $paginator_and_sorting),
 			"pages" => $this->showCategory->withPages($id, $paginator_and_sorting),

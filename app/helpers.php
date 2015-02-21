@@ -388,3 +388,29 @@ if (!function_exists('paragraphs')) {
 		return array_filter($paragraphs, 'strlen');
 	}
 }
+
+
+
+
+if ( ! function_exists('viewx'))
+{
+	/**
+	 * Get the evaluated view contents for the given view.
+	 *
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @param  array   $mergeData
+	 * @return \Illuminate\View\View
+	 */
+	function viewx($view = null, $data = array(), $mergeData = array())
+	{
+		$factory = app('Illuminate\Contracts\View\Factory');
+
+		if (func_num_args() === 0)
+		{
+			return $factory;
+		}
+
+		return $factory->exists($view) ? $factory->make($view, $data, $mergeData) : redirect()->route('404');
+	}
+}

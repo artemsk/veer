@@ -68,7 +68,7 @@ class ProductController extends Controller {
 			"template" => $this->template
 		);
 	
-		$view = view($this->template.'.product', $data);
+		$view = viewx($this->template.'.product', $data);
 
 		$this->view = $view; 
 

@@ -25,7 +25,7 @@ class OrderController extends Controller {
 	public function index()
 	{
 		/* do not cache: $this->view = $view; */		
-		return view($this->template.'.secret-order', array(
+		return viewx($this->template.'.secret-order', array(
 			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		));
@@ -147,7 +147,7 @@ class OrderController extends Controller {
 				// TODO: downloads for digital products
 
 				/* do not cache */
-				return view($this->template.'.success-order', array(
+				return viewx($this->template.'.success-order', array(
 					"order" => $orders,
 					"data" => $this->veer->loadedComponents,
 					"template" => $this->template

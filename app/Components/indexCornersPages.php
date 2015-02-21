@@ -139,7 +139,7 @@ class indexCornersPages {
 		$data2view['template'] = app('veer')->template;
 		$data2view['loadScripts'] = true;
 		
-		app('veer')->earlyResponseContainer = view(app('veer')->template . ".layout.pages-list", $data2view);
+		app('veer')->earlyResponseContainer = viewx(app('veer')->template . ".layout.pages-list", $data2view);
 	}
 	
 }

@@ -29,7 +29,7 @@ class ImageController extends Controller {
 		
 		$paginator_and_sorting = get_paginator_and_sorting();
 		
-		$view = view($this->template.'.category', array(
+		$view = viewx($this->template.'.category', array(
 			"image" => $image,
 			"products" => $this->showImage->withProducts(app('veer')->siteId, $id, $paginator_and_sorting),
 			"pages" => $this->showImage->withPages(app('veer')->siteId, $id, $paginator_and_sorting),

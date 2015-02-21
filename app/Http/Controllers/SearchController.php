@@ -71,7 +71,7 @@ class SearchController extends Controller {
 	 */
 	protected function results($searched) 
 	{	
-		$view = view($this->template.'.search', array(
+		$view = viewx($this->template.'.search', array(
 			"products" => $searched['products'],
 			"pages" => $searched['pages'],
 			"categories" => $this->showSearch->withCategories($searched['products'], $searched['pages']),			

@@ -43,7 +43,7 @@ class TagController extends Controller {
 		
 		$paginator_and_sorting = get_paginator_and_sorting();
 			
-		$view = view($this->template.'.tag', array(
+		$view = viewx($this->template.'.tag', array(
 			"tag" => $tag,
 			"products" => $this->showTag->withProducts(app('veer')->siteId, $id, $paginator_and_sorting),
 			"pages" => $this->showTag->withPages(app('veer')->siteId, $id, $paginator_and_sorting),

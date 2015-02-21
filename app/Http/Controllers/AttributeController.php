@@ -58,7 +58,7 @@ class AttributeController extends Controller {
 			array_set($data, 'categories', $this->showAttribute->withCategories($attribute->name, $attribute->val, app('veer')->siteId));
 		} 
 			
-		$view = view($this->template.'.attribute', $data);
+		$view = viewx($this->template.'.attribute', $data);
 
 		$this->view = $view; 
 

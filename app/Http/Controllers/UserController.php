@@ -163,7 +163,7 @@ class UserController extends Controller {
 		
 		if(!\View::exists($existingTemplate.'.login')) $existingTemplate = config('veer.template');
 		
-		$view = view($existingTemplate.'.login', array(
+		$view = viewx($existingTemplate.'.login', array(
 			"data" => $this->veer->loadedComponents,
 			"template" => $existingTemplate
 		)); 
@@ -344,7 +344,7 @@ class UserController extends Controller {
 		
 		list($order, $checkDiscount, $calculations) = app('veershop')->prepareOrder($grouped);
 		
-		$view = view($this->template.'.cart', array(
+		$view = viewx($this->template.'.cart', array(
 			"cart" => $grouped,
 			"books" => isset($userbooks) ? $userbooks : null,
 			"methods" => $calculations,
