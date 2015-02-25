@@ -61,8 +61,8 @@ class PrepareMailMessageCommand extends Command implements SelfHandling
 
         if (is_array($this->emails)) {
             (new \Veer\Commands\SendEmailCommand('emails.'.str_plural($this->type),
-            $this->getDataReady(), $this->subject, array_unique($this->emails), null,
-            $this->object->sites_id))->handle();
+            $this->getDataReady(), $this->subject, array_unique($this->emails),
+            null, $this->object->sites_id))->handle();
         }
     }
     /*
