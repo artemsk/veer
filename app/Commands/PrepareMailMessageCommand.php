@@ -57,18 +57,11 @@ class PrepareMailMessageCommand extends Command implements SelfHandling
 
         $this->getEntityInfo();
 
-        $data = array(
-            "sender" => isset($this->object->author) ? $this->object->author : $this->object->sender,
-            "txt" => isset($this->object->txt) ? $this->object->txt : $this->object->message,
-            "place" => empty($this->place) ? $this->link : $this->place,
-            "link" => $this->link
-        );
-
         $this->getRecipientsEmails();
 
         if (is_array($this->emails)) {
             (new \Veer\Commands\SendEmailCommand('emails.'.str_plural($this->type),
-            $data, $this->subject, array_unique($this->emails), null,
+            $this->getDataReady(), $this->subject, array_unique($this->emails), null,
             $this->object->sites_id))->handle();
         }
     }
@@ -146,5 +139,15 @@ class PrepareMailMessageCommand extends Command implements SelfHandling
                 if (!empty($email)) $this->emails[] = $email;
             }
         }
+    }
+
+    protected function getDataReady()
+    {
+        return array(
+            "sender" => isset($this->object->author) ? $this->object->author : $this->object->sender,
+            "txt" => isset($this->object->txt) ? $this->object->txt : $this->object->message,
+            "place" => empty($this->place) ? $this->link : $this->place,
+            "link" => $this->link
+        );
     }
 }
