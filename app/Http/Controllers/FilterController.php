@@ -28,10 +28,9 @@ class FilterController extends Controller {
 	 */
 	public function show($id)
 	{
-		// TODO: queryParams -> sort, filter
 		// TODO: if id=0 then it will try to show everything
 		
-		$filtered = $this->showFilter->getFilter(app('veer')->siteId, $id);       		
+		$filtered = $this->showFilter->getFilter(app('veer')->siteId, $id, get_paginator_and_sorting());
 		
 		$view = viewx($this->template.'.filter', array(
 			"products" => $filtered['products'],

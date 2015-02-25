@@ -40,7 +40,7 @@ class SearchController extends Controller {
 				if(auth_check_session()) { $search->users()->attach(\Auth::id()); } 
 
 				return $this->results(
-					$this->showSearch->getSearchResultsWithSite(app('veer')->siteId, $q)
+					$this->showSearch->getSearchResultsWithSite(app('veer')->siteId, $q, get_paginator_and_sorting())
 				);
 			}
 		}
@@ -53,8 +53,6 @@ class SearchController extends Controller {
 	 */
 	public function show($id)
 	{
-		// TODO: queryParams -> sort, filter ?
-		
 		$search = \Veer\Models\Search::find($id);
 		
 		if(!$search) { return $this->index(); }
@@ -62,7 +60,7 @@ class SearchController extends Controller {
 		$search->increment('times');
 
 		return $this->results(
-			$this->showSearch->getSearchResultsWithSite(app('veer')->siteId, $search->q)
+			$this->showSearch->getSearchResultsWithSite(app('veer')->siteId, $search->q, get_paginator_and_sorting())
 		);		
 	}
 	

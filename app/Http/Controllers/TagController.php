@@ -52,7 +52,7 @@ class TagController extends Controller {
 			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		));
-			
+
 		$this->view = $view; 
 				
 		return $view;

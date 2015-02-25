@@ -21,12 +21,12 @@ class Product extends \Eloquent {
     }
     
     public function scopeExcludeFuturProducts($query) {
-        return $query->where('to_show','<', \Carbon\Carbon::now());
+        return $query->where('to_show','<', \Carbon\Carbon::now()->second(0));
     }
     
     /* check hidden & future at once */
     public function scopeChecked($query) {
-        return $query->where('status','!=','hide')->where('to_show','<', \Carbon\Carbon::now());
+        return $query->where('status','!=','hide')->where('to_show','<', \Carbon\Carbon::now()->second(0));
     }  
     
     // Many Products <-> Many
