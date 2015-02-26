@@ -20,7 +20,7 @@ class ShutdownMiddleware implements TerminableMiddleware {
 
 	public function terminate($request, $response)
 	{
-		if (!\App::runningInConsole() && \App::bound('veer')) {
+		if (!\App::runningInConsole() && \App::bound('veer') && app('veer')->booted) {
 
 			$timeToLoad = empty(app('veer')->statistics['loading']) ? 0 : app('veer')->statistics['loading'];
 			

@@ -112,13 +112,13 @@ class VeerApp
     {
         \DB::enableQueryLog(); // TODO: remove
 
-        $this->booted = true;
-
         $this->siteUrl = $this->siteUrl();
 
         $siteDb = $this->isSiteAvailable($this->siteUrl);
 
         $this->saveConfiguration($siteDb);
+        
+        $this->booted = true;
     }
 
     /**
