@@ -9,7 +9,7 @@
 												   class="form-control" placeholder="Value">{{ $item->conf_val }}</textarea></p>
 					<button type="submit" data-siteid="{{ $siteid }}" name="save[{{$item->id}}]" class="btn btn-success btn-xs">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-					<button type="button" data-siteid="{{ $siteid }}" data-confkey="{{ $item->conf_key }}" data-confval="{{ $item->conf_val }}" 
+					<button type="button" data-siteid="{{ $siteid }}" data-confkey="{{ $item->conf_key }}" data-confval='{{ $item->conf_val }}'
 							class="btn btn-info btn-xs copybutton">
 						<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
 					&nbsp;<button type="submit" data-siteid="{{ $siteid }}" name="dele[{{$item->id}}]" class="btn btn-danger btn-xs">
