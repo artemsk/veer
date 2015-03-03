@@ -414,3 +414,16 @@ if ( ! function_exists('viewx'))
 		return $factory->exists($view) ? $factory->make($view, $data, $mergeData) : redirect()->route('404');
 	}
 }
+
+
+
+
+if (!function_exists('veer_get')) {
+
+	/**
+	 */
+	function veer_get($key, $default = null)
+	{
+		return data_get(app('veer')->loadedComponents, $key, $default);
+	}
+}

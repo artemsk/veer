@@ -141,7 +141,7 @@
 
 	<div id="qlog" class="collapse out">
 		<pre>
-		<?php print_r(DB::getQueryLog()) ?>
+		<?php dump(DB::getQueryLog()) ?>
 		</pre>
 	</div>
 	<!-- TODO: replace with view/include ? -->

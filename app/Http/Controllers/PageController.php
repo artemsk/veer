@@ -62,6 +62,8 @@ class PageController extends Controller
             return $q->orderBy('pivot_id', 'asc');
         }, 'tags', 'attributes', 'downloads', 'userlists', 'user'));
 
+        $page->imagesIds = collect($page->images->getDictionary());
+
         if ($page->show_comments == 1)
                 $this->showPage->loadComments($page, 'page');
 

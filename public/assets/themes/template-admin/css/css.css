@@ -324,3 +324,8 @@ html, body
 .margin-bottom-button {
     margin-bottom: 5px;
 }
+
+.floating {
+    float: left;
+    margin-right: 5px;
+}

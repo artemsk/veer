@@ -97,13 +97,16 @@
 			@if(isset($items->attributes))
 			@foreach($items->attributes as $key => $attribute)
 			<div class="row">
-				<div class="col-md-12">
-					<strong><input type="text" name="attribute[{{ $key }}][name]" class="form-control input-sm" value="{{ $attribute->name }}" placeholder="Name"></strong>
-					<p></p><input type="text" name="attribute[{{ $key }}][val]" class="form-control input-sm" value="{{ $attribute->val }}" placeholder="Value">
-				<p></p><textarea class="form-control input-sm" name="attribute[{{ $key }}][descr]" placeholder="Description">{{ $attribute->descr }}</textarea>
-				</div>				
-			</div>
-			<div class="rowdelimiter"></div>
+				<div class="col-xs-6"><strong><input type="text" name="attribute[{{ $key }}][name]" class="form-control input-sm" value="{{ $attribute->name }}" placeholder="Name" size="15"></strong></div>
+                                <div class="col-xs-6"><input type="text" name="attribute[{{ $key }}][val]" class="form-control input-sm" value="{{ $attribute->val }}" placeholder="Value" size="14"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="collapse" id="descriptionAttributes{{ $key }}" ><p></p><textarea class="form-control input-sm" name="attribute[{{ $key }}][descr]" placeholder="Description">{{ $attribute->descr }}</textarea></div>
+                                <a href="#descriptionAttributes{{ $key }}" data-toggle="collapse"><small>description</small></a>
+                            </div>
+                        </div>
+			<div class="sm-rowdelimiter"></div>
 			@endforeach
 			@endif
 			<div class="row">
