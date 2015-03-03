@@ -48,6 +48,20 @@ class pageImages
             if (isset($this->attributes[$type]))
                     $this->setImage($this->attributes[$type]);
         }
+
+        $this->hiddenImages();
+    }
+
+    protected function hiddenImages()
+    {
+        if(!isset($this->attributes['imagePostHidden'])) return false;
+
+        $hidden = json_decode('['.$this->attributes['imagePostHidden'].']');
+
+        foreach(is_array($hidden) ? $hidden : array() as $hiddenId)
+        {
+            $this->images->forget($hiddenId);
+        }
     }
 
     protected function setImage($key)
@@ -65,7 +79,6 @@ class pageImages
      */
     public function subscribe($events = null)
     {
-        $events->listen('page.images',
-            '\Veer\Events\pageImages@getImages');
+        $events->listen('page.images', '\Veer\Events\pageImages@getImages');
     }
 }
