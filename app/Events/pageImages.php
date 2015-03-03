@@ -2,6 +2,11 @@
 
 namespace Veer\Events;
 
+/*
+ * Parse page images. Use imagePostFirst & imagePostSecond attributes of page
+ * to choose images with special effects
+ */
+
 class pageImages
 {
     protected $data;
