@@ -66,6 +66,6 @@ class pageImages
     public function subscribe($events = null)
     {
         $events->listen('page.images',
-            '\Veer\Events\pageCornersImages@getImages');
+            '\Veer\Events\pageImages@getImages');
     }
 }
