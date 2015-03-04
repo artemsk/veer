@@ -6,7 +6,7 @@ class indexCornersPages
 {
     use \Veer\Services\Traits\HomeTraits;
     public $data;
-    public $default_type = 9;
+    public $default_type = 2;
     public $itemsPerPage = 24;
     public $autoSort = true;
 
