@@ -64,7 +64,7 @@
           <td><input type="url" class="form-control" name="site[{{ ($item->id)+1 }}][url]" placeholder="Site Url" value=""></td>
           <td><input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][parent_id]" placeholder="Parent Id" size="3"></td>
           <td><input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][manual_sort]" placeholder="Sort" size="3"></td>
-          <td><input type="checkbox" name="site[][redirect_on]"></td>
+          <td><input type="checkbox" name="site[{{ ($item->id)+1 }}][redirect_on]"></td>
           <td><input type="url" class="form-control" name="site[{{ ($item->id)+1 }}][redirect_url]" placeholder="Redirect Url" value=""></td>	
 		  <td></td>	
 		  <td></td>
