@@ -45,16 +45,16 @@ class Site {
 	{	
 		$orderBy = $this->replaceSortingBy($orderBy);
 		
-		if(empty($siteId)) $items = \Veer\Models\Site::where('id', '>', 0);
+		if(empty($siteId)) $items = \Veer\Models\Site::select();
 		
 		else $items = \Veer\Models\Site::where('id', '=', $siteId);
 		
 		$items = $items->with(array($type => function($query) use ($orderBy, $type) 
 		{
 			if($type == 'components') $query->orderBy('sites_id');
-			$query->orderBy($orderBy[0], $orderBy[1]);
+			$query->orderBy('theme', 'asc')->orderBy($orderBy[0], $orderBy[1]);
 		}))->get();
-			
+
 		return $items;
 	}	
 	
@@ -85,7 +85,7 @@ class Site {
 	/**
 	 * Show Jobs
 	 */
-	public function getQdbJobs( $filters = array() ) 
+	public function getQdbJobs() 
 	{		
 		$items = \Veer\Services\Queuedb\Job::all();
 		

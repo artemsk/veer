@@ -25,7 +25,8 @@
 							<option>pages</option>
 						</select></p>				  
 					<p><input class="form-control newsrc" placeholder="Component source" name="new[{{ $site->id}}][src]" 
-							  title="app/lib/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
+							  title="app/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
+                                        <p><small><input type="text" name="new[{{ $site->id}}][theme]" class="form-control admin-form text-center newtheme" placeholder="theme" value=""></small></p>
 					<button type="submit" data-siteid="{{ $site->id }}" class="btn btn-success btn-xs" name="save[new]">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>

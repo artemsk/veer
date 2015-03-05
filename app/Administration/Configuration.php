@@ -90,6 +90,7 @@ trait Configuration {
 				$newc->sites_id = $siteid;
 				$newc->conf_key = $confs[$cardid]['key'];
 				$newc->conf_val = $confs[$cardid]['value'];
+                                $newc->theme = $confs[$cardid]['theme'];
 				$newc->save();
 
 				$cardid = $newc->id;
@@ -149,6 +150,7 @@ trait Configuration {
 				$newc->components_type = $confs[$cardid]['type'];
 				$newc->components_src = $confs[$cardid]['src'];
 				$newc->sites_id = $siteid;
+                                $newc->theme = $confs[$cardid]['theme'];
 				$newc->save();
 
 				$cardid = $newc->id;

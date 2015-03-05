@@ -13,7 +13,8 @@
 						</select></p>				  
 					<p><input class="form-control" placeholder="Component source" value="{{ $item->components_src }}"
 							  name="components[{{$item->id}}][src]"
-							  title="app/lib/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
+							  title="app/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
+                                        <p><small><input type="text" name="components[{{ $item->id }}][theme]" class="form-control admin-form text-center" placeholder="—" value="@if(!empty($item->theme)){{ $item->theme }}@endif"></small></p>
 					<button type="submit"  data-siteid="{{ $siteid }}" class="btn btn-success btn-xs" name="save[{{$item->id}}]">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 					&nbsp;<button type="button" class="btn btn-info btn-xs copybutton" data-confname="{{ $item->route_name }}" data-conftype="{{ $item->components_type }}" data-confsrc="{{ $item->components_src }}"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>

@@ -7,6 +7,7 @@
 									  placeholder="Key" value="{{ $item->conf_key }}"></strong></p>
 									  <p><textarea name="configuration[{{$item->id}}][value]" 
 												   class="form-control" placeholder="Value">{{ $item->conf_val }}</textarea></p>
+                                                                                                   <p><small><input type="text" name="configuration[{{ $item->id }}][theme]" class="form-control admin-form text-center" placeholder="—" value="@if(!empty($item->theme)){{ $item->theme }}@endif"></small></p>
 					<button type="submit" data-siteid="{{ $siteid }}" name="save[{{$item->id}}]" class="btn btn-success btn-xs">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 					<button type="button" data-siteid="{{ $siteid }}" data-confkey="{{ $item->conf_key }}" data-confval='{{ $item->conf_val }}'

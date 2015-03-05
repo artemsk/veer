@@ -19,6 +19,7 @@
 					<p><strong><input type="text" name="new[{{ $site->id}}][key]" class="form-control admin-form text-center newkey" 
 									  placeholder="Key" value=""></strong></p>
 									  <p><textarea name="new[{{ $site->id}}][value]" class="form-control newval" placeholder="Value"></textarea></p>
+                                                                          <p><small><input type="text" name="new[{{ $site->id}}][theme]" class="form-control admin-form text-center newkey" placeholder="theme" value=""></small></p>
 					<button type="submit" data-siteid="{{ $site->id }}" name="save[new]" class="btn btn-success btn-xs">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>
@@ -29,7 +30,7 @@
 			</form>
 		</div>		
 		<div id="cardstock{{ $site->id }}">
-				@include($template.'.lists.configuration-cards', array('configuration' => $site->configuration, 'siteid' => $site->id))	
+				@include($template.'.lists.configuration-cards', array('configuration' => $site->configuration, 'siteid' => $site->id))
 		</div>
 	</div>
 	<div class="rowdelimiter"></div>
