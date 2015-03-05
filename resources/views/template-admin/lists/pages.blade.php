@@ -40,6 +40,7 @@
 						<br/><a href="{{ route('admin.show', array('users', 'id' => $item->user->id)) }}">{{ '@'.$item->user->username }}</a>
 						@endif
 						</small></p>
+                                                <small><span class="glyphicon glyphicon-sort" aria-hidden="true" title="Categories"></span>{{ $item->manual_order }}&nbsp;</small>
 					@if ($item->hidden == false)
 					<button type="submit" name="action" value="changeStatusPage.{{ $item->id }}" class="btn btn-success btn-xs" title="Current: ON (SHOW)" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
 					@else
