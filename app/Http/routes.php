@@ -50,6 +50,7 @@ get('order/bills/{id?}/{lnk?}', array('uses' => 'OrderController@bills', 'as' =>
 get('order/success', array('uses' => 'OrderController@success', 'as' => 'order.success'));
 Route::resource('order', 'OrderController', array('only' => array('index', 'show', 'store')));
 
+post('admin/api/lists/{model?}', array('uses' => 'AdminController@getListOfItems', 'as' => 'admin.api.lists'));
 Route::resource('admin', 'AdminController', array('only' => array('index', 'show', 'update')));
 
 Route::controllers([

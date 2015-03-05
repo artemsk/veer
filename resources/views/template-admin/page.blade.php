@@ -90,8 +90,7 @@
 {{ $tag->name }}
 
 @endforeach
-@endif</textarea>
-			
+@endif</textarea>			
 			<div class="rowdelimiter"></div>
 			<label>Attributes</label>
 			@if(isset($items->attributes))
@@ -111,7 +110,8 @@
 			@endif
 			<div class="row">
 				<div class="col-md-12">
-					<strong><input type="text" name="attribute[new][name]" class="form-control input-sm" placeholder="Name"></strong>
+                                    <strong><input type="text" name="attribute[new][name]" data-type="attribute" class="form-control input-sm show-list-of-items suggestions-attribute" placeholder="Name" autocomplete="off"></strong>
+                                        <div id="loadedSuggestions-attribute"></div>
 				<p></p><input type="text" name="attribute[new][val]" class="form-control input-sm"placeholder="Value">
 				<p></p><textarea  name="attribute[new][descr]" class="form-control input-sm" placeholder="Description"></textarea>
 				</div>
@@ -162,9 +162,10 @@
 						<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control" name="attachImages" placeholder=":Existing Images IDs[,]">
+						<input class="form-control show-list-of-items suggestions-image" name="attachImages" data-type="image" placeholder=":Existing Images IDs[,]">
 					</div>				
 				</div>
+                                <div id="loadedSuggestions-image"></div>
 				@if(isset($items->images) && count($items->images)>0)			
 				<p></p>
 				@include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))
@@ -202,10 +203,12 @@
 				@endforeach
 				@endif
 				<li class="list-group-item">
-						<input type="text" name="attachCategories" class="form-control input-no-borders" placeholder=":Existings IDs[,]" 
-							   value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">
+						<input type="text" name="attachCategories" data-type="category" class="form-control input-no-borders show-list-of-items suggestions-category" placeholder=":Existings IDs[,]"
+							   value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">                
 				</li>
+                                <div id="loadedSuggestions-category"></div>
 			</ul>
+                                
 			<div class="rowdelimiter"></div>
 			<div class="row">
 				<div class="col-md-12">  
@@ -223,8 +226,9 @@
 						@endforeach
 						@endif
 						<li class="list-group-item">
-								<input type="text" name="attachProducts" class="form-control input-no-borders" placeholder=":Existings IDs[,]">
+								<input type="text" name="attachProducts" data-type="product" class="show-list-of-items suggestions-product form-control input-no-borders" placeholder=":Existings IDs[,]">
 						</li>
+                                                <div id="loadedSuggestions-product"></div>
 					</ul>				                  
 				</div> 
 			</div>
@@ -263,8 +267,9 @@
 						@endforeach
 						@endif
 						<li class="list-group-item">
-								<input type="text" name="attachChildPages" class="form-control input-no-borders" placeholder=":Existings IDs[,]">
+								<input type="text" data-type="page" name="attachChildPages" class="form-control input-no-borders show-list-of-items suggestions-page" placeholder=":Existings IDs[,]">
 						</li>
+                                                <div id="loadedSuggestions-page"></div>
 					</ul>	 
 				</div>			
 			</div> 

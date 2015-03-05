@@ -93,12 +93,13 @@
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<li class="list-group-item">
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Title or :Existing-category-ID" name="child">
+			<input type="text" data-type="category" class="form-control show-list-of-items suggestions-category" placeholder="Title or :Existing-category-ID" name="child">
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="submit" name="action" value="addChild">Add</button>
 			</span>
 		</div>
 	</li>
+        <div id="loadedSuggestions-category"></div>
 	</form>
 	
 	</ul>	
@@ -116,7 +117,8 @@
 			<p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true></p>
 		</div>
 		<div class="col-md-5">
-			<p><input class="form-control" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
+			<p><input class="form-control show-list-of-items suggestions-image" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
+                        <div id="loadedSuggestions-image"></div>
 		</div>	
 		<div class="col-md-2">
 			<p><button class="btn btn-default btn-block" type="submit" name="action" value="updateImages">Upload | Update</button></p>
@@ -144,11 +146,12 @@
 		</div>
 		<div class="col-sm-9 col-md-10">
 			<div class="input-group">
-				<input type="text" class="form-control" name="attachProducts" placeholder=":Existing IDs">
+				<input type="text" data-type="product" class="form-control show-list-of-items suggestions-product" name="attachProducts" placeholder=":Existing IDs">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="submit" name="action" value="updateProducts">Add</button>
 				</span>
-			</div>			
+			</div>
+                    <div id="loadedSuggestions-product"></div>
 		</div>		
 	</div>
 	<p></p>
@@ -173,11 +176,12 @@
 		</div>
 		<div class="col-sm-9 col-md-10">
 			<div class="input-group">
-				<input type="text" class="form-control" name="attachPages" placeholder=":Existing IDs">
+				<input type="text" data-type="page" class="form-control show-list-of-items suggestions-page" name="attachPages" placeholder=":Existing IDs">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="submit" name="action" value="updatePages">Add</button>
 				</span>
-			</div>			
+			</div>
+                    <div id="loadedSuggestions-page"></div>
 		</div>		
 	</div>
 	<p></p>	

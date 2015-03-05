@@ -165,9 +165,10 @@
 					<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
 				</div>
 				<div class="col-md-6">
-					<input class="form-control" name="attachImages" placeholder=":Existing Images IDs[,]">
+					<input class="form-control show-list-of-items suggestions-image" name="attachImages" data-type="image" placeholder=":Existing Images IDs[,]">
 				</div>				
 			</div>
+                        <div id="loadedSuggestions-image"></div>
 			@if(isset($items->images) && count($items->images)>0)			
 			<p></p>
 			@include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))
@@ -204,9 +205,9 @@
 			@endforeach
 			@endif
 			<li class="list-group-item">
-					<input type="text" class="form-control input-no-borders" placeholder=":Existings IDs[,]" name="attachCategories" 
-						   value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">
+					<input type="text" class="form-control input-no-borders show-list-of-items suggestions-category" placeholder=":Existings IDs[,]" name="attachCategories" data-type="category" value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">
 			</li>
+                        <div id="loadedSuggestions-category"></div>
 		</ul>
 		<div class="rowdelimiter"></div>
 		<div class="row">
@@ -225,8 +226,9 @@
 					@endforeach
 					@endif
 					<li class="list-group-item">
-							<input type="text" class="form-control input-no-borders" placeholder=":Existings IDs[,]" name="attachPages">
+							<input type="text" data-type="page" class="form-control input-no-borders show-list-of-items suggestions-page" placeholder=":Existings IDs[,]" name="attachPages">
 					</li>
+                                        <div id="loadedSuggestions-page"></div>
 				</ul>				                  
 			</div> 
 		</div>
@@ -265,8 +267,9 @@
 					@endforeach
 					@endif
 					<li class="list-group-item">
-							<input type="text" class="form-control input-no-borders" placeholder=":Existings IDs[,]" name="attachChildProducts">
+							<input type="text" data-type="product" class="form-control input-no-borders show-list-of-items suggestions-product" placeholder=":Existings IDs[,]" name="attachChildProducts">
 					</li>
+                                        <div id="loadedSuggestions-product"></div>
 				</ul>	 
 			</div>			
 		</div> 
@@ -317,7 +320,8 @@
                     </select>						
 				</div>
 				<div class="col-md-8"><strong>
-						<input type="text" name='attribute[new][name]' class="form-control input-sm" placeholder="Name"></strong>
+                                        <input type="text" name='attribute[new][name]' class="form-control input-sm show-list-of-items suggestions-attribute" data-type="attribute" autocomplete="off" placeholder="Name"></strong>
+                                                <div id="loadedSuggestions-attribute"></div>
 					<input type="text" name='attribute[new][val]' class="form-control input-sm"placeholder="Value">
 				<textarea class="form-control input-sm" name='attribute[new][descr]' placeholder="Description"></textarea>
 				<strong><input type="text" class="form-control input-sm" 

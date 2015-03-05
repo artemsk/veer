@@ -168,9 +168,38 @@
           }); 
     });
     
+   var timeout;
     
-    
-   /*  $('.sortableImages').sortable().bind('sortupdate', function(e, ui) {
+   $('.show-list-of-items').keyup(function() {
+      
+      var d = $(this).val();
+      var separator = $(this).attr('data-separator');
+      if(separator == undefined) { separator = ','; }
+      var darr = d.split(separator);
+      var latest = darr[darr.length-1];
+      var type = $(this).attr('data-type');
+      
+      if(latest.length >1 || (type == 'image' && latest.length>0)) {
+          
+       if(timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+        }
+   
+      timeout = setTimeout(function() {
+      $.ajax({
+            type: 'POST',
+            url: 'api/lists/' + type,
+            data: 'whole=' + d + '&needle=' + latest + '&separator=' + separator,
+            success: function(results) { 
+                $('#loadedSuggestions-' + type).html(results);
+            },
+          }); 
+        },400);
+       }      
+   });
+   
+    /*  $('.sortableImages').sortable().bind('sortupdate', function(e, ui) {
          console.log(ui.oldindex + " " + ui.item.index());
             
         });

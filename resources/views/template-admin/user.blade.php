@@ -129,7 +129,8 @@
 					<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
 				</div>
 				<div class="col-md-6">
-					<input class="form-control" name="attachImages" placeholder=":Existing Images IDs[,]">
+					<input class="form-control show-list-of-items suggestions-image" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]">
+                                        <div id="loadedSuggestions-image"></div>
 				</div>				
 			</div>
 			@if(isset($items->images) && count($items->images)>0)			
@@ -156,8 +157,9 @@
 		@endforeach
 		@endif
 		<li class="list-group-item">
-			<input type="text" name="attachPages" class="form-control input-no-borders" placeholder=":Existings IDs[,]">	
+			<input type="text" name="attachPages" data-type="page" class="form-control input-no-borders show-list-of-items suggestions-page" placeholder=":Existings IDs[,]">
 		</li>
+                <div id="loadedSuggestions-page"></div>
 	</ul>
 	@if(isset($items->id))
 	<a class="btn btn-default" href="{{ route("admin.show", array("pages", 
