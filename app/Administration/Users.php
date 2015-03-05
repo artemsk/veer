@@ -545,7 +545,9 @@ trait Users {
 		$this->attachElements(Input::get('attachImages'), $user, 'images', null);
 		
 		$this->detachElements($action, 'removeImage', $user, 'images', null);
-		
+
+                $this->detachElements($action, 'removeAllImages', $user, 'images', null, true);
+
 		// pages
 		if(Input::has('attachPages'))
 		{

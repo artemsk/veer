@@ -348,7 +348,8 @@ trait Structure {
 			"action" => "REMOVE images",
 			"language" => "veeradmin.category.images.detach"
 		));
-	
+
+                $this->detachElements($all['action'], 'removeAllImages', $category, 'images', null, true);
 		
 		// add existings products
 		if($all['action'] == "updateProducts") {
@@ -461,20 +462,20 @@ trait Structure {
 	 * @param type $relation
 	 * @param type $message
 	 */
-	public function detachElements($detachString, $type, $object, $relation, $message = array()) 
+	public function detachElements($detachString, $type, $object, $relation, $message = array(), $allowEmpty = false)
 	{
 		if(starts_with($detachString, $type)) {
 			
 			$r = explode(".", $detachString);
 			
-			if(!empty($r[1])) { 
-				
-				$object->{$relation}()->detach($r[1]);
-				if(!empty($message)) {
-					$this->action_performed[] = array_get($message, 'action', '');
-					Event::fire('veer.message.center', \Lang::get(array_get($message, 'language', 'veeradmin.empty')));
-				}
-			}
+                        if(!empty($r[1]) ) { $detach = $object->{$relation}()->detach($r[1]); }
+					
+                        if($allowEmpty === true) { $detach = $object->{$relation}()->detach();  }
+
+                        if(!empty($message) && !empty($detach)) {
+                                $this->action_performed[] = array_get($message, 'action', '');
+                                Event::fire('veer.message.center', \Lang::get(array_get($message, 'language', 'veeradmin.empty')));
+                        }
 		}
 	}
 
@@ -894,6 +895,9 @@ trait Structure {
 		$this->detachElements($action, 
 			array_get($attributes, 'removeImageId', 'removeImage'), $object, 'images', 
 			array_get($options, 'message.images'));
+
+                $this->detachElements($action, 'removeAllImages', $object, 'images',
+                    array_get($options, 'message.images'), true);
 	
 		//files
 		if(Input::hasFile(array_get($attributes, 'uploadFilesId', 'uploadFiles'))) {
