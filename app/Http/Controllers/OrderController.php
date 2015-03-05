@@ -26,7 +26,6 @@ class OrderController extends Controller {
 	{
 		/* do not cache: $this->view = $view; */		
 		return viewx($this->template.'.secret-order', array(
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		));
 	}
@@ -117,7 +116,6 @@ class OrderController extends Controller {
 		if(!is_object($bills)) { return Redirect::route('index'); }
 		
 		// TODO: only html output? can it be redirect to external payment?
-		// TODO: loadedComponents here?
 		
 		if(!$this->administrator) 
 		{
@@ -149,7 +147,6 @@ class OrderController extends Controller {
 				/* do not cache */
 				return viewx($this->template.'.success-order', array(
 					"order" => $orders,
-					"data" => $this->veer->loadedComponents,
 					"template" => $this->template
 				));
 			}

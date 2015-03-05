@@ -57,7 +57,6 @@ class CategoryController extends Controller {
 			"pages" => $this->showCategory->withPages($id, $paginator_and_sorting),
 			"tags" => $this->showCategory->withTags($id),
 			"attributes" => $this->showCategory->withAttributes($id),
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		)); 
 
@@ -71,4 +70,3 @@ class CategoryController extends Controller {
 
 // TODO: products & pages должны подгружать комментарии
 // TODO: all, new, comments, ratings?
-// TODO: сортировка товаров в зависимости от route

@@ -79,7 +79,6 @@ class PageController extends Controller
                 $page->id, $paginator_and_sorting),
             "categories" => $this->showPage->withCategories(app('veer')->siteId,
                 $page->id),
-            "data" => $this->veer->loadedComponents,
             "template" => $this->template
         );
 

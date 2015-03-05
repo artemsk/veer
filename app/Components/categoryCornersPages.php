@@ -38,7 +38,6 @@ class categoryCornersPages extends indexCornersPages
         app('veer')->earlyResponseContainer = viewx(app('veer')->template.'.category',
             array(
             "category" => $category,
-            "data" => app('veer')->loadedComponents,
             "template" => app('veer')->template
         ));
     }

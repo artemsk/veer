@@ -145,7 +145,6 @@ class Search {
 		{
 			return viewx(app('veer')->template.'.'.$view, array(
 				"items" => $items,
-				"data" => app('veer')->loadedComponents,
 				"template" => app('veer')->template
 			));
 		}

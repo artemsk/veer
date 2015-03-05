@@ -49,7 +49,6 @@ class TagController extends Controller {
 			"pages" => $this->showTag->withPages(app('veer')->siteId, $id, $paginator_and_sorting),
 			"attributes" => $this->showTag->withAttributes($id, app('veer')->siteId),
 			"categories" => $this->showTag->withCategories($id, app('veer')->siteId),
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		));
 

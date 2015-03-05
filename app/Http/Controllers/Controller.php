@@ -54,7 +54,6 @@ abstract class Controller extends BaseController {
                 
 		$view = viewx($this->template . '.' . $type, array(
 			$type => $object,
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		)); 
 

@@ -422,7 +422,7 @@ if (!function_exists('veer_get')) {
 
 	/**
 	 */
-	function veer_get($key, $default = null)
+	function veer_get($key = null, $default = null)
 	{
 		return data_get(app('veer')->loadedComponents, $key, $default);
 	}

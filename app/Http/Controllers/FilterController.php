@@ -38,7 +38,6 @@ class FilterController extends Controller {
 			"categories" => $this->showFilter->withCategories($filtered['products'], $filtered['pages']),			
 			"tags" => $this->showFilter->withTags($filtered['products'], $filtered['pages']),
 			"attributes" => $this->showFilter->withAttributes($filtered['products'], $filtered['pages']),
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		)); 
 

@@ -164,7 +164,6 @@ class UserController extends Controller {
 		if(!\View::exists($existingTemplate.'.login')) $existingTemplate = config('veer.template');
 		
 		$view = viewx($existingTemplate.'.login', array(
-			"data" => $this->veer->loadedComponents,
 			"template" => $existingTemplate
 		)); 
 
@@ -349,7 +348,6 @@ class UserController extends Controller {
 			"books" => isset($userbooks) ? $userbooks : null,
 			"methods" => $calculations,
 			"order" => $order,
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		)); 
 

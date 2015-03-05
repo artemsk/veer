@@ -4,7 +4,7 @@
 
 	@include($template.'.layout.breadcrumb-order', array('place' => 'orders'))
 	
-<h1>Orders :{{ $items->total() }}<small> @if(array_get($data, 'counted.archived', 0) > 0)<a href="{{ route("admin.show", array("orders", "filter" => "archive", "filter_id" => true)) }}">~{{ array_get($data, 'counted.archived', 0) }}</a>&nbsp;@endif 
+<h1>Orders :{{ $items->total() }}<small> @if(veer_get('counted.archived', 0) > 0)<a href="{{ route("admin.show", array("orders", "filter" => "archive", "filter_id" => true)) }}">~{{ veer_get('counted.archived', 0) }}</a>&nbsp;@endif
 	@if(Input::get('filter',null) != null) 
 	filtered by <strong>#{{ Input::get('filter',null) }}:{{ Input::get('filter_id',null) }}</strong> | 
 	@endif	

@@ -34,7 +34,6 @@ class ImageController extends Controller {
 			"products" => $this->showImage->withProducts(app('veer')->siteId, $id, $paginator_and_sorting),
 			"pages" => $this->showImage->withPages(app('veer')->siteId, $id, $paginator_and_sorting),
 			"categories" => $this->showImage->withCategories(app('veer')->siteId, $id),
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		)); 
 

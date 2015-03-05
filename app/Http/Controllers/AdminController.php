@@ -31,7 +31,6 @@ class AdminController extends Controller
     {
         return view(app('veer')->template.'.dashboard',
             array(
-            "data" => app('veer')->loadedComponents,
             "template" => app('veer')->template
         ));
     }
@@ -79,7 +78,6 @@ class AdminController extends Controller
             return view($this->template.'.'.$view,
                 array(
                 "items" => $items,
-                "data" => app('veer')->loadedComponents,
                 "template" => $this->template
             ));
         }

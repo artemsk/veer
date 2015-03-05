@@ -5,9 +5,9 @@
 	@include($template.'.layout.breadcrumb-structure', array('place' => 'products'))
 
 <h1>Products: {{ $items->total() }}
-@if(!empty($data['filtered_id'])) 
- filtered by {{ $data['filtered'] }} <a href="{{ route("admin.show", array(array_pull($data, 'filtered'))) }}">
-	 #{{ array_pull($data, 'filtered_id') }}</a> 
+@if(!empty(veer_get('filtered_id')))
+ filtered by {{ veer_get('filtered') }} <a href="{{ route("admin.show", array(veer_get('filtered'))) }}">
+	 #{{ veer_get('filtered_id') }}</a>
  @else
  <small>| <a href="{{ route("admin.show", array("products", "filter" => "unused")) }}">unused</a></small> 
 @endif	

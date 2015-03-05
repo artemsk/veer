@@ -145,8 +145,8 @@
 		</pre>
 	</div>
 	<!-- TODO: replace with view/include ? -->
-	@if(!empty($data['veer_message_center']))
-	<div class="events-veer-message-center">{{ head($data['veer_message_center']) }}</div>
+	@if(!empty(veer_get('veer_message_center')))
+	<div class="events-veer-message-center">{{ head(veer_get('veer_message_center')) }}</div>
 	@endif
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 

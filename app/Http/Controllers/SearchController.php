@@ -75,7 +75,6 @@ class SearchController extends Controller {
 			"categories" => $this->showSearch->withCategories($searched['products'], $searched['pages']),			
 			"tags" => $this->showSearch->withTags($searched['products'], $searched['pages']),
 			"attributes" => $this->showSearch->withAttributes($searched['products'], $searched['pages']),
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		)); 
 	

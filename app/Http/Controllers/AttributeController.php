@@ -41,7 +41,6 @@ class AttributeController extends Controller {
 		
 		$data = array(
 			"attribute" => $attribute,
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		);
 		

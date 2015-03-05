@@ -21,8 +21,8 @@
 
 	@yield('body')
   
-	@if(!empty($data['veer_message_center']))
-	<div class="events-veer-message-center">{{ head($data['veer_message_center']) }}</div>
+	@if(!empty(veer_get('veer_message_center')))
+	<div class="events-veer-message-center">{{ head(veer_get('veer_message_center')) }}</div>
 	@endif
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

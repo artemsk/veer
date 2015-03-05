@@ -11,13 +11,8 @@ class IndexController extends Controller {
 	 */
 	public function index()
 	{
-		//Event::fire('veer.message.center', 'Hello!');
-
-		$data = $this->veer->loadedComponents;            
-
 		$view = viewx($this->template.'.home', array(
-			"data" => $data,
-			"template" => $data['template']
+			"template" => $this->template
 			)); 
 
 		$this->view = $view; // to cache

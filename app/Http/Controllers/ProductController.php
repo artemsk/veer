@@ -42,7 +42,7 @@ class ProductController extends Controller {
 	{
 		if(in_array($id, array('new', 'ordered', 'viewed'))) return $this->showProductLists($id);
 		
-		// TODO: queryParams -> sort, filter
+		// TODO: queryParams -> filter?
 
 		$product = $this->showProduct->getProduct($id, app('veer')->siteId);
 		
@@ -64,7 +64,6 @@ class ProductController extends Controller {
 			"parentproducts" => $this->showProduct->withParentProducts(app('veer')->siteId, $product->id, $paginator_and_sorting),
 			"pages" => $this->showProduct->withPages(app('veer')->siteId, $product->id, $paginator_and_sorting),
 			"categories" => $this->showProduct->withCategories(app('veer')->siteId, $product->id),
-			"data" => $this->veer->loadedComponents,
 			"template" => $this->template
 		);
 	

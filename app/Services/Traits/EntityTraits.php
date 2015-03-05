@@ -65,16 +65,15 @@ trait EntityTraits {
 	public function filterEntities($model, $type, $filter_id)
 	{
 		$type_field = $type;
-		
+  
 		if($type == "site")
 		{
 			$type = "categories";
-			$type_field = "sites";
 		}
-		
+
 		return $model::whereHas($type, function($query) use ($filter_id, $type_field) 
 		{
-			$query->where( $type_field . '_id', '=', $filter_id );
+			$query->where( str_plural($type_field) . '_id', '=', $filter_id );
 		});
 	}
 	

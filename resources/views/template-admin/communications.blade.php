@@ -82,8 +82,8 @@
 		</div>
 		<ul class="list-group">
 			<li class="list-group-item">
-				@if(isset($data['recipients'][$key])) 
-					@foreach($data['recipients'][$key] as $r)
+				@if(null != veer_get('recipients.'.$key))
+					@foreach(veer_get('recipients.'.$key) as $r)
 					<a href="{{ route('admin.show', array("users", "id" => empty($r->id) ? '' : $r->id)) }}">
 						{{ '@' }}{{ $r->username or '?' }}</a>
 					@endforeach
