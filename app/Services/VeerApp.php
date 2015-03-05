@@ -11,7 +11,7 @@ class VeerApp
      *  Veer Layer.
      *
      */
-    const VEERVERSION = 'v1.1.7';
+    const VEERVERSION = 'v1.1.8';
 
     /**
      * Veer Core Url.

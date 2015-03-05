@@ -238,6 +238,8 @@ class UserController extends Controller {
 
 			array_set($data, 'fill.users_id', \Auth::id());			
 
+                        $options = array();
+                        
 			array_set($options, 'checkboxes.hidden', db_parameter('NEW_COMMENT_HIDDEN', false));
 
 			$added = (new \Veer\Commands\CommentSendCommand($data, $options))->handle();
