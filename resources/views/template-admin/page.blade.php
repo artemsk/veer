@@ -34,7 +34,7 @@
 		<div class="col-md-2"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></span>
-				<input type="text" name="fill[manual_order]" class="form-control" placeholder="Sort" value="{{ $items->manual_order or null }}">
+				<input type="text" name="fill[manual_order]" class="form-control" placeholder="Sort" value="{{ $items->manual_order or '999' }}">
 			</div>
 		</div>
 		<div class="col-md-10"><p></p>
