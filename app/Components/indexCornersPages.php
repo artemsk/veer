@@ -37,7 +37,7 @@ class indexCornersPages
                 ->with('attributes', 'user')
                 ->select('id', 'url', 'title', 'small_txt', 'views',
                     'created_at', 'users_id')
-                ->orderBy('manual_order', 'asc')->orderBy('created_at', 'desc')->simplePaginate($this->itemsPerPage);
+                ->orderBy('manual_order', 'desc')->orderBy('created_at', 'desc')->simplePaginate($this->itemsPerPage);
 
         if (count($e) <= 0) return null;
 
