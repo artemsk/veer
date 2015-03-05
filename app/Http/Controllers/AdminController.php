@@ -386,27 +386,5 @@ class AdminController extends Controller
 
         return $data;
     }
-    /*
-     * API: Lists
-     */
-
-    public function getListOfItems($model)
-    {
-        if (strlen(Input::get('needle')) <= 1 && $model != 'image') return;
-
-        $fields = array('tag' => 'name', 'attribute' => 'name', 'image' => 'id');
-
-        $field = isset($fields[$model]) ? $fields[$model] : 'title';
-
-        $modelFull = "\Veer\Models\\".ucfirst($model);
-
-        $data = $modelFull::where($field, 'like',
-                '%%%'.\Input::get('needle').'%%%');
-
-        if ($model == 'attribute') $data->groupBy($field);
-
-        return viewx(app('veer')->template.'.lists.suggestions',
-            array('data' => $data->lists($model == 'image' ? 'img' : $field,
-                'id'), 'model' => $model));
-    }
+    
 }

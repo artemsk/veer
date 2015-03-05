@@ -189,7 +189,7 @@
       timeout = setTimeout(function() {
       $.ajax({
             type: 'POST',
-            url: 'api/lists/' + type,
+            url: '../api/lists/' + type,
             data: 'whole=' + d + '&needle=' + latest + '&separator=' + separator,
             success: function(results) { 
                 $('#loadedSuggestions-' + type).html(results);

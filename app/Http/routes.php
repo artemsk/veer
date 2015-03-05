@@ -50,7 +50,8 @@ get('order/bills/{id?}/{lnk?}', array('uses' => 'OrderController@bills', 'as' =>
 get('order/success', array('uses' => 'OrderController@success', 'as' => 'order.success'));
 Route::resource('order', 'OrderController', array('only' => array('index', 'show', 'store')));
 
-post('admin/api/lists/{model?}', array('uses' => 'AdminController@getListOfItems', 'as' => 'admin.api.lists'));
+get('api/lists/{model?}', array('uses' => 'ApiController@lists', 'as' => 'api.lists'));
+
 Route::resource('admin', 'AdminController', array('only' => array('index', 'show', 'update')));
 
 Route::controllers([
@@ -63,7 +64,3 @@ get('user/password/remind', 'RemindersController@getRemind');
 post('user/password/remind', 'RemindersController@postRemind');
 get('user/password/reset/{token?}', 'RemindersController@getReset');
 post('user/password/reset', 'RemindersController@postReset');
-
-/* "/code/ext/",
- * + sort, sort_directons, + more_pages
- */
