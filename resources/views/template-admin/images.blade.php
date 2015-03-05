@@ -8,7 +8,7 @@
 	@if(Input::get('filter', null) == 'unused')
 	<a href="{{ route("admin.show", "images") }}">{{ $items->count() }}</a> <small>| unused</small>
 	@else
-	{{ $items->count() }} <small>| <a href="{{ route("admin.show", array("images", "filter" => "unused")) }}">unused</a></small>
+	{{ $items->total() }} <small>| <a href="{{ route("admin.show", array("images", "filter" => "unused")) }}">unused</a></small>
 	@endif
 	</h1>
 <br/>
