@@ -24,7 +24,7 @@ class indexCornersDigest
                 array(
                 "take" => $this->number_of_items
                 ), true)->select('id', 'url', 'title', 'small_txt', 'views',
-                'created_at', 'users_id')->get();
+                'created_at', 'users_id')->orderBy('manual_order', 'desc')->get();
 
         $this->data['tagName'] = \Cache::remember('tagNameId'.$this->tagId, 2,
                 function() {
