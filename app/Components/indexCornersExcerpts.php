@@ -12,5 +12,7 @@ class indexCornersExcerpts extends indexCornersDigest
         $this->tagId = db_parameter('CORNERS_TAG_EXCERPTS');
 
         $this->createListOfPages();
+
+        $this->data['items'] = $this->data['items']->getDictionary();
     }
 }
