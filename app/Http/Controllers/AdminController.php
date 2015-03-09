@@ -50,31 +50,33 @@ class AdminController extends Controller
             }
         }
 
-        $filters = array(Input::get('filter') => Input::get('filter_id'));
-
         if (in_array($t,
                 array("categories", "pages", "products", "users", "orders")))
                 $t = $this->checkOnePageEntities($t);
 
-        $show = $this->getRouteParams($filters);
-
         $view = $t == "lists" ? "userlists" : $t;
+
+        if ($t == "restore") {
+            app('veeradmin')->restore(Input::get('type'), Input::get('id'));
+            return back();
+        }
+
+        $items = $this->getItems($t);
+
+        if (isset($items)) return $this->sendViewOrJson($items, $view);
+    }
+
+    protected function getItems($t)
+    {
+        $show = $this->getRouteParams(array(Input::get('filter') => Input::get('filter_id')));
 
         if (array_key_exists($t, $show)) {
             $className = '\Veer\Services\Show\\'.$show[$t][0];
 
-            $items = ( new $className)->{$show[$t][1]}($show[$t][2]);
-        } elseif ($t == "restore") {
-
-            app('veeradmin')->restore(Input::get('type'), Input::get('id'));
-            return back();
-        } else {
-            list($items, $view) = $this->{'showAdmin'.ucfirst($t)}($t);
+            return ( new $className)->{$show[$t][1]}($show[$t][2]);
         }
 
-        if (is_object($items)) $items->fromCategory = Input::get('category');
-
-        if (isset($items)) return $this->sendViewOrJson($items, $view);
+        return $this->{'showAdmin'.ucfirst($t)}($t);
     }
 
     protected function sendViewOrJson($items, $view)
@@ -134,12 +136,9 @@ class AdminController extends Controller
 
     protected function showAdminEtc($t)
     {
-        return array(
-            app('veeradmin')->{'show'.ucfirst($t)}(array(
+        return app('veeradmin')->{'show'.ucfirst($t)}(array(
                 Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
+        ));
     }
 
     /**

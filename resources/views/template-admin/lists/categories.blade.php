@@ -11,6 +11,6 @@
 	@endif
 	<li class="list-group-item">
 			<input type="text" class="form-control" placeholder=":Existings IDs[,]" 
-				   value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">
+				   value="{{ null != (Input::get('category')) ? ':'.Input::get('category') : null }}">
 	</li>
 </ul>

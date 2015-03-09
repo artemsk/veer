@@ -205,7 +205,7 @@
 			@endforeach
 			@endif
 			<li class="list-group-item">
-					<input type="text" class="form-control input-no-borders show-list-of-items suggestions-category" placeholder=":Existings IDs[,]" name="attachCategories" data-type="category" value="{{ !empty($items->fromCategory) ? ':'.$items->fromCategory : null }}">
+					<input type="text" class="form-control input-no-borders show-list-of-items suggestions-category" placeholder=":Existings IDs[,]" name="attachCategories" data-type="category" value="{{ null != (Input::get('category')) ? ':'.Input::get('category') : null }}">
 			</li>
                         <div id="loadedSuggestions-category"></div>
 		</ul>
