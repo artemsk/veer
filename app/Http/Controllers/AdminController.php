@@ -52,26 +52,22 @@ class AdminController extends Controller
             }
         }
 
-        $show = array("attributes", "tags", "downloads",
-            "configuration", "components", "secrets", "categories", "pages",
-            "products", "users", "orders", "books", "lists", "searches",
-            "communications", "comments", "roles", "bills", "discounts",
-            "shipping", "payment", "statuses", "jobs", "etc");
+        $filters = array(Input::get('filter') => Input::get('filter_id'));
 
-        $view = $t;
+        $show = $this->getRouteParams($filters);
 
-        if (in_array($t, $show)) {
-            list($items, $view) = $this->{'showAdmin'.ucfirst($t)}($t);
+        $view = $t == "lists" ? "userlists" : $t;
+
+        if (array_key_exists($t, $show)) {
+            $className = '\Veer\Services\Show\\'.$show[$t][0];
+
+            $items = ( new $className)->{$show[$t][1]}($show[$t][2]);
         } elseif ($t == "restore") {
 
             app('veeradmin')->restore(Input::get('type'), Input::get('id'));
             return back();
         } else {
-            $className = '\Veer\Services\Show\\'.str_singular(ucfirst($t));
-
-            $items = ( new $className)->{'get'.ucfirst($t)}(
-                array(Input::get('filter') => Input::get('filter_id'))
-            );
+            list($items, $view) = $this->{'showAdmin'.ucfirst($t)}($t);
         }
 
         if (isset($items) && isset($view)) {
@@ -83,11 +79,35 @@ class AdminController extends Controller
         }
     }
 
-    protected function showAdminAttributes($t)
+    protected function getRouteParams($filters)
     {
         return array(
-            ( new \Veer\Services\Show\Attribute)->getUngroupedAttributes(),
-            $t
+            "sites" => ["Site", "getSites", null],
+            //"categories" => "",
+            //"pages",
+            //"products",
+            "images" => ["Image", "getImages", $filters],
+            "attributes" => ["Attribute", "getUngroupedAttributes", null],
+            "tags" => ["Tag", "getTagsWithoutSite", null],
+            "downloads" => ["Download", "getDownloads", null],
+            //"users",
+            "books" => ["UserProperties", "getBooks", $filters],
+            "lists" => ["UserProperties", "getLists", $filters], // userlists view
+            "searches" => ["UserProperties", "getSearches", $filters],
+            "communications" => ["UserProperties", "getCommunications", $filters],
+            "comments" => ["UserProperties", "getComments", $filters],
+            "roles" => ["UserProperties", "getRoles", $filters],
+            //"orders",
+            "bills" => ["OrderProperties", "getBills", $filters],
+            "discounts" => ["OrderProperties", "getDiscounts", $filters],
+            "shipping" => ["OrderProperties", "getShipping", $filters],
+            "payment" => ["OrderProperties", "getPayment", $filters],
+            "statuses" => ["OrderProperties", "getStatuses", null],
+            "configuration" => ["Site", "getConfiguration", Input::get('site')],
+            "components" => ["Site", "getComponents", Input::get('site')],
+            "secrets" => ["Site", "getSecrets", null],
+            "jobs" => ["Site", "getQdbJobs", $filters],
+            //"etc"
         );
     }
 
@@ -149,34 +169,6 @@ class AdminController extends Controller
         return array($items, $view);
     }
 
-    protected function showAdminTags($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\Tag)->getTagsWithoutSite(),
-            $t
-        );
-    }
-    /* 3 */
-
-    protected function showAdminDownloads($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\Download)->getDownloads(),
-            $t
-        );
-    }
-    /* 4 */
-
-    protected function showAdminComments($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\UserProperties)->getComments(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-
     protected function showAdminUsers()
     {
         $user = Input::get('id');
@@ -195,60 +187,6 @@ class AdminController extends Controller
     }
     /* 5 */
 
-    protected function showAdminBooks($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\UserProperties)->getBooks(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-    /* 6 */
-
-    protected function showAdminLists()
-    {
-        return array(
-            ( new \Veer\Services\Show\UserProperties)->getLists(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            "userlists"
-        );
-    }
-    /* 7 */
-
-    protected function showAdminSearches($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\UserProperties)->getSearches(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-    /* 8 */
-
-    protected function showAdminCommunications($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\UserProperties)->getCommunications(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-    /* 9 */
-
-    protected function showAdminRoles($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\UserProperties)->getRoles(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-
     protected function showAdminOrders()
     {
         $order = Input::get('id');
@@ -266,95 +204,6 @@ class AdminController extends Controller
         return array($items, $view);
     }
     /* 11 */
-
-    protected function showAdminBills($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\OrderProperties)->getBills(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-    /* 12 */
-
-    protected function showAdminDiscounts($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\OrderProperties)->getDiscounts(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-    /* 13 */
-
-    protected function showAdminShipping($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\OrderProperties)->getShipping(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-    /* 14 */
-
-    protected function showAdminPayment($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\OrderProperties)->getPayment(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
-    /* 15 */
-
-    protected function showAdminStatuses($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\OrderProperties)->getStatuses(),
-            $t
-        );
-    }
-    /* 16 */
-
-    protected function showAdminConfiguration($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\Site)->getConfiguration(Input::get('site')),
-            $t
-        );
-    }
-    /* 17 */
-
-    protected function showAdminComponents($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\Site)->getComponents(Input::get('site')),
-            $t
-        );
-    }
-    /* 18 */
-
-    protected function showAdminSecrets($t)
-    {
-        return array(
-            $items = ( new \Veer\Services\Show\Site)->getSecrets(),
-            $t
-        );
-    }
-
-    protected function showAdminJobs($t)
-    {
-        return array(
-            ( new \Veer\Services\Show\Site)->getQdbJobs(array(
-                Input::get('filter') => Input::get('filter_id'),
-            )),
-            $t
-        );
-    }
 
     protected function showAdminEtc($t)
     {
@@ -386,5 +235,4 @@ class AdminController extends Controller
 
         return $data;
     }
-    
 }
