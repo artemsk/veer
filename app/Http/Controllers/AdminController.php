@@ -42,8 +42,6 @@ class AdminController extends Controller
      */
     public function show($t)
     {
-        $json = Input::get('json', false); // TODO: ?
-
         if (Input::has('SearchField')) {
             $search = ( new \Veer\Services\Show\Search)->searchAdmin($t);
 
@@ -54,7 +52,9 @@ class AdminController extends Controller
 
         $filters = array(Input::get('filter') => Input::get('filter_id'));
 
-        if(in_array($t, array("categories", "pages", "products", "users", "orders"))) $t = $this->checkOnePageEntities($t);
+        if (in_array($t,
+                array("categories", "pages", "products", "users", "orders")))
+                $t = $this->checkOnePageEntities($t);
 
         $show = $this->getRouteParams($filters);
 
@@ -64,7 +64,6 @@ class AdminController extends Controller
             $className = '\Veer\Services\Show\\'.$show[$t][0];
 
             $items = ( new $className)->{$show[$t][1]}($show[$t][2]);
-            
         } elseif ($t == "restore") {
 
             app('veeradmin')->restore(Input::get('type'), Input::get('id'));
@@ -73,17 +72,20 @@ class AdminController extends Controller
             list($items, $view) = $this->{'showAdmin'.ucfirst($t)}($t);
         }
 
-        if (is_object($items)) {
-            $items->fromCategory = Input::get('category');
-        }
+        if (is_object($items)) $items->fromCategory = Input::get('category');
 
-        if (isset($items) && isset($view)) {
-            return view($this->template.'.'.$view,
-                array(
-                "items" => $items,
-                "template" => $this->template
-            ));
-        }
+        if (isset($items)) return $this->sendViewOrJson($items, $view);
+    }
+
+    protected function sendViewOrJson($items, $view)
+    {
+        if (null != Input::get('json')) return response()->json($items);
+
+        return view($this->template.'.'.$view,
+            array(
+            "items" => $items,
+            "template" => $this->template
+        ));
     }
 
     protected function checkOnePageEntities($t)
@@ -92,7 +94,7 @@ class AdminController extends Controller
 
         return empty($check) ? $t : str_singular($t);
     }
-    
+
     protected function getRouteParams($filters)
     {
         return array(
