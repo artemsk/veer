@@ -54,6 +54,8 @@ class AdminController extends Controller
 
         $filters = array(Input::get('filter') => Input::get('filter_id'));
 
+        if(in_array($t, array("categories", "pages", "products", "users", "orders"))) $t = $this->checkOnePageEntities($t);
+
         $show = $this->getRouteParams($filters);
 
         $view = $t == "lists" ? "userlists" : $t;
@@ -62,12 +64,17 @@ class AdminController extends Controller
             $className = '\Veer\Services\Show\\'.$show[$t][0];
 
             $items = ( new $className)->{$show[$t][1]}($show[$t][2]);
+            
         } elseif ($t == "restore") {
 
             app('veeradmin')->restore(Input::get('type'), Input::get('id'));
             return back();
         } else {
             list($items, $view) = $this->{'showAdmin'.ucfirst($t)}($t);
+        }
+
+        if (is_object($items)) {
+            $items->fromCategory = Input::get('category');
         }
 
         if (isset($items) && isset($view)) {
@@ -79,25 +86,37 @@ class AdminController extends Controller
         }
     }
 
+    protected function checkOnePageEntities($t)
+    {
+        $check = $t == "categories" ? Input::get('category') : Input::get('id');
+
+        return empty($check) ? $t : str_singular($t);
+    }
+    
     protected function getRouteParams($filters)
     {
         return array(
             "sites" => ["Site", "getSites", null],
-            //"categories" => "",
-            //"pages",
-            //"products",
+            "categories" => ["Category", "getAllCategories", Input::get('image')],
+            "category" => ["Category", "getCategoryAdvanced", Input::get('category')],
+            "pages" => ["Page", "getAllPages", $filters],
+            "page" => ["Page", "getPageAdvanced", Input::get('id')],
+            "products" => ["Product", "getAllProducts", $filters],
+            "product" => ["Product", "getProductAdvanced", Input::get('id')],
             "images" => ["Image", "getImages", $filters],
             "attributes" => ["Attribute", "getUngroupedAttributes", null],
             "tags" => ["Tag", "getTagsWithoutSite", null],
             "downloads" => ["Download", "getDownloads", null],
-            //"users",
+            "users" => ["User", "getAllUsers", $filters],
+            "user" => ["User", "getUserAdvanced", Input::get('id')],
             "books" => ["UserProperties", "getBooks", $filters],
             "lists" => ["UserProperties", "getLists", $filters], // userlists view
             "searches" => ["UserProperties", "getSearches", $filters],
             "communications" => ["UserProperties", "getCommunications", $filters],
             "comments" => ["UserProperties", "getComments", $filters],
             "roles" => ["UserProperties", "getRoles", $filters],
-            //"orders",
+            "orders" => ["Order", "getAllOrders", $filters],
+            "order" => ["Order", "getOrderAdvanced", Input::get('id')],
             "bills" => ["OrderProperties", "getBills", $filters],
             "discounts" => ["OrderProperties", "getDiscounts", $filters],
             "shipping" => ["OrderProperties", "getShipping", $filters],
@@ -110,100 +129,6 @@ class AdminController extends Controller
             //"etc"
         );
     }
-
-    protected function showAdminCategories()
-    {
-        $category    = Input::get('category');
-        $imageFilter = Input::get('image');
-
-        if (empty($category)) {
-            $items = ( new \Veer\Services\Show\Category)->getAllCategories($imageFilter);
-            $view  = "categories";
-        } else {
-            $items = ( new \Veer\Services\Show\Category)->getCategoryAdvanced($category);
-            $view  = "category";
-        }
-
-        return array($items, $view);
-    }
-
-    protected function showAdminPages()
-    {
-        $page = Input::get('id');
-
-        if (empty($page)) {
-            $items = ( new \Veer\Services\Show\Page)->getAllPages(array(
-                Input::get('filter') => Input::get('filter_id'),
-            ));
-            $view  = "pages";
-        } else {
-            $items = ( new \Veer\Services\Show\Page)->getPageAdvanced($page);
-            $view  = "page";
-        }
-
-        if (is_object($items)) {
-            $items->fromCategory = Input::get('category');
-        }
-
-        return array($items, $view);
-    }
-
-    protected function showAdminProducts()
-    {
-        $product = Input::get('id');
-
-        if (empty($product)) {
-            $items = ( new \Veer\Services\Show\Product)->getAllProducts(array(
-                Input::get('filter') => Input::get('filter_id'),
-            ));
-            $view  = "products";
-        } else {
-            $items = ( new \Veer\Services\Show\Product)->getProductAdvanced($product);
-            $view  = "product";
-        }
-
-        if (is_object($items)) {
-            $items->fromCategory = Input::get('category');
-        }
-
-        return array($items, $view);
-    }
-
-    protected function showAdminUsers()
-    {
-        $user = Input::get('id');
-
-        if (empty($user)) {
-            $items = ( new \Veer\Services\Show\User)->getAllUsers(array(
-                Input::get('filter') => Input::get('filter_id'),
-            ));
-            $view  = "users";
-        } else {
-            $items = ( new \Veer\Services\Show\User)->getUserAdvanced($user);
-            $view  = "user";
-        }
-
-        return array($items, $view);
-    }
-    /* 5 */
-
-    protected function showAdminOrders()
-    {
-        $order = Input::get('id');
-
-        if (empty($order)) {
-            $items = ( new \Veer\Services\Show\Order)->getAllOrders(array(
-                Input::get('filter') => Input::get('filter_id'),
-            ));
-            $view  = "orders";
-        } else {
-            $items = ( new \Veer\Services\Show\Order)->getOrderAdvanced($order);
-            $view  = "order";
-        }
-
-        return array($items, $view);
-    }
-    /* 11 */
 
     protected function showAdminEtc($t)
     {
