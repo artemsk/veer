@@ -176,7 +176,7 @@ class AdminController extends Controller
 
         $f = "update".strtoupper($t[0]).substr($t, 1);
 
-        $data = app('veeradmin')->{$f}();
+        $data = $t == "configuration" ? (new \Veer\Services\Administration\Configuration())->handle() : app('veeradmin')->{$f}();
 
         if (!app('request')->ajax() && !(app('veeradmin')->skipShow)) {
             return $this->show($t);
