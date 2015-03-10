@@ -42,13 +42,9 @@ class AdminController extends Controller
      */
     public function show($t)
     {
-        if (Input::has('SearchField')) {
-            $search = ( new \Veer\Services\Show\Search)->searchAdmin($t);
-
-            if (is_object($search)) {
-                return $search;
-            }
-        }
+        $specialRoute = $this->specialRoutes($t);
+        
+        if(!empty($specialRoute)) return $specialRoute;
 
         if (in_array($t,
                 array("categories", "pages", "products", "users", "orders")))
@@ -56,16 +52,31 @@ class AdminController extends Controller
 
         $view = $t == "lists" ? "userlists" : $t;
 
-        if ($t == "restore") {
-            app('veeradmin')->restore(Input::get('type'), Input::get('id'));
-            return back();
-        }
-
         $items = $this->getItems($t);
 
         if (isset($items)) return $this->sendViewOrJson($items, $view);
     }
 
+    /**
+     * special routes: search or restore
+     */
+    protected function specialRoutes($t)
+    {
+        if (Input::has('SearchField')) {
+            $search = ( new \Veer\Services\Show\Search)->searchAdmin($t);
+
+            if (is_object($search)) return $search;
+        }
+
+        if ($t == "restore") {
+            app('veeradmin')->restore(Input::get('type'), Input::get('id'));
+            return back();
+        }
+    }
+
+    /**
+     * get Items
+     */
     protected function getItems($t)
     {
         $show = $this->getRouteParams(array(Input::get('filter') => Input::get('filter_id')));
@@ -79,6 +90,9 @@ class AdminController extends Controller
         return $this->{'showAdmin'.ucfirst($t)}($t);
     }
 
+    /**
+     * send response - view or simple json
+     */
     protected function sendViewOrJson($items, $view)
     {
         if (null != Input::get('json')) return response()->json($items);
@@ -90,6 +104,9 @@ class AdminController extends Controller
         ));
     }
 
+    /**
+     * check entities which have separate page for single entity
+     */
     protected function checkOnePageEntities($t)
     {
         $check = $t == "categories" ? Input::get('category') : Input::get('id');
@@ -97,6 +114,9 @@ class AdminController extends Controller
         return empty($check) ? $t : str_singular($t);
     }
 
+    /**
+     * configure administration routes
+     */
     protected function getRouteParams($filters)
     {
         return array(
@@ -134,6 +154,9 @@ class AdminController extends Controller
         );
     }
 
+    /**
+     * soon to be deprecated - show etc. page
+     */
     protected function showAdminEtc($t)
     {
         return app('veeradmin')->{'show'.ucfirst($t)}(array(
