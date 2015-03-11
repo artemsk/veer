@@ -279,7 +279,6 @@
 			<textarea class="form-control" rows="5" name="tags" placeholder="Tags (One per row)">@if(isset($items->tags))
 @foreach($items->tags as $tag)
 {{ $tag->name }}
-
 @endforeach
 @endif</textarea>
 			<div class="rowdelimiter"></div>
