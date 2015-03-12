@@ -510,7 +510,7 @@ trait Structure {
 			
 			$p = new \Veer\Models\Product;
 			$p->title = $title;
-			$p->url = array_get($all, 'fill.url', '');
+			$p->url = trim(array_get($all, 'fill.url', ''));
 			$p->price = array_get($prices, 0, 0);
 			$p->price_sales = array_get($prices, 1, 0);
 			$p->price_opt = array_get($prices, 2, 0);
@@ -627,7 +627,8 @@ trait Structure {
 		$toShow->minute((int)array_get($all, (int)'to_show_minute', 0));
 		
 		array_set($all, 'fill.to_show', $toShow);
-			
+		$all['fill']['url'] = trim($all['fill']['url']);
+
 		if($action == "add" || $action == "saveAs") {
 			
 			$product = new \Veer\Models\Product;
@@ -967,7 +968,7 @@ trait Structure {
 			
 			$p = new \Veer\Models\Page;
 			$p->title = $title;
-			$p->url = array_get($all, 'url', '');
+			$p->url = trim(array_get($all, 'url', ''));
 			$p->hidden = 1;
 			$p->manual_order = 999999;
 			$p->users_id = \Auth::id();
@@ -1016,6 +1017,7 @@ trait Structure {
 		array_set($all, 'fill.show_date', isset($all['fill']['show_date']) ? true : 0);
 		array_set($all, 'fill.in_list', isset($all['fill']['in_list']) ? true : 0);
 		array_set($all, 'fill.users_id', empty($all['fill']['users_id']) ? \Auth::id() : $all['fill']['users_id']);
+                $all['fill']['url'] = trim($all['fill']['url']);
 
 		if($action == "add" || $action == "saveAs") {
 			
