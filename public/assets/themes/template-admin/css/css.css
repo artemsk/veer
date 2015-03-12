@@ -97,11 +97,13 @@ html, body
     -moz-text-decoration-color: #337AB7;
     -moz-text-decoration-line: none;
     -moz-text-decoration-style: solid;
-    margin: 10px;
+    margin: 0px 20px 20px 0px;
+    float: left;
 }
 
 .round-element-primary {
     background-color: #337ab7;
+    padding: 5px 14px 5px 0px;
 }
 
 .round-element-primary:hover {

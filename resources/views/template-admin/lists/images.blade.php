@@ -12,18 +12,10 @@
 					@else
 					<button type="submit" class="btn btn-default btn-xs" name="action" value="removeImage.{{ $item->id }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 					@endif
-					<span class="label label-info">
-						<a href="{{ route('admin.show', array('products', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">
-							{{ $item->products->count() }}</a></span>
-					<span class="label label-success">
-						<a href="{{ route('admin.show', array('pages', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">
-							{{ $item->pages->count() }}</a></span>
-					<span class="label label-warning">
-						<a href="{{ route('admin.show', array('categories', 'image' => $item->id)) }}" target="_blank">
-							{{ $item->categories->count() }}</a></span>
-					<span class="label label-default">
-						<a href="{{ route('admin.show', array('users', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">
-							{{ $item->users->count() }}</a></span>					
+					<span class="label label-info"><a href="{{ route('admin.show', array('products', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">{{ $item->products->count() }}</a></span>
+					<span class="label label-success"><a href="{{ route('admin.show', array('pages', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">{{ $item->pages->count() }}</a></span>
+                                        <span class="label label-warning"><a href="{{ route('admin.show', array('categories', 'image' => $item->id)) }}" target="_blank">{{ $item->categories->count() }}</a></span>
+					<span class="label label-default"><a href="{{ route('admin.show', array('users', 'filter' => 'images', 'filter_id' => $item->id)) }}" target="_blank">{{ $item->users->count() }}</a></span>					
 				</div>
 			</div>
 		</div>
