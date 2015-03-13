@@ -132,7 +132,7 @@ class Product {
 	 */
 	public function getAllProducts($filters = array(), $paginateItems = 25) 
 	{			
-		return $this->getAllEntities('\Veer\Models\Product', $filters, $paginateItems);
+		return $this->getAllEntities('\Veer\Models\Product', array_get($filters, 0), $paginateItems, array_get($filters, 1));
 	}	
 	
 	

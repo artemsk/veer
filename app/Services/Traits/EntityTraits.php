@@ -36,7 +36,7 @@ trait EntityTraits {
 	/**
 	 * get all pages|products
 	 */
-	public function getAllEntities($model, $filters = array(), $paginateItems = 25) 
+	public function getAllEntities($model, $filters = array(), $paginateItems = 25, $sort = array('id' => 'desc'))
 	{			
 		$type = key($filters);
 		
@@ -58,10 +58,17 @@ trait EntityTraits {
 						
 		if(!empty($filter_id)) app('veer')->loadedComponents['filtered_id'] = $this->replaceFilterId($type, $filter_id); 
 		
-		return $items->orderBy('id','desc')->paginate($paginateItems);	
+		return $this->sortAllEntities($items, $sort)->paginate($paginateItems);
 	}	
-	
-	/* filter pages */
+
+        protected function sortAllEntities($items, $sort)
+        {
+            if(empty(key($sort))) return $items->orderBy('id', 'desc');
+
+            return $items->orderBy(key($sort), array_get($sort, key($sort), 'desc'));
+        }
+
+        /* filter pages */
 	public function filterEntities($model, $type, $filter_id)
 	{
 		$type_field = $type;
