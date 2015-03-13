@@ -37,7 +37,7 @@
 					  <span class="icon-bar"></span>
 					  <span class="icon-bar"></span>
 				  </button>
-				  <a class="navbar-brand" href="#"><strong>Veer</strong></a>
+                              <a class="navbar-brand" href="#"><span class="logo-site">veer</span></a>
 			  </div>
 			  <!-- Collect the nav links, forms, and other content for toggling -->
 			  <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -106,10 +106,10 @@
 					<input name="_method" type="hidden" value="PUT">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					  <div class="form-group">
-						  <input type="text" class="form-control" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom" 
+						  <input type="text" class="form-control navbar-search navbar-search-input" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom"
 								 data-html="true" title="Searching current element" id="SearchField" name="SearchField">
 					  </div>
-					  <button type="submit" name="SearchButton" class="btn btn-default" value="Search">Search</button>
+					  <button type="submit" name="SearchButton" class="btn btn-default navbar-search" value="Search">Search</button>
 				   </form>
 			  </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->

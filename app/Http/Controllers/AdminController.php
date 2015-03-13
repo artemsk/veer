@@ -172,7 +172,7 @@ class AdminController extends Controller
      */
     public function update($t)
     {
-        if (Input::has('SearchField')) return $this->show($t);
+        if (Input::has('SearchButton')) return $this->show($t);
 
         $f = "update".strtoupper($t[0]).substr($t, 1);
 

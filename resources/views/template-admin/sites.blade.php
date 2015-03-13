@@ -2,9 +2,17 @@
 
 @section('body')
 
-	@include($template.'.layout.breadcrumb-structure', array('place' => 'sites'))
-	
-<h1>Sites</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="breadcumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'sites'))</div>
+
+            <h1>Sites</h1>
+
+        </div>
+        <div class="col-sm-10 main-content-block">
+
+
 <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="table-responsive">
     <table class="table table-hover">
@@ -75,4 +83,9 @@
 	<input type="hidden" name="_action" value="update">
 </div>
 </form>
+
+        </div>
+    </div>
+</div>
+
 @stop

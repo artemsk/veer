@@ -24,12 +24,62 @@ html, body
 
 /* navbar */
 
+.navbar-default {
+    //background-color: #fff;
+    //border-bottom-color: rgba(56, 108, 224, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.0680392) 0px 1px 1px 0px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.0680392) 0px 1px 1px 0px;
+}
 
 .logo-site {
-    font-weight: bold;
-    color: #222222;
-    text-decoration: none;
-    letter-spacing: 5px;
+    color: #ccc !important;
+    letter-spacing: 3px;
+    font-weight: 700;
+    border: 2px #ccc solid;
+    padding: 5px 8px 5px 10px;
+    border-radius: 0px;
+}
+
+.logo-site:hover {
+    color: #386ce0 !important;
+    border: 2px #386ce0 solid;
+}
+
+.dropdown-toggle {
+   //color: #386ce0 !important; 
+}
+
+.navbar-search {
+    //color: rgba(56, 108, 224, 0.8); 
+    //border-color: rgba(56, 108, 224, 0.5);
+}
+
+.navbar-toggle .icon-bar {
+    background-color: #386ce0 !important; 
+}
+
+.navbar-toggle {
+    border-color: #386ce0 !important; 
+}
+
+.breadcumb-block, .main-content-block {
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.breadcumb-block .breadcrumb {
+    background-color: #f0f0f0;
+}
+
+.breadcumb-block .breadcrumb > li {
+    display: block;
+}
+
+.breadcumb-block .breadcrumb > li + li:before {
+  padding: 0 0px;
+  color: #ccc;
+  content: "";
 }
 
 .events-veer-message-center {
