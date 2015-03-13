@@ -1,11 +1,13 @@
 
+/* basic */
+
 html, body 
 {   padding: 15px;
     /*font-family: "Times New Roman", serif;*/
     background-color: #fff;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;  
-    font-family: "Roboto";
+    font-family: Roboto, sans-serif;
 }
 
 .rowdelimiter {
@@ -19,6 +21,10 @@ html, body
 .xs-rowdelimiter {
     margin: 5px 0 0 0;
 }
+
+/* navbar */
+
+
 .logo-site {
     font-weight: bold;
     color: #222222;

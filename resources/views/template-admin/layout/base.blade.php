@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <title>Veer Layer - Administrating Route</title>
-
+    <title>{{ ucfirst(app('router')->current()->admin) }} — Manage & Configure — Veer.</title>
+    
     <!-- Bootstrap -->
     <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/css.css') }}" rel="stylesheet">
-	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/animate.css') }}" rel="stylesheet">
-	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/fileinput.min.css') }}" rel="stylesheet">
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/datepicker3.css') }}" rel="stylesheet">
-	<link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/bootstrap-switch.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/fileinput.min.css') }}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/datepicker3.css') }}" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/bootstrap-switch.min.css') }}" rel="stylesheet">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -30,9 +30,8 @@
 
 	  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		  <div class="container-fluid">
-			  <!-- Brand and toggle get grouped for better mobile display -->
 			  <div class="navbar-header">
-				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
 					  <span class="sr-only">Toggle navigation</span>
 					  <span class="icon-bar"></span>
 					  <span class="icon-bar"></span>
@@ -41,7 +40,7 @@
 				  <a class="navbar-brand" href="#"><strong>Veer</strong></a>
 			  </div>
 			  <!-- Collect the nav links, forms, and other content for toggling -->
-			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  <div class="collapse navbar-collapse" id="navbar-collapse-1">
 				  <ul class="nav navbar-nav">
 					  <li class="dropdown">
 						  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Structure 
@@ -103,7 +102,7 @@
 						  </ul>
 					  </li>					  
 				  </ul>
-				  <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="navbar-form navbar-left" role="search">
+				  <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="navbar-form navbar-right" role="search">
 					<input name="_method" type="hidden" value="PUT">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					  <div class="form-group">
