@@ -10,7 +10,7 @@
 	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
 	<input name="_method" type="hidden" value="PUT">
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	@foreach ($items['grouped'] as $name => $item)
+	@foreach (null == data_get($items, 'grouped') ? array() : $items['grouped'] as $name => $item)
 	<div class="row">
         <div class="col-sm-12">	
 				<p><strong><input type="text" class="form-control" placeholder="Name" name="renameAttrName[{{ $name }}]" value="{{ $name }}"></strong></p>
