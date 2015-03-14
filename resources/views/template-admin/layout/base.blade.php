@@ -126,13 +126,13 @@
 			<div class="row">
 				 <div class="col-sm-6">					 
 					 <?php app('veer')->statistics(); // TODO: remove from here? ?>
-					 <p>Veer :: version <strong>{{ $app['veer']->statistics['version'] }}</strong> <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> loading time <strong>{{ $app['veer']->statistics['loading'] }}</strong> memory usage <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
+					 <p>v e e r — <strong>{{ $app['veer']->statistics['version'] }}</strong> — <a href="#" data-toggle="collapse" data-target="#qlog" aria-expanded="true" aria-controls="qlog">queries <strong>{{ $app['veer']->statistics['queries'] }}</strong></a> — loading <strong>{{ $app['veer']->statistics['loading'] }}</strong> — memory <strong>{{ $app['veer']->statistics['memory'] }}</strong></p>
 				 </div>
 				 <div class="col-sm-3 text-center">
-					 <p class="footer-block">created by <strong><a href="http://bolshaya.net">bolshaya.net</a></strong></p>
+					 <p class="footer-block"><small>created by </small><strong><a href="http://bolshaya.net">bolshaya.net</a></strong></p>
 				 </div>
 				 <div class="col-sm-3 text-right">	 
-					 <p class="footer-block">powered by <strong>Veer.</strong></p>
+					 <p class="footer-block"><small>powered by </small><strong>veer</strong>.</p>
 				 </div>
 				 </div>
 			 </div>

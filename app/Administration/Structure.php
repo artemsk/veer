@@ -59,6 +59,8 @@ trait Structure {
 
 			$site->save();
 			$this->action_performed[] = "UPDATE site";
+
+                        if(Input::has('snapshots')) $this->refreshSiteSnapshots($site->url, $site->id);
 		}
 
 		if (app('veer')->siteId == $turnoff) {
@@ -71,7 +73,12 @@ trait Structure {
 		Event::fire('veer.message.center', $message);
 	}	
 	
-	
+	protected function refreshSiteSnapshots($siteUrl, $siteId, $width = 1368, $height = 768)
+        {
+            $scr = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'wkhtmltoimage.exe' : 'wkhtmltoimage-i386';
+            system("".base_path()."/vendor/bin/".$scr." --width ".$width." --disable-smart-width --height ".$height." ".$siteUrl." ".config('veer.images_path')."/site-".$siteId.".jpg");
+        }
+        
 	/**
 	 * Update Root Categories
 	 */

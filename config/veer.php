@@ -29,7 +29,7 @@ return array(
 	| 
 	|--------------------------------------------------------------------------
 	*/
-		'assets_path' => env('VEER_PATHS_ASSETS', 'assets/themes'),
+	'assets_path' => env('VEER_PATHS_ASSETS', 'assets/themes'),
     
         'htmlpages_path' => env('VEER_PATHS_HTMLPAGES', "assets/pages"),  
     

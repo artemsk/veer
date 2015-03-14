@@ -12,11 +12,13 @@
             <p><i class="fa fa-user"></i> {{ data_get(app('veer'), 'online') }}
                 <small>online</small>
         </div>
+        <div class="visible-xs sm-rowdelimiter"></div>
         <div class="col-sm-10 main-content-block">
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="row">
                     @foreach ($items as $item)
                     <div class="col-sm-4"><div class="sites-block">
+                            @if(file_exists(public_path().'/'.config('veer.images_path').'/site-'.$item->id.'.jpg'))<p><img src="{{ asset(config('veer.images_path').'/site-'.$item->id.'.jpg') }}" class="img-responsive site-snapshot">@endif
                             <p><input type="url" class="form-control text-center" name="site[{{ $item->id }}][url]" placeholder="Site Url" value="{{ $item['url'] }}">
                             <div class="sites-block-half">
                                 <p><strong>parent</strong>
@@ -60,26 +62,31 @@
                         </div>
                     </div>
                     @endforeach
-                </div>
 
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <td><input type="url" class="form-control" name="site[{{ ($item->id)+1 }}][url]" placeholder="Site Url" value=""></td>
-                                <td><input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][parent_id]" placeholder="Parent Id" size="3"></td>
-                                <td><input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][manual_sort]" placeholder="Sort" size="3"></td>
-
-                                <td><input type="checkbox" name="site[{{ ($item->id)+1 }}][redirect_on]"></td>
-                                <td><input type="url" class="form-control" name="site[{{ ($item->id)+1 }}][redirect_url]" placeholder="Redirect Url" value="">
-                                
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update" class="btn btn-default">Update</button>
-                    <input type="hidden" name="_action" value="update">
+                     <div class="col-sm-4"><div class="sites-block">
+                             <p><input type="url" class="form-control text-center" name="site[{{ ($item->id)+1 }}][url]" placeholder="Site Url" value="">
+                            <div class="sites-block-half">
+                                <p><strong>parent</strong>
+                                    <input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][parent_id]" placeholder="Parent Id" size="3">
+                            </div>
+                            <div class="sites-block-half sites-block-last">
+                                <p><strong>sort</strong>
+                                    <input type="text" class="form-control" name="site[{{ ($item->id)+1 }}][manual_sort]" placeholder="Sort" size="3">
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" name="site[{{ ($item->id)+1 }}][redirect_on]">
+                                </span>
+                                <input type="url" class="form-control" name="site[{{ ($item->id)+1 }}][redirect_url]" placeholder="Redirect Url" value="">
+                            </div><!-- /input-group -->
+                     </div></div>
                 </div>
+                <hr class="hr-narrow">
+                <button type="submit" name="update" class="btn btn-default">Update</button>
+                <button type="submit" name="snapshots" value="refresh" class="btn btn-default pull-right">Refresh snapshots</button>
+                <input type="hidden" name="_action" value="update">
+                
             </form>
 
         </div>
