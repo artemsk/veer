@@ -10,7 +10,8 @@
 		"erusev/parsedown": "*",
 		"guzzlehttp/guzzle": "~5.0",
 		"predis/predis": "~1.0",
-		"artemsk/veer-wkhtmltoimage": "*"
+		"knplabs/knp-snappy": "*",
+		"h4cc/wkhtmltoimage-amd64": "0.12.x"		
 	},
 	"autoload": {
 		"classmap": [
