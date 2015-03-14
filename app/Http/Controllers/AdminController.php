@@ -29,6 +29,13 @@ class AdminController extends Controller
      */
     public function index()
     {
+
+        exec(base_path()."/wkhtmltoimage.exe http://bolshaya.net ".config('veer.images_path')."/site-1.jpg");
+
+        exec(base_path()."/wkhtmltoimage-amd64 ".config('veer.images_path')."/site-2.jpg");
+
+        exec(base_path()."/wkhtmltoimage-i386 ".config('veer.images_path')."/site-3.jpg");
+
         return redirect()->route('admin.show', 'sites');
         
         /*return view(app('veer')->template.'.dashboard',

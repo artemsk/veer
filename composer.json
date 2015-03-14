@@ -9,8 +9,7 @@
 		"doctrine/dbal": "~2.4",
 		"erusev/parsedown": "*",
 		"guzzlehttp/guzzle": "~5.0",
-		"predis/predis": "~1.0",
-		"artemsk/veer-wkhtmltoimage": "*"
+		"predis/predis": "~1.0"
 	},
 	"autoload": {
 		"classmap": [
