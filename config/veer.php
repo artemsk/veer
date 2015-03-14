@@ -79,7 +79,7 @@ return array(
         
         'history_ips' => env('VEER_SAVE_IPS', false),   
 	
-		'history_path' => storage_path() . "/logs/history",
+	'history_path' => storage_path() . "/logs/history",
 	
 	
     /*

@@ -18,8 +18,10 @@ class Site {
 	 * get Sites
 	 */
 	public function getSites() 
-	{	
-		return \Veer\Models\Site::orderBy('manual_sort','asc')->get();		
+	{
+            app('veer')->online = $this->getUsersOnline();
+
+            return \Veer\Models\Site::orderBy('manual_sort','asc')->get();
 	}
 	
 	/*
@@ -107,5 +109,24 @@ class Site {
 			'statuses' => $statuses
 		);
 	}	
-	
+
+        protected function getUsersOnline()
+        {
+            /**
+             * TODO: only for 'file' session driver (for now)
+             */
+            $sessions    = \File::allFiles(base_path()."/storage/framework/sessions");
+            $fiveminutes = time() - (5 * 60);
+            $counted     = 0;
+
+            foreach ($sessions as $s) {
+
+                $lastmodified = filemtime(array_get(pathinfo($s), 'dirname').'/'.array_get(pathinfo($s),
+                        'basename'));
+
+                if ($lastmodified >= $fiveminutes) $counted++;
+            }
+
+            return $counted;
+        }
 }

@@ -29,10 +29,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view(app('veer')->template.'.dashboard',
+        return redirect()->route('admin.show', 'sites');
+        
+        /*return view(app('veer')->template.'.dashboard',
             array(
             "template" => app('veer')->template
-        ));
+        ));*/
     }
 
     /**
