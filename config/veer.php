@@ -10,7 +10,7 @@ return array(
     
         'template' => "template-blank",   
 	
-		'template-admin' => "template-admin",
+	'template-admin' => "template-admin",
     
     /*
 	|--------------------------------------------------------------------------
@@ -102,5 +102,14 @@ return array(
 	*/ 
 	
 		//'markdown_editor' => true,
+
+
+        /*
+	|--------------------------------------------------------------------------
+	| wkhtmltoimage path (win or linux).
+	|--------------------------------------------------------------------------
+	*/
+
+                'wkhtmltoimage' => env('VEER_WKHTMLTOIMAGE_PATH', null),
 
 );

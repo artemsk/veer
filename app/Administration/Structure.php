@@ -75,8 +75,10 @@ trait Structure {
 	
 	protected function refreshSiteSnapshots($siteUrl, $siteId, $width = 1368, $height = 768)
         {
-            $scr = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'wkhtmltoimage.exe' : 'wkhtmltoimage-i386';
-            exec("".base_path()."/vendor/artemsk/veer-wkhtmltoimage/bin/".$scr." --width ".$width." --disable-smart-width --height ".$height." ".$siteUrl." ".config('veer.images_path')."/site-".$siteId.".jpg");
+           if(config('veer.wkhtmltoimage') == null) return false;
+
+
+            exec(config('veer.wkhtmltoimage') ." --width ".$width." --disable-smart-width --height ".$height." ".$siteUrl." ".config('veer.images_path')."/site-".$siteId.".jpg");
         }
         
 	/**

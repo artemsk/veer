@@ -29,11 +29,6 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $snappy = new \Knp\Snappy\Image(base_path() . '/vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64');
-
-        $snappy->generate("http://yandex.ru", "test.jpg");
-        dd($snappy);
-        
         return redirect()->route('admin.show', 'sites');
         
         /*return view(app('veer')->template.'.dashboard',
