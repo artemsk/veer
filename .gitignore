@@ -3,3 +3,5 @@
 .env
 composer.lock
 wkhtmltoimage.exe
+wkhtmltoimage-amd64
+wkhtmltoimage-i386
