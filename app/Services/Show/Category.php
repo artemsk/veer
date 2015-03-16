@@ -176,13 +176,16 @@ class Category {
 
 		if(is_object($items)) 
 		{
-			$items->load('products', 'communications');
+			$items->load('communications');
 
 			$this->loadImagesWithElements($items, array_get($options, 'skipWith', false));
 			
 			$items->load(array('pages' => function($q) {
-				$q->orderBy('manual_order', 'asc');
-			}));
+				$q->with('user', 'subpages', 'categories', 'comments', 'images')->orderBy('manual_order', 'asc');
+			},
+                            'products' => function($q) {
+                                $q->with('categories', 'images');
+                        }));
 
 			$items->site_title = db_parameter('SITE_TITLE', null, $items->sites_id);
 		}	
