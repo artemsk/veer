@@ -77,8 +77,9 @@ trait Structure {
         {
            if(config('veer.wkhtmltoimage') == null) return false;
 
+           unlink(config('veer.images_path')."/site-".$siteId.".jpg");
 
-            exec(config('veer.wkhtmltoimage') ." --width ".$width." --disable-smart-width --height ".$height." ".$siteUrl." ".config('veer.images_path')."/site-".$siteId.".jpg");
+           exec(config('veer.wkhtmltoimage') ." --width ".$width." --disable-smart-width --height ".$height." ".$siteUrl." ".config('veer.images_path')."/site-".$siteId.".jpg");
         }
         
 	/**
