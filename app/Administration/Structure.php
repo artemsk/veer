@@ -73,7 +73,7 @@ trait Structure {
 		Event::fire('veer.message.center', $message);
 	}	
 	
-	protected function refreshSiteSnapshots($siteUrl, $siteId, $width = 1368, $height = 768)
+	public function refreshSiteSnapshots($siteUrl, $siteId, $width = 1368, $height = 768)
         {
            if(config('veer.wkhtmltoimage') == null) return false;
 
