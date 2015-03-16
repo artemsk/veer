@@ -109,7 +109,7 @@
 						  <input type="text" class="form-control navbar-search navbar-search-input" placeholder="[id|field]" data-toggle="tooltip" data-placement="bottom"
 								 data-html="true" title="Searching current element" id="SearchField" name="SearchField">
 					  </div>
-					  <button type="submit" name="SearchButton" class="btn btn-default navbar-search" value="Search">Search</button>
+                                        <button type="submit" name="SearchButton" class="btn btn-default navbar-search" value="Search"><i class="fa fa-search"></i></button>
 				   </form>
 			  </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
