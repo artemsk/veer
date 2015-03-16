@@ -161,12 +161,17 @@
 		<div class="col-sm-8"><p></p>	
 			<h3><strong>Images</strong></h3>
 			<div class="row">
-				<div class="col-md-6">
-					<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
-				</div>
-				<div class="col-md-6">
-					<input class="form-control show-list-of-items suggestions-image" name="attachImages" data-type="image" placeholder=":Existing Images IDs[,]">
-				</div>				
+                            @if(isset($items->images) && count($items->images)>0)
+                            <div class="col-md-3 col-lg-4">
+                                <p><button type="submit" class="btn btn-default btn-block" name="action" value="removeAllImages"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove All</button>
+                            </div>
+                            @endif
+                            <div class="col-md-5 col-lg-5">
+                                    <input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
+                            </div>
+                            <div class="col-md-4 col-lg-3">
+                                    <input class="form-control show-list-of-items suggestions-image" name="attachImages" data-type="image" placeholder=":Existing Images IDs[,]">
+                            </div>
 			</div>
                         <div id="loadedSuggestions-image"></div>
 			@if(isset($items->images) && count($items->images)>0)			
@@ -176,10 +181,10 @@
 			<div class="rowdelimiter"></div>
 			<h3><strong>Files</strong></h3>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-5 col-lg-5">
 					<input class="input-files-enhance" type="file" id="InFile2" name="uploadFiles[]" multiple=true>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4 col-lg-3">
 					<input class="form-control" name="attachFiles" placeholder=":Existing Files IDs[,]">
 				</div>				
 			</div>

@@ -125,14 +125,19 @@
 			<p></p>	
 			<h3>Images</h3>
 			<div class="row">
-				<div class="col-md-6">
-					<input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
-				</div>
-				<div class="col-md-6">
-					<input class="form-control show-list-of-items suggestions-image" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]">
-                                        <div id="loadedSuggestions-image"></div>
-				</div>				
+                            @if(isset($items->images) && count($items->images)>0)
+                            <div class="col-md-3 col-lg-2">
+                                <p><button type="submit" class="btn btn-default btn-block" name="action" value="removeAllImages"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove All</button>
+                            </div>
+                            @endif
+                            <div class="col-md-5 col-lg-4">
+                                    <input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true>
+                            </div>
+                            <div class="col-md-4 col-lg-6">
+                                    <input class="form-control show-list-of-items suggestions-image" name="attachImages" data-type="image" placeholder=":Existing Images IDs[,]">
+                            </div>
 			</div>
+                        <div id="loadedSuggestions-image"></div>
 			@if(isset($items->images) && count($items->images)>0)			
 			<p></p>
 			@include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))

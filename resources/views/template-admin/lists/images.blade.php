@@ -20,10 +20,4 @@
 			</div>
 		</div>
 		@endforeach
-                @if(count($items)>1 && (isset($denyDelete) || !empty($denyDelete)))
-                <div class="clearfix"></div>
-                <div class="col-lg-2 col-md-2 col-sm-3">
-                    <button type="submit" class="btn btn-default btn-xs" name="action" value="removeAllImages"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove All</button>
-                </div>
-                @endif
 	</div>

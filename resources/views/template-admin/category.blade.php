@@ -6,7 +6,6 @@
     <div class="row">
         <div class="col-sm-2">
             <div class="breadcumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'category'))</div>
-            <h1>Category</h1>
         </div>
         <div class="visible-xs sm-rowdelimiter"></div>
         <div class="col-sm-10 main-content-block categories-page">
@@ -121,11 +120,11 @@
     <div class="row">
         <div class="col-sm-12">
 
+            <div class="rowdelimiter"></div>
+
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input name="_method" type="hidden" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                <div class="rowdelimiter"></div>
 
                 <div class="row">
                     <div class="col-xs-12 categories-connections-block">
@@ -133,16 +132,21 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5">
-                        <p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true></p>
-                    </div>
-                    <div class="col-md-5">
+                    <div class="col-lg-2 col-md-2 col-sm-3">
                         <p><input class="form-control show-list-of-items suggestions-image" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
                         <div id="loadedSuggestions-image"></div>
                     </div>
-                    <div class="col-md-2">
-                        <p><button class="btn btn-default btn-block" type="submit" name="action" value="updateImages">Upload | Update</button></p>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true></p>
+                    </div>                    
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <p><button class="btn btn-primary btn-block" type="submit" name="action" value="updateImages">Upload | Update</button></p>
                     </div>
+                    @if(count($items->images)>1)
+                    <div class="col-lg-2 col-md-2 col-sm-3">
+                        <p><button type="submit" class="btn btn-default" name="action" value="removeAllImages"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove All</button>
+                    </div>
+                    @endif
                 </div>
                 <p></p>
                 @if(count($items->images)>0)
@@ -154,11 +158,11 @@
                 @endif
             </form>
 
+            <div class="rowdelimiter"></div>
+
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
                 <input name="_method" type="hidden" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <div class="rowdelimiter"></div>
-
                 <div class="row">
                     <div class="col-xs-12 categories-connections-block">
                         <div class="categories-connections-name">Products</div><div class="categories-connections"></div>
@@ -166,10 +170,10 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3 col-md-2">
-                        <a class="btn btn-default btn-block" href="{{ route("admin.show", array("products",
+                        <p><a class="btn btn-primary btn-block" href="{{ route("admin.show", array("products",
 						"id" => "new", "category" => $items->id)) }}" role="button">New product</a>
                     </div>
-                    <div class="col-sm-9 col-md-10">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="input-group">
                             <input type="text" data-type="product" class="form-control show-list-of-items suggestions-product" name="attachProducts" placeholder=":Existing IDs">
                             <span class="input-group-btn">
@@ -177,6 +181,7 @@
                             </span>
                         </div>
                         <div id="loadedSuggestions-product"></div>
+                        <p></p>
                     </div>
                 </div>
                 <p></p>
@@ -202,10 +207,10 @@
 
                 <div class="row">
                     <div class="col-sm-3 col-md-2">
-                        <a class="btn btn-default btn-block" href="{{ route("admin.show", array("pages",
+                        <p><a class="btn btn-primary btn-block" href="{{ route("admin.show", array("pages",
 				"id" => "new", "category" => $items->id)) }}" role="button">New page</a>
                     </div>
-                    <div class="col-sm-9 col-md-10">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="input-group">
                             <input type="text" data-type="page" class="form-control show-list-of-items suggestions-page" name="attachPages" placeholder=":Existing IDs">
                             <span class="input-group-btn">
@@ -213,6 +218,7 @@
                             </span>
                         </div>
                         <div id="loadedSuggestions-page"></div>
+                        <p></p>
                     </div>
                 </div>
                 <p></p>
