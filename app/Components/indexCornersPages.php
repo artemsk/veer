@@ -20,8 +20,10 @@ class indexCornersPages
     {
         $this->category = db_parameter('CATEGORY_HOME');
 
-        if (starts_with(\Route::currentRouteName(), "index"))
+        if (starts_with(\Route::currentRouteName(), "index")) {
+                $this->itemsPerPage = db_parameter('CORNERS_HOME_ITEMS_NUMBER', $this->itemsPerPage);
                 $this->createListOfPages();
+        }
     }
 
     public function setCategory($category)
