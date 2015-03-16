@@ -79,7 +79,7 @@ trait Structure {
 
            unlink(public_path()."/".config('veer.images_path')."/site-".$siteId.".jpg");
 
-           exec(config('veer.wkhtmltoimage') ." --width ".$width." --disable-smart-width --height ".$height." ".$siteUrl." ".config('veer.images_path')."/site-".$siteId.".jpg");
+           exec(config('veer.wkhtmltoimage') ." --width ".$width." --disable-smart-width --height ".$height." ".$siteUrl." ".public_path()."/".config('veer.images_path')."/site-".$siteId.".jpg");
         }
         
 	/**
