@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'Veer\Console\Commands\Inspire',
-		'Veer\Console\Commands\FirstThingCommand',		
+		'Veer\Console\Commands\FirstThingCommand',
+                'Veer\Console\Commands\InstallThemeCommand',
 	];
 
 	/**

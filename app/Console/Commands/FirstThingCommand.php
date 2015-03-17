@@ -18,7 +18,7 @@ class FirstThingCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'First things firsts.';
+	protected $description = 'A starting point.';
 
 	/**
 	 * Create a new command instance.

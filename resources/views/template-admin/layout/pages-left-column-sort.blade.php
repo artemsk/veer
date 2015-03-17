@@ -8,6 +8,6 @@
         <li><a href="{{ route("admin.show", array("pages", "sort" => "manual_order", "sort_direction" => "desc")) }}">order</a></li>
         <li><a href="{{ route("admin.show", array("pages", "sort" => "views", "sort_direction" => "desc")) }}">views</a></li>
         <li><a href="{{ route("admin.show", array("pages", "sort" => "hidden", "sort_direction" => "desc")) }}">hidden</a></li>
-        <li><a href="{{ route("admin.show", array("pages", "sort" => "original", "sort_direction" => "desc")) }}">original</li>
+        <li><a href="{{ route("admin.show", array("pages", "sort" => "original", "sort_direction" => "desc")) }}">original</a></li>
     </ul>
 </small>

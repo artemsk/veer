@@ -213,7 +213,7 @@ trait Configuration {
 	 * @param array $q
 	 * @return boolean
 	 */
-	protected function saveJob($q)
+	public function saveJob($q)
 	{
 		$startc = \Carbon\Carbon::parse(array_get($q, 'jobs.new.start'));
 		$repeat = array_get($q, 'jobs.new.repeat');
