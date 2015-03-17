@@ -270,7 +270,7 @@
     {
         var k = type + '&' + window.location.search.substring(1) + '&' + selector;         
         var lastd = (localStorage.getItem(k + '-time'));        
-        $('.' + selector + '-saved').html('<br/>saved <a class="' + selector + '-restore">' + lastd + '</a>');
+        if(lastd) $('.' + selector + '-saved').html('<br/>saved <a class="' + selector + '-restore">' + lastd + '</a>');
     }
    
   $(document).ready(function() {

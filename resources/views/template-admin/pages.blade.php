@@ -46,7 +46,7 @@
 	</form>
 	<div class="row">
 		<div class="text-center">
-			{{ $items->appends(array('filter' => Input::get('filter', null), 'filter_id' => Input::get('filter_id', null)))->render() }}
+			{{ $items->appends(array('filter' => Input::get('filter', null), 'filter_id' => Input::get('filter_id', null), 'sort' => Input::get('sort'), 'sort_direction' => Input::get('sort_direction')))->render() }}
 		</div>
 	</div>
         @if(count($items)>0)
