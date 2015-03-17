@@ -348,16 +348,39 @@ footer {
     }
 
     .pages-breadcrumb {
-        width: 10.3333333%;
+        width: 12.3333333%;
     }
 
     .pages-main {
-        width: 89.66666667%;
+        width: 87.66666667%;
     }
 }
 
 .page-small-txt-restore, .page-main-txt-restore {
     cursor: pointer;
+}
+
+.pages-column h1 {
+    margin-top: 0px;
+}
+
+.pages-left-sort-variants {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.pages-left-sort-variants > li {
+    display:inline;
+    margin-right: 15px;
+}
+
+
+@media (min-width: 992px) 
+{
+    .pages-left-sort-variants > li {
+        display: block;
+    }
 }
 
 .round-element {

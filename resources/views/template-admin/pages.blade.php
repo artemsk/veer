@@ -7,36 +7,32 @@
         <div class="col-md-1 pages-breadcrumb">
             <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'pages'))</div>
 
-            <h1>Pages</h1>
+            <div class="row pages-column">
+                <div class="col-md-12 col-sm-3">
+                    <h1>Pages</h1>
 
-            <p><strong>:{{ $items->total() }}</strong>
+                    <p><strong>:{{ $items->total() }}</strong>
 
-            <p>
-        <small>
-            <p><u>filter</u><br/>
-            @if(!empty(veer_get('filtered_id')))
-            <mark>filtered by {{ veer_get('filtered') }} <a href="{{ route("admin.show", array(veer_get('filtered'))) }}">
-                    #{{ veer_get('filtered_id') }}</a></mark>
-            <br><a href="{{ route("admin.show", "pages") }}" class="">&times; reset</a>
-            @elseif(veer_get('filtered') == 'unused')
-            unused
-            <br><a href="{{ route("admin.show", "pages") }}" class="">&times; reset</a>
-            @else
-            <a href="{{ route("admin.show", array("pages", "filter" => "unused")) }}">unused</a>
-            @endif
-            <p><u>sort</u><br/>
-            @if(null != (\Input::get('sort')))<mark>sorted by {{ \Input::get('sort') }}</mark><br/><a href="{{ route("admin.show", "pages") }}" class="">&times; reset</a><p></p>
-            @endif
-            <a href="{{ route("admin.show", array("pages", "sort" => "created_at", "sort_direction" => "desc")) }}">created</a><br/>
-            <a href="{{ route("admin.show", array("pages", "sort" => "updated_at", "sort_direction" => "desc")) }}">updated</a><br/>
-            <a href="{{ route("admin.show", array("pages", "sort" => "manual_order", "sort_direction" => "desc")) }}">order</a><br/>
-            <a href="{{ route("admin.show", array("pages", "sort" => "views", "sort_direction" => "desc")) }}">views</a><br/>
-            <a href="{{ route("admin.show", array("pages", "sort" => "hidden", "sort_direction" => "desc")) }}">hidden</a><br/>
-            <a href="{{ route("admin.show", array("pages", "sort" => "original", "sort_direction" => "desc")) }}">original</a>
-        </small>
-            <div class="sm-rowdelimiter"></div>
-            <p><a class="btn btn-default" href="{{ route("admin.show", array("pages", "id" => "new")) }}" role="button">Add</a>
-            
+                    <div class="hidden-xs hidden-sm"><p>
+                    @include($template.'.layout.pages-left-column-filter')
+                        <p></p>
+                    @include($template.'.layout.pages-left-column-sort')
+                    <div class="sm-rowdelimiter"></div>
+                    </div>
+                    <p><a class="btn btn-default" href="{{ route("admin.show", array("pages", "id" => "new")) }}" role="button">Add</a>
+                    <div class="sm-rowdelimiter"></div>
+                </div>
+                <div class="col-sm-3 visible-sm-block visible-xs-block">
+
+                    @include($template.'.layout.pages-left-column-filter')
+
+                </div>
+                <div class="col-sm-6 visible-sm-block visible-xs-block">
+
+                    @include($template.'.layout.pages-left-column-sort')
+
+                </div>
+            </div>
         </div>
         <div class="visible-xs sm-rowdelimiter"></div>
         <div class="col-md-11 main-content-block categories-page pages-main">
