@@ -10,7 +10,7 @@ namespace Veer\Events;
 class pageNeighbours
 {
     protected $data;
-    protected $page;
+    protected $pageId;
 
     /**
      * Handle user login events.
