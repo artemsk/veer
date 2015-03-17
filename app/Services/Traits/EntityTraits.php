@@ -36,7 +36,7 @@ trait EntityTraits {
 	/**
 	 * get all pages|products
 	 */
-	public function getAllEntities($model, $filters = array(), $paginateItems = 25, $sort = array('id' => 'desc'))
+	public function getAllEntities($model, $filters = array(), $paginateItems = 24, $sort = array('id' => 'desc'))
 	{			
 		$type = key($filters);
 		

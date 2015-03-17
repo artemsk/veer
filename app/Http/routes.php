@@ -55,6 +55,7 @@ Route::resource('order', 'OrderController', array('only' => array('index', 'show
 
 post('api/lists/{model?}', array('uses' => 'ApiController@lists', 'as' => 'api.lists'));
 
+get('admin/worker/{commands?}', array('uses' => 'AdminController@worker', 'as' => 'admin.worker'));
 Route::resource('admin', 'AdminController', array('only' => array('index', 'show', 'update')));
 
 Route::controllers([

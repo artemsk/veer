@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2">
-            <div class="breadcumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'sites'))</div>
+            <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'sites'))</div>
 
             <h1>Sites</h1>
 

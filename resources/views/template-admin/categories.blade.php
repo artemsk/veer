@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2">
-            <div class="breadcumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'categories'))</div>
+            <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'categories'))</div>
 
             <h1>Categories</h1>
             @if(!empty(veer_get('filtered')))

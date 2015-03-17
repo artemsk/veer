@@ -3,8 +3,9 @@
 @section('body')
 
 	@include($template.'.layout.breadcrumb-structure', array('place' => 'product'))
-	
-<h1>Product #{{ $items->id or '—' }} <small>
+
+<?php event('lock.for.edit'); ?>
+<h1>@if(veer_get('event.lock-for-edit') == true)<small><span class="label label-danger">locked</span></small>@endif Product #{{ $items->id or '—' }} <small>
 		&nbsp; <nobr><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $items->viewed or '—' }}</nobr>
 		&nbsp; <nobr><span class="glyphicon glyphicon-fire danger-icon" aria-hidden="true"></span> {{ $items->ordered or '—' }}</nobr></small></h1>
 <br/>
@@ -131,7 +132,7 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-8"><p></p>
-				<textarea class="form-control" rows="5" name="fill[descr]" placeholder="Description">{{ $items->descr or null }}</textarea></div>
+				<textarea class="form-control" rows="5" name="fill[descr]" @if(veer_get('event.lock-for-edit') == true) disabled @endif placeholder="Description">{{ $items->descr or null }}</textarea></div>
 		<div class="col-sm-4"><p></p>
 			<div class="input-group">
 				<span class="input-group-addon">Qty</span>
@@ -339,7 +340,7 @@
 	<p></p>
 	@if(isset($items->id))
 	<div class="row">
-		<div class="col-sm-10 col-xs-6"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+		<div class="col-sm-10 col-xs-6"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 		<div class="col-sm-2 col-xs-6"><button type="submit" name="action" value="saveAs" class="btn btn-warning btn-lg btn-block">Save As</button></div>
 	</div>
 	<hr>
@@ -371,7 +372,7 @@
 -->
 </div>
 @if(isset($items->id))
-<div class="action-hover-box"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+<div class="action-hover-box"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 @endif
 </form>
 @stop

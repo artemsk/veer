@@ -13,7 +13,7 @@
 	<li><a href="{{ route("admin.show", "categories") }}">Categories</a></li>
 	@endif	
 	@if($place == "pages" && null != veer_get('filtered') || $place == "page")
-	<li><strong><a href="{{ route("admin.show", "pages") }}">Pages</a></strong></li>
+	<li class="active"><strong><a href="{{ route("admin.show", "pages") }}">Pages</a></strong></li>
 	@elseif($place == "pages")
 	<li class="active"><a href="{{ route("admin.show", "pages") }}">Pages</a></li>
 	@else

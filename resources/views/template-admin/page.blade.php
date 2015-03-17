@@ -3,11 +3,13 @@
 @section('body')			
 
 	@include($template.'.layout.breadcrumb-structure', array('place' => 'page'))
-	
-<h1>Page #{{ $items->id or '—' }} <small>
+
+<?php event('lock.for.edit'); ?>
+        <span class="testevent"></span>
+        <h1>@if(veer_get('event.lock-for-edit') == true)<small><span class="label label-danger">locked</span></small>@endif Page #{{ $items->id or '—' }} <small>
 		&nbsp; <nobr><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $items->views or '—' }}</nobr></small></h1>
 <br/>
-<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data" >
 <input name="_method" type="hidden" value="PUT">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="container">
@@ -123,13 +125,16 @@
 			<div class="rowdelimiter"></div>
 		</div>
 		<div class="col-md-9">
-			<textarea class="form-control" rows="5" name="fill[small_txt]" placeholder="Introduction text">{{ $items->small_txt or null }}</textarea>
-			
+			<textarea class="form-control page-small-txt" @if(veer_get('event.lock-for-edit') == true) disabled @endif rows="5" name="fill[small_txt]" placeholder="Introduction text">{{ $items->small_txt or null }}</textarea>
+                        <span class="page-small-txt-statistics"><small><strong>chars </strong><span class="statistics-chars"></span> <strong>words </strong><span class="statistics-words"></span> <strong>sentences </strong><span class="statistics-sent"></span> | <strong>average word </strong><span class="statistics-avg-word"></span> chars | <strong>average sentence </strong><span class="statistics-avg-sent"></span> words | <strong>current sentence </strong><span class="statistics-current-sent"></span> words</small></span>
+                        <small><span class="page-small-txt-saved text-muted"></span></small>
 			<div class="rowdelimiter"></div>
 			
-			<textarea class="form-control" rows="15" name="fill[txt]" placeholder="Text">{{ $items->txt or null }}</textarea>
+			<textarea class="form-control page-main-txt" @if(veer_get('event.lock-for-edit') == true) disabled @endif rows="15" name="fill[txt]" placeholder="Text">{{ $items->txt or null }}</textarea>
+                        <span class="page-main-txt-statistics"><small><strong>chars </strong><span class="statistics-chars"></span> <strong>words </strong><span class="statistics-words"></span> <strong>sentences </strong><span class="statistics-sent"></span> | <strong>average word </strong><span class="statistics-avg-word"></span> chars | <strong>average sentence </strong><span class="statistics-avg-sent"></span> words | <strong>current sentence </strong><span class="statistics-current-sent"></span> words</small></span>
+                        <small><span class="page-main-txt-saved text-muted"></span></small>
 			@if(isset($items->id))
-			<a href="#" data-toggle="modal" data-target="#previewText" class="previewMarkdownPage">Preview</a>
+                        <br/><a href="#" data-toggle="modal" data-target="#previewText" class="previewMarkdownPage">Preview</a>
 			<div class="modal fade" id="previewText" tabindex="-1" role="dialog" aria-labelledby="previewTextLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -287,7 +292,7 @@
 	@if(isset($items->id))
 	<div class="row">
 		<div class="col-sm-2 col-xs-6"><button type="submit" name="action" value="saveAs" class="btn btn-warning btn-lg btn-block">Save As</button></div>
-		<div class="col-sm-10 col-xs-6"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>		
+		<div class="col-sm-10 col-xs-6"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 	</div>
 	<hr>
 	<div class="row">
@@ -307,7 +312,7 @@
 	@endif
 </div>
 @if(isset($items->id))
-<div class="action-hover-box"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+<div class="action-hover-box"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
 @endif
 </form>
 @stop

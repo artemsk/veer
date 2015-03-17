@@ -1,6 +1,8 @@
 	<div class="row">
 		@foreach($items as $key => $item)
-		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif	
+		@if(round($key/6) == ($key/6)) <div class="clearfix visible-lg-block"></div> @endif
+                @if(round($key/4) == ($key/4)) <div class="clearfix visible-md-block"></div> @endif
+                @if(round($key/2) == ($key/2)) <div class="clearfix visible-sm-block"></div> @endif
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
 			<div class="thumbnail @if($item->status == 'hide')
 				 bg-muted

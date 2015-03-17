@@ -186,4 +186,10 @@ class AdminController extends Controller
 
         return $data;
     }
+
+    
+    public function worker()
+    {
+        if(\Input::has('worker-lock')) event('lock.for.edit', [[\Auth::id(), 'admin', \Input::get('entity'), \Input::get('id')]]);
+    }
 }

@@ -1047,7 +1047,7 @@ trait Structure {
 			$page->fill($all['fill']);
 			$page->save();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.page.update'));
-			$this->action_performed[] = "UPDATE page";			
+			$this->action_performed[] = "UPDATE page";
 		}
 		
 		//status

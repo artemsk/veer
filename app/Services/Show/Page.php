@@ -154,7 +154,7 @@ class Page {
 	/**
 	 * Show Pages
 	 */
-	public function getAllPages($filters = array(), $paginateItems = 25) 
+	public function getAllPages($filters = array(), $paginateItems = 24)
 	{
 		return $this->getAllEntities('\Veer\Models\Page', array_get($filters, 0), $paginateItems, array_get($filters, 1));
 	}	

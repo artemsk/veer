@@ -204,3 +204,102 @@
             
         });
         */
+       
+   
+    function textStats(data, selector) {
+        var l1 = $(data).val();
+        var l11 = l1.length;
+        var l12 = (l1.split(/[^\s\.!\?]+[\s\.!\?]+/g).length)-1;
+        //var l13 = l1.match( /[^\.!\?]+[\.!\?]+/g );
+        var l13 = l1.replace( /[^\.!\?]+[\.!\?]+/g, "$1|").split("|");
+        //var l14 = l13.length;
+        var l14 = l13.length;
+
+        /* stats */
+        // average word length
+        var l15 = Math.round(l11/l12);
+        // average words per sentence
+        var l16 = Math.round(l12/l14);
+        // current words in sentence
+        var l17 = ((l13[l14-1]).split(/[^\s\.!\?]+[\s\.!\?]+/g).length)-1;
+
+        $(selector + ' .statistics-chars').html(l11);
+        $(selector + ' .statistics-words').html(l12);
+        $(selector + ' .statistics-sent').html(l14-1);
+        $(selector + ' .statistics-avg-word').html(l15);
+        $(selector + ' .statistics-avg-sent').html(l16);
+        $(selector + ' .statistics-current-sent').html(l17);
+    }
+    
+    var timeoutLock;
+    
+    function updateLockAndAutosave(type, selector)
+    {
+        if(timeoutLock) {
+            clearTimeout(timeoutLock);
+            timeoutLock = null;
+        }
+   
+      timeoutLock = setTimeout(function() {
+      $.ajax({
+            type: 'GET',
+            url: '../admin/worker',
+            data: 'worker-lock=true&entity=' + type + '&' + window.location.search.substring(1),
+            success: function(results) { 
+               console.log('updated');
+            },
+          });          
+          
+        autosaveTxt(type + '&' + window.location.search.substring(1) + '&' + selector, $('.' + selector).val()); 
+        
+        setRestoreLink(type, selector);
+        
+        },5000);
+            
+    }
+    
+    function autosaveTxt(key, value)
+    {
+        if(typeof(Storage) !== "undefined") {
+            localStorage.setItem(key,value);
+            localStorage.setItem(key + '-time', new Date());
+        }
+    }
+    
+    function setRestoreLink(type, selector)
+    {
+        var k = type + '&' + window.location.search.substring(1) + '&' + selector;         
+        var lastd = (localStorage.getItem(k + '-time'));        
+        $('.' + selector + '-saved').html('<br/>saved <a class="' + selector + '-restore">' + lastd + '</a>');
+    }
+   
+  $(document).ready(function() {
+     if($('.page-small-txt').length) {
+         
+         textStats($('.page-small-txt'), '.page-small-txt-statistics');
+         textStats($('.page-main-txt'), '.page-main-txt-statistics');
+         
+         setRestoreLink('pages', 'page-small-txt');
+         setRestoreLink('pages', 'page-main-txt');
+         
+         $('.page-small-txt').keyup(function() {
+            textStats($(this), '.page-small-txt-statistics');
+            
+            updateLockAndAutosave('pages', 'page-small-txt');
+         });
+                 
+         $('.page-main-txt').keyup(function() {
+            textStats($(this), '.page-main-txt-statistics');
+            
+            updateLockAndAutosave('pages', 'page-main-txt');
+         });
+         
+         $('.page-small-txt-saved').on('click', function() {   
+             $('.page-small-txt').val(localStorage.getItem('pages&' + window.location.search.substring(1) + '&page-small-txt'));
+         });
+                 
+        $('.page-main-txt-saved').on('click', function() {   
+             $('.page-main-txt').val(localStorage.getItem('pages&' + window.location.search.substring(1) + '&page-main-txt'));
+         });         
+     } 
+  });   
