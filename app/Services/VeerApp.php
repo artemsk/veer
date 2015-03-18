@@ -244,10 +244,11 @@ class VeerApp
      */
     protected function registerEvents($src, $params)
     {
-        $this->loadComponentClass($src, $params, 'events');
+        $classFullName = $this->loadComponentClass($src, $params, 'events');
 
-        if (class_exists("\Veer\Events\\".$src, false)) {
-            \Illuminate\Support\Facades\Event::subscribe("\Veer\Events\\".$src);
+        if (!empty($classFullName)) {
+
+            \Illuminate\Support\Facades\Event::subscribe($classFullName);
 
             $this->loadedComponents['event'][$src] = true;
             // now you can fire these events in templates etc.
@@ -274,14 +275,20 @@ class VeerApp
                                           $type = "components")
     {
         /* Another vendor's component */
-        if (starts_with($className, '\\'))
-                return $this->instantiateClass($className, $params, $type);
+        if (starts_with($className, '\\')) {
+            $classFullName = $className;
+        }
 
-        $classFullName = "\Veer\\".ucfirst($type)."\\".$className;
+        else {
+            $classFullName = "\Veer\\".ucfirst($type)."\\".$className;
 
-        if (!class_exists($classFullName))
-                $this->loadClassFromPath($className, $type);
-
+            /* if (!class_exists($classFullName)) $this->loadClassFromPath($className, $type);
+             *
+             * we do not need this for now because we use psr-0 so all classes inside App folder
+             * autoloaded by composer
+             */
+        }
+        
         return $this->instantiateClass($classFullName, $params, $type);
     }
 
@@ -302,13 +309,18 @@ class VeerApp
     /**
      * Instantiate class.
      * 
-     * 
+     * we instantiate components at once
+     * for events type classes we only check if file was loaded then
+     * wait till its called
      */
     protected function instantiateClass($classFullName, $params = null,
                                         $type = null)
     {
-        if (class_exists($classFullName, false) && $type == "components") {
-            return new $classFullName($params);
+        if(class_exists($classFullName))
+        {
+            if($type == "components") return new $classFullName($params);
+
+            return $classFullName;
         }
     }
 

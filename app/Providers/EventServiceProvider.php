@@ -31,11 +31,6 @@ class EventServiceProvider extends ServiceProvider {
 			app('veer')->loadedComponents['veer_message_center'][] = $message;
 			
 		});
-		
-		\Event::listen('veer.message.center.flush', function()
-		{
-			unset(app('veer')->loadedComponents['veer_message_center']);			
-		});
 	}
 
 }
