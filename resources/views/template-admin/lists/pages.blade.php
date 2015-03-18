@@ -4,14 +4,14 @@
                 @if(round($key/4) == ($key/4)) <div class="clearfix visible-md-block"></div> @endif
                 @if(round($key/2) == ($key/2)) <div class="clearfix visible-sm-block"></div> @endif
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
-			<div class="thumbnail @if($item->hidden == true)
+			<div class="thumbnail pages-thumbnail @if($item->hidden == true)
 				 bg-muted
 				 @endif ">
                                 <div class="pages-image-thumb">
 				@if(count($item->images)>0)
 				<a href="{{ route('admin.show', array("pages", "id" => $item->id)) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
-						 src="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" class="img-responsive 
+						 src="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" class="pages-thumbnail-img img-responsive
 						 @if($item->hidden == true) image-faded @endif"></a>
 				@else
 				<!--<img data-src="holder.js/100%x50/gray/text:{{ $item->title }}" 
@@ -24,8 +24,8 @@
                                 </div>
 				<div class="caption @if($item->hidden == true) image-faded @endif">
 					<a href="{{ route('admin.show', array("pages", "id" => $item->id)) }}"><strong>{{ empty($item->title) ? 'Empty' : $item->title  }}</strong></a>
-					<p>{{ Carbon\Carbon::parse($item->created_at)->toFormattedDateString() }}<Br/>
-						<small>#{{$item->id}} 
+					<p><small>{{ Carbon\Carbon::parse($item->created_at)->toFormattedDateString() }}<br/>
+						#{{$item->id}} 
 						&nbsp;<i class="fa fa-paragraph" title="Characters"></i> {{ strlen($item->small_txt.$item->txt) }}
 						&nbsp;<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ $item->views }}
 						@if(count($item->comments) > 0)
@@ -36,9 +36,6 @@
 						@endif
 						@if(count($item->categories) <= 0)
 						&nbsp;<span class="glyphicon glyphicon-warning-sign danger-icon" aria-hidden="true" title="No categories!"></span>
-						@else
-						&nbsp;<span class="glyphicon glyphicon-heart warning-icon" aria-hidden="true" title="Categories"></span> {{ 
-							count($item->categories) }}
 						@endif
 						@if(is_object($item->user))
 						<br/><a href="{{ route('admin.show', array('users', 'id' => $item->user->id)) }}">{{ '@'.$item->user->username }}</a>
