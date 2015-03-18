@@ -30,6 +30,6 @@ class indexCornersForm {
 			);
 		info('Added new email: ' . \Input::get('email'));
 		
-		\Event::fire('veer.message.center', \Lang::get('corners.email.success'));
+		\Event::fire('veer.message.center', \Lang::get('themes.corners.email.success'));
 	}
 }
