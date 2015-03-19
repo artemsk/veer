@@ -29,6 +29,13 @@
   <body>
 
 	  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-24 top-veer-line">
+
+                        </div>
+                    </div>
+                </div>
 		  <div class="container-fluid">
 			  <div class="navbar-header">
 				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -120,7 +127,7 @@
     @yield('body')
 
 	<div class="rowdelimiter"></div>
-	<hr>
+	<hr class="hr-footer">
 	<footer>
 		<div class="container-fluid footer">
 			<div class="row">

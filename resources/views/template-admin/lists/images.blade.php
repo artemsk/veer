@@ -1,11 +1,13 @@
 <div class="row sortableImages">
 		@foreach($items as $key => $item)	
-		@if(round($key/6) == ($key/6)) <div class="clearfix"></div> @endif	
-		<div class="col-lg-2 col-md-2 col-sm-3 text-center">
-			<div class="thumbnail">
+		@if(round($key/6) == ($key/6)) <div class="clearfix visible-lg-block"></div> @endif
+                @if(round($key/4) == ($key/4)) <div class="clearfix visible-md-block"></div> @endif
+                @if(round($key/2) == ($key/2)) <div class="clearfix visible-sm-block"></div> @endif
+		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
+			<div class="thumbnail thumbnail-image-list">
 				<a href="{{ asset(config('veer.images_path').'/'.$item->img) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" src="{{ asset(config('veer.images_path').'/'.$item->img) }}" 
-						 class="img-responsive"></a>
+						 class="img-responsive thumbnail-image"></a>
 				<div class="caption"><small>#{{$item->id}}</small>
 					@if(!isset($denyDelete) || !$denyDelete)
 					<button type="submit" class="btn btn-default btn-xs" name="action" value="deleteImage.{{ $item->id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>

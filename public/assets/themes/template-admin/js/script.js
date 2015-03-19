@@ -303,3 +303,10 @@
          });         
      } 
   });   
+  
+  
+  $('.logo-site').hover(function() {
+     $('.top-veer-line').addClass('top-veer-line-hover');
+  }, function() {
+     $('.top-veer-line').removeClass('top-veer-line-hover');
+  });

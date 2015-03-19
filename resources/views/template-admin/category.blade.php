@@ -8,7 +8,7 @@
             <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'category'))</div>
         </div>
         <div class="visible-xs sm-rowdelimiter"></div>
-        <div class="col-sm-10 main-content-block categories-page">
+        <div class="col-sm-10 main-content-block"><div class="categories-page">
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="testajax"></div>
-                                <ul class="list-group sortable @if(count($items->subcategories) > 0)categories-child-list @else categories-child-list-no-bottom @endif" data-parentid="{{ $items->id }}">
+                                <ul class="list-group sortable @if(count($items->subcategories) > 0)categories-child-list @else categories-child-list-no-bottom @endif categories-lists" data-parentid="{{ $items->id }}">
                                     @foreach ($items->subcategories as $category)
                                     <li class="list-group-item category-item-{{ $category->id }}">
                                         <span class="badge">{{ $category->views }}</span>
@@ -92,7 +92,7 @@
                                     </li>
                                     @endforeach
                                 </ul>
-                                <div class="input-group">
+                                <div class="input-group category-add">
                                     <input type="text" data-type="category" class="form-control show-list-of-items suggestions-category" placeholder="Title or :Existing-category-ID" name="child">
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="submit" name="action" value="addChild">Add</button>
@@ -101,16 +101,19 @@
                                 <div id="loadedSuggestions-category"></div>
                             </div>
                             <div class="col-md-3 text-right">
+                                <div class="categories-description">
                                 <input type="url" class="form-control admin-form categories-remote-url" placeholder="Remote Url if exists" name="remoteUrl" value="{{ $items->remote_url }}">
                                 <p><textarea class="form-control" placeholder="Description" name="description">{{ $items->description }}</textarea>
 
                                 <p><button type="submit" class="btn btn-default" name="action" value="updateCurrent">Update</button>
                                     &nbsp;<button type="submit" class="btn btn-danger" name="action" value="deleteCurrent">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -132,24 +135,26 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-3">
-                        <p><input class="form-control show-list-of-items suggestions-image" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
+                    @if(count($items->images)>1)
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <p><button type="submit" class="btn btn-default btn-block" name="action" value="removeAllImages"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="hidden-sm">Remove All</span></button>
+                    </div>
+                    @endif
+                    <div class="col-lg-4 col-md-4 col-sm-3">
+
+                        <p><input class="form-control show-list-of-items suggestions-image categories-page-input" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
                         <div id="loadedSuggestions-image"></div>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="col-lg-4 col-md-4 col-sm-4 categories-upload-form">
                         <p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true></p>
                     </div>                    
                     <div class="col-lg-2 col-md-2 col-sm-3">
                         <p><button class="btn btn-primary btn-block" type="submit" name="action" value="updateImages">Upload | Update</button></p>
-                    </div>
-                    @if(count($items->images)>1)
-                    <div class="col-lg-2 col-md-2 col-sm-3">
-                        <p><button type="submit" class="btn btn-default" name="action" value="removeAllImages"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove All</button>
-                    </div>
-                    @endif
+                    </div>                    
                 </div>
                 <p></p>
                 @if(count($items->images)>0)
+                <div class="rowdelimiter-20"></div>
                 <div class="row">
                     <div class="col-md-12">
                         @include($template.'.lists.images', array('items' => $items->images, 'denyDelete' => true))
@@ -175,7 +180,7 @@
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="input-group">
-                            <input type="text" data-type="product" class="form-control show-list-of-items suggestions-product" name="attachProducts" placeholder=":Existing IDs">
+                            <input type="text" data-type="product" class="form-control show-list-of-items suggestions-product categories-page-input" name="attachProducts" placeholder=":Existing IDs">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" name="action" value="updateProducts">Add</button>
                             </span>
@@ -186,6 +191,7 @@
                 </div>
                 <p></p>
                 @if(count($items->products)>0)
+                <div class="rowdelimiter-20"></div>
                 <div class="row">
                     <div class="col-md-12">
                         @include($template.'.lists.products', array('items' => $items->products, 'denyDelete' => true))
@@ -212,7 +218,7 @@
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="input-group">
-                            <input type="text" data-type="page" class="form-control show-list-of-items suggestions-page" name="attachPages" placeholder=":Existing IDs">
+                            <input type="text" data-type="page" class="form-control show-list-of-items suggestions-page categories-page-input" name="attachPages" placeholder=":Existing IDs">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" name="action" value="updatePages">Add</button>
                             </span>
@@ -220,9 +226,9 @@
                         <div id="loadedSuggestions-page"></div>
                         <p></p>
                     </div>
-                </div>
-                <p></p>
+                </div>                
                 @if(count($items->pages)>0)
+                <div class="rowdelimiter-20"></div>
                 <div class="row">
                     <div class="col-md-12">
                         @include($template.'.lists.pages', array('items' => $items->pages, 'denyDelete' => true))

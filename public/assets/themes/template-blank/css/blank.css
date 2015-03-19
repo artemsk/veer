@@ -24,7 +24,7 @@
         z-index:100; }
 
     .slide h2 { 
-        color:#386ce0;  
+        color: #1E88E5; //#386ce0;  
         margin-top:22px !important; 
         margin-bottom: 0px;
     }
@@ -55,14 +55,14 @@
     }
 
     .site-name {   
-        border: 7px #386ce0 solid;
+        border: 7px #1E88E5 solid;
         padding: 0px 60px 15px 100px;
         border-radius: 0px;
     }
     
     section p { 
         font-family: 'ClearSans-Medium';
-        color: #7C9CE1;
+        color: #90CAF9; //#7C9CE1;
         font-size: 12px;
         font-weight: normal !important; 
         letter-spacing: 1px;
@@ -90,7 +90,7 @@
      }
      
      .site-name {   
-        border: 4px #386ce0 solid;
+        border: 4px #1E88E5 solid;
         padding: 0px 40px 15px 80px;
         border-radius: 0px;
     }

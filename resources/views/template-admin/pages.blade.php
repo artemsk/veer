@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="visible-xs sm-rowdelimiter"></div>
-        <div class="col-md-11 main-content-block categories-page pages-main">
+        <div class="col-md-11 main-content-block pages-main">
 
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
 	<input name="_method" type="hidden" value="PUT">

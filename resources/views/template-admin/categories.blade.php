@@ -16,16 +16,16 @@
             @endif
         </div>
         <div class="visible-xs sm-rowdelimiter"></div>
-        <div class="col-sm-10 main-content-block categories-page">
+        <div class="col-sm-10 main-content-block">
 
             <div class="row">
-	<div class="col-lg-8">
+                <div class="col-lg-9"><div class="categories-page categories-page-general">
 	@foreach ($items as $item)
 
 	<h2 id="site{{ $item->id }}">{{ $item->configuration()->where('conf_key','=','SITE_TITLE')->pluck('conf_val'); }} <small>{{ $item->url }}
 		&nbsp;:{{ count($item->categories) }}</small></h2>
 
-	<div class="categories-list-{{ $item->id}} ">
+	<div class="categories-lists categories-list-{{ $item->id}} ">
 			@include($template.'.lists.categories-category', array('categories' => $item->categories, 'siteid' => $item->id))
 	</div>
 	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="category-add" data-siteid="{{ $item->id }}">
@@ -45,6 +45,7 @@
 	@endforeach
 
 	</div>
+        </div>
 </div>
             
         </div>
