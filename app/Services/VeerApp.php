@@ -284,7 +284,7 @@ class VeerApp
 
             /* if (!class_exists($classFullName)) $this->loadClassFromPath($className, $type);
              *
-             * we do not need this for now because we use psr-0 so all classes inside App folder
+             * we do not need this for now because we use psr-4 so all classes inside App folder
              * autoloaded by composer
              */
         }

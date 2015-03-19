@@ -20,6 +20,11 @@ class InstallThemeCommand extends Command {
 	 */
 	protected $description = 'Install theme.';
 
+        /* Default path for theme files */
+        protected $path = '/vendor/artemsk/veer-themes';
+
+        protected $actually_did_it = false;
+
 	/**
 	 * Create a new command instance.
 	 *
@@ -38,40 +43,23 @@ class InstallThemeCommand extends Command {
 	public function fire()
 	{
 		$this->info('Installing theme');
-
-                // get json
-                $settingsFile = json_decode(
-                    \File::get(public_path().'/'.config('veer.assets_path').'/'.$this->argument('theme')."/install.json")
-                    );
-
-                if(empty($settingsFile)) return $this->failed('empty');
-
+                
                 $siteId = $this->argument('siteId');
                 $theme = $this->argument('theme');
 
-                $this->info('* Configuration cards.');
+                if($this->option('files') == true) $this->copyThemeFiles($theme);
 
-                \Eloquent::unguard();
-                
-                $this->setThemeConfiguration(data_get($settingsFile, 'config', array()), $siteId, $theme);
-
-                $this->info('* Components cards.');
-
-                $this->setThemeComponents(data_get($settingsFile, 'components', array()), $siteId, $theme);
-
-                $this->info('* Events cards.');
-
-                $this->setThemeEvents(data_get($settingsFile, 'events', array()), $siteId, $theme);
-
-                $this->info('* Jobs.');
-
-                $this->setThemeJobs(data_get($settingsFile, 'queues', array()));
+                if($this->option('config') == true) $this->copyThemeConfigs($siteId, $theme);
 
                 if($this->option('enable') == true) {
                     $this->info('* Enable theme.');
 
                     $this->enableTheme($siteId, $theme);
+
+                    $this->actually_did_it = true;
                 }
+
+                if($this->actually_did_it != true) $this->info('ERROR: Nothing to do. Please choose at least one option.');
 
                 $this->call('cache:clear');
 
@@ -99,13 +87,78 @@ class InstallThemeCommand extends Command {
 	protected function getOptions()
 	{
 		return [
+                        ['files', null, InputOption::VALUE_NONE, 'Copy theme files to folders.', null],
+                        ['config', null, InputOption::VALUE_NONE, 'Install theme configuration & components.', null],
 			['enable', null, InputOption::VALUE_NONE, 'Enable theme after install.', null],
+                        ['path', null, InputOption::VALUE_OPTIONAL, 'Path to theme files', null],
 		];
 	}
 
         protected function failed($error)
         {
-            if($error == 'empty') $this->info('Install.json is empty');
+            $message = [
+                "empty" => "ERROR: install.json is empty",
+                "404" => "ERROR: install.json not found",
+            ];
+
+            if(array_key_exists($error, $message)) $this->info($message[$error]);
+        }
+
+
+        protected function copyThemeFiles($theme)
+        {
+            $this->info('* Copy theme files to app folders: ');
+
+            if($this->option('path')) $this->path = $this->option('path');
+
+            $themePath = base_path().$this->path.'/'.$theme;
+
+            $this->info('  - components');
+            \File::copyDirectory($themePath.'/app/Components', base_path().'/app/Components');
+            $this->info('  - events');
+            \File::copyDirectory($themePath.'/app/Events', base_path().'/app/Events');
+            $this->info('  - queues');
+            \File::copyDirectory($themePath.'/app/Queues', base_path().'/app/Queues');
+            $this->info('  - assets');
+            \File::copyDirectory($themePath.'/assets', base_path().'/public/assets/themes/'.$theme);
+            $this->info('  - views');
+            \File::copyDirectory($themePath.'/views', base_path().'/resources/themes/'.$theme);
+            $this->info('  - language files');
+            \File::copyDirectory($themePath.'/lang', base_path().'/resources/lang');
+
+            $this->actually_did_it = true;
+        }
+
+        protected function copyThemeConfigs($siteId, $theme)
+        {
+            // get json
+            if(!file_exists(public_path().'/'.config('veer.assets_path').'/'.$theme."/install.json")) return $this->failed('404');
+            
+            $settingsFile = json_decode(
+                \File::get(public_path().'/'.config('veer.assets_path').'/'.$theme."/install.json")
+                );
+
+            if(empty($settingsFile)) return $this->failed('empty');
+
+            $this->info('* Configuration cards.');
+
+            \Eloquent::unguard();
+
+            $this->setThemeConfiguration(data_get($settingsFile, 'config', array()), $siteId, $theme);
+
+            $this->info('* Components cards.');
+
+            $this->setThemeComponents(data_get($settingsFile, 'components', array()), $siteId, $theme);
+
+            $this->info('* Events cards.');
+
+            $this->setThemeEvents(data_get($settingsFile, 'events', array()), $siteId, $theme);
+
+            $this->info('* Jobs.');
+
+            $this->setThemeJobs(data_get($settingsFile, 'queues', array()));
+
+            $this->actually_did_it = true;
         }
 
         protected function setThemeConfiguration($configuration, $siteId, $theme)
