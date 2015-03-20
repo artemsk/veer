@@ -145,7 +145,7 @@
                         <p><input class="form-control show-list-of-items suggestions-image categories-page-input" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
                         <div id="loadedSuggestions-image"></div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 categories-upload-form">
+                    <div class="col-lg-4 col-md-4 col-sm-4 color-upload-form">
                         <p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true></p>
                     </div>                    
                     <div class="col-lg-2 col-md-2 col-sm-3">

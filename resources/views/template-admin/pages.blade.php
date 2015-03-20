@@ -51,7 +51,7 @@
 	</div>
         @if(count($items)>0)
         <div class='rowdelimiter'></div>
-        <hr>
+        <hr class="hr-darker">
         @endif
 	
 	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -59,21 +59,21 @@
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<label>Quick form: Add page</label>
 	<div class="row">
-		<div class="col-sm-4"><p><input type="text" class="form-control" placeholder="Title" name="title"></p></div>
-		<div class="col-sm-4"><p><input type="text" class="form-control" placeholder="Categories Id [,]" name="categories"></p></div>
-		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="attachImage[]" multiple=true>Image</p></div>
+		<div class="col-sm-4"><p><input type="text" class="form-control transparent-input" placeholder="Title" name="title"></p></div>
+		<div class="col-sm-4"><p><input type="text" class="form-control transparent-input" placeholder="Categories Id [,]" name="categories"></p></div>
+		<div class="col-sm-4 color-upload-form"><p><input class="input-files-enhance transparent-input" type="file" id="InFile1" name="attachImage[]" multiple=true>Image</p></div>
 	</div>
 	<div class="xs-rowdelimiter"></div>
 	<div class="row">
-		<div class="col-sm-8"><p><input type="text" class="form-control" placeholder="[Url]" name="url"></p></div>
-		<div class="col-sm-4"><p><input class="input-files-enhance" type="file" id="InFile1" name="attachFile[]" multiple=true>Attach file (*.html for full replacement)</p></div>
+		<div class="col-sm-8"><p><input type="text" class="form-control transparent-input" placeholder="[Url]" name="url"></p></div>
+		<div class="col-sm-4 color-upload-form"><p><input class="input-files-enhance transparent-input" type="file" id="InFile1" name="attachFile[]" multiple=true>Attach file (*.html for full replacement)</p></div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6"><p>
-			<textarea class="form-control" placeholder="@{{Small txt}} Txt" rows="10" name="txt"></textarea></p>
+			<textarea class="form-control transparent-input" placeholder="@{{Small txt}} Txt" rows="10" name="txt"></textarea></p>
 		</div>
 		<div class="col-sm-6">
-			<p><input class="form-control btn btn-danger" type="submit" value="Add"></p>
+			<p><input class="form-control btn btn-primary" type="submit" value="Add"></p>
 		</div>
 	</div>
 	</form>

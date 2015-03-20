@@ -95,6 +95,14 @@ html, body
     background-color: rgb(240, 241, 243);
 }
 
+.pagination>li>a, .pagination>li>span, .pagination>.disabled>span, .pagination>.disabled>span:hover {
+    background-color: transparent;
+}
+
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+    background-color: #e5e5e5;
+}
+
 .pagination>.active>a, .pagination>.active>span, 
 .pagination>.active>a:hover, .pagination>.active>span:hover, 
 .pagination>.active>a:focus, .pagination>.active>span:focus {
@@ -106,6 +114,8 @@ html, body
 footer {
     color: #777;
 }
+
+
 
 /* navbar */
 
@@ -262,7 +272,7 @@ footer {
     color: #ffcc66;
 }
 
-.hr-narrow, .hr-footer {
+.hr-narrow, .hr-footer, .hr-darker {
     margin-top: 0px;
     border-top-color: #ddd;
 }
@@ -376,15 +386,15 @@ footer {
     float: left;
 }
 
-.categories-page-input {
+.categories-page-input, .transparent-input {
     background-color: transparent;
 }
 
-.categories-upload-form .kv-fileinput-caption, .categories-upload-form .btn-file  {
+.color-upload-form .kv-fileinput-caption, .color-upload-form .btn-file  {
     background-color: transparent;
 }
 
-.categories-upload-form .btn-file:hover {
+.color-upload-form .btn-file:hover {
     background-color: #ddd;
 }
 
