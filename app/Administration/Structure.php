@@ -750,14 +750,14 @@ trait Structure {
 				
 				$attr = \Veer\Models\Attribute::firstOrNew(array(
 					"name" => $a['name'], 
-					"val" => $a['val'], 
+					"val" => array_get($a, 'val', ''),
 					"type" => array_get($a, 'type', 'descr')));
 				
 				if(!$attr->exists) {
 					$attr->type = array_get($a, 'type', 'descr');
 					$attr->name = $a['name'];
-					$attr->val = $a['val'];
-					$attr->descr = $a['descr'];
+					$attr->val = array_get($a, 'val', '');
+					$attr->descr = array_get($a, 'descr', '');
 					$attr->save();
 				}
 				$attrArr[$attr->id] = array("product_new_price" => array_get($a, 'price', ''));	

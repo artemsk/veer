@@ -16,8 +16,8 @@
             if(d.slice(0,1) != ':') { d = ':' + d; }
         @else
             d = darr.join();
-            $('#loadedSuggestions-<?php echo $model; ?>').html('');
+            $('#loadedSuggestions-<?php echo $model.(\Input::get('selectorId','')); ?>').html('');
         @endif
-        $('.suggestions-<?php echo $model; ?>').val(d).focus();
+        $('.suggestions-<?php echo $model.(\Input::get('selectorId','')); ?>').val(d).focus();
     });
 </script>

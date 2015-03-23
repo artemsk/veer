@@ -170,14 +170,14 @@
     
    var timeout;
     
-   $('.show-list-of-items').keyup(function() {
+   function suggestions(selector, id) {
       
-      var d = $(this).val();
-      var separator = $(this).attr('data-separator');
+      var d = selector.val();
+      var separator = selector.attr('data-separator');
       if(separator == undefined) { separator = ','; }
       var darr = d.split(separator);
       var latest = darr[darr.length-1];
-      var type = $(this).attr('data-type');
+      var type = selector.attr('data-type');
       
       if(latest.length >1 || (type == 'image' && latest.length>0)) {
           
@@ -190,13 +190,19 @@
       $.ajax({
             type: 'POST',
             url: '../api/lists/' + type,
-            data: 'whole=' + d + '&needle=' + latest + '&separator=' + separator,
+            data: 'whole=' + d + '&needle=' + latest + '&separator=' + separator + '&selectorId=' + id,
             success: function(results) { 
-                $('#loadedSuggestions-' + type).html(results);
+                $('#loadedSuggestions-' + type + id).html(results);
+                /*console.log('#loadedSuggestions-' + type + id);*/
             },
           }); 
         },400);
        }      
+   } 
+    
+    
+   $('.show-list-of-items').keyup(function() {
+       suggestions($(this), '');
    });
    
     /*  $('.sortableImages').sortable().bind('sortupdate', function(e, ui) {
@@ -310,3 +316,26 @@
   }, function() {
      $('.top-veer-line').removeClass('top-veer-line-hover');
   });
+  
+  var attributes = 1;
+  
+  $('.add-more-attributes').click(function() {
+    
+    var d = $('.new-attribute-block').html();
+    d = d.replace(/new/g, 'new' + attributes);
+    d = d.replace(/attributes-suggestions-id/g, 'attributes-suggestions-id' + attributes);
+    d = d.replace(/loadedSuggestions-attribute/g, 'loadedSuggestions-attribute' + attributes);
+    d = d.replace(/suggestions-attribute/g, 'suggestions-attribute' + attributes);
+    
+    $('.new-attributes-added').append(d);
+
+    $('#attributes-suggestions-id' + attributes).ready(function() {
+       var rem = attributes;
+       $('#attributes-suggestions-id' + attributes).keyup(function() {
+           suggestions($(this), rem);
+       });
+    });
+    attributes = attributes + 1;
+    
+  });
+  
