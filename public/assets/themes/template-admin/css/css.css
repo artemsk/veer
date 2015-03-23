@@ -471,6 +471,8 @@ footer {
 
 .add-more-attributes {
     cursor: pointer;
+    top: -20px;
+    position: relative;
 }
 
 .attributes-input, .attributes-input-val {
@@ -487,7 +489,7 @@ footer {
 }
 
 .pages-page .list-group {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 /* --- */

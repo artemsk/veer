@@ -239,7 +239,7 @@
 			</ul>
                     </div>
                     <div class="rowdelimiter-20"></div>
-                    <div class="pages-page">
+                    <div class="pages-page pages-page-attributes">
                         <label>Attributes</label>
 			@if(isset($items->attributes))
                         <div class="row">
@@ -257,8 +257,7 @@
 			@endforeach
                         </div>
 			@endif
-                        <div class="new-attribute-block">
-                        <div class="sm-rowdelimiter"></div>
+                        <div class="new-attribute-block">                        
 			<div class="row">
 				<div class="col-md-12">
                                     <strong><input type="text" name="attribute[new][name]" data-type="attribute" class="form-control input-sm show-list-of-items suggestions-attribute" placeholder="Name" autocomplete="off" id="attributes-suggestions-id"></strong>
@@ -267,6 +266,7 @@
 				<p></p><textarea  name="attribute[new][descr]" class="form-control input-sm" placeholder="Description"></textarea>
 				</div>
 			</div>
+                        <div class="sm-rowdelimiter"></div>
                         </div>
                         <div class="new-attributes-added"></div>
                         <a class="add-more-attributes"><small>more attributes</small></a>
