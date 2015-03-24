@@ -189,7 +189,7 @@
 					</ul>
 				</div>
 			</div>
-                        <div class="rowdelimiter-20"></div>
+                        <div class="rowdelimiter-20 visible-lg-block"></div>
 			<div class="row">
 				<div class="col-md-12">
 					<label>Connected Products</label>
