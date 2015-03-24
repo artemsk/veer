@@ -46,22 +46,24 @@
         </div>
         <div class="col-md-11 main-content-block pages-main">
             <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-7">
+                    <div class="pages-page">
+
+                    <div class="row">
 		<div class="col-sm-12"><p><input type="text" class="form-control transparent-input" name="fill[url]" placeholder="Clean Url" value="{{ $items->url or null }}"></p></div>
             </div>
             <div class="xs-rowdelimiter"></div>
             <div class="row">
 		<div class="col-sm-12"><p><strong><input type="text" class="form-control input-lg transparent-input" placeholder="Title" name="fill[title]" value="{{ $items->title or null }}"></strong></p></div>
             </div>
-<div class="xs-rowdelimiter"></div>
-            <div class="row">
-                <div class="col-lg-8 col-md-7 col-sm-7">
-                    <div class="pages-page">
+            <div class="rowdelimiter-20"></div>
+
                     @if(isset($items->id) && File::exists( config('veer.htmlpages_path') . '/' . $items->id . '.html'))
                     <div class="alert alert-success" role="alert">
                             <strong>{{ $items->id }}.html</strong> file exists in "{{ config('veer.htmlpages_path') }}/.." folder.
                     </div>
                     <p></p>
-                    @endif
+                    @endif                    
                     <textarea class="form-control page-small-txt" @if(veer_get('event.lock-for-edit') == true) disabled @endif rows="5" name="fill[small_txt]" placeholder="Introduction text">{{ $items->small_txt or null }}</textarea>
                         <span class="page-small-txt-statistics"><small><strong>chars </strong><span class="statistics-chars"></span> <strong>words </strong><span class="statistics-words"></span> <strong>sentences </strong><span class="statistics-sent"></span> | <strong>average word </strong><span class="statistics-avg-word"></span> chars | <strong>average sentence </strong><span class="statistics-avg-sent"></span> words | <strong>current sentence </strong><span class="statistics-current-sent"></span> words</small></span>
                         <small><span class="page-small-txt-saved text-muted"></span></small>
@@ -96,7 +98,7 @@
                         <small><span class="page-main-txt-saved text-muted"></span></small>
 
                     </div>
-                    <div class="rowdelimiter-20"></div>
+                    <div class="rowdelimiter-20 pages-page-wider"></div>
                     <div class="pages-page">
                         <div class="row">
                             <div class="col-md-3">
@@ -144,7 +146,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="rowdelimiter-20"></div>
+                    <div class="rowdelimiter-20 pages-page-wider"></div>
                     <div class="pages-page">
                         <div class="row">
 				<div class="col-lg-6">
@@ -167,7 +169,7 @@
 					</ul>
 				</div>
 				<div class="col-lg-6">
-					<label>Sub pages</label>
+					<label>Child pages</label>
 					<ul class="list-group">
 						@if(isset($items->subpages) && count($items->subpages)>0)
 						@foreach ($items->subpages as $p)
@@ -180,14 +182,14 @@
 						</li>
 						@endforeach
 						@endif
-						<li class="list-group-item">
+						<li class="list-group-item suggestions-in-list">
 								<input type="text" data-type="page" name="attachChildPages" class="form-control input-no-borders show-list-of-items suggestions-page" placeholder=":Existings IDs[,]">
 						</li>
                                                 <div id="loadedSuggestions-page"></div>
 					</ul>
 				</div>
 			</div>
-                        <div class="rowdelimiter-20 visible-lg-block"></div>
+                        <div class="rowdelimiter-20"></div>
 			<div class="row">
 				<div class="col-md-12">
 					<label>Connected Products</label>
@@ -203,7 +205,7 @@
 						</li>
 						@endforeach
 						@endif
-						<li class="list-group-item">
+						<li class="list-group-item suggestions-in-list">
 								<input type="text" name="attachProducts" data-type="product" class="show-list-of-items suggestions-product form-control input-no-borders" placeholder=":Existings IDs[,]">
 						</li>
                                                 <div id="loadedSuggestions-product"></div>
@@ -231,14 +233,14 @@
 				</li>
 				@endforeach
 				@endif
-				<li class="list-group-item">
+				<li class="list-group-item suggestions-in-list-2">
 						<input type="text" name="attachCategories" data-type="category" class="form-control input-no-borders show-list-of-items suggestions-category" placeholder=":Existings IDs[,]"
 							   value="{{ null != (Input::get('category')) ? ':'.Input::get('category') : null }}">
 				</li>
                                 <div id="loadedSuggestions-category"></div>                                
 			</ul>
                     </div>
-                    <div class="rowdelimiter-20"></div>
+                    <div class="rowdelimiter-20 pages-page-wider"></div>
                     <div class="pages-page pages-page-attributes">
                         <label>Attributes</label>
 			@if(isset($items->attributes))
@@ -302,13 +304,13 @@
             <p><button type="submit" class="btn btn-default btn-block" name="action" value="removeAllImages"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="hidden-sm">Remove All</span></button>
         </div>
         @endif
-        <div class="col-lg-4 col-md-4 col-sm-3">
+        <div class="col-lg-5 col-md-4 col-sm-4 color-upload-form">
+            <p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true></p>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-3">
 
             <p><input class="form-control show-list-of-items suggestions-image categories-page-input" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
             <div id="loadedSuggestions-image"></div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 color-upload-form">
-            <p><input class="input-files-enhance" type="file" id="InFile1" name="uploadImage[]" multiple=true></p>
         </div>
     </div>
     <p></p>
@@ -327,11 +329,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-3">
-            <p><input class="form-control categories-page-input" name="attachFiles" placeholder=":Existing Files IDs[,]"></p>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 color-upload-form">
+        <div class="col-lg-5 col-md-4 col-sm-4 color-upload-form">
             <p><input class="input-files-enhance" type="file" id="InFile2" name="uploadFiles[]" multiple=true></p>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-3">
+            <p><input class="form-control categories-page-input" name="attachFiles" placeholder=":Existing Files IDs[,]"></p>
         </div>
     </div>
     <p></p>
