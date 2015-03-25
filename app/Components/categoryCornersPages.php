@@ -24,6 +24,8 @@ class categoryCornersPages extends indexCornersPages
                 return $q->orderBy('pivot_id', 'asc');
             }));
 
+            app('veer')->loadedComponents['function']['indexCornersPages'] = $this;
+
             if (app('veer')->forceEarlyResponse === false)
                     $this->categoryEarlyResponse($category);
         }
@@ -31,8 +33,6 @@ class categoryCornersPages extends indexCornersPages
 
     protected function categoryEarlyResponse($category)
     {
-        app('veer')->loadedComponents['function']['indexCornersPages'] = $this;
-
         app('veer')->forceEarlyResponse = true;
 
         app('veer')->earlyResponseContainer = viewx(app('veer')->template.'.category',
