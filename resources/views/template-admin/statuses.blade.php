@@ -46,9 +46,9 @@
 		</div>
 	</div>	
 	<div class="xs-rowdelimiter"></div>
-	<span class="label label-info"><a href="{{ route("admin.show", array("orders", "filter" => "status", "filter_id" => $item->id)) }}">{{ $item->orders->count() }} orders</a></span> 
-	<span class="label label-info"><a href="{{ route("admin.show", array("orders", "filter" => "status_history", "filter_id" => $item->id)) }}">{{ $item->orders_with_history->count() }} in orders history</a></span>
-	<span class="label label-info"><a href="{{ route("admin.show", array("bills", "filter" => "status", "filter_id" => $item->id)) }}">{{ $item->bills->count() }} bills</a></span>
+	<span class="label label-info"><a href="{{ route("admin.show", array("orders", "filter" => "status", "filter_id" => $item->id)) }}">{{ veer_get('counted.orders.' . $item->id) }} orders</a></span>
+	<span class="label label-info"><a href="{{ route("admin.show", array("orders", "filter" => "status_history", "filter_id" => $item->id)) }}">{{ veer_get('counted.orders_history.' . $item->id) }} in orders history</a></span>
+	<span class="label label-info"><a href="{{ route("admin.show", array("bills", "filter" => "status", "filter_id" => $item->id)) }}">{{ veer_get('counted.bills.' . $item->id) }} bills</a></span>
 	<div class="sm-rowdelimiter"></div>
 	@endforeach
 	</ul>
