@@ -4,8 +4,8 @@ namespace Veer\Components;
 
 use Veer\Services\Show\Page as ShowPage;
 
-class indexCornersHero
-{
+class indexCornersHero {
+    
     public $data;
 
     public function __construct()
