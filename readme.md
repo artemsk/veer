@@ -17,11 +17,21 @@ Veer uses Composer to manage dependencies. Also there are several system require
 
 ## Installation
 
-- Clone repository `$ git clone https://github.com/artemsk/veer.git ./` or use Composer to install Veer `$ composer create-project artemsk/veer ./`
+- Clone git repository 
+```
+$ git clone https://github.com/artemsk/veer.git ./
+``` 
+- or use Composer
+```
+$ composer create-project artemsk/veer ./
+```
 
-If you don't have Composer install it with `$ php -r "readfile('https://getcomposer.org/installer');" | php`
+> If you don't have Composer install it with `$ php -r "readfile('https://getcomposer.org/installer');" | php`
 
-- Install all dependencies `$ composer update` (or `$ php composer.phar update`)
+- Install all dependencies 
+```
+$ composer update
+```
 
 - Copy and rename main configuration file — *.env.example* to *.env*. Set database parameters in it (others are optional):
 ```
