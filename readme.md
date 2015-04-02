@@ -6,7 +6,7 @@
 [![Packagist](https://img.shields.io/packagist/l/artemsk/veer.svg)]()
 [![Tea](https://img.shields.io/badge/cups%20of%20tea-351-ff69b4.svg)]()
 
-## Requirements & Installation
+## Requirements
 
 Veer uses Composer to manage dependencies. Also there are several system requirements:
 * PHP >= 5.4
@@ -14,6 +14,8 @@ Veer uses Composer to manage dependencies. Also there are several system require
 * Mbstring PHP Extension
 * JSON PHP Extension
 * MySQL or SQLite (**coming soon**)
+
+## Installation
 
 - Clone repository `$ git clone https://github.com/artemsk/veer.git ./` or use Composer to install Veer `$ composer create-project artemsk/veer ./`
 
