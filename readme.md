@@ -17,18 +17,16 @@ Veer uses Composer to manage dependencies. Also there are several system require
 
 ## Installation
 
-- Clone git repository 
+- Clone git repository or use Composer:
 ```
 $ git clone https://github.com/artemsk/veer.git ./
-``` 
-- or use Composer
-```
+or
 $ composer create-project artemsk/veer ./
 ```
 
 > If you don't have Composer install it with `$ php -r "readfile('https://getcomposer.org/installer');" | php`
 
-- Install all dependencies 
+- Install all dependencies: 
 ```
 $ composer update
 ```
@@ -43,18 +41,16 @@ DB_PASSWORD=<database password>
 
 - Set permissions for these folders: **storage**, **vendor**.
 
-- Run these commands:
+- Cache configuration & routes:
 ```
 $ php artisan config:cache
 $ php artisan route:cache
 ```
 
-- Run main installation command with your initial main url. You will be asked to set administrator login and password.
+- Set your initial url and migrate database. **You will be asked to set administrator login and password.**
 ```
 $ php artisan veer:install <url> --migrate
 ```
-
-- Follow instructions you will see.
 
 ### License
 
