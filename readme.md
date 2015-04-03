@@ -23,8 +23,7 @@ $ git clone https://github.com/artemsk/veer.git ./
 or
 $ composer create-project artemsk/veer ./
 ```
-
-> If you don't have Composer install it with `$ php -r "readfile('https://getcomposer.org/installer');" | php`
+*If you don't have Composer install it with `$ php -r "readfile('https://getcomposer.org/installer');" | php`*
 
 - Install all dependencies: 
 ```
@@ -47,7 +46,7 @@ $ php artisan config:cache
 $ php artisan route:cache
 ```
 
-- Set your initial url and migrate database. **You will be asked to set administrator login and password.**
+- Set your initial url and migrate database. *You will be asked to set administrator login and password.*
 ```
 $ php artisan veer:install <url> --migrate
 ```

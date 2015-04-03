@@ -9,7 +9,7 @@ trait Structure {
 	
 	/**
 	 * Update Sites
-	 * @return void
+	 * @return void 
 	 */
 	public function updateSites()
 	{
