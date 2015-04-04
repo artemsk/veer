@@ -25,7 +25,7 @@ class MigrationsAddPublicFieldCommunications extends Migration {
 	public function down()
 	{
 		Schema::table('communications', function($table) {
-            $table->dropColumn('username');
+            $table->dropColumn('public');
         });
 	}
 
