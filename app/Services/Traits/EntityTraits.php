@@ -21,7 +21,7 @@ trait EntityTraits {
 	{
 		if(db_parameter('COMMENTS_SYSTEM') == "disqus") 
 		{ 
-			app('veer')->loadedComponents['comments_disqus'] = view('components.disqus', array("identifier" => $type.$object->id));
+			app('veer')->loadedComponents['comments_disqus'] = viewx('components.disqus', array("identifier" => $type.$object->id));
 		} 
 		
 		else 

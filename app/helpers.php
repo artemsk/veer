@@ -121,7 +121,7 @@ if ( ! function_exists('db_parameter_not_found'))
 	 */
 	function db_parameter_not_found($param = null, $default = null)
 	{
-                Log::error('Veer Component Error: Necessary parameter not found' . ((empty($param)) ? 0 : ': ' . $param));
+                if(config('app.debug')) Log::error('Veer Component Notice: Necessary parameter not found' . ((empty($param)) ? 0 : ': ' . $param));
                 return $default;
 	}
 }
@@ -411,7 +411,8 @@ if ( ! function_exists('viewx'))
 			return $factory;
 		}
 
-		return $factory->exists($view) ? $factory->make($view, $data, $mergeData) : redirect()->route('404');
+		return db_parameter('RENDER_JSON', false) == true ? response()->json($data) :
+                    ($factory->exists($view) ? $factory->make($view, $data, $mergeData) : redirect()->route('404'));
 	}
 }
 
