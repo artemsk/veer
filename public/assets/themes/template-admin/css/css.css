@@ -394,7 +394,7 @@ footer {
     border-top-left-radius: 3px;
 }
 
-/* pages */
+/* pages or products */
 
 @media (min-width: 992px) {
     .pages-breadcrumb {
@@ -407,7 +407,7 @@ footer {
 }
 
 @media (min-width: 1200px) {
-    .pages-image-thumb {
+    .pages-image-thumb, .products-image-thumb {
         max-height: 125px;
         overflow: hidden;
     }
@@ -447,7 +447,7 @@ footer {
     }
 }
 
-.pages-thumbnail {
+.pages-thumbnail, .products-thumbnail {
     border: 0px;
     background-color: #f5f5f5;
     margin-bottom: 30px;
@@ -457,12 +457,12 @@ footer {
   box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.1470588) 0px 1px 2px 0px;
 }
 
-.pages-thumbnail:hover {
+.pages-thumbnail:hover, .products-thumbnail:hover {
     -webkit-box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.3470588) 0px 1px 2px 0px;
      box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.3470588) 0px 1px 2px 0px;
 }
 
-.pages-thumbnail-img {
+.pages-thumbnail-img, .products-thumbnail-img {
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
 }
@@ -584,7 +584,7 @@ footer {
 .top-panel-right {
     position: absolute;
     top: 10px;
-    right: 16px;
+    right: 15px;
     font-size: 1em;
     padding: 5px 10px 4px 10px;
     background-color: rgba(200, 200, 200, 0.8);

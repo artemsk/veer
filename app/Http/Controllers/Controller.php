@@ -20,12 +20,14 @@ abstract class Controller extends BaseController {
 
 	public function __construct()
 	{
+                $this->jsonResponseCheck();
+
 		$this->veer = app('veer');
 
 		$this->veer->routePrepare(\Route::currentRouteName());
 		
 		$this->template = $this->veer->template;
-		
+
 		$this->middleware('early.view');
 	}
 
@@ -61,4 +63,11 @@ abstract class Controller extends BaseController {
 
 		return $view;
 	}
+
+        protected function jsonResponseCheck()
+        {
+            if(\Input::has('json')) app('veer')->siteConfig['RENDER_JSON'] = true;
+            
+        }
+
 }

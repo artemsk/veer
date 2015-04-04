@@ -2,25 +2,53 @@
 
 @section('body')
 
-	@include($template.'.layout.breadcrumb-structure', array('place' => 'products'))
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1 pages-breadcrumb">
+            <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'products'))</div>
 
-<h1>Products: {{ $items->total() }}
-@if(!empty(veer_get('filtered_id')))
- filtered by {{ veer_get('filtered') }} <a href="{{ route("admin.show", array(veer_get('filtered'))) }}">
-	 #{{ veer_get('filtered_id') }}</a>
- @else
- <small>| <a href="{{ route("admin.show", array("products", "filter" => "unused")) }}">unused</a></small> 
-@endif	
- <a class="btn btn-default" href="{{ route("admin.show", array("products", "id" => "new")) }}" role="button">Add</a></h1>
-<br/>
+            <div class="row pages-column">
+                <div class="col-md-12 col-sm-3">
+                    <h1>Prods.</h1>
+
+                    <p><strong>:{{ $items->total() }}</strong>
+
+                    <div class="hidden-xs hidden-sm"><p>
+                    @include($template.'.layout.products-left-column-filter')
+                        <p></p>
+                    @include($template.'.layout.products-left-column-sort')
+                    <div class="sm-rowdelimiter"></div>
+                    </div>
+                    <p><a class="btn btn-default" href="{{ route("admin.show", array("products", "id" => "new")) }}" role="button">Add</a>               
+                    <div class="sm-rowdelimiter"></div>
+                </div>
+                <div class="col-sm-3 visible-sm-block visible-xs-block">
+
+                    @include($template.'.layout.products-left-column-filter')
+
+                </div>
+                <div class="col-sm-6 visible-sm-block visible-xs-block">
+
+                    @include($template.'.layout.products-left-column-sort')
+
+                </div>
+            </div>
+        </div>
+        <div class="visible-xs sm-rowdelimiter"></div>
+        <div class="col-md-11 main-content-block pages-main">
+            <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
+            <input name="_method" type="hidden" value="PUT">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+            @include($template.'.lists.products', array('items' => $items))
+
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="container">
-	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
-	<input name="_method" type="hidden" value="PUT">
-	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	
-	@include($template.'.lists.products', array('items' => $items))
-	
-	</form>
 	<div class="row">
 		<div class="text-center">
 			{{ $items->appends(array('filter' => Input::get('filter', null), 'filter_id' => Input::get('filter_id', null)))->render() }}

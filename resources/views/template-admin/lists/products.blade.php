@@ -4,15 +4,17 @@
                 @if(round($key/4) == ($key/4)) <div class="clearfix visible-md-block"></div> @endif
                 @if(round($key/2) == ($key/2)) <div class="clearfix visible-sm-block"></div> @endif
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
-			<div class="thumbnail @if($item->status == 'hide')
+			<div class="thumbnail products-thumbnail @if($item->status == 'hide')
 				 bg-muted
 				 @endif ">
+                            <div class="products-image-thumb">
+                                @if(count($item->images)>0)
 				<a href="{{ route('admin.show', array("products", "id" => $item->id)) }}" target="_blank">
-					<img data-src="holder.js/100%x150/text:Not Found" 
-						 src="{{ asset(config('veer.images_path').'/'.@$item->images[0]->img) }}" class="img-responsive @if($item->status == 'hide')
-				 image-faded
-				 @endif
-						 "></a>
+					<img src="{{ asset(config('veer.images_path').'/'.@$item->images[0]->img) }}" class="products-thumbnail-img img-responsive @if($item->status == 'hide')	 image-faded @endif "></a>@else
+                                                 <img data-src="holder.js/100%x50/gray/text:No Image!"
+						 class="img-responsive products-thumbnail-img @if($item->status == 'hide') image-faded @endif">
+                                                 @endif
+                            </div>
 				<div class="caption @if($item->hidden == true) image-faded @endif"><small>#{{$item->id}}
 					</small>
 					<a href="{{ route('admin.show', array("products", "id" => $item->id)) }}">{{ $item->title }}</a>
