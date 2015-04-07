@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-sm-1 col-xs-4 xs-thumbnails-grid"><img data-src="holder.js/50x50/text:&nbsp;" 
 				@if(isset($products[$p->id]))
-					src="{{ asset(config('veer.images_path').'/'.@$products[$p->id]->images->first()->img) }}" 
+					src="@if(config('veer.use_cloud_images')){{ config('veer.cloudstorage_path').'/' }}@else{{ asset('') }}@endif{{ (config('veer.images_path').'/'.@$products[$p->id]->images->first()->img) }}"
 				@endif class="img-rounded xs-thumbnails-img">
 			</div>
 			

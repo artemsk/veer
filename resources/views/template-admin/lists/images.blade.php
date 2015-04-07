@@ -5,8 +5,8 @@
                 @if(round($key/2) == ($key/2)) <div class="clearfix visible-sm-block"></div> @endif
 		<div class="col-lg-2 col-md-3 col-sm-6 text-center">
 			<div class="thumbnail thumbnail-image-list">
-				<a href="{{ asset(config('veer.images_path').'/'.$item->img) }}" target="_blank">
-					<img data-src="holder.js/100%x150/text:Not Found" src="{{ asset(config('veer.images_path').'/'.$item->img) }}" 
+				<a href="@if(config('veer.use_cloud_images')){{ config('veer.cloudstorage_path').'/' }}@else{{ asset('') }}@endif{{ (config('veer.images_path').'/'.$item->img) }}" target="_blank">
+					<img data-src="holder.js/100%x150/text:Not Found" src="@if(config('veer.use_cloud_images')){{ config('veer.cloudstorage_path').'/' }}@else{{ asset('') }}@endif{{ (config('veer.images_path').'/'.$item->img) }}"
 						 class="img-responsive thumbnail-image"></a>
 				<div class="caption"><small>#{{$item->id}}</small>
 					@if(!isset($denyDelete) || !$denyDelete)

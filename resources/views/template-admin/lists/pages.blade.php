@@ -11,7 +11,7 @@
 				@if(count($item->images)>0)
 				<a href="{{ route('admin.show', array("pages", "id" => $item->id)) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
-						 src="{{ asset(config('veer.images_path').'/'.$item->images[0]->img) }}" class="pages-thumbnail-img img-responsive
+						 src="@if(config('veer.use_cloud_images')){{ config('veer.cloudstorage_path').'/' }}@else{{ asset('') }}@endif{{ (config('veer.images_path').'/'.$item->images[0]->img) }}" class="pages-thumbnail-img img-responsive
 						 @if($item->hidden == true) image-faded @endif"></a>
 				@else
 				<!--<img data-src="holder.js/100%x50/gray/text:{{ $item->title }}" 

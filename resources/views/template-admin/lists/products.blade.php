@@ -10,7 +10,7 @@
                             <div class="products-image-thumb">
                                 @if(count($item->images)>0)
 				<a href="{{ route('admin.show', array("products", "id" => $item->id)) }}" target="_blank">
-					<img src="{{ asset(config('veer.images_path').'/'.@$item->images[0]->img) }}" class="products-thumbnail-img img-responsive @if($item->status == 'hide')	 image-faded @endif "></a>@else
+					<img src="@if(config('veer.use_cloud_images')){{ config('veer.cloudstorage_path').'/' }}@else{{ asset('') }}@endif{{ (config('veer.images_path').'/'.@$item->images[0]->img) }}" class="products-thumbnail-img img-responsive @if($item->status == 'hide')	 image-faded @endif "></a>@else
                                                  <img data-src="holder.js/100%x50/gray/text:No Image!"
 						 class="img-responsive products-thumbnail-img @if($item->status == 'hide') image-faded @endif">
                                                  @endif

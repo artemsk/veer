@@ -21,15 +21,19 @@ return array(
       /*
       |--------------------------------------------------------------------------
       | Paths to public html pages (_path_/*.html), images,
-      | downloads, templates - starting from public
-      |
+      | templates - starting from public; downloads -> starting from root
+      | or storage_path()
       |--------------------------------------------------------------------------
       */
 
         'assets_path' => env('VEER_PATHS_ASSETS', 'assets/themes'),
         'htmlpages_path' => env('VEER_PATHS_HTMLPAGES', "assets/pages"),
         'images_path' => env('VEER_PATHS_IMAGES', "assets/images"),
-        'downloads_path' => env('VEER_PATHS_DOWNLOADS', "assets/downloads"),
+        'downloads_path' => env('VEER_PATHS_DOWNLOADS', "downloads"),
+    
+        'cloudstorage_path' => env('VEER_PATHS_CLOUDSTORAGE', ""),
+        'use_cloud_images' => env('VEER_USE_CLOUD_IMAGES', false),
+        'use_cloud_files' => env('VEER_USE_CLOUD_FILES', false),
 
       /*
       |--------------------------------------------------------------------------

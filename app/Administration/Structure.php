@@ -787,7 +787,7 @@ trait Structure {
 			$fname = $prefix. $id. "_" . date('YmdHis',time()) . str_random(10) . "." . $file->getClientOriginalExtension();
 			
 			if($type == "image") {
-				$file->move( base_path() . "/public/" . config('veer.images_path'), $fname);
+                                $this->uploadingLocalOrCloudFiles('images', $file, $fname, config('veer.images_path'), base_path()."/public/");
 				$new = new \Veer\Models\Image; 
 				$new->img = $fname;
 				$new->save();
@@ -795,8 +795,8 @@ trait Structure {
 				$newId = $new->id;
 			} 
 			
-			if($type == "file") {
-				$file->move( base_path() . "/public/" . config('veer.downloads_path'), $fname);
+			if($type == "file") {                                
+                                $this->uploadingLocalOrCloudFiles('files', $file, $fname, config('veer.downloads_path'), storage_path().'/app/');
 				$new = new \Veer\Models\Download; 
 				$new->original = 1;
 				$new->fname= $fname;
@@ -819,7 +819,17 @@ trait Structure {
 		return $newId;
 	}
 	
-	
+
+        protected function uploadingLocalOrCloudFiles($type, $file, $fname, $assetPath, $localDestination = "")
+        {
+            if(!config('veer.use_cloud_'.$type)) {
+                $file->move( $localDestination.$assetPath, $fname);
+            } else {
+                \Storage::put($assetPath.'/'.$fname, file_get_contents($file->getPathName()));
+            }
+        }
+
+
 	/**
 	 * copy files to new object
 	 * @param type $files
@@ -1259,7 +1269,7 @@ trait Structure {
 			$img->products()->detach();
 			$img->categories()->detach();
 			$img->users()->detach();
-			\File::delete(config("veer.images_path")."/".$img->img);
+                        $this->deletingLocalOrCloudFiles('images', $img->img, config("veer.images_path"));
 			$img->delete();			
 		}
 	}
@@ -1459,14 +1469,22 @@ trait Structure {
 		if(is_object($f)) {			
 			$allCopies = \Veer\Models\Download::where('fname','=',$f->fname)->get();
 			
-			if(count($allCopies) <= 1) {
-				\File::delete(config("veer.downloads_path")."/".$f->fname);
+			if(count($allCopies) <= 1) {				
+                                $this->deletingLocalOrCloudFiles('files', $f->fname, config("veer.downloads_path"), storage_path().'/app/');
 			}
 			$f->delete();			
 		}
 	}	
 	
-	
+	protected function deletingLocalOrCloudFiles($type, $fname, $assetPath, $localDestination = "")
+        {
+            if(!config('veer.use_cloud_'.$type)) {
+                \File::delete($localDestination.$assetPath."/".$fname);
+            } else {
+                \Storage::delete($assetPath.'/'.$fname);
+            }
+        }
+        
 	/**
 	 * prepare Copying Files
 	 * @param type $fileId

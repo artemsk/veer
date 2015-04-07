@@ -1,5 +1,5 @@
 @foreach($data as $suggest_id => $suggests)
-<li class="list-group-item suggestions-clickable" data-separator="{{ \Input::get('separator',',') }}" data-whole="{{ \Input::get('whole') }}" data-chosen="@if($model != 'attribute'){{ $suggest_id }}@else{{ $suggests }}@endif">@if($model != 'image'){{ $suggests }}@else<img src="{{ asset(config('veer.images_path').'/'.$suggests) }}" class="suggests-images"> — #{{ $suggest_id }}@endif</li>
+<li class="list-group-item suggestions-clickable" data-separator="{{ \Input::get('separator',',') }}" data-whole="{{ \Input::get('whole') }}" data-chosen="@if($model != 'attribute'){{ $suggest_id }}@else{{ $suggests }}@endif">@if($model != 'image'){{ $suggests }}@else<img src="@if(config('veer.use_cloud_images')){{ config('veer.cloudstorage_path').'/' }}@else{{ asset('') }}@endif{{ (config('veer.images_path').'/'.$suggests) }}" class="suggests-images"> — #{{ $suggest_id }}@endif</li>
 @endforeach
 
 <script>

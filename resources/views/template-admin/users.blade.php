@@ -21,7 +21,7 @@
 				@if(count($item->images)>0)
 				<a href="{{ route('admin.show', array("users", "id" => $item->id)) }}" target="_blank">
 					<img data-src="holder.js/100%x150/text:Not Found" 
-						 src="{{ asset(config('veer.images_path').'/'.$item->images->first()->img) }}" class="img-responsive 
+						 src="@if(config('veer.use_cloud_images')){{ config('veer.cloudstorage_path').'/' }}@else{{ asset('') }}@endif{{ (config('veer.images_path').'/'.$item->images->first()->img) }}" class="img-responsive
 						 @if($item->banned == true) image-faded @endif"></a>
 				@endif		 
 				<div class="caption @if($item->banned == true) image-faded @endif">

@@ -52,7 +52,7 @@ class DownloadController extends Controller {
 			
 			if($reRouting == true) {
 				$checkLink->increment('downloads');
-				return \Response::download( config('veer.downloads_path') . "/" . $checkLink->fname );
+				return $this->downloadingLocalOrCloudFiles($checkLink->fname);
 			}
 			
 			$newLink = "sessionLink".str_random(64);
@@ -61,4 +61,13 @@ class DownloadController extends Controller {
 			return Redirect::route('download.link', $newLink);
 		}	
 	}
+
+        protected function downloadingLocalOrCloudFiles($fname)
+        {
+            if(!config('veer.use_cloud_files')) {
+                return \Response::download( storage_path().'/app/'.config('veer.downloads_path') . "/" . $fname );
+            } else {
+                return redirect(config('veer.cloudstorage_path').'/'.config('veer.downloads_path').'/'.$fname);
+            }
+        }
 }
