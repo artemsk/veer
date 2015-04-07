@@ -180,11 +180,13 @@ class InstallThemeCommand extends Command {
         {
             foreach($components as $key => $component)
             {
-                $c = \Veer\Models\Component::firstOrCreate(["route_name" => array_get($component, 0),
-                    "components_type" => "functions", "components_src" => $key, "sites_id" => $siteId]);
+                foreach(is_array($component)? $component : array($component) as $oneComponent) {
+                    $c = \Veer\Models\Component::firstOrCreate(["route_name" => $oneComponent,
+                        "components_type" => "functions", "components_src" => $key, "sites_id" => $siteId]);
 
-                $c->theme = $theme;
-                $c->save();
+                    $c->theme = $theme;
+                    $c->save();
+                }
             }
         }
 
@@ -192,11 +194,13 @@ class InstallThemeCommand extends Command {
         {
             foreach($events as $key => $event)
             {
-                $c = \Veer\Models\Component::firstOrCreate(["route_name" => array_get($event, 0),
-                    "components_type" => "events", "components_src" => $key, "sites_id" => $siteId]);
+                foreach(is_array($event)? $event : array($event) as $oneEvent) {
+                    $c = \Veer\Models\Component::firstOrCreate(["route_name" => $oneEvent,
+                        "components_type" => "events", "components_src" => $key, "sites_id" => $siteId]);
 
-                $c->theme = $theme;
-                $c->save();
+                    $c->theme = $theme;
+                    $c->save();
+                }
             }
         }
 
