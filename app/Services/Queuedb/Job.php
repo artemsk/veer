@@ -8,7 +8,7 @@ class Job extends Model {
     const STATUS_WAITING = 1;
     const STATUS_STARTED = 2;
     const STATUS_FINISHED = 3;
-	const STATUS_FAILED = 4;
+    const STATUS_FAILED = 4;
 
     protected $table = 'jobs';
     protected $guarded = array('id', 'created_at', 'updated_at', 'available_at');

@@ -36,12 +36,9 @@ abstract class Controller extends BaseController {
 		 *  Caching Html Pages
 		 *  tweak with Auth::getName() instead of Auth::check() @testing
 		 */
+
 		if (is_object($this->view) && config('veer.htmlcache_enable') == true && !auth_check_session()) { 
-
-			$cache_url = cache_current_url_value();
-
-			$expiresAt = now(24, 'hours'); 
-			\Cache::has($cache_url) ?: \Cache::add($cache_url, $this->view->__toString(), $expiresAt);
+                        app('veer')->cachedView = $this->view;
 		}
 	} 
 	
