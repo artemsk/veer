@@ -11,7 +11,8 @@
 	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
 	<div class="row">
 		@foreach ($items['regrouped'] as $g => $group) 
-		@if(round($items['index'][$g]/4) == ($items['index'][$g]/4)) <div class="clearfix"></div> @endif
+		@if(round(array_get($items, 'index.'.$g)/4) == (array_get($items, 'index.'.$g)/4)) <div class="clearfix"></div> @endif
+                @if(isset($group[1])) 
 		<div class="col-md-3 col-sm-6">
 			<h3>#{{ $items[head($group[1])]->id }}</h3>
 			<div class="thumbnail text-center">		    
@@ -93,7 +94,8 @@
 						</div>
 						' data-html="true"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> product | page</button>		
 			<div class="rowdelimiter"></div>
-		</div>		
+		</div>
+                @endif
 		@endforeach
 
 	</div>

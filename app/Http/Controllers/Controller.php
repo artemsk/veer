@@ -20,8 +20,6 @@ abstract class Controller extends BaseController {
 
 	public function __construct()
 	{
-                $this->jsonResponseCheck();
-
 		$this->veer = app('veer');
 
 		$this->veer->routePrepare(\Route::currentRouteName());
@@ -63,15 +61,4 @@ abstract class Controller extends BaseController {
 
 		return $view;
 	}
-
-        // check for json tokens and json request. TODO: test for speed
-        protected function jsonResponseCheck()
-        {
-            if(\Input::has('json')) {
-                
-                $jsonToken = json_decode("[".db_parameter('JSON_TOKENS')."]");
-                if(in_array(\Input::get('json'), $jsonToken)) app('veer')->siteConfig['RENDER_JSON'] = true;
-            } 
-        }
-
 }
