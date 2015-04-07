@@ -33,7 +33,8 @@ class pageMarkdownPages
         $this->updateViews();
 
         if (app('request')->ajax()) return $this->earlyResponse($this->data);
-        
+
+
         return $this->earlyResponse(
             viewx(app('veer')->template.'.page',
                         array(
