@@ -64,6 +64,7 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<p><input type="text" class="form-control" placeholder="Maximum Downloads" size=6 name="times"></p>
 						<p><input type="date" class="form-control" placeholder="Expiration Date" size=6 name="expiration_day"></p>
+                                                <p><input type="text" class="form-control" placeholder="Link (optional)" size=6 name="link_name"></p>
 						<p><button class="btn btn-info btn-xs" type="submit" name="action" value="makeRealLink.{{ $items[$item]->id }}">Make</button></p>
 						</form>
 						</div>

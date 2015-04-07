@@ -1390,12 +1390,13 @@ trait Structure {
 		{
 			$times = Input::get('times', 0);
 			$exdate = Input::get('expiration_day');
+                        $linkname = Input::get('link_name');
 			
 			$r = explode(".", $action);
 			$f = \Veer\Models\Download::find($r[1]);
 			if(is_object($f)) {
 				$newF = $f->replicate();
-				$newF->secret = str_random(100).date("Ymd", time());
+				$newF->secret = empty($linkname) ? str_random(100).date("Ymd", time()) : $linkname;
 				if($times > 0 || !empty($exdate)) { 
 					$newF->expires = 1;
 					$newF->expiration_times = $times;
