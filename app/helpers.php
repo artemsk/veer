@@ -411,7 +411,7 @@ if ( ! function_exists('viewx'))
 			return $factory;
 		}
 
-		return db_parameter('RENDER_JSON', false) == true ? response()->json($data) :
+		return array_get(app('veer')->siteConfig, 'RENDER_JSON', false) == true ? response()->json($data) :
                     ($factory->exists($view) ? $factory->make($view, $data, $mergeData) : redirect()->route('404'));
 	}
 }
