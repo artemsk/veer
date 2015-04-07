@@ -2,7 +2,7 @@
 
 namespace Veer\Components;
 
-class remoteDownload
+class downloadRemoteLink
 {
     protected $remoteLinkDb = "REMOTE_DOWNLOAD_LINK";
 

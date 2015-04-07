@@ -105,6 +105,8 @@ trait Configuration {
 				$this->action_performed[] = "DELETE component";
 			}
 
+                        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+
 			// for ajax calls
 			if(app('request')->ajax()) {
 				$items = ( new \Veer\Services\Show\Site )->getComponents($siteid, array('id','desc'));

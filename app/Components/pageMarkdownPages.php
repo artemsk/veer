@@ -2,7 +2,7 @@
 
 namespace Veer\Components;
 
-class markdownPages
+class pageMarkdownPages
 {
     protected $page;
 
@@ -16,7 +16,7 @@ class markdownPages
 
     public function __construct()
     {
-        $checkLocale = new \Veer\Components\changeLocale();
+        $checkLocale = new \Veer\Components\commonChangeLocale();
         
         app('view')->addExtension('md', 'php');
 

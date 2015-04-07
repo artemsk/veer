@@ -2,7 +2,7 @@
 
 namespace Veer\Components;
 
-class notFoundRedirectHome
+class commonNotFoundRedirectHome
 {
 
     public function __construct()

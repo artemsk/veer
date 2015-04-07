@@ -2,7 +2,7 @@
 
 namespace Veer\Components;
 
-class changeLocale
+class commonChangeLocale
 {
     protected $allowedLocales = ['en', 'fr', 'ru'];
 

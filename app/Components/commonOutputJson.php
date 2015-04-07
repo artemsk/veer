@@ -2,7 +2,7 @@
 
 namespace Veer\Components;
 
-class outputJson
+class commonOutputJson
 {
     protected $urlTrigger = "json";
 

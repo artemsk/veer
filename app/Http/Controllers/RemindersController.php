@@ -1,5 +1,9 @@
 <?php
 
+namespace Veer\Http\Controllers;
+
+use Veer\Http\Controllers\Controller;
+
 class RemindersController extends Controller {
 
 	/**
