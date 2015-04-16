@@ -54,12 +54,15 @@
     $(".veer-form-submit-configuration").on("submit",  function(event) {
 
         var siteid = $("button[type=submit][clicked=true]").attr('data-siteid');
+        var intheme = $("button[type=submit][clicked=true]").attr('data-intheme');
         var name = $("button[type=submit][clicked=true]").attr('name');
         var id = name.slice(5,-1);
         var type = name.slice(0,4);  
         var data = $(this).serialize()+ '&siteid=' + siteid + '&' + type + '=' + id;
         
-        if(id == 'new') { id = id + siteid; type = 'new'; }
+        console.log(siteid + ' ' + intheme + ' ' + name + ' ' + id + ' ' + type);
+        
+        if(id == 'new') { id = id + siteid + intheme; type = 'new'; }
 
         if(type == 'save' || type == 'new' || type == '_run' || type == 'paus') {
         $('#card' + id).addClass('animated').addClass('flipInY');

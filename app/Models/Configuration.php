@@ -14,9 +14,5 @@ class Configuration extends \Eloquent {
     public function site() {
         return $this->belongsTo('\Veer\Models\Site','sites_id','id');
     }
-
-    public function components() {
-        return $this->belongsToMany('\Veer\Models\Component','configuration_components', 'components_id', 'configuration_id');
-    }
-    
+ 
 }

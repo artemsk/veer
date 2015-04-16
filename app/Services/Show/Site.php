@@ -55,15 +55,7 @@ class Site {
 		{
 			if($type == 'components') $query->orderBy('sites_id');
 			$query->orderBy('theme', 'asc')->orderBy($orderBy[0], $orderBy[1]);
-		}));
-
-                if($type=="configuration") $items = $items->with(array('configurationForComponents' => function($query) {
-                    $query->orderBy('components_id', 'asc');
-                }, 'components' => function($query) {
-                    $query->where('components_type', '!=', 'pages')->groupBy('sites_id', 'components_src', 'components_type');
-                }));
-                
-                $items= $items->get();
+		}))->get();
 
 		return $items;
 	}	
@@ -73,34 +65,7 @@ class Site {
 	 */
 	public function getConfiguration($siteId = null, $orderBy = array('id', 'desc')) 
 	{            
-                $items = $this->getConfigurationOrComponent('configuration', $siteId, $orderBy);
-
-                $items_regrouped = [];
-
-                foreach($items as $key => $site) {
-
-                    $configuration_ids = $site->configuration->getDictionary();
-
-                    $components_ids = $site->components->getDictionary();
-
-                    $site->components = $components_ids;
-                    
-                    foreach($site->configurationForComponents as $v) {
-                        $items_regrouped[$key][$v->components_id][$v->configuration_id] = array_pull($configuration_ids, $v->configuration_id);
-
-                        array_pull($components_ids, $v->components_id);
-                    }
-
-                    $items_regrouped[$key]['global'] = $configuration_ids;
-
-                    foreach($components_ids as $k => $v) {
-                        $items_regrouped[$key][$k] = [];
-                    }
-
-                    $site->regrouped = $items_regrouped[$key];
-                }
-
-                return $items;
+                return $this->getConfigurationOrComponent('configuration', $siteId, $orderBy);
 	}	
 	
 	/**

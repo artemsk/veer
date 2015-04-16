@@ -405,12 +405,7 @@ footer {
 
 .configuraton-component-group {
     margin-top: 30px;
-}
-
-.configuration-component-group-empty {
-    margin-top: 5px !important;
-    margin-bottom: 5px !important;
-    padding-top: 0px;
+    cursor: pointer;
 }
 
 /* pages or products */
