@@ -10,7 +10,7 @@
     
     <!-- Bootstrap -->
     <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/css.css') }}" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/'.array_get(app('veer')->siteConfig, 'ADMIN_CSS', 'css').'.css') }}" rel="stylesheet">
     <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/fileinput.min.css') }}" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">

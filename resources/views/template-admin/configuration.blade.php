@@ -4,14 +4,14 @@
 	
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-settings', array('place' => 'configuration'))</div>
 
-            <h3>Configuration cards</h3>
+            <h3 class="hidden-md">Configuration cards</h3>
 
         </div>
-        <div class="visible-xs sm-rowdelimiter"></div>
-        <div class="col-sm-10 main-content-block settings-column">
+        <div class="visible-xs-block visible-sm-block sm-rowdelimiter"></div>
+        <div class="col-md-10 main-content-block settings-column">
             @foreach($items as $site)
 
 	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('configuration', "sort" => "conf_key", "direction" => "asc")) }}">keys</a> | <a href="{{ route('admin.show', array('configuration', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>
@@ -21,7 +21,7 @@
 
 	<div class="row collapse in" id="collapsed{{ $site->id.$theme }}">
 		<div class="col-lg-3 col-md-4 col-sm-6 text-center">
-			<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="veer-form-submit-configuration">
+			<form method="POST" action="{{ URL::full() }}#collapsed{{ $site->id.$theme }}" accept-charset="UTF-8" class="veer-form-submit-configuration">
 			<input name="_method" type="hidden" value="PUT">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="thumbnail newcard thumbnail-configuration-list" id="cardnew{{ $site->id.$theme }}" >
@@ -29,7 +29,7 @@
 					<p><strong><input type="text" name="new[{{ $site->id}}][key]" class="form-control admin-form text-center newkey"
 									  placeholder="Key" value=""></strong></p>
 									  <p><textarea name="new[{{ $site->id}}][value]" class="form-control newval" placeholder="Value" rows="5"></textarea></p>
-                                                                          <p><small><input type="text" name="new[{{ $site->id}}][theme]" class="form-control admin-form text-center newtheme" placeholder="theme" value=""></small></p>
+                                                                          <p><small><input type="text" name="new[{{ $site->id}}][theme]" class="form-control admin-form text-center newtheme" placeholder="theme" value="{{ $theme }}"></small></p>
 					<button type="submit" data-siteid="{{ $site->id }}" data-intheme="{{ $theme }}" name="save[new]" class="btn btn-success btn-xs">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>

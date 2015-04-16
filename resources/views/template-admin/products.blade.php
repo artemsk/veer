@@ -9,7 +9,7 @@
 
             <div class="row pages-column">
                 <div class="col-md-12 col-sm-3">
-                    <h1>Prods.</h1>
+                    <h1>Prods</h1>
 
                     <p><strong>:{{ $items->total() }}</strong>
 
