@@ -4,7 +4,7 @@
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/artemsk/veer.svg)](https://scrutinizer-ci.com/g/artemsk/veer/)
 [![GitHub release](https://img.shields.io/github/release/artemsk/veer.svg)]()
 [![Packagist](https://img.shields.io/packagist/l/artemsk/veer.svg)]()
-[![Tea](https://img.shields.io/badge/cups%20of%20tea-351-ff69b4.svg)]()
+[![Tea](https://img.shields.io/badge/cups%20of%20tea-396-ff69b4.svg)]()
 
 ## Requirements
 

@@ -136,16 +136,6 @@ class Page {
 				$items->userlists()->count(\Illuminate\Support\Facades\DB::raw(
 					'DISTINCT name'
 				));
-			
-			/*$items->markdownSmall = \Parsedown::instance()
-				->setBreaksEnabled(true)
-				->text($items->small_txt);
-			$items->markdownTxt = \Parsedown::instance()
-				->setBreaksEnabled(true)
-				->text($items->txt);
-			 * 
-			 */
-			// TODO: test because of fatal errors
 		}	
 			
 		return $items;

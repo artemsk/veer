@@ -29,7 +29,11 @@ class Site extends \Eloquent {
     public function configuration() {
        return $this->hasMany('\Veer\Models\Configuration', 'sites_id', 'id'); 
     }
-    
+
+    public function configurationForComponents() {
+        return $this->hasManyThrough('\Veer\Models\ConfigurationComponent', '\Veer\Models\Component', 'sites_id', 'components_id');
+    }
+
     public function users() {
        return $this->hasMany('\Veer\Models\User', 'sites_id', 'id'); 
     }

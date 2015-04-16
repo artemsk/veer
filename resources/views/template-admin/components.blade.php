@@ -2,12 +2,16 @@
 
 @section('body')
 	
-	@include($template.'.layout.breadcrumb-settings', array('place' => 'components'))
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-settings', array('place' => 'components'))</div>
 
-<h1>Components <small>functions | events | pages</small></h1>
-<br/>
-<div class="container">
+            <h3>Components<br/><small>functions | events | pages</small></h3>
 
+        </div>
+        <div class="visible-xs sm-rowdelimiter"></div>
+        <div class="col-sm-10 main-content-block settings-column">
 	@foreach($items as $site)
 	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('components', "sort" => "route_name", "direction" => "asc")) }}">route name</a> | <a href="{{ route('admin.show', array('components', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>
 	<div class="row">
@@ -15,16 +19,16 @@
 			<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="veer-form-submit-configuration">
 			<input name="_method" type="hidden" value="PUT">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<div class="thumbnail newcard" id="cardnew{{ $site->id }}">
+			<div class="thumbnail newcard thumbnail-configuration-list" id="cardnew{{ $site->id }}">
 				<div class="caption"><small>NEW COMPONENT</small>
-					<p><strong><input type="text" name="new[{{ $site->id}}][name]" class="form-control admin-form text-center newname" 
+					<p><strong><input type="text" name="new[{{ $site->id}}][name]" class="form-control admin-form text-center newname"
 									  placeholder="Route name" value=""></strong></p>
 					<p><select class="form-control newtype" placeholder="Component type" name="new[{{ $site->id}}][type]">
 							<option>functions</option>
 							<option>events</option>
 							<option>pages</option>
-						</select></p>				  
-					<p><input class="form-control newsrc" placeholder="Component source" name="new[{{ $site->id}}][src]" 
+						</select></p>
+					<p><input class="form-control newsrc" placeholder="Component source" name="new[{{ $site->id}}][src]"
 							  title="app/components|events or page ID" data-toggle="tooltip" data-placement="bottom"></p>
                                         <p><small><input type="text" name="new[{{ $site->id}}][theme]" class="form-control admin-form text-center newtheme" placeholder="theme" value=""></small></p>
 					<button type="submit" data-siteid="{{ $site->id }}" class="btn btn-success btn-xs" name="save[new]">
@@ -35,12 +39,14 @@
 				<input type="hidden" name="direction" value="{{ Input::get('direction', null) }}">
 			</div>
 			</form>
-		</div>		
+		</div>
 		<div id="cardstock{{ $site->id }}">
-				@include($template.'.lists.components-cards', array('components' => $site->components, 'siteid' => $site->id))	
-		</div>	
+				@include($template.'.lists.components-cards', array('components' => $site->components, 'siteid' => $site->id))
+		</div>
 	</div>
 	<div class="rowdelimiter"></div>
 	@endforeach
+        </div>
+    </div>
 </div>
 @stop
