@@ -28,8 +28,6 @@ class PageController extends Controller
         $pages->load('categories', 'user');
 
         return $this->viewIndex('pages', $pages);
-
-        // TODO: number of comments?
     }
 
     /**
@@ -98,7 +96,7 @@ class PageController extends Controller
     }
 }
 
-// TODO: показывать количество комментариев
+// TODO: показывать количество комментариев (page.index)
 // TODO: форма для комментирования
 // TODO: добавление комментариев в бд (уведомление в браузере об успешном/неуспешном добавлении)
 
