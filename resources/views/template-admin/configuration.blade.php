@@ -29,7 +29,7 @@
 					<p><strong><input type="text" name="new[{{ $site->id}}][key]" class="form-control admin-form text-center newkey"
 									  placeholder="Key" value=""></strong></p>
 									  <p><textarea name="new[{{ $site->id}}][value]" class="form-control newval" placeholder="Value" rows="5"></textarea></p>
-                                                                          <p><small><input type="text" name="new[{{ $site->id}}][theme]" class="form-control admin-form text-center newtheme" placeholder="theme" value="{{ $theme }}"></small></p>
+                                                                          <p><small><input type="text" name="new[{{ $site->id}}][theme]" class="form-control admin-form text-center newtheme" placeholder="theme|tag" value="{{ $theme }}"></small></p>
 					<button type="submit" data-siteid="{{ $site->id }}" data-intheme="{{ $theme }}" name="save[new]" class="btn btn-success btn-xs">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</div>

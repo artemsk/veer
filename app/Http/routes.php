@@ -44,7 +44,7 @@ Route::resource('search', 'SearchController', array('only' => array('index', 'sh
 Route::resource('product', 'ProductController', array('only' => array('index', 'show')));
 
 get(env('PAGE_ROUTE','page'), array('uses' => 'PageController@index', 'as' => 'page.index'));
-get(env('PAGE_ROUTE','page') .'/{id?}', array('uses' => 'PageController@show', 'as' => 'page.show'));
+get(env('PAGE_ROUTE','page') .'/{id}', array('uses' => 'PageController@show', 'as' => 'page.show'));
 
 get('download/{lnk?}', array('uses' => 'DownloadController@download', 'as' => 'download.link'));
 get('image/{template}/{filename}', array('uses' => 'ImageController@show', 'as' => 'image.show'));
