@@ -39,7 +39,6 @@ get('attribute', array('uses' => 'AttributeController@index', 'as' => 'attribute
 get('attribute/{parentId?}/{childId?}', array('uses' => 'AttributeController@show', 'as' => 'attribute.show'));
 
 Route::resource('category', 'CategoryController', array('only' => array('index', 'show')));
-Route::resource('image', 'ImageController', array('only' => array('show')));
 Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
 Route::resource('search', 'SearchController', array('only' => array('index', 'show', 'store')));
 Route::resource('product', 'ProductController', array('only' => array('index', 'show')));
@@ -48,6 +47,7 @@ get(env('PAGE_ROUTE','page'), array('uses' => 'PageController@index', 'as' => 'p
 get(env('PAGE_ROUTE','page') .'/{id?}', array('uses' => 'PageController@show', 'as' => 'page.show'));
 
 get('download/{lnk?}', array('uses' => 'DownloadController@download', 'as' => 'download.link'));
+get('image/{template}/{filename}', array('uses' => 'ImageController@show', 'as' => 'image.show'));
 
 get('order/bills/{id?}/{lnk?}', array('uses' => 'OrderController@bills', 'as' => 'order.bills'));
 get('order/success', array('uses' => 'OrderController@success', 'as' => 'order.success'));
@@ -64,3 +64,5 @@ get('user/password/remind', 'RemindersController@getRemind');
 post('user/password/remind', 'RemindersController@postRemind');
 get('user/password/reset/{token?}', 'RemindersController@getReset');
 post('user/password/reset', 'RemindersController@postReset');
+
+

@@ -99,4 +99,19 @@ return array(
       */
     
         'wkhtmltoimage' => env('VEER_WKHTMLTOIMAGE_PATH', null),
+
+      /*
+      |--------------------------------------------------------------------------
+      | Image thumbnails & cache
+      |--------------------------------------------------------------------------
+      */
+
+        'image_templates' => [
+            'small' => ['fit', 120, 90],
+            'medium' => ['fit', 240, 180],
+            'large' => ['resize', 500, 500],
+            '284x211' => ['fit', 284, 211]
+        ],
+
+        'image_lifetime' => 43200,
 );

@@ -9,7 +9,9 @@
 		"doctrine/dbal": "~2.4",
 		"erusev/parsedown": "*",
 		"guzzlehttp/guzzle": "~5.0",
-		"predis/predis": "~1.0"
+		"predis/predis": "~1.0",
+		"intervention/image": "~2.1",
+		"intervention/imagecache": "~2.1"
 	},
 	"autoload": {
 		"classmap": [
