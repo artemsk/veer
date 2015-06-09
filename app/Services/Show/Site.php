@@ -56,7 +56,7 @@ class Site {
 			if($type == 'components') $query->orderBy('sites_id');
 			$query->orderBy('theme', 'asc')->orderBy($orderBy[0], $orderBy[1]);
 		}))->get();
-
+       
 		return $items;
 	}	
 	
@@ -91,7 +91,7 @@ class Site {
 	{		
 		$items = \Veer\Services\Queuedb\Job::all();
 		
-		$items->sortBy('available_at');
+		$items = $items->sortBy('available_at');
 		
 		$items_failed = \DB::table("failed_jobs")->get();
 		

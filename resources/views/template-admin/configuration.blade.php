@@ -15,8 +15,7 @@
             @foreach($items as $site)
 
 	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('configuration', "sort" => "conf_key", "direction" => "asc")) }}">keys</a> | <a href="{{ route('admin.show', array('configuration', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>
-        @foreach($site->configuration->groupBy('theme') as $theme => $value)
-
+        @foreach(count($site->configuration->groupBy('theme'))>0 ? $site->configuration->groupBy('theme') : [''=>[]] as $theme => $value)
         <h4 class="configuraton-component-group" data-toggle="collapse" data-target='#collapsed{{ $site->id.$theme }}'><span class="glyphicon glyphicon-chevron-down danger-icon"></span> {{ $theme }} <small>{{ count($value) }}</small></h4>
 
 	<div class="row collapse in" id="collapsed{{ $site->id.$theme }}">

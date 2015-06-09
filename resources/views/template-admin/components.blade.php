@@ -14,8 +14,7 @@
         <div class="col-md-10 main-content-block settings-column">
 	@foreach($items as $site)
 	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('components', "sort" => "route_name", "direction" => "asc")) }}">route name</a> | <a href="{{ route('admin.show', array('components', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>
-        @foreach($site->components->groupBy('theme') as $theme => $value)
-
+        @foreach(count($site->components->groupBy('theme'))>0 ? $site->components->groupBy('theme') : [''=>[]] as $theme => $value)
         <h4 class="configuraton-component-group" data-toggle="collapse" data-target='#collapsed{{ $site->id.$theme }}'><span class="glyphicon glyphicon-chevron-down danger-icon"></span> {{ $theme }} <small>{{ count($value) }}</small></h4>
 
 	<div class="row collapse in" id="collapsed{{ $site->id.$theme }}">
