@@ -4,7 +4,7 @@ namespace Veer\Components;
 
 class commonOutputJson
 {
-    protected $urlTrigger = "json";
+    protected $urlTrigger = "token";
 
     protected $dbTokensName = "JSON_TOKENS";
 

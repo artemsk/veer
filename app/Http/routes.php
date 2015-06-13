@@ -2,24 +2,24 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Default routes [read-only]
 |--------------------------------------------------------------------------
 |
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
 */
+
+/* common */
 
 get('/404', array('uses' => 'IndexController@show404', 'as' => '404'));
 get("/", array('uses' => 'IndexController@index', 'as' => 'index'));
 post("/", array('uses' => 'IndexController@index', 'as' => 'index.post'));
 
-get('user/register', array('uses' => 'UserController@register', 'as' => 'user.register'));
-post('user/register', array('uses' => 'UserController@registerPost', 'as' => 'user.register.post'));
+/* auth & key actions - necessary */
+
 get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
 post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
 get('user/logout', array('uses' => 'UserController@logout', 'as' => 'user.logout'));
+get('user/register', array('uses' => 'UserController@register', 'as' => 'user.register'));
+post('user/register', array('uses' => 'UserController@registerPost', 'as' => 'user.register.post'));
 
 get('user', array('uses' => 'UserController@index', 'as' => 'user.index'));
 get('user/{id?}', array('uses' => 'UserController@show', 'as' => 'user.show'));
@@ -33,25 +33,36 @@ get('user/list/remove/{listId?}', array('uses' => 'UserController@removeFromList
 post('user/comment/add', array('uses' => 'UserController@addComment', 'as' => 'user.comment.add'));
 post('user/communication/add', array('uses' => 'UserController@addCommunication', 'as' => 'user.communication.add'));
 
+/* filter & search */
+
 Route::resource('filter', 'FilterController', array('only' => array('index', 'show')));
+Route::resource('search', 'SearchController', array('only' => array('index', 'show', 'store')));
+
+/* main entities - page|articles & product */
+
+Route::resource('product', 'ProductController', array('only' => array('index', 'show')));
+get(env('PAGE_ROUTE','page'), array('uses' => 'PageController@index', 'as' => 'page.index'));
+get(env('PAGE_ROUTE','page') .'/{id}', array('uses' => 'PageController@show', 'as' => 'page.show'));
+
+/* elements */
 
 get('attribute', array('uses' => 'AttributeController@index', 'as' => 'attribute.index'));
 get('attribute/{parentId?}/{childId?}', array('uses' => 'AttributeController@show', 'as' => 'attribute.show'));
 
 Route::resource('category', 'CategoryController', array('only' => array('index', 'show')));
 Route::resource('tag', 'TagController', array('only' => array('index', 'show')));
-Route::resource('search', 'SearchController', array('only' => array('index', 'show', 'store')));
-Route::resource('product', 'ProductController', array('only' => array('index', 'show')));
 
-get(env('PAGE_ROUTE','page'), array('uses' => 'PageController@index', 'as' => 'page.index'));
-get(env('PAGE_ROUTE','page') .'/{id}', array('uses' => 'PageController@show', 'as' => 'page.show'));
+get('image/{template}/{filename}', array('uses' => 'ImageController@show', 'as' => 'image.show'));
 
 get('download/{lnk?}', array('uses' => 'DownloadController@download', 'as' => 'download.link'));
-get('image/{template}/{filename}', array('uses' => 'ImageController@show', 'as' => 'image.show'));
+
+/* e-commerce */
 
 get('order/bills/{id?}/{lnk?}', array('uses' => 'OrderController@bills', 'as' => 'order.bills'));
 get('order/success', array('uses' => 'OrderController@success', 'as' => 'order.success'));
 Route::resource('order', 'OrderController', array('only' => array('index', 'show', 'store')));
+
+/* admin */
 
 post('api/lists/{model?}', array('uses' => 'ApiController@lists', 'as' => 'api.lists'));
 
@@ -64,5 +75,3 @@ get('user/password/remind', 'RemindersController@getRemind');
 post('user/password/remind', 'RemindersController@postRemind');
 get('user/password/reset/{token?}', 'RemindersController@getReset');
 post('user/password/reset', 'RemindersController@postReset');
-
-
