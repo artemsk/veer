@@ -36,7 +36,7 @@ class VeerServiceProvider extends ServiceProvider {
 	
 	public function registerVeerApp()
 	{
-		$this->app->bindShared('veer', function() { return new \Veer\Services\VeerApp; });
+		$this->app->singleton('veer', function() { return new \Veer\Services\VeerApp; });
 	}
 	
 	/**
@@ -46,7 +46,7 @@ class VeerServiceProvider extends ServiceProvider {
 	 */	
 	public function registerVeerShop()
 	{
-		$this->app->bindShared('veershop', function() { return new \Veer\Services\VeerShop; });
+		$this->app->singleton('veershop', function() { return new \Veer\Services\VeerShop; });
 	}
 			
 	/**

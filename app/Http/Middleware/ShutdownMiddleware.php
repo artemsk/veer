@@ -2,9 +2,7 @@
 
 use Closure;
 
-use Illuminate\Contracts\Routing\TerminableMiddleware;
-
-class ShutdownMiddleware implements TerminableMiddleware {
+class ShutdownMiddleware {
 
 	/**
 	 * Handle an incoming request.

@@ -38,7 +38,7 @@ class VeerAdminServiceProvider extends ServiceProvider {
 	 */	
 	public function registerVeerAdmin()
 	{
-		$this->app->bindShared('veeradmin', function() { return new \Veer\Administration\VeerAdmin; });
+		$this->app->singleton('veeradmin', function() { return new \Veer\Administration\VeerAdmin; });
 	}
 			
 	/**

@@ -22,7 +22,7 @@
                 <div class="col-lg-9"><div class="categories-page categories-page-general">
 	@foreach ($items as $item)
 
-	<h2 id="site{{ $item->id }}">{{ $item->configuration()->where('conf_key','=','SITE_TITLE')->pluck('conf_val'); }} <small>{{ $item->url }}
+	<h2 id="site{{ $item->id }}">{{ $item->configuration()->where('conf_key','=','SITE_TITLE')->value('conf_val'); }} <small>{{ $item->url }}
 		&nbsp;:{{ count($item->categories) }}</small></h2>
 
 	<div class="categories-lists categories-list-{{ $item->id}} ">

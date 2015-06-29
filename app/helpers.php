@@ -97,7 +97,7 @@ if ( ! function_exists('db_parameter'))
 						$v[$param] = \Cache::remember($cacheName, .5, function() use ($param, $getFromDbSiteId) 
 						{
 							return \Veer\Models\Configuration::where('sites_id','=',$getFromDbSiteId)
-							->where('conf_key','=',$param)->pluck('conf_val'); 
+							->where('conf_key','=',$param)->value('conf_val'); 
 						}); 
 						
 						if(empty($v[$param])) unset($v[$param]);
