@@ -38,7 +38,7 @@ abstract class Controller extends BaseController {
 		 */
 
 		if (is_object($this->view) && config('veer.htmlcache_enable') == true && !auth_check_session()) { 
-                        app('veer')->cachedView = $this->view;
+            app('veer')->cachedView = $this->view;
 		}
 	} 
 	

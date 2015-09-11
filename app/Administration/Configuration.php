@@ -105,7 +105,7 @@ trait Configuration {
 				$this->action_performed[] = "DELETE component";
 			}
 
-                        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            \Illuminate\Support\Facades\Artisan::call('cache:clear');
 
 			// for ajax calls
 			if(app('request')->ajax()) {
@@ -226,7 +226,7 @@ trait Configuration {
 			$data['repeatJob'] = $repeat;
 		}
 
-		$classFullName = "\Veer\Queues\\" . $queue;
+        $classFullName = starts_with($queue, "\\") ? $queue : "\Veer\Queues\\" . $queue;
 
 		if (!class_exists($classFullName)) { 
 			//

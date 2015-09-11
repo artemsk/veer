@@ -81,12 +81,12 @@ class OrderProperties {
 	 */
 	public function getStatuses($paginateItems = 50)
 	{
-                app('veer')->loadedComponents['counted']['orders'] = \Veer\Models\Order::select(\DB::raw('count(*) as orders_count, status_id'))
-                    ->groupBy('status_id')->lists('orders_count', 'status_id');
+        app('veer')->loadedComponents['counted']['orders'] = \Veer\Models\Order::select(\DB::raw('count(*) as orders_count, status_id'))
+            ->groupBy('status_id')->lists('orders_count', 'status_id');
 
-                app('veer')->loadedComponents['counted']['orders_history'] = \Veer\Models\OrderHistory::select(\DB::raw('count(*) as orders_count, status_id'))->groupBy('status_id')->lists('orders_count', 'status_id');
+        app('veer')->loadedComponents['counted']['orders_history'] = \Veer\Models\OrderHistory::select(\DB::raw('count(*) as orders_count, status_id'))->groupBy('status_id')->lists('orders_count', 'status_id');
 
-                app('veer')->loadedComponents['counted']['bills'] = \Veer\Models\OrderBill::select(\DB::raw('count(*) as orders_count, status_id'))->groupBy('status_id')->lists('orders_count', 'status_id');
+        app('veer')->loadedComponents['counted']['bills'] = \Veer\Models\OrderBill::select(\DB::raw('count(*) as orders_count, status_id'))->groupBy('status_id')->lists('orders_count', 'status_id');
 
 		return \Veer\Models\OrderStatus::orderBy('manual_order', 'asc')
 			//->with('orders', 'bills', 'orders_with_history')

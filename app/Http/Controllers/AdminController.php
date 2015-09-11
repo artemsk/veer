@@ -16,7 +16,7 @@ class AdminController extends Controller
 
         $this->middleware('auth.admin');
 
-        app('veer')->loadedComponents['template'] = app('veer')->template                     = $this->template
+        app('veer')->loadedComponents['template'] = app('veer')->template = $this->template
             = config('veer.template-admin');
 
         app('veer')->isBoundSite = false;
@@ -86,7 +86,7 @@ class AdminController extends Controller
         if (array_key_exists($t, $show)) {
             $className = '\Veer\Services\Show\\'.$show[$t][0];
 
-            return ( new $className)->{$show[$t][1]}($show[$t][2]);
+            return (new $className)->{$show[$t][1]}($show[$t][2]);
         }
 
         return $this->{'showAdmin'.ucfirst($t)}($t);

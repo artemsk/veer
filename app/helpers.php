@@ -86,25 +86,25 @@ if ( ! function_exists('db_parameter'))
 	 */
 	function db_parameter($param = null, $default = null, $getFromDbSiteId = null)
 	{
-                if(!empty($param)) 
+        if(!empty($param)) 
+        {
+            $v = app('veer')->siteConfig;    
+
+            if(!empty($getFromDbSiteId)) { 
+
+                $cacheName = 'dbparameter'.$getFromDbSiteId.'-'.$param;
+
+                $v[$param] = \Cache::remember($cacheName, .5, function() use ($param, $getFromDbSiteId) 
                 {
-                    $v = app('veer')->siteConfig;    
-					
-					if(!empty($getFromDbSiteId)) { 
-						
-						$cacheName = 'dbparameter'.$getFromDbSiteId.'-'.$param;
-						
-						$v[$param] = \Cache::remember($cacheName, .5, function() use ($param, $getFromDbSiteId) 
-						{
-							return \Veer\Models\Configuration::where('sites_id','=',$getFromDbSiteId)
-							->where('conf_key','=',$param)->value('conf_val'); 
-						}); 
-						
-						if(empty($v[$param])) unset($v[$param]);
-					}
-					
-                    return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param, $default);
-                }
+                    return \Veer\Models\Configuration::where('sites_id','=',$getFromDbSiteId)
+                    ->where('conf_key','=',$param)->value('conf_val'); 
+                }); 
+
+                if(empty($v[$param])) unset($v[$param]);
+            }
+
+            return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param, $default);
+        }
 	}
 }
 
@@ -121,8 +121,8 @@ if ( ! function_exists('db_parameter_not_found'))
 	 */
 	function db_parameter_not_found($param = null, $default = null)
 	{
-                if(config('app.debug')) Log::error('Veer Component Notice: Necessary parameter not found' . ((empty($param)) ? 0 : ': ' . $param));
-                return $default;
+        if(config('app.debug')) Log::error('Veer Component Notice: Necessary parameter not found' . ((empty($param)) ? 0 : ': ' . $param));
+        return $default;
 	}
 }
     

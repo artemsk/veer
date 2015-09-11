@@ -7,16 +7,14 @@ trait HelperTraits {
 	 */
 	protected function loadSiteTitle($items = null)
 	{
-		$siteWithTitle = array('site' => function($q) 
-			{ 
-				$q->with(array('configuration' => function($query) 
-				{
-					$query->where('conf_key','=','SITE_TITLE'); 
-				}));
-			}); // TODO: remember 5
+		$siteWithTitle = array('site' => function($q) { 
+            $q->with(array('configuration' => function($query) 
+            {
+                $query->where('conf_key','=','SITE_TITLE'); 
+            }));
+        }); // TODO: remember 5
 					
-		if(!empty($items)) 
-		{	
+		if(!empty($items)) {	
 			return \Cache::remember(app('veer')->cachingQueries->generateCacheKeyExternal($items), 1, 
 				function() use($items, $siteWithTitle) {
 					return $items->load($siteWithTitle);
@@ -33,8 +31,7 @@ trait HelperTraits {
 	{
 		$billsTypes = \File::allFiles(base_path()."/resources/views/components/bills");
 		
-		foreach(isset($billsTypes) ? $billsTypes : array() as $billFile)
-		{
+		foreach(isset($billsTypes) ? $billsTypes : array() as $billFile) {
 			app('veer')->loadedComponents['billsTypes'][ array_get(pathinfo($billFile), 'filename') ] = array_get(pathinfo($billFile), 'filename');
 		}	
 	}
@@ -47,8 +44,7 @@ trait HelperTraits {
 	{
 		$files = array();
 		
-		foreach($orders as $o)
-		{
+		foreach($orders as $o) {
 			foreach($o->downloads as $file)
 			{
 				$file->elements_type == elements('product') 

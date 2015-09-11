@@ -196,7 +196,7 @@ class VeerApp
      */
     public function routePrepare($routeName)
     {
-        $this->loadedComponents['template'] = $this->template                     = array_get($this->siteConfig,
+        $this->loadedComponents['template'] = $this->template = array_get($this->siteConfig,
             'TEMPLATE', config('veer.template'));
 
         $this->registerComponents($routeName);
@@ -271,8 +271,7 @@ class VeerApp
      * 
      * 
      */
-    protected function loadComponentClass($className, $params = null,
-                                          $type = "components")
+    protected function loadComponentClass($className, $params = null, $type = "components")
     {
         /* Another vendor's component */
         if (starts_with($className, '\\')) {
@@ -295,7 +294,7 @@ class VeerApp
     /**
      * Get path for components and require them.
      *
-     *
+     * @deprecated
      */
     protected function loadClassFromPath($className, $type)
     {
@@ -313,8 +312,7 @@ class VeerApp
      * for events type classes we only check if file was loaded then
      * wait till its called
      */
-    protected function instantiateClass($classFullName, $params = null,
-                                        $type = null)
+    protected function instantiateClass($classFullName, $params = null, $type = null)
     {
         if(class_exists($classFullName))
         {

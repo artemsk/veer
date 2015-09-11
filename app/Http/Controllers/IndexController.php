@@ -31,6 +31,17 @@ class IndexController extends Controller {
 	{
             // TODO: 404 page
 	}
+    
+    /**
+     * Custom empty route for components & jobs
+     * 
+     * @param params
+     * @return null
+     */
+    public function custom($params = null)
+    {
+        // Empty.
+    }
         
 
 }

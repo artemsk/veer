@@ -19,9 +19,9 @@ class Site {
 	 */
 	public function getSites() 
 	{
-            app('veer')->online = $this->getUsersOnline();
+        app('veer')->online = $this->getUsersOnline();
 
-            return \Veer\Models\Site::orderBy('manual_sort','asc')->get();
+        return \Veer\Models\Site::orderBy('manual_sort','asc')->get();
 	}
 	
 	/*
@@ -65,7 +65,7 @@ class Site {
 	 */
 	public function getConfiguration($siteId = null, $orderBy = array('id', 'desc')) 
 	{            
-                return $this->getConfigurationOrComponent('configuration', $siteId, $orderBy);
+        return $this->getConfigurationOrComponent('configuration', $siteId, $orderBy);
 	}	
 	
 	/**
@@ -73,7 +73,10 @@ class Site {
 	 */
 	public function getComponents($siteId = null, $orderBy = array('id', 'desc')) 
 	{	
-		return $this->getConfigurationOrComponent('components', $siteId, $orderBy);
+		return [
+            'items' => $this->getConfigurationOrComponent('components', $siteId, $orderBy),
+            'availModules' => $this->getAvailModules(['components', 'events']) 
+        ];
 	}	
 	
 	/**
@@ -106,27 +109,50 @@ class Site {
 		return array(
 			'jobs' => $items, 
 			'failed' => $items_failed, 
-			'statuses' => $statuses
+			'statuses' => $statuses,
+            'availModules' => $this->getAvailModules('queues')
 		);
 	}	
 
-        protected function getUsersOnline()
-        {
-            /**
-             * TODO: only for 'file' session driver (for now)
-             */
-            $sessions    = \File::allFiles(base_path()."/storage/framework/sessions");
-            $fiveminutes = time() - (5 * 60);
-            $counted     = 0;
+    /**
+     * Get Online Users (for 'file' session driver)
+     */
+    protected function getUsersOnline()
+    {
+        /**
+         * TODO: only for 'file' session driver (for now)
+         */
+        $sessions    = \File::allFiles(base_path()."/storage/framework/sessions");
+        $fiveminutes = time() - (5 * 60);
+        $counted     = 0;
 
-            foreach ($sessions as $s) {
+        foreach ($sessions as $s) {
 
-                $lastmodified = filemtime(array_get(pathinfo($s), 'dirname').'/'.array_get(pathinfo($s),
-                        'basename'));
+            $lastmodified = filemtime(array_get(pathinfo($s), 'dirname').'/'.array_get(pathinfo($s),
+                    'basename'));
 
-                if ($lastmodified >= $fiveminutes) $counted++;
-            }
-
-            return $counted;
+            if ($lastmodified >= $fiveminutes) $counted++;
         }
+
+        return $counted;
+    }
+    
+    /**
+     * Get Available Components or Jobs 
+     * namespace hardcoded.
+     */
+    protected function getAvailModules($places = 'components')
+    {
+        $result = [];        
+        foreach(!is_array($places) ? [$places] : $places as $place) {
+            $classes = \File::allFiles(app_path() . "/" .  ucfirst($place));
+            foreach($classes as $c) {
+                $class = array_get(pathinfo($c), 'filename');
+                $result[$place][$class] = $class;
+            }
+        }
+        
+        unset($result['events']['Event']); // system
+        return $result;
+    }
 }

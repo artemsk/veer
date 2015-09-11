@@ -69,6 +69,9 @@ post('api/lists/{model?}', array('uses' => 'ApiController@lists', 'as' => 'api.l
 get('admin/worker/{commands?}', array('uses' => 'AdminController@worker', 'as' => 'admin.worker'));
 Route::resource('admin', 'AdminController', array('only' => array('index', 'show', 'update')));
 
+/* custom */
+Route::any('custom/{params?}', ['uses' => 'IndexController@custom', 'as' => 'custom.index']);
+
 // TODO: rewrite:
 // check: AuthenticatesAndRegistersUsers, PasswordBroker, ResetsPasswords
 get('user/password/remind', 'RemindersController@getRemind');

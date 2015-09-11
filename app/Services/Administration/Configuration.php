@@ -2,8 +2,8 @@
 
 namespace Veer\Services\Administration;
 
-class Configuration
-{
+class Configuration {
+    
     protected $siteid;
     protected $confs;
     protected $new;

@@ -165,5 +165,6 @@
 	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/html.sortable.min.js') }}"></script>	
 	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/script.js') }}"></script>
 	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/delete-categories.js') }}"></script>
+    @yield('scripts')
   </body>
 </html>

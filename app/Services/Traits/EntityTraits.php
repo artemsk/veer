@@ -61,14 +61,14 @@ trait EntityTraits {
 		return $this->sortAllEntities($items, $sort)->paginate($paginateItems);
 	}	
 
-        protected function sortAllEntities($items, $sort)
-        {
-            if(empty(key($sort))) return $items->orderBy('id', 'desc');
+    protected function sortAllEntities($items, $sort)
+    {
+        if(empty(key($sort))) return $items->orderBy('id', 'desc');
 
-            return $items->orderBy(key($sort), array_get($sort, key($sort), 'desc'));
-        }
+        return $items->orderBy(key($sort), array_get($sort, key($sort), 'desc'));
+    }
 
-        /* filter pages */
+    /* filter pages */
 	public function filterEntities($model, $type, $filter_id)
 	{
 		$type_field = $type;

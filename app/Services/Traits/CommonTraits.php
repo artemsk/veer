@@ -43,30 +43,30 @@ trait CommonTraits {
 		
 		if(!empty($siteId)) $items = $items->sitevalidation($siteId);
 
-                $items = $this->elementsCheckSortCount($type, $table, $id, $siteId, $queryParams, $items);
+        $items = $this->elementsCheckSortCount($type, $table, $id, $siteId, $queryParams, $items);
                 
 		return $returnBuilder === true ? $items : $items->get();		
 	}		
 
-        /* checks, orders, counts */
-        protected function elementsCheckSortCount($type, $table, $id, $siteId, $queryParams, $items)
-        {
-            $postfix = "";
+    /* checks, orders, counts */
+    protected function elementsCheckSortCount($type, $table, $id, $siteId, $queryParams, $items)
+    {
+        $postfix = "";
 
-            if($type == "pages") {
-                $items = $items->excludeHidden();
-                $postfix = "_pages";
-            }
-
-            if($type == "products") $items = $items->checked();
-
-            app('veer')->loadedComponents['totalElements'][$type][$table][$id][$siteId] = app('veer')->cachingQueries->makeAndRemember(
-                $items, 'count', 5);
-
-            return $items->orderBy( array_get($queryParams, 'sort' . $postfix, 'created_at'),
-                    array_get($queryParams, 'direction' . $postfix, 'desc'))
-                    ->take(array_get($queryParams, 'take' . $postfix, 25))->skip(array_get($queryParams, 'skip' . $postfix, 0));
+        if($type == "pages") {
+            $items = $items->excludeHidden();
+            $postfix = "_pages";
         }
+
+        if($type == "products") $items = $items->checked();
+
+        app('veer')->loadedComponents['totalElements'][$type][$table][$id][$siteId] = app('veer')->cachingQueries->makeAndRemember(
+            $items, 'count', 5);
+
+        return $items->orderBy( array_get($queryParams, 'sort' . $postfix, 'created_at'),
+                array_get($queryParams, 'direction' . $postfix, 'desc'))
+                ->take(array_get($queryParams, 'take' . $postfix, 25))->skip(array_get($queryParams, 'skip' . $postfix, 0));
+    }
 
 	/* with models */
 	public function withModels($model, $table, $id, $siteId = null)

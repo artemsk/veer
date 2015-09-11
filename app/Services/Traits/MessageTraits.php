@@ -79,7 +79,5 @@ trait MessageTraits {
 			
 		return \Veer\Models\User::where('username','=', substr($username, 1))->pluck('id');
 	}
-	
-	
-	
+		
 }
