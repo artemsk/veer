@@ -659,10 +659,9 @@ class VeerShop {
 		}
 		
 		// 3 calculator
-		if (!empty($delivery->func_name) && class_exists('\\Veer\\Components\\Ecommerce\\' . $delivery->func_name)) 
+        $class = starts_with($delivery->func_name, "\\") ? $delivery->func_name : "\\Veer\\Components\\Ecommerce\\" . $delivery->func_name;
+		if (!empty($delivery->func_name) && class_exists($class)) 
 		{
-			$class = '\\Veer\\Components\\Ecommerce\\' . $delivery->func_name;
-
 			$deliveryFunc = new $class;
 
 			$getData = $deliveryFunc->fire($order, $delivery);
@@ -816,10 +815,9 @@ class VeerShop {
 		}
 		
 		// 2 calculator
-		if (!empty($payment->func_name) && class_exists('\\Veer\\Components\\Ecommerce\\' . $payment->func_name)) 
+        $class = starts_with($payment->func_name, "\\") ? $payment->func_name : "\\Veer\\Components\\Ecommerce\\" . $payment->func_name;
+		if (!empty($payment->func_name) && class_exists($class)) 
 		{
-			$class = '\\Veer\\Components\\Ecommerce\\' . $payment->func_name;
-
 			$paymentFunc = new $class;
 
 			$getData = $paymentFunc->fire($order, $payment);

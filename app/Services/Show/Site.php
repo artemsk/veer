@@ -155,4 +155,41 @@ class Site {
         unset($result['events']['Event']); // system
         return $result;
     }
+    
+    public function getUtility()
+    {
+        $cache = \Illuminate\Support\Facades\DB::table("cache")->get();
+		$migrations = \Illuminate\Support\Facades\DB::table("migrations")->get();
+		$reminders = \Illuminate\Support\Facades\DB::table("password_resets")->get();	
+
+		if(config('database.default') == 'mysql') {
+			$trashed = $this->trashedElements(); }
+
+		return array('cache' => $cache, 'migrations' => $migrations, 
+			'reminders' => $reminders, 'trashed' => empty($trashed)? null : $trashed);
+    }
+    
+    /**
+	 * Show trashedElements (only 'mysql')
+	 * @param type $action
+	 * @return type
+	 */
+	protected function trashedElements()
+	{
+		$tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
+		
+		$items = array();
+		
+		foreach($tables as $table) {
+			if (\Illuminate\Support\Facades\Schema::hasColumn(reset($table), 'deleted_at'))
+			{
+				$check = \Illuminate\Support\Facades\DB::table(reset($table))
+					->whereNotNull('deleted_at')->count();
+				if($check > 0) {
+                    $items[reset($table)] = $check;						
+				}
+			}
+		}
+		return $items;
+	}
 }

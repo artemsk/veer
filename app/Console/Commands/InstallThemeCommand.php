@@ -205,14 +205,15 @@ class InstallThemeCommand extends Command {
 
     protected function setThemeJobs($queues)
     {
+        $jobService = new \Veer\Services\Administration\Job;
         foreach($queues as $key => $job)
         {
-            app('veeradmin')->saveJob(array(
+            $jobService->setParams([
                 "jobs.new.start" => array_get($job, 2),
                 "jobs.new.repeat" => array_get($job, 1),
-                "jobs.new.data" =>  json_encode(array_get($job, 0)),
-                "jobs.new.classname" =>  $key
-            ));
+                "jobs.new.data" => json_encode(array_get($job, 0)),
+                "jobs.new.classname" => $key
+            ])->saveJob();
         }
     }
 

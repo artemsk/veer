@@ -64,9 +64,11 @@ d:total">{{ $item->discount_conditions }}</textarea>
 			<div class="col-md-4">
 				<div class="form-group"><strong>
 					<input type="text" class="form-control input-lg" name="payment[fill][func_name]" 
-						   placeholder="Class | function in ../Ecommerce/" value="{{ $item->func_name }}">
+						   placeholder="Class | function in ../Ecommerce/ or vendor/" value="{{ $item->func_name }}">
 					</strong>
-					@if(!empty($item->func_name) && !class_exists('\\Veer\\Components\\Ecommerce\\' . $item->func_name)) 
+					@if(!empty($item->func_name) && !class_exists(
+                        starts_with($item->func_name, "\\") ? $item->func_name : "\\Veer\\Components\\Ecommerce\\" . $item->func_name
+                    )) 
 					<span class='label label-danger'>Class doesn't exists</span>
 					@endif
 				</div>
@@ -145,7 +147,7 @@ d:total"></textarea>
 		</div>
 		<div class="col-md-4">
 			<div class="form-group">
-				<input type="text" class="form-control input-lg" name="payment[fill][func_name]" placeholder="Class | function in ../Ecommerce/">
+				<input type="text" class="form-control input-lg" name="payment[fill][func_name]" placeholder="Class | function in ../Ecommerce/ or vendor/">
 			</div>
 			<div class="form-group">
 				<textarea class="form-control" name="payment[fill][other_options]" rows="2" placeholder="Other options (used in functions)"></textarea>

@@ -10,7 +10,7 @@
                                                                                        class="form-control transparent-textarea" placeholder="Value" rows="5">{{ $item->conf_val }}</textarea></p>
                                                                                                    <p><small><input type="text" name="configuration[{{ $item->id }}][theme]" class="form-control admin-form text-center" placeholder="—" value="@if(!empty($item->theme)){{ $item->theme }}@endif"></small></p>
 					<button type="submit" data-siteid="{{ $siteid }}" name="save[{{$item->id}}]" class="btn btn-success btn-xs">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button> &nbsp;<button type="button" data-siteid="{{ $siteid }}" data-confkey="{{ $item->conf_key }}" data-confval='{{ $item->conf_val }}' class="btn btn-info btn-xs copybutton">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button> &nbsp;<button type="button" data-siteid="{{ $siteid }}" data-confkey="{{ $item->conf_key }}" data-confval='{{ $item->conf_val }}'  data-conftheme="@if(!empty($item->theme)){{ $item->theme }}@endif" data-confsiteid="{{ $siteid }}" class="btn btn-info btn-xs copybutton">
 						<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button> &nbsp;<button type="submit" data-siteid="{{ $siteid }}" name="dele[{{$item->id}}]" class="btn btn-danger btn-xs">
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					<input type="hidden" name="siteid" value="{{ $siteid }}">

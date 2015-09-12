@@ -30,6 +30,7 @@
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
                         </div>
                     </div>
+                        <input type="hidden" name="secrets[new][id]" value="">
                     </form>
                 </div>
                 @foreach($items as $item)	
@@ -54,6 +55,7 @@
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                         </div>
                     </div>
+                        <input type="hidden" name="secrets[{{ $item->id }}][id]" value="{{ $item->id }}">
                     </form>
                 </div>
                 @endforeach			

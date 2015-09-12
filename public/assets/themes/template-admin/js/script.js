@@ -101,11 +101,16 @@
        var name = $(this).attr('data-confname');
        var type = $(this).attr('data-conftype');
        var src = $(this).attr('data-confsrc');
+       var siteid = $(this).attr('data-confsiteid');
+       var thm = $(this).attr('data-conftheme');
        $('.newkey').val(key);
        $('.newval').val(val);
        $('.newname').val(name);
        $('.newtype').val(type);
-       $('.newsrc').val(src);      
+       $('.newsrc').val(src);
+       $('.newtheme').val(thm);
+
+       $("html,body").animate({scrollTop:$('#cardnew' + siteid + thm).offset().top - 60}, 350);
        $('.newcard').addClass('animated').addClass('flipInX'); 
        setTimeout(function() {
                 $('.newcard').removeClass('animated').removeClass('flipInX');

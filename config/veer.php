@@ -1,30 +1,28 @@
 <?php
 return array(
+    
       /*
-      |--------------------------------------------------------------------------
-      | Template by default. Best practice is to use prefix "template-"
-      |--------------------------------------------------------------------------
-      */
+       * Template by default. Best practice is to use prefix "template-"
+       * 
+       */
 
         'template' => "template-blank",
         'template-admin' => "template-admin",
 
-      /*
-      |--------------------------------------------------------------------------
-      | Cache Enable & Prefixes for Html Pages
-      |--------------------------------------------------------------------------
-      */
+      /* 
+       * Cache Enable & Prefixes for Html Pages
+       * 
+       */
 
         'htmlcache_enable' => env('VEER_HTMLCACHE', true),
         'htmlcache' => '_htmlcache_',
 
       /*
-      |--------------------------------------------------------------------------
-      | Paths to public html pages (_path_/*.html), images,
-      | templates - starting from public; downloads -> starting from root
-      | or storage_path()
-      |--------------------------------------------------------------------------
-      */
+       * Paths to public html pages (_path_/*.html), images,
+       * templates - starting from public; downloads -> starting from root
+       * or storage_path()
+       * 
+       */
 
         'assets_path' => env('VEER_PATHS_ASSETS', 'assets/themes'),
         'htmlpages_path' => env('VEER_PATHS_HTMLPAGES', "assets/pages"),
@@ -36,10 +34,10 @@ return array(
         'use_cloud_files' => env('VEER_USE_CLOUD_FILES', false),
 
       /*
-      |--------------------------------------------------------------------------
-      | USER ! Paths to components, events, queues, e-commerce
-      |--------------------------------------------------------------------------
-      */
+       * USER ! Paths to components, events, queues, e-commerce
+       * @deprecated
+       * 
+       */
 
         'components_path' => "app/Components",
         'events_path' => "app/Events",
@@ -47,26 +45,23 @@ return array(
         'ecommerce_path' => "app/Components/Ecommerce",
 
       /*
-      |--------------------------------------------------------------------------
-      | Default settings - loading time alert limit (seconds)
-      |--------------------------------------------------------------------------
-      */
+       * Default settings - loading time alert limit (seconds)
+       * 
+       */
 
         'loadingtime' => env('VEER_LOADING', 2),
 
       /*
-      |--------------------------------------------------------------------------
-      | Queue "qdb" repeat time (minutes)
-      |--------------------------------------------------------------------------
-      */
+       * Queue "qdb" repeat time (minutes)
+       * 
+       */
 
         'repeatjob' => env('VEER_JOBCHECK', 5),
 
       /*
-      |--------------------------------------------------------------------------
-      | User history: referrals, urls, ips - to
-      |--------------------------------------------------------------------------
-      */
+       * User history: referrals, urls, ips - to
+       * 
+       */
 
         'history_refs' => env('VEER_SAVE_REFERRALS', true),
         'history_urls' => env('VEER_SAVE_URLS', true),
@@ -74,10 +69,9 @@ return array(
         'history_path' => storage_path()."/logs/history",
 
       /*
-      |--------------------------------------------------------------------------
-      | E-commerce settings
-      |--------------------------------------------------------------------------
-      */
+       * E-commerce settings
+       * 
+       */
 
         'currency_symbol' => env('VEER_CURRENCY_SYMBOL', '$[price]'),
         /* showing orders clusters */
@@ -85,26 +79,23 @@ return array(
         'restrict_orders' => env('VEER_RESTRICT_ORDERS', false),
 
       /*
-      |--------------------------------------------------------------------------
-      | Markdown Editor
-      |--------------------------------------------------------------------------
-      */
+       * Markdown Editor
+       * 
+       */
 
         //'markdown_editor' => true,
 
       /*
-      |--------------------------------------------------------------------------
-      | wkhtmltoimage path (win or linux). null == disabled
-      |--------------------------------------------------------------------------
-      */
+       * wkhtmltoimage path (win or linux). null == disabled
+       * 
+       */
     
         'wkhtmltoimage' => env('VEER_WKHTMLTOIMAGE_PATH', null),
 
       /*
-      |--------------------------------------------------------------------------
-      | Image thumbnails & cache
-      |--------------------------------------------------------------------------
-      */
+       * Image thumbnails & cache
+       * 
+       */
 
         'image_templates' => [
             'small' => ['fit', 120, 90],

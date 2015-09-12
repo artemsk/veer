@@ -89,7 +89,7 @@ class AdminController extends Controller
             return (new $className)->{$show[$t][1]}($show[$t][2]);
         }
 
-        return $this->{'showAdmin'.ucfirst($t)}($t);
+        logger('Not found admin route: ' . $t);
     }
 
     /**
@@ -152,18 +152,8 @@ class AdminController extends Controller
             "components" => ["Site", "getComponents", Input::get('site')],
             "secrets" => ["Site", "getSecrets", null],
             "jobs" => ["Site", "getQdbJobs", $filters],
-            //"etc"
+            "etc" => ["Site", "getUtility", $filters]
         );
-    }
-
-    /**
-     * soon to be deprecated - show etc. page
-     */
-    protected function showAdminEtc($t)
-    {
-        return app('veeradmin')->{'show'.ucfirst($t)}(array(
-                Input::get('filter') => Input::get('filter_id'),
-        ));
     }
 
     /**
@@ -178,8 +168,21 @@ class AdminController extends Controller
 
         $f = "update".strtoupper($t[0]).substr($t, 1);
 
-        $data = $t == "configuration" ? (new \Veer\Services\Administration\Configuration())->handle() : app('veeradmin')->{$f}();
-
+        // temp.
+        switch($t) {
+            case 'configuration':
+            case 'components':
+            case 'secrets':    
+                $data = (new \Veer\Services\Administration\Settings($t))->handle();
+                break;
+            case 'jobs':
+                $data = (new \Veer\Services\Administration\Job)->handle();
+                break;
+            default:
+                $data = app('veeradmin')->{$f}();
+                break;            
+        }
+        
         if (!app('request')->ajax() && !(app('veeradmin')->skipShow)) {
             return $this->show($t);
         }
