@@ -91,6 +91,14 @@ class Settings {
             if (app('request')->ajax() && !empty($this->data[6])) return $this->ajaxRequest();
         }
     }
+    
+    /** 
+     * alias 
+     */
+    public function run() 
+    {
+        return $this->handle();
+    }
 
     protected function ajaxRequest()
     {

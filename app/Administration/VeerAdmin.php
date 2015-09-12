@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Event;
 
 class VeerAdmin {
 
-	use Configuration, Structure, Ecommerce, Users;
+	use Structure, Ecommerce, Users;
 	
 	/*
 	 *  

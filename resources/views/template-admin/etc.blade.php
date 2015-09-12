@@ -16,7 +16,7 @@
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">	
             <label>Raw Sql</label>
             <p><textarea class="form-control" name="freeFormSql" placeholder="Raw Sql [Update, Insert, Delete]"></textarea></p>
-            <button type="submit" class="btn btn-default" name="action" value="runRawSql">Run</button>
+            <button type="submit" class="btn btn-default" name="actionButton" value="runRawSql">Run</button>
             </form>
 	
             @if(array_get($items, 'trashed') != null)
@@ -30,7 +30,7 @@
                 <div id="clearTrashed">
                 <input type="hidden" name="actionButton" value="clearTrashed">
                 @foreach(array_get($items, 'trashed') as $table => $trash)
-                <button type="submit" class="btn btn-default margin-bottom-button" name="button" value="{{ $table }}" data-resultdiv="#clearTrashed">Clear <strong>{{ $table }} {{ $trash }}</strong></button>&nbsp;
+                <button type="submit" class="btn btn-default margin-bottom-button" name="tableName" value="{{ $table }}" data-resultdiv="#clearTrashed">Clear <strong>{{ $table }} {{ $trash }}</strong></button>&nbsp;
                 @endforeach
                 </div>
                 </form>

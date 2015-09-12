@@ -3,10 +3,11 @@
 class Job {
     
     protected $data;
-    protected $actionSave   = null;
-    protected $actionDelete = null;
-    protected $actionPause  = null;
-    protected $actionRun    = null;
+    protected $actionSave    = null;
+    protected $actionDelete  = null;
+    protected $actionPause   = null;
+    protected $actionUnpause = null;
+    protected $actionRun     = null;
     
     public function __construct()
     {
@@ -15,6 +16,7 @@ class Job {
         $this->actionSave   = \Input::get('save');
         $this->actionPause  = \Input::get('paus');
         $this->actionRun    = \Input::get('_run');
+        $this->actionUnpause  = \Input::get('unpa');
     }
     
     public function setParams($data)
@@ -47,16 +49,27 @@ class Job {
         return $this;
     }
     
+    public function pushUnpause($unpause)
+    {
+        $this->actionUnpause = $unpause;
+        return $this;
+    }
+    
     public function handle()
     {
-        foreach(['Delete', 'Save', 'Run', 'Pause'] as $action) {
+        foreach(['Save', 'Delete', 'Run', 'Pause', 'Unpause'] as $action) {
             if(!empty($this->{'action' . $action})) {
                 return $this->{lcfirst($action) . 'Job'}();
             }
         }
     }
     
-    protected function deleteJob()
+    public function run()
+    {
+        return $this->handle();
+    }
+    
+    public function deleteJob()
     {
         \Veer\Services\Queuedb\Job::destroy(head(array_keys($this->actionDelete)));
         $this->actionDelete = null;
@@ -89,7 +102,7 @@ class Job {
         $this->actionSave = null;
     }
     
-    protected function runJob()
+    public function runJob()
     {
         $jobid = head(array_keys($this->actionRun));
         $payload = array_get($this->data, 'payload');
@@ -108,10 +121,18 @@ class Job {
         $this->actionRun = null;
     }
     
-    protected function pauseJob()
+    public function pauseJob()
     {
         \Veer\Services\Queuedb\Job::where('id','=', head(array_keys($this->actionPause)))
 				->update(['status' => \Veer\Services\Queuedb\Job::STATUS_FINISHED]);
         $this->actionPause = null;
+    }
+    
+    /* similar to runJob but without running now */
+    public function unpauseJob()
+    {
+        \Veer\Services\Queuedb\Job::where('id','=', head(array_keys($this->actionUnpause)))
+				->update(['status' => \Veer\Services\Queuedb\Job::STATUS_OPEN]);
+        $this->actionUnpause = null;
     }
 }

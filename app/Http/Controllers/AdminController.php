@@ -155,6 +155,19 @@ class AdminController extends Controller
             "etc" => ["Site", "getUtility", $filters]
         );
     }
+    
+    /**
+     * configure administration routes for create/update/delete etc.
+     */
+    protected function getRouteParamsAction($t)
+    {
+        switch($t) {
+            case 'configuration': case 'components': case 'secrets': return 'Settings';
+            case 'jobs': return 'Job';
+            case 'etc': return 'Utility';
+            default: break;            
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -166,21 +179,13 @@ class AdminController extends Controller
     {
         if (Input::has('SearchButton')) return $this->show($t);
 
-        $f = "update".strtoupper($t[0]).substr($t, 1);
-
-        // temp.
-        switch($t) {
-            case 'configuration':
-            case 'components':
-            case 'secrets':    
-                $data = (new \Veer\Services\Administration\Settings($t))->handle();
-                break;
-            case 'jobs':
-                $data = (new \Veer\Services\Administration\Job)->handle();
-                break;
-            default:
-                $data = app('veeradmin')->{$f}();
-                break;            
+        $class = $this->getRouteParamsAction($t);
+        
+        if(!empty($class)) {
+            $class = "\\Veer\Services\\Administration\\" . $class; 
+            $data = (new $class($t))->handle();
+        } else {
+            $data = app('veeradmin')->{"update".ucfirst($t)}();
         }
         
         if (!app('request')->ajax() && !(app('veeradmin')->skipShow)) {
