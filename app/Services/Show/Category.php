@@ -183,9 +183,9 @@ class Category {
 			$items->load(array('pages' => function($q) {
 				$q->with('user', 'subpages', 'categories', 'comments', 'images')->orderBy('manual_order', 'asc');
 			},
-                            'products' => function($q) {
-                                $q->with('categories', 'images');
-                        }));
+                'products' => function($q) {
+                    $q->with('categories', 'images');
+            }));
 
 			$items->site_title = db_parameter('SITE_TITLE', null, $items->sites_id);
 		}	

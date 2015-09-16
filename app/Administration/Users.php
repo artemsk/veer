@@ -34,7 +34,7 @@ trait Users {
 				}
 			}
 			Event::fire('veer.message.center', \Lang::get('veeradmin.role.update'));
-			$this->action_performed[] = "UPDATE roles";
+			
 		}
 		
 		if(!empty($action) && starts_with($action, "deleteRole"))
@@ -42,7 +42,7 @@ trait Users {
 			list($act, $id) = explode(".", $action);
 			$this->deleteUserRole($id);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.role.delete'));
-			$this->action_performed[] = "DELETE role";	
+		
 		}
 		
 		if(Input::has('InUsers'))
@@ -105,7 +105,7 @@ trait Users {
 		if(Input::get('action') == "addMessage")
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.new'));
-			$this->action_performed[] = "NEW communication";
+		
 			return (new \Veer\Commands\CommunicationSendCommand(Input::get('communication')))->handle();
 		}
 		
@@ -114,7 +114,7 @@ trait Users {
 			\Veer\Models\Communication::where('id','=',head(Input::get('hideMessage')))
 				->update(array('hidden' => true));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.hide'));
-			$this->action_performed[] = "HIDE communication";
+			
 		}
 		
 		if(Input::has('unhideMessage'))
@@ -122,7 +122,7 @@ trait Users {
 			\Veer\Models\Communication::where('id','=',head(Input::get('unhideMessage')))
 				->update(array('hidden' => false));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.unhide'));
-			$this->action_performed[] = "UNHIDE communication";
+		
 		}
 		
 		if(Input::has('deleteMessage'))
@@ -130,7 +130,7 @@ trait Users {
 			\Veer\Models\Communication::where('id','=',head(Input::get('deleteMessage')))
 				->delete();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.delete'));
-			$this->action_performed[] = "DELETE communication";
+			
 		}
 	}
 	
@@ -143,7 +143,7 @@ trait Users {
 		if(Input::get('action') == "addComment")
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.new'));
-			$this->action_performed[] = "NEW comment";
+			
 			return (new \Veer\Commands\CommentSendCommand(Input::all()))->handle();
 		}
 		
@@ -152,7 +152,7 @@ trait Users {
 			\Veer\Models\Comment::where('id','=',head(Input::get('hideComment')))
 				->update(array('hidden' => true));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.hide'));
-			$this->action_performed[] = "HIDE comment";
+		
 		}
 		
 		if(Input::has('unhideComment'))
@@ -160,7 +160,7 @@ trait Users {
 			\Veer\Models\Comment::where('id','=',head(Input::get('unhideComment')))
 				->update(array('hidden' => false));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.unhide'));
-			$this->action_performed[] = "UNHIDE comment";
+			
 		}
 		
 		if(Input::has('deleteComment'))
@@ -168,7 +168,7 @@ trait Users {
 			\Veer\Models\Comment::where('id','=',head(Input::get('deleteComment')))
 				->delete();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.delete'));
-			$this->action_performed[] = "DELETE comment";
+			
 		}
 	}
 	
@@ -182,7 +182,7 @@ trait Users {
 		{
 			$this->deleteSearch(head(Input::get('deleteSearch')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.search.delete'));
-			$this->action_performed[] = "DELETE search";
+			
 			return null;
 		}
 		
@@ -210,7 +210,7 @@ trait Users {
 				}
 								
 				Event::fire('veer.message.center', \Lang::get('veeradmin.search.new'));
-				$this->action_performed[] = "NEW search";
+				
 			}
 		}	
 	}
@@ -239,7 +239,7 @@ trait Users {
 		{
 			$this->deleteList(head(Input::get('deleteList')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.list.delete'));
-			$this->action_performed[] = "DELETE list";
+			
 			return null;
 		}
 		
@@ -267,7 +267,7 @@ trait Users {
 			if(is_array($pg)) { $this->saveAndAttachLists ($pg, '\\'.elements('page'), array_get($all, 'fill')); }		
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.list.new'));
-			$this->action_performed[] = "NEW list";
+			
 		}	
 	}
 	
@@ -329,7 +329,7 @@ trait Users {
 			$this->deleteBook(head(Input::get('deleteUserbook')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete') . 
 				" " . app('veeradmin')->restore_link('UserBook', head(Input::get('deleteUserbook'))));
-			$this->action_performed[] = "DELETE book";
+			
 			return null;
 		}
 		
@@ -340,7 +340,7 @@ trait Users {
 		{
 			app('veershop')->updateOrNewBook( head(array_get($all, 'userbook', array())) );
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.update'));
-			$this->action_performed[] = "UPDATE books";
+			
 		}
 	}
 	
@@ -371,7 +371,7 @@ trait Users {
 			\Veer\Models\User::where('id','=', key($restrictions))
 				->update(array('restrict_orders' => head($restrictions)));			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.update'));
-			$this->action_performed[] = "UPDATE user";
+			
 			return null;
 		}
 		
@@ -386,7 +386,7 @@ trait Users {
 			}
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.ban'));
-			$this->action_performed[] = "UPDATE user";
+			
 			return null;
 		}
 		
@@ -395,7 +395,7 @@ trait Users {
 			$this->deleteUser(key($delete));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.delete') .
 				" " . app('veeradmin')->restore_link("user", key($delete)));
-			$this->action_performed[] = "DELETE user";
+			
 			return null;
 		}
 		
@@ -441,7 +441,7 @@ trait Users {
 				}
 				$user->save();		
 				Event::fire('veer.message.center', \Lang::get('veeradmin.user.new'));
-				$this->action_performed[] = "NEW user";			
+						
 			}
 
 		}
@@ -495,7 +495,7 @@ trait Users {
 			
 			if($validator->fails()) { 
 				Event::fire('veer.message.center', \Lang::get('veeradmin.user.new.error'));
-				$this->action_performed[] = "ERROR add user";
+				
 				return false;	
 			}
 			
@@ -504,7 +504,7 @@ trait Users {
 			$id = $user->id;
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.new'));
-			$this->action_performed[] = "NEW user";
+			
 		} 
 		
 		else 
@@ -528,7 +528,7 @@ trait Users {
 			{
 				\Veer\Models\UserAdmin::create(array('users_id' => $id));
 				Event::fire('veer.message.center', \Lang::get('veeradmin.user.admin'));
-				$this->action_performed[] = "CREATE admin";		
+						
 			}
 			
 			else { $admin->restore(); }
@@ -554,7 +554,7 @@ trait Users {
 			$pages = $this->parseIds(Input::get('attachPages'));
 			$this->associate("pages", $pages, $id, "users_id");
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.attach'));
-			$this->action_performed[] = "ATTACH page to user";			
+						
 		}
 		
 		if(starts_with($action, 'removePage'))
@@ -562,7 +562,7 @@ trait Users {
 			$p = explode(".", $action);
 			$this->associate("pages", array($p[1]), 0, "users_id");
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.detach'));
-			$this->action_performed[] = "DETACH page from user";
+			
 		}
 		
 		if(starts_with($action, "deletePage")) 
@@ -570,7 +570,7 @@ trait Users {
 			$p = explode(".", $action); 
 			$this->deletePage($p[1]);
 			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete'));
-			$this->action_performed[] = "DElETE page";
+			
 			return null;
 		}
 		
@@ -582,14 +582,14 @@ trait Users {
 				app('veershop')->updateOrNewBook($book);
 			}
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.update'));
-			$this->action_performed[] = "UPDATE books";
+			
 		}		
 		
 		if(Input::has('deleteUserbook'))
 		{
 			$this->deleteBook(head(Input::get('deleteUserbook')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete'));
-			$this->action_performed[] = "DELETE book";
+			
 			return null;
 		}
 		
@@ -599,7 +599,7 @@ trait Users {
 			\Veer\Models\UserDiscount::where('id','=', head(Input::get('cancelDiscount')))
 				->update(array('status' => 'canceled'));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.cancel'));
-			$this->action_performed[] = "CANCEL discount";
+			
 		}
 		
 		if(Input::has('attachDiscounts'))
@@ -607,7 +607,7 @@ trait Users {
 			$discounts = $this->parseIds(Input::get('attachDiscounts'));
 			$this->associate("UserDiscount", $discounts, $id, "users_id", "id", "users_id = 0 and status = 'wait'");
 			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.attach'));
-			$this->action_performed[] = "ATTACH discount";			
+						
 		}
 		
 		// orders & bills
@@ -618,7 +618,7 @@ trait Users {
 		{
 			(new \Veer\Commands\CommunicationSendCommand(Input::get('communication')))->handle();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
-			$this->action_performed[] = "SEND message to user";
+			
 		}
 
 		if($action == "add") {

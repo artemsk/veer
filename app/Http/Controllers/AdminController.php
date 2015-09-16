@@ -165,6 +165,9 @@ class AdminController extends Controller
             case 'configuration': case 'components': case 'secrets': return 'Settings';
             case 'jobs': return 'Job';
             case 'etc': return 'Utility';
+            case 'attributes': case 'categories': case 'downloads': case 'images': 
+                case 'pages': case 'products': case 'sites': case 'tags': return 'Structure';
+                
             default: break;            
         }
     }

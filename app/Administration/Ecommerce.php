@@ -238,7 +238,7 @@ trait Ecommerce {
 			{
 				$this->addOrUpdateGlobalStatus($s, $status_id);
 				Event::fire('veer.message.center', \Lang::get('veeradmin.status.update'));
-				$this->action_performed[] = "UPDATE status";
+				
 			}
 		}
 		
@@ -247,7 +247,7 @@ trait Ecommerce {
 			$this->deleteStatus(Input::get('deleteStatus'));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.status.delete'). 
 				" " . app('veeradmin')->restore_link('OrderStatus', Input::get('deleteStatus')));
-			$this->action_performed[] = "DELETE status";
+			
 		}
 		
 		if(Input::has('addStatus'))
@@ -260,7 +260,7 @@ trait Ecommerce {
 				}
 			}
 			Event::fire('veer.message.center', \Lang::get('veeradmin.status.new'));
-			$this->action_performed[] = "NEW status";			
+						
 		}
 	}
 	
@@ -316,7 +316,7 @@ trait Ecommerce {
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.delete') . 
 				" " . app('veeradmin')->restore_link('OrderPayment', Input::get('deletePaymentMethod')));
-			$this->action_performed[] = "DELETE payment method";
+			
 			return $this->deletePaymentMethod(Input::get('deletePaymentMethod'));
 		}
 		
@@ -329,14 +329,14 @@ trait Ecommerce {
 			}
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.update'));
-			$this->action_performed[] = "UPDATE payment";	
+				
 		}
 		
 		if(Input::has('addPaymentMethod'))
 		{
 			$p = new \Veer\Models\OrderPayment;
 			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.new'));
-			$this->action_performed[] = "NEW payment";	
+				
 		}	
 		
 		$func_name = Input::get('payment.fill.func_name');		
@@ -385,7 +385,7 @@ trait Ecommerce {
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.delete') . 
 				" " . app('veeradmin')->restore_link('OrderShipping', Input::get('deleteShippingMethod')));
-			$this->action_performed[] = "DELETE shipping method";
+			
 			return $this->deleteShippingMethod(Input::get('deleteShippingMethod'));
 		}
 		
@@ -398,14 +398,14 @@ trait Ecommerce {
 			}
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.update'));
-			$this->action_performed[] = "UPDATE shipping";	
+				
 		}
 		
 		if(Input::has('addShippingMethod'))
 		{
 			$p = new \Veer\Models\OrderShipping;
 			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.new'));
-			$this->action_performed[] = "NEW shipping";	
+				
 		}	
 		
 		$func_name = Input::get('shipping.fill.func_name');
@@ -463,7 +463,7 @@ trait Ecommerce {
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.delete') .
 				" " . app('veeradmin')->restore_link('UserDiscount', Input::get('deleteDiscount')));
-			$this->action_performed[] = "DELETE discount";
+			
 			return $this->deleteDiscount(Input::get('deleteDiscount'));
 		}
 		
@@ -492,7 +492,7 @@ trait Ecommerce {
 				}
 			}
 			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.update'));
-			$this->action_performed[] = "UPDATE discount";			
+					
 		}
 	}
 	
@@ -555,7 +555,7 @@ trait Ecommerce {
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.order.delete') .
 				" " . app('veeradmin')->restore_link('order', $order->id));
-			$this->action_performed[] = "DELETE order";	
+			
 			$this->skipShow = true;
 			return \Redirect::route('admin.show', array('orders'));
 		}
@@ -636,7 +636,7 @@ trait Ecommerce {
 			
 			if($validator->fails() || $validator_content->fails()) { 
 				Event::fire('veer.message.center', \Lang::get('veeradmin.order.new.error'));
-				$this->action_performed[] = "ERROR add order";
+				
 				return false;	
 			}
 			
@@ -706,7 +706,7 @@ trait Ecommerce {
 			}
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.order.history.delete'));
-			$this->action_performed[] = "DELETE history";
+			
 		}
 				
 		$order->save();
@@ -733,7 +733,7 @@ trait Ecommerce {
 		{
 			(new \Veer\Commands\CommunicationSendCommand(Input::get('communication')))->handle();
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.page.sendmessage'));
-			$this->action_performed[] = "SEND message to user";
+		
 		}	
 		
 		// redirect to new order
