@@ -124,11 +124,11 @@ class Category {
 	 * 
 	 * 
 	 */
-	public function getAllCategories($imageFilter = null)
+	public function getAllCategories($imageFilter = null, $withRelations = ['pages', 'products', 'subcategories'])
 	{
 		if(!empty($imageFilter)) 
 		{
-			$items = $this->filterCategoryByImage($imageFilter);
+			$items = $this->filterCategoryByImage($imageFilter, $withRelations);
 
 			app('veer')->loadedComponents['filtered'] = "images";
 			
@@ -137,12 +137,12 @@ class Category {
 
 		else 
 		{
-			$items = \Veer\Models\Site::with(array('categories' => function($query) 
-				{
-					$query->has('parentcategories', '<', 1)
-						->orderBy('manual_sort','asc')
-						->with('pages', 'products', 'subcategories');
-				}));
+			$items = \Veer\Models\Site::with(array('categories' => function($query) use ($withRelations) 
+            {
+                $query->has('parentcategories', '<', 1)
+                    ->orderBy('manual_sort','asc');
+                if(!empty($withRelations)) $query->with($withRelations);
+            }));
 		}
 				
 		return $items->orderBy('manual_sort','asc')->get();
@@ -153,15 +153,16 @@ class Category {
 	 * 
 	 * 
 	 */
-	protected function filterCategoryByImage($imageFilter = null)
+	protected function filterCategoryByImage($imageFilter = null, $withRelations = ['pages', 'products', 'subcategories'])
 	{
-		return \Veer\Models\Site::with(array('categories' => function($query) use ($imageFilter) 
+		return \Veer\Models\Site::with(array('categories' => function($query) use ($imageFilter, $withRelations) 
 		{
 			$query->whereHas('images',function($q) use ($imageFilter) 
 			{
 				$q->where('images_id','=',$imageFilter);					
-			})
-			->with('products', 'pages', 'subcategories');
+			});
+            
+            if(!empty($withRelations)) $query->with($withRelations);
 		}));	
 	}
 	

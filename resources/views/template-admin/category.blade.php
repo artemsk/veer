@@ -93,7 +93,7 @@
                                     @endforeach
                                 </ul>
                                 <div class="input-group category-add">
-                                    <input type="text" data-type="category" class="form-control show-list-of-items suggestions-category" placeholder="Title or :Existing-category-ID" name="child">
+                                    <input type="text" data-type="category" class="form-control show-list-of-items suggestions-category" placeholder="Title or :Existing-category-ID" name="child" autocomplete="off">
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="submit" name="action" value="addChild">Add</button>
                                     </span>
@@ -142,7 +142,7 @@
                     @endif
                     <div class="col-lg-4 col-md-4 col-sm-3">
 
-                        <p><input class="form-control show-list-of-items suggestions-image categories-page-input" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]"></p>
+                        <p><input class="form-control show-list-of-items suggestions-image categories-page-input" data-type="image" name="attachImages" placeholder=":Existing Images IDs[,]" autocomplete="off"></p>
                         <div id="loadedSuggestions-image"></div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 color-upload-form">
@@ -180,7 +180,7 @@
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="input-group">
-                            <input type="text" data-type="product" class="form-control show-list-of-items suggestions-product categories-page-input" name="attachProducts" placeholder=":Existing IDs">
+                            <input type="text" data-type="product" class="form-control show-list-of-items suggestions-product categories-page-input" name="attachProducts" placeholder=":Existing IDs" autocomplete="off">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" name="action" value="updateProducts">Add</button>
                             </span>
@@ -218,7 +218,7 @@
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="input-group">
-                            <input type="text" data-type="page" class="form-control show-list-of-items suggestions-page categories-page-input" name="attachPages" placeholder=":Existing IDs">
+                            <input type="text" data-type="page" class="form-control show-list-of-items suggestions-page categories-page-input" name="attachPages" placeholder=":Existing IDs" autocomplete="off">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" name="action" value="updatePages">Add</button>
                             </span>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Input;
 
 class Category {
 
-    use Helper, Attach;
+    use Helper, Attach, Delete;
     
     protected $action;
     protected $delete;
@@ -35,13 +35,13 @@ class Category {
     public function delete($id)
     {
         $this->action = 'delete';
-        $this->delete = $id;
-        return $this->deleteCategory();
+        return $this->deleteCategory($id);
     }
     
-    public function sort()
+    public function sort($relationship = 'categories')
     {
         $this->action = 'sort';
+        $this->data += ['relationship' => $relationship];
         return $this->sortCategory();
     }
 
@@ -55,7 +55,7 @@ class Category {
     public function run()
     {
         // delete from parent - subcategories from category; categories from list of all
-        if($this->action == 'delete') { $this->deleteCategory(); }
+        if($this->action == 'delete') { $this->deleteCategory($this->delete); }
         
         $this->data = Input::all();
         
@@ -105,7 +105,7 @@ class Category {
         $categoryObj = new \Veer\Services\Show\Category;
        
         $oldsorting = $this->data['relationship'] == 'categories' ? 
-            $categoryObj->getAllCategories(array_get($this->data, 'image')) : 
+            $categoryObj->getAllCategories(array_get($this->data, 'image'), []) : 
             [$categoryObj->getCategoryAdvanced($this->data['parentid'])];
         
         if (is_object($oldsorting) || is_object($oldsorting[0])) {
@@ -134,28 +134,12 @@ class Category {
         
         return $c->id;		
 	}	
-	
-	/**
-	 * Delete Category: Category & connections
-	 * 
-	 */
-	protected function deleteCategory()
-	{
-        if(empty($this->delete)) return null;
-        
-		\Veer\Models\Category::destroy($this->delete);
-		\Veer\Models\CategoryConnect::where('categories_id','=',$this->delete)->forceDelete();
-		\Veer\Models\CategoryPivot::where('parent_id','=',$this->delete)->orWhere('child_id','=',$this->delete)->forceDelete();
-		\Veer\Models\ImageConnect::where('elements_id','=',$this->delete)
-		->where('elements_type','=','Veer\Models\Category')->forceDelete();
-		// We do not delete communications for deleted items
-	}
-    
+	    
     /**
      * Edit/update one category
      * 
      */
-	public function updateOneCategory()
+	protected function updateOneCategory()
 	{	
         $category = \Veer\Models\Category::find($this->edit);
         
@@ -168,25 +152,27 @@ class Category {
             'removeInChild' => 'veeradmin.category.child.detach',
         ];
         
+        logger($this->action);
         switch ($this->action) {
             case 'deleteCurrent':
-                $this->delete = $this->edit;
-                $this->deleteCategory();
+                $this->deleteCategory($this->edit);
                 Input::replace(['category' => null]);
                 app('veeradmin')->skipShow = true;
                 return \Redirect::route('admin.show', array('categories'));
                 
-            case 'saveParent' && isset($this->data['parentId']) && $this->data['parentId'] > 0:
-                $category->parentcategories()->attach($this->data['parentId']);			
+            case 'saveParent': 
+                if(!empty($this->data['parentId'])) $category->parentcategories()->attach($this->data['parentId']);			
                 break;
                 
-            case 'updateParent' && isset($this->data['parentId']) && $this->data['parentId'] > 0 && 
-                isset($this->data['lastCategoryId']) && $this->data['lastCategoryId'] != $this->data['parentId']:                
-                $this->attachParentCategory($this->edit, $this->data['parentId'], $category);                                
+            case 'updateParent':
+                if(!empty($this->data['parentId']) && isset($this->data['lastCategoryId']) && 
+                $this->data['lastCategoryId'] != $this->data['parentId']) {  
+                    $this->attachParentCategory($this->edit, $this->data['parentId'], $category);   
+                }
                 break;
                 
-            case 'removeParent' && isset($this->data['parentId']):
-                $category->parentcategories()->detach($this->data['parentId']);				
+            case 'removeParent':
+                if(isset($this->data['parentId'])) $category->parentcategories()->detach($this->data['parentId']);				
                 break;
                 
             case 'updateCurrent':
@@ -196,29 +182,32 @@ class Category {
                 $category->save();
                 break;
             
-            case 'addChild' && isset($this->data['child']):
-                $childs = $this->attachElements($this->data['child'], $category, 'subcategories', [
-                    "action" => "NEW child categories",
-                    "language" => "veeradmin.category.child.attach"
-                ]);
+            case 'addChild':
+                if(isset($this->data['child'])) {
+                    $childs = $this->attachElements($this->data['child'], $category, 'subcategories', [
+                        "language" => "veeradmin.category.child.attach"
+                    ]);
 
-                if(!$childs) { // add new			
-                    $category->subcategories()->attach( 
-                        $this->addCategory($this->data['child'], $category->site->id) 
-                    );
+                    if(!$childs) { // add new			
+                        $category->subcategories()->attach( 
+                            $this->addCategory($this->data['child'], $category->site->id) 
+                        );
+                    }
                 }
                 break;
                 
-            case 'updateInChild' && isset($this->data['parentId']) && $this->data['parentId'] > 0 && 
-                isset($this->data['lastCategoryId']) && $this->data['lastCategoryId'] != $this->data['parentId']:
-                $check = \Veer\Models\CategoryPivot::where('child_id','=',$this->data['currentChildId'])
-                ->where('parent_id','=',$this->data['parentId'])->first();	
+            case 'updateInChild':
+                if(!empty($this->data['parentId']) && isset($this->data['lastCategoryId']) && 
+                $this->data['lastCategoryId'] != $this->data['parentId']) {
+                    $check = \Veer\Models\CategoryPivot::where('child_id','=',$this->data['currentChildId'])
+                    ->where('parent_id','=',$this->data['parentId'])->first();	
 
-                if(!$check) { // update parent in childs
-                    $category = \Veer\Models\Category::find($this->data['currentChildId']);
-                    $category->parentcategories()->detach($this->data['lastCategoryId']);
-                    $category->parentcategories()->attach($this->data['parentId']);
-                }                   
+                    if(!$check) { // update parent in childs
+                        $category = \Veer\Models\Category::find($this->data['currentChildId']);
+                        $category->parentcategories()->detach($this->data['lastCategoryId']);
+                        $category->parentcategories()->attach($this->data['parentId']);
+                    }               
+                }
                 break;
                 
             case 'removeInChild':
@@ -231,55 +220,50 @@ class Category {
                 break;
             
             case 'updateImages':
-                $this->attachElements($this->data['attachImages'], $category, 'images', [
-                    "action" => "ATTACH images",
-                    "language" => "veeradmin.category.images.attach"
-                ]);
-
                 if(Input::hasFile('uploadImage')) {
-                    $this->upload('image', 'uploadImage', $this->data['category'], 'categories', 'ct', [
-                        "action" => "NEW images",
+                    $this->upload('image', 'uploadImage', $this->edit, 'categories', 'ct', [
                         "language" => "veeradmin.category.images.new"
                     ]);
-                }
-                break;
-                
+                }  
             case 'updateProducts':
-                $this->attachElements($this->data['attachProducts'], $category, 'products', [
-                    "action" => "ATTACH products",
-                    "language" => "veeradmin.category.products.attach"
-                ]);
-                break;
-            
             case 'updatePages':
-                $this->attachElements($this->data['attachPages'], $category, 'pages', [
-                    "action" => "ATTACH pages",
-                    "language" => "veeradmin.category.pages.attach"
-                ]);
-                break;
-            
+                $this->attachmentActions($category);
+                break;            
         }					
 		
-		$this->detachElements($this->data['action'], 'removeImage', $category, 'images', [
-			"action" => "REMOVE images",
-			"language" => "veeradmin.category.images.detach"
-		]);
-
-        $this->detachElements($this->data['action'], 'removeAllImages', $category, 'images', null, true);
-				
-		$this->detachElements($this->data['action'], 'removeProduct', $category, 'products', [
-			"action" => "REMOVE products",
-			"language" => "veeradmin.category.products.detach"
-		]);		
-		
-		$this->quickProductsActions($this->data['action']);	// TODO	
-
-		$this->detachElements($this->data['action'], 'removePage', $category, 'pages', [
-			"action" => "REMOVE pages",
-			"language" => "veeradmin.category.pages.detach"
-		]);				
-		
-		$this->quickPagesActions($this->data['action']); // TODO
+		$this->detachmentActions($category);	
+		$this->quickProductsActions($this->action);
+		$this->quickPagesActions($this->action);
 	}
+    
+    protected function attachmentActions($category)
+    {
+        $attachmentActions = [
+            'updateImages' => ['attachImages', 'images'],
+            'updateProducts' => ['attachProducts', 'products'],
+            'updatePages' => ['attachPages', 'pages']
+        ];        
+        $data = $attachmentActions[$this->action];
+        
+        $this->attachElements($this->data[$data[0]], $category, $data[1], [
+            "language" => "veeradmin.category.".$data[1].".attach"
+        ]);
+    }
+    
+    protected function detachmentActions($category)
+    {
+        $detachmentActions = [
+            'removeImage' => ['images', false],
+            'removeAllImages' => ['images', true],
+            'removeProduct' => ['products', false],
+            'removePage' => ['pages', false]
+        ];
+        
+        foreach($detachmentActions as $action => $data) {
+            $this->detachElements($this->action, $action, $category, $data[0], [
+                "language" => "veeradmin.category.".$data[0].".detach"
+            ], $data[1]);            
+        }
+    }
     
 }

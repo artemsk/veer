@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Event;
 
 class Structure {
 	
-    use Elements\Helper, Elements\Attach;
+    use Elements\Helper, Elements\Attach, Elements\Delete;
     
     protected $action = null;
 
@@ -26,7 +26,7 @@ class Structure {
 	 */
 	public function updateSites()
 	{
-        (new Elements\Site)->run();
+        return (new Elements\Site)->run();
     }	
         
 	/**
@@ -34,293 +34,10 @@ class Structure {
 	 */
 	public function updateCategories()
 	{
-		// if we're working with one category then call another function
-		//
-		$editOneCategory = Input::get('category');
-		if(!empty($editOneCategory)) { 
-			
-			return $this->updateOneCategory($editOneCategory); 
-		}
-		
-		$action = Input::get('action');
-		$cid = Input::get('deletecategoryid');
-		$new = Input::get('newcategory');
-		
-		if($action == "delete" && !empty($cid)) {
-		
-			$this->deleteCategory($cid);
-		}
-		
-		if($action == "add" && !empty($new)) {			
-			$site_id = Input::get('siteid');				
-			$this->addCategory($new, $site_id);			
-			
-			
-			if(app('request')->ajax()) {
-				$items = \Veer\Models\Site::with(array('categories' => function($query) {
-						$query->has('parentcategories', '<', 1)->orderBy('manual_sort', 'asc');
-					}))->orderBy('manual_sort', 'asc')->where('id', '=', $site_id)->get();
-
-				return app('view')->make(app('veer')->template.'.lists.categories-category', array(
-					"categories" => $items[0]->categories,
-					"siteid" => $site_id,
-					"child" => view(app('veer')->template.'.elements.asset-delete-categories-script')
-				));
-			}	
-		}
-		
-		if($action == "sort") {
-			$sorting = Input::all();
-			$sorting['relationship'] = "categories";
-			
-			if(isset($sorting['parentid'])) {			
-				$oldsorting = (new \Veer\Services\Show\Category)->getAllCategories(Input::get('image',null));
-				if(is_object($oldsorting)) {					
-					foreach ($this->sortElements($oldsorting, $sorting) as $sort => $id) {
-						\Veer\Models\Category::where('id', '=', $id)->update(array('manual_sort' => $sort));
-					}	
-				}			
-			}	
-			
-		}
+		return (new Elements\Category)->run();	
 	}	
 
-	
-	/**
-	 * add Category
-	 * @param type $title
-	 * @param type $site_id
-	 * @param type $options
-	 * @return $->id
-	 */
-	public function addCategory($title, $site_id, $options = array())
-	{
-		if(!empty($title)) {
-			$c = new \Veer\Models\Category;
-			$c->title = $title;
-			$c->description = array_get($options, 'description', '');
-			$c->remote_url = array_get($options, 'remote_url', '');
-			$c->manual_sort = array_get($options, 'sort', 999999);
-			$c->views = array_get($options, 'views', 0);
-			$c->sites_id = $site_id;
-			$c->save();
-			return $c->id;
-		}
-	}
-	
-	
-	/**
-	 * delete Category: Category & connections
-	 * @param type $cid
-	 * @return string
-	 */
-	protected function deleteCategory($cid)
-	{
-		\Veer\Models\Category::destroy($cid);
-		\Veer\Models\CategoryConnect::where('categories_id','=',$cid)->forceDelete();
-		\Veer\Models\CategoryPivot::where('parent_id','=',$cid)->orWhere('child_id','=',$cid)->forceDelete();
-		\Veer\Models\ImageConnect::where('elements_id','=',$cid)
-		->where('elements_type','=','Veer\Models\Category')->forceDelete();
-		// We do not delete communications for deleted items
-	}	
-	
-	
-	/**
-	 * Update One Category
-	 */	
-	public function updateOneCategory($cid)
-	{	
-		$all = Input::all();
 
-		// delete sub categories from db
-		// deletecategoryid <- id of deleted category id
-		if($all['action'] == "delete") { 			
-			
-			
-			return $this->deleteCategory($all['deletecategoryid']); 
-		}
-		
-		$category = \Veer\Models\Category::find($cid);
-		
-		
-		// delete current category from db
-		if($all['action'] == "deleteCurrent") {			
-					
-			$this->deleteCategory($cid);
-			
-			Input::replace(array('category' => null));
-			
-				
-			Event::fire('veer.message.center', \Lang::get('veeradmin.category.delete') );	
-			
-			app('veeradmin')->skipShow = true;
-			return \Redirect::route('admin.show', array('categories'));
-		}
-		
-		
-		// new & first parent of current category
-		if($all['action'] == "saveParent" && isset($all['parentId']) && $all['parentId'] > 0) {
-			
-			$category->parentcategories()->attach($all['parentId']);
-			
-			Event::fire('veer.message.center', \Lang::get('veeradmin.category.parent.new'));			
-				
-		}
-		
-		
-		// updating parents
-		if(isset($all['parentId']) && $all['action'] == "updateParent" && $all['parentId'] > 0) {
-			if($all['lastCategoryId'] != $all['parentId']) {
-				
-				$this->attachParentCategory($cid, $all['parentId'], $category);
-			}
-		}
-		
-		
-		// removing parents
-		if(isset($all['parentId']) && $all['action'] == "removeParent") {
-			
-			$category->parentcategories()->detach($all['parentId']);
-			
-			Event::fire('veer.message.center', \Lang::get('veeradmin.category.parent.detach'));			
-			
-		}
-		
-		
-		// updating info
-		if($all['action'] == "updateCurrent") {
-			$category->title = $all['title'];
-			$category->remote_url = $all['remoteUrl'];
-			$category->description = $all['description'];
-			$category->save();
-			
-			Event::fire('veer.message.center', \Lang::get('veeradmin.category.update'));
-			
-		}
-		
-
-		// adding childs (new or existing)
-		if($all['action'] == "addChild" && isset($all['child'])) {
-			
-			$childs = $this->attachElements($all['child'], $category, 'subcategories', array(
-				"action" => "NEW child categories",
-				"language" => "veeradmin.category.child.attach"
-			));
-			
-			if( !$childs ) {			
-				$category->subcategories()->attach(
-					$this->addCategory($all['child'], $category->site->id)
-				);
-				Event::fire('veer.message.center', \Lang::get('veeradmin.category.child.new'));
-			
-			}
-		}
-		
-		
-		// quick move child category to another parent
-		if($all['action'] == "updateInChild" && isset($all['parentId']) && $all['parentId'] > 0) {
-			if($all['lastCategoryId'] != $all['parentId']) {	
-				
-			   $check = \Veer\Models\CategoryPivot::where('child_id','=',$all['currentChildId'])
-				->where('parent_id','=',$all['parentId'])->first();	
-			   
-			   if(!$check) {
-					$category = \Veer\Models\Category::find($all['currentChildId']);
-					$category->parentcategories()->detach($all['lastCategoryId']);
-					$category->parentcategories()->attach($all['parentId']);
-					Event::fire('veer.message.center', \Lang::get('veeradmin.category.child.parent'));
-					
-			   }
-			}
-		}
-		
-		
-		// remove child from current
-		if($all['action'] == "removeInChild") {
-			$category->subcategories()->detach($all['currentChildId']);
-			Event::fire('veer.message.center', \Lang::get('veeradmin.category.child.detach'));
-			
-		}
-		
-		
-		// sort
-		if($all['action'] == "sort") {
-			$all['relationship'] = "subcategories";
-			
-			if(isset($all['parentid'])) {			
-				$oldsorting[0] = (new \Veer\Services\Show\Category)->getCategoryAdvanced($all['parentid']);
-				if(is_object($oldsorting[0])) {					
-					foreach ($this->sortElements($oldsorting, $all) as $sort => $id) {
-						\Veer\Models\Category::where('id', '=', $id)->update(array('manual_sort' => $sort));
-					}					
-				}				
-			}
-			
-		}		
-			
-		
-		// update|add images
-		if($all['action'] == "updateImages") {
-			
-			$this->attachElements($all['attachImages'], $category, 'images', array(
-				"action" => "ATTACH images",
-				"language" => "veeradmin.category.images.attach"
-			));
-			
-			if(Input::hasFile('uploadImage')) {
-
-				$this->upload('image', 'uploadImage', $all['category'], 'categories', 'ct', array(
-					"action" => "NEW images",
-					"language" => \Lang::get('veeradmin.category.images.new')
-				));
-			}	
-		}
-
-		$this->detachElements($all['action'], 'removeImage', $category, 'images', array(
-			"action" => "REMOVE images",
-			"language" => "veeradmin.category.images.detach"
-		));
-
-                $this->detachElements($all['action'], 'removeAllImages', $category, 'images', null, true);
-		
-		// add existings products
-		if($all['action'] == "updateProducts") {
-			
-			$this->attachElements($all['attachProducts'], $category, 'products', array(
-				"action" => "ATTACH products",
-				"language" => "veeradmin.category.products.attach"
-			));
-		}
-		
-		$this->detachElements($all['action'], 'removeProduct', $category, 'products', array(
-			"action" => "REMOVE products",
-			"language" => "veeradmin.category.products.detach"
-		));		
-		
-		$this->quickProductsActions($all['action']);
-		
-		// add existings pages
-		if($all['action'] == "updatePages") {
-			
-			$this->attachElements($all['attachPages'], $category, 'pages', array(
-				"action" => "ATTACH pages",
-				"language" => "veeradmin.category.pages.attach"
-			));
-		}
-
-		$this->detachElements($all['action'], 'removePage', $category, 'pages', array(
-			"action" => "REMOVE pages",
-			"language" => "veeradmin.category.pages.detach"
-		));				
-		
-		$this->quickPagesActions($all['action']);
-		
-		// And that's it!
-	}	
-	
-	
-
-	
 	/**
 	 * update Products
 	 * @return type
@@ -674,112 +391,13 @@ class Structure {
 	}
 	
 	
-	/**
-	 * Products actions
-	 * @param type $action
-	 */
-	protected function quickProductsActions($action)
-	{
-		if(starts_with($action, "changeStatusProduct")) 
-		{
-			$r = explode(".", $action); 
-			$this->changeProductStatus( \Veer\Models\Product::find($r[1]) );
-			Event::fire('veer.message.center', \Lang::get('veeradmin.product.status'));
-			
-		}
-		
-		if(starts_with($action, "deleteProduct")) 
-		{
-			$r = explode(".", $action); 
-			$this->deleteProduct($r[1]);
-			Event::fire('veer.message.center', \Lang::get('veeradmin.product.delete') . 
-				" " . app('veeradmin')->restore_link('product', $r[1]));
-			
-		}		
-		
-		if(starts_with($action, "showEarlyProduct")) 
-		{
-			\Eloquent::unguard();
-			$r = explode(".", $action); 
-			\Veer\Models\Product::where('id','=',$r[1])->update(array("to_show" => now()));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.product.show'));
-			
-		}
-	}
 	
 	
-	/**
-	 * Pages actions
-	 * @param type $action
-	 */
-	protected function quickPagesActions($action)
-	{
-		if(starts_with($action, "changeStatusPage")) 
-		{
-			$r = explode(".", $action); 
-			$page = \Veer\Models\Page::find($r[1]);
-			if($page->hidden == true) { $page->hidden = false; } else { $page->hidden = true; }
-			$page->save();
-			
-			Event::fire('veer.message.center', \Lang::get('veeradmin.page.status'));
-						
-		}
-		
-		if(starts_with($action, "deletePage")) 
-		{
-			$r = explode(".", $action); 
-			$this->deletePage($r[1]);
-			Event::fire('veer.message.center', \Lang::get('veeradmin.page.delete') . 
-				" " . app('veeradmin')->restore_link('page', $r[1]));
-			
-		}	
-	}	
 	
 	
-	/**
-	 * delete Page & relationships
-	 */
-	protected function deletePage($id)
-	{
-		$p = \Veer\Models\Page::find($id);
-		if(is_object($p)) {
-			$p->subpages()->detach();
-			$p->parentpages()->detach();
-			$p->products()->detach();
-			$p->categories()->detach();
-			$p->tags()->detach();
-			$p->attributes()->detach();
-			$p->images()->detach();
-			$p->downloads()->update(array("elements_id" => 0));
-			
-			$p->userlists()->delete();
-			$p->delete();
-			// comments, communications skip
-		}
-	}
 	
 
-	/**
-	 * delete Product & relationships
-	 */
-	protected function deleteProduct($id)
-	{
-		$p = \Veer\Models\Product::find($id);
-		if(is_object($p)) {
-			$p->subproducts()->detach();
-			$p->parentproducts()->detach();
-			$p->pages()->detach();
-			$p->categories()->detach();
-			$p->tags()->detach();
-			$p->attributes()->detach();
-			$p->images()->detach();
-			$p->downloads()->update(array("elements_id" => 0));
-			
-			$p->userlists()->delete();
-			$p->delete();
-			// orders_products, comments, communications skip
-		}
-	}
+	
 	
 	
 	/**
@@ -825,22 +443,7 @@ class Structure {
 	}
 	
 	
-	/**
-	 *  delete Image function
-	 * @param type $id
-	 */
-	protected function deleteImage($id)
-	{
-		$img = \Veer\Models\Image::find($id);
-		if(is_object($img)) {
-			$img->pages()->detach();
-			$img->products()->detach();
-			$img->categories()->detach();
-			$img->users()->detach();
-            $this->deletingLocalOrCloudFiles('images', $img->img, config("veer.images_path"));
-			$img->delete();			
-		}
-	}
+	
 	
 	
 	/**
@@ -885,28 +488,6 @@ class Structure {
 								
 		}
 	}
-	
-	
-	/**
-	 * delete Tag
-	 * @param type $id
-	 */
-	protected function deleteTag($id)
-	{
-		$t = \Veer\Models\Tag::find($id);
-		if(is_object($t)) {
-			$t->pages()->detach();
-			$t->products()->detach();
-			$t->delete();			
-		}
-	}
-	
-	
-
-				
-	
-
-	
 	
 	/**
 	 * update downloads
@@ -1058,22 +639,7 @@ class Structure {
 	}
 	
 	
-	/**
-	 * delete Attribute
-	 */
-		/**
-	 * delete Tag
-	 * @param type $id
-	 */
-	protected function deleteAttribute($id)
-	{
-		$t = \Veer\Models\Attribute::find($id);
-		if(is_object($t)) {
-			$t->pages()->detach();
-			$t->products()->detach();
-			$t->delete();			
-		}
-	}
+	
 	
 	
 	

@@ -149,13 +149,14 @@ trait Helper {
     {
         $newsort = [];
         foreach($elements as $s) {
-            if($s->id != $sortingParams['parentid']) { continue; }
+            if($s->id != $sortingParams['parentid']) { continue; }            
+            $id = $s->{$sortingParams['relationship']}[$sortingParams['oldindex']]->id;
             
             foreach($s->{$sortingParams['relationship']} as $k => $c) {
-                if($sortingParams['newindex'] == $k) {
-                    $newsort[] = $s->{$sortingParams['relationship']}[$sortingParams['oldindex']]->id;
-                }
-                if($c->id != $s->{$sortingParams['relationship']}[$sortingParams['oldindex']]->id) {
+                
+                if($sortingParams['newindex'] > $sortingParams['oldindex'] && $c->id != $id) $newsort[] = $c->id;                
+                if($sortingParams['newindex'] == $k) $newsort[] = $id;                
+                if($sortingParams['newindex'] < $sortingParams['oldindex'] && $c->id != $id && !in_array($c->id, $newsort)) {
                     $newsort[] = $c->id;
                 }
             }
@@ -180,4 +181,54 @@ trait Helper {
         
         $product->save();
     }
+    
+    /**
+     * Products actions
+     * 
+     */
+    protected function quickProductsActions($action)
+    {
+        if (starts_with($action, "changeStatusProduct")) {
+            $r = explode(".", $action);
+            $this->changeProductStatus(\Veer\Models\Product::find($r[1]));
+            event('veer.message.center', trans('veeradmin.product.status'));
+        }
+
+        if (starts_with($action, "deleteProduct")) {
+            $r = explode(".", $action);
+            $this->deleteProduct($r[1]);
+            event('veer.message.center', trans('veeradmin.product.delete') .
+                " " . app('veeradmin')->restore_link('product', $r[1]));
+        }
+
+        if (starts_with($action, "showEarlyProduct")) {
+            \Eloquent::unguard();
+            $r = explode(".", $action);
+            \Veer\Models\Product::where('id', '=', $r[1])->update(array("to_show" => now()));
+            event('veer.message.center', trans('veeradmin.product.show'));
+        }
+    }
+
+    /**
+     * Pages actions
+     * 
+     */
+    protected function quickPagesActions($action)
+    {
+        if (starts_with($action, "changeStatusPage")) {
+            $r = explode(".", $action);
+            $page = \Veer\Models\Page::find($r[1]);
+            $page->hidden = $page->hidden == true ? false : true;
+            $page->save();
+            event('veer.message.center', trans('veeradmin.page.status'));
+        }
+
+        if (starts_with($action, "deletePage")) {
+            $r = explode(".", $action);
+            $this->deletePage($r[1]);
+            event('veer.message.center', trans('veeradmin.page.delete') .
+                " " . app('veeradmin')->restore_link('page', $r[1]));
+        }
+    }
+
 }
