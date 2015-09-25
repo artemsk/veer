@@ -404,6 +404,11 @@ footer {
     background-color: #ddd;
 }
 
+.sorting-hover:hover {
+    cursor: move;
+    background-color: rgb(240, 241, 243);
+}
+
 /* images */
 
 .thumbnail-image-list, .thumbnail-configuration-list {

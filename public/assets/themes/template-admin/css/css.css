@@ -372,6 +372,11 @@ footer {
     float: left;
 }
 
+.sorting-hover:hover {
+    cursor: n-resize;
+    background-color: #efefef;
+}
+
 /* images */
 
 .thumbnail-image-list, .thumbnail-configuration-list {

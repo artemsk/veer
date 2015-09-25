@@ -68,7 +68,7 @@
                                 <div class="testajax"></div>
                                 <ul class="list-group sortable @if(count($items->subcategories) > 0)categories-child-list @else categories-child-list-no-bottom @endif categories-lists" data-parentid="{{ $items->id }}">
                                     @foreach ($items->subcategories as $category)
-                                    <li class="list-group-item category-item-{{ $category->id }}">
+                                    <li class="list-group-item category-item-{{ $category->id }} sorting-hover">
                                         <span class="badge">{{ $category->views }}</span>
                                         <button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Replace parent category" data-content='
                                                 <div class="form-inline">

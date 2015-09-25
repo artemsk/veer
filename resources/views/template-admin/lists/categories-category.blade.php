@@ -1,6 +1,6 @@
 <ul class="list-group categories-group sortable" id="sortable{{ $siteid }}" data-parentid="{{ $siteid }}">	
 @foreach ($categories as $category)	
-<li class="list-group-item category-item-{{ $category->id }}">
+<li class="list-group-item category-item-{{ $category->id }} sorting-hover">
     <span class="badge" title="views">{{ $category->views }}</span>
 	<button type="button" class="btn btn-danger btn-xs category-delete" data-siteid="{{ $siteid }}" data-categoryid="{{ $category->id }}">
 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>&nbsp;
