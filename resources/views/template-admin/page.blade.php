@@ -4,7 +4,7 @@
 
 <?php event('lock.for.edit'); ?>
 
-<div class="container-fluid">
+<div class="container-fluid ajax-form-submit" data-replace-div=".ajax-form-submit">
     <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data" >
 <input name="_method" type="hidden" value="PUT">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -349,8 +349,8 @@
     <div class="rowdelimiter-20"></div>
 	@if(isset($items->id))
 	<div class="row">
-		<div class="col-sm-2 col-xs-6"><button type="submit" name="action" value="saveAs" class="btn btn-warning btn-lg btn-block">Save As</button></div>
-		<div class="col-sm-10 col-xs-6"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+		<div class="col-sm-2 col-xs-6"><button type="submit" name="action" value="saveAs" class="btn btn-warning btn-lg btn-block submit-skip-ajax">Save As</button></div>
+		<div class="col-sm-10 col-xs-6"><button type="submit" name="action" value="update" class="btn btn-danger btn-lg btn-block" @if(veer_get('event.lock-for-edit') == true) disabled >Update [locked] @else >Update @endif</button></div>
 	</div>
         <div class="rowdelimiter-20"></div>
 	<hr class="hr-darker">
@@ -367,11 +367,11 @@
 		</div>
 	</div>
 	@else
-	<button type="submit" name="action" value="add" class="btn btn-danger btn-lg btn-block">Add</button>
+	<button type="submit" name="action" value="add" class="btn btn-danger btn-lg btn-block submit-skip-ajax">Add</button>
 	@endif
 
-@if(isset($items->id))
-<div class="action-hover-box"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+@if(isset($items->id) && veer_get('event.lock-for-edit') != true)
+<div class="action-hover-box"><button type="submit" name="action" value="update" class="btn btn-danger btn-block">Update</button></div>
 @endif
 </form>
 </div>

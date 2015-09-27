@@ -13,7 +13,7 @@
                 <small>{{ trans("themes/".$template.".sites.online") }}</small>
         </div>
         <div class="visible-xs sm-rowdelimiter"></div>
-        <div class="col-sm-10 main-content-block">
+        <div class="col-sm-10 main-content-block ajax-form-submit" data-replace-div=".ajax-form-submit">
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="row">
                     @foreach ($items as $item)

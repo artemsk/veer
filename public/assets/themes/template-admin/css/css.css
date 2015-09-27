@@ -661,7 +661,7 @@ footer {
 }
 
 .action-hover-box {
-    -webkit-background-clip: border-box;
+  /*-webkit-background-clip: border-box;
     -webkit-background-origin: padding-box;
     -webkit-background-size: auto;
     background-attachment: scroll;
@@ -674,20 +674,26 @@ footer {
     border-bottom-right-radius: 0px;
     border-top-left-radius: 5px;
     border-top-right-radius: 0px;
-    top: 30px;
     box-sizing: border-box;
+    max-width: 175px;
+    height: 75px;
+    */
+    padding: 0px; //15px 22px 22px 22px;
+    bottom: 0px;
+    left: 0px;
+    position: fixed;
+    //bottom: auto;
+    width: 100%;
+    line-height: 20.1599998474121px;
     color: rgba(250, 251, 255, 0.952941);
     display: none;
-    height: 75px;
-    right: 0px;
-    line-height: 20.1599998474121px;
-    max-width: 175px;
-    padding: 15px 22px 22px 22px;
     pointer-events: auto;
-    position: fixed;
-    bottom: auto;
-    width: 75%;
     z-index: 9000;
+}
+
+.action-hover-box button {
+    border-radius: 0px;
+    opacity: 0.8;
 }
 
 .categories-group {

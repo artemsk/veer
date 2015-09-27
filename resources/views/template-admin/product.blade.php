@@ -372,7 +372,7 @@
 -->
 </div>
 @if(isset($items->id))
-<div class="action-hover-box"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-lg btn-block">Update</button></div>
+<div class="action-hover-box"><button type="submit" @if(veer_get('event.lock-for-edit') == true) disabled @endif name="action" value="update" class="btn btn-danger btn-block">Update</button></div>
 @endif
 </form>
 @stop
