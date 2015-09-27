@@ -12,13 +12,15 @@
         </div>
         <div class="visible-xs-block visible-sm-block sm-rowdelimiter"></div>
         <div class="col-md-10 main-content-block settings-column">
-
+            
+            <div class="ajax-form-submit ajax-form-submit-1" data-replace-div=".ajax-form-submit-1">
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">	
             <label>Raw Sql</label>
             <p><textarea class="form-control" name="freeFormSql" placeholder="Raw Sql [Update, Insert, Delete]"></textarea></p>
             <button type="submit" class="btn btn-default" name="actionButton" value="runRawSql">Run</button>
             </form>
-	
+            </div>
+            <div class="ajax-form-submit ajax-form-submit-2" data-replace-div=".ajax-form-submit-2">
             @if(array_get($items, 'trashed') != null)
             <div class="rowdelimiter"></div>
 
@@ -36,10 +38,10 @@
                 </form>
             </div>
             @endif
-
+            </div>
             <div class="rowdelimiter"></div>
 
-            <div class="form-group">
+            <div class="form-group ajax-form-submit ajax-form-submit-3" data-replace-div=".ajax-form-submit-3">
                 <label>Clear Cache</label>
                 <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
                 <input name="_method" type="hidden" value="PUT">
@@ -53,28 +55,28 @@
 
             <div class="rowdelimiter"></div>
 
-            <div class="form-group">
+            <div class="form-group ajax-form-submit" data-replace-div="#compareVersions" data-skip-reload="true">
                 <label>Check Latest Version</label>
-                <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="ajaxFormSubmit">
+                <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
                 <input name="_method" type="hidden" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div id="compareVersions">
                 <input type="hidden" name="actionButton" value="checkLatestVersion">
-                <p><button type="submit" class="btn btn-default" name="action" value="checkLatestVersion" data-resultdiv="#compareVersions">Check Version</button></p>
+                <p><button type="submit" class="btn btn-default" name="action" value="checkLatestVersion">Check Version</button></p>
                 </div>
                 </form>
             </div>
 	
             <div class="rowdelimiter"></div>
 
-            <div class="form-group">
+            <div class="form-group ajax-form-submit" data-replace-div="#sendPingEmail" data-skip-reload="true">
                 <label>Send Ping</label>
-                <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="ajaxFormSubmit">
+                <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
                 <input name="_method" type="hidden" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div id="sendPingEmail">
                 <input type="hidden" name="actionButton" value="sendPingEmail">
-                <p><button type="submit" class="btn btn-default" name="action" value="sendPingEmail" data-resultdiv="#sendPingEmail">Send Ping Email</button></p>
+                <p><button type="submit" class="btn btn-default" name="action" value="sendPingEmail">Send Ping Email</button></p>
                 </div>
                 </form>
             </div>

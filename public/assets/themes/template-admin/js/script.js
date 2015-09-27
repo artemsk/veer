@@ -165,7 +165,7 @@ function sortableLoad() {
     });
 }
 
-function reloadContent(url, selector) {
+function reloadContent(url, selector, skipreload) {
     $.ajax({
         type: 'GET',
         //data: '_json=true',
@@ -271,18 +271,10 @@ $(document).on('click', '.bootstrap-switch-container', {}, function () {
 });
     
 $(document).on('submit', '.veer-form-submit-configuration', {}, function () {
-    var siteid = $("button[type=submit][clicked=true]").attr('data-siteid');
-    var intheme = $("button[type=submit][clicked=true]").attr('data-intheme');
     var name = $("button[type=submit][clicked=true]").attr('name');
     var id = name.slice(5, -1);
     var type = name.slice(0, 4);
-    var data = $(this).serialize() + '&siteid=' + siteid + '&' + type + '=' + id;
-
-    //console.log(siteid + ' ' + intheme + ' ' + name + ' ' + id + ' ' + type);
-    if (id == 'new') {
-        id = id + siteid + intheme;
-        type = 'new';
-    }
+    if (id == 'new') { type = 'new'; }
 
     if (type == 'save' || type == 'new' || type == '_run' || type == 'paus') {
         $('#card' + id).addClass('animated').addClass('flipInY');
@@ -290,24 +282,6 @@ $(document).on('submit', '.veer-form-submit-configuration', {}, function () {
 
     if (type == 'dele') {
         $('#card' + id).addClass('animated').addClass('flipOutY');
-    }
-
-    var url = $(this).attr('action');
-
-    if (type == 'TURNOFF') { /* temp. turn off */
-        event.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: data,
-            success: function (results) {
-                $('#cardstock' + siteid).html(results);
-            },
-        });
-
-        setTimeout(function () {
-            $('#card' + id).removeClass('animated').removeClass('flipInY');
-        }, 1000);
     }
 });
   
@@ -390,27 +364,14 @@ $(document).on('submit', '.category-add', {}, function(event) {
         },
     });
 }); 
-
-// TODO: unite
-$(".ajaxFormSubmit").on("submit",  function(event) {
-    event.preventDefault();
-    var resultdivid = $("button[type=submit][clicked=true]").attr('data-resultdiv');
-    $.ajax({
-        type: 'POST',
-        url: $(this).attr('action'),
-        data: $(this).serialize() + '&button=' + $("button[type=submit][clicked=true]").val(),
-        success: function(results) { 
-            $(resultdivid).html(results); 
-        },
-      }); 
-}); 
-  
+ 
 $(document).on('submit', '.ajax-form-submit form', {}, function(event) {
     NProgress.start();
     //overlayLoad();
     var clickedButton = $(this).find("[clicked=true]");    
     if(!clickedButton.hasClass('submit-skip-ajax')) {
         var selector = $(this).parents('.ajax-form-submit').attr('data-replace-div');
+        var skipreload = $(this).parents('.ajax-form-submit').attr('data-skip-reload');
         var formdata = new FormData($(this).get(0));
 
         event.preventDefault();
@@ -424,9 +385,14 @@ $(document).on('submit', '.ajax-form-submit form', {}, function(event) {
             data: formdata,
             processData: false,
             contentType: false,  
-            success: function(results) {                
-                reloadContent(url, selector);
-                getNotificationMessages();                  
+            success: function(results) { 
+                if(typeof skipreload !== 'undefined') {
+                    $(selector).html(results);
+                    NProgress.done();
+                } else {
+                    reloadContent(url, selector);
+                }
+                getNotificationMessages();
             }
         });
     }

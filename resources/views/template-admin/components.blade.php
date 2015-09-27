@@ -11,7 +11,7 @@
 
         </div>
         <div class="visible-xs-block visible-sm-block sm-rowdelimiter"></div>
-        <div class="col-md-10 main-content-block settings-column">
+        <div class="col-md-10 main-content-block settings-column ajax-form-submit" data-replace-div=".ajax-form-submit">
 	@foreach(data_get($items, 'items', []) as $site)
 	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('components', "sort" => "route_name", "direction" => "asc")) }}">route name</a> | <a href="{{ route('admin.show', array('components', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>
         @foreach(count($site->components->groupBy('theme'))>0 ? $site->components->groupBy('theme') : [''=>[]] as $theme => $value)

@@ -11,7 +11,7 @@
 
         </div>
         <div class="visible-xs-block visible-sm-block sm-rowdelimiter"></div>
-        <div class="col-md-10 main-content-block settings-column">
+        <div class="col-md-10 main-content-block settings-column ajax-form-submit" data-replace-div=".ajax-form-submit">
             @foreach($items as $site)
 
 	<h2 id="site{{ $site->id }}">{{ $site->url }} <small>sort by <a href="{{ route('admin.show', array('configuration', "sort" => "conf_key", "direction" => "asc")) }}">keys</a> | <a href="{{ route('admin.show', array('configuration', "sort" => "id", "direction" => "desc")) }}">id</a></small></h2>

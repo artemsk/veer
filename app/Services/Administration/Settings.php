@@ -88,7 +88,7 @@ class Settings {
 
             \Illuminate\Support\Facades\Artisan::call('cache:clear');
 
-            if (app('request')->ajax() && !empty($this->data[6])) return $this->ajaxRequest();
+            //if (app('request')->ajax() && !empty($this->data[6])) return $this->ajaxRequest();
         }
     }
     

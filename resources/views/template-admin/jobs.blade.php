@@ -11,7 +11,7 @@
 
         </div>
         <div class="visible-xs-block visible-sm-block sm-rowdelimiter"></div>
-        <div class="col-md-10 main-content-block settings-column pages-main">
+        <div class="col-md-10 main-content-block settings-column pages-main ajax-form-submit" data-replace-div=".ajax-form-submit">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 text-center">
                     <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="veer-form-submit-configuration">

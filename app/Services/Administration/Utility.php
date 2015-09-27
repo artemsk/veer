@@ -50,6 +50,8 @@ class Utility {
         $sql = array_get($this->data, 'freeFormSql');
         
 		if(!empty($sql)) \DB::statement($sql);
+        
+        info('SQL: ' . $sql);
     }
     
     public function actionCheckLatestVersion()
