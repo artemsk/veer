@@ -62,7 +62,7 @@ class Category {
         
         $this->data = Input::all();
         
-        if (!empty($this->edit)) {             
+        if(!empty($this->edit)) {             
             return $this->updateOneCategory(); 
         }
         

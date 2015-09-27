@@ -111,4 +111,5 @@ return array(
 	"emails.bill.new.subject" => "You have a new bill for order #:oid",
 	"undo" => "Undo",
 	"restored" => "Restored",
+    "error.model.not.found" => "Model not found"
 );

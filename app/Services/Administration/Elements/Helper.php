@@ -75,7 +75,7 @@ trait Helper {
             }
         }        
     }
-
+    
     /**
      * Remove (detach) file
      * 
@@ -230,5 +230,10 @@ trait Helper {
                 " " . app('veeradmin')->restore_link('page', $r[1]));
         }
     }
-
+    
+    abstract protected function parseIds($ids, $separator = ",", $start = ":");
+    
+    abstract protected function deletePage($id);
+    
+    abstract protected function deleteProduct($id);
 }
