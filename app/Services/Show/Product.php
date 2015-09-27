@@ -9,7 +9,7 @@ class Product {
 	 * 
 	 * - who: Sorted Products: new, popular by orders or views
 	 * - with: Images
-	 * - to whom: ? | ?
+	 * - to whom: ?
 	 */
 	public function getProductLists($type, $siteId = null, $queryParams = array())
 	{
@@ -141,7 +141,7 @@ class Product {
 	 * 
 	 * - who: List of Products in/across Sites 
 	 * - with: Images
-	 * - to whom: ? | ?
+	 * - to whom: ? 
 	 */
 	public function getConnectedProducts($id, $siteId = null)
 	{

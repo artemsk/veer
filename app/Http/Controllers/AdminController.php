@@ -49,7 +49,7 @@ class AdminController extends Controller
         if(!empty($specialRoute)) return $specialRoute;
 
         if (in_array($t,
-                array("categories", "pages", "products", "users", "orders")))
+                ["categories", "pages", "products", "users", "orders"]))
                 $t = $this->checkOnePageEntities($t);
 
         $view = $t == "lists" ? "userlists" : $t;
@@ -97,8 +97,9 @@ class AdminController extends Controller
      */
     protected function sendViewOrJson($items, $view)
     {
-        if (null != Input::get('json')) return response()->json($items);
+        if (null != Input::get('_json')) return response()->json($items);
 
+        /* for admin we always use 'view' instead of 'viewx' */
         return view($this->template.'.'.$view,
             array(
             "items" => $items,
@@ -183,7 +184,7 @@ class AdminController extends Controller
         if (Input::has('SearchButton')) return $this->show($t);
 
         $class = $this->getRouteParamsAction($t);
-        
+
         if(!empty($class)) {
             $class = "\\Veer\Services\\Administration\\" . $class; 
             $data = (new $class($t))->handle();
@@ -201,6 +202,7 @@ class AdminController extends Controller
     
     public function worker()
     {
-        if(\Input::has('worker-lock')) event('lock.for.edit', [[\Auth::id(), 'admin', \Input::get('entity'), \Input::get('id')]]);
+        if(\Input::has('worker-lock')) return event('lock.for.edit', [[\Auth::id(), 'admin', \Input::get('entity'), \Input::get('id')]]);        
+        if(\Input::has('get-messages')) return \Session::get('veer_message_center'); 
     }
 }

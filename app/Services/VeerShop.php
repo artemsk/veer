@@ -46,11 +46,11 @@ class VeerShop {
 		$regular_price = $this->currency($product['price'], $product['currency'], $custom);
 		
 		if($regular_price!= $price) {
-			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-discount")
+			return view(app('veer')->loadedComponents['template'] . ".elements.price-discount")
 				->with('price', $this->priceFormat($price))
 				->with('regular_price', $this->priceFormat($regular_price));
 		} else {
-			return app('view')->make(app('veer')->loadedComponents['template'] . ".elements.price-regular")->with('price', $this->priceFormat($price));
+			return view(app('veer')->loadedComponents['template'] . ".elements.price-regular")->with('price', $this->priceFormat($price));
 		}
 	}
 	
@@ -668,7 +668,7 @@ class VeerShop {
 
 			$order->delivery_price = isset($getData->delivery_price) ? $getData->delivery_price : $delivery->price;
 			$order->delivery_free = isset($getData->delivery_free) ? $getData->delivery_free : false;
-			$order->delivery_hold = isset($getData->delivery_hold) ? $getData->delivery_hold : true; // TODO: do we need this?
+			$order->delivery_hold = isset($getData->delivery_hold) ? $getData->delivery_hold : true; // TODO: do we need this
 
 			$delivery->discount_enable = isset($getData->discount_enable) ? $getData->discount_enable : $delivery->discount_enable;
 			$delivery->discount_price = isset($getData->discount_price) ? $getData->discount_price : $delivery->discount_price;
@@ -823,7 +823,7 @@ class VeerShop {
 			$getData = $paymentFunc->fire($order, $payment);
 
 			$order->payment_done = isset($getData->payment_done) ? $getData->payment_done : false;
-			$order->payment_hold = isset($getData->payment_hold) ? $getData->payment_hold : true; // TODO: do we need this?
+			$order->payment_hold = isset($getData->payment_hold) ? $getData->payment_hold : true; // TODO: do we need this
 
 			$payment->commission = isset($getData->commission) ? $getData->commission : $payment->commission;
 			$payment->discount_enable = isset($getData->discount_enable) ? $getData->discount_enable : $payment->discount_enable;

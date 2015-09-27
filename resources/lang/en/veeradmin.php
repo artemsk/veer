@@ -18,6 +18,7 @@ return array(
 	"jobs.new" => "Job added.",
 	"jobs.pause" => "Job paused.",
 	"category.delete" => "Delete category",
+    "category.add" => "Add category",
 	"category.parent.new" => "Attach current category to new parent",
 	"category.parent.detach" => "Detach current category from parent",
 	"category.update" => "Update category",

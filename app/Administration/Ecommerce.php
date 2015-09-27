@@ -157,6 +157,7 @@ trait Ecommerce {
 			
 			if(Input::has('billCreate.template'))
 			{
+                /* leave 'view' instead of 'viewx' because we always need (rendered) html representation of the bill */
 				$content = view("components.bills.".Input::get('billCreate.template'), array(
 					"order" => $order,
 					"status" => $status,

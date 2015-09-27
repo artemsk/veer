@@ -26,7 +26,9 @@
 		&nbsp;:{{ count($item->categories) }}</small></h2>
 
 	<div class="categories-lists categories-list-{{ $item->id}} ">
+        <ul class="list-group categories-group sortable" id="sortable{{ $item->id }}" data-parentid="{{ $item->id }}">	
 			@include($template.'.lists.categories-category', array('categories' => $item->categories, 'siteid' => $item->id))
+        </ul>
 	</div>
 	<form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" class="category-add" data-siteid="{{ $item->id }}">
 	<input name="_method" type="hidden" value="PUT">

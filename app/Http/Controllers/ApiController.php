@@ -35,7 +35,7 @@ class ApiController extends Controller
 
         $data = $this->additionalConditions($model, $data, $params[0]);
 
-        return viewx( config('veer.template-admin') . '.lists.suggestions',
+        return view( config('veer.template-admin') . '.lists.suggestions',
             array('data' => $data->lists($params[1], $params[2]), 'model' => $model));
     }
 

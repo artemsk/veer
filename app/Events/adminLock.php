@@ -6,16 +6,16 @@ use Illuminate\Queue\SerializesModels;
 
 class adminLock extends Event {
 
-        protected $userId;
-        protected $routeRoot;
-        protected $routeEntity;
-        protected $id;
+    protected $userId;
+    protected $routeRoot;
+    protected $routeEntity;
+    protected $id;
 
-        protected $cacheName;
+    protected $cacheName;
 
-        protected $locked = false;
-        protected $lockedByWhom;
-        protected $updated = null;
+    protected $locked = false;
+    protected $lockedByWhom;
+    protected $updated = null;
 
 	use SerializesModels;
 
@@ -26,62 +26,62 @@ class adminLock extends Event {
 	 */
 	public function __construct()
 	{
-              $this->getData();              
+        $this->getData();              
 	}
 
-        public function handle($event = array())
-        {
-            if(!empty($event)) $this->setData($event);
+    public function handle($event = array())
+    {
+        if(!empty($event)) $this->setData($event);
 
-            $this->cacheName = 'lock-'.$this->routeRoot.'-'.$this->routeEntity.'-'.$this->id;
-            
-            if($this->checkLock()) {
-                if(!empty($this->id) && !empty($this->userId) && !empty($this->routeRoot)) {
+        $this->cacheName = 'lock-'.$this->routeRoot.'-'.$this->routeEntity.'-'.$this->id;
 
-                    \Cache::put($this->cacheName,
-                            $this->userId, 2
-                    );
+        if($this->checkLock()) {
+            if(!empty($this->id) && !empty($this->userId) && !empty($this->routeRoot)) {
 
-                    $this->updated = time();
-                }
+                \Cache::put($this->cacheName,
+                        $this->userId, 2
+                );
+
+                $this->updated = time();
             }
-            
-            app('veer')->loadedComponents['event']['lock-for-edit'] = $this->locked;
         }
 
-        protected function getData()
-        {
-            $this->userId = \Auth::id();
+        app('veer')->loadedComponents['event']['lock-for-edit'] = $this->locked;
+    }
 
-            $this->routeRoot = head(explode(".", app('router')->currentRouteName()));
+    protected function getData()
+    {
+        $this->userId = \Auth::id();
 
-            $this->id = \Input::get('id') == 'new' ? null : \Input::get('id');
+        $this->routeRoot = head(explode(".", app('router')->currentRouteName()));
 
-            $this->routeEntity = implode("&", app('router')->current()->parameters());     
-        }
+        $this->id = \Input::get('id') == 'new' ? null : \Input::get('id');
 
-        protected function setData($event)
-        {
-            $this->userId = array_get($event, 0);
+        $this->routeEntity = implode("&", app('router')->current()->parameters());     
+    }
 
-            $this->routeRoot = array_get($event, 1);
+    protected function setData($event)
+    {
+        $this->userId = array_get($event, 0);
 
-            $this->routeEntity = array_get($event, 2);
+        $this->routeRoot = array_get($event, 1);
 
-            $this->id = array_get($event, 3);
-        }
+        $this->routeEntity = array_get($event, 2);
 
-        protected function checkLock()
-        {
-            $this->lockedByWhom = \Cache::get($this->cacheName);
+        $this->id = array_get($event, 3);
+    }
 
-            if(empty($this->lockedByWhom)) return true;
+    protected function checkLock()
+    {
+        $this->lockedByWhom = \Cache::get($this->cacheName);
 
-            if($this->lockedByWhom == $this->userId) return true;
+        if(empty($this->lockedByWhom)) return true;
 
-            $this->locked = true;
+        if($this->lockedByWhom == $this->userId) return true;
 
-            return false;
-        }
+        $this->locked = true;
+
+        return false;
+    }
 
 }

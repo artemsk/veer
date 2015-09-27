@@ -58,6 +58,7 @@ class Utility {
 			
         // for ajax calls
         if(app('request')->ajax()) {
+            // should we return view?
             return view('components.version', array(
                 "latest" => $latest,
                 "current" => VeerApp::VEERVERSION,

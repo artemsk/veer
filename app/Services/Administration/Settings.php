@@ -105,6 +105,7 @@ class Settings {
         $items = (new \Veer\Services\Show\Site)->{$this->data[5]}($this->siteid,
             array('id', 'desc'));
 
+        /* for admin we always use 'view' instead of 'viewx' */
         return view(app('veer')->template.'.lists.'.$this->data[6],
             array(
             $this->data[1] => $items[0]->{$this->data[1]},
@@ -123,7 +124,7 @@ class Settings {
                 array_get($this->confs, $this->cardid.'.'.$input_field);
         }
 
-        $newc = count($params) == 1 && isset($params['id']) && empty($params['id']) ? 
+        $newc = (count($params) == 1 && isset($params['id']) && empty($params['id'])) ? 
             new $className : $className::firstOrNew($params);        
         unset($params['id']);
         

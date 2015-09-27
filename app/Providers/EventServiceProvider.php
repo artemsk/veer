@@ -11,9 +11,9 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
-                'lock.for.edit' => [
-                        'Veer\Events\adminLock'
-                ],
+        'lock.for.edit' => [
+            'Veer\Events\adminLock'
+        ],
 	];
 
 	/**
@@ -29,7 +29,7 @@ class EventServiceProvider extends ServiceProvider {
 		\Event::listen('veer.message.center', function($message)
 		{
 			app('veer')->loadedComponents['veer_message_center'][] = $message;
-			
+            \Session::flash('veer_message_center', app('veer')->loadedComponents['veer_message_center']);
 		});
 	}
 

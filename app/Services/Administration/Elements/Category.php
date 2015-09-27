@@ -55,7 +55,10 @@ class Category {
     public function run()
     {
         // delete from parent - subcategories from category; categories from list of all
-        if($this->action == 'delete') { $this->deleteCategory($this->delete); }
+        if($this->action == 'delete') { 
+            $this->deleteCategory($this->delete); 
+            event('veer.message.center', trans('veeradmin.category.delete'));
+        }
         
         $this->data = Input::all();
         
@@ -65,7 +68,8 @@ class Category {
         
         switch ($this->action) {
             case 'add':
-                $this->addCategory($this->new, Input::get('siteid', 0));                
+                $this->addCategory($this->new, Input::get('siteid', 0)); 
+                event('veer.message.center', trans('veeradmin.category.add'));
                 if(app('request')->ajax()) return $this->ajaxRequest();
                 break;
                 
@@ -87,10 +91,10 @@ class Category {
                     $query->has('parentcategories', '<', 1)->orderBy('manual_sort', 'asc');
                 }])->orderBy('manual_sort', 'asc')->where('id', '=', Input::get('siteid', 0))->get();
 
-        return app('view')->make(app('veer')->template . '.lists.categories-category', [
-                "categories" => $items[0]->categories,
-                "siteid" => Input::get('siteid', 0),
-                "child" => view(app('veer')->template . '.elements.asset-delete-categories-script')
+        /* for admin we always use 'view' instead of 'viewx' */        
+        return view(app('veer')->template . '.lists.categories-category', [
+            "categories" => $items[0]->categories,
+            "siteid" => Input::get('siteid', 0)
         ]);
     }
     
@@ -143,36 +147,34 @@ class Category {
 	{	
         $category = \Veer\Models\Category::find($this->edit);
         
-        $messages = [
-            'deleteCurrent' => 'veeradmin.category.delete',
-            'removeParent' => 'veeradmin.category.parent.detach',
-            'updateCurrent' => 'veeradmin.category.update',
-            'addChild' => 'veeradmin.category.child.new',
-            'updateInChild' => 'veeradmin.category.child.parent',
-            'removeInChild' => 'veeradmin.category.child.detach',
-        ];
-        
-        logger($this->action);
         switch ($this->action) {
             case 'deleteCurrent':
                 $this->deleteCategory($this->edit);
                 Input::replace(['category' => null]);
                 app('veeradmin')->skipShow = true;
+                event('veer.message.center', trans('veeradmin.category.delete'));
                 return \Redirect::route('admin.show', array('categories'));
                 
             case 'saveParent': 
-                if(!empty($this->data['parentId'])) $category->parentcategories()->attach($this->data['parentId']);			
+                if(!empty($this->data['parentId'])) { 
+                    $category->parentcategories()->attach($this->data['parentId']);
+                    event('veer.message.center', trans('veeradmin.category.parent.new'));
+                }
                 break;
                 
             case 'updateParent':
                 if(!empty($this->data['parentId']) && isset($this->data['lastCategoryId']) && 
                 $this->data['lastCategoryId'] != $this->data['parentId']) {  
                     $this->attachParentCategory($this->edit, $this->data['parentId'], $category);   
+                    
                 }
                 break;
                 
             case 'removeParent':
-                if(isset($this->data['parentId'])) $category->parentcategories()->detach($this->data['parentId']);				
+                if(isset($this->data['parentId'])) { 
+                    $category->parentcategories()->detach($this->data['parentId']);
+                    event('veer.message.center', trans('veeradmin.category.parent.detach'));
+                }
                 break;
                 
             case 'updateCurrent':
@@ -180,6 +182,7 @@ class Category {
                 $category->remote_url = $this->data['remoteUrl'];
                 $category->description = $this->data['description'];
                 $category->save();
+                event('veer.message.center', trans('veeradmin.category.update'));
                 break;
             
             case 'addChild':
@@ -192,6 +195,7 @@ class Category {
                         $category->subcategories()->attach( 
                             $this->addCategory($this->data['child'], $category->site->id) 
                         );
+                        event('veer.message.center', trans('veeradmin.category.child.new'));
                     }
                 }
                 break;
@@ -206,12 +210,14 @@ class Category {
                         $category = \Veer\Models\Category::find($this->data['currentChildId']);
                         $category->parentcategories()->detach($this->data['lastCategoryId']);
                         $category->parentcategories()->attach($this->data['parentId']);
-                    }               
+                    }  
+                    event('veer.message.center', trans('veeradmin.category.child.parent'));
                 }
                 break;
                 
             case 'removeInChild':
                 $category->subcategories()->detach($this->data['currentChildId']);
+                event('veer.message.center', trans('veeradmin.category.child.detach'));
                 break;
             
             case 'sort':
@@ -233,7 +239,7 @@ class Category {
 		
 		$this->detachmentActions($category);	
 		$this->quickProductsActions($this->action);
-		$this->quickPagesActions($this->action);
+		$this->quickPagesActions($this->action);        
 	}
     
     protected function attachmentActions($category)

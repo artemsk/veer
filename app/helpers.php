@@ -86,25 +86,24 @@ if ( ! function_exists('db_parameter'))
 	 */
 	function db_parameter($param = null, $default = null, $getFromDbSiteId = null)
 	{
-        if(!empty($param)) 
-        {
-            $v = app('veer')->siteConfig;    
+        if(empty($param)) { return null; }
 
-            if(!empty($getFromDbSiteId)) { 
+        $v = app('veer')->siteConfig;    
 
-                $cacheName = 'dbparameter'.$getFromDbSiteId.'-'.$param;
+        if(!empty($getFromDbSiteId)) { 
 
-                $v[$param] = \Cache::remember($cacheName, .5, function() use ($param, $getFromDbSiteId) 
-                {
-                    return \Veer\Models\Configuration::where('sites_id','=',$getFromDbSiteId)
-                    ->where('conf_key','=',$param)->value('conf_val'); 
-                }); 
+            $cacheName = 'dbparameter'.$getFromDbSiteId.'-'.$param;
 
-                if(empty($v[$param])) unset($v[$param]);
-            }
+            $v[$param] = \Cache::remember($cacheName, .5, function() use ($param, $getFromDbSiteId) 
+            {
+                return \Veer\Models\Configuration::where('sites_id','=',$getFromDbSiteId)
+                ->where('conf_key','=',$param)->value('conf_val'); 
+            }); 
 
-            return (isset($v[$param])) ? $v[$param] : db_parameter_not_found($param, $default);
+            if(empty($v[$param])) unset($v[$param]);
         }
+
+        return isset($v[$param]) ? $v[$param] : db_parameter_not_found($param, $default);        
 	}
 }
 
@@ -383,7 +382,7 @@ if (!function_exists('paragraphs')) {
 		if(!empty($delimiter)) return explode($delimiter, $text);
 		
 		else $paragraphs = preg_split('#<p([^>])*>#',strtr( $text, array(
-			"</p>" => "")));
+			"</p>" => ""))); // TODO: fix with ? (non greedy)
 
 		return array_filter($paragraphs, 'strlen');
 	}
@@ -411,8 +410,8 @@ if ( ! function_exists('viewx'))
 			return $factory;
 		}
 
-		return array_get(app('veer')->siteConfig, 'RENDER_JSON', false) == true ? response()->json($data) :
-                    ($factory->exists($view) ? $factory->make($view, $data, $mergeData) : redirect()->route('404'));
+		return !empty(app('veer')->siteConfig['RENDER_JSON']) ? response()->json($data) : ($factory->exists($view) ? 
+            $factory->make($view, $data, $mergeData) : redirect()->route('404'));
 	}
 }
 

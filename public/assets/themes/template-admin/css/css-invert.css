@@ -31,6 +31,20 @@ html, body
     cursor: pointer;
 }
 
+.overlay {
+    background-color: #000;
+    opacity: 0;
+    color: rgb(0, 0, 0);
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    vertical-align: baseline;
+    width: 100%;
+    z-index: 1030;
+    display: none;
+}
+
 /* colors */
 
 .btn-success {
@@ -265,7 +279,7 @@ footer {
     position: fixed;
     top: auto;
     width: 75%;
-    z-index: 1000;
+    z-index: 1032;
 }
 
 .events-veer-message-center > a {

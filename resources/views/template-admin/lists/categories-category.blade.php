@@ -1,4 +1,3 @@
-<ul class="list-group categories-group sortable" id="sortable{{ $siteid }}" data-parentid="{{ $siteid }}">	
 @foreach ($categories as $category)	
 <li class="list-group-item category-item-{{ $category->id }} sorting-hover">
     <span class="badge" title="views">{{ $category->views }}</span>
@@ -11,4 +10,3 @@
 </li>
 @endforeach
 {{ $child or null }}
-</ul>

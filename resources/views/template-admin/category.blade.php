@@ -2,7 +2,7 @@
 
 @section('body')
 
-<div class="container-fluid">
+<div class="container-fluid ajax-form-submit ajax-form-submit-1" data-replace-div=".ajax-form-submit-1">
     <div class="row">
         <div class="col-sm-2">
             <div class="breadcrumb-block">@include($template.'.layout.breadcrumb-structure', array('place' => 'category'))</div>
@@ -72,7 +72,7 @@
                                         <span class="badge">{{ $category->views }}</span>
                                         <button type="button" class="btn btn-info btn-xs" data-toggle="popover" title="Replace parent category" data-content='
                                                 <div class="form-inline">
-                                                <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input name="_method" type="hidden" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <input type="text" class="form-control" placeholder="Id" size=2 name="parentId" value="{{ $items->id }}">
                                                 <button class="btn btn-info" type="submit" name="action" value="updateInChild">
                                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
@@ -80,7 +80,7 @@
                                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                                                 <input type="hidden" name="lastCategoryId" value="{{ $items->id }}">
                                                 <input type="hidden" name="currentChildId" value="{{ $category->id }}">
-                                                </form>
+                                                
                                                 </div>
                                                 ' data-html="true"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></button>&nbsp;
                                         <button type="button" class="btn btn-danger btn-xs category-delete" data-categoryid="{{ $category->id }}">
@@ -106,7 +106,7 @@
                                 <p><textarea class="form-control" placeholder="Description" name="description">{{ $items->description }}</textarea>
 
                                 <p><button type="submit" class="btn btn-default" name="action" value="updateCurrent">Update</button>
-                                    &nbsp;<button type="submit" class="btn btn-danger" name="action" value="deleteCurrent">
+                                    &nbsp;<button type="submit" class="btn btn-danger submit-skip-ajax" name="action" value="deleteCurrent">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                                 </div>
                             </div>
@@ -121,11 +121,11 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 ajax-form-submit ajax-form-submit-2" data-replace-div=".ajax-form-submit-2">
 
-            <div class="rowdelimiter"></div>
+            <div class="rowdelimiter" id="images-row"></div>
 
-            <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
+            <form method="POST" action="{{ URL::full() }}#images-row" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input name="_method" type="hidden" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

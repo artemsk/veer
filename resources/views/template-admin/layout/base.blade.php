@@ -16,6 +16,7 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/datepicker3.css') }}" rel="stylesheet">
     <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/bootstrap-switch.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(config('veer.assets_path').'/'.$template.'/css/nprogress.css') }}" rel="stylesheet">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700,300,300italic,900italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -150,6 +151,8 @@
 		<?php dump(DB::getQueryLog()) ?>
 		</pre>
 	</div>
+    
+    <div class="overlay"></div>
 	<!-- TODO: replace with view/include ? -->
 	@if(!empty(veer_get('veer_message_center')))
 	<div class="events-veer-message-center">{{ head(veer_get('veer_message_center')) }}</div>
@@ -163,8 +166,8 @@
 	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/bootstrap-datepicker.js') }}"></script>
 	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/bootstrap-switch.min.js') }}"></script>
 	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/html.sortable.min.js') }}"></script>	
+    <script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/nprogress.js') }}"></script>
 	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/script.js') }}"></script>
-	<script src="{{ asset(config('veer.assets_path').'/'.$template.'/js/delete-categories.js') }}"></script>
     @yield('scripts')
   </body>
 </html>
