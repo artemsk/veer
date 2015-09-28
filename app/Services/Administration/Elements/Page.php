@@ -69,9 +69,9 @@ class Page {
     
     public function run()
     {
-        if(!empty($this->id)) return $this->updateOnePage(); 
-       
-        if(!empty($this->title)) $this->quickAdd();
+        if(!empty($this->id)) return $this->updateOnePage();   
+        
+        if(!empty($this->title)) $this->quickAdd();   
         
         $this->quickPagesActions($this->action);  
     }
@@ -95,8 +95,8 @@ class Page {
         ];
         
         $page = $this->create($fill);        
+        
         $categories = explode(',', $this->data['categories']);
- 
         if(!empty($categories)) {
             $page->categories()->attach($categories);
         }
@@ -124,14 +124,7 @@ class Page {
     
     protected function updateOnePage()
     {	
-        $fill = array_get($this->data, 'fill', []);
-        
-        foreach(['original', 'show_small', 'show_comments', 'show_title', 'show_date', 'in_list'] as $field) {
-            $fill[$field] = isset($fill[$field]) ? 1 : 0; 
-        }
-        
-        $fill['users_id'] = empty($fill['users_id']) ? \Auth::id() : $fill['users_id'];
-        $fill['url'] = trim($fill['url']);        
+        $fill = $this->prepareData();       
         
         if($this->action == 'add' || $this->action == 'saveAs') {
             $fill['hidden'] = true;
@@ -143,6 +136,32 @@ class Page {
         
 		if(!is_object($page)) return event('veer.message.center', trans('veeradmin.error.model.not.found'));
         
+        $this->updateDataOrStatus($page, $fill);
+        $this->attachments($page);
+		$this->freeForm($page);
+		
+		if($this->action == 'add' || $this->action == 'saveAs') {
+            app('veeradmin')->skipShow = true;
+            Input::replace(['id' => $page->id]);
+            return \Redirect::route('admin.show', ['pages', 'id' => $page->id]);
+        }
+    }
+    
+    protected function prepareData()
+    {
+        $fill = array_get($this->data, 'fill', []);
+        
+        foreach(['original', 'show_small', 'show_comments', 'show_title', 'show_date', 'in_list'] as $field) {
+            $fill[$field] = isset($fill[$field]) ? 1 : 0; 
+        }
+        
+        $fill['users_id'] = empty($fill['users_id']) ? \Auth::id() : $fill['users_id'];
+        $fill['url'] = trim($fill['url']); 
+        return $fill;
+    }
+    
+    protected function updateDataOrStatus($page, $fill)
+    {
         switch($this->action) {
             case 'update':
                 $page->fill($fill);
@@ -154,8 +173,11 @@ class Page {
                 $page->save();
                 event('veer.message.center', trans('veeradmin.page.status'));
                 break;            
-        }
-		
+        } 
+    }
+    
+    protected function attachments($page)
+    {
         $this->data += ['tags' => '', 'attribute' => '', 'attachImages' => '', 
             'attachFiles' => '', 'attachCategories' => '', 'attachProducts' => '', 
             'attachChildPages' => '', 'attachParentPages' => ''];
@@ -171,14 +193,6 @@ class Page {
             "attachChildPages" => $this->data['attachChildPages'],
             "attachParentPages" => $this->data['attachParentPages']
             ], ["prefix" => ["image" => "pg", "file" => "pg"]]);
-
-		$this->freeForm($page);
-		
-		if($this->action == 'add' || $this->action == 'saveAs') {
-            app('veeradmin')->skipShow = true;
-            Input::replace(['id' => $page->id]);
-            return \Redirect::route('admin.show', ['pages', 'id' => $page->id]);
-        }
     }
     
     protected function freeForm($page)
