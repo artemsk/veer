@@ -2,54 +2,33 @@
 
 use Illuminate\Support\Facades\Input;
 
-class Category {
+class Category extends Entity {
 
-    use Helper, Attach, Delete;
-    
-    protected $action;
+    protected $id = null;
     protected $delete;
-    protected $new;
-    protected $edit;
-    protected $data = [];
+    protected $new;    
 
     public function __construct()
     {
-        $this->edit = Input::get('category');
-        $this->action = Input::get('action');
+        parent::__construct();
+        $this->id = Input::get('category');       
         $this->delete = Input::get('deletecategoryid');
         $this->new = Input::get('newcategory');
+        $this->type = 'category';
     }
     
-    public function setParams($data)
+    public function add($params = null)
     {
-        $this->data = $data;
-        return $this;
+        $params += ['options' => []];
+        $this->new = $params['name'];      
+        return $this->addCategory($params['name'], $params['siteid'], $params['options']);
     }
-
-    public function add($name, $siteid, $options = [])
-    {
-        $this->new = $name;      
-        return $this->addCategory($name, $siteid, $options);
-    }
-
-    public function delete($id)
-    {
-        $this->action = 'delete';
-        return $this->deleteCategory($id);
-    }
-    
+        
     public function sort($relationship = 'categories')
     {
         $this->action = 'sort';
-        $this->data += ['relationship' => $relationship];
+        $this->data['relationship'] = $relationship;
         return $this->sortCategory();
-    }
-
-    public function edit($id, $action = null)
-    {
-        $this->edit = $id;
-        if(!empty($action)) $this->action = $action;
-        return $this->updateOneCategory();
     }
 
     public function run()
@@ -60,10 +39,8 @@ class Category {
             event('veer.message.center', trans('veeradmin.category.delete'));
         }
         
-        $this->data = Input::all();
-        
-        if(!empty($this->edit)) {             
-            return $this->updateOneCategory(); 
+        if(!empty($this->id)) {             
+            return $this->updateOne(); 
         }
         
         switch ($this->action) {
@@ -143,13 +120,13 @@ class Category {
      * Edit/update one category
      * 
      */
-	protected function updateOneCategory()
+	protected function updateOne()
 	{	
-        $category = \Veer\Models\Category::find($this->edit);
+        $category = \Veer\Models\Category::find($this->id);
         
         switch ($this->action) {
             case 'deleteCurrent':
-                $this->deleteCategory($this->edit);
+                $this->deleteCategory($this->id);
                 Input::replace(['category' => null]);
                 app('veeradmin')->skipShow = true;
                 event('veer.message.center', trans('veeradmin.category.delete'));
@@ -165,7 +142,7 @@ class Category {
             case 'updateParent':
                 if(!empty($this->data['parentId']) && isset($this->data['lastCategoryId']) && 
                 $this->data['lastCategoryId'] != $this->data['parentId']) {  
-                    $this->attachParentCategory($this->edit, $this->data['parentId'], $category);   
+                    $this->attachParentCategory($this->id, $this->data['parentId'], $category);   
                     
                 }
                 break;
@@ -227,7 +204,7 @@ class Category {
             
             case 'updateImages':
                 if(Input::hasFile('uploadImage')) {
-                    $this->upload('image', 'uploadImage', $this->edit, 'categories', 'ct', [
+                    $this->upload('image', 'uploadImage', $this->id, 'categories', 'ct', [
                         "language" => "veeradmin.category.images.new"
                     ]);
                 }  

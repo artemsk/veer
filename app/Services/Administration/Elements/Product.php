@@ -2,58 +2,27 @@
 
 use Illuminate\Support\Facades\Input;
 
-class Product {
-    
-    use Helper, Delete, Attach;
-    
-    protected $id;
-    protected $action;
-    protected $title;
-    protected $data = [];
+class Product extends Entity {
+        
+    protected $title = null;
     
     public function __construct()
     {
-        \Eloquent::unguard();
-        $this->id = Input::get('id');
-        $this->action = Input::get('action');
+        parent::__construct();
         $this->title = Input::get('fill.title');
-        $this->data = Input::all();
+        $this->type = 'product';
     }
-    
-    /*
-    public function setParams($data);
-    
-    public function setProductData($fill);
-    
-    public function attach($str, $type = 'images');
-
-    public function add();
-    
-    public function update($id);
-    
-    public function delete($id);
-    
-    public function status($id);
-    */
     
     public function run()
     {
-        if(!empty($this->id)) return $this->updateOnePage();   
+        if(!empty($this->id)) return $this->updateOne();   
         
         $this->quickProductsActions($this->action);  
         
         if(!empty($this->data['freeFrom'])) return $this->quickFreeForm();
         if(!empty($this->title)) return $this->quickAdd();
     }
-    
-    protected function create($fill)
-    {
-        $product = new \Veer\Models\Product;
-        $product->fill($fill);
-        $product->save();
-        return $product;
-    }
-    
+        
     protected function quickAdd()
     {
         $this->data += ['prices' => '', 'options' => '', 'categories' => ''];        
@@ -126,7 +95,7 @@ class Product {
                 }   
             }
             
-            $product = $this->create($fill);
+            $product = $this->create($fill, 'product');
            
             if(!empty($categories)) $product->categories()->attach($categories);
             if(!empty($image)) $this->addImage($image, $product);
@@ -155,32 +124,7 @@ class Product {
         $new->downloads = 0;
         $product->downloads()->save($new); 
     }
-    
-    protected function updateOnePage()
-    {	
-        $fill = $this->prepareData();
-        
-		if($this->action == "add" || $this->action == "saveAs") {			
-            $fill['status'] = 'hide';            
-			$product = $this->create($fill);
-			event('veer.message.center', trans('veeradmin.product.new'));			
-		} else {
-			$product = \Veer\Models\Product::find($this->id);
-		}
-        
-        if(!is_object($product)) return event('veer.message.center', trans('veeradmin.error.model.not.found'));
-	
-        $this->updateDataOrStatus($product, $fill);
-        $this->attachments($product);
-		$this->freeForm($product);
-        		
-		if($this->action == "add" || $this->action == "saveAs") {
-			app('veeradmin')->skipShow = true;
-			Input::replace(array('id' => $product->id));
-			return \Redirect::route('admin.show', ['products', 'id' => $product->id]);
-		}
-    }
-    
+       
     protected function prepareData()
     {
         $fill = array_get($this->data, 'fill', []);
@@ -197,53 +141,5 @@ class Product {
 
         $fill['to_show'] = $toShow;
         return $fill;
-    }
-
-    protected function updateDataOrStatus($product, $fill)
-    {
-        switch($this->action) {
-            case 'update':
-                $product->fill($fill);
-                $product->save();
-                event('veer.message.center', trans('veeradmin.product.update'));
-                break;
-            case 'updateStatus.' . $product->id:
-                $this->changeProductStatus($product);
-                event('veer.message.center', trans('veeradmin.product.status'));
-                break;            
-        } 
-    }
-    
-    protected function attachments($product)
-    {
-        $this->data += ['tags' => '', 'attribute' => '', 'attachImages' => '', 
-            'attachFiles' => '', 'attachCategories' => '', 'attachPages' => '', 
-            'attachChildProducts' => '', 'attachParentProducts' => ''];
-        
-		$this->connections($product, $product->id, 'products', [
-            "actionButton" => $this->action,
-            "tags" => $this->data['tags'],
-            "attributes" => $this->data['attribute'],
-            "attachImages" => $this->data['attachImages'],
-            "attachFiles" => $this->data['attachFiles'],
-            "attachCategories" => $this->data['attachCategories'],
-            "attachPages" => $this->data['attachPages'],
-            "attachChildProducts" => $this->data['attachChildProducts'],
-            "attachParentProducts" => $this->data['attachParentProducts']
-            ], ["prefix" => ["image" => "prd", "file" => "prd"]]);
-    }
-    
-    protected function freeForm($product)
-    {
-        if(empty($this->data['freeForm'])) { return null; }
-        
-        $ff = preg_split('/[\n\r]+/', trim($this->data['freeForm'])); // TODO: test preg
-        foreach($ff as $freeForm) {
-            if(starts_with($freeForm, 'Tag:')) {
-                $this->attachElements($freeForm, $product, 'tags', null, ",", "Tag:");
-            } else {
-                $this->attachElements($freeForm, $product, 'attributes', null, ",", "Attribute:");
-            }
-        } 
     }
 }

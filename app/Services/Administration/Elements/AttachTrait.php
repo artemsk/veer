@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Input;
 
-trait Attach {
+trait AttachTrait {
 
     /**
      * Connections
@@ -36,17 +36,6 @@ trait Attach {
         
         $this->detachElements($action, 'removeAllImages', $object, 'images', array_get($options, 'message.images'), true);
     }
-
-    /**
-     * Parse Ids
-     * 
-     */
-    protected function parseIds($ids, $separator = ",", $start = ":")
-    {
-        if(starts_with($ids, $start)) {
-            return explode($separator, substr($ids, strlen($start)));
-        }
-    }
     
     /**
      * Check Images and Files
@@ -67,7 +56,7 @@ trait Attach {
         $this->copyFiles(array_get($attributes, 'attachFiles'), $object);
         $this->removeFile($action);
     }
-
+    
     /**
      * Attach Elements
      * 
@@ -251,4 +240,14 @@ trait Attach {
             event('veer.message.center', trans('veeradmin.category.parent.new'));
         }
     }
+    
+    /*
+    abstract public function upload($type, $files, $id, $relationOrObject, $prefix = null, $message = null, $skipRelation = false);
+    
+    abstract protected function copyFiles($files, $object);
+    
+    abstract protected function removeFile($removeFile);
+    
+    abstract protected function parseIds($ids, $separator = ",", $start = ":");
+     */
 }

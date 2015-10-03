@@ -157,9 +157,9 @@ function sortableLoad() {
             type: 'POST',
             data: { 'action': 'sort', 'oldindex' : ui.oldindex, 
                     'newindex': ui.item.index(), 'parentid' : $(this).attr('data-parentid'),
-                    '_method' : 'PUT' },
+                    '_method' : 'PUT', '_refurl' : window.location.search},
             success: function(results) { 
-                $('.testajax').html(results); 
+                console.log(results);
             },
         });
     });

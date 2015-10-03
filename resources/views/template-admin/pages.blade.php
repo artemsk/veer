@@ -40,8 +40,8 @@
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8">
                 <input name="_method" type="hidden" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                @include($template.'.lists.pages', array('items' => $items))
+                
+                @include($template.'.lists.'.(Input::get('sort') == 'manual_order' ? 'pages-li' : 'pages'), array('items' => $items))
 
             </form>
             <div class="row">

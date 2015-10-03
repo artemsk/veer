@@ -349,7 +349,7 @@ footer {
     margin-top: 0px;
 }
 
-.categories-page, .pages-page {
+.categories-page, .pages-page, .common-page {
     background-color: #fff;
  -webkit-box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.1470588) 0px 1px 2px 0px;
   box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.1470588) 0px 1px 2px 0px;

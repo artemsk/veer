@@ -38,8 +38,7 @@ trait EntityTraits {
 	 */
 	public function getAllEntities($model, $filters = array(), $paginateItems = 24, $sort = array('id' => 'desc'))
 	{			
-		$type = key($filters);
-		
+		$type = key($filters);		
 		$filter_id = head($filters);
 				
 		if(!empty($type) && !empty($filter_id)) $items = $this->filterEntities($model, $type, $filter_id);

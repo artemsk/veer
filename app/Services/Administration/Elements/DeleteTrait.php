@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Input;
 
-trait Delete {
+trait DeleteTrait {
     
     /**
 	 * Delete Product & relationships
@@ -19,7 +19,7 @@ trait Delete {
 			$p->tags()->detach();
 			$p->attributes()->detach();
 			$p->images()->detach();
-			$p->downloads()->update(array("elements_id" => 0));
+			$p->downloads()->update(["elements_id" => 0]);
 			
 			$p->userlists()->delete();
 			$p->delete();
@@ -42,7 +42,7 @@ trait Delete {
 			$p->tags()->detach();
 			$p->attributes()->detach();
 			$p->images()->detach();
-			$p->downloads()->update(array("elements_id" => 0));
+			$p->downloads()->update(["elements_id" => 0]);
 			
 			$p->userlists()->delete();
 			$p->delete();

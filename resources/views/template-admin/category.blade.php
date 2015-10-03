@@ -64,8 +64,7 @@
                                         <p></p>
                                         <p><button type="submit" class="btn btn-default" name="action" value="updateCurrent">Update</button>
                                     </div>
-                                </div>
-                                <div class="testajax"></div>
+                                </div>                                
                                 <ul class="list-group sortable @if(count($items->subcategories) > 0)categories-child-list @else categories-child-list-no-bottom @endif categories-lists" data-parentid="{{ $items->id }}">
                                     @foreach ($items->subcategories as $category)
                                     <li class="list-group-item category-item-{{ $category->id }} sorting-hover">

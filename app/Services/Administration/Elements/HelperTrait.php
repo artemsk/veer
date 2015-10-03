@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Input;
 
-trait Helper {
+trait HelperTrait {
 
     protected $uploadDataProvider = [
         'image' => ['images', 'images_path', 'public', '\\Veer\\Models\\Image', 'img', []],
@@ -152,17 +152,41 @@ trait Helper {
             if($s->id != $sortingParams['parentid']) { continue; }            
             $id = $s->{$sortingParams['relationship']}[$sortingParams['oldindex']]->id;
             
-            foreach($s->{$sortingParams['relationship']} as $k => $c) {
-                
-                if($sortingParams['newindex'] > $sortingParams['oldindex'] && $c->id != $id) $newsort[] = $c->id;                
-                if($sortingParams['newindex'] == $k) $newsort[] = $id;                
-                if($sortingParams['newindex'] < $sortingParams['oldindex'] && $c->id != $id && !in_array($c->id, $newsort)) {
-                    $newsort[] = $c->id;
-                }
-            }
+            $this->sortElementsIterate($newsort, $s->{$sortingParams['relationship']}, $sortingParams, $id);
         }
         
         return $newsort;
+    }
+    
+    /**
+     * Sort Elements for Entities (Page, Product)
+     * 
+     */
+    protected function sortElementsEntities($elements, $sortingParams)
+    {
+        $newsort = [];
+        
+        $id = $elements[$sortingParams['oldindex']]->id;
+        
+        $this->sortElementsIterate($newsort, $elements, $sortingParams, $id);
+        
+        return $newsort; 
+    }   
+    
+    /**
+     * Iteration helper
+     * 
+     */
+    protected function sortElementsIterate(&$newsort, $elements, $sortingParams, $id)
+    {
+        foreach($elements as $k => $c) {
+
+            if($sortingParams['newindex'] > $sortingParams['oldindex'] && $c->id != $id) $newsort[] = $c->id;                
+            if($sortingParams['newindex'] == $k) $newsort[] = $id;                
+            if($sortingParams['newindex'] < $sortingParams['oldindex'] && $c->id != $id && !in_array($c->id, $newsort)) {
+                $newsort[] = $c->id;
+            }
+        }
     }
 
     /**
@@ -183,57 +207,13 @@ trait Helper {
     }
     
     /**
-     * Products actions
+     * Parse Ids
      * 
      */
-    protected function quickProductsActions($action)
+    protected function parseIds($ids, $separator = ",", $start = ":")
     {
-        if (starts_with($action, "changeStatusProduct")) {
-            $r = explode(".", $action);
-            $this->changeProductStatus(\Veer\Models\Product::find($r[1]));
-            event('veer.message.center', trans('veeradmin.product.status'));
-        }
-
-        if (starts_with($action, "deleteProduct")) {
-            $r = explode(".", $action);
-            $this->deleteProduct($r[1]);
-            event('veer.message.center', trans('veeradmin.product.delete') .
-                " " . app('veeradmin')->restore_link('product', $r[1]));
-        }
-
-        if (starts_with($action, "showEarlyProduct")) {
-            \Eloquent::unguard();
-            $r = explode(".", $action);
-            \Veer\Models\Product::where('id', '=', $r[1])->update(array("to_show" => now()));
-            event('veer.message.center', trans('veeradmin.product.show'));
+        if(starts_with($ids, $start)) {
+            return explode($separator, substr($ids, strlen($start)));
         }
     }
-
-    /**
-     * Pages actions
-     * 
-     */
-    protected function quickPagesActions($action)
-    {
-        if (starts_with($action, "changeStatusPage")) {
-            $r = explode(".", $action);
-            $page = \Veer\Models\Page::find($r[1]);
-            $page->hidden = $page->hidden == true ? false : true;
-            $page->save();
-            event('veer.message.center', trans('veeradmin.page.status'));
-        }
-
-        if (starts_with($action, "deletePage")) {
-            $r = explode(".", $action);
-            $this->deletePage($r[1]);
-            event('veer.message.center', trans('veeradmin.page.delete') .
-                " " . app('veeradmin')->restore_link('page', $r[1]));
-        }
-    }
-    
-    abstract protected function parseIds($ids, $separator = ",", $start = ":");
-    
-    abstract protected function deletePage($id);
-    
-    abstract protected function deleteProduct($id);
 }
