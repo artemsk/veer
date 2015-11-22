@@ -1,20 +1,26 @@
 <?php namespace Veer\Services\Administration\Elements;
 
-use Illuminate\Support\Facades\Input;
-
 trait DeleteTrait {
     
-    /**
-	 * Delete Product & relationships
-     * 
-	 */
-	protected function deleteProduct($id)
-	{
-		$p = \Veer\Models\Product::find($id);
+    protected function deleteEntity($id, $type)
+    {
+        $className = '\\Veer\\Models\\' . ucfirst($type); 
+        $p = $className::find($id);
 		if(is_object($p)) {
-			$p->subproducts()->detach();
-			$p->parentproducts()->detach();
-			$p->pages()->detach();
+            
+            switch($type) {
+                case 'product':
+                    $p->subproducts()->detach();
+                    $p->parentproducts()->detach();
+                    $p->pages()->detach();
+                    break;
+                case 'page':
+                    $p->subpages()->detach();
+                    $p->parentpages()->detach();
+                    $p->products()->detach();
+                    break;
+            }
+            
 			$p->categories()->detach();
 			$p->tags()->detach();
 			$p->attributes()->detach();
@@ -23,8 +29,17 @@ trait DeleteTrait {
 			
 			$p->userlists()->delete();
 			$p->delete();
-			// orders_products, comments, communications skip
-		}
+			// [orders_products], comments, communications skip
+		}  
+    }
+    
+    /**
+	 * Delete Product & relationships
+     * 
+	 */
+	protected function deleteProduct($id)
+	{
+		$this->deleteEntity($id, 'product');
 	}
     
     /**
@@ -33,21 +48,7 @@ trait DeleteTrait {
 	 */
 	protected function deletePage($id)
 	{
-		$p = \Veer\Models\Page::find($id);
-		if(is_object($p)) {
-			$p->subpages()->detach();
-			$p->parentpages()->detach();
-			$p->products()->detach();
-			$p->categories()->detach();
-			$p->tags()->detach();
-			$p->attributes()->detach();
-			$p->images()->detach();
-			$p->downloads()->update(["elements_id" => 0]);
-			
-			$p->userlists()->delete();
-			$p->delete();
-			// comments, communications skip
-		}
+		$this->deleteEntity($id, 'page');
 	}
     
     /**

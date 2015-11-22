@@ -425,7 +425,7 @@ trait Ecommerce {
 		
 		if(array_has($fill, 'address'))
 		{
-			$addresses = preg_split('/[\n\r]+/', array_get($fill, 'address') );
+			$addresses = preg_split('/[\n\r]+/', array_get($fill, 'address') ); // TODO: redo
 			foreach($addresses as $k => $address)
 			{
 				$parts = explode("|", $address);

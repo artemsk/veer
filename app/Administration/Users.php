@@ -258,11 +258,11 @@ trait Users {
 			if(array_get($all, 'fill.name') == null) array_set($all, 'fill.name', '[basket]');				
 			if(array_get($all, 'checkboxes.basket') != null) array_set($all, 'fill.name', '[basket]');	
 				
-			$p = preg_split('/[\n\r]+/', trim( array_get($all, 'products') ));
+			$p = preg_split('/[\n\r]+/', trim( array_get($all, 'products') )); // TODO: redo
 			
 			if(is_array($p)) { $this->saveAndAttachLists ($p, '\\'.elements('product'), array_get($all, 'fill')); }					
 			
-			$pg = preg_split('/[\n\r]+/', trim( array_get($all, 'pages') ));
+			$pg = preg_split('/[\n\r]+/', trim( array_get($all, 'pages') )); // TODO: redo
 			
 			if(is_array($pg)) { $this->saveAndAttachLists ($pg, '\\'.elements('page'), array_get($all, 'fill')); }		
 			
@@ -410,7 +410,7 @@ trait Users {
 		if(Input::get('action') == "Add")
 		{
 			$freeForm = Input::get('freeForm');
-			$parseForm = !empty($freeForm) ? preg_split('/[\n\r]+/', trim($freeForm)) : array() ;
+			$parseForm = !empty($freeForm) ? preg_split('/[\n\r]+/', trim($freeForm)) : array() ; // TODO: redo
 			
 			$freeFormKeys = array(
 				'username', 'phone', 'firstname', 'lastname', 'birth', 'gender', 'roles_id',

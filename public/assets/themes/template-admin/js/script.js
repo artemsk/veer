@@ -62,7 +62,7 @@ function suggestions(selector, id) {
                 data: 'whole=' + d + '&needle=' + latest + '&separator=' + separator + '&selectorId=' + id,
                 success: function (results) {
                     $('#loadedSuggestions-' + type + id).html(results);
-                    /*console.log('#loadedSuggestions-' + type + id);*/
+                    console.log('#loadedSuggestions-' + type + id);
                 },
             });
         }, 400);
@@ -219,7 +219,8 @@ function updateWidth() {
 /* common */
 
 $(document).on('keyup', '.show-list-of-items', {}, function() {
-    suggestions($(this), '');
+    var id = attributes > 1 ? (attributes - 1) : '';
+    suggestions($(this), id);
 });
 
 $(document).on('click', 'button, input[type=submit]', {}, function() {
@@ -318,10 +319,10 @@ $(document).on('click', '.add-more-attributes', {}, function () {
     $('.new-attributes-added').append(d);
 
     $('#attributes-suggestions-id' + attributes).ready(function () {
-        var rem = attributes;
+        /*var rem = attributes;
         $('#attributes-suggestions-id' + attributes).keyup(function () {
             suggestions($(this), rem);
-        });
+        });*/
     });
     attributes = attributes + 1;
 });

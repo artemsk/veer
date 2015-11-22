@@ -103,7 +103,8 @@ class Entity {
         $className = '\\Veer\\Models\\' . ucfirst($this->type);
         $object = new $className;
         $object->fill($fill);        
-        return $object->save();
+        $object->save();
+        return $object;
     }
     
     /**
@@ -212,8 +213,10 @@ class Entity {
     {
         if(empty($this->data['freeForm'])) { return null; }
         
-        $ff = preg_split('/[\n\r]+/', trim($this->data['freeForm'])); // TODO: test preg
-        foreach($ff as $freeForm) {
+        preg_match_all("/^(.*)$/m", trim($this->data['freeForm']), $ff); // TODO: test
+        if(empty($ff[1]) || !is_array($ff[1])) return null;
+        
+        foreach($ff[1] as $freeForm) {
             if(starts_with($freeForm, 'Tag:')) {
                 $this->attachElements($freeForm, $object, 'tags', null, ",", "Tag:");
             } else {

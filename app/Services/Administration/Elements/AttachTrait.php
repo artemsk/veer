@@ -65,7 +65,7 @@ trait AttachTrait {
     {
         $elements = !is_array($ids) ? $this->parseIds($ids, $separator, $start) : $ids;
 
-        if(is_array($elements) && count($elements) > 0) {         
+        if(is_array($elements)) {         
             $method = $replace == true ? 'sync' : 'attach';
             
             $object->{$relation}()->{$method}($elements);
@@ -137,21 +137,21 @@ trait AttachTrait {
     {
         \Eloquent::unguard();
         $tagArr = [];
-        $t = preg_split("/\/((\r(?!\n))|((?<!\r)\n)|(\r\n))\//", trim($tags)); // TODO: Test split by row
+        preg_match_all("/^(.*)$/m", trim($tags), $matches); 
 
-        if(!is_array($t)) { return null; }
-        
-        foreach($t as $tag) {
-            if(empty($tag)) { continue; }
+        if(!empty($matches[1]) && is_array($matches[1])) {         
+            foreach($matches[1] as $tag) {
+                $tag = trim($tag);
+                if(empty($tag)) { continue; }
 
-            $tagDb = \Veer\Models\Tag::firstOrNew(['name' => $tag]);
-            if(!$tagDb->exists) {
-                $tagDb->name = $tag;
-                $tagDb->save();
+                $tagDb = \Veer\Models\Tag::firstOrNew(['name' => $tag]);
+                if(!$tagDb->exists) {
+                    $tagDb->name = $tag;
+                    $tagDb->save();
+                }
+                $tagArr[] = $tagDb->id;
             }
-            $tagArr[] = $tagDb->id;
         }
-        
         $this->attachElements($tagArr, $object, 'tags', null, ",", ":", true);
     }
 

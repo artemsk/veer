@@ -512,7 +512,7 @@ footer {
     }
 }
 
-.pages-thumbnail, .products-thumbnail {
+.pages-thumbnail, .products-thumbnail, .common-thumbnail {
     border: 0px;
     background-color: #fff;
     margin-bottom: 30px;
@@ -522,12 +522,12 @@ footer {
   box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.1470588) 0px 1px 2px 0px;
 }
 
-.pages-thumbnail:hover, .products-thumbnail:hover {
+.pages-thumbnail:hover, .products-thumbnail:hover, .common-thumbnail:hover {
     -webkit-box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.3470588) 0px 1px 2px 0px;
      box-shadow: rgba(255, 255, 255, 0.168627) 0px 0px 0px 1px inset, rgba(43, 50, 57, 0.3470588) 0px 1px 2px 0px;
 }
 
-.pages-thumbnail-img, .products-thumbnail-img {
+.pages-thumbnail-img, .products-thumbnail-img,  .common-thumbnail-img {
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
 }

@@ -163,7 +163,7 @@
 						</li>
 						@endforeach
 						@endif
-						<li class="list-group-item">
+						<li class="list-group-item suggestions-in-list-2">
 								<input type="text" name="attachParentPages" class="form-control input-no-borders" placeholder=":Existings IDs[,]">
 						</li>
 					</ul>
@@ -182,7 +182,7 @@
 						</li>
 						@endforeach
 						@endif
-						<li class="list-group-item suggestions-in-list">
+						<li class="list-group-item suggestions-in-list-2">
 								<input type="text" data-type="page" name="attachChildPages" class="form-control input-no-borders show-list-of-items suggestions-page" placeholder=":Existings IDs[,]">
 						</li>
                                                 <div id="loadedSuggestions-page"></div>
@@ -205,7 +205,7 @@
 						</li>
 						@endforeach
 						@endif
-						<li class="list-group-item suggestions-in-list">
+						<li class="list-group-item suggestions-in-list-2">
 								<input type="text" name="attachProducts" data-type="product" class="show-list-of-items suggestions-product form-control input-no-borders" placeholder=":Existings IDs[,]">
 						</li>
                                                 <div id="loadedSuggestions-product"></div>

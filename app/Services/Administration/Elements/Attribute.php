@@ -42,9 +42,11 @@ class Attribute {
     
     protected function newAttribute()
     {
-        $manyValues = preg_split('/[\n\r]+/', trim($this->newValue));
+        preg_match_all("/^(.*)$/m", trim($this->newValue), $manyValues); // TODO: test
         
-        foreach ($manyValues as $value) {
+        if(empty($manyValues[1]) || !is_array($manyValues[1])) return null;
+        
+        foreach ($manyValues[1] as $value) {
             $this->attachToAttributes($this->newName, $value);
         }
         

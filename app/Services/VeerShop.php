@@ -729,7 +729,7 @@ class VeerShop {
 		$conditions_exist = false;
 		$activate_discount = false;		
 		
-		$conditions = preg_split('/[\n\r]+/', $custom_conditions );
+		$conditions = preg_split('/[\n\r]+/', $custom_conditions ); // TODO: redo
 		
 		if (count($conditions) > 0) 
 		{

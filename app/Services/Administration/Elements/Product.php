@@ -65,9 +65,10 @@ class Product extends Entity {
     
     protected function quickFreeForm()
     {
-        $parseff = preg_split('/[\n\r]+/', trim($this->data['freeForm']));
-        
-        foreach($parseff as $p) {
+        preg_match_all("/^(.*)$/m", trim($this->data['freeForm']), $parseff); // TODO: test
+        if(empty($parseff[1]) || !is_array($parseff[1])) return null;
+
+        foreach($parseff[1] as $p) {
             $fields = explode("|", $p);
 
             $fill = [];
