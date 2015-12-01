@@ -1,55 +1,27 @@
-## Veer Engine 
+## Laravel PHP Framework
 
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/artemsk/veer.svg)](https://scrutinizer-ci.com/g/artemsk/veer/)
-[![GitHub release](https://img.shields.io/github/release/artemsk/veer.svg)]()
-[![Packagist](https://img.shields.io/packagist/l/artemsk/veer.svg)]()
-[![Tea](https://img.shields.io/badge/cups%20of%20tea-402-ff69b4.svg)]()
+[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
+[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-## Requirements
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-Veer uses Composer to manage dependencies. Also there are several system requirements:
-* PHP >= 5.4
-* Mcrypt PHP Extension
-* Mbstring PHP Extension
-* JSON PHP Extension
-* MySQL or SQLite (**coming soon**)
+Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-## Installation
+## Official Documentation
 
-- Clone git repository or use Composer:
-```
-$ git clone https://github.com/artemsk/veer.git ./
-or
-$ composer create-project artemsk/veer ./
-```
-*If you don't have Composer install it with `$ php -r "readfile('https://getcomposer.org/installer');" | php`*
+Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-- Install all dependencies: 
-```
-$ composer update
-```
+## Contributing
 
-- Copy and rename main configuration file — *.env.example* to *.env*. Set database parameters in it (others are optional):
-```
-DB_HOST=<localhost or url>
-DB_DATABASE=<your database name>
-DB_USERNAME=<database username>
-DB_PASSWORD=<database password>
-```
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-- Set permissions for these folders: **storage**, **vendor**.
+## Security Vulnerabilities
 
-- Cache configuration & routes:
-```
-$ php artisan config:cache
-$ php artisan route:cache
-```
-
-- Set your initial url and migrate database. *You will be asked to set administrator login and password.*
-```
-$ php artisan veer:install <url> --migrate
-```
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
 ### License
 
-Veer is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

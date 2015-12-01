@@ -7,3 +7,4 @@ wkhtmltoimage-amd64
 wkhtmltoimage-i386
 .sonar
 sonar-project.properties
+_temp
