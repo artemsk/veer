@@ -1,7 +1,8 @@
-<?php namespace Veer\Events;
+<?php
 
-abstract class Event {
+namespace Veer\Events;
 
-	//
-
+abstract class Event
+{
+    //
 }
