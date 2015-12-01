@@ -147,7 +147,6 @@ return [
 
         Veer\Services\Queuedb\QueuedbServiceProvider::class,
         Veer\Providers\VeerServiceProvider::class,
-        Veer\Providers\VeerAdminServiceProvider::class,
 
     ],
 

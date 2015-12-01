@@ -26,6 +26,8 @@ class VeerServiceProvider extends ServiceProvider {
 		$this->registerVeerApp();
 		
 		$this->registerVeerShop();
+
+        $this->registerVeerAdmin();
 	}
 			
 	/**
@@ -48,6 +50,16 @@ class VeerServiceProvider extends ServiceProvider {
 	{
 		$this->app->singleton('veershop', function() { return new \Veer\Services\VeerShop; });
 	}
+
+	/**
+	 * Register the Veer Admin
+	 *
+	 * @return void
+	 */
+	public function registerVeerAdmin()
+	{
+		$this->app->singleton('veeradmin', function() { return new \Veer\Administration\VeerAdmin; });
+	}
 			
 	/**
 	 * Get the services provided by the provider.
@@ -56,7 +68,7 @@ class VeerServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('veer', 'veershop'); //, 'command.veer.install');
+		return ['veer', 'veershop', 'veeradmin']; //, 'command.veer.install');
 	}	
 	
 }

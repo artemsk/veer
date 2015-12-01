@@ -46,12 +46,13 @@
             
             <div class="row">
                 <div class="text-center">
-                    {{ $items->appends(array('filter' => Input::get('filter', null), 'filter_id' => Input::get('filter_id', null)))->render() }}
+                    {{ $items->appends(array('filter' => Input::get('filter', null), 'filter_id' => Input::get('filter_id', null), 'sort' => Input::get('sort'), 'sort_direction' => Input::get('sort_direction')))->render() }}
                 </div>
             </div>
-
+            @if(count($items)>0)
             <div class='rowdelimiter'></div>
             <hr class="hr-darker">
+            @endif
             <form method="POST" action="{{ URL::full() }}" accept-charset="UTF-8" enctype="multipart/form-data">
             <input name="_method" type="hidden" value="PUT">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
