@@ -12,11 +12,17 @@ class MigrationsRenameColumnsInJobs extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('jobs', function($table) {
-			$table->renameColumn('times', 'attempts');
-			$table->renameColumn('scheduled_at', 'available_at');
-			$table->string('queue');
-			$table->tinyInteger('reserved')->unsigned();
+        Schema::table('jobs', function($table) {
+            $table->renameColumn('times', 'attempts');
+        });
+
+        Schema::table('jobs', function($table) {
+            $table->renameColumn('scheduled_at', 'available_at');
+        });
+        
+		Schema::table('jobs', function($table) {		
+			$table->string('queue')->nullable();
+			$table->tinyInteger('reserved')->nullable()->unsigned();
 			$table->unsignedInteger('reserved_at')->nullable();
 		});
 	}
@@ -28,11 +34,23 @@ class MigrationsRenameColumnsInJobs extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('jobs', function($table) {
-			$table->renameColumn('attempts', 'times');
-			$table->renameColumn('available_at', 'scheduled_at');
+        Schema::table('jobs', function($table) {
+            $table->renameColumn('attempts', 'times');
+        });
+
+        Schema::table('jobs', function($table) {
+            $table->renameColumn('available_at', 'scheduled_at');
+        });
+
+        Schema::table('jobs', function($table) {
 			$table->dropColumn('queue');
+        });
+
+        Schema::table('jobs', function($table) {
 			$table->dropColumn('reserved');
+        });
+        
+		Schema::table('jobs', function($table) {
 			$table->dropColumn('reserved_at');
 		});
 	}

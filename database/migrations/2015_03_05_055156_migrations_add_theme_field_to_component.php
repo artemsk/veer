@@ -14,7 +14,7 @@ class MigrationsAddThemeFieldToComponent extends Migration
     public function up()
     {
         Schema::table('components', function(Blueprint $table) {
-            $table->string('theme', 96)->after('sites_id')->index();
+            $table->string('theme', 96)->after('sites_id')->nullable()->index();
         });
     }
 

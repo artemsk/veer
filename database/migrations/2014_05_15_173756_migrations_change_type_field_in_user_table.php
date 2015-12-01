@@ -13,9 +13,12 @@ class MigrationsChangeTypeFieldInUserTable extends Migration {
 	public function up()
 	{
 		Schema::table('users', function($table) {
-                    $table->dropColumn('type');
-                    $table->integer('roles_id')->after('password')->default(0);                    
-                });
+            $table->dropColumn('type');
+        });
+        
+        Schema::table('users', function($table) {
+            $table->integer('roles_id')->after('password')->default(0);                    
+        });
 	}
 
 	/**
@@ -25,10 +28,13 @@ class MigrationsChangeTypeFieldInUserTable extends Migration {
 	 */
 	public function down()
 	{
+        Schema::table('users', function($table) {
+            $table->dropColumn('roles_id');
+        });
+
 		Schema::table('users', function($table) {
-                    $table->dropColumn('roles_id');
-                    $table->string('type',15)->after('password');  
-                });
+            $table->string('type',15)->nullable()->after('password');
+        });
 	}
 
 }

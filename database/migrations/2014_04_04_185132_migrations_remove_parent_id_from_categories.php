@@ -25,8 +25,8 @@ class MigrationsRemoveParentIdFromCategories extends Migration {
 	public function down()
 	{
 		Schema::table('categories', function($table) {
-                   $table->bigInteger('parent_id'); 
-                });
+           $table->bigInteger('parent_id')->nullable();
+        });
 	}
 
 }

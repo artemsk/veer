@@ -14,7 +14,7 @@ class MigrationsAddThemeFieldToConfiguration extends Migration
     public function up()
     {
         Schema::table('configuration', function(Blueprint $table) {
-            $table->string('theme', 96)->after('conf_val')->index();
+            $table->string('theme', 96)->after('conf_val')->nullable()->index();
         });
     }
 

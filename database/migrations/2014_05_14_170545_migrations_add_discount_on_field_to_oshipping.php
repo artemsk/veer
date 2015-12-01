@@ -25,10 +25,13 @@ class MigrationsAddDiscountOnFieldToOshipping extends Migration {
 	 */
 	public function down()
 	{
+        Schema::table('orders_shipping', function ($table) {
+            $table->dropColumn('discount_enable');
+        });
+
 		Schema::table('orders_shipping', function ($table) {
-                   $table->dropColumn('discount_enable');
-                   $table->dropColumn('sites_id');
-                });
+           $table->dropColumn('sites_id');
+        });
 	}
 
 }

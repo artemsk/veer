@@ -13,7 +13,7 @@ class MigrationsAddUsernameField extends Migration {
 	public function up()
 	{
 		Schema::table('users', function(Blueprint $table) {
-            $table->string('username', 255)->after('gender')->index();
+            $table->string('username', 255)->after('gender')->nullable()->index();
         });
 	}
 
