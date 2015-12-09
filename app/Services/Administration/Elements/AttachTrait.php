@@ -240,6 +240,26 @@ trait AttachTrait {
             event('veer.message.center', trans('veeradmin.category.parent.new'));
         }
     }
+
+    /**
+	 * Associate (belongTo, hasMany relationships)
+	 * - updating parents (parent field) in childs tables
+	 *
+	 * @param string $relation Child model, ex: page, user, product etc.
+	 * @param array $childs Ids
+	 * @param string $childsField
+	 * @param int $parentId
+	 * @param string $parentField
+	 * @param string $raw Raw where Sql
+	 * @return void
+	 */
+	protected function associate($relation, $childs, $parentId, $parentField, $childsField = "id", $raw = null)
+	{
+		$relation = "\\" . elements(str_singular($relation));
+		$r = $relation::whereIn($childsField, $childs);
+		if(!empty($raw)) { $r->whereRaw($raw); }
+		$r->update([$parentField => $parentId]);
+	}
     
     /*
     abstract public function upload($type, $files, $id, $relationOrObject, $prefix = null, $message = null, $skipRelation = false);

@@ -1,8 +1,5 @@
 <?php namespace Veer\Services\Administration;
 
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Event;
-
 class Structure {
 	
     protected $action = null;

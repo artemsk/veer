@@ -71,7 +71,7 @@ class Entity {
   
     protected function updateOne()
     {	
-        $fill = $this->prepareData();       
+        $fill = $this->prepareData(); // ?
         
         if($this->action == 'add' || $this->action == 'saveAs') {
             

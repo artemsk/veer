@@ -168,7 +168,9 @@ class AdminController extends Controller
             case 'etc': return 'Utility';
             case 'attributes': case 'categories': case 'downloads': case 'images': 
                 case 'pages': case 'products': case 'sites': case 'tags': return 'Structure';
-                
+            case 'users': case 'roles': case 'communications': case 'comments': case 'searches':
+                case 'lists': case 'books': return 'Users';
+                    
             default: break;            
         }
     }

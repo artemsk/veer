@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Event;
 
 class VeerAdmin {
 
-	use Ecommerce, Users;
+	use Ecommerce;
 
     public $skipShow;
     

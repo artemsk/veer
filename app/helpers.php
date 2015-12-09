@@ -427,3 +427,20 @@ if (!function_exists('veer_get')) {
 		return data_get(app('veer')->loadedComponents, $key, $default);
 	}
 }
+
+
+
+
+if (!function_exists('veer')) {
+
+	/**
+	 */
+	function veer($key = null, $default = null)
+	{
+        if(!empty($key)) {
+            return veer_get($key, $default);
+        }
+
+		return app('veer');
+	}
+}
