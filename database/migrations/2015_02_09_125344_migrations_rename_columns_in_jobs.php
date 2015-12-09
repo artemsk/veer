@@ -5,13 +5,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class MigrationsRenameColumnsInJobs extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
         Schema::table('jobs', function($table) {
             $table->renameColumn('times', 'attempts');
         });
@@ -19,21 +19,21 @@ class MigrationsRenameColumnsInJobs extends Migration {
         Schema::table('jobs', function($table) {
             $table->renameColumn('scheduled_at', 'available_at');
         });
-        
-		Schema::table('jobs', function($table) {		
-			$table->string('queue')->nullable();
-			$table->tinyInteger('reserved')->nullable()->unsigned();
-			$table->unsignedInteger('reserved_at')->nullable();
-		});
-	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+        Schema::table('jobs', function($table) {
+            $table->string('queue')->nullable();
+            $table->tinyInteger('reserved')->nullable()->unsigned();
+            $table->unsignedInteger('reserved_at')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::table('jobs', function($table) {
             $table->renameColumn('attempts', 'times');
         });
@@ -43,16 +43,16 @@ class MigrationsRenameColumnsInJobs extends Migration {
         });
 
         Schema::table('jobs', function($table) {
-			$table->dropColumn('queue');
+            $table->dropColumn('queue');
         });
 
         Schema::table('jobs', function($table) {
-			$table->dropColumn('reserved');
+            $table->dropColumn('reserved');
         });
-        
-		Schema::table('jobs', function($table) {
-			$table->dropColumn('reserved_at');
-		});
-	}
+
+        Schema::table('jobs', function($table) {
+            $table->dropColumn('reserved_at');
+        });
+    }
 
 }

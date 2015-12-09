@@ -3,8 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MigrationsAddThemeFieldToComponent extends Migration
-{
+class MigrationsAddThemeFieldToComponent extends Migration {
 
     /**
      * Run the migrations.
@@ -29,4 +28,5 @@ class MigrationsAddThemeFieldToComponent extends Migration
             $table->dropColumn('theme');
         });
     }
+
 }

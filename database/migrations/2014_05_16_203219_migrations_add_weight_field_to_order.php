@@ -5,28 +5,28 @@ use Illuminate\Database\Migrations\Migration;
 
 class MigrationsAddWeightFieldToOrder extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::table('orders', function($table) {
-                   $table->bigInteger('weight')->after('address')->default(false); 
-                });
-	}
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('orders', function($table) {
+            $table->bigInteger('weight')->after('address')->default(false);
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::table('orders', function($table) {
-                   $table->dropColumn('weight');
-                });
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('orders', function($table) {
+            $table->dropColumn('weight');
+        });
+    }
 
 }

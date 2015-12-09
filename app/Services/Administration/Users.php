@@ -26,86 +26,20 @@ class Users {
 		return (new Elements\Role)->run();
 	}
 
-
-	
-
-
-	
-
-
 	/**
 	 * update Communications
 	 */
 	public function updateCommunications()
 	{
-		if(Input::get('action') == "addMessage")
-		{
-			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.new'));
-
-			return (new \Veer\Commands\CommunicationSendCommand(Input::get('communication')))->handle();
-		}
-
-		if(Input::has('hideMessage'))
-		{
-			\Veer\Models\Communication::where('id','=',head(Input::get('hideMessage')))
-				->update(array('hidden' => true));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.hide'));
-
-		}
-
-		if(Input::has('unhideMessage'))
-		{
-			\Veer\Models\Communication::where('id','=',head(Input::get('unhideMessage')))
-				->update(array('hidden' => false));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.unhide'));
-
-		}
-
-		if(Input::has('deleteMessage'))
-		{
-			\Veer\Models\Communication::where('id','=',head(Input::get('deleteMessage')))
-				->delete();
-			Event::fire('veer.message.center', \Lang::get('veeradmin.communication.delete'));
-
-		}
+		return (new Elements\Communication)->run();
 	}
-
 
 	/**
 	 * update Comments
 	 */
 	public function updateComments()
 	{
-		if(Input::get('action') == "addComment")
-		{
-			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.new'));
-
-			return (new \Veer\Commands\CommentSendCommand(Input::all()))->handle();
-		}
-
-		if(Input::has('hideComment'))
-		{
-			\Veer\Models\Comment::where('id','=',head(Input::get('hideComment')))
-				->update(array('hidden' => true));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.hide'));
-
-		}
-
-		if(Input::has('unhideComment'))
-		{
-			\Veer\Models\Comment::where('id','=',head(Input::get('unhideComment')))
-				->update(array('hidden' => false));
-			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.unhide'));
-
-		}
-
-		if(Input::has('deleteComment'))
-		{
-			\Veer\Models\Comment::where('id','=',head(Input::get('deleteComment')))
-				->delete();
-			Event::fire('veer.message.center', \Lang::get('veeradmin.comment.delete'));
-
-		}
+		return (new Elements\Comment)->run();
 	}
 
 

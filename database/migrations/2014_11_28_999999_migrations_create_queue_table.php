@@ -4,8 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MigrationsCreateQueueTable extends Migration
-{
+class MigrationsCreateQueueTable extends Migration {
+
     /**
      * Run the migrations.
      *
@@ -18,7 +18,7 @@ class MigrationsCreateQueueTable extends Migration
             $table->integer('status')->default(0)->index();
             $table->integer('times')->default(0);
             $table->longText('payload')->nullable();
-			$table->timestamp('scheduled_at');
+            $table->timestamp('scheduled_at')->nullable();
             $table->nullableTimestamps();
         });
     }
@@ -32,4 +32,5 @@ class MigrationsCreateQueueTable extends Migration
     {
         Schema::drop('jobs');
     }
+
 }

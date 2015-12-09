@@ -5,31 +5,30 @@ use Illuminate\Database\Migrations\Migration;
 
 class MigrationsCreateFailedJobsTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('failed_jobs', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->text('connection');
-			$table->text('queue');
-			$table->text('payload');
-			$table->timestamp('failed_at');
-		});
-	}
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('failed_jobs', function(Blueprint $table) {
+            $table->increments('id');
+            $table->text('connection');
+            $table->text('queue');
+            $table->text('payload');
+            $table->timestamp('failed_at')->nullable();
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('failed_jobs');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('failed_jobs');
+    }
 
 }

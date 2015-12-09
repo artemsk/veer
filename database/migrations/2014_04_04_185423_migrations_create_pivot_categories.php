@@ -13,10 +13,10 @@ class MigrationsCreatePivotCategories extends Migration {
 	public function up()
 	{
 		Schema::create('categories_pivot', function($table) {
-                    $table->bigIncrements('id')->index();
-                    $table->bigInteger('parent_id')->index();
-                    $table->bigInteger('child_id')->index();                    
-                });
+            $table->bigIncrements('id')->index();
+            $table->bigInteger('parent_id')->default(0)->index();
+            $table->bigInteger('child_id')->default(0)->index();
+        });
 	}
 
 	/**

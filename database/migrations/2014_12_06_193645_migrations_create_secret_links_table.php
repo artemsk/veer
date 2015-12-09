@@ -5,31 +5,31 @@ use Illuminate\Database\Migrations\Migration;
 
 class MigrationsCreateSecretLinksTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
         Schema::create('secrets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('secret',64)->index();
-            $table->bigInteger('elements_id')->index();
-            $table->string('elements_type',255)->index();
+            $table->string('secret', 64)->index();
+            $table->bigInteger('elements_id')->default(0)->index();
+            $table->string('elements_type', 255)->default('')->index();
             $table->nullableTimestamps();
-			$table->softDeletes();
+            $table->softDeletes();
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::drop('secrets');
-	}
+    }
 
 }

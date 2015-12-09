@@ -13,8 +13,8 @@ class MigrationsRemoveParentIdFromCategories extends Migration {
 	public function up()
 	{
 		Schema::table('categories', function($table) {
-                   $table->dropColumn('parent_id'); 
-                });
+           $table->dropColumn('parent_id'); 
+        });
 	}
 
 	/**

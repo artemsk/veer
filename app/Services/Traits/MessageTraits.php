@@ -6,8 +6,10 @@ trait MessageTraits {
 	{
 		if(!empty($connected))
 		{
-			list($model, $id) = explode(":", $connected);
-			
+            $data = explode(":", $connected);
+            if(count($data) !== 2) return;
+            
+			list($model, $id) = $data;			
 			$object->elements_type = elements($model);			
 			$object->elements_id = $id;
 		}
