@@ -92,7 +92,7 @@ class Entity {
 		$this->freeForm($entity);
 		
 		if($this->action == 'add' || $this->action == 'saveAs') {
-            app('veeradmin')->skipShow = true;
+            app('veer')->skipShow = true;
             Input::replace(['id' => $entity->id]);
             return \Redirect::route('admin.show', [str_plural($this->type), 'id' => $entity->id]);
         }
@@ -123,7 +123,7 @@ class Entity {
             $r = explode(".", $action);
             $this->deleteProduct($r[1]);
             event('veer.message.center', trans('veeradmin.product.delete') .
-                " " . app('veeradmin')->restore_link('product', $r[1]));
+                " " . $this->restore_link('product', $r[1]));
         }
 
         if (starts_with($action, "showEarlyProduct")) {
@@ -152,7 +152,7 @@ class Entity {
             $r = explode(".", $action);
             $this->deletePage($r[1]);
             event('veer.message.center', trans('veeradmin.page.delete') .
-                " " . app('veeradmin')->restore_link('page', $r[1]));
+                " " . $this->restore_link('page', $r[1]));
         }
     }    
     

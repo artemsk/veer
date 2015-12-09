@@ -71,7 +71,7 @@ class AdminController extends Controller
         }
 
         if ($t == "restore") {
-            app('veeradmin')->restore(Input::get('type'), Input::get('id'));
+            $this->restore(Input::get('type'), Input::get('id'));
             return back();
         }
     }
@@ -170,7 +170,9 @@ class AdminController extends Controller
                 case 'pages': case 'products': case 'sites': case 'tags': return 'Structure';
             case 'users': case 'roles': case 'communications': case 'comments': case 'searches':
                 case 'lists': case 'books': return 'Users';
-                    
+            case 'statuses': case 'bills': case 'discounts': case 'orders': case 'payment':
+                case 'shipping': return 'Shop';
+           
             default: break;            
         }
     }
@@ -191,10 +193,11 @@ class AdminController extends Controller
             $class = "\\Veer\Services\\Administration\\" . $class; 
             $data = (new $class($t))->handle();
         } else {
-            $data = app('veeradmin')->{"update".ucfirst($t)}();
+            $data = 'Error!'; // TODO
+            info('Unknown administration class for ' . $t);
         }
         
-        if (!app('request')->ajax() && !(app('veeradmin')->skipShow)) {
+        if (!app('request')->ajax() && !(app('veer')->skipShow)) {
             return $this->show($t);
         }
 
@@ -207,4 +210,21 @@ class AdminController extends Controller
         if(\Input::has('worker-lock')) return event('lock.for.edit', [[\Auth::id(), 'admin', \Input::get('entity'), \Input::get('id')]]);        
         if(\Input::has('get-messages')) return \Session::get('veer_message_center'); 
     }
+
+
+    /**
+     * Restore soft deleted entity
+     */
+    protected function restore($type = null, $id = null)
+    {
+        if (empty($type) || empty($id))
+            return;
+
+        $type = "\\" . elements($type);
+
+        $type::withTrashed()->where('id', $id)->restore();
+
+        event('veer.message.center', trans('veeradmin.restored'));
+    }
+
 }

@@ -7,7 +7,7 @@ class Structure {
     public function __construct($t)
     {
         $this->action = 'update' . ucfirst($t);
-        app('veeradmin')->skipShow = false;
+        app('veer')->skipShow = false;
     }
     
     public function handle()

@@ -128,7 +128,7 @@ class Category extends Entity {
             case 'deleteCurrent':
                 $this->deleteCategory($this->id);
                 Input::replace(['category' => null]);
-                app('veeradmin')->skipShow = true;
+                app('veer')->skipShow = true;
                 event('veer.message.center', trans('veeradmin.category.delete'));
                 return \Redirect::route('admin.show', array('categories'));
                 

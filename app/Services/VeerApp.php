@@ -81,6 +81,11 @@ class VeerApp
     public $cachingQueries;
 
     /**
+     *  Skip Show [helper for ajax]
+     */
+    public $skipShow;
+
+    /**
      * Construct the VeerApp.
      *
      * 

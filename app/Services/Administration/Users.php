@@ -5,12 +5,14 @@ use Illuminate\Support\Facades\Event;
 
 class Users {
 
+    use Elements\DeleteTrait;
+    
     protected $action = null;
 
     public function __construct($t)
     {
         $this->action = 'update' . ucfirst($t);
-        app('veeradmin')->skipShow = false; // ?
+        app('veer')->skipShow = false; // ?
     }
 
     public function handle()
@@ -198,7 +200,7 @@ class Users {
 		{
 			$this->deleteBook(head(Input::get('deleteUserbook')));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.book.delete') .
-				" " . app('veeradmin')->restore_link('UserBook', head(Input::get('deleteUserbook'))));
+				" " .$this->restore_link('UserBook', head(Input::get('deleteUserbook'))));
 
 			return null;
 		}
@@ -264,7 +266,7 @@ class Users {
 		{
 			$this->deleteUser(key($delete));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.user.delete') .
-				" " . app('veeradmin')->restore_link("user", key($delete)));
+				" " . $this->restore_link("user", key($delete)));
 
 			return null;
 		}
@@ -492,7 +494,7 @@ class Users {
 		}
 
 		if($action == "add") {
-			$this->skipShow = true;
+			app('veer')->skipShow = true;
 			Input::replace(array('id' => $id));
 			return \Redirect::route('admin.show', array('users', 'id' => $id));
 		}

@@ -110,5 +110,15 @@ trait DeleteTrait {
 			$t->delete();			
 		}
 	}
+
+    /**
+     * Restore link
+     * 
+     */
+    protected function restore_link($type, $id)
+	{
+		return "<a href=". route('admin.update', array('restore', 'type' => $type, 'id' => $id)) .">".
+			\Lang::get('veeradmin.undo')."</a>";
+	}
     
 }

@@ -1,10 +1,24 @@
-<?php namespace Veer\Administration;
+<?php namespace Veer\Services\Administration;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Event;
 
-trait Ecommerce {
-	
+class Shop {
+
+    use Elements\DeleteTrait;
+    
+    protected $action = null;
+
+    public function __construct($t)
+    {
+        $this->action = 'update' . ucfirst($t);
+        app('veer')->skipShow = false;
+    }
+
+    public function handle()
+    {
+        return $this->{$this->action}();
+    }
 
 	/*
 	 * Shop Actions: 
@@ -247,7 +261,7 @@ trait Ecommerce {
 		{
 			$this->deleteStatus(Input::get('deleteStatus'));
 			Event::fire('veer.message.center', \Lang::get('veeradmin.status.delete'). 
-				" " . app('veeradmin')->restore_link('OrderStatus', Input::get('deleteStatus')));
+				" " . $this->restore_link('OrderStatus', Input::get('deleteStatus')));
 			
 		}
 		
@@ -316,7 +330,7 @@ trait Ecommerce {
 		if(Input::has('deletePaymentMethod'))
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.payment.delete') . 
-				" " . app('veeradmin')->restore_link('OrderPayment', Input::get('deletePaymentMethod')));
+				" " . $this->restore_link('OrderPayment', Input::get('deletePaymentMethod')));
 			
 			return $this->deletePaymentMethod(Input::get('deletePaymentMethod'));
 		}
@@ -385,7 +399,7 @@ trait Ecommerce {
 		if(Input::has('deleteShippingMethod'))
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.shipping.delete') . 
-				" " . app('veeradmin')->restore_link('OrderShipping', Input::get('deleteShippingMethod')));
+				" " . $this->restore_link('OrderShipping', Input::get('deleteShippingMethod')));
 			
 			return $this->deleteShippingMethod(Input::get('deleteShippingMethod'));
 		}
@@ -463,7 +477,7 @@ trait Ecommerce {
 		if(Input::has('deleteDiscount'))
 		{
 			Event::fire('veer.message.center', \Lang::get('veeradmin.discount.delete') .
-				" " . app('veeradmin')->restore_link('UserDiscount', Input::get('deleteDiscount')));
+				" " . $this->restore_link('UserDiscount', Input::get('deleteDiscount')));
 			
 			return $this->deleteDiscount(Input::get('deleteDiscount'));
 		}
@@ -555,9 +569,9 @@ trait Ecommerce {
 			$this->deleteOrder($order);
 			
 			Event::fire('veer.message.center', \Lang::get('veeradmin.order.delete') .
-				" " . app('veeradmin')->restore_link('order', $order->id));
+				" " . $this->restore_link('order', $order->id));
 			
-			$this->skipShow = true;
+			app('veer')->skipShow = true;
 			return \Redirect::route('admin.show', array('orders'));
 		}
 		
@@ -742,7 +756,7 @@ trait Ecommerce {
 		{
 			$this->sendEmailOrderNew($order);
 			
-			$this->skipShow = true;
+			app('veer')->skipShow = true;
 			Input::replace(array('id' => $order->id));
 			return \Redirect::route('admin.show', array('orders', 'id' => $order->id));
 		}
