@@ -1,47 +1,47 @@
 {
-	"name": "artemsk/veer",
-	"description": "The Veer Layer.",
-	"keywords": ["cms", "veer", "laravel-based"],
-	"license": "MIT",
-	"type": "project",
-	"require": {
+    "name": "artemsk/veer",
+    "description": "The Veer Layer.",
+    "keywords": ["cms", "veer", "laravel-based"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
         "php": ">=5.5.9",
         "artemsk/veer-core": "@dev"
-	},
-	"autoload": {
-		"classmap": [
-			"database"
-		],
-		"files": [
-			
-		],		
-		"psr-4": {
-			"Veer\\": "app/"
-		}
-	},
-	"autoload-dev": {
-		"classmap": [
-			"tests/TestCase.php"
-		]
-	},
-	"scripts": {
-		"post-create-project-cmd": [
-			"php -r \"copy('.env.example', '.env');\"",
-			"php artisan key:generate",
-			"php artisan app:name Veer"
-		],
-		"post-install-cmd": [
-			"php artisan vendor:publish --tag=veer --force",
-			"php artisan vendor:publish --tag=veer-config",
-			"php artisan vendor:publish --tag=veer-db"
-		],
-		"post-update-cmd": [
-			"php artisan vendor:publish --tag=veer --force",
-			"php artisan vendor:publish --tag=veer-config",
-			"php artisan vendor:publish --tag=veer-db"			
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	}
+    },
+    "autoload": {
+        "classmap": [
+            "database"
+        ],
+        "files": [
+            
+        ],      
+        "psr-4": {
+            "Veer\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "php -r \"copy('.env.example', '.env');\"",
+            "php artisan key:generate",
+            "php artisan app:name Veer"
+        ],
+        "post-install-cmd": [
+            "php artisan vendor:publish --tag=veer --force",
+            "php artisan vendor:publish --tag=veer-config",
+            "php artisan vendor:publish --tag=veer-db"
+        ],
+        "post-update-cmd": [
+            "php artisan vendor:publish --tag=veer --force",
+            "php artisan vendor:publish --tag=veer-config",
+            "php artisan vendor:publish --tag=veer-db"          
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
 }
