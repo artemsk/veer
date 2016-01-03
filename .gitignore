@@ -11,3 +11,4 @@ _temp
 _tests
 phpunit.phar
 phpunit.xml
+config/veer.php
