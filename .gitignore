@@ -9,3 +9,5 @@ wkhtmltoimage-i386
 sonar-project.properties
 _temp
 _tests
+phpunit.phar
+phpunit.xml
