@@ -16,7 +16,7 @@
 			
 		],		
 		"psr-4": {
-			"VeerOld\\": "app/"
+			"Veer\\": "app/"
 		}
 	},
 	"autoload-dev": {
@@ -27,7 +27,8 @@
 	"scripts": {
 		"post-create-project-cmd": [
 			"php -r \"copy('.env.example', '.env');\"",
-			"php artisan key:generate"
+			"php artisan key:generate",
+			"php artisan app:name Veer"
 		],
 		"post-install-cmd": [
 			"php artisan vendor:publish --tag=veer --force",
