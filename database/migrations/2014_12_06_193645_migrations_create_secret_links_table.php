@@ -15,7 +15,7 @@ class MigrationsCreateSecretLinksTable extends Migration {
         Schema::create('secrets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('secret', 64)->index();
-            $table->bigInteger('elements_id')->default(0)->index();
+            $table->bigInteger('elements_id')->nullable()->index();
             $table->string('elements_type', 255)->default('')->index();
             $table->nullableTimestamps();
             $table->softDeletes();

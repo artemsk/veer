@@ -14,7 +14,7 @@ class MigrationsCustomersTable extends Migration {
     {
         Schema::create('users', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('sites_id')->default(0)->index();
+            $table->bigInteger('sites_id')->nullable()->index();
             $table->string('email', 255)->index();
             $table->string('password', 128);
             $table->string('type', 15)->index();
@@ -23,11 +23,11 @@ class MigrationsCustomersTable extends Migration {
             $table->string('lastname', 128)->default('');
             $table->timestamp('birth')->nullable();
             $table->string('phone', 128)->index()->default(false);
-            $table->bigInteger('logons_count')->default(0);
-            $table->bigInteger('orders_count')->default(0);
-            $table->tinyInteger('newsletter')->default(0);
-            $table->tinyInteger('banned')->default(0);
-            $table->tinyInteger('restrict_orders')->default(0);
+            $table->bigInteger('logons_count')->nullable();
+            $table->bigInteger('orders_count')->nullable();
+            $table->tinyInteger('newsletter')->nullable();
+            $table->tinyInteger('banned')->nullable();
+            $table->tinyInteger('restrict_orders')->nullable();
             $table->rememberToken();
             $table->nullableTimestamps();
             $table->softDeletes();

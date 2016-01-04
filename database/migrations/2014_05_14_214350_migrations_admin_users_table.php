@@ -17,7 +17,7 @@ class MigrationsAdminUsersTable extends Migration {
             $table->bigInteger('users_id')->index()->default(false);
             $table->string('sess_id', 128)->index()->default('');
             $table->string('description', 255)->default('');
-            $table->bigInteger('logons_count')->default(0);
+            $table->bigInteger('logons_count')->nullable();
             $table->timestamp('last_logon')->nullable();
             $table->timestamp('last_active')->nullable();
             $table->longText('ips')->default('');

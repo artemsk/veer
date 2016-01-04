@@ -14,7 +14,7 @@ class MigrationsOrdersProductsTable extends Migration {
     {
         Schema::create('orders_products', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('orders_id')->default(0)->index();
+            $table->bigInteger('orders_id')->nullable()->index();
             $table->boolean('product')->default(1)->index();
             $table->bigInteger('products_id')->nullable();
             $table->text('name');

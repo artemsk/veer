@@ -23,7 +23,7 @@ class MigrationsShippingTable extends Migration {
             $table->decimal('discount_price', 5, 2)->nullable();
             $table->longText('address');
             $table->longText('other_options');
-            $table->integer('manual_order')->default(0)->index();
+            $table->integer('manual_order')->nullable()->index();
             $table->nullableTimestamps();
             $table->softDeletes();
         });

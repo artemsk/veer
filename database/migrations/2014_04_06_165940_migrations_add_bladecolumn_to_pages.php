@@ -13,7 +13,7 @@ class MigrationsAddBladecolumnToPages extends Migration {
     public function up()
     {
         Schema::table('pages', function($table) {
-            $table->tinyInteger('original')->after('show_date')->default(0)->index();
+            $table->tinyInteger('original')->after('show_date')->nullable()->index();
         });
     }
 

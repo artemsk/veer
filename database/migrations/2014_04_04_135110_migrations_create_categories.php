@@ -17,10 +17,10 @@ class MigrationsCreateCategories extends Migration {
             $table->longText('title');
             $table->longText('description');
             $table->longText('remote_url');
-            $table->bigInteger('parent_id')->default(0)->index();
-            $table->bigInteger('sites_id')->default(0)->index();
-            $table->integer('manual_sort')->default(0)->index();
-            $table->bigInteger('views')->default(0);
+            $table->bigInteger('parent_id')->nullable()->index();
+            $table->bigInteger('sites_id')->nullable()->index();
+            $table->integer('manual_sort')->nullable()->index();
+            $table->bigInteger('views')->nullable();
             $table->nullableTimestamps();
             $table->softDeletes();
         });

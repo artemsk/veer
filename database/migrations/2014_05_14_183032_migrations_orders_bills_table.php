@@ -14,9 +14,9 @@ class MigrationsOrdersBillsTable extends Migration {
     {
         Schema::create('orders_bills', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('orders_id')->default(0)->index();
-            $table->bigInteger('users_id')->default(0)->index();
-            $table->bigInteger('status_id')->default(0)->index();
+            $table->bigInteger('orders_id')->nullable()->index();
+            $table->bigInteger('users_id')->nullable()->index();
+            $table->bigInteger('status_id')->nullable()->index();
             $table->string('payment_method', 128)->index();
             $table->integer('payment_method_id')->nullable()->index();
             $table->string('link', 128);

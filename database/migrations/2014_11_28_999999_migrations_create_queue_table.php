@@ -15,8 +15,8 @@ class MigrationsCreateQueueTable extends Migration {
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('status')->default(0)->index();
-            $table->integer('times')->default(0);
+            $table->integer('status')->nullable()->index();
+            $table->integer('times')->nullable();
             $table->longText('payload')->nullable();
             $table->timestamp('scheduled_at')->nullable();
             $table->nullableTimestamps();

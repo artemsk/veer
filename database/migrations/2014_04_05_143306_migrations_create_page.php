@@ -22,9 +22,9 @@ class MigrationsCreatePage extends Migration {
             $table->tinyInteger('in_list')->default(1)->index();
             $table->tinyInteger('in_last')->default(1)->index();
             $table->tinyInteger('in_news')->default(1)->index();
-            $table->bigInteger('manual_order')->default(0)->index();
-            $table->bigInteger('views')->default(0);
-            $table->tinyInteger('hidden')->default(0)->index();
+            $table->bigInteger('manual_order')->nullable()->index();
+            $table->bigInteger('views')->nullable();
+            $table->tinyInteger('hidden')->nullable()->index();
             $table->nullableTimestamps();
             $table->softDeletes();
         });

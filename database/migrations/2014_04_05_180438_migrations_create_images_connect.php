@@ -14,8 +14,8 @@ class MigrationsCreateImagesConnect extends Migration {
     {
         Schema::create('images_connect', function($table) {
             $table->bigIncrements('id');
-            $table->bigInteger('images_id')->default(0)->index();
-            $table->bigInteger('elements_id')->default(0)->index();
+            $table->bigInteger('images_id')->nullable()->index();
+            $table->bigInteger('elements_id')->nullable()->index();
             $table->string('elements_type', 255)->default('')->index();
         });
     }

@@ -14,8 +14,8 @@ class MigrationsCreatePivotCategories extends Migration {
 	{
 		Schema::create('categories_pivot', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('parent_id')->default(0)->index();
-            $table->bigInteger('child_id')->default(0)->index();
+            $table->bigInteger('parent_id')->nullable()->index();
+            $table->bigInteger('child_id')->nullable()->index();
         });
 	}
 

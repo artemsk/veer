@@ -13,7 +13,7 @@ class MigrationsAddWeigthFieldToOrdersProducts extends Migration {
     public function up()
     {
         Schema::table('orders_products', function(Blueprint $table) {
-            $table->bigInteger('weight')->after('price')->default(0);
+            $table->bigInteger('weight')->after('price')->nullable();
         });
     }
 

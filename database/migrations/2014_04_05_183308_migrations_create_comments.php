@@ -15,13 +15,13 @@ class MigrationsCreateComments extends Migration {
         Schema::create('comments', function($table) {
             $table->bigIncrements('id');
             $table->text('author');
-            $table->bigInteger('customers_id')->default(0)->index();
+            $table->bigInteger('customers_id')->nullable()->index();
             $table->longText('txt');
             $table->tinyInteger('rate')->defult(0)->index();
-            $table->tinyInteger('vote_y')->default(0)->index();
-            $table->tinyInteger('vote_n')->default(0)->index();
-            $table->tinyInteger('hidden')->default(0);
-            $table->bigInteger('elements_id')->default(0)->index();
+            $table->tinyInteger('vote_y')->nullable()->index();
+            $table->tinyInteger('vote_n')->nullable()->index();
+            $table->tinyInteger('hidden')->nullable();
+            $table->bigInteger('elements_id')->nullable()->index();
             $table->string('elements_type', 255)->default('')->index();
             $table->nullableTimestamps();
             $table->softDeletes();
