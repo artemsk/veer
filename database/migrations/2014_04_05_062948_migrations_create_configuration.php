@@ -14,7 +14,7 @@ class MigrationsCreateConfiguration extends Migration {
 	{
 		Schema::create('configuration', function($table) {
             $table->bigIncrements('id');
-            $table->bigInteger('sites_id')->nullable()->index();
+            $table->bigInteger('sites_id')->default(0)->index();
             $table->string('conf_key', 255)->index();
             $table->longText('conf_val');
             $table->nullableTimestamps();

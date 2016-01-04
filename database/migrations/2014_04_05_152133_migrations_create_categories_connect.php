@@ -14,8 +14,8 @@ class MigrationsCreateCategoriesConnect extends Migration {
     {
         Schema::create('categories_connect', function($table) {
             $table->bigIncrements('id');
-            $table->bigInteger('categories_id')->nullable()->index();
-            $table->bigInteger('elements_id')->nullable()->index();
+            $table->bigInteger('categories_id')->default(0)->index();
+            $table->bigInteger('elements_id')->default(0)->index();
             $table->string('elements_type', 255)->default('')->index();
         });
     }

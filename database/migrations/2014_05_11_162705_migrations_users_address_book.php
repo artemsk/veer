@@ -14,8 +14,8 @@ class MigrationsUsersAddressBook extends Migration {
     {
         Schema::create('users_book', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('users_id')->nullable()->index();
-            $table->tinyInteger('office_address')->nullable();
+            $table->bigInteger('users_id')->default(0)->index();
+            $table->tinyInteger('office_address')->default(0);
             $table->string('name', 255);
             $table->string('country', 128);
             $table->string('region', 255);
@@ -29,7 +29,7 @@ class MigrationsUsersAddressBook extends Migration {
             $table->string('b_corr', 255);
             $table->string('b_bik', 255);
             $table->longText('b_others');
-            $table->tinyInteger('primary')->nullable()->index();
+            $table->tinyInteger('primary')->default(0)->index();
             $table->nullableTimestamps();
             $table->softDeletes();
         });

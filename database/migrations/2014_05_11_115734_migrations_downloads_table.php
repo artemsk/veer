@@ -14,14 +14,14 @@ class MigrationsDownloadsTable extends Migration {
     {
         Schema::create('downloads', function ($table) {
             $table->bigIncrements('id');
-            $table->tinyInteger('original')->nullable();
+            $table->tinyInteger('original')->default(0);
             $table->string('fname', 255);
             $table->string('secret', 255);
             $table->tinyInteger('expires')->nullable();
             $table->timestamp('expiration_day')->nullable();
             $table->tinyInteger('expiration_times')->nullable();
-            $table->bigInteger('downloads')->nullable();
-            $table->bigInteger('elements_id')->nullable()->index();
+            $table->bigInteger('downloads')->default(0);
+            $table->bigInteger('elements_id')->default(0)->index();
             $table->string('elements_type', 255)->default('')->index();
             $table->nullableTimestamps();
             $table->softDeletes();

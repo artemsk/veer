@@ -14,13 +14,13 @@ class MigrationsUsersBasketLists extends Migration {
     {
         Schema::create('users_lists', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('sites_id')->nullable()->index();
-            $table->bigInteger('users_id')->nullable()->index();
+            $table->bigInteger('sites_id')->default(0)->index();
+            $table->bigInteger('users_id')->default(0)->index();
             $table->string('session_id', 128);
             $table->string('name', 255);
-            $table->bigInteger('elements_id')->nullable()->index();
+            $table->bigInteger('elements_id')->default(0)->index();
             $table->string('elements_type', 255)->default('')->index();
-            $table->bigInteger('quantity')->nullable();
+            $table->bigInteger('quantity')->default(0);
             $table->nullableTimestamps();
         });
     }

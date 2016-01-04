@@ -14,8 +14,8 @@ class MigrationsCreateProductsPivot extends Migration {
     {
         Schema::create('products_pivot', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('parent_id')->nullable()->index();
-            $table->bigInteger('child_id')->nullable()->index();
+            $table->bigInteger('parent_id')->default(0)->index();
+            $table->bigInteger('child_id')->default(0)->index();
         });
     }
 

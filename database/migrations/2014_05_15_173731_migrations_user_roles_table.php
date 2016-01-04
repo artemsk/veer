@@ -14,10 +14,10 @@ class MigrationsUserRolesTable extends Migration {
     {
         Schema::create('users_roles', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('sites_id')->nullable()->index();
+            $table->bigInteger('sites_id')->default(0)->index();
             $table->string('role', 128)->index();
             $table->string('price_field', 64)->index();
-            $table->decimal('discount', 4, 2)->nullable();
+            $table->decimal('discount', 4, 2)->default(0);
             $table->nullableTimestamps();
             $table->softDeletes();
         });

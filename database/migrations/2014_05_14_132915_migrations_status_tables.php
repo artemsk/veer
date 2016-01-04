@@ -15,7 +15,7 @@ class MigrationsStatusTables extends Migration {
         Schema::create("orders_status", function($table) {
             $table->bigIncrements('id');
             $table->string('name', 128);
-            $table->integer('manual_order')->nullable()->index();
+            $table->integer('manual_order')->default(0)->index();
             $table->string('color', 10);
             $table->boolean('flag_first')->default(false)->index();
             $table->boolean('flag_unreg')->default(false)->index();

@@ -15,7 +15,7 @@ class MigrationsCreateSearchTable extends Migration {
         Schema::create('searches', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('q');
-            $table->bigInteger('times')->nullable();
+            $table->bigInteger('times')->default(0);
             $table->nullableTimestamps();
             $table->softDeletes();
         });

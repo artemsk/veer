@@ -14,14 +14,14 @@ class MigrationsUsersDiscounts extends Migration {
     {
         Schema::create('users_discounts', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('sites_id')->nullable()->index();
+            $table->bigInteger('sites_id')->default(0)->index();
             $table->string('secret_code', 128);
             $table->decimal('discount', 5, 2)->nullable();
-            $table->tinyInteger('expires')->nullable();
+            $table->tinyInteger('expires')->default(0);
             $table->timestamp('expiration_day')->nullable();
             $table->tinyInteger('expiration_times')->nullable();
             $table->string('status', 10)->index();
-            $table->bigInteger('users_id')->nullable()->index();
+            $table->bigInteger('users_id')->default(0)->index();
             $table->nullableTimestamps();
             $table->softDeletes();
         });

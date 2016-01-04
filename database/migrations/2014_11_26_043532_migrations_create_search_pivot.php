@@ -14,8 +14,8 @@ class MigrationsCreateSearchPivot extends Migration {
     {
         Schema::create('searches_connect', function(Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('searches_id')->nullable()->index();
-            $table->bigInteger('users_id')->nullable()->index();
+            $table->bigInteger('searches_id')->default(0)->index();
+            $table->bigInteger('users_id')->default(0)->index();
         });
     }
 

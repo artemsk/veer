@@ -14,7 +14,7 @@ class MigrationsOrdersHistoryTable extends Migration {
     {
         Schema::create('orders_history', function($table) {
             $table->bigIncrements('id')->index();
-            $table->bigInteger('orders_id')->nullable()->index();
+            $table->bigInteger('orders_id')->default(0)->index();
             $table->bigInteger('status_id')->nullable();
             $table->string('name', 128);
             $table->longText('comments');

@@ -14,8 +14,8 @@ class MigrationsCreateTagsConnects extends Migration {
     {
         Schema::create('tags_connect', function($table) {
             $table->bigIncrements('id');
-            $table->bigInteger('tags_id')->nullable()->index();
-            $table->bigInteger('elements_id')->nullable()->index();
+            $table->bigInteger('tags_id')->default(0)->index();
+            $table->bigInteger('elements_id')->default(0)->index();
             $table->string('elements_type', 255)->default('')->index();
         });
     }

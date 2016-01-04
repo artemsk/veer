@@ -17,7 +17,7 @@ class MigrationsChangeTypeFieldInUserTable extends Migration {
         });
 
         Schema::table('users', function($table) {
-            $table->integer('roles_id')->after('password')->nullable();
+            $table->integer('roles_id')->after('password')->default(0);
         });
     }
 

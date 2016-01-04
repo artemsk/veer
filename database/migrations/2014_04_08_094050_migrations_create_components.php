@@ -17,7 +17,7 @@ class MigrationsCreateComponents extends Migration {
             $table->string('route_name', 255)->index();
             $table->string('components_type', 24)->index();
             $table->string('components_src', 255)->index();
-            $table->bigInteger('sites_id')->nullable()->index();
+            $table->bigInteger('sites_id')->default(0)->index();
             $table->nullableTimestamps();
             $table->softDeletes();
         });

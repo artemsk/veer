@@ -14,8 +14,8 @@ class MigrationsCreateAttributesConnect extends Migration {
     {
         Schema::create('attributes_connect', function($table) {
             $table->bigIncrements('id');
-            $table->bigInteger('attributes_id')->nullable()->index();
-            $table->bigInteger('elements_id')->nullable()->index();
+            $table->bigInteger('attributes_id')->default(0)->index();
+            $table->bigInteger('elements_id')->default(0)->index();
             $table->string('elements_type', 255)->default('')->index();
             $table->longText('product_new_price');
         });
