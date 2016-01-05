@@ -17,7 +17,7 @@ class MigrationsCreateAttributesConnect extends Migration {
             $table->bigInteger('attributes_id')->default(0)->index();
             $table->bigInteger('elements_id')->default(0)->index();
             $table->string('elements_type', 255)->default('')->index();
-            $table->longText('product_new_price');
+            $table->longText('product_new_price')->default('');
         });
     }
 

@@ -17,7 +17,7 @@ class MigrationsCreateAttributes extends Migration {
             $table->string('type',10)->index();
             $table->text('name');
             $table->longText('val');
-            $table->longText('descr');
+            $table->longText('descr')->nullable();
             $table->nullableTimestamps();
             $table->softDeletes();
         });
