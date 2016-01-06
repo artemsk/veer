@@ -7,15 +7,11 @@
 |
 | Sample.
 |
+| Admin, user login etc. routes are loaded in package routes files. It is possible
+| to ovewrite those routes here. Please, check routes.php file in artemsk/veer-core
+| package.
+|
 */
-
-/* essential [change, do not delete] */
-
-get('/404', array('uses' => 'IndexController@show404', 'as' => '404'));
-get('user/login', array('uses' => 'UserController@login', 'as' => 'user.login'));
-post('user/login', array('uses' => 'UserController@loginPost', 'as' => 'user.login.post'));
-get('user', array('uses' => 'UserController@index', 'as' => 'user.index'));
-get('order/bills/{id?}/{lnk?}', array('uses' => 'OrderController@bills', 'as' => 'order.bills'));
 
 /* common */
 
