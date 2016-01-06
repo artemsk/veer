@@ -16,7 +16,7 @@
             
         ],      
         "psr-4": {
-            "Veer\\": "app/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
