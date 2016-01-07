@@ -27,18 +27,21 @@
     "scripts": {
         "post-create-project-cmd": [
             "php -r \"copy('.env.example', '.env');\"",
-            "php artisan key:generate",
-            "php artisan app:name Veer"
+            "php artisan key:generate"
         ],
         "post-install-cmd": [
             "php artisan vendor:publish --tag=veer --force",
             "php artisan vendor:publish --tag=veer-config",
-            "php artisan vendor:publish --tag=veer-db"
+            "php artisan vendor:publish --tag=veer-db",
+            "php artisan vendor:publish --tag=veer-assets --force",
+            "php artisan vendor:publish --tag=veer-lang --force"
         ],
         "post-update-cmd": [
             "php artisan vendor:publish --tag=veer --force",
             "php artisan vendor:publish --tag=veer-config",
-            "php artisan vendor:publish --tag=veer-db"          
+            "php artisan vendor:publish --tag=veer-db",
+            "php artisan vendor:publish --tag=veer-assets --force",
+            "php artisan vendor:publish --tag=veer-lang --force"        
         ]
     },
     "config": {
