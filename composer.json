@@ -30,14 +30,12 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "php artisan vendor:publish --tag=veer --force",
             "php artisan vendor:publish --tag=veer-config",
             "php artisan vendor:publish --tag=veer-db",
             "php artisan vendor:publish --tag=veer-assets --force",
             "php artisan vendor:publish --tag=veer-lang --force"
         ],
         "post-update-cmd": [
-            "php artisan vendor:publish --tag=veer --force",
             "php artisan vendor:publish --tag=veer-config",
             "php artisan vendor:publish --tag=veer-db",
             "php artisan vendor:publish --tag=veer-assets --force",
