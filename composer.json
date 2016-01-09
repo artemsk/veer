@@ -19,11 +19,6 @@
             "App\\": "app/"
         }
     },
-    "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
-    },
     "scripts": {
         "post-create-project-cmd": [
             "php -r \"copy('.env.example', '.env');\"",
