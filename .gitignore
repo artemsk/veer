@@ -12,3 +12,5 @@ _tests
 phpunit.phar
 phpunit.xml
 config/veer.php
+.idea
+.DS_Store

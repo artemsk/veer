@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "artemsk/veer-core": "@dev"
+        "artemsk/veer-core": "dev-dev"
     },
     "autoload": {
         "classmap": [
@@ -37,6 +37,18 @@
             "php artisan vendor:publish --tag=veer-lang --force"        
         ]
     },
+    "repositories" : [
+		{
+			"type": "git",
+			"url": "https://github.com/artemsk/veer-core.git"
+		},
+        {
+			"type": "git",
+			"url": "https://github.com/artemsk/imagecache.git"
+		}
+	],
+    "minimum-stability": "dev",
+	"prefer-stable": true,
     "config": {
         "preferred-install": "dist"
     }
