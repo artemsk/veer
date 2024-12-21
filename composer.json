@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "artemsk/veer-core": "dev-dev"
+        "artemsk/veer-core": "dev-dev",
+        "rector/rector": "*",
+        "driftingly/rector-laravel": "*"
     },
     "autoload": {
         "classmap": [
